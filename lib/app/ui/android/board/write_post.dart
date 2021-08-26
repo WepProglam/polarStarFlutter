@@ -42,7 +42,11 @@ class WritePost extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('polarStar'),
+          title: Text(
+            'Publish Posts',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.white,
           actions: [
             Center(
               child: Padding(
@@ -76,7 +80,15 @@ class WritePost extends StatelessWidget {
                   },
                   child: Container(
                     margin: EdgeInsets.all(8),
-                    child: c.putOrPost == "put" ? Text('수정') : Text('작성'),
+                    child: c.putOrPost == "put"
+                        ? Text(
+                            '수정',
+                            style: TextStyle(color: Colors.black),
+                          )
+                        : Text(
+                            '작성',
+                            style: TextStyle(color: Colors.black),
+                          ),
                   ),
                 ),
               ),
@@ -199,11 +211,26 @@ class WritePost extends StatelessWidget {
                                       ),
                                     ),
                                   )
-                                : Image(
-                                    // fit: BoxFit.fill,
-                                    image: AssetEntityImageProvider(
-                                        c.photoAssets[index - 1],
-                                        isOriginal: true)),
+                                : Stack(children: [
+                                    Center(
+                                      child: Image(
+                                          // fit: BoxFit.fill,
+                                          image: AssetEntityImageProvider(
+                                              c.photoAssets[index - 1],
+                                              isOriginal: true)),
+                                    ),
+                                    Positioned(
+                                      child: InkWell(
+                                          onTap: () {
+                                            String photoId =
+                                                c.photoAssets[index - 1].id;
+                                            c.deleteTargetPhoto(photoId);
+                                          },
+                                          child: Icon(Icons.delete)),
+                                      top: 0,
+                                      right: 0,
+                                    ),
+                                  ]),
                           ),
                         ),
                       );

@@ -40,6 +40,10 @@ class WritePostController extends GetxController {
     });
   }
 
+  void deleteTargetPhoto(String id) {
+    photoAssets.removeWhere((element) => element.id == id);
+  }
+
   //게시글 새로 작성 (사진 X)
   Future<void> postPostNoImage(Map<String, dynamic> data) async {
     int status = await repository.postPostNoImage(data, "/board/$COMMUNITY_ID");
