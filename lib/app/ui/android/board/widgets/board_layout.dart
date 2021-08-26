@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/board_name.dart';
 
@@ -96,11 +94,11 @@ class PostPreview extends StatelessWidget {
                       // decoration: BoxDecoration(border: Border.all()),
                       height: 50,
                       width: 50,
-                      child: item.PHOTO == '' || item.PHOTO == null
+                      child: item.PHOTO.length == 0 || item.PHOTO == null
                           ? Container()
                           : CachedNetworkImage(
                               imageUrl:
-                                  'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/board/${item.PHOTO}',
+                                  'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/board/${item.PHOTO[0]}',
                               fit: BoxFit.fill,
                               fadeInDuration: Duration(milliseconds: 0),
                               progressIndicatorBuilder: (context, url,

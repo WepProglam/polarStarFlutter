@@ -59,8 +59,6 @@ class WritePost extends StatelessWidget {
                             unnamed: (c.anonymousCheck.value) ? '1' : '0')
                         .toJson();
 
-                    print(data);
-
                     //수정
                     if (c.putOrPost == "put") {
                       if (c.imagePath.value.trim() != "") {

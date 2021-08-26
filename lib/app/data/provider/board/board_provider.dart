@@ -8,7 +8,7 @@ class BoardApiClient {
     var response = await Session().getX("/board/$COMMUNITY_ID/page/$page");
 
     if (response.statusCode != 200) {
-      return {"status": response.statusCode, "listBoard": []};
+      return {"status": response.statusCode, "listBoard": <Board>[]};
     }
 
     Iterable jsonResponse = jsonDecode(response.body);

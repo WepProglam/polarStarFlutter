@@ -2,6 +2,8 @@ import 'package:polarstar_flutter/session.dart';
 
 class WritePostApiClient {
   Future<int> postPostNoImage(Map<String, dynamic> data, String url) async {
+    print(data);
+
     var response = await Session().postX(url, data);
     return response.statusCode;
   }

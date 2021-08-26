@@ -5,7 +5,7 @@ class Post {
   int UNNAMED;
   int LIKES;
   int SCRAPS;
-  String PHOTO;
+  List<dynamic> PHOTO;
   int UNIQUE_ID;
   int COMMUNITY_ID;
   int COMMENTS;

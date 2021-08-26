@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/data/repository/board/board_repository.dart';
-import 'package:polarstar_flutter/session.dart';
 
 import 'package:flutter/material.dart';
 

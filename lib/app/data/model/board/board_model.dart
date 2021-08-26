@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Board {
   int BOARD_ID, COMMUNITY_ID;
 
@@ -5,7 +7,8 @@ class Board {
 
   int LIKES, SCRAPS, COMMENTS;
 
-  String PHOTO;
+  List<dynamic> PHOTO;
+  //이거 뭔 문제지??
 
   String TIME_CREATED, TIME_UPDATED;
   int IS_UPDATED;
@@ -39,6 +42,7 @@ class Board {
     this.SCRAPS = json["SCRAPS"];
 
     this.PHOTO = json["PHOTO"];
+
     this.IS_UPDATED = json["IS_UPDATED"];
 
     this.COMMUNITY_ID = json["COMMUNITY_ID"];

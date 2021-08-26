@@ -165,13 +165,34 @@ class PostLayout extends StatelessWidget {
         ),
       ),
       //사진
-      Container(
-        child: item.PHOTO != '' && item.PHOTO != null
-            ? CachedNetworkImage(
-                imageUrl:
-                    'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/board/${item.PHOTO}')
-            : null,
-      ),
+      item.PHOTO != [] && item.PHOTO != null
+          ? SizedBox(
+              height: 150.0,
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                scrollDirection: Axis.horizontal,
+                itemCount: item.PHOTO.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Center(
+                      child: SizedBox(
+                        width: 150.0,
+                        height: 150.0,
+                        child: Center(
+                            child: CachedNetworkImage(
+                                imageUrl:
+                                    'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/board/${item.PHOTO[index]}')),
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return Container(width: 0.1, color: Colors.black);
+                },
+              ),
+            )
+          : Container(),
       // 좋아요, 댓글, 스크랩 수
       Container(
         decoration:
