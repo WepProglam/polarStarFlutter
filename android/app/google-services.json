@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "377248301464",
+    "project_id": "polarstarfcm",
+    "storage_bucket": "polarstarfcm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377248301464:android:a8016691417c9aa9d46bed",
+        "android_client_info": {
+          "package_name": "com.polarstar.polarstar_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377248301464-6nmj90u1v4ikscjt0tibthf7vsn5fli3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbtMIIVDC-i3vq_N5aHdCTPlQpOS6Jyp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "377248301464-6nmj90u1v4ikscjt0tibthf7vsn5fli3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
