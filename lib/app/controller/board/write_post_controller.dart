@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/data/repository/board/write_post_repository.dart';
 import 'package:http/http.dart' as http;
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class WritePostController extends GetxController {
   final WritePostRepository repository;
@@ -17,6 +18,7 @@ class WritePostController extends GetxController {
   Rx<XFile> image = null.obs;
   RxBool anonymousCheck = true.obs;
   Rx<String> imagePath = "".obs;
+  RxList<AssetEntity> photoAssets = <AssetEntity>[].obs;
 
   WritePostController(
       {@required this.repository,
