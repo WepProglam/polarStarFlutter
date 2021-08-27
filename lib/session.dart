@@ -142,8 +142,8 @@ class Session extends GetConnect {
   //     query: query,
   //     headers: headers);
 
-  multipartReq(String type, String url) {
-    var request = http.MultipartRequest(
+  http.MultipartRequest multipartReq(String type, String url) {
+    http.MultipartRequest request = http.MultipartRequest(
         type,
         Uri.parse(
             'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000$url'));

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:meta/meta.dart';
+import 'package:polarstar_flutter/app/data/provider/board/board_provider.dart';
+import 'package:polarstar_flutter/app/data/repository/board/board_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/board/post_repository.dart';
 import 'package:polarstar_flutter/session.dart';
 

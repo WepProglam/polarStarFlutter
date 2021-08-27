@@ -1,8 +1,13 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
+import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
+import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/data/repository/board/write_post_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
@@ -40,6 +45,21 @@ class WritePostController extends GetxController {
     });
   }
 
+  //페이지 나갈 때 게시판 리스트 업데이트
+  @override
+  void onClose() async {
+    super.onClose();
+    if (putOrPost == "put") {
+      final PostController postController = Get.find();
+      await postController.getPostData();
+    } else if (putOrPost == "post") {
+      final BoardController boardController = Get.find();
+      await boardController.getBoard();
+    } else {
+      return;
+    }
+  }
+
   void deleteTargetPhoto(String id) {
     photoAssets.removeWhere((element) => element.id == id);
   }
@@ -62,9 +82,18 @@ class WritePostController extends GetxController {
 
   //게시글 작성 (사진 O)
   Future<void> postPostImage(Map<String, dynamic> data) async {
-    var pic = await http.MultipartFile.fromPath("photo", imagePath.value);
+    // var pic = await http.MultipartFile.fromPath("photo", imagePath.value);
+    List<http.MultipartFile> photoList = <http.MultipartFile>[];
 
-    int status = await repository.postPostImage(data, pic, COMMUNITY_ID);
+    for (AssetEntity source in photoAssets) {
+      Uint8List photo = await source.originBytes;
+
+      photoList.add(http.MultipartFile.fromBytes('photo', photo,
+          filename: "${source.title}"));
+
+      print(photo.length);
+    }
+    int status = await repository.postPostImage(data, photoList, COMMUNITY_ID);
     Get.back();
 
     responseSwitchCase(status);
@@ -72,10 +101,18 @@ class WritePostController extends GetxController {
 
   //게시글 수정 (사진 O)
   Future<void> putPostImage(Map<String, dynamic> data) async {
-    var pic = await http.MultipartFile.fromPath("photo", imagePath.value);
+    // var pic = await http.MultipartFile.fromPath("photo", imagePath.value);
+    List<http.MultipartFile> photoList = <http.MultipartFile>[];
+
+    for (AssetEntity source in photoAssets) {
+      Uint8List photo = await source.originBytes;
+
+      photoList.add(http.MultipartFile.fromBytes('photo', photo,
+          filename: "${source.title}"));
+    }
 
     int status =
-        await repository.putPostImage(data, pic, COMMUNITY_ID, BOARD_ID);
+        await repository.putPostImage(data, photoList, COMMUNITY_ID, BOARD_ID);
     Get.back();
 
     responseSwitchCase(status);
