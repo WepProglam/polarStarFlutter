@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:polarstar_flutter/app/ui/android/functions/form_validator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
+import 'package:polarstar_flutter/app/controller/sign_up/sign_up_controller.dart';
+
+import 'package:polarstar_flutter/app/ui/android/functions/form_validator.dart';
+
 import 'package:polarstar_flutter/app/ui/android/widgets/custom_text_form_field.dart';
-import '';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({Key key}) : super(key: key);
@@ -28,7 +31,10 @@ class SignUpInputs extends StatelessWidget {
     final signUpPwController = TextEditingController();
     final signUpNicknameController = TextEditingController();
     final signUpStudentIDController = TextEditingController();
+
     final _formKey = GlobalKey<FormState>();
+
+    final SignUpController signUpController = Get.find();
 
     return SingleChildScrollView(
       child: Form(
@@ -64,8 +70,14 @@ class SignUpInputs extends StatelessWidget {
               },
             ),
             ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {}
+                onPressed: () async {
+                  if (_formKey.currentState.validate()) {
+                    await signUpController.signUp(
+                        signUpIdController.text,
+                        signUpPwController.text,
+                        signUpNicknameController.text,
+                        signUpStudentIDController.text);
+                  }
                 },
                 child: Text("Sign Up"))
           ],
