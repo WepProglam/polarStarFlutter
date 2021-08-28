@@ -17,11 +17,12 @@ class Timetable extends StatelessWidget {
         elevation: 0.0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
+        titleSpacing: 0,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 8.0, left: 8.0),
+              padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
               child: Row(
                 children: [
                   InkWell(
@@ -43,7 +44,9 @@ class Timetable extends StatelessWidget {
                       )),
                   Spacer(),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed('/class');
+                    },
                     child: Icon(Icons.person, color: Colors.black),
                   ),
                   InkWell(
