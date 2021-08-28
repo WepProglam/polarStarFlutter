@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-class ClassMain {
+class Class {
   int CLASS_ID;
   String CLASS_NUMBER,
       CLASS_NAME,
@@ -11,7 +11,7 @@ class ClassMain {
       REFER;
   List<String> CLASSES;
 
-  ClassMain(Set set,
+  Class(Set set,
       {CLASS_ID,
       CLASS_NUMBER,
       CLASS_NAME,
@@ -22,7 +22,7 @@ class ClassMain {
       REFER,
       CLASSES});
 
-  ClassMain.fromJson(Map<String, dynamic> json) {
+  Class.fromJson(Map<String, dynamic> json) {
     this.CLASS_ID = json["CLASS_ID"];
 
     this.CLASS_NUMBER = json["CLASS_NUMBER"];

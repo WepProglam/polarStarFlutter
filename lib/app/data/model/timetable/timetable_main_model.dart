@@ -1,1 +1,1 @@
-class TimetableMain {}
+class Timetable {}

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+
 import 'package:polarstar_flutter/app/bindings/board/board_binding.dart';
 import 'package:polarstar_flutter/app/bindings/board/hot_board_binding.dart';
 import 'package:polarstar_flutter/app/bindings/board/post_binding.dart';
@@ -12,6 +13,9 @@ import 'package:polarstar_flutter/app/bindings/outside/outside_binding.dart';
 import 'package:polarstar_flutter/app/bindings/outside/post_binding.dart';
 import 'package:polarstar_flutter/app/bindings/profile/mypage_binding.dart';
 import 'package:polarstar_flutter/app/bindings/sign_up_binding.dart';
+import 'package:polarstar_flutter/app/bindings/class/class_bindings.dart';
+import 'package:polarstar_flutter/app/bindings/timetable/timetable_binding.dart';
+
 import 'package:polarstar_flutter/app/ui/android/board/board.dart';
 import 'package:polarstar_flutter/app/ui/android/board/hot_board.dart';
 import 'package:polarstar_flutter/app/ui/android/board/post.dart';
@@ -27,6 +31,9 @@ import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/profile.dart';
 import 'package:polarstar_flutter/app/ui/android/search/search_board.dart';
 import 'package:polarstar_flutter/app/ui/android/sign_up/sign_up_page.dart';
+import 'package:polarstar_flutter/app/ui/android/class/class.dart';
+import 'package:polarstar_flutter/app/ui/android/timetable/timetable.dart';
+
 part './app_routes.dart';
 
 class AppPages {
@@ -114,6 +121,16 @@ class AppPages {
       name: Routes.MAILBOX,
       page: () => MailBox(),
       binding: MailBoxBinding(),
-    )
+    ),
+    GetPage(
+      name: Routes.CLASS,
+      page: () => Class(),
+      binding: ClassBinding(),
+    ),
+    GetPage(
+      name: Routes.TIMETABLE,
+      page: () => Timetable(),
+      binding: TimetableBinding(),
+    ),
   ];
 }

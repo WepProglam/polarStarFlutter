@@ -23,4 +23,8 @@ abstract class Routes {
   static const MYPAGE = "/myPage";
   static const MYPROFILE = "/myPage/profile";
   static const DETAILS = '/details';
+
+  static const CLASS = '/class';
+
+  static const TIMETABLE = '/timetable';
 }
