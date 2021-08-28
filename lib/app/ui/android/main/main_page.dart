@@ -11,7 +11,9 @@ class MainPage extends StatelessWidget {
   final box = GetStorage();
   final List<Widget> mainPageWidget = [
     MainPageScroll(),
-    Spacer(),
+    OutSide(
+      from: "main",
+    ),
     Text("강의평가/시간표"),
     Text("유니티"),
   ];
@@ -29,11 +31,11 @@ class MainPage extends StatelessWidget {
         bottomNavigationBar:
             CustomBottomNavigationBar(mainController: mainController),
         body: Obx(() {
-          if (mainController.mainPageIndex.value == 1) {
-            return OutSide(
-              from: "main",
-            );
-          }
+          // if (mainController.mainPageIndex.value == 1) {
+          //   return OutSide(
+          //     from: "main",
+          //   );
+          // }
           return mainPageWidget[mainController.mainPageIndex.value];
         }),
       ),
