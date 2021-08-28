@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:polarstar_flutter/app/data/model/class/class_main_model.dart';
+import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 
 import 'package:polarstar_flutter/session.dart';
 
@@ -12,9 +12,9 @@ class ClassApiClient {
     } else {
       Iterable jsonResponse = json.decode(response.body);
 
-      List classMainList = jsonResponse.map((e) => Class.fromJson(e)).toList();
+      List classList = jsonResponse.map((e) => Class.fromJson(e)).toList();
 
-      return {"statusCode": 200, "classMainList": classMainList};
+      return {"statusCode": 200, "classMainList": classList};
     }
   }
 }
