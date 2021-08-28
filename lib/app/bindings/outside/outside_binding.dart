@@ -1,6 +1,7 @@
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/outside/outside_controller.dart';
+
 import 'package:polarstar_flutter/app/controller/search/search_controller.dart';
 import 'package:polarstar_flutter/app/data/provider/board/board_provider.dart';
 import 'package:polarstar_flutter/app/data/provider/outside/outside_provider.dart';

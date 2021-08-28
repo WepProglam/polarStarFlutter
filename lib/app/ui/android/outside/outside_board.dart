@@ -6,6 +6,8 @@ import 'package:polarstar_flutter/app/controller/search/search_controller.dart';
 import 'package:polarstar_flutter/app/ui/android/outside/widgets/outside_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/search/widgets/search_bar.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/app_bar.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 
 class OutSide extends StatelessWidget {
   final String from;
@@ -13,12 +15,19 @@ class OutSide extends StatelessWidget {
   OutSide({Key key, this.from}) : super(key: key);
   final OutSideController controller = Get.find();
   final SearchController searchController = Get.find();
+  final MainController mainController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return from == "main"
-        ? OutSideBody(
-            controller: controller, searchController: searchController)
+        ? Scaffold(
+            appBar: CustomAppBar(
+              pageName: "OUTSIDE",
+            ),
+            bottomNavigationBar:
+                CustomBottomNavigationBar(mainController: mainController),
+            body: OutSideBody(
+                controller: controller, searchController: searchController))
         : SafeArea(
             child: Scaffold(
                 appBar: CustomAppBar(

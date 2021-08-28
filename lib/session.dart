@@ -24,7 +24,7 @@ class Session extends GetConnect {
   static String user_pw;
 
   final String _basicUrl =
-      'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000';
+      'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com';
 
   Future reLogin() async {
     Session.cookies = {};
