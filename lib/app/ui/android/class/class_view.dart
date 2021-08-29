@@ -19,21 +19,37 @@ class ClassView extends StatelessWidget {
     final ClassViewController classViewController = Get.find();
 
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBars().classBasicAppBar(),
       body: Obx(() {
         if (classViewController.classViewAvailable.value) {
-          return ListView.builder(
-              itemCount: classViewController.classReviewList.length + 1,
-              itemBuilder: (BuildContext context, int index) {
-                if (index == 0) {
-                  return ClassViewInfo(
-                      classInfoModel: classViewController.classInfo.value);
-                } else {
-                  return ClassViewReview(
+          return SafeArea(
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverToBoxAdapter(
+                  child: ClassViewInfo(
+                      classInfoModel: classViewController.classInfo.value),
+                ),
+                SliverPersistentHeader(pinned: true, delegate: IndexButton()),
+                SliverToBoxAdapter(
+                  child: Container(
+                    width: Get.mediaQuery.size.width,
+                    height: 10,
+                  ),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                    return ClassViewReview(
                       classReviewModel:
-                          classViewController.classReviewList[index - 1]);
-                }
-              });
+                          classViewController.classReviewList[index],
+                      index: index,
+                    );
+                  }, childCount: classViewController.classReviewList.length),
+                ),
+              ],
+            ),
+          );
         } else {
           return Center(
             child: CircularProgressIndicator(),
@@ -50,214 +66,372 @@ class ClassViewInfo extends StatelessWidget {
   final ClassInfoModel classInfoModel;
   @override
   Widget build(BuildContext context) {
-    final ClassViewController classViewController = Get.find();
-    return Column(
-      children: [
-        // class preview 재사용
-        Container(
-          margin: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 2),
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                        color: Colors.green[800],
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Icon(
-                      Icons.book,
-                      size: 60,
+    // final ClassViewController classViewController = Get.find();
+    return Container(
+      decoration: BoxDecoration(color: Colors.white),
+      child: Column(
+        children: [
+          // class preview 재사용
+          Container(
+            margin: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    offset: Offset(0, 5),
+                    color: Colors.grey.withOpacity(0.5),
+                    blurRadius: 10,
+                    spreadRadius: 1),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                          color: Colors.green[800],
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Icon(
+                        Icons.book,
+                        size: 60,
+                      ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          classInfoModel.CLASS_NAME,
+                          textScaleFactor: 1,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: Text(classInfoModel.PROFESSOR),
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: Colors.yellow[800],
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: Colors.yellow[800],
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: Colors.yellow[800],
+                            ),
+                            Icon(
+                              Icons.star_border,
+                              color: Colors.yellow[800],
+                            ),
+                            Icon(
+                              Icons.star_border,
+                              color: Colors.yellow[800],
+                            ),
+                            Text(classInfoModel.CREDIT),
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+
+          // 세부 내용
+          // Subject
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Subject"),
+                  ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        classInfoModel.CLASS_NAME,
-                        textScaleFactor: 1,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(classInfoModel.PROFESSOR),
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.star,
-                            color: Colors.yellow[800],
-                          ),
-                          Icon(
-                            Icons.star,
-                            color: Colors.yellow[800],
-                          ),
-                          Icon(
-                            Icons.star,
-                            color: Colors.yellow[800],
-                          ),
-                          Icon(
-                            Icons.star_border,
-                            color: Colors.yellow[800],
-                          ),
-                          Icon(
-                            Icons.star_border,
-                            color: Colors.yellow[800],
-                          ),
-                          Text(classInfoModel.CREDIT),
-                        ],
-                      )
-                    ],
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      classInfoModel.SECTOR,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 )
               ],
             ),
           ),
-        ),
-
-        // 세부 내용
-        // Subject
-        Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text("Subject"),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    classInfoModel.SECTOR,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+          // Team Project: 서버에서 데이터가 안날라와서 No로 설정
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Team Project"),
                   ),
                 ),
-              )
-            ],
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "No",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-        // Team Project: 서버에서 데이터가 안날라와서 No로 설정
-        Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text("Team Project"),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "No",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+          // Credit Ratio: 이것도 데이터가 안날라옴
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Credit Ratio"),
                   ),
                 ),
-              )
-            ],
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      classInfoModel.CREDIT,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-        // Credit Ratio: 이것도 데이터가 안날라옴
-        Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text("Credit Ratio"),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    classInfoModel.CREDIT,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+          // Attendance: 이것도 마찬가지
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Attendance"),
                   ),
                 ),
-              )
-            ],
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "99%",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-        // Attendance: 이것도 마찬가지
-        Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text("Attendance"),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "99%",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+          // Number Of Exams: 이것도
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("Number of Exams"),
                   ),
                 ),
-              )
-            ],
-          ),
-        ),
-        // Number Of Exams: 이것도
-        Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text("Number of Exams"),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "General",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "General",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
 
 class ClassViewReview extends StatelessWidget {
-  const ClassViewReview({Key key, this.classReviewModel}) : super(key: key);
+  const ClassViewReview({Key key, this.classReviewModel, this.index})
+      : super(key: key);
   final ClassReviewModel classReviewModel;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
+    final ClassViewController classViewController = Get.find();
+
     return Container(
-      child: null,
+      margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(10)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 별점 & 좋아요
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.star,
+                  color: Colors.yellow[800],
+                ),
+                Icon(
+                  Icons.star,
+                  color: Colors.yellow[800],
+                ),
+                Icon(
+                  Icons.star,
+                  color: Colors.yellow[800],
+                ),
+                Icon(
+                  Icons.star,
+                  color: Colors.yellow[800],
+                ),
+                Icon(
+                  Icons.star,
+                  color: Colors.yellow[800],
+                ),
+                Spacer(),
+                TextButton.icon(
+                    style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all(Colors.red),
+                        overlayColor: MaterialStateProperty.all(
+                            Colors.red.withOpacity(0.6))),
+                    onPressed: () async {
+                      await classViewController.getCommentLike(
+                          classReviewModel.CLASS_ID,
+                          classReviewModel.CLASS_COMMENT_ID,
+                          index);
+                    },
+                    icon: Icon(Icons.thumb_up, size: 20),
+                    label: Text(classReviewModel.LIKES.toString()))
+              ],
+            ),
+          ),
+
+          // 수강 학기: 데이터 안날라옴
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
+            child: Text(
+              "First Semester Of 2021",
+              textScaleFactor: 1.1,
+            ),
+          ),
+
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    classReviewModel.CONTENT,
+                    maxLines: 2,
+                  ),
+                )),
+          )
+        ],
+      ),
     );
   }
+}
+
+class IndexButton extends SliverPersistentHeaderDelegate {
+  final height = 50.0;
+  final ClassViewController classViewController = Get.find();
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return SizedBox.expand(
+      child: Container(
+        decoration: BoxDecoration(color: Colors.grey[200]),
+        child: Container(
+          margin: EdgeInsets.only(top: 10),
+          // height: 40,
+          decoration: BoxDecoration(color: Colors.white),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  classViewController.typeIndex(0);
+                },
+                child: Obx(
+                  () => Text(
+                    "Comment",
+                    textScaleFactor: 1.2,
+                    style: TextStyle(
+                        color: classViewController.typeIndex.value == 0
+                            ? Colors.blue[900]
+                            : Colors.black,
+                        fontWeight: classViewController.typeIndex.value == 0
+                            ? FontWeight.bold
+                            : FontWeight.normal),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  classViewController.typeIndex(1);
+                },
+                child: Obx(
+                  () => Text(
+                    "Exam Information",
+                    textScaleFactor: 1.2,
+                    style: TextStyle(
+                        color: classViewController.typeIndex.value == 1
+                            ? Colors.blue[900]
+                            : Colors.black,
+                        fontWeight: classViewController.typeIndex.value == 1
+                            ? FontWeight.bold
+                            : FontWeight.normal),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
+  }
+
+  @override
+  double get minExtent => height;
+
+  @override
+  double get maxExtent => height;
 }

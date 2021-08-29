@@ -63,4 +63,11 @@ class ClassRepository {
       };
     }
   }
+
+  Future<Map<String, dynamic>> getCommentLike(
+      int CLASS_ID, int CLASS_COMMENT_ID) async {
+    final response = await apiClient.getCommentLike(CLASS_ID, CLASS_COMMENT_ID);
+
+    return {"statusCode": response.statusCode};
+  }
 }

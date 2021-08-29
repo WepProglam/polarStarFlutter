@@ -47,6 +47,33 @@ class ClassViewController extends GetxController {
     }
   }
 
+  // 좋아요 보내는 함수
+  Future<void> getCommentLike(
+      int CLASS_ID, int CLASS_COMMENT_ID, int index) async {
+    final jsonResponse =
+        await repository.getCommentLike(CLASS_ID, CLASS_COMMENT_ID);
+    switch (jsonResponse["statusCode"]) {
+      case 200:
+        classReviewList[index].LIKES++;
+        classReviewList.refresh();
+        Get.snackbar('좋아요 Ok', 'good');
+        break;
+      case 400:
+        Get.snackbar('400 Error', 'cid 유효하지 않음');
+        break;
+      case 401:
+        Get.snackbar('401 Error', '로그인 안됨');
+        break;
+      case 403:
+        Get.snackbar('403 Error', '이미 좋아요 누른 강평입니다.');
+        break;
+      case 500:
+        Get.snackbar('500 Error', 'failed');
+        break;
+      default:
+    }
+  }
+
   @override
   void onInit() async {
     await getClassView(int.parse(Get.parameters["classid"]));
