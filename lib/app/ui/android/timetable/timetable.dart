@@ -18,6 +18,7 @@ class Timetable extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         titleSpacing: 0,
+        automaticallyImplyLeading: false,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

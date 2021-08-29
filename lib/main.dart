@@ -20,8 +20,10 @@ void main() async {
   await Firebase.initializeApp();
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
-    initialBinding: box.hasData('token') ? MainBinding() : LoginBinding(),
-    initialRoute: box.hasData('token') ? Routes.MAIN_PAGE : Routes.INITIAL,
+    // initialBinding: box.hasData('token') ? MainBinding() : LoginBinding(),
+    // initialRoute: box.hasData('token') ? Routes.MAIN_PAGE : Routes.INITIAL,
+    initialBinding: LoginBinding(),
+    initialRoute: Routes.LOGIN,
     // theme: appThemeData,
     defaultTransition: Transition.fade,
     getPages: AppPages.pages,
