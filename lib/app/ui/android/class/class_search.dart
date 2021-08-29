@@ -7,6 +7,7 @@ import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/controller/class/class_search_controller.dart';
 
 import 'package:polarstar_flutter/app/ui/android/class/widgets/class_preview.dart';
+import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
 
 class ClassSearch extends StatelessWidget {
   const ClassSearch({Key key}) : super(key: key);
@@ -16,23 +17,7 @@ class ClassSearch extends StatelessWidget {
     final ClassSearchController controller = Get.find();
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 0,
-        leading: InkWell(
-          child: Icon(Icons.arrow_back_ios_new, color: Colors.black),
-          onTap: () {
-            Get.back();
-          },
-        ),
-        leadingWidth: 35,
-        titleSpacing: 0,
-        title: Text(
-          "Course Evaluation",
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
+      appBar: AppBars().classBasicAppBar(),
       body: RefreshIndicator(
         onRefresh: controller.refreshPage,
         child: Obx(() {

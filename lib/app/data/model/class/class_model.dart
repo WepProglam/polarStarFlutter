@@ -11,7 +11,7 @@ class ClassModel {
       REFER;
   List CLASSES;
 
-  ClassModel(Set set,
+  ClassModel(
       {CLASS_ID,
       CLASS_NUMBER,
       CLASS_NAME,

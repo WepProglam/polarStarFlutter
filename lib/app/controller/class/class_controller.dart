@@ -10,8 +10,8 @@ class ClassController extends GetxController {
   final ClassRepository repository;
   ClassController({@required this.repository});
 
-  var classListAvailable = false.obs;
-  var classList = <ClassModel>[].obs;
+  final classListAvailable = false.obs;
+  final classList = <ClassModel>[].obs;
 
   Future<void> refreshPage() async {
     await getClassList();
@@ -22,7 +22,6 @@ class ClassController extends GetxController {
 
     switch (jsonResponse["statusCode"]) {
       case 200:
-        classList.clear();
         classList(jsonResponse["classList"]);
         classListAvailable(true);
         break;

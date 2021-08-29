@@ -10,8 +10,8 @@ class ClassSearchController extends GetxController {
   final ClassRepository repository;
   ClassSearchController({@required this.repository});
 
-  var classSearchListAvailable = false.obs;
-  var classSearchList = <ClassModel>[].obs;
+  final classSearchListAvailable = false.obs;
+  final classSearchList = <ClassModel>[].obs;
 
   Future<void> refreshPage() async {
     await getClassSearchList();

@@ -26,6 +26,7 @@ abstract class Routes {
 
   static const CLASS = '/class';
   static const CLASSSEARCH = '/class/search';
+  static const CLASSVIEW = '/class/view/:classid';
 
   static const TIMETABLE = '/timetable';
 }

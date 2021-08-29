@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 
@@ -9,7 +10,9 @@ class ClassPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Get.toNamed('/class/view/${classModel.CLASS_ID}');
+      },
       child: Container(
         margin: EdgeInsets.all(8.0),
         decoration: BoxDecoration(

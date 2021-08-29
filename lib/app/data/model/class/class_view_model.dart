@@ -12,7 +12,7 @@ class ClassInfoModel {
       REFER;
   List CLASSES;
 
-  ClassInfoModel(Set set,
+  ClassInfoModel(
       {CLASS_ID,
       AVG,
       CLASS_NUMBER,
@@ -45,7 +45,7 @@ class ClassReviewModel {
 
   String TIME_CREATED, CONTENT, RATE;
 
-  ClassReviewModel(Set set,
+  ClassReviewModel(
       {CLASS_COMMENT_ID,
       CLASS_ID,
       PROFILE_ID,
@@ -66,5 +66,42 @@ class ClassReviewModel {
     this.TIME_CREATED = json["TIME_CREATED"];
     this.CONTENT = json["CONTENT"];
     this.RATE = json["RATE"];
+  }
+}
+
+class ClassExamModel {
+  int CLASS_EXAM_ID,
+      CLASS_ID,
+      PROFILE_ID,
+      CLASS_EXAM_YEAR,
+      CLASS_EXAM_SEMESTER,
+      LIKES;
+  String TEST_STRATEGY, TEST_TYPE, TEST_EXAMPLE, TIME_CREATED;
+
+  ClassExamModel(
+      {CLASS_EXAM_ID,
+      CLASS_ID,
+      TEST_STRATEGY,
+      TEST_TYPE,
+      TEST_EXAMPLE,
+      TIME_CREATED,
+      PROFILE_ID,
+      CLASS_EXAM_YEAR,
+      CLASS_EXAM_SEMESTER,
+      LIKES});
+
+  ClassExamModel.fromJson(Map<String, dynamic> json) {
+    this.CLASS_EXAM_ID = json["CLASS_EXAM_ID"];
+    this.CLASS_ID = json["CLASS_ID"];
+
+    this.TEST_STRATEGY = json["TEST_STRATEGY"];
+    this.TEST_TYPE = json["TEST_TYPE"];
+    this.TEST_EXAMPLE = json["TEST_EXAMPLE"];
+    this.TIME_CREATED = json["TIME_CREATED"];
+
+    this.PROFILE_ID = json["PROFILE_ID"];
+    this.CLASS_EXAM_YEAR = json["CLASS_EXAM_YEAR"];
+    this.CLASS_EXAM_SEMESTER = json["CLASS_EXAM_SEMESTER"];
+    this.LIKES = json["LIKES"];
   }
 }
