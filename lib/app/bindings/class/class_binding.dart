@@ -7,7 +7,7 @@ import 'package:polarstar_flutter/app/controller/class/class_controller.dart';
 class ClassBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<ClassController>(() => ClassController(
+    Get.put(ClassController(
         repository: ClassRepository(apiClient: ClassApiClient())));
   }
 }

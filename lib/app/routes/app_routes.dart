@@ -25,6 +25,7 @@ abstract class Routes {
   static const DETAILS = '/details';
 
   static const CLASS = '/class';
+  static const CLASSSEARCH = '/class/search';
 
   static const TIMETABLE = '/timetable';
 }
