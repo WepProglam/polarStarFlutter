@@ -25,4 +25,15 @@ class ClassApiClient {
         .getX('/class/view/$CLASS_ID/like?CLASS_COMMENT_ID=$CLASS_COMMENT_ID');
     return response;
   }
+
+  Future getClassExam(int CLASS_ID) async {
+    final response = await Session().getX('/class/exam/$CLASS_ID');
+    return response;
+  }
+
+  Future getExamLike(int CLASS_ID, int CLASS_EXAM_ID) async {
+    final response = await Session()
+        .getX('/class/exam/$CLASS_ID/like?CLASS_EXAM_ID=$CLASS_EXAM_ID');
+    return response;
+  }
 }

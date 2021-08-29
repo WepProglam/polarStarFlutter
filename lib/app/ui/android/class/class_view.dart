@@ -21,41 +21,70 @@ class ClassView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBars().classBasicAppBar(),
-      body: Obx(() {
-        if (classViewController.classViewAvailable.value) {
-          return SafeArea(
-            child: CustomScrollView(
-              slivers: <Widget>[
-                SliverToBoxAdapter(
-                  child: ClassViewInfo(
-                      classInfoModel: classViewController.classInfo.value),
-                ),
-                SliverPersistentHeader(pinned: true, delegate: IndexButton()),
-                SliverToBoxAdapter(
-                  child: Container(
-                    width: Get.mediaQuery.size.width,
-                    height: 10,
+      body: RefreshIndicator(
+        onRefresh: classViewController.refreshPage,
+        child: Obx(() {
+          if (classViewController.classViewAvailable.value) {
+            return SafeArea(
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: ClassViewInfo(
+                        classInfoModel: classViewController.classInfo.value),
                   ),
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                    return ClassViewReview(
-                      classReviewModel:
-                          classViewController.classReviewList[index],
-                      index: index,
-                    );
-                  }, childCount: classViewController.classReviewList.length),
-                ),
-              ],
-            ),
-          );
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      }),
+                  SliverPersistentHeader(pinned: true, delegate: IndexButton()),
+                  SliverToBoxAdapter(
+                    child: Container(
+                      width: Get.mediaQuery.size.width,
+                      height: 10,
+                    ),
+                  ),
+                  Obx(() {
+                    if (classViewController.typeIndex == 0) {
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                          return ClassViewReview(
+                            classReviewModel:
+                                classViewController.classReviewList[index],
+                            index: index,
+                          );
+                        },
+                            childCount:
+                                classViewController.classReviewList.length),
+                      );
+                    } else {
+                      if (classViewController.classExamAvailable.value) {
+                        return SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                            return ClassExamInfo(
+                              classExamModel:
+                                  classViewController.classExamList[index],
+                              index: index,
+                            );
+                          },
+                              childCount:
+                                  classViewController.classExamList.length),
+                        );
+                      } else {
+                        return SliverToBoxAdapter(
+                            child: Center(
+                          child: CircularProgressIndicator(),
+                        ));
+                      }
+                    }
+                  }),
+                ],
+              ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        }),
+      ),
     );
   }
 }
@@ -364,6 +393,136 @@ class ClassViewReview extends StatelessWidget {
   }
 }
 
+class ClassExamInfo extends StatelessWidget {
+  const ClassExamInfo({Key key, @required this.classExamModel, this.index})
+      : super(key: key);
+  final ClassExamModel classExamModel;
+  final int index;
+
+  // String semester로 변환 함수
+  String semester(int intSemester) {
+    String retString = "First";
+    switch (intSemester) {
+      case 1:
+        retString = "First";
+        break;
+      case 2:
+        retString = "Second";
+        break;
+      default:
+        retString = "First";
+    }
+    return retString;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ClassViewController classViewController = Get.find();
+
+    return Container(
+      margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+      decoration: BoxDecoration(color: Colors.white),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 이것도 데이터 없음
+            Row(
+              children: [
+                Text(
+                  "The Final Exam",
+                  textScaleFactor: 1.4,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Spacer(),
+                TextButton.icon(
+                    style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all(Colors.red),
+                        overlayColor: MaterialStateProperty.all(
+                            Colors.red.withOpacity(0.6))),
+                    onPressed: () async {
+                      await classViewController.getExamLike(
+                          classExamModel.CLASS_ID,
+                          classExamModel.CLASS_EXAM_ID,
+                          index);
+                    },
+                    icon: Icon(Icons.thumb_up, size: 20),
+                    label: Text(classExamModel.LIKES.toString()))
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+              child: Text(semester(classExamModel.CLASS_EXAM_SEMESTER) +
+                  " Semester Of " +
+                  classExamModel.CLASS_EXAM_YEAR.toString()),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Text("Test Strategy",
+                        style: TextStyle(fontWeight: FontWeight.w300)),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Text(classExamModel.TEST_STRATEGY),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Text("Questions Type",
+                        style: TextStyle(fontWeight: FontWeight.w300)),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Text(classExamModel.TEST_TYPE),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Text("For Example",
+                        style: TextStyle(fontWeight: FontWeight.w300)),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      height: 90,
+                      child: ListView.builder(
+                          itemCount: classExamModel.TEST_EXAMPLE.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Text(classExamModel.TEST_EXAMPLE[index]),
+                            );
+                          }),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class IndexButton extends SliverPersistentHeaderDelegate {
   final height = 50.0;
   final ClassViewController classViewController = Get.find();
@@ -402,6 +561,11 @@ class IndexButton extends SliverPersistentHeaderDelegate {
               GestureDetector(
                 onTap: () {
                   classViewController.typeIndex(1);
+                  if (!classViewController.classExamAvailable.value) {
+                    print("exam data fetch");
+                    classViewController
+                        .getExamInfo(int.parse(Get.parameters["classid"]));
+                  }
                 },
                 child: Obx(
                   () => Text(

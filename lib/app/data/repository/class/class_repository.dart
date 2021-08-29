@@ -70,4 +70,28 @@ class ClassRepository {
 
     return {"statusCode": response.statusCode};
   }
+
+  Future<Map<String, dynamic>> getClassExam(int CLASS_ID) async {
+    final response = await apiClient.getClassExam(CLASS_ID);
+    if (response.statusCode != 200) {
+      return {"statusCode": response.statusCode};
+    } else {
+      Iterable responseBody = json.decode(response.body);
+
+      List classExamList =
+          responseBody.map((e) => ClassExamModel.fromJson(e)).toList();
+
+      return {
+        "statusCode": response.statusCode,
+        "classExamList": classExamList
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> getExamLike(
+      int CLASS_ID, int CLASS_COMMENT_ID) async {
+    final response = await apiClient.getExamLike(CLASS_ID, CLASS_COMMENT_ID);
+
+    return {"statusCode": response.statusCode};
+  }
 }
