@@ -21,6 +21,44 @@ class ClassView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBars().classBasicAppBar(),
+      bottomSheet: Ink(
+        color: Colors.blue[900],
+        child: InkWell(
+          onTap: () {
+            if (classViewController.typeIndex.value == 0) {
+            } else {}
+          },
+          child: Container(
+            height: 50,
+            width: Get.mediaQuery.size.width,
+            child: Obx(() => Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        classViewController.typeIndex.value == 0
+                            ? Icons.post_add
+                            : Icons.add_circle_outline,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        classViewController.typeIndex.value == 0
+                            ? "Writing Evaluation"
+                            : "Add Exam Information",
+                        textScaleFactor: 1.2,
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                  ],
+                )),
+          ),
+        ),
+      ),
       body: RefreshIndicator(
         onRefresh: classViewController.refreshPage,
         child: Obx(() {
