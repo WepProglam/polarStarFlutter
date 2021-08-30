@@ -322,7 +322,7 @@ class ClassViewReview extends StatelessWidget {
         children: [
           // 별점 & 좋아요
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
             child: Row(
               children: [
                 Icon(
@@ -363,7 +363,7 @@ class ClassViewReview extends StatelessWidget {
             ),
           ),
 
-          // 수강 학기: 데이터 안날라옴
+          // 수강 학기: 데이터 안 날라옴
           Padding(
             padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
             child: Text(
@@ -421,7 +421,8 @@ class ClassExamInfo extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
-      decoration: BoxDecoration(color: Colors.white),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
         child: Column(

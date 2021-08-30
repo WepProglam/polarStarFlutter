@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 
+// class 메인 페이지에서 사용(My Last Courses)
 class CoursePreview extends StatelessWidget {
   const CoursePreview({Key key, @required this.classModel}) : super(key: key);
   final ClassModel classModel;
@@ -105,6 +106,18 @@ class CoursePreview extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+// class 메인 페이지에서 사용(Recent Comments)
+class CommentPreview extends StatelessWidget {
+  const CommentPreview({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: null,
     );
   }
 }

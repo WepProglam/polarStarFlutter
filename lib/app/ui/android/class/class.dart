@@ -44,7 +44,7 @@ class Class extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    "My last courses",
+                    "My Last Courses",
                     textScaleFactor: 1.2,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),

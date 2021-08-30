@@ -19,7 +19,7 @@ class ClassSearchBar extends StatelessWidget {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(100)),
               ),
-              hintText: 'search class',
+              hintText: 'Search by subject or teacher name',
               isDense: true,
               contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
             ),
