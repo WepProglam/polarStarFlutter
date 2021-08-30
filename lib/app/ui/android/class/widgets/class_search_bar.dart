@@ -35,7 +35,10 @@ class ClassSearchBar extends StatelessWidget {
                   onTap: () {
                     Get.toNamed("/class/search?search=${searchText.text}");
                   },
-                  child: Icon(Icons.search_outlined),
+                  child: Icon(
+                    Icons.search_outlined,
+                    color: Colors.grey,
+                  ),
                 )),
               ),
             ),

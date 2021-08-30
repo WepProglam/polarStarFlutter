@@ -25,7 +25,7 @@ class ClassSearch extends StatelessWidget {
             return ListView.builder(
                 itemCount: controller.classSearchList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return ClassPreview(
+                  return CoursePreview(
                     classModel: controller.classSearchList[index],
                   );
                 });
