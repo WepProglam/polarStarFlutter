@@ -85,6 +85,7 @@ flutter:
     - assets/images/568.png
     - assets/images/891.png
     - assets/images/892.png
+    - assets/images/spinner.gif
     - assets/fonts/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

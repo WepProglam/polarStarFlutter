@@ -56,7 +56,8 @@ class OutSidePostPreview extends StatelessWidget {
                                 fadeInDuration: Duration(milliseconds: 0),
                                 progressIndicatorBuilder:
                                     (context, url, downloadProgress) => Image(
-                                        image: AssetImage('image/spinner.gif')),
+                                        image: AssetImage(
+                                            'assets/images/spinner.gif')),
                                 errorWidget: (context, url, error) {
                                   print(error);
                                   return Icon(Icons.error);
@@ -104,9 +105,10 @@ class OutSidePostPreview extends StatelessWidget {
                                   'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/board/${item.PHOTO}',
                               fit: BoxFit.fill,
                               fadeInDuration: Duration(milliseconds: 0),
-                              progressIndicatorBuilder: (context, url,
-                                      downloadProgress) =>
-                                  Image(image: AssetImage('image/spinner.gif')),
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) => Image(
+                                      image: AssetImage(
+                                          'assets/images/spinner.gif')),
                               errorWidget: (context, url, error) {
                                 print(error);
                                 return Icon(Icons.error);

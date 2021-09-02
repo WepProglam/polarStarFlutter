@@ -27,13 +27,18 @@ class Class extends StatelessWidget {
                   child: Row(
                     children: [
                       // 패스 891
-                      Container(
-                        width: 9.36572265625,
-                        height: 16.6669921875,
-                        margin: const EdgeInsets.fromLTRB(0, 6.5, 14.1, 6.8),
-                        child: Image.asset(
-                          "assets/images/891.png",
-                          fit: BoxFit.fitHeight,
+                      InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Container(
+                          width: 9.36572265625,
+                          height: 16.6669921875,
+                          margin: const EdgeInsets.fromLTRB(0, 6.5, 14.1, 6.8),
+                          child: Image.asset(
+                            "assets/images/891.png",
+                            fit: BoxFit.fitHeight,
+                          ),
                         ),
                       ),
                       // 사각형 501
