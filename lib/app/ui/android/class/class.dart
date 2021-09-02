@@ -1,14 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 
 import 'package:polarstar_flutter/app/controller/class/class_controller.dart';
 
 import 'package:polarstar_flutter/app/ui/android/class/widgets/class_preview.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/class_search_bar.dart';
-import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
 
 class Class extends StatelessWidget {
   const Class({Key key}) : super(key: key);
@@ -16,122 +12,110 @@ class Class extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ClassController controller = Get.find();
-
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 0,
-        leading: InkWell(
-          child: Icon(Icons.arrow_back_ios_new, color: Colors.black),
-          onTap: () {
-            Get.back();
-          },
-        ),
-        leadingWidth: 35,
-        titleSpacing: 0,
-        title: ClassSearchBar(),
-      ),
-      body: RefreshIndicator(
-        onRefresh: controller.refreshPage,
-        child: CustomScrollView(
-          slivers: [
-            // My last courses
-            SliverToBoxAdapter(
-              child: Container(
-                decoration: BoxDecoration(color: Colors.white),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    "My Last Courses",
-                    textScaleFactor: 1.2,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+    final Size size = MediaQuery.of(context).size;
+    final searchText = TextEditingController();
+    return SafeArea(
+      child: Scaffold(
+        body: RefreshIndicator(
+          onRefresh: controller.refreshPage,
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Container(
+                  color: const Color(0xffffffff),
+                  margin: const EdgeInsets.fromLTRB(15, 1.5, 15, 19),
+                  child: Row(
+                    children: [
+                      // 패스 891
+                      Container(
+                        width: 9.36572265625,
+                        height: 16.6669921875,
+                        margin: const EdgeInsets.fromLTRB(0, 6.5, 14.1, 6.8),
+                        child: Image.asset(
+                          "assets/images/891.png",
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                      // 사각형 501
+                      SizedBox(
+                        width: size.width - 38.5 - 15,
+                        height: 30,
+                        child:
+                            ClassSearchBar(size: size, searchText: searchText),
+                      )
+                    ],
                   ),
                 ),
               ),
-            ),
-            // CourseList
-            Obx(() {
-              if (controller.classListAvailable.value) {
-                return SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                  return Ink(
-                      color: Colors.white,
-                      child: CoursePreview(
-                          classModel: controller.classList[index]));
-                }, childCount: controller.classList.length));
-              } else {
-                return SliverToBoxAdapter(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
-
-            // Recent comments
-            SliverToBoxAdapter(
-              child: Container(
-                // decoration: BoxDecoration(color: Colors.white),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    "Recent Comments",
-                    textScaleFactor: 1.2,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+              // My last courses
+              SliverToBoxAdapter(
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 0, 0, 22),
+                      child: // My last courses
+                          Text("My last courses",
+                              style: const TextStyle(
+                                  color: const Color(0xff333333),
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: "PingFangSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 18.0),
+                              textAlign: TextAlign.left)),
                 ),
               ),
-            ),
-            // 원래는 강평 리스트인데 지금은 classlist임
-            Obx(() {
-              if (controller.classListAvailable.value) {
-                return SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                  return CoursePreview(classModel: controller.classList[index]);
-                }, childCount: controller.classList.length));
-              } else {
-                return SliverToBoxAdapter(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
-          ],
+              // CourseList
+              Obx(() {
+                if (controller.classListAvailable.value) {
+                  return SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                    return Ink(
+                        color: Colors.white,
+                        child: CoursePreview(
+                            classModel: controller.classList[index]));
+                  }, childCount: controller.classList.length));
+                } else {
+                  return SliverToBoxAdapter(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }),
+
+              // Recent comments
+              SliverToBoxAdapter(
+                child: Container(
+                  decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
+                  margin:
+                      const EdgeInsets.only(left: 15, top: 15, bottom: 17.5),
+                  child: Text("Recent comments",
+                      style: const TextStyle(
+                          color: const Color(0xff333333),
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "PingFangSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 18.0),
+                      textAlign: TextAlign.left),
+                ),
+              ),
+              Obx(() {
+                if (controller.classListAvailable.value) {
+                  return SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                    return CommentPreview(
+                        classReviewModel: controller.reviewList[index]);
+                  }, childCount: controller.reviewList.length));
+                } else {
+                  return SliverToBoxAdapter(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }),
+            ],
+          ),
         ),
       ),
-      // Column(
-      //   children: [
-      //     Expanded(
-      //       flex: 2,
-      //       child:
-      //           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      //         Text("My last courses"),
-      //       ]),
-      //     ),
-      //     Expanded(
-      //       flex: 3,
-      //       child: RefreshIndicator(
-      //         onRefresh: controller.refreshPage,
-      //         child: Obx(() {
-      //           if (controller.classListAvailable.value) {
-      //             return ListView.builder(
-      //                 itemCount: controller.classList.length,
-      //                 itemBuilder: (BuildContext context, int index) {
-      //                   return CoursePreview(
-      //                     classModel: controller.classList[index],
-      //                   );
-      //                 });
-      //           } else {
-      //             return Center(
-      //               child: CircularProgressIndicator(),
-      //             );
-      //           }
-      //         }),
-      //       ),
-      //     ),
-      //   ],
-      // ),
     );
   }
 }

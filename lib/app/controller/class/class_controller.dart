@@ -12,6 +12,7 @@ class ClassController extends GetxController {
 
   final classListAvailable = false.obs;
   final classList = <ClassModel>[].obs;
+  final reviewList = <ClassRecentReviewModel>[].obs;
 
   Future<void> refreshPage() async {
     await getClassList();
@@ -23,6 +24,7 @@ class ClassController extends GetxController {
     switch (jsonResponse["statusCode"]) {
       case 200:
         classList(jsonResponse["classList"]);
+        reviewList(jsonResponse["reviewList"]);
         classListAvailable(true);
         break;
       default:

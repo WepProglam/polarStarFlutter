@@ -36,3 +36,27 @@ class ClassModel {
     this.CLASSES = json["CLASSES"];
   }
 }
+
+class ClassRecentReviewModel {
+  int CLASS_YEAR, CLASS_SEMESTER;
+
+  String CONTENT, PROFESSOR, CLASS_NAME, RATE;
+
+  ClassRecentReviewModel({
+    CLASS_YEAR,
+    CLASS_SEMESTER,
+    RATE,
+    CONTENT,
+    PROFESSOR,
+    CLASS_NAME,
+  });
+
+  ClassRecentReviewModel.fromJson(Map<String, dynamic> json) {
+    this.CLASS_YEAR = json["CLASS_YEAR"];
+    this.CLASS_SEMESTER = json["CLASS_SEMESTER"];
+    this.RATE = json["RATE"];
+    this.CONTENT = json["CONTENT"];
+    this.PROFESSOR = json["PROFESSOR"];
+    this.CLASS_NAME = json["CLASS_NAME"];
+  }
+}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
+import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 
 // class 메인 페이지에서 사용(My Last Courses)
 class CoursePreview extends StatelessWidget {
@@ -11,14 +12,13 @@ class CoursePreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(8.0),
+      margin: EdgeInsets.fromLTRB(15, 0, 0, 13.5),
       decoration: BoxDecoration(
-        // color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        // boxShadow: [
-        //   BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 2),
-        // ],
-      ),
+          borderRadius: BorderRadius.circular(10), color: Colors.white
+          // boxShadow: [
+          //   BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 2),
+          // ],
+          ),
       child: Ink(
         color: Colors.white,
         child: InkWell(
@@ -29,77 +29,70 @@ class CoursePreview extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // 강의 이미지
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Icon(
-                    Icons.book,
-                    size: 60,
+              // 사각형 493
+              Container(
+                  width: 52,
+                  height: 52,
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(13.6, 14.5, 13.6, 14.5),
+                    child: Image.asset(
+                      "assets/images/568.png",
+                      fit: BoxFit.fitHeight,
+                    ),
                   ),
-                ),
-              ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: const Color(0xff1a785c))),
               // 강의명, 교수명, 평가
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
+              Container(
+                margin: const EdgeInsets.only(left: 16.0, top: 1.5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      classModel.CLASS_NAME,
-                      textScaleFactor: 1,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Text(classModel.PROFESSOR),
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.star,
-                          color: Colors.yellow[800],
-                        ),
-                        Icon(
-                          Icons.star,
-                          color: Colors.yellow[800],
-                        ),
-                        Icon(
-                          Icons.star,
-                          color: Colors.yellow[800],
-                        ),
-                        Icon(
-                          Icons.star_border,
-                          color: Colors.yellow[800],
-                        ),
-                        Icon(
-                          Icons.star_border,
-                          color: Colors.yellow[800],
-                        ),
-                        Text(classModel.CREDIT),
-                      ],
-                    )
+                    // Introduction to alg...
+                    Text("${classModel.CLASS_NAME}",
+                        style: const TextStyle(
+                            color: const Color(0xff333333),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 16.0),
+                        textAlign: TextAlign.left),
+
+                    Container(
+                        margin: const EdgeInsets.only(top: 7.0),
+                        child: // Li Ming   A++
+                            Text("${classModel.PROFESSOR}",
+                                style: const TextStyle(
+                                    color: const Color(0xff999999),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                textAlign: TextAlign.left)),
                   ],
                 ),
               ),
               Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(right: 10.0),
+              Container(
+                // width: 61.5,
+                height: 25.5,
+                margin: const EdgeInsets.fromLTRB(0, 14.5, 15, 12),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(26)),
+                    color: const Color(0xff1a4678)),
                 child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: Colors.blue[900]),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Evaluate",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                  padding: const EdgeInsets.fromLTRB(7.5, 4, 7, 5.5),
+                  // width: 47,
+                  // height: 16,
+                  child: Text("Evaluate",
+                      style: const TextStyle(
+                          color: const Color(0xffffffff),
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "PingFangSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 12.0),
+                      textAlign: TextAlign.center),
                 ),
               ),
             ],
@@ -112,12 +105,104 @@ class CoursePreview extends StatelessWidget {
 
 // class 메인 페이지에서 사용(Recent Comments)
 class CommentPreview extends StatelessWidget {
-  const CommentPreview({Key key}) : super(key: key);
+  const CommentPreview({Key key, @required this.classReviewModel})
+      : super(key: key);
+  final ClassRecentReviewModel classReviewModel;
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    print(classReviewModel);
     return Container(
-      child: null,
-    );
+        margin: const EdgeInsets.fromLTRB(15, 0, 15, 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12, top: 10.5),
+                  child: // Ideological and moral
+                      Text("${classReviewModel.CLASS_NAME}",
+                          style: const TextStyle(
+                              color: const Color(0xff333333),
+                              fontWeight: FontWeight.w700,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0),
+                          textAlign: TextAlign.center),
+                ),
+                Spacer(),
+                Padding(
+                    padding: const EdgeInsets.only(top: 15, right: 16.3),
+                    child: Row(
+                      children: [
+                        for (int i = 0; i < 5; i++)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 4.6),
+                            child: Container(
+                              width: 14.442626953125,
+                              height: 13.96044921875,
+                              child: Image.asset(
+                                i + 1 <= double.parse(classReviewModel.RATE)
+                                    ? 'assets/images/897.png'
+                                    : 'assets/images/898.png',
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                          )
+                      ],
+                    ))
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 13, left: 14.5),
+              child: // teacher:   Li Ming
+                  Text("Professor:   ${classReviewModel.PROFESSOR}",
+                      style: const TextStyle(
+                          color: const Color(0xff333333),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "PingFangSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14.0),
+                      textAlign: TextAlign.left),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(top: 8.5, left: 14.5),
+                child: Text(
+                    "Semester:   ${classReviewModel.CLASS_YEAR}년 ${classReviewModel.CLASS_SEMESTER}학기",
+                    style: const TextStyle(
+                        color: const Color(0xff333333),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "PingFangSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0),
+                    textAlign: TextAlign.left)),
+            //강평 적는 박스
+            Container(
+              margin: const EdgeInsets.fromLTRB(13, 12, 12.5, 15.5),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(11)),
+                  color: const Color(0xfff3f3f3)),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(7.5, 9.5, 7.5, 8.5),
+                child: SizedBox(
+                  width: size.width - 28 - 27.5,
+                  child: Text("${classReviewModel.CONTENT}",
+                      style: const TextStyle(
+                          color: const Color(0xff707070),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "PingFangSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14.0),
+                      textAlign: TextAlign.left),
+                ),
+              ),
+            ),
+          ],
+        ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: const Color(0xffffffff)));
   }
 }

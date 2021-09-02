@@ -17,12 +17,22 @@ class ClassRepository {
     if (response.statusCode != 200) {
       return {"statusCode": response.statusCode};
     } else {
+      var jsonResponse = jsonDecode(response.body);
+
       // Map List를 Class model List로 만듦
-      Iterable jsonResponse = json.decode(response.body);
+      Iterable recentClass = jsonResponse["class"];
+      Iterable recentReview = jsonResponse["review"];
 
-      List classList = jsonResponse.map((e) => ClassModel.fromJson(e)).toList();
+      List<ClassModel> classList =
+          recentClass.map((e) => ClassModel.fromJson(e)).toList();
+      List<ClassRecentReviewModel> reviewList =
+          recentReview.map((e) => ClassRecentReviewModel.fromJson(e)).toList();
 
-      return {"statusCode": 200, "classList": classList};
+      return {
+        "statusCode": 200,
+        "classList": classList,
+        "reviewList": reviewList
+      };
     }
   }
 
