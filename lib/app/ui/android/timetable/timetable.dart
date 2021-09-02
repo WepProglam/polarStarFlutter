@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polarstar_flutter/app/ui/android/timetable/widgets/top_icon.dart';
+import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
 
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
 
@@ -15,66 +15,6 @@ class Timetable extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   elevation: 0.0,
-        //   backgroundColor: Colors.white,
-        //   foregroundColor: Colors.black,
-        //   titleSpacing: 0,
-        //   automaticallyImplyLeading: false,
-        //   title: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       Padding(
-        //         padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
-        //         child: Row(
-        //           children: [
-        //             InkWell(
-        //                 onTap: () {},
-        //                 child: Row(
-        //                   children: [
-        //                     // 상태변화 필요
-        //                     Text(
-        //                       'Third Grade',
-        //                       style: TextStyle(
-        //                           fontWeight: FontWeight.bold,
-        //                           color: Colors.black),
-        //                     ),
-        //                     Icon(
-        //                       Icons.arrow_drop_down,
-        //                       color: Colors.black,
-        //                     ),
-        //                   ],
-        //                 )),
-        //             Spacer(),
-        //             InkWell(
-        //               onTap: () {
-        //                 Get.toNamed('/class');
-        //               },
-        //               child: Icon(Icons.person, color: Colors.black),
-        //             ),
-        //             InkWell(
-        //                 onTap: () {},
-        //                 child: Icon(Icons.add, color: Colors.black)),
-        //             InkWell(
-        //                 onTap: () {},
-        //                 child: Icon(Icons.settings, color: Colors.black)),
-        //             InkWell(
-        //                 onTap: () {},
-        //                 child: Icon(Icons.menu, color: Colors.black)),
-        //           ],
-        //         ),
-        //       ),
-        //       Padding(
-        //         padding: const EdgeInsets.all(8.0),
-        //         child: Text(
-        //           "21-22 scholl year First semmester",
-        //           textScaleFactor: 0.6,
-        //           style: TextStyle(color: Colors.black),
-        //         ),
-        //       )
-        //     ],
-        //   ),
-        // ),
         bottomNavigationBar:
             CustomBottomNavigationBar(mainController: mainController),
         body: SingleChildScrollView(
@@ -84,28 +24,37 @@ class Timetable extends StatelessWidget {
             Row(children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 3.5, 0, 0),
-                child: // 21-22 school year First semmester
-                    Text("21-22 school year First semmester",
-                        style: const TextStyle(
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
-                        textAlign: TextAlign.left),
+                child: Text("21-22 school year First semmester",
+                    style: const TextStyle(
+                        color: const Color(0xff333333),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "PingFangSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0),
+                    textAlign: TextAlign.left),
               ),
               Spacer(),
             ]),
             Container(
               width: size.width,
               color: Colors.black,
+              margin: const EdgeInsets.only(top: 15.5),
               height: 479.3,
               child: Center(
-                child: Text(
-                  "시간표",
-                  style: TextStyle(color: Colors.white),
-                ),
+                child: Text("시간표", style: TextStyle(color: Colors.white)),
               ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(left: 15, top: 20.3),
+              height: 44,
+              //시간표 리스트
+              child: TableList(),
+            ),
+            Container(
+              margin: const EdgeInsets.only(left: 15, top: 22, bottom: 20),
+              height: 184.5,
+              //과목 리스트
+              child: SubjectList(),
             )
           ],
         )),
