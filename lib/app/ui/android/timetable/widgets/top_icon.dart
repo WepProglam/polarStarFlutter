@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TopIcon extends StatelessWidget {
   const TopIcon({
@@ -33,6 +34,23 @@ class TopIcon extends StatelessWidget {
           ),
         ),
         Spacer(),
+        Container(
+          margin: const EdgeInsets.only(top: 9.7, bottom: 2.3, right: 15),
+          child: // 패스 940
+              InkWell(
+            onTap: () {
+              Get.toNamed('/class');
+            },
+            child: Container(
+              width: 16,
+              height: 16,
+              child: Image.asset(
+                "assets/images/941.png",
+                fit: BoxFit.fitHeight,
+              ),
+            ),
+          ),
+        ),
         Container(
           margin: const EdgeInsets.only(top: 9.7, bottom: 2.3, right: 15),
           child: // 패스 940
