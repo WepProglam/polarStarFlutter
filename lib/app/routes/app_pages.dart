@@ -59,10 +59,7 @@ class AppPages {
     GetPage(
       name: Routes.MAIN_PAGE,
       page: () => MainPage(),
-      bindings: [
-        MainBinding(),
-        OutSideBinding(),
-      ],
+      bindings: [MainBinding(), OutSideBinding(), TimetableBinding()],
     ),
     GetPage(
       name: Routes.POST,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
 
 class TopIcon extends StatelessWidget {
   const TopIcon({
@@ -93,17 +94,18 @@ class TopIcon extends StatelessWidget {
 }
 
 class TableList extends StatelessWidget {
-  const TableList({
-    Key key,
-  }) : super(key: key);
+  final RxList<Rx<TimeTableModel>> modelList;
+  const TableList({Key key, @required this.modelList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: ListView.builder(
-          itemCount: 10,
+          itemCount: modelList.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
+            bool IS_SELECTED =
+                modelList[index].value.IS_DEFAULT == 1 ? true : false;
             return // 사각형 526
                 Container(
                     width: 90,
@@ -112,8 +114,8 @@ class TableList extends StatelessWidget {
                     child: Container(
                       margin: const EdgeInsets.fromLTRB(6.5, 12.5, 5.5, 13),
                       child: Text("Third Grade",
-                          style: const TextStyle(
-                              color: const Color(0xffffffff),
+                          style: TextStyle(
+                              color: Color(0xffffffff),
                               fontWeight: FontWeight.w700,
                               fontFamily: "PingFangSC",
                               fontStyle: FontStyle.normal,
