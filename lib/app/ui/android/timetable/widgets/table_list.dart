@@ -12,27 +12,36 @@ class TopIcon extends StatelessWidget {
     return Obx(() {
       return Row(
         children: [
-          Container(
-            margin: const EdgeInsets.only(left: 15),
-            child: Text("${timeTableController.selectTable.value.NAME}",
-                style: const TextStyle(
-                    color: const Color(0xff333333),
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "PingFangSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 21.0),
-                textAlign: TextAlign.left),
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: 12, top: 14.8, bottom: 7.3),
-            child: // 패스 940
+          InkWell(
+            //여기에 다이얼로그로 년도 학기 선택하는 창 띄우기
+            onTap: () {},
+            child: Row(
+              children: [
                 Container(
-              width: 10.68267822265625,
-              height: 5.931396484375,
-              child: Image.asset(
-                "assets/images/940.png",
-                fit: BoxFit.fitHeight,
-              ),
+                  margin: const EdgeInsets.only(left: 15),
+                  child: Text("${timeTableController.selectTable.value.NAME}",
+                      style: const TextStyle(
+                          color: const Color(0xff333333),
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "PingFangSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 21.0),
+                      textAlign: TextAlign.left),
+                ),
+                Container(
+                  margin:
+                      const EdgeInsets.only(left: 12, top: 14.8, bottom: 7.3),
+                  child: // 패스 940
+                      Container(
+                    width: 10.68267822265625,
+                    height: 5.931396484375,
+                    child: Image.asset(
+                      "assets/images/940.png",
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Spacer(),
@@ -127,13 +136,13 @@ class TableList extends StatelessWidget {
                       child: Text("Third Grade",
                           style: TextStyle(
                               color: timeTableController
-                                          .selectedTimeTableId.value ==
-                                      timeTableController
                                           .otherTable[
                                               "${timeTableController.yearSem}"]
                                               [index]
                                           .value
-                                          .TIMETABLE_ID
+                                          .TIMETABLE_ID ==
+                                      timeTableController
+                                          .selectTable.value.TIMETABLE_ID
                                   ? Color(0xffffffff)
                                   : Color(0xff1a4678),
                               fontWeight: FontWeight.w700,
@@ -145,12 +154,12 @@ class TableList extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
-                      color: timeTableController.selectedTimeTableId.value ==
-                              timeTableController
+                      color: timeTableController
                                   .otherTable["${timeTableController.yearSem}"]
                                       [index]
                                   .value
-                                  .TIMETABLE_ID
+                                  .TIMETABLE_ID ==
+                              timeTableController.selectTable.value.TIMETABLE_ID
                           ? Color(0xff1a4678)
                           : Color(0xffebf4ff)));
             });

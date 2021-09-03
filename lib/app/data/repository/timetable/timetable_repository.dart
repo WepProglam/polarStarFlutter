@@ -30,7 +30,7 @@ class TimeTableRepository {
   }
 
   Future<Map<String, dynamic>> getSemesterTimeTable(
-      int YEAR, int SEMESTER) async {
+      String YEAR, String SEMESTER) async {
     final response = await apiClient.getSemesterTimeTable(YEAR, SEMESTER);
 
     if (response.statusCode != 200) {
@@ -51,8 +51,8 @@ class TimeTableRepository {
       Rx<SelectedTimeTableModel> defaultTable =
           SelectedTimeTableModel.fromJson(defaultTableJson).obs;
 
-      selectYearSemesterModel selectYearSemester =
-          selectYearSemesterModel.fromJson(selectYearSemesterJson);
+      SelectYearSemesterModel selectYearSemester =
+          SelectYearSemesterModel.fromJson(selectYearSemesterJson);
 
       return {
         "statusCode": response.statusCode,
@@ -82,8 +82,8 @@ class TimeTableRepository {
       SelectedTimeTableModel selectTable =
           SelectedTimeTableModel.fromJson(defaultTableJson);
 
-      selectYearSemesterModel selectYearSemester =
-          selectYearSemesterModel.fromJson(selectYearSemesterJson);
+      SelectYearSemesterModel selectYearSemester =
+          SelectYearSemesterModel.fromJson(selectYearSemesterJson);
 
       return {
         "statusCode": response.statusCode,

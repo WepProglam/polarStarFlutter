@@ -32,13 +32,13 @@ class SelectedTimeTableModel {
   }
 }
 
-class selectYearSemesterModel {
+class SelectYearSemesterModel {
   String YEAR, SEMESTER;
 
-  selectYearSemesterModel({YEAR, SEMESTER});
+  SelectYearSemesterModel({YEAR, SEMESTER});
 
-  selectYearSemesterModel.fromJson(Map<String, dynamic> json) {
-    this.YEAR = json["YEAR"];
-    this.SEMESTER = json["SEMESTER"];
+  SelectYearSemesterModel.fromJson(Map<String, dynamic> json) {
+    this.YEAR = json["YEAR"].toString();
+    this.SEMESTER = json["SEMESTER"].toString();
   }
 }

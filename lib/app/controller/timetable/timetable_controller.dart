@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_repository.dart';
+import 'package:polarstar_flutter/session.dart';
 
 class TimeTableController extends GetxController {
   final TimeTableRepository repository;
@@ -22,14 +25,15 @@ class TimeTableController extends GetxController {
   Map<String, Rx<SelectedTimeTableModel>> defaultTableList =
       <String, Rx<SelectedTimeTableModel>>{}.obs;
 
-  Rx<selectYearSemesterModel> selectYearSemester =
-      selectYearSemesterModel().obs;
+  RxList<SelectYearSemesterModel> selectYearSemester =
+      <SelectYearSemesterModel>[].obs;
+  RxInt yearSemesterIndex = 0.obs;
 
   Future<void> refreshPage() async {
-    await getSemesterTimeTable(2021, 3);
+    await getSemesterTimeTable("2021", "3");
   }
 
-  Future getSemesterTimeTable(int YEAR, int SEMESTER) async {
+  Future getSemesterTimeTable(String YEAR, String SEMESTER) async {
     Map<String, dynamic> jsonResponse =
         await repository.getSemesterTimeTable(YEAR, SEMESTER);
 
@@ -41,7 +45,6 @@ class TimeTableController extends GetxController {
         selectTable = jsonResponse["defaultTable"];
         selectTableList.add(jsonResponse["defaultTable"].value);
 
-        selectYearSemester.value = jsonResponse["selectYearSemester"];
         dataAvailable(true);
         break;
       default:
@@ -49,25 +52,6 @@ class TimeTableController extends GetxController {
         printError(info: "Data Fetch ERROR!!");
     }
   }
-
-  // Future getCurrentTimeTable() async {
-  //   Map<String, dynamic> jsonResponse = await repository.getCurrentTimeTable();
-
-  //   switch (jsonResponse["statusCode"]) {
-  //     case 200:
-  //       otherTable.value = jsonResponse["otherTable"];
-  //       selectTable.value = jsonResponse["selectTable"];
-
-  //       selectTableList.add(selectTable);
-
-  //       selectYearSemester.value = jsonResponse["selectYearSemester"];
-  //       dataAvailable(true);
-  //       break;
-  //     default:
-  //       dataAvailable(false);
-  //       printError(info: "Data Fetch ERROR!!");
-  //   }
-  // }
 
   Future getTimeTable(int TIMETABLE_ID) async {
     dataAvailable.value = false;
@@ -87,10 +71,21 @@ class TimeTableController extends GetxController {
     }
   }
 
+  Future getTableInfo() async {
+    var response = await Session().getX("/timetable");
+    Iterable tableInfoJson = jsonDecode(response.body);
+    print(tableInfoJson);
+    selectYearSemester.value =
+        tableInfoJson.map((e) => SelectYearSemesterModel.fromJson(e)).toList();
+  }
+
   @override
   void onInit() async {
     super.onInit();
-    await getSemesterTimeTable(2021, 3);
+    await getTableInfo();
+    await getSemesterTimeTable(
+        "${selectYearSemester[0].YEAR}", "${selectYearSemester[0].SEMESTER}");
+
     ever(selectedTimeTableId, (_) {
       bool needDownload = true;
       for (var item in selectTableList) {
@@ -109,5 +104,5 @@ class TimeTableController extends GetxController {
   }
 
   String get yearSem =>
-      "${selectYearSemester.value.YEAR}-${selectYearSemester.value.SEMESTER}";
+      "${selectYearSemester[yearSemesterIndex.value].YEAR}-${selectYearSemester[yearSemesterIndex.value].SEMESTER}";
 }

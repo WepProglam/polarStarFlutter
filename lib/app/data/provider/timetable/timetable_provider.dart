@@ -15,7 +15,7 @@ class TimetableApiClient {
     return response;
   }
 
-  Future getSemesterTimeTable(int YEAR, int SEMESTER) async {
+  Future getSemesterTimeTable(String YEAR, String SEMESTER) async {
     var response = await Session().getX("/timetable/${YEAR}/${SEMESTER}");
     return response;
   }

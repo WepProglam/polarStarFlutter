@@ -8,12 +8,11 @@ import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.d
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 
 class Timetable extends StatelessWidget {
-  const Timetable({Key key}) : super(key: key);
-
+  Timetable({Key key}) : super(key: key);
+  final TimeTableController timeTableController = Get.find();
+  final MainController mainController = Get.find();
   @override
   Widget build(BuildContext context) {
-    final TimeTableController timeTableController = Get.find();
-    final MainController mainController = Get.find();
     final Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -30,8 +29,7 @@ class Timetable extends StatelessWidget {
                 Row(children: [
                   Padding(
                     padding: const EdgeInsets.fromLTRB(15, 3.5, 0, 0),
-                    child: Text(
-                        "${timeTableController.selectYearSemester.value.YEAR}년 ${timeTableController.selectYearSemester.value.SEMESTER}학기",
+                    child: Text("${timeTableController.yearSem}",
                         style: const TextStyle(
                             color: const Color(0xff333333),
                             fontWeight: FontWeight.w400,
