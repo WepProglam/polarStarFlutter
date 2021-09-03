@@ -9,4 +9,14 @@ class TimetableApiClient {
     var response = await Session().getX("/timetable");
     return response;
   }
+
+  Future getTimeTable(int TIMETABLE_ID) async {
+    var response = await Session().getX("/timetable/table/tid/${TIMETABLE_ID}");
+    return response;
+  }
+
+  Future getSemesterTimeTable(int YEAR, int SEMESTER) async {
+    var response = await Session().getX("/timetable/${YEAR}/${SEMESTER}");
+    return response;
+  }
 }

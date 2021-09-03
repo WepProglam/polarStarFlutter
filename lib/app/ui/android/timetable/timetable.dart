@@ -24,7 +24,9 @@ class Timetable extends StatelessWidget {
             return SingleChildScrollView(
                 child: Column(
               children: [
-                TopIcon(),
+                TopIcon(
+                  timeTableController: timeTableController,
+                ),
                 Row(children: [
                   Padding(
                     padding: const EdgeInsets.fromLTRB(15, 3.5, 0, 0),
@@ -54,14 +56,16 @@ class Timetable extends StatelessWidget {
                   height: 44,
                   //시간표 리스트
                   child: TableList(
-                    modelList: timeTableController.otherTable,
+                    timeTableController: timeTableController,
                   ),
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 15, top: 22, bottom: 20),
                   height: 184.5,
                   //과목 리스트
-                  child: SubjectList(),
+                  child: SubjectList(
+                    timeTableController: timeTableController,
+                  ),
                 )
               ],
             ));

@@ -15,14 +15,13 @@ class TimeTableModel {
 }
 
 class SelectedTimeTableModel {
-  int YEAR, SEMESTER, TIMETABLE_ID, IS_SELECTED;
+  int YEAR, SEMESTER, TIMETABLE_ID;
 
   String NAME;
 
   List<dynamic> CLASSES;
 
-  SelectedTimeTableModel(
-      {YEAR, SEMESTER, TIMETABLE_ID, NAME, CLASSES, IS_SELECTED});
+  SelectedTimeTableModel({YEAR, SEMESTER, TIMETABLE_ID, NAME, CLASSES});
 
   SelectedTimeTableModel.fromJson(Map<String, dynamic> json) {
     this.YEAR = json["YEAR"];
@@ -30,7 +29,6 @@ class SelectedTimeTableModel {
     this.TIMETABLE_ID = json["TIMETABLE_ID"];
     this.NAME = json["NAME"];
     this.CLASSES = json["CLASSES"];
-    this.IS_SELECTED = json["IS_SELECTED"];
   }
 }
 
