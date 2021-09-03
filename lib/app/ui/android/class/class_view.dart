@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,12 +9,69 @@ import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/controller/class/class_view_controller.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 
+import 'package:polarstar_flutter/app/ui/android/class/functions/rating.dart';
+
 import 'package:polarstar_flutter/app/ui/android/class/widgets/class_preview.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/class_search_bar.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
 
 class ClassView extends StatelessWidget {
   const ClassView({Key key}) : super(key: key);
+
+  Widget writeEvaluation(BuildContext context) {
+    final ClassViewController classViewController = Get.find();
+
+    return Container(
+      height: 673,
+      margin: EdgeInsets.all(15),
+      child: Column(
+        children: [
+          Container(
+            width: 53,
+            height: 6,
+            child: Image.asset('assets/images/359.png', fit: BoxFit.fill),
+          ),
+          Row(
+            children: [
+              for (int i = 0; i < 5; i++)
+                InkWell(
+                    onTap: () {
+                      classViewController.commentRate(i + 1);
+                    },
+                    child: Obx(
+                      () => Container(
+                        width: 26.5,
+                        height: 26.5,
+                        child: Image.asset(
+                          i + 1 <= classViewController.commentRate.value
+                              ? 'assets/images/897.png'
+                              : 'assets/images/898.png',
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                    ))
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget writeExamInfo(BuildContext context) {
+    return Container(
+      height: 673,
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 14.5),
+            width: 53,
+            height: 6,
+            child: Image.asset('assets/images/359.png', fit: BoxFit.fill),
+          )
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +85,22 @@ class ClassView extends StatelessWidget {
         child: InkWell(
           onTap: () {
             if (classViewController.typeIndex.value == 0) {
-            } else {}
+              showModalBottomSheet(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(30),
+                          topRight: const Radius.circular(30))),
+                  context: context,
+                  builder: writeEvaluation);
+            } else {
+              showModalBottomSheet(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(30),
+                          topRight: const Radius.circular(30))),
+                  context: context,
+                  builder: writeExamInfo);
+            }
           },
           child: Container(
             height: 50,
@@ -131,6 +205,7 @@ class ClassViewInfo extends StatelessWidget {
   const ClassViewInfo({Key key, @required this.classInfoModel})
       : super(key: key);
   final ClassInfoModel classInfoModel;
+
   @override
   Widget build(BuildContext context) {
     // final ClassViewController classViewController = Get.find();
@@ -138,9 +213,10 @@ class ClassViewInfo extends StatelessWidget {
       decoration: BoxDecoration(color: Colors.white),
       child: Column(
         children: [
-          // class preview 재사용
           Container(
-            margin: EdgeInsets.all(10.0),
+            height: 107,
+            width: 375,
+            margin: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 22.5),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -152,189 +228,260 @@ class ClassViewInfo extends StatelessWidget {
                     spreadRadius: 1),
               ],
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          color: Colors.green[800],
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Icon(
-                        Icons.book,
-                        size: 60,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // 책 이미지
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 16.5, 15, 16),
+                  child: Container(
+                      width: 74.5,
+                      height: 74.5,
+                      child: Container(
+                        margin:
+                            const EdgeInsets.fromLTRB(19.5, 20.7, 19.4, 20.6),
+                        child: Image.asset(
+                          "assets/images/568.png",
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
-                    ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: const Color(0xff1a785c))),
+                ),
+                // 과목명 등
+                Container(
+                  margin: EdgeInsets.only(top: 12.5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        classInfoModel.CLASS_NAME,
+                        style: const TextStyle(
+                            color: const Color(0xff333333),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 18.0),
+                        textAlign: TextAlign.left,
+                        maxLines: 1,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 6, bottom: 6),
+                        child: Text(
+                          classInfoModel.PROFESSOR,
+                          style: const TextStyle(
+                              color: const Color(0xff333333),
+                              fontWeight: FontWeight.normal,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0),
+                          textAlign: TextAlign.left,
+                          maxLines: 1,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 94.4,
+                            height: 14.6,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children:
+                                  rate_star(classInfoModel.AVG_RATE, 14.6),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.6),
+                            child: Text(
+                              classInfoModel.AVG_RATE,
+                              style: const TextStyle(
+                                  color: const Color(0xff333333),
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: "PingFangSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16.0),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          classInfoModel.CLASS_NAME,
-                          textScaleFactor: 1,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4.0),
-                          child: Text(classInfoModel.PROFESSOR),
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.star,
-                              color: Colors.yellow[800],
-                            ),
-                            Icon(
-                              Icons.star,
-                              color: Colors.yellow[800],
-                            ),
-                            Icon(
-                              Icons.star,
-                              color: Colors.yellow[800],
-                            ),
-                            Icon(
-                              Icons.star_border,
-                              color: Colors.yellow[800],
-                            ),
-                            Icon(
-                              Icons.star_border,
-                              color: Colors.yellow[800],
-                            ),
-                            Text(classInfoModel.CREDIT),
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
           ),
 
           // 세부 내용
-          // Subject
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-            child: Row(
+          Container(
+            margin: EdgeInsets.only(left: 15, right: 15),
+            child: Column(
               children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Subject"),
+                // SECTOR
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.5),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "구분",
+                          style: TextStyle(
+                              color: const Color(0xff666666),
+                              fontWeight: FontWeight.normal,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          classInfoModel.SECTOR,
+                          style: TextStyle(
+                              color: const Color(0xff333333),
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0),
+                          textAlign: TextAlign.left,
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      classInfoModel.SECTOR,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          // Team Project: 서버에서 데이터가 안날라와서 No로 설정
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Team Project"),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "No",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          // Credit Ratio: 이것도 데이터가 안날라옴
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Credit Ratio"),
+                // Team Project
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.5),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "팀플량",
+                          style: TextStyle(
+                              color: const Color(0xff666666),
+                              fontWeight: FontWeight.normal,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          width: 154,
+                          height: 24,
+                          margin: EdgeInsets.only(right: 11),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: rate_heart(
+                                classInfoModel.AVG_RATE_GROUP_STUDY, 24),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      classInfoModel.CREDIT,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          // Attendance: 이것도 마찬가지
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Attendance"),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "99%",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          // Number Of Exams: 이것도
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Number of Exams"),
+                // 과제량
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.5),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "과제량",
+                          style: TextStyle(
+                              color: const Color(0xff666666),
+                              fontWeight: FontWeight.normal,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          width: 154,
+                          height: 24,
+                          margin: EdgeInsets.only(right: 11),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: rate_heart(
+                                classInfoModel.AVG_RATE_ASSIGNMENT, 24),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "General",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+                //시험공부량
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.5),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "시험 공부량",
+                          style: TextStyle(
+                              color: const Color(0xff666666),
+                              fontWeight: FontWeight.normal,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          width: 154,
+                          height: 24,
+                          margin: EdgeInsets.only(right: 11),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: rate_heart(
+                                classInfoModel.AVG_RATE_EXAM_STUDY, 24),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                )
+                ),
+                // 학점 비율
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "학점 비율",
+                          style: TextStyle(
+                              color: const Color(0xff666666),
+                              fontWeight: FontWeight.normal,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          width: 154,
+                          height: 24,
+                          margin: EdgeInsets.only(right: 11),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: rate_heart(
+                                classInfoModel.AVG_RATE_GRADE_RATIO, 24),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
+          )
+          // Sector
         ],
       ),
     );

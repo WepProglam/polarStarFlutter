@@ -10,6 +10,8 @@ class ClassViewController extends GetxController {
   final ClassRepository repository;
   ClassViewController({@required this.repository});
 
+  final commentRate = 5.obs;
+
   final classViewAvailable = false.obs;
   final classExamAvailable = false.obs;
 
