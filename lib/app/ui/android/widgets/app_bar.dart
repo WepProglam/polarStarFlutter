@@ -21,6 +21,11 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: [
         IconButton(
             onPressed: () {
+              Get.toNamed('/class');
+            },
+            icon: Text("Class")),
+        IconButton(
+            onPressed: () {
               Session().getX('/logout');
               Session.cookies = {};
               Session.headers['Cookie'] = '';
