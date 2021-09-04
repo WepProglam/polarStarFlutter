@@ -20,58 +20,79 @@ class Timetable extends StatelessWidget {
             CustomBottomNavigationBar(mainController: mainController),
         body: Obx(() {
           if (timeTableController.dataAvailable.value) {
-            return SingleChildScrollView(
-                child: Column(
-              children: [
-                TopIcon(
-                  timeTableController: timeTableController,
-                ),
-                Row(children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 3.5, 0, 0),
-                    child: Text("${timeTableController.yearSem}",
-                        style: const TextStyle(
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
-                        textAlign: TextAlign.left),
-                  ),
-                  Spacer(),
-                ]),
-                Container(
-                  width: size.width,
-                  color: Colors.black,
-                  margin: const EdgeInsets.only(top: 15.5),
-                  height: 479.3,
-                  child: Center(
-                    child: Text("시간표", style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 15, top: 20.3),
-                  height: 44,
-                  //시간표 리스트
-                  child: TableList(
-                    timeTableController: timeTableController,
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 15, top: 22, bottom: 20),
-                  height: 184.5,
-                  //과목 리스트
-                  child: SubjectList(
-                    timeTableController: timeTableController,
-                  ),
-                )
-              ],
-            ));
+            return TimeTableShell(
+                timeTableController: timeTableController, size: size);
           } else {
-            return CircularProgressIndicator();
+            return TimeTableShell(
+                timeTableController: timeTableController, size: size);
           }
         }),
       ),
     );
+  }
+}
+
+class TimeTableShell extends StatelessWidget {
+  const TimeTableShell({
+    Key key,
+    this.timeTableController,
+    this.size,
+  }) : super(key: key);
+
+  final TimeTableController timeTableController;
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+        child: Column(
+      children: [
+        Container(
+          // height: 16,
+          child: TopIcon(
+            timeTableController: timeTableController,
+          ),
+        ),
+        Row(children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15, 3.5, 0, 0),
+            child: Text("${timeTableController.yearSem}",
+                style: const TextStyle(
+                    color: const Color(0xff333333),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "PingFangSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
+                textAlign: TextAlign.left),
+          ),
+          Spacer(),
+        ]),
+        Container(
+          width: size.width,
+          color: Colors.black,
+          margin: const EdgeInsets.only(top: 15.5),
+          height: 479.3,
+          child: Center(
+            child: Text("시간표", style: TextStyle(color: Colors.white)),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 15, top: 20.3),
+          height: 44,
+          //시간표 리스트
+          child: TableList(
+            timeTableController: timeTableController,
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 15, top: 22, bottom: 20),
+          height: 184.5,
+          //과목 리스트
+          child: SubjectList(
+            timeTableController: timeTableController,
+          ),
+        )
+      ],
+    ));
   }
 }

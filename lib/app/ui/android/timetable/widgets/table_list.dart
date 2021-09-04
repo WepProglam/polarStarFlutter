@@ -14,12 +14,62 @@ class TopIcon extends StatelessWidget {
         children: [
           InkWell(
             //여기에 다이얼로그로 년도 학기 선택하는 창 띄우기
-            onTap: () {},
+            onTap: () {
+              // print()
+              Get.defaultDialog(
+                  title: "학기 선택",
+                  content: Container(
+                    width: 300,
+                    height: 100,
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount:
+                            timeTableController.selectYearSemester.length,
+                        // timeTableController.selectYearSemester.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          String yearSemester =
+                              "${timeTableController.selectYearSemester[index].YEAR}년 ${timeTableController.selectYearSemester[index].SEMESTER}학기";
+
+                          return InkWell(
+                            onTap: () async {
+                              timeTableController.yearSemesterIndex.value =
+                                  index;
+                              Get.back();
+                              await timeTableController.getSemesterTimeTable(
+                                  timeTableController
+                                      .selectYearSemester[index].YEAR,
+                                  timeTableController
+                                      .selectYearSemester[index].SEMESTER);
+                            },
+                            child: Container(
+                                child: Row(children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("${yearSemester}"),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                    "${timeTableController.selectYearSemester[index].NAME}"),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "DEFAULT",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                            ])),
+                          );
+                        }),
+                  ));
+            },
             child: Row(
               children: [
                 Container(
                   margin: const EdgeInsets.only(left: 15),
-                  child: Text("${timeTableController.selectTable.value.NAME}",
+                  child: Text(
+                      "${timeTableController.selectYearSemester[timeTableController.yearSemesterIndex.value].NAME}",
                       style: const TextStyle(
                           color: const Color(0xff333333),
                           fontWeight: FontWeight.w700,
@@ -110,61 +160,53 @@ class TableList extends StatelessWidget {
   final TimeTableController timeTableController;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-          itemCount: timeTableController
-              .otherTable["${timeTableController.yearSem}"].length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context, int index) {
-            return // 사각형 526
-                Obx(() {
-              return Container(
-                  width: 90,
-                  height: 44,
-                  margin: const EdgeInsets.only(right: 10),
-                  child: InkWell(
-                    onTap: () {
-                      timeTableController.selectedTimeTableId.value =
-                          timeTableController
-                              .otherTable["${timeTableController.yearSem}"]
-                                  [index]
-                              .value
-                              .TIMETABLE_ID;
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.fromLTRB(6.5, 12.5, 5.5, 13),
-                      child: Text("Third Grade",
-                          style: TextStyle(
-                              color: timeTableController
-                                          .otherTable[
-                                              "${timeTableController.yearSem}"]
-                                              [index]
-                                          .value
-                                          .TIMETABLE_ID ==
-                                      timeTableController
-                                          .selectTable.value.TIMETABLE_ID
-                                  ? Color(0xffffffff)
-                                  : Color(0xff1a4678),
-                              fontWeight: FontWeight.w700,
-                              fontFamily: "PingFangSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          textAlign: TextAlign.left),
+    return Obx(() {
+      return Container(
+        child: ListView.builder(
+            itemCount: timeTableController
+                .otherTable["${timeTableController.yearSem}"].length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (BuildContext context, int index) {
+              TimeTableModel model = timeTableController
+                  .otherTable["${timeTableController.yearSem}"][index].value;
+              return // 사각형 526
+                  Obx(() {
+                return Container(
+                    width: 90,
+                    height: 44,
+                    margin: const EdgeInsets.only(right: 10),
+                    child: InkWell(
+                      onTap: () {
+                        timeTableController.selectedTimeTableId.value =
+                            model.TIMETABLE_ID;
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(6.5, 12.5, 5.5, 13),
+                        child: Text(
+                            "${timeTableController.otherTable["${timeTableController.yearSem}"][index].value.NAME}",
+                            style: TextStyle(
+                                color: model.TIMETABLE_ID ==
+                                        timeTableController
+                                            .selectedTimeTableId.value
+                                    ? Color(0xffffffff)
+                                    : Color(0xff1a4678),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14.0),
+                            textAlign: TextAlign.left),
+                      ),
                     ),
-                  ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      color: timeTableController
-                                  .otherTable["${timeTableController.yearSem}"]
-                                      [index]
-                                  .value
-                                  .TIMETABLE_ID ==
-                              timeTableController.selectTable.value.TIMETABLE_ID
-                          ? Color(0xff1a4678)
-                          : Color(0xffebf4ff)));
-            });
-          }),
-    );
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        color: model.TIMETABLE_ID ==
+                                timeTableController.selectedTimeTableId.value
+                            ? Color(0xff1a4678)
+                            : Color(0xffebf4ff)));
+              });
+            }),
+      );
+    });
   }
 }
 
@@ -181,6 +223,9 @@ class SubjectList extends StatelessWidget {
             itemCount: timeTableController.selectTable.value.CLASSES.length + 1,
             scrollDirection: Axis.horizontal,
             itemBuilder: (BuildContext context, int i) {
+              if (i < timeTableController.selectTable.value.CLASSES.length) {
+                print(timeTableController.selectTable.value.CLASSES[i]);
+              }
               return i == timeTableController.selectTable.value.CLASSES.length
                   ? Container(
                       width: 157.5,
@@ -226,7 +271,7 @@ class SubjectList extends StatelessWidget {
                                   const EdgeInsets.only(top: 9.5, bottom: 11.5),
                               child: // Your subject
                                   Text(
-                                      "${timeTableController.selectTable.value.NAME}",
+                                      "${timeTableController.selectTable.value.CLASSES[i]["className"]}",
                                       style: const TextStyle(
                                           color: const Color(0xff333333),
                                           fontWeight: FontWeight.w900,

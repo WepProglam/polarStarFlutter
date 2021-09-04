@@ -13,20 +13,30 @@ class TimeTableController extends GetxController {
   TimeTableController({@required this.repository});
 
   final dataAvailable = false.obs;
-  RxInt selectedTimeTableId = 0.obs;
 
+  // 학기별 시간표 간략 정보 리스트
   Map<String, RxList<Rx<TimeTableModel>>> otherTable =
       <String, RxList<Rx<TimeTableModel>>>{}.obs;
+
+  //(선택된) 세부 정보 시간표
   Rx<SelectedTimeTableModel> selectTable = SelectedTimeTableModel().obs;
 
+  // 고유번호 별 세부 정보 시간표 리스트
   RxList<SelectedTimeTableModel> selectTableList =
       <SelectedTimeTableModel>[].obs;
 
+  // 고유번호 인덱스
+  RxInt selectedTimeTableId = 0.obs;
+
+  // 학기별 디폴트 시간표 리스트
   Map<String, Rx<SelectedTimeTableModel>> defaultTableList =
       <String, Rx<SelectedTimeTableModel>>{}.obs;
 
+  //  디폴트 시간표들의 간략 정보 리스트
   RxList<SelectYearSemesterModel> selectYearSemester =
       <SelectYearSemesterModel>[].obs;
+
+  // 디폴트 시간표 선택용 인덱스
   RxInt yearSemesterIndex = 0.obs;
 
   Future<void> refreshPage() async {
@@ -34,22 +44,37 @@ class TimeTableController extends GetxController {
   }
 
   Future getSemesterTimeTable(String YEAR, String SEMESTER) async {
-    Map<String, dynamic> jsonResponse =
-        await repository.getSemesterTimeTable(YEAR, SEMESTER);
+    if (need_download_semester(YEAR, SEMESTER)) {
+      dataAvailable(false);
 
-    switch (jsonResponse["statusCode"]) {
-      case 200:
-        otherTable["${YEAR}-${SEMESTER}"] = jsonResponse["otherTable"];
-        defaultTableList["${YEAR}-${SEMESTER}"] = selectTable;
+      Map<String, dynamic> jsonResponse =
+          await repository.getSemesterTimeTable(YEAR, SEMESTER);
 
-        selectTable = jsonResponse["defaultTable"];
-        selectTableList.add(jsonResponse["defaultTable"].value);
+      switch (jsonResponse["statusCode"]) {
+        case 200:
+          otherTable["${YEAR}년 ${SEMESTER}학기"] = jsonResponse["otherTable"];
 
-        dataAvailable(true);
-        break;
-      default:
-        dataAvailable(false);
-        printError(info: "Data Fetch ERROR!!");
+          selectTable = jsonResponse["defaultTable"];
+
+          selectedTimeTableId.value = selectTable.value.TIMETABLE_ID;
+
+          defaultTableList["${YEAR}년 ${SEMESTER}학기"] = selectTable;
+
+          selectTableList.add(jsonResponse["defaultTable"].value);
+
+          dataAvailable(true);
+          break;
+        default:
+          dataAvailable(false);
+          printError(info: "Data Fetch ERROR!!");
+      }
+    } else {
+      dataAvailable(false);
+
+      selectTable = defaultTableList["${YEAR}년 ${SEMESTER}학기"];
+      selectedTimeTableId.value = selectTable.value.TIMETABLE_ID;
+
+      dataAvailable(true);
     }
   }
 
@@ -71,31 +96,49 @@ class TimeTableController extends GetxController {
     }
   }
 
+  bool need_download_semester(String YEAR, String SEMESTER) {
+    if (otherTable["${YEAR}년 ${SEMESTER}학기"] != null) {
+      print("false");
+      return false;
+    }
+    print("true");
+    return true;
+  }
+
+  bool need_download_tableId() {
+    bool needDownload = true;
+    for (var item in selectTableList) {
+      if (item.TIMETABLE_ID == selectedTimeTableId.value) {
+        selectTable.value = item;
+        needDownload = false;
+        break;
+      }
+    }
+    return needDownload;
+  }
+
   Future getTableInfo() async {
     var response = await Session().getX("/timetable");
     Iterable tableInfoJson = jsonDecode(response.body);
     print(tableInfoJson);
     selectYearSemester.value =
         tableInfoJson.map((e) => SelectYearSemesterModel.fromJson(e)).toList();
+
+    print(selectYearSemester.length);
   }
 
   @override
   void onInit() async {
     super.onInit();
     await getTableInfo();
-    await getSemesterTimeTable(
-        "${selectYearSemester[0].YEAR}", "${selectYearSemester[0].SEMESTER}");
+
+    if (selectYearSemester.length > 0) {
+      await getSemesterTimeTable(
+          "${selectYearSemester[0].YEAR}", "${selectYearSemester[0].SEMESTER}");
+    }
 
     ever(selectedTimeTableId, (_) {
-      bool needDownload = true;
-      for (var item in selectTableList) {
-        if (item.TIMETABLE_ID == selectedTimeTableId.value) {
-          selectTable.value = item;
-          needDownload = false;
-          break;
-        }
-      }
-
+      bool needDownload = need_download_tableId();
       if (needDownload) {
         print("need Download ${selectedTimeTableId.value}!");
         getTimeTable(selectedTimeTableId.value);
@@ -104,5 +147,5 @@ class TimeTableController extends GetxController {
   }
 
   String get yearSem =>
-      "${selectYearSemester[yearSemesterIndex.value].YEAR}-${selectYearSemester[yearSemesterIndex.value].SEMESTER}";
+      "${selectYearSemester[yearSemesterIndex.value].YEAR}년 ${selectYearSemester[yearSemesterIndex.value].SEMESTER}학기";
 }
