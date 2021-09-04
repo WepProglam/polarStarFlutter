@@ -25,31 +25,220 @@ class ClassView extends StatelessWidget {
       height: 673,
       margin: EdgeInsets.all(15),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 53,
-            height: 6,
-            child: Image.asset('assets/images/359.png', fit: BoxFit.fill),
+          Center(
+            child: Container(
+              width: 53,
+              height: 6,
+              child: Image.asset('assets/images/359.png', fit: BoxFit.fill),
+            ),
           ),
-          Row(
-            children: [
-              for (int i = 0; i < 5; i++)
-                InkWell(
-                    onTap: () {
-                      classViewController.commentRate(i + 1);
-                    },
-                    child: Obx(
-                      () => Container(
-                        width: 26.5,
-                        height: 26.5,
-                        child: Image.asset(
-                          i + 1 <= classViewController.commentRate.value
-                              ? 'assets/images/897.png'
-                              : 'assets/images/898.png',
-                          fit: BoxFit.fitHeight,
+
+          // 전체 별점
+          Padding(
+            padding: const EdgeInsets.only(top: 25.1),
+            child: Row(
+              children: [
+                for (int i = 0; i < 5; i++)
+                  InkWell(
+                      onTap: () {
+                        classViewController.commentRate(i + 1);
+                      },
+                      child: Obx(
+                        () => Container(
+                          width: 26.5,
+                          height: 26.5,
+                          child: Image.asset(
+                            i + 1 <= classViewController.commentRate.value
+                                ? 'assets/images/897.png'
+                                : 'assets/images/898.png',
+                            fit: BoxFit.fitHeight,
+                          ),
                         ),
-                      ),
-                    ))
+                      )),
+                Padding(
+                  padding: const EdgeInsets.only(left: 37.3),
+                  child: Obx(() => Text(
+                        "${classViewController.commentRate}/5",
+                        style: TextStyle(
+                            color: const Color(0xff333333),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 21.0),
+                      )),
+                )
+              ],
+            ),
+          ),
+
+          // 구분선
+          Container(
+            margin: EdgeInsets.only(top: 21.6, bottom: 23.9),
+            height: 0.5,
+            decoration: BoxDecoration(color: Colors.grey),
+          ),
+
+          // 세부 별점들 실제론 하트여야할 듯
+          Container(
+            margin: EdgeInsets.only(bottom: 17.5),
+            child: Row(
+              children: [
+                Text(
+                  "팀플량",
+                  style: TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.0),
+                ),
+                Spacer(),
+                for (int i = 0; i < 5; i++)
+                  InkWell(
+                      onTap: () {
+                        classViewController.teamProjectRate(i + 1);
+                      },
+                      child: Obx(
+                        () => Container(
+                          width: 21.5,
+                          height: 21.5,
+                          // 하트로 바꿔야 되는데 이미지가 없음
+                          child: Image.asset(
+                            i + 1 <= classViewController.teamProjectRate.value
+                                ? 'assets/images/897.png'
+                                : 'assets/images/898.png',
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      )),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "과제량",
+                  style: TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.0),
+                ),
+                Spacer(),
+                for (int i = 0; i < 5; i++)
+                  InkWell(
+                      onTap: () {
+                        classViewController.homeworkRate(i + 1);
+                      },
+                      child: Obx(
+                        () => Container(
+                          width: 21.5,
+                          height: 21.5,
+                          // 하트로 바꿔야 되는데 이미지가 없음
+                          child: Image.asset(
+                            i + 1 <= classViewController.homeworkRate.value
+                                ? 'assets/images/897.png'
+                                : 'assets/images/898.png',
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      )),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 17.5),
+            child: Row(
+              children: [
+                Text(
+                  "시험 공부량",
+                  style: TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.0),
+                ),
+                Spacer(),
+                for (int i = 0; i < 5; i++)
+                  InkWell(
+                      onTap: () {
+                        classViewController.examRate(i + 1);
+                      },
+                      child: Obx(
+                        () => Container(
+                          width: 21.5,
+                          height: 21.5,
+                          // 하트로 바꿔야 되는데 이미지가 없음
+                          child: Image.asset(
+                            i + 1 <= classViewController.examRate.value
+                                ? 'assets/images/897.png'
+                                : 'assets/images/898.png',
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      )),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              children: [
+                Text(
+                  "학점 비율",
+                  style: TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.0),
+                ),
+                Spacer(),
+                for (int i = 0; i < 5; i++)
+                  InkWell(
+                      onTap: () {
+                        classViewController.gradeRate(i + 1);
+                      },
+                      child: Obx(
+                        () => Container(
+                          width: 21.5,
+                          height: 21.5,
+                          // 하트로 바꿔야 되는데 이미지가 없음
+                          child: Image.asset(
+                            i + 1 <= classViewController.gradeRate.value
+                                ? 'assets/images/897.png'
+                                : 'assets/images/898.png',
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      )),
+              ],
+            ),
+          ),
+          // 구분선
+          Container(
+            margin: EdgeInsets.only(top: 33.1, bottom: 13.8),
+            height: 0.5,
+            decoration: BoxDecoration(color: Colors.grey),
+          ),
+
+          // General Comment
+          Column(
+            children: [
+              Text(
+                "General Comment",
+                style: TextStyle(
+                    color: const Color(0xff333333),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "PingFangSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 18.0),
+                textAlign: TextAlign.left,
+              ),
             ],
           )
         ],

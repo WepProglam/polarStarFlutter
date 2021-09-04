@@ -11,6 +11,10 @@ class ClassViewController extends GetxController {
   ClassViewController({@required this.repository});
 
   final commentRate = 5.obs;
+  final teamProjectRate = 5.obs;
+  final homeworkRate = 5.obs;
+  final examRate = 5.obs;
+  final gradeRate = 5.obs;
 
   final classViewAvailable = false.obs;
   final classExamAvailable = false.obs;
