@@ -36,4 +36,14 @@ class ClassApiClient {
         .getX('/class/exam/$CLASS_ID/like?CLASS_EXAM_ID=$CLASS_EXAM_ID');
     return response;
   }
+
+  Future postComment(int CLASS_ID, Map data) async {
+    final response = await Session().postX("/class/view/$CLASS_ID", data);
+    return response;
+  }
+
+  Future postExam(int CLASS_ID, Map data) async {
+    final response = await Session().postX("/class/exam/$CLASS_ID", data);
+    return response;
+  }
 }

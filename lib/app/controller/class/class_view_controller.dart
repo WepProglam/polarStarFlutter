@@ -16,6 +16,8 @@ class ClassViewController extends GetxController {
   final examRate = 5.obs;
   final gradeRate = 5.obs;
 
+  final writeCommentSemester = 0.obs;
+
   final classViewAvailable = false.obs;
   final classExamAvailable = false.obs;
 
@@ -138,6 +140,38 @@ class ClassViewController extends GetxController {
         Get.snackbar('500 Error', 'failed');
         break;
       default:
+    }
+  }
+
+  Future postComment(int CLASS_ID, Map data) async {
+    final jsonResponse = await repository.postComment(CLASS_ID, data);
+
+    switch (jsonResponse["statusCode"]) {
+      case 200:
+        Get.snackbar("강평 작성 완료", "강의평가 작성이 완료되었습니다.",
+            duration: Duration(seconds: 2));
+        Get.back();
+
+        break;
+      default:
+        print(jsonResponse["statusCode"]);
+        Get.snackbar("강평 작성 실패", "Failed", duration: Duration(seconds: 2));
+    }
+  }
+
+  Future postExam(int CLASS_ID, Map data) async {
+    final jsonResponse = await repository.postExam(CLASS_ID, data);
+
+    switch (jsonResponse["statusCode"]) {
+      case 200:
+        Get.snackbar("시험정보 작성 완료", "시험정보 작성이 완료되었습니다.",
+            duration: Duration(seconds: 2));
+        Get.back();
+
+        break;
+      default:
+        print(jsonResponse["statusCode"]);
+        Get.snackbar("시험정보 작성 실패", "Failed", duration: Duration(seconds: 2));
     }
   }
 
