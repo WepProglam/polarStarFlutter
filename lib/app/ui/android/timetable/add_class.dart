@@ -7,6 +7,28 @@ import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.da
 
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 
+const inputDecoration = InputDecoration(
+    isDense: true,
+    border: InputBorder.none,
+    focusedBorder: InputBorder.none,
+    enabledBorder: InputBorder.none,
+    errorBorder: InputBorder.none,
+    disabledBorder: InputBorder.none,
+    hintStyle: const TextStyle(
+        color: const Color(0xff999999),
+        fontWeight: FontWeight.w400,
+        fontFamily: "PingFangSC",
+        fontStyle: FontStyle.normal,
+        fontSize: 14.0),
+    hintText: "Please enter the course name");
+
+const textStyle = const TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.w400,
+    fontFamily: "PingFangSC",
+    fontStyle: FontStyle.normal,
+    fontSize: 14.0);
+
 class TimetableAddClass extends StatelessWidget {
   TimetableAddClass({Key key}) : super(key: key);
   final TimeTableController timeTableController = Get.find();
@@ -16,6 +38,7 @@ class TimetableAddClass extends StatelessWidget {
   Widget build(BuildContext context) {
     print("asdfasdf");
     final Size size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Scaffold(
           body: SingleChildScrollView(
@@ -65,14 +88,33 @@ class TimetableAddClass extends StatelessWidget {
                           child: // complete
                               Padding(
                             padding: const EdgeInsets.fromLTRB(7.5, 4, 7, 5.5),
-                            child: Text("Complete",
-                                style: const TextStyle(
-                                    color: const Color(0xff1a4678),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "PingFangSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                textAlign: TextAlign.center),
+                            child: InkWell(
+                              onTap: () {
+                                print(timeTableAddClassController
+                                    .TOTAL_CLASS.value.className);
+                                print(timeTableAddClassController
+                                    .TOTAL_CLASS.value.professor);
+                                for (var item
+                                    in timeTableAddClassController.CLASS_LIST) {
+                                  //여기 검증하는 코드 추가 필요
+                                  print(item.value.day);
+                                  print(item.value.start_time);
+                                  print(item.value.end_time);
+                                  print(item.value.classRoom);
+                                }
+                                timeTableAddClassController.addClass(
+                                    timeTableController
+                                        .selectedTimeTableId.value);
+                              },
+                              child: Text("Complete",
+                                  style: const TextStyle(
+                                      color: const Color(0xff1a4678),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "PingFangSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  textAlign: TextAlign.center),
+                            ),
                           ),
                           decoration: BoxDecoration(
                               borderRadius:
@@ -85,7 +127,8 @@ class TimetableAddClass extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(top: 12.5),
             color: Colors.black,
-            height: 479.3,
+            // height: 479.3,
+            height: 150,
             child: Center(
               child: Text(
                 "시간표",
@@ -104,27 +147,32 @@ class TimetableAddClass extends StatelessWidget {
                   children: [
                     Padding(
                         padding: const EdgeInsets.only(bottom: 12),
-                        child: // Course name
-                            Text("Course name",
-                                style: const TextStyle(
-                                    color: const Color(0xff333333),
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "PingFangSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 16.0),
-                                textAlign: TextAlign.center) // renyuan – 2
+                        child: Text("Course name",
+                            style: const TextStyle(
+                                color: const Color(0xff333333),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 16.0),
+                            textAlign: TextAlign.center) // renyuan – 2
 
                         ),
                     Padding(
                       padding: const EdgeInsets.only(left: 5, bottom: 14.3),
-                      child: Text("Please enter the course name",
-                          style: const TextStyle(
-                              color: const Color(0xff999999),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "PingFangSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          textAlign: TextAlign.center),
+                      child: TextFormField(
+                        controller:
+                            timeTableAddClassController.professorNameController,
+                        onChanged: (value) {
+                          timeTableAddClassController.TOTAL_CLASS.update((val) {
+                            val.professor = timeTableAddClassController
+                                .professorNameController.text;
+                          });
+                        },
+                        maxLines: 1,
+                        style: textStyle,
+                        textAlign: TextAlign.left,
+                        decoration: inputDecoration,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 0.3),
@@ -156,14 +204,21 @@ class TimetableAddClass extends StatelessWidget {
                                   textAlign: TextAlign.center)),
                       Padding(
                         padding: const EdgeInsets.only(left: 6.1, bottom: 14.3),
-                        child: Text("Please enter the course name",
-                            style: const TextStyle(
-                                color: const Color(0xff999999),
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14.0),
-                            textAlign: TextAlign.center),
+                        child: TextFormField(
+                          controller:
+                              timeTableAddClassController.courseNameController,
+                          onChanged: (value) {
+                            timeTableAddClassController.TOTAL_CLASS
+                                .update((val) {
+                              val.className = timeTableAddClassController
+                                  .courseNameController.text;
+                            });
+                          },
+                          maxLines: 1,
+                          style: textStyle,
+                          textAlign: TextAlign.left,
+                          decoration: inputDecoration,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 0.3),
@@ -208,13 +263,11 @@ class ClassInfoTPO extends StatelessWidget {
 
     return Obx(() {
       if (timeTableAddClassController.dataAvailable.value) {
-        int classIndex = timeTableAddClassController.selectIndex.value;
-        Rx<AddClassModel> newClass =
-            timeTableAddClassController.CLASS_LIST[classIndex];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
+            Container(
+                height: 21.5,
                 padding: const EdgeInsets.only(left: 2.5),
                 child:
                     // Class time and place
@@ -226,31 +279,51 @@ class ClassInfoTPO extends StatelessWidget {
                             fontStyle: FontStyle.normal,
                             fontSize: 16.0),
                         textAlign: TextAlign.center)),
-            Container(
-              child: TpoSelector(
-                  timeTableAddClassController: timeTableAddClassController,
-                  classIndex: classIndex,
-                  days: days,
-                  size: size),
-              padding: const EdgeInsets.only(bottom: 18.8),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 6.1, bottom: 14.3),
-              child: Text("Please enter the course name",
-                  style: const TextStyle(
-                      color: const Color(0xff999999),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "PingFangSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                  textAlign: TextAlign.center),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 0.3),
+            Obx(() {
+              double height =
+                  timeTableAddClassController.CLASS_LIST.length * 120.0;
+              return Container(
+                height: height,
+                child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: timeTableAddClassController.CLASS_LIST.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        child: TpoSelector(
+                            timeTableAddClassController:
+                                timeTableAddClassController,
+                            classIndex: index,
+                            days: days,
+                            size: size),
+                        padding: const EdgeInsets.only(bottom: 18.8),
+                      );
+                    }),
+              );
+            }),
+
+            // 사각형 511
+            InkWell(
+              onTap: () {
+                print(timeTableAddClassController.CLASS_LIST.length);
+                timeTableAddClassController.selectIndex.value += 1;
+              },
               child: Container(
-                  width: size.width - 15.3 - 14.8,
-                  height: 0.5,
-                  decoration: BoxDecoration(color: const Color(0xffdedede))),
+                  width: 80,
+                  height: 28,
+                  child: // complete
+                      Center(
+                    child: Text("장소 및 시간 추가",
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 10.0),
+                        textAlign: TextAlign.center),
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(28)),
+                      color: Colors.red)),
             )
           ],
         );
@@ -262,7 +335,7 @@ class ClassInfoTPO extends StatelessWidget {
 }
 
 class TpoSelector extends StatelessWidget {
-  const TpoSelector(
+  TpoSelector(
       {Key key,
       @required this.timeTableAddClassController,
       @required this.days,
@@ -274,10 +347,15 @@ class TpoSelector extends StatelessWidget {
   final List<String> days;
   final Size size;
   final int classIndex;
+  final TextEditingController textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    print(timeTableAddClassController.CLASS_LIST[classIndex].value.start_time);
+    print(timeTableAddClassController.CLASS_LIST[classIndex].value.end_time);
+
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           child: Row(
@@ -308,7 +386,9 @@ class TpoSelector extends StatelessWidget {
               }),
               Spacer(),
               Container(
-                child: ClassTrashCan(),
+                child: ClassTrashCan(
+                    classIndex: classIndex,
+                    timeTableAddClassController: timeTableAddClassController),
                 margin: const EdgeInsets.only(right: 21.4),
               )
             ],
@@ -320,24 +400,57 @@ class TpoSelector extends StatelessWidget {
           // margin: const EdgeInsets.only(top: 14.3),
           decoration: BoxDecoration(color: const Color(0xffdedede)),
         ),
+        Container(
+          padding: const EdgeInsets.only(top: 18.8),
+          child: TextFormField(
+            controller:
+                timeTableAddClassController.classLocationController[classIndex],
+            onChanged: (value) {
+              timeTableAddClassController.CLASS_LIST[classIndex].update((val) {
+                val.classRoom = timeTableAddClassController
+                    .classLocationController[classIndex].text;
+              });
+            },
+            maxLines: 1,
+            style: textStyle,
+            textAlign: TextAlign.left,
+            decoration: inputDecoration,
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.only(top: 14.3),
+          child: Container(
+              width: size.width - 15.3 - 14.8,
+              height: 0.5,
+              decoration: BoxDecoration(color: const Color(0xffdedede))),
+        ),
       ],
     );
   }
 }
 
 class ClassTrashCan extends StatelessWidget {
-  const ClassTrashCan({
-    Key key,
-  }) : super(key: key);
+  final TimeTableAddClassController timeTableAddClassController;
+  final int classIndex;
+  const ClassTrashCan(
+      {Key key,
+      @required this.timeTableAddClassController,
+      @required this.classIndex})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 17.104248046875,
-      height: 16.619873046875,
-      child: Image.asset(
-        "assets/images/15_4.png",
-        fit: BoxFit.fitHeight,
+    return InkWell(
+      onTap: () {
+        timeTableAddClassController.CLASS_LIST.removeAt(classIndex);
+      },
+      child: Container(
+        width: 17.104248046875,
+        height: 16.619873046875,
+        child: Image.asset(
+          "assets/images/15_4.png",
+          fit: BoxFit.fitHeight,
+        ),
       ),
     );
   }
@@ -400,9 +513,23 @@ class SelectStartTime extends StatelessWidget {
             context: context,
             initialTime: TimeOfDay(
                 hour: int.parse(timeInfo[0]), minute: int.parse(timeInfo[1])));
-        newClass.update((val) {
-          val.start_time = "${time.hour}:${time.minute}";
-        });
+        if (time.hour > 21 || time.hour < 9) {
+          Get.snackbar("9시에서 21시 사이로 선택해주세요", "9시에서 21시 사이로 선택해주세요");
+        } else {
+          newClass.update((val) {
+            String tempHour = time.hour.toString();
+            String tempMin = time.minute.toString();
+
+            if (tempHour.length == 1) {
+              tempHour = "0" + tempHour;
+            }
+
+            if (tempMin.length == 1) {
+              tempMin += "0";
+            }
+            val.start_time = "${tempHour}:${tempMin}";
+          });
+        }
       },
       child: Obx(() {
         return Row(children: [
@@ -445,9 +572,24 @@ class SelectEndTime extends StatelessWidget {
             context: context,
             initialTime: TimeOfDay(
                 hour: int.parse(timeInfo[0]), minute: int.parse(timeInfo[1])));
-        newClass.update((val) {
-          val.end_time = "${time.hour}:${time.minute}";
-        });
+
+        if (time.hour > 21 || time.hour < 9) {
+          Get.snackbar("9시에서 21시 사이로 선택해주세요", "9시에서 21시 사이로 선택해주세요");
+        } else {
+          newClass.update((val) {
+            String tempHour = time.hour.toString();
+            String tempMin = time.minute.toString();
+
+            if (tempHour.length == 1) {
+              tempHour = "0" + tempHour;
+            }
+
+            if (tempMin.length == 1) {
+              tempMin += "0";
+            }
+            val.end_time = "${tempHour}:${tempMin}";
+          });
+        }
       },
       child: Obx(() {
         return Row(children: [

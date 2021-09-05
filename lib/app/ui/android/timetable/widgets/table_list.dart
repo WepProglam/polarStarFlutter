@@ -283,15 +283,21 @@ class SubjectList extends StatelessWidget {
                                           fontSize: 16.0),
                                       textAlign: TextAlign.left),
                             ),
-                            SubjectPreviewList(
-                                text:
-                                    "학수번호 : ${timeTableController.selectTable.value.CLASSES[i].classNumber}"),
-                            SubjectPreviewList(
-                                text:
-                                    "학점 : ${timeTableController.selectTable.value.CLASSES[i].credit}"),
-                            SubjectPreviewList(
-                                text:
-                                    "교수명 : ${timeTableController.selectTable.value.CLASSES[i].professor}"),
+                            FittedBox(
+                              child: SubjectPreviewList(
+                                  text:
+                                      "학수번호 : ${timeTableController.selectTable.value.CLASSES[i].classNumber}"),
+                            ),
+                            FittedBox(
+                              child: SubjectPreviewList(
+                                  text:
+                                      "학점 : ${timeTableController.selectTable.value.CLASSES[i].credit}"),
+                            ),
+                            FittedBox(
+                              child: SubjectPreviewList(
+                                  text:
+                                      "교수명 : ${timeTableController.selectTable.value.CLASSES[i].professor}"),
+                            ),
                           ],
                         ),
                       ),

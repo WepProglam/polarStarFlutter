@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class TimeTableClassModel {
   String professor, sector, degreeCourse, classNumber, className, refer;
   int classID, credit;
@@ -32,15 +34,17 @@ class TimeTableClassModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['professor'] = this.professor;
-    data['sector'] = this.sector;
-    data["degreeCourse"] = this.degreeCourse;
-    data["classNumber"] = this.classNumber;
-    data["className"] = this.className;
-    data["refer"] = this.refer;
-    data["classID"] = this.classID;
-    data["credit"] = this.credit;
-    data["classes"] = this.classes;
+    data['professor'] = this.professor == null ? "김갑생" : this.professor;
+    data['sector'] = this.sector == null ? "전공필수" : this.sector;
+    data["degreeCourse"] = this.degreeCourse == null ? "학사" : this.degreeCourse;
+    data["classNumber"] = this.classNumber == null ? "11111" : this.classNumber;
+    data["className"] = this.className == null ? "할머니김" : this.className;
+    data["refer"] = this.refer == null ? "" : this.refer;
+
+    data["classID"] = this.classID == null ? '0' : "${this.classID}";
+    data["credit"] = this.credit == null ? '3' : "${this.credit}";
+
+    data["classes"] = this.classes.map((e) => e.toJson()).toList();
     return data;
   }
 }
@@ -64,8 +68,10 @@ class AddClassModel {
     data['start_time'] = this.start_time;
     data['end_time'] = this.end_time;
     data["day"] = this.day;
+    data["total_elapsed_time"] = "60";
     data["classRoom"] = this.classRoom;
-    data["online"] = this.online;
+    data["campus"] = "자연과학캠퍼스";
+    data["online"] = this.online == null ? '1' : "${this.online}";
     return data;
   }
 }

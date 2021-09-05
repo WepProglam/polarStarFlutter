@@ -138,6 +138,7 @@ class TimeTableController extends GetxController {
     }
 
     ever(selectedTimeTableId, (_) {
+      print(selectedTimeTableId.value);
       bool needDownload = need_download_tableId();
       if (needDownload) {
         print("need Download ${selectedTimeTableId.value}!");

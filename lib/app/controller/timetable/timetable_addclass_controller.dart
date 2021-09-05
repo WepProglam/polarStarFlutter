@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,9 +7,11 @@ import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_addclass_repository.dart';
 
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_repository.dart';
+import 'package:polarstar_flutter/session.dart';
 
 class TimeTableAddClassController extends GetxController {
   final TimeTableAddClassRepository repository;
+
   TimeTableAddClassController({@required this.repository});
 
   Rx<TimeTableClassModel> TOTAL_CLASS = TimeTableClassModel().obs;
@@ -18,12 +22,30 @@ class TimeTableAddClassController extends GetxController {
 
   RxBool dataAvailable = false.obs;
 
+  RxList<TextEditingController> classLocationController =
+      <TextEditingController>[].obs;
+
+  TextEditingController courseNameController = new TextEditingController();
+
+  TextEditingController professorNameController = new TextEditingController();
+
+  Future<void> addClass(int tid) async {
+    TOTAL_CLASS.update((val) {
+      val.classes = CLASS_LIST.map((element) => element.value).toList();
+    });
+
+    Map<String, dynamic> data = TOTAL_CLASS.toJson();
+
+    await Session().postX("/timetable/tid/${tid}", data);
+  }
+
   void initClass() {
     Rx<AddClassModel> tmp = AddClassModel.fromJson({
       "day": "월요일",
-      "start_time": "9:0",
-      "end_time": "10:0",
+      "start_time": "09:00",
+      "end_time": "10:00",
     }).obs;
+    classLocationController.add(new TextEditingController());
 
     CLASS_LIST.add(tmp);
   }
@@ -33,9 +55,16 @@ class TimeTableAddClassController extends GetxController {
     super.onInit();
     initClass();
     dataAvailable.value = true;
+    ever(CLASS_LIST, (_) {
+      for (var item in CLASS_LIST) {
+        print(item.value.day);
+        print(item.value.start_time);
+        print(item.value.end_time);
+      }
+    });
 
     ever(selectIndex, (_) {
-      if (CLASS_LIST[selectIndex.value] != null) {
+      if (CLASS_LIST.length > selectIndex.value) {
       } else {
         initClass();
       }
