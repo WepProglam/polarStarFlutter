@@ -16,6 +16,7 @@ import 'package:polarstar_flutter/app/bindings/sign_up_binding.dart';
 import 'package:polarstar_flutter/app/bindings/class/class_binding.dart';
 import 'package:polarstar_flutter/app/bindings/class/class_search_binding.dart';
 import 'package:polarstar_flutter/app/bindings/class/class_view_binding.dart';
+import 'package:polarstar_flutter/app/bindings/timetable/timetable_addclass_binding.dart';
 import 'package:polarstar_flutter/app/bindings/timetable/timetable_binding.dart';
 
 import 'package:polarstar_flutter/app/ui/android/board/board.dart';
@@ -36,6 +37,7 @@ import 'package:polarstar_flutter/app/ui/android/sign_up/sign_up_page.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class_search.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class_view.dart';
+import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/timetable.dart';
 
 part './app_routes.dart';
@@ -143,5 +145,9 @@ class AppPages {
       page: () => Timetable(),
       binding: TimetableBinding(),
     ),
+    GetPage(
+        name: Routes.TIMETABLE_ADDCLASS,
+        page: () => TimetableAddClass(),
+        binding: TimetableClassBinding())
   ];
 }

@@ -6,7 +6,6 @@ import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart'
 class TopIcon extends StatelessWidget {
   final TimeTableController timeTableController;
   const TopIcon({Key key, this.timeTableController}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -25,7 +24,6 @@ class TopIcon extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount:
                             timeTableController.selectYearSemester.length,
-                        // timeTableController.selectYearSemester.length,
                         itemBuilder: (BuildContext context, int index) {
                           String yearSemester =
                               "${timeTableController.selectYearSemester[index].YEAR}년 ${timeTableController.selectYearSemester[index].SEMESTER}학기";
@@ -227,16 +225,21 @@ class SubjectList extends StatelessWidget {
                 print(timeTableController.selectTable.value.CLASSES[i]);
               }
               return i == timeTableController.selectTable.value.CLASSES.length
-                  ? Container(
-                      width: 157.5,
-                      height: 184.5,
-                      margin: const EdgeInsets.only(right: 31),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(36)),
-                          color: const Color(0xfffff7e6)),
-                      child: Icon(
-                        Icons.add,
-                        size: 50,
+                  ? InkWell(
+                      onTap: () {
+                        Get.toNamed("/timetable/addClass");
+                      },
+                      child: Container(
+                        width: 157.5,
+                        height: 184.5,
+                        margin: const EdgeInsets.only(right: 31),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(36)),
+                            color: const Color(0xfffff7e6)),
+                        child: Icon(
+                          Icons.add,
+                          size: 50,
+                        ),
                       ),
                     )
                   : Container(
@@ -271,7 +274,7 @@ class SubjectList extends StatelessWidget {
                                   const EdgeInsets.only(top: 9.5, bottom: 11.5),
                               child: // Your subject
                                   Text(
-                                      "${timeTableController.selectTable.value.CLASSES[i]["className"]}",
+                                      "${timeTableController.selectTable.value.CLASSES[i].className}",
                                       style: const TextStyle(
                                           color: const Color(0xff333333),
                                           fontWeight: FontWeight.w900,
@@ -280,9 +283,15 @@ class SubjectList extends StatelessWidget {
                                           fontSize: 16.0),
                                       textAlign: TextAlign.left),
                             ),
-                            SubjectPreviewList(text: "90 marks"),
-                            SubjectPreviewList(text: "A+"),
-                            SubjectPreviewList(text: "Major"),
+                            SubjectPreviewList(
+                                text:
+                                    "학수번호 : ${timeTableController.selectTable.value.CLASSES[i].classNumber}"),
+                            SubjectPreviewList(
+                                text:
+                                    "학점 : ${timeTableController.selectTable.value.CLASSES[i].credit}"),
+                            SubjectPreviewList(
+                                text:
+                                    "교수명 : ${timeTableController.selectTable.value.CLASSES[i].professor}"),
                           ],
                         ),
                       ),
