@@ -10,6 +10,16 @@ class ClassApiClient {
     return response;
   }
 
+  Future getRecentClass() async {
+    final response = await Session().getX('/class/recentClass');
+    return response;
+  }
+
+  Future getRecentClassComment() async {
+    final response = await Session().getX('/class/recentClassComment');
+    return response;
+  }
+
   Future getClassSearchList(String searchText) async {
     final response = await Session().getX('/class/search?search=$searchText');
     return response;
