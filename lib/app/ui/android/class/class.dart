@@ -82,7 +82,7 @@ class Class extends StatelessWidget {
                   }, childCount: controller.classList.length));
                 } else {
                   return SliverToBoxAdapter(
-                    child: CircularProgressIndicator(),
+                    child: Center(child: CircularProgressIndicator()),
                   );
                 }
               }),
@@ -113,7 +113,7 @@ class Class extends StatelessWidget {
                   }, childCount: controller.reviewList.length));
                 } else {
                   return SliverToBoxAdapter(
-                    child: CircularProgressIndicator(),
+                    child: Center(child: CircularProgressIndicator()),
                   );
                 }
               }),

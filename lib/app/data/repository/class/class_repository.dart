@@ -11,8 +11,8 @@ class ClassRepository {
 
   ClassRepository({@required this.apiClient}) : assert(apiClient != null);
 
-  Future<Map<String, dynamic>> getClassList() async {
-    final response = await apiClient.getClassList();
+  Future<Map<String, dynamic>> getRecentClass() async {
+    final response = await apiClient.getRecentClass();
 
     if (response.statusCode != 200) {
       return {"statusCode": response.statusCode};

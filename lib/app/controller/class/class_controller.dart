@@ -19,7 +19,7 @@ class ClassController extends GetxController {
   }
 
   Future getClassList() async {
-    Map<String, dynamic> jsonResponse = await repository.getClassList();
+    Map<String, dynamic> jsonResponse = await repository.getRecentClass();
 
     switch (jsonResponse["statusCode"]) {
       case 200:

@@ -11,33 +11,17 @@ import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 
 import 'package:polarstar_flutter/app/ui/android/class/functions/rating.dart';
 
-import 'package:polarstar_flutter/app/ui/android/class/widgets/class_preview.dart';
-import 'package:polarstar_flutter/app/ui/android/class/widgets/class_search_bar.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
+import 'package:polarstar_flutter/app/ui/android/class/widgets/modal_bottom_sheet.dart';
 
 class ClassView extends StatelessWidget {
   const ClassView({Key key}) : super(key: key);
-
-  Widget writeExamInfo(BuildContext context) {
-    return Container(
-      height: 673,
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 14.5),
-            width: 53,
-            height: 6,
-            child: Image.asset('assets/images/359.png', fit: BoxFit.fill),
-          )
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     final ClassViewController classViewController = Get.find();
     final reviewTextController = TextEditingController();
+    final examInfoTextController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -55,348 +39,9 @@ class ClassView extends StatelessWidget {
                   isScrollControlled: true,
                   context: context,
                   builder: (BuildContext context) {
-                    return SingleChildScrollView(
-                      child: Container(
-                        height: 590,
-                        margin: EdgeInsets.fromLTRB(
-                            15, 15, 15, Get.mediaQuery.viewInsets.bottom),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Center(
-                              child: Container(
-                                width: 53,
-                                height: 6,
-                                child: Image.asset('assets/images/359.png',
-                                    fit: BoxFit.fill),
-                              ),
-                            ),
-
-                            // 전체 별점
-                            Padding(
-                              padding: const EdgeInsets.only(top: 25.1),
-                              child: Container(
-                                width: 260,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    for (int i = 0; i < 5; i++)
-                                      InkWell(
-                                          onTap: () {
-                                            classViewController
-                                                .commentRate(i + 1);
-                                          },
-                                          child: Obx(
-                                            () => Container(
-                                              width: 27.4,
-                                              height: 26.5,
-                                              child: Image.asset(
-                                                i + 1 <=
-                                                        classViewController
-                                                            .commentRate.value
-                                                    ? 'assets/images/897.png'
-                                                    : 'assets/images/898.png',
-                                                fit: BoxFit.fitHeight,
-                                              ),
-                                            ),
-                                          )),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 23.2),
-                                      child: Obx(() => Text(
-                                            "${classViewController.commentRate}/5",
-                                            style: TextStyle(
-                                                color: const Color(0xff333333),
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "PingFangSC",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 21.0),
-                                          )),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                            // 구분선
-                            Container(
-                              margin: EdgeInsets.only(top: 21.6, bottom: 23.9),
-                              height: 0.5,
-                              decoration: BoxDecoration(color: Colors.grey),
-                            ),
-
-                            // 세부 별점들 실제론 하트여야할 듯
-                            Container(
-                              margin: EdgeInsets.only(bottom: 17.5),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "팀플량",
-                                    style: TextStyle(
-                                        color: const Color(0xff333333),
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "PingFangSC",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 16.0),
-                                  ),
-                                  Spacer(),
-                                  for (int i = 0; i < 5; i++)
-                                    InkWell(
-                                        onTap: () {
-                                          classViewController
-                                              .teamProjectRate(i + 1);
-                                        },
-                                        child: Obx(
-                                          () => Container(
-                                            margin: EdgeInsets.only(left: 8),
-                                            width: 21.5,
-                                            height: 21.5,
-                                            // 하트로 바꿔야 되는데 이미지가 없음
-                                            child: Image.asset(
-                                              i + 1 <=
-                                                      classViewController
-                                                          .teamProjectRate.value
-                                                  ? 'assets/images/897.png'
-                                                  : 'assets/images/898.png',
-                                              fit: BoxFit.fitHeight,
-                                            ),
-                                          ),
-                                        )),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "과제량",
-                                    style: TextStyle(
-                                        color: const Color(0xff333333),
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "PingFangSC",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 16.0),
-                                  ),
-                                  Spacer(),
-                                  for (int i = 0; i < 5; i++)
-                                    InkWell(
-                                        onTap: () {
-                                          classViewController
-                                              .homeworkRate(i + 1);
-                                        },
-                                        child: Obx(
-                                          () => Container(
-                                            width: 21.5,
-                                            height: 21.5,
-                                            margin: EdgeInsets.only(left: 8),
-                                            // 하트로 바꿔야 되는데 이미지가 없음
-                                            child: Image.asset(
-                                              i + 1 <=
-                                                      classViewController
-                                                          .homeworkRate.value
-                                                  ? 'assets/images/897.png'
-                                                  : 'assets/images/898.png',
-                                              fit: BoxFit.fitHeight,
-                                            ),
-                                          ),
-                                        )),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.symmetric(vertical: 17.5),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "시험 공부량",
-                                    style: TextStyle(
-                                        color: const Color(0xff333333),
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "PingFangSC",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 16.0),
-                                  ),
-                                  Spacer(),
-                                  for (int i = 0; i < 5; i++)
-                                    InkWell(
-                                        onTap: () {
-                                          classViewController.examRate(i + 1);
-                                        },
-                                        child: Obx(
-                                          () => Container(
-                                            width: 21.5,
-                                            height: 21.5,
-                                            margin: EdgeInsets.only(left: 8),
-                                            // 하트로 바꿔야 되는데 이미지가 없음
-                                            child: Image.asset(
-                                              i + 1 <=
-                                                      classViewController
-                                                          .examRate.value
-                                                  ? 'assets/images/897.png'
-                                                  : 'assets/images/898.png',
-                                              fit: BoxFit.fitHeight,
-                                            ),
-                                          ),
-                                        )),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "학점 비율",
-                                    style: TextStyle(
-                                        color: const Color(0xff333333),
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "PingFangSC",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 16.0),
-                                  ),
-                                  Spacer(),
-                                  for (int i = 0; i < 5; i++)
-                                    InkWell(
-                                        onTap: () {
-                                          classViewController.gradeRate(i + 1);
-                                        },
-                                        child: Obx(
-                                          () => Container(
-                                            width: 21.5,
-                                            height: 21.5,
-                                            margin: EdgeInsets.only(left: 8),
-                                            // 하트로 바꿔야 되는데 이미지가 없음
-                                            child: Image.asset(
-                                              i + 1 <=
-                                                      classViewController
-                                                          .gradeRate.value
-                                                  ? 'assets/images/897.png'
-                                                  : 'assets/images/898.png',
-                                              fit: BoxFit.fitHeight,
-                                            ),
-                                          ),
-                                        )),
-                                ],
-                              ),
-                            ),
-                            // 구분선
-                            Container(
-                              margin: EdgeInsets.only(top: 33.1, bottom: 13.8),
-                              height: 0.5,
-                              decoration: BoxDecoration(color: Colors.grey),
-                            ),
-
-                            // General Comment
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "General Comment",
-                                  style: TextStyle(
-                                      color: const Color(0xff333333),
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: "PingFangSC",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 18.0),
-                                  textAlign: TextAlign.left,
-                                ),
-
-                                // 학기 선택 버튼
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 16.3, bottom: 16.3),
-                                  child: DropdownButtonFormField(
-                                    hint: Text("Please select semester"),
-                                    items: [
-                                      DropdownMenuItem(
-                                        child: Text("2021년도 1학기"),
-                                        value: 0,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("2021년도 2학기"),
-                                        value: 1,
-                                      ),
-                                    ],
-                                    onChanged: (value) {
-                                      classViewController
-                                          .writeCommentSemester(value);
-                                      classViewController.writeCommentSemester
-                                          .refresh();
-                                    },
-                                  ),
-                                ),
-
-                                // 리뷰 작성칸
-                                Container(
-                                    height: 94.5,
-                                    child: TextField(
-                                      maxLines: 6,
-                                      controller: reviewTextController,
-                                      style: TextStyle(
-                                          color: const Color(0xff333333),
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: "PingFangSC",
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 14.0),
-                                      decoration: const InputDecoration(
-                                        hintText:
-                                            "Please enter the review content",
-                                        filled: true,
-                                        fillColor: Color(0xfff3f3f3),
-                                        border: InputBorder.none,
-                                      ),
-                                    )),
-
-                                // 제출 버튼
-                                Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 17.5),
-                                    child: Ink(
-                                      height: 49,
-                                      width: 288,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Color(0xff1a4678),
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Color(0xff965f88b7),
-                                                offset: Offset(0, 6.5),
-                                                blurRadius: 15)
-                                          ]),
-                                      child: InkWell(
-                                        onTap: () {
-                                          classViewController.postComment(
-                                              classViewController
-                                                  .classInfo.value.CLASS_ID,
-                                              {
-                                                "content":
-                                                    reviewTextController.text,
-                                                "rate": classViewController
-                                                    .commentRate.value
-                                                    .toString()
-                                              });
-                                        },
-                                        child: Center(
-                                            child: Text(
-                                          "Confirm Submission",
-                                          style: TextStyle(
-                                              color: const Color(0xffffffff),
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "PingFangSC",
-                                              fontStyle: FontStyle.normal,
-                                              fontSize: 18.0),
-                                        )),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    );
+                    return WriteComment(
+                        classViewController: classViewController,
+                        reviewTextController: reviewTextController);
                   });
             } else {
               showModalBottomSheet(
@@ -404,8 +49,13 @@ class ClassView extends StatelessWidget {
                       borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(30),
                           topRight: const Radius.circular(30))),
+                  isScrollControlled: true,
                   context: context,
-                  builder: writeExamInfo);
+                  builder: (BuildContext context) {
+                    return WriteExamInfo(
+                        classViewController: classViewController,
+                        examInfoTextController: examInfoTextController);
+                  });
             }
           },
           child: Container(
@@ -995,14 +645,21 @@ class ClassExamInfo extends StatelessWidget {
                     flex: 3,
                     child: Container(
                       height: 90,
-                      child: ListView.builder(
-                          itemCount: classExamModel.TEST_EXAMPLE.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
+                      child: classExamModel.TEST_EXAMPLE != null
+                          ? ListView.builder(
+                              itemCount: classExamModel.TEST_EXAMPLE.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child:
+                                      Text(classExamModel.TEST_EXAMPLE[index]),
+                                );
+                                ;
+                              })
+                          : Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Text(classExamModel.TEST_EXAMPLE[index]),
-                            );
-                          }),
+                              child: Text("There are no examples"),
+                            ),
                     ),
                   )
                 ],

@@ -12,11 +12,13 @@ class ClassViewController extends GetxController {
 
   final commentRate = 5.obs;
   final teamProjectRate = 5.obs;
-  final homeworkRate = 5.obs;
+  final assignmentRate = 5.obs;
   final examRate = 5.obs;
   final gradeRate = 5.obs;
 
   final writeCommentSemester = 0.obs;
+
+  final writeExamInfoSemester = 0.obs;
 
   final classViewAvailable = false.obs;
   final classExamAvailable = false.obs;
