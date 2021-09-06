@@ -289,8 +289,8 @@ class MyPageProfile extends StatelessWidget {
                             'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/${myPageController.myProfile.value.PROFILE_PHOTO}',
                         fadeInDuration: Duration(milliseconds: 0),
                         progressIndicatorBuilder:
-                            (context, url, downloadProgress) =>
-                                Image(image: AssetImage('image/spinner.gif')),
+                            (context, url, downloadProgress) => Image(
+                                image: AssetImage('assets/images/spinner.gif')),
                         errorWidget: (context, url, error) {
                           print(error);
                           return Icon(Icons.error);
@@ -386,8 +386,9 @@ Widget getPosts(MyPageBoardModel item, myPageController) {
                               'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/${item.PROFILE_PHOTO}',
                           fadeInDuration: Duration(milliseconds: 0),
                           progressIndicatorBuilder:
-                              (context, url, downloadProgress) =>
-                                  Image(image: AssetImage('image/spinner.gif')),
+                              (context, url, downloadProgress) => Image(
+                                  image:
+                                      AssetImage('assets/images/spinner.gif')),
                           errorWidget: (context, url, error) {
                             print(error);
                             return Icon(Icons.error);
@@ -465,17 +466,21 @@ Widget getPosts(MyPageBoardModel item, myPageController) {
                   child: Column(children: [
                     Expanded(
                       flex: 40,
-                      child: CachedNetworkImage(
-                          imageUrl:
-                              'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/board/${item.PHOTO}',
-                          fadeInDuration: Duration(milliseconds: 0),
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) =>
-                                  Image(image: AssetImage('image/spinner.gif')),
-                          errorWidget: (context, url, error) {
-                            print(error);
-                            return Icon(Icons.error);
-                          }),
+                      child: item.PHOTO.length == 0 || item.PHOTO == null
+                          ? Container()
+                          : CachedNetworkImage(
+                              imageUrl:
+                                  'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/board/${item.PHOTO[0]}',
+                              fit: BoxFit.fill,
+                              fadeInDuration: Duration(milliseconds: 0),
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) => Image(
+                                      image: AssetImage(
+                                          'assets/images/spinner.gif')),
+                              errorWidget: (context, url, error) {
+                                print(error);
+                                return Icon(Icons.error);
+                              }),
                     ),
                     Expanded(
                       child: Text(

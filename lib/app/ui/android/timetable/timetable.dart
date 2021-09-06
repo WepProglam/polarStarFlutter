@@ -59,10 +59,8 @@ class Timetable extends StatelessWidget {
                 width: size.width,
                 color: Colors.black,
                 margin: const EdgeInsets.only(top: 15.5),
-                height: 479.3,
-                child: Center(
-                  child: Text("시간표", style: TextStyle(color: Colors.white)),
-                ),
+                height: 60.0 * 12,
+                child: TimeTable(timeTableController: timeTableController),
               ),
               Container(
                 margin: const EdgeInsets.only(left: 15, top: 20.3),
@@ -90,6 +88,34 @@ class Timetable extends StatelessWidget {
               )
             ],
           ))),
+    );
+  }
+}
+
+class TimeTable extends StatelessWidget {
+  const TimeTable({
+    Key key,
+    @required this.timeTableController,
+  }) : super(key: key);
+
+  final TimeTableController timeTableController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          height: 60.0 * 12,
+          child: ListView.builder(
+              itemCount: 12,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: 60,
+                  color: Colors.white10,
+                );
+              }),
+        )
+      ],
     );
   }
 }

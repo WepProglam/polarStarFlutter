@@ -32,7 +32,7 @@ class MyPageBoardModel {
   int BOARD_ID, COMMUNITY_ID;
   String TITLE, CONTENT;
   int LIKES, SCRAPS, COMMENTS;
-  String PHOTO;
+  List<dynamic> PHOTO;
   String TIME_CREATED, TIME_UPDATED;
   int IS_UPDATED;
   String PROFILE_NICKNAME, PROFILE_PHOTO;
