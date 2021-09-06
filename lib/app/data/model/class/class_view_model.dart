@@ -54,9 +54,21 @@ class ClassInfoModel {
 }
 
 class ClassReviewModel {
-  int CLASS_COMMENT_ID, CLASS_ID, PROFILE_ID, LIKES, UNNAMED, ACCUSE_AMOUNT;
+  int CLASS_COMMENT_ID,
+      CLASS_ID,
+      PROFILE_ID,
+      LIKES,
+      UNNAMED,
+      ACCUSE_AMOUNT,
+      CLASS_YEAR,
+      CLASS_SEMESTER;
 
-  String TIME_CREATED, CONTENT, RATE;
+  String TIME_CREATED,
+      CONTENT,
+      RATE,
+      RATE_ASSIGNMENT,
+      RATE_GROUP_STUDY,
+      RATE_GRADE_RATIO;
 
   ClassReviewModel(
       {CLASS_COMMENT_ID,
@@ -65,9 +77,14 @@ class ClassReviewModel {
       LIKES,
       UNNAMED,
       ACCUSE_AMOUNT,
+      CLASS_YEAR,
+      CLASS_SEMESTER,
       TIME_CREATED,
       CONTENT,
-      RATE});
+      RATE,
+      RATE_ASSIGNMENT,
+      RATE_GROUP_STUDY,
+      RATE_GRADE_RATIO});
 
   ClassReviewModel.fromJson(Map<String, dynamic> json) {
     this.CLASS_COMMENT_ID = json["CLASS_COMMENT_ID"];
@@ -76,9 +93,14 @@ class ClassReviewModel {
     this.LIKES = json["LIKES"];
     this.UNNAMED = json["UNNAMED"];
     this.ACCUSE_AMOUNT = json["ACCUSE_AMOUNT"];
+    this.CLASS_YEAR = json["CLASS_YEAR"];
+    this.CLASS_SEMESTER = json["CLASS_SEMESTER"];
     this.TIME_CREATED = json["TIME_CREATED"];
     this.CONTENT = json["CONTENT"];
     this.RATE = json["RATE"];
+    this.RATE_ASSIGNMENT = json["RATE_ASSIGNMENT"];
+    this.RATE_GROUP_STUDY = json["RATE_GROUP_STUDY"];
+    this.RATE_GRADE_RATIO = json["RATE_GRADE_RATIO"];
   }
 }
 

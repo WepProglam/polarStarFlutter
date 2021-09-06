@@ -10,6 +10,7 @@ import 'package:polarstar_flutter/app/controller/class/class_view_controller.dar
 import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 
 import 'package:polarstar_flutter/app/ui/android/class/functions/rating.dart';
+import 'package:polarstar_flutter/app/ui/android/class/functions/semester.dart';
 
 import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/modal_bottom_sheet.dart';
@@ -461,37 +462,22 @@ class ClassViewReview extends StatelessWidget {
     final ClassViewController classViewController = Get.find();
 
     return Container(
-      margin: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(10)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // 별점 & 좋아요
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-            child: Row(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 별점 & 좋아요
+            Row(
               children: [
-                Icon(
-                  Icons.star,
-                  color: Colors.yellow[800],
-                ),
-                Icon(
-                  Icons.star,
-                  color: Colors.yellow[800],
-                ),
-                Icon(
-                  Icons.star,
-                  color: Colors.yellow[800],
-                ),
-                Icon(
-                  Icons.star,
-                  color: Colors.yellow[800],
-                ),
-                Icon(
-                  Icons.star,
-                  color: Colors.yellow[800],
-                ),
+                Container(
+                    width: 94.4,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: rate_star(classReviewModel.RATE, 14.6))),
                 Spacer(),
                 TextButton.icon(
                     style: ButtonStyle(
@@ -508,33 +494,38 @@ class ClassViewReview extends StatelessWidget {
                     label: Text(classReviewModel.LIKES.toString()))
               ],
             ),
-          ),
 
-          // 수강 학기: 데이터 안 날라옴
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, bottom: 10.0),
-            child: Text(
-              "First Semester Of 2021",
-              textScaleFactor: 1.1,
+            // 수강 학기: 데이터 안 날라옴
+            Text(
+              "${semester(classReviewModel.CLASS_SEMESTER)} Semester Of ${classReviewModel.CLASS_YEAR}",
+              style: TextStyle(
+                  color: const Color(0xff333333),
+                  fontWeight: FontWeight.normal,
+                  fontFamily: "PingFangSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 16.0),
             ),
-          ),
 
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 15.0),
-            child: Container(
+            Container(
+                margin: EdgeInsets.only(top: 11, bottom: 13),
                 decoration: BoxDecoration(
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(10)),
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
                   child: Text(
                     classReviewModel.CONTENT,
                     maxLines: 2,
+                    style: TextStyle(
+                        color: const Color(0xff707070),
+                        fontWeight: FontWeight.normal,
+                        fontFamily: "PingFangSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0),
                   ),
-                )),
-          )
-        ],
+                ))
+          ],
+        ),
       ),
     );
   }
@@ -545,22 +536,6 @@ class ClassExamInfo extends StatelessWidget {
       : super(key: key);
   final ClassExamModel classExamModel;
   final int index;
-
-  // String semester로 변환 함수
-  String semester(int intSemester) {
-    String retString = "First";
-    switch (intSemester) {
-      case 1:
-        retString = "First";
-        break;
-      case 2:
-        retString = "Second";
-        break;
-      default:
-        retString = "First";
-    }
-    return retString;
-  }
 
   @override
   Widget build(BuildContext context) {
