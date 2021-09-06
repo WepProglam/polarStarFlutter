@@ -111,7 +111,8 @@ class ClassRepository {
     return {"statusCode": response.statusCode};
   }
 
-  Future<Map<String, dynamic>> postExam(int CLASS_ID, Map data) async {
+  Future<Map<String, dynamic>> postExam(
+      int CLASS_ID, Map<String, dynamic> data) async {
     final response = await apiClient.postExam(CLASS_ID, data);
 
     return {"statusCode": response.statusCode};

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 
 class ClassInfoModel {
@@ -108,7 +110,16 @@ class ClassExamModel {
 
     this.TEST_STRATEGY = json["TEST_STRATEGY"];
     this.TEST_TYPE = json["TEST_TYPE"];
-    this.TEST_EXAMPLE = json["TEST_EXAMPLE"];
+    //ㅅㅂ 이거 해결해야 함
+    if (json["TEST_EXAMPLE"] is String) {
+      this.TEST_EXAMPLE = json["TEST_EXAMPLE"]
+          .replaceAll("[", "")
+          .replaceAll("]", "")
+          .split(",");
+    } else {
+      this.TEST_EXAMPLE = json["TEST_EXAMPLE"];
+    }
+    ;
     this.TIME_CREATED = json["TIME_CREATED"];
 
     this.PROFILE_ID = json["PROFILE_ID"];

@@ -18,6 +18,12 @@ class ClassViewController extends GetxController {
 
   final writeCommentSemester = 0.obs;
 
+  final examIndex = 0.obs;
+  final questionTypeIndex = 0.obs;
+
+  final List<String> examList = ["중간고사", "기말고사"];
+  final List<String> questionTypeList = ["객관식", "단답형", "서술형", "혼합형"];
+
   final writeExamInfoSemester = 0.obs;
 
   final classViewAvailable = false.obs;
@@ -161,7 +167,7 @@ class ClassViewController extends GetxController {
     }
   }
 
-  Future postExam(int CLASS_ID, Map data) async {
+  Future postExam(int CLASS_ID, Map<String, dynamic> data) async {
     final jsonResponse = await repository.postExam(CLASS_ID, data);
 
     switch (jsonResponse["statusCode"]) {

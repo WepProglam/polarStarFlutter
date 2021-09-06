@@ -22,6 +22,7 @@ class ClassView extends StatelessWidget {
     final ClassViewController classViewController = Get.find();
     final reviewTextController = TextEditingController();
     final examInfoTextController = TextEditingController();
+    final testStrategyController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -54,7 +55,8 @@ class ClassView extends StatelessWidget {
                   builder: (BuildContext context) {
                     return WriteExamInfo(
                         classViewController: classViewController,
-                        examInfoTextController: examInfoTextController);
+                        examInfoTextController: examInfoTextController,
+                        testStrategyController: testStrategyController);
                   });
             }
           },
@@ -143,6 +145,10 @@ class ClassView extends StatelessWidget {
                       }
                     }
                   }),
+                  SliverToBoxAdapter(
+                      child: SizedBox(
+                    height: 50,
+                  )),
                 ],
               ),
             );

@@ -314,19 +314,26 @@ class WriteComment extends StatelessWidget {
                             Map data = {
                               "content": reviewTextController.text,
                               "rate": classViewController.commentRate.value
+                                  .toDouble()
                                   .toString(),
                               "rate_assignment": classViewController
                                   .assignmentRate.value
+                                  .toDouble()
                                   .toString(),
                               "rate_group_study": classViewController
                                   .teamProjectRate.value
+                                  .toDouble()
                                   .toString(),
-                              "rate_exam_study":
-                                  classViewController.examRate.value.toString(),
+                              "rate_exam_study": classViewController
+                                  .examRate.value
+                                  .toDouble()
+                                  .toString(),
                               "rate_grade_ratio": classViewController
                                   .gradeRate.value
+                                  .toDouble()
                                   .toString(),
                             };
+
                             classViewController.postComment(
                                 classViewController.classInfo.value.CLASS_ID,
                                 data);
@@ -356,14 +363,16 @@ class WriteComment extends StatelessWidget {
 }
 
 class WriteExamInfo extends StatelessWidget {
-  const WriteExamInfo({
-    Key key,
-    @required this.classViewController,
-    @required this.examInfoTextController,
-  }) : super(key: key);
+  const WriteExamInfo(
+      {Key key,
+      @required this.classViewController,
+      @required this.examInfoTextController,
+      @required this.testStrategyController})
+      : super(key: key);
 
   final ClassViewController classViewController;
   final TextEditingController examInfoTextController;
+  final TextEditingController testStrategyController;
 
   @override
   Widget build(BuildContext context) {
@@ -426,11 +435,147 @@ class WriteExamInfo extends StatelessWidget {
               ]),
 
               // Exam
+              Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Exam",
+                      style: TextStyle(
+                          color: const Color(0xff333333),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "PingFangSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16.0),
+                      textAlign: TextAlign.left,
+                    ),
+                    Container(
+                      height: 29,
+                      margin: EdgeInsets.only(top: 16.0),
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: classViewController.examList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: index < classViewController.examList.length
+                                ? EdgeInsets.only(right: 10.0)
+                                : null,
+                            child: Obx(() => InkWell(
+                                  onTap: () {
+                                    classViewController.examIndex(index);
+                                  },
+                                  child: Ink(
+                                    height: 29,
+                                    padding:
+                                        EdgeInsets.fromLTRB(14, 4.5, 14, 6),
+                                    decoration: BoxDecoration(
+                                        color: index ==
+                                                classViewController
+                                                    .examIndex.value
+                                            ? Color(0xff1a4678)
+                                            : Color(0xffebebeb),
+                                        borderRadius:
+                                            BorderRadius.circular(14.5)),
+                                    child: Center(
+                                        child: Text(
+                                      classViewController.examList[index],
+                                      style: TextStyle(
+                                          color: index ==
+                                                  classViewController
+                                                      .examIndex.value
+                                              ? Color(0xffffffff)
+                                              : Color(0xff6b6b6b),
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: "PingFangSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 14.0),
+                                    )),
+                                  ),
+                                )),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Questioon Type
+              Container(
+                margin: EdgeInsets.only(top: 16.5, bottom: 15.5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Question Type",
+                      style: TextStyle(
+                          color: const Color(0xff333333),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "PingFangSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16.0),
+                      textAlign: TextAlign.left,
+                    ),
+                    Container(
+                      height: 29,
+                      margin: EdgeInsets.only(top: 16.0),
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: classViewController.questionTypeList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: index <
+                                    classViewController.questionTypeList.length
+                                ? EdgeInsets.only(right: 10.0)
+                                : null,
+                            child: Obx(() => InkWell(
+                                  onTap: () {
+                                    classViewController
+                                        .questionTypeIndex(index);
+                                  },
+                                  child: Ink(
+                                    height: 29,
+                                    padding:
+                                        EdgeInsets.fromLTRB(14, 4.5, 14, 6),
+                                    decoration: BoxDecoration(
+                                        color: index ==
+                                                classViewController
+                                                    .questionTypeIndex.value
+                                            ? Color(0xff1a4678)
+                                            : Color(0xffebebeb),
+                                        borderRadius:
+                                            BorderRadius.circular(14.5)),
+                                    child: Center(
+                                        child: Text(
+                                      classViewController
+                                          .questionTypeList[index],
+                                      style: TextStyle(
+                                          color: index ==
+                                                  classViewController
+                                                      .questionTypeIndex.value
+                                              ? Color(0xffffffff)
+                                              : Color(0xff6b6b6b),
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: "PingFangSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 14.0),
+                                    )),
+                                  ),
+                                )),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Test Strategy
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Exam",
+                    "Test Strategy",
                     style: TextStyle(
                         color: const Color(0xff333333),
                         fontWeight: FontWeight.bold,
@@ -439,22 +584,25 @@ class WriteExamInfo extends StatelessWidget {
                         fontSize: 16.0),
                     textAlign: TextAlign.left,
                   ),
-                ],
-              ),
-
-              // Questioon Type
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Question Type",
-                    style: TextStyle(
+                  Container(
+                    margin: EdgeInsets.only(top: 12, bottom: 12),
+                    child: TextFormField(
+                      maxLines: 1,
+                      controller: testStrategyController,
+                      style: TextStyle(
                         color: const Color(0xff333333),
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.normal,
                         fontFamily: "PingFangSC",
                         fontStyle: FontStyle.normal,
-                        fontSize: 16.0),
-                    textAlign: TextAlign.left,
+                        fontSize: 14.0,
+                      ),
+                      decoration: InputDecoration(
+                          hintText: "Please enter your test strategy",
+                          filled: true,
+                          fillColor: Color(0xfff3f3f3),
+                          border: InputBorder.none,
+                          isDense: true),
+                    ),
                   ),
                 ],
               ),
@@ -478,7 +626,7 @@ class WriteExamInfo extends StatelessWidget {
                   Container(
                       height: 94.5,
                       margin: EdgeInsets.only(top: 13.4, bottom: 12),
-                      child: TextField(
+                      child: TextFormField(
                         textInputAction: TextInputAction.go,
                         maxLines: 6,
                         controller: examInfoTextController,
@@ -489,7 +637,8 @@ class WriteExamInfo extends StatelessWidget {
                             fontStyle: FontStyle.normal,
                             fontSize: 14.0),
                         decoration: const InputDecoration(
-                          hintText: "Please enter example question",
+                          hintText:
+                              "Please enter some examples,\nIf you enter, new text field will be created",
                           filled: true,
                           fillColor: Color(0xfff3f3f3),
                           border: InputBorder.none,
@@ -512,9 +661,15 @@ class WriteExamInfo extends StatelessWidget {
                           ]),
                       child: InkWell(
                         onTap: () {
-                          Map data = {
-                            "exaple": [examInfoTextController.text],
+                          Map<String, dynamic> data = {
+                            "type": classViewController
+                                .examList[classViewController.examIndex.value],
+                            "strategy": testStrategyController.text,
+                            "example": [examInfoTextController.text].toString(),
+                            "year": 2021.toString(),
+                            "semester": 2.toString()
                           };
+
                           classViewController.postExam(
                               classViewController.classInfo.value.CLASS_ID,
                               data);
