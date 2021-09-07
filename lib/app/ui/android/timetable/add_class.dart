@@ -185,49 +185,47 @@ class TimetableAddClass extends StatelessWidget {
                 //교강사명
                 Container(
                   margin: const EdgeInsets.only(top: 12.3),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                          padding: const EdgeInsets.only(left: 0.5, bottom: 12),
-                          child:
-                              // The teacher name
-                              Text("The teacher name",
-                                  style: const TextStyle(
-                                      color: const Color(0xff333333),
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: "PingFangSC",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 16.0),
-                                  textAlign: TextAlign.center)),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 6.1, bottom: 14.3),
-                        child: TextFormField(
-                          controller:
-                              timeTableAddClassController.courseNameController,
-                          onChanged: (value) {
-                            timeTableAddClassController.TOTAL_CLASS
-                                .update((val) {
-                              val.className = timeTableAddClassController
-                                  .courseNameController.text;
-                            });
-                          },
-                          maxLines: 1,
-                          style: textStyle,
-                          textAlign: TextAlign.left,
-                          decoration: inputDecoration,
-                        ),
+                  child: Row(children: [
+                    Container(
+                      width: 10,
+                      margin: const EdgeInsets.only(bottom: 14.3),
+                      child: Icon(Icons.school),
+                    ),
+                    Container(
+                      width: size.width - 15.3 - 14.8 - 30,
+                      margin: const EdgeInsets.only(left: 30),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 14.3),
+                            child: TextFormField(
+                              controller: timeTableAddClassController
+                                  .courseNameController,
+                              onChanged: (value) {
+                                timeTableAddClassController.TOTAL_CLASS
+                                    .update((val) {
+                                  val.className = timeTableAddClassController
+                                      .courseNameController.text;
+                                });
+                              },
+                              maxLines: 1,
+                              style: textStyle,
+                              textAlign: TextAlign.left,
+                              decoration: inputDecoration,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15),
+                            child: Container(
+                                height: 0.5,
+                                decoration: BoxDecoration(
+                                    color: const Color(0xffdedede))),
+                          )
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 0.3),
-                        child: Container(
-                            width: size.width - 15.3 - 14.8,
-                            height: 0.5,
-                            decoration:
-                                BoxDecoration(color: const Color(0xffdedede))),
-                      )
-                    ],
-                  ),
+                    ),
+                  ]),
                 ),
                 //강의 장소 및 시간
                 Container(
