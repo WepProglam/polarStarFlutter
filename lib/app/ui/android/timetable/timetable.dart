@@ -59,8 +59,11 @@ class Timetable extends StatelessWidget {
                 width: size.width,
                 margin: const EdgeInsets.only(top: 15.5),
                 height: 44 + 60.0 * 13,
-                child: TimeTable(
-                    timeTableController: timeTableController, size: size),
+                // 44 + 60.0 * 13,
+                child: TimeTablePackage(
+                    timeTableController: timeTableController,
+                    size: size,
+                    scrollable: false),
               ),
               Container(
                 margin: const EdgeInsets.only(left: 15, top: 20.3),
@@ -78,13 +81,9 @@ class Timetable extends StatelessWidget {
                 margin: const EdgeInsets.only(left: 15, top: 22, bottom: 20),
                 height: 184.5,
                 //과목 리스트
-                child: Obx(() {
-                  return timeTableController.dataAvailable.value
-                      ? SubjectList(
-                          timeTableController: timeTableController,
-                        )
-                      : Container();
-                }),
+                child: SubjectList(
+                  timeTableController: timeTableController,
+                ),
               )
             ],
           ))),
@@ -92,27 +91,43 @@ class Timetable extends StatelessWidget {
   }
 }
 
-class TimeTable extends StatelessWidget {
-  const TimeTable({
-    Key key,
-    @required this.timeTableController,
-    @required this.size,
-  }) : super(key: key);
+class TimeTablePackage extends StatelessWidget {
+  const TimeTablePackage(
+      {Key key,
+      @required this.timeTableController,
+      @required this.size,
+      @required this.scrollable})
+      : super(key: key);
 
   final TimeTableController timeTableController;
   final Size size;
+  final bool scrollable;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      TimeTableBin(
-        timeTableController: timeTableController,
-        width: size.width,
+    return SingleChildScrollView(
+      physics: scrollable
+          ? AlwaysScrollableScrollPhysics()
+          : NeverScrollableScrollPhysics(),
+      child: Container(
+        child: Column(
+          children: [
+            Container(
+              height: 44 + 60.0 * 13,
+              child: Stack(children: [
+                TimeTableBin(
+                  timeTableController: timeTableController,
+                  width: size.width,
+                ),
+                TimeTableContent(
+                  timeTableController: timeTableController,
+                  width: size.width,
+                )
+              ]),
+            )
+          ],
+        ),
       ),
-      TimeTableContent(
-        timeTableController: timeTableController,
-        width: size.width,
-      )
-    ]);
+    );
   }
 }

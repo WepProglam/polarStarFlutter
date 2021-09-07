@@ -178,10 +178,11 @@ class TableList extends StatelessWidget {
                         timeTableController.selectedTimeTableId.value =
                             model.TIMETABLE_ID;
                       },
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(6.5, 12.5, 5.5, 13),
+                      child: Center(
+                        // margin: const EdgeInsets.fromLTRB(6.5, 12.5, 5.5, 13),
                         child: Text(
                             "${timeTableController.otherTable["${timeTableController.yearSem}"][index].value.NAME}",
+                            maxLines: 1,
                             style: TextStyle(
                                 color: model.TIMETABLE_ID ==
                                         timeTableController
@@ -216,15 +217,15 @@ class SubjectList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      int total_length = timeTableController.selectTable.value.CLASSES == null
+          ? 1
+          : timeTableController.selectTable.value.CLASSES.length + 1;
       return Container(
         child: ListView.builder(
-            itemCount: timeTableController.selectTable.value.CLASSES.length + 1,
+            itemCount: total_length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (BuildContext context, int i) {
-              if (i < timeTableController.selectTable.value.CLASSES.length) {
-                print(timeTableController.selectTable.value.CLASSES[i]);
-              }
-              return i == timeTableController.selectTable.value.CLASSES.length
+              return i == total_length - 1
                   ? InkWell(
                       onTap: () {
                         Get.toNamed("/timetable/addClass");

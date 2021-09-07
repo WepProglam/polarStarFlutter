@@ -31,8 +31,9 @@ class SelectedTimeTableModel {
     this.TIMETABLE_ID = json["TIMETABLE_ID"];
     this.NAME = json["NAME"];
     Iterable classesJson = json["CLASSES"];
-    this.CLASSES =
-        classesJson.map((e) => TimeTableClassModel.fromJson(e)).toList();
+    this.CLASSES = classesJson == null
+        ? []
+        : classesJson.map((e) => TimeTableClassModel.fromJson(e)).toList();
   }
 }
 

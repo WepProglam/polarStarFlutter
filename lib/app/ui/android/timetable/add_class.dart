@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_addclass_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
+import 'package:polarstar_flutter/app/ui/android/timetable/timetable.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
 
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
@@ -126,14 +127,11 @@ class TimetableAddClass extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.only(top: 12.5),
-            color: Colors.black,
-            // height: 479.3,
-            height: 150,
-            child: Center(
-              child: Text(
-                "시간표",
-                style: TextStyle(color: Colors.white),
-              ),
+            height: size.height - 32 - 381 - 30,
+            child: TimeTablePackage(
+              timeTableController: timeTableController,
+              size: size,
+              scrollable: true,
             ),
             width: size.width,
           ),
