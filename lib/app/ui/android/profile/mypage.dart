@@ -12,99 +12,90 @@ class Mypage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          appBar: CustomAppBar(
-            pageName: "마이 페이지",
-          ),
           body: RefreshIndicator(
-            onRefresh: myPageController.getRefresh,
-            child: Stack(
-              children: [
-                ListView(),
-                Obx(
-                  () {
-                    if (myPageController.dataAvailableMypage) {
-                      return Column(
-                        children: [
-                          Spacer(
-                            flex: 10,
-                          ),
-                          Expanded(
-                            flex: 80,
-                            child: MyPageProfile(
-                                myPageController: myPageController),
-                          ),
-                          Spacer(
-                            flex: 18,
-                          ),
-                          Expanded(flex: 24, child: ProfileIndex()),
-                          Spacer(
-                            flex: 26,
-                          ),
-                          Expanded(
-                            flex: 16,
-                            child: MyPageProfilePostIndex(
-                                myPageController: myPageController),
-                          ),
-                          Spacer(
-                            flex: 4,
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: Container(
-                              color: Colors.purple,
-                            ),
-                          ),
-                          Expanded(
-                              flex: 412,
-                              child: SingleChildScrollView(
-                                  scrollDirection: Axis.vertical,
-                                  child: Obx(() {
-                                    List<bool> dataAvailable = [
-                                      myPageController.dataAvailableMypageWrite,
-                                      myPageController.dataAvailableMypageLike,
-                                      myPageController.dataAvailableMypageScrap
-                                    ];
+        onRefresh: myPageController.getRefresh,
+        child: Stack(
+          children: [
+            ListView(),
+            Obx(
+              () {
+                if (myPageController.dataAvailableMypage) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('assets/images/279.png'),
+                                  fit: BoxFit.none)),
+                          child: MyPageProfile(
+                              myPageController: myPageController)),
+                      Container(width: 30, height: 28),
+                      Spacer(
+                        flex: 20,
+                      ),
+                      Expanded(flex: 24, child: ProfileIndex()),
+                      Spacer(
+                        flex: 26,
+                      ),
+                      Spacer(
+                        flex: 4,
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          color: Colors.purple,
+                        ),
+                      ),
+                      Expanded(
+                          flex: 412,
+                          child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child: Obx(() {
+                                List<bool> dataAvailable = [
+                                  myPageController.dataAvailableMypageWrite,
+                                  myPageController.dataAvailableMypageLike,
+                                  myPageController.dataAvailableMypageScrap
+                                ];
 
-                                    List<RxList<MyPageBoardModel>> userPost = [
-                                      myPageController.myBoardWrite,
-                                      myPageController.myBoardLike,
-                                      myPageController.myBoardScrap,
-                                    ];
+                                List<RxList<MyPageBoardModel>> userPost = [
+                                  myPageController.myBoardWrite,
+                                  myPageController.myBoardLike,
+                                  myPageController.myBoardScrap,
+                                ];
 
-                                    if (dataAvailable[myPageController
-                                        .profilePostIndex.value]) {
-                                      return Column(
-                                        children: [
-                                          for (var i = 0;
-                                              i <
-                                                  userPost[myPageController
-                                                          .profilePostIndex
-                                                          .value]
-                                                      .length;
-                                              i++)
-                                            Container(
-                                                height: 120,
-                                                child: getPosts(
-                                                    userPost[myPageController
-                                                        .profilePostIndex
-                                                        .value][i],
-                                                    myPageController))
-                                        ],
-                                      );
-                                    } else {
-                                      return CircularProgressIndicator();
-                                    }
-                                  })))
-                        ],
-                      );
-                    } else {
-                      return CircularProgressIndicator();
-                    }
-                  },
-                )
-              ],
-            ),
-          )),
+                                if (dataAvailable[
+                                    myPageController.profilePostIndex.value]) {
+                                  return Column(
+                                    children: [
+                                      for (var i = 0;
+                                          i <
+                                              userPost[myPageController
+                                                      .profilePostIndex.value]
+                                                  .length;
+                                          i++)
+                                        Container(
+                                            height: 120,
+                                            child: getPosts(
+                                                userPost[myPageController
+                                                    .profilePostIndex.value][i],
+                                                myPageController))
+                                    ],
+                                  );
+                                } else {
+                                  return CircularProgressIndicator();
+                                }
+                              })))
+                    ],
+                  );
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
+            )
+          ],
+        ),
+      )),
     );
   }
 }
@@ -270,71 +261,108 @@ class MyPageProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return Row(
-        children: [
-          Spacer(
-            flex: 10,
-          ),
-          Expanded(
-            flex: 80,
-            child: InkWell(
-                onTap: () {
-                  Get.toNamed('/myPage/profile');
-                },
-                child: CircleAvatar(
-                    radius: 100,
-                    backgroundColor: Colors.white,
-                    child: CachedNetworkImage(
-                        imageUrl:
-                            'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/${myPageController.myProfile.value.PROFILE_PHOTO}',
-                        fadeInDuration: Duration(milliseconds: 0),
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) => Image(
-                                image: AssetImage('assets/images/spinner.gif')),
-                        errorWidget: (context, url, error) {
-                          print(error);
-                          return Icon(Icons.error);
-                        }))),
-          ),
-          Spacer(
-            flex: 20,
-          ),
-          Expanded(
-            flex: 250,
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Spacer(flex: 12),
-              Expanded(
-                  flex: 20,
-                  child: Text(
-                    '닉네임 : ${myPageController.myProfile.value.PROFILE_NICKNAME}',
-                    textScaleFactor: 0.7,
-                  )),
-              Spacer(
-                flex: 2,
-              ),
-              Expanded(
-                  flex: 12,
-                  child: Text(
-                    '프로필 메시지 : ${myPageController.myProfile.value.PROFILE_MESSAGE}',
-                    textScaleFactor: 0.7,
-                  )),
-              Spacer(
-                flex: 2,
-              ),
-              Expanded(
-                  flex: 12,
-                  child: Text(
-                    '학교 : ${myPageController.myProfile.value.PROFILE_SCHOOL}',
-                    textScaleFactor: 0.8,
-                  )),
-              Spacer(
-                flex: 8,
-              )
-            ]),
-          )
-        ],
-      );
+      return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Container(
+            width: 87,
+            height: 87,
+            margin: EdgeInsets.only(top: 22.5),
+            child: CachedNetworkImage(
+                imageUrl:
+                    'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/${myPageController.myProfile.value.PROFILE_PHOTO}',
+                imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: imageProvider, fit: BoxFit.fill))),
+                fadeInDuration: Duration(milliseconds: 0),
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Image(image: AssetImage('assets/images/spinner.gif')),
+                errorWidget: (context, url, error) {
+                  print(error);
+                  return Icon(Icons.error);
+                })),
+        Container(width: MediaQuery.of(context).size.width, height: 6),
+        Container(
+            height: 28,
+            child: Text('${myPageController.myProfile.value.PROFILE_NICKNAME}',
+                style: const TextStyle(
+                    color: const Color(0xffffffff),
+                    fontWeight: FontWeight.w700,
+                    fontFamily: "PingFangSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 21.0),
+                textAlign: TextAlign.left)),
+        Container(
+            margin: EdgeInsets.only(top: 3.5),
+            height: 18.5,
+            child: Text(
+                "${myPageController.myProfile.value.PROFILE_MESSAGE}，${myPageController.myProfile.value.PROFILE_SCHOOL}",
+                style: const TextStyle(
+                    color: const Color(0xffffffff),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "PingFangSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
+                textAlign: TextAlign.left)),
+        Container(
+            height: 31,
+            margin: EdgeInsets.only(top: 29.5, bottom: 30),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Container(
+                  height: 31,
+                  width: 98,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(31)),
+                      border:
+                          Border.all(color: const Color(0xffffffff), width: 2)),
+                  child: Row(children: [
+                    Container(
+                        margin: EdgeInsets.only(left: 17.2),
+                        width: 11.8406982421875,
+                        height: 13.6337890625,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage("assets/images/931.png")))),
+                    Container(
+                        margin: EdgeInsets.only(left: 9),
+                        child: Text("Profile",
+                            style: const TextStyle(
+                                color: const Color(0xffffffff),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14.0),
+                            textAlign: TextAlign.left))
+                  ])),
+              Container(
+                  height: 31,
+                  width: 98,
+                  margin: EdgeInsets.only(left: 46.5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(31)),
+                      border:
+                          Border.all(color: const Color(0xffffffff), width: 2)),
+                  child: Row(children: [
+                    Container(
+                        margin: EdgeInsets.only(left: 17.2),
+                        width: 11.8406982421875,
+                        height: 13.6337890625,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage("assets/images/601.png")))),
+                    Container(
+                        margin: EdgeInsets.only(left: 9),
+                        child: Text("Setting",
+                            style: const TextStyle(
+                                color: const Color(0xffffffff),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14.0),
+                            textAlign: TextAlign.left))
+                  ]))
+            ]))
+      ]);
     });
   }
 }
