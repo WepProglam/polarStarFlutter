@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
+import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
 
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
@@ -57,11 +58,17 @@ class Timetable extends StatelessWidget {
               Container(
                 width: size.width,
                 margin: const EdgeInsets.only(top: 15.5),
-                height: 44 + 60.0 * 11,
-                child: TimeTable(
-                  timeTableController: timeTableController,
-                  width: size.width,
-                ),
+                height: 44 + 60.0 * 14,
+                child: Stack(children: [
+                  TimeTableBin(
+                    timeTableController: timeTableController,
+                    width: size.width,
+                  ),
+                  TimeTableContent(
+                    timeTableController: timeTableController,
+                    width: size.width,
+                  )
+                ]),
               ),
               Container(
                 margin: const EdgeInsets.only(left: 15, top: 20.3),
@@ -93,8 +100,8 @@ class Timetable extends StatelessWidget {
   }
 }
 
-class TimeTable extends StatelessWidget {
-  const TimeTable(
+class TimeTableBin extends StatelessWidget {
+  const TimeTableBin(
       {Key key, @required this.timeTableController, @required this.width})
       : super(key: key);
 
@@ -104,7 +111,7 @@ class TimeTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> days = [
-      "MON.",
+      "Mon.",
       "Tues.",
       "Wed.",
       "Thur.",
@@ -112,81 +119,117 @@ class TimeTable extends StatelessWidget {
       "Sat.",
       "Sun."
     ];
-    return Column(
-      children: [
-        Container(
-          height: 44 + 60.0 * 11,
-          child: ListView.builder(
-              itemCount: 12,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                if (index == 0) {
-                  return Container(
-                    height: 44,
-                    // decoration: BoxDecoration(
-                    //     color: Colors.white,
-                    //     border: Border(
-                    //         bottom:
-                    //             BorderSide(color: Colors.black, width: 0.5))),
-                    child: TimeTableDays(width: width, days: days),
-                  );
-                } else {
-                  return Container(
-                    height: 60,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: width,
-                          child: ListView.builder(
-                              itemCount: 8,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (BuildContext context, int i) {
-                                if (i == 0) {
-                                  return Container(
-                                    width: width / 12,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey,
-                                        border: Border(
-                                            right: BorderSide(
-                                                color: Colors.black,
-                                                width: 0.5),
-                                            bottom: BorderSide(
-                                                color: Colors.black,
-                                                width: 0.5))),
-                                    child: Center(
-                                      child: Text("${index + 8}",
-                                          style: const TextStyle(
-                                              color: const Color(0xff333333),
-                                              fontWeight: FontWeight.w700,
-                                              fontFamily: "PingFangSC",
-                                              fontStyle: FontStyle.normal,
-                                              fontSize: 14.0),
-                                          textAlign: TextAlign.left),
-                                    ),
-                                  );
-                                } else {
-                                  return Container(
-                                    width: (width * (11 / 12)) / 7,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border(
-                                            right: BorderSide(
-                                                color: Colors.black,
-                                                width: 0.5),
-                                            bottom: BorderSide(
-                                                color: Colors.black,
-                                                width: 0.5))),
-                                  );
-                                }
-                              }),
-                        )
-                      ],
-                    ),
-                  );
-                }
-              }),
-        )
-      ],
+    return Container(
+      height: 44 + 60.0 * 14,
+      child: ListView.builder(
+          itemCount: 14,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            if (index == 0) {
+              return Container(
+                height: 44,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border(
+                        bottom: BorderSide(color: Colors.black, width: 0.5))),
+                child: TimeTableDays(width: width, days: days),
+              );
+            } else {
+              return Container(
+                height: 60,
+                child: ListView.builder(
+                    itemCount: 8,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (BuildContext context, int i) {
+                      if (i == 0) {
+                        return Container(
+                          width: width / 12,
+                          decoration: tableBoxDecoration,
+                          child: Center(
+                            child: Text("${index + 8}",
+                                style: const TextStyle(
+                                    color: const Color(0xff333333),
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                textAlign: TextAlign.left),
+                          ),
+                        );
+                      } else {
+                        return Container(
+                          width: (width * (11 / 12)) / 7,
+                          decoration: innerTableBoxDecoration,
+                        );
+                      }
+                    }),
+              );
+            }
+          }),
+    );
+  }
+}
+
+class TimeTableContent extends StatelessWidget {
+  const TimeTableContent(
+      {Key key, @required this.timeTableController, @required this.width})
+      : super(key: key);
+
+  final TimeTableController timeTableController;
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String> days = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"];
+
+    return Container(
+      height: 60.0 * 14,
+      width: width * 11 / 12,
+      margin: EdgeInsets.only(top: 44, left: width / 12),
+      child: ListView.builder(
+          itemCount: 7,
+          scrollDirection: Axis.horizontal,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            int class_index = 0;
+
+            return Container(
+              height: 60 / 12,
+              width: (width * 11 / 12) / 7,
+              child: ListView.builder(
+                  itemCount: 14 * 12,
+                  physics: NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (BuildContext context, int i) {
+                    int time = 9 * 60 + i * 5;
+
+                    if (timeTableController.showTimeTable[index].length <=
+                        class_index) {
+                      return SizedBox.shrink();
+                    } else if (timeTableController.showTimeTable[index]
+                                [class_index]["start_time"] <=
+                            time &&
+                        timeTableController.showTimeTable[index][class_index]
+                                ["end_time"] >=
+                            time) {
+                      print(
+                          "start : ${timeTableController.showTimeTable[index][class_index]["start_time"]} end : ${timeTableController.showTimeTable[index][class_index]["end_time"]} time : ${time}");
+
+                      if (timeTableController.showTimeTable[index][class_index]
+                              ["end_time"] ==
+                          time) {
+                        class_index += 1;
+                      }
+                      return Container(
+                        height: 60 / 12,
+                        color: Colors.orange,
+                      );
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  }),
+            );
+          }),
     );
   }
 }
@@ -215,12 +258,12 @@ class TimeTableDays extends StatelessWidget {
                 if (i == 0) {
                   return Container(
                     width: width / 12,
-                    color: Colors.grey,
+                    decoration: tableBoxDecoration,
                   );
                 } else {
                   return Container(
                     width: (width * (11 / 12)) / 7,
-                    color: Colors.grey,
+                    decoration: tableBoxDecoration,
                     child: Center(
                       child: Text(
                         "${days[i - 1]}",
@@ -240,3 +283,15 @@ class TimeTableDays extends StatelessWidget {
     );
   }
 }
+
+const tableBoxDecoration = BoxDecoration(
+    color: Colors.grey,
+    border: Border(
+        bottom: BorderSide(color: Colors.black, width: 0.5),
+        right: BorderSide(color: Colors.black, width: 0.5)));
+
+const innerTableBoxDecoration = BoxDecoration(
+    color: Colors.white,
+    border: Border(
+        bottom: BorderSide(color: Colors.black, width: 0.5),
+        right: BorderSide(color: Colors.black, width: 0.5)));
