@@ -65,7 +65,6 @@ class TopIcon extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(left: 15),
                   child: Text("${timeTableController.selectTable.value.NAME}",
-                      // "${timeTableController.selectYearSemester[timeTableController.yearSemesterIndex.value].NAME}",
                       style: const TextStyle(
                           color: const Color(0xff333333),
                           fontWeight: FontWeight.w700,
@@ -94,24 +93,130 @@ class TopIcon extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(top: 9.7, bottom: 2.3, right: 15),
             child: // 패스 940
-                Container(
-              width: 16,
-              height: 16,
-              child: Image.asset(
-                "assets/images/941.png",
-                fit: BoxFit.fitHeight,
+                InkWell(
+              onTap: () {
+                Get.toNamed("/timetable/addClass");
+              },
+              child: Container(
+                width: 16,
+                height: 16,
+                child: Image.asset(
+                  "assets/images/941.png",
+                  fit: BoxFit.fitHeight,
+                ),
               ),
             ),
           ),
           Container(
             margin: const EdgeInsets.only(top: 9.7, bottom: 2.3, right: 15),
             child: // 패스 940
-                Container(
-              width: 16,
-              height: 16,
-              child: Image.asset(
-                "assets/images/17_2.png",
-                fit: BoxFit.fitHeight,
+                InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: const Radius.circular(30),
+                            topRight: const Radius.circular(30))),
+                    builder: (BuildContext context) {
+                      return Container(
+                        height: 384.5,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  top: 26.5, left: 26.5, right: 26.5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Rectangle-path
+                                  TimeTableSettingItem(
+                                    imagePath: "710.png",
+                                    title: "Edit Curriculam",
+                                  ),
+                                  TimeTableSettingItem(
+                                    imagePath: "713.png",
+                                    title: "Visible Range",
+                                  ),
+                                  TimeTableSettingItem(
+                                    imagePath: "714.png",
+                                    title: "Save Picture",
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  top: 24, left: 26.5, right: 26.5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Rectangle-path
+                                  TimeTableSettingItem(
+                                    imagePath: "715.png",
+                                    title: "Share Links",
+                                  ),
+                                  TimeTableSettingItem(
+                                    imagePath: "320.png",
+                                    title: "Delete",
+                                  ),
+                                  TimeTableSettingItem(
+                                    imagePath: "897.png",
+                                    title: "Set Default",
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                                margin: const EdgeInsets.only(top: 24),
+                                width: 49,
+                                height: 49,
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.back();
+                                  },
+                                  child: Image.asset(
+                                    "assets/images/close.png",
+                                    fit: BoxFit.fitHeight,
+                                  ),
+                                )),
+                            Center(
+                              child: Container(
+                                  margin: const EdgeInsets.only(top: 22),
+                                  width: 135,
+                                  height: 5,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(100)),
+                                      color: const Color(0xff000000))),
+                            )
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  color: const Color(0x4d4710b8),
+                                  offset: Offset(0, -3),
+                                  blurRadius: 6,
+                                  spreadRadius: 0)
+                            ],
+                            color: const Color(0xffffffff),
+                            borderRadius: BorderRadius.only(
+                                topLeft: const Radius.circular(30),
+                                topRight: const Radius.circular(30))),
+                      );
+                    });
+              },
+              child: Container(
+                width: 16,
+                height: 16,
+                child: Image.asset(
+                  "assets/images/17_2.png",
+                  fit: BoxFit.fitHeight,
+                ),
               ),
             ),
           ),
@@ -130,6 +235,67 @@ class TopIcon extends StatelessWidget {
         ],
       );
     });
+  }
+}
+
+class TimeTableSettingItem extends StatelessWidget {
+  const TimeTableSettingItem({Key key, this.imagePath, this.title})
+      : super(key: key);
+
+  final String imagePath;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        InkWell(
+          onTap: () {
+            print("${title}");
+            Get.back();
+          },
+          child: Stack(children: [
+            Opacity(
+              opacity: 0.14999999105930328,
+              child: Container(
+                  width: 84.70172119140625,
+                  height: 84.70166015625,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(85)),
+                      border:
+                          Border.all(color: const Color(0xff4a4a4a), width: 1),
+                      color: const Color(0x4d4a4a4a))),
+            ),
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                  width: 34.33978271484375,
+                  height: 34.44189453125,
+                  child: Image.asset(
+                    "assets/images/${imagePath}",
+                    fit: BoxFit.fitWidth,
+                  ),
+                ),
+              ),
+            ),
+          ]),
+        ),
+        // Run
+        Container(
+          margin: const EdgeInsets.only(top: 11.05),
+          child: Text("${title}",
+              style: const TextStyle(
+                  color: const Color(0xff2f2f2f),
+                  fontWeight: FontWeight.w700,
+                  fontFamily: "PingFangSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0),
+              textAlign: TextAlign.left),
+        )
+      ],
+    );
   }
 }
 
