@@ -25,140 +25,144 @@ class ClassView extends StatelessWidget {
     final examInfoTextController = TextEditingController();
     final testStrategyController = TextEditingController();
 
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBars().classBasicAppBar(),
-      bottomSheet: Ink(
-        color: Colors.blue[900],
-        child: InkWell(
-          onTap: () {
-            if (classViewController.typeIndex.value == 0) {
-              showModalBottomSheet(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: const Radius.circular(30),
-                          topRight: const Radius.circular(30))),
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (BuildContext context) {
-                    return WriteComment(
-                        classViewController: classViewController,
-                        reviewTextController: reviewTextController);
-                  });
-            } else {
-              showModalBottomSheet(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: const Radius.circular(30),
-                          topRight: const Radius.circular(30))),
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (BuildContext context) {
-                    return WriteExamInfo(
-                        classViewController: classViewController,
-                        examInfoTextController: examInfoTextController,
-                        testStrategyController: testStrategyController);
-                  });
-            }
-          },
-          child: Container(
-            height: 50,
-            width: Get.mediaQuery.size.width,
-            child: Obx(() => Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        classViewController.typeIndex.value == 0
-                            ? Icons.post_add
-                            : Icons.add_circle_outline,
-                        color: Colors.white,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.grey[200],
+        appBar: AppBars().classBasicAppBar(),
+        bottomSheet: Ink(
+          color: Colors.blue[900],
+          child: InkWell(
+            onTap: () {
+              if (classViewController.typeIndex.value == 0) {
+                showModalBottomSheet(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: const Radius.circular(30),
+                            topRight: const Radius.circular(30))),
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return WriteComment(
+                          classViewController: classViewController,
+                          reviewTextController: reviewTextController);
+                    });
+              } else {
+                showModalBottomSheet(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: const Radius.circular(30),
+                            topRight: const Radius.circular(30))),
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return WriteExamInfo(
+                          classViewController: classViewController,
+                          examInfoTextController: examInfoTextController,
+                          testStrategyController: testStrategyController);
+                    });
+              }
+            },
+            child: Container(
+              height: 50,
+              width: Get.mediaQuery.size.width,
+              child: Obx(() => Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          classViewController.typeIndex.value == 0
+                              ? Icons.post_add
+                              : Icons.add_circle_outline,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        classViewController.typeIndex.value == 0
-                            ? "Writing Evaluation"
-                            : "Add Exam Information",
-                        textScaleFactor: 1.2,
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.normal),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          classViewController.typeIndex.value == 0
+                              ? "Writing Evaluation"
+                              : "Add Exam Information",
+                          textScaleFactor: 1.2,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal),
+                        ),
                       ),
-                    ),
-                  ],
-                )),
+                    ],
+                  )),
+            ),
           ),
         ),
-      ),
-      body: RefreshIndicator(
-        onRefresh: classViewController.refreshPage,
-        child: Obx(() {
-          if (classViewController.classViewAvailable.value) {
-            return SafeArea(
-              child: CustomScrollView(
-                slivers: <Widget>[
-                  SliverToBoxAdapter(
-                    child: ClassViewInfo(
-                        classInfoModel: classViewController.classInfo.value),
-                  ),
-                  SliverPersistentHeader(pinned: true, delegate: IndexButton()),
-                  SliverToBoxAdapter(
-                    child: Container(
-                      width: Get.mediaQuery.size.width,
-                      height: 10,
+        body: RefreshIndicator(
+          onRefresh: classViewController.refreshPage,
+          child: Obx(() {
+            if (classViewController.classViewAvailable.value) {
+              return SafeArea(
+                child: CustomScrollView(
+                  slivers: <Widget>[
+                    SliverToBoxAdapter(
+                      child: ClassViewInfo(
+                          classInfoModel: classViewController.classInfo.value),
                     ),
-                  ),
-                  Obx(() {
-                    if (classViewController.typeIndex == 0) {
-                      return SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                          return ClassViewReview(
-                            classReviewModel:
-                                classViewController.classReviewList[index],
-                            index: index,
-                          );
-                        },
-                            childCount:
-                                classViewController.classReviewList.length),
-                      );
-                    } else {
-                      if (classViewController.classExamAvailable.value) {
+                    SliverPersistentHeader(
+                        pinned: true, delegate: IndexButton()),
+                    SliverToBoxAdapter(
+                      child: Container(
+                        width: Get.mediaQuery.size.width,
+                        height: 10,
+                      ),
+                    ),
+                    Obx(() {
+                      if (classViewController.typeIndex == 0) {
                         return SliverList(
                           delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
-                            return ClassExamInfo(
-                              classExamModel:
-                                  classViewController.classExamList[index],
+                            return ClassViewReview(
+                              classReviewModel:
+                                  classViewController.classReviewList[index],
                               index: index,
                             );
                           },
                               childCount:
-                                  classViewController.classExamList.length),
+                                  classViewController.classReviewList.length),
                         );
                       } else {
-                        return SliverToBoxAdapter(
-                            child: Center(
-                          child: CircularProgressIndicator(),
-                        ));
+                        if (classViewController.classExamAvailable.value) {
+                          return SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                                (BuildContext context, int index) {
+                              return ClassExamInfo(
+                                classExamModel:
+                                    classViewController.classExamList[index],
+                                index: index,
+                              );
+                            },
+                                childCount:
+                                    classViewController.classExamList.length),
+                          );
+                        } else {
+                          return SliverToBoxAdapter(
+                              child: Center(
+                            child: CircularProgressIndicator(),
+                          ));
+                        }
                       }
-                    }
-                  }),
-                  SliverToBoxAdapter(
-                      child: SizedBox(
-                    height: 50,
-                  )),
-                ],
-              ),
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        }),
+                    }),
+                    SliverToBoxAdapter(
+                        child: SizedBox(
+                      height: 50,
+                    )),
+                  ],
+                ),
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
+        ),
       ),
     );
   }
