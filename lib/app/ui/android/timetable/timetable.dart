@@ -194,39 +194,22 @@ class TimeTableContent extends StatelessWidget {
             int class_index = 0;
 
             return Container(
-              height: 60 / 12,
               width: (width * 11 / 12) / 7,
               child: ListView.builder(
-                  itemCount: 14 * 12,
+                  itemCount: timeTableController.showTimeTable[index].length,
                   physics: NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   itemBuilder: (BuildContext context, int i) {
-                    int time = 9 * 60 + i * 5;
-
-                    if (timeTableController.showTimeTable[index].length <=
-                        class_index) {
-                      return SizedBox.shrink();
-                    } else if (timeTableController.showTimeTable[index]
-                                [class_index]["start_time"] <=
-                            time &&
-                        timeTableController.showTimeTable[index][class_index]
-                                ["end_time"] >=
-                            time) {
-                      print(
-                          "start : ${timeTableController.showTimeTable[index][class_index]["start_time"]} end : ${timeTableController.showTimeTable[index][class_index]["end_time"]} time : ${time}");
-
-                      if (timeTableController.showTimeTable[index][class_index]
-                              ["end_time"] ==
-                          time) {
-                        class_index += 1;
-                      }
-                      return Container(
-                        height: 60 / 12,
-                        color: Colors.orange,
-                      );
-                    } else {
-                      return SizedBox.shrink();
-                    }
+                    Map classItem =
+                        timeTableController.showTimeTable[index][class_index];
+                    return Container(
+                      height:
+                          (classItem["end_time"] - classItem["start_time"]) *
+                              1.0,
+                      color: Colors.black,
+                      margin: EdgeInsets.only(
+                          top: (classItem["start_time"] - 60 * 9) * 1.0),
+                    );
                   }),
             );
           }),
