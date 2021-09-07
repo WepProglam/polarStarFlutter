@@ -8,7 +8,7 @@ import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.da
 
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 
-const inputDecoration = InputDecoration(
+var inputDecoration = (hint) => InputDecoration(
     isDense: true,
     border: InputBorder.none,
     focusedBorder: InputBorder.none,
@@ -21,7 +21,7 @@ const inputDecoration = InputDecoration(
         fontFamily: "PingFangSC",
         fontStyle: FontStyle.normal,
         fontSize: 14.0),
-    hintText: "Please enter the course name");
+    hintText: "Please enter the ${hint} name");
 
 const textStyle = const TextStyle(
     color: Colors.black,
@@ -139,48 +139,50 @@ class TimetableAddClass extends StatelessWidget {
             margin: const EdgeInsets.only(left: 16, top: 11.3),
             child: Column(
               children: [
-                //강의명
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: Text("Course name",
-                            style: const TextStyle(
-                                color: const Color(0xff333333),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0),
-                            textAlign: TextAlign.center) // renyuan – 2
-
-                        ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5, bottom: 14.3),
-                      child: TextFormField(
-                        controller:
-                            timeTableAddClassController.professorNameController,
-                        onChanged: (value) {
-                          timeTableAddClassController.TOTAL_CLASS.update((val) {
-                            val.professor = timeTableAddClassController
-                                .professorNameController.text;
-                          });
-                        },
-                        maxLines: 1,
-                        style: textStyle,
-                        textAlign: TextAlign.left,
-                        decoration: inputDecoration,
+                //교강사명
+                Container(
+                  margin: const EdgeInsets.only(top: 12.3),
+                  child: Row(children: [
+                    Container(
+                      width: 10,
+                      margin: const EdgeInsets.only(bottom: 14.3),
+                      child: Icon(Icons.book),
+                    ),
+                    Container(
+                      width: size.width - 15.3 - 14.8 - 30,
+                      margin: const EdgeInsets.only(left: 30),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 14.3),
+                            child: TextFormField(
+                              controller: timeTableAddClassController
+                                  .professorNameController,
+                              onChanged: (value) {
+                                timeTableAddClassController.TOTAL_CLASS
+                                    .update((val) {
+                                  val.professor = timeTableAddClassController
+                                      .professorNameController.text;
+                                });
+                              },
+                              maxLines: 1,
+                              style: textStyle,
+                              textAlign: TextAlign.left,
+                              decoration: inputDecoration("professor"),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 15),
+                            child: Container(
+                                height: 0.5,
+                                decoration: BoxDecoration(
+                                    color: const Color(0xffdedede))),
+                          )
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 0.3),
-                      child: Container(
-                          width: size.width - 15.3 - 14.8,
-                          height: 0.5,
-                          decoration:
-                              BoxDecoration(color: const Color(0xffdedede))),
-                    )
-                  ],
+                  ]),
                 ),
                 //교강사명
                 Container(
@@ -212,7 +214,7 @@ class TimetableAddClass extends StatelessWidget {
                               maxLines: 1,
                               style: textStyle,
                               textAlign: TextAlign.left,
-                              decoration: inputDecoration,
+                              decoration: inputDecoration("course"),
                             ),
                           ),
                           Padding(
@@ -410,7 +412,7 @@ class TpoSelector extends StatelessWidget {
             maxLines: 1,
             style: textStyle,
             textAlign: TextAlign.left,
-            decoration: inputDecoration,
+            decoration: inputDecoration("class"),
           ),
         ),
         Container(
