@@ -40,9 +40,18 @@ class TimeTableController extends GetxController {
   // 디폴트 시간표 선택용 인덱스
   RxInt yearSemesterIndex = 0.obs;
 
-  List<List<Map<String, dynamic>>> showTimeTable = [[], [], [], [], [], [], []];
-
+  RxList<List<Map<String, dynamic>>> showTimeTable =
+      <List<Map<String, dynamic>>>[[], [], [], [], [], [], []].obs;
+  final List<Color> colorList = [
+    Color(0xfff78773),
+    Color(0xfff0c26c),
+    Color(0xffadc972),
+    Color(0xff7ba5ef),
+    Color(0xff9c87e6),
+    Color(0xff9c87e6)
+  ];
   void makeShowTimeTable() {
+    int colorIndex = 0;
     for (var item in selectTable.value.CLASSES) {
       for (var detail in item.classes) {
         print(detail.day);
@@ -55,18 +64,19 @@ class TimeTableController extends GetxController {
 
         List end = detail.end_time.split(":");
         int endTime = int.parse(end[0]) * 60 + int.parse(end[1]);
-        showTimeTable[day_index].add(
-            {"start_time": startTime, "end_time": endTime, "classInfo": item});
+        showTimeTable[day_index].add({
+          "start_time": startTime,
+          "end_time": endTime,
+          "classInfo": item,
+          "color": colorList[colorIndex % 6]
+        });
       }
-    }
-
-    for (var item in showTimeTable) {
-      print(item);
+      colorIndex += 1;
     }
   }
 
   void initShowTimeTable() {
-    showTimeTable = [[], [], [], [], [], [], []];
+    showTimeTable.value = [[], [], [], [], [], [], []];
   }
 
   Future<void> refreshPage() async {
