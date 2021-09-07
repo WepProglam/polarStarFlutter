@@ -24,23 +24,20 @@ class Mypage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
+                          width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               image: DecorationImage(
                                   image: AssetImage('assets/images/279.png'),
                                   fit: BoxFit.none)),
                           child: MyPageProfile(
                               myPageController: myPageController)),
-                      Container(width: 30, height: 28),
-                      Spacer(
-                        flex: 20,
-                      ),
-                      Expanded(flex: 24, child: ProfileIndex()),
-                      Spacer(
-                        flex: 26,
-                      ),
-                      Spacer(
-                        flex: 4,
-                      ),
+                      Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 58,
+                          decoration:
+                              BoxDecoration(color: const Color(0xffffffff)),
+                          child: MyPageProfilePostIndex(
+                              myPageController: myPageController)),
                       Expanded(
                         flex: 2,
                         child: Container(
@@ -112,62 +109,57 @@ class MyPageProfilePostIndex extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Spacer(
-            flex: 27,
+          InkWell(
+            child: Container(
+                child: Text("Posted",
+                    style: TextStyle(
+                        color: myPageController.profilePostIndex.value == 0
+                            ? Color(0xff1a4678)
+                            : Color(0xff666666),
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "PingFangSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 18.0),
+                    textAlign: TextAlign.left)),
+            onTap: () {
+              myPageController.profilePostIndex.value = 0;
+            },
           ),
-          Expanded(
-            flex: 61,
-            child: InkWell(
-              child: Text(
-                "내가 쓴 글",
-                textScaleFactor: 0.8,
-                style: TextStyle(
-                    color: myPageController.profilePostIndex.value == 0
-                        ? Colors.red[700]
-                        : Colors.black),
-              ),
-              onTap: () {
-                myPageController.profilePostIndex.value = 0;
-              },
-            ),
+          InkWell(
+            child: Container(
+                margin: EdgeInsets.only(left: 68.5),
+                child: Text("Replied",
+                    style: TextStyle(
+                        color: myPageController.profilePostIndex.value == 1
+                            ? Color(0xff1a4678)
+                            : Color(0xff666666),
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "PingFangSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 18.0),
+                    textAlign: TextAlign.left)),
+            onTap: () {
+              myPageController.profilePostIndex.value = 1;
+            },
           ),
-          Spacer(
-            flex: 63,
-          ),
-          Expanded(
-            flex: 70,
-            child: InkWell(
-              child: Text("좋아요 누른 글",
-                  textScaleFactor: 0.8,
-                  style: TextStyle(
-                      color: myPageController.profilePostIndex.value == 1
-                          ? Colors.red[700]
-                          : Colors.black)),
-              onTap: () {
-                myPageController.profilePostIndex.value = 1;
-              },
-            ),
-          ),
-          Spacer(
-            flex: 45,
-          ),
-          Expanded(
-            flex: 54,
-            child: InkWell(
-              child: Text("저장한 글",
-                  textScaleFactor: 0.8,
-                  style: TextStyle(
-                      color: myPageController.profilePostIndex.value == 2
-                          ? Colors.red[700]
-                          : Colors.black)),
-              onTap: () {
-                myPageController.profilePostIndex.value = 2;
-              },
-            ),
-          ),
-          Spacer(
-            flex: 40,
+          InkWell(
+            child: Container(
+                margin: EdgeInsets.only(left: 71),
+                child: Text("Favorite",
+                    style: TextStyle(
+                        color: myPageController.profilePostIndex.value == 2
+                            ? Color(0xff1a4678)
+                            : Color(0xff666666),
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "PingFangSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 18.0),
+                    textAlign: TextAlign.left)),
+            onTap: () {
+              myPageController.profilePostIndex.value = 2;
+            },
           )
         ],
       );
@@ -281,9 +273,9 @@ class MyPageProfile extends StatelessWidget {
                   print(error);
                   return Icon(Icons.error);
                 })),
-        Container(width: MediaQuery.of(context).size.width, height: 6),
         Container(
             height: 28,
+            margin: EdgeInsets.only(top: 6),
             child: Text('${myPageController.myProfile.value.PROFILE_NICKNAME}',
                 style: const TextStyle(
                     color: const Color(0xffffffff),
