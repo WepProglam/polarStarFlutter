@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
+import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/timetable.dart';
 
@@ -21,49 +22,61 @@ class Timetable extends StatelessWidget {
               CustomBottomNavigationBar(mainController: mainController),
           body: SingleChildScrollView(
               child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 child: Obx(() {
-                  return timeTableController.dataAvailable.value
-                      ? TopIcon(
+                  bool temp = timeTableController.dataAvailable.value;
+                  return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TopIcon(
                           timeTableController: timeTableController,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 3.5, 0, 0),
+                          child: Text("${timeTableController.yearSem}",
+                              style: const TextStyle(
+                                  color: const Color(0xff333333),
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "PingFangSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14.0),
+                              textAlign: TextAlign.left),
                         )
-                      : InkWell(
-                          onTap: () {
-                            Get.toNamed("/class");
-                          },
-                          child: Icon(Icons.person),
-                        );
+                      ]);
                 }),
               ),
-              Row(children: [
-                Obx(() {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 3.5, 0, 0),
-                    child: Text(
-                        timeTableController.dataAvailable.value
-                            ? "${timeTableController.yearSem}"
-                            : "no info",
-                        style: const TextStyle(
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
-                        textAlign: TextAlign.left),
-                  );
-                }),
-                Spacer(),
-              ]),
               Container(
                 width: size.width,
                 margin: const EdgeInsets.only(top: 15.5),
-                height: 44 + 60.0 * 13,
+                height:
+                    // 100,
+                    44 + 60.0 * 13,
                 // 44 + 60.0 * 13,
-                child: TimeTablePackage(
-                    timeTableController: timeTableController,
-                    size: size,
-                    scrollable: false),
+                child: Obx(() {
+                  // temp 이거 뺴면 오류남(야매)
+                  bool temp = timeTableController.dataAvailable.value;
+                  return TimeTablePackage(
+                      timeTableController: timeTableController,
+                      size: size,
+                      scrollable: false);
+                }),
+              ),
+              Container(
+                // height: 10,
+                margin: const EdgeInsets.only(left: 15, top: 20.3),
+                child: InkWell(
+                    onTap: () {
+                      Get.toNamed("/class");
+                    },
+                    child: Text("강의평가 페이지로 가기",
+                        style: const TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0))),
               ),
               Container(
                 margin: const EdgeInsets.only(left: 15, top: 20.3),
@@ -81,9 +94,13 @@ class Timetable extends StatelessWidget {
                 margin: const EdgeInsets.only(left: 15, top: 22, bottom: 20),
                 height: 184.5,
                 //과목 리스트
-                child: SubjectList(
-                  timeTableController: timeTableController,
-                ),
+                child: Obx(() {
+                  // temp 이거 뺴면 오류남(야매)
+                  bool temp = timeTableController.dataAvailable.value;
+                  return SubjectList(
+                    timeTableController: timeTableController,
+                  );
+                }),
               )
             ],
           ))),
@@ -115,14 +132,22 @@ class TimeTablePackage extends StatelessWidget {
             Container(
               height: 44 + 60.0 * 13,
               child: Stack(children: [
-                TimeTableBin(
-                  timeTableController: timeTableController,
-                  width: size.width,
-                ),
-                TimeTableContent(
-                  timeTableController: timeTableController,
-                  width: size.width,
-                )
+                Obx(() {
+                  // temp 이거 뺴면 오류남(야매)
+                  bool temp = timeTableController.dataAvailable.value;
+                  return TimeTableBin(
+                    timeTableController: timeTableController,
+                    width: size.width,
+                  );
+                }),
+                Obx(() {
+                  // temp 이거 뺴면 오류남(야매)
+                  bool temp = timeTableController.dataAvailable.value;
+                  return TimeTableContent(
+                    timeTableController: timeTableController,
+                    width: size.width,
+                  );
+                })
               ]),
             )
           ],

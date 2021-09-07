@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_repository.dart';
@@ -54,11 +53,7 @@ class TimeTableController extends GetxController {
     int colorIndex = 0;
     for (var item in selectTable.value.CLASSES) {
       for (var detail in item.classes) {
-        print(detail.day);
-        print(detail.start_time);
         int day_index = getIndexFromDay(detail.day);
-        print(day_index);
-        print(showTimeTable[day_index]);
         List start = detail.start_time.split(":");
         int startTime = int.parse(start[0]) * 60 + int.parse(start[1]);
 
@@ -93,6 +88,10 @@ class TimeTableController extends GetxController {
       switch (jsonResponse["statusCode"]) {
         case 200:
           otherTable["${YEAR}년 ${SEMESTER}학기"] = jsonResponse["otherTable"];
+
+          //디폴트인 순서대로 정렬
+          otherTable["${YEAR}년 ${SEMESTER}학기"]
+              .sort((a, b) => b.value.IS_DEFAULT.compareTo(a.value.IS_DEFAULT));
 
           selectTable = jsonResponse["defaultTable"];
 
@@ -179,12 +178,12 @@ class TimeTableController extends GetxController {
       makeShowTimeTable();
     }
 
-    ever(selectedTimeTableId, (_) {
-      print(selectedTimeTableId.value);
+    ever(selectedTimeTableId, (_) async {
+      print("인덱스 변경 ${selectedTimeTableId.value}");
       bool needDownload = need_download_tableId();
       if (needDownload) {
         print("need Download ${selectedTimeTableId.value}!");
-        getTimeTable(selectedTimeTableId.value);
+        await getTimeTable(selectedTimeTableId.value);
       }
       initShowTimeTable();
       makeShowTimeTable();

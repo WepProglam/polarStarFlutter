@@ -37,7 +37,6 @@ class TimetableAddClass extends StatelessWidget {
   final TimeTableAddClassController timeTableAddClassController = Get.find();
   @override
   Widget build(BuildContext context) {
-    print("asdfasdf");
     final Size size = MediaQuery.of(context).size;
 
     return SafeArea(
@@ -127,7 +126,7 @@ class TimetableAddClass extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.only(top: 12.5),
-            height: size.height - 32 - 381 - 30,
+            height: 200,
             child: TimeTablePackage(
               timeTableController: timeTableController,
               size: size,
@@ -172,19 +171,12 @@ class TimetableAddClass extends StatelessWidget {
                               decoration: inputDecoration("professor"),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 15),
-                            child: Container(
-                                height: 0.5,
-                                decoration: BoxDecoration(
-                                    color: const Color(0xffdedede))),
-                          )
                         ],
                       ),
                     ),
                   ]),
                 ),
-                //교강사명
+                //강의명
                 Container(
                   margin: const EdgeInsets.only(top: 12.3),
                   child: Row(children: [
@@ -217,13 +209,6 @@ class TimetableAddClass extends StatelessWidget {
                               decoration: inputDecoration("course"),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 15),
-                            child: Container(
-                                height: 0.5,
-                                decoration: BoxDecoration(
-                                    color: const Color(0xffdedede))),
-                          )
                         ],
                       ),
                     ),
@@ -264,37 +249,63 @@ class ClassInfoTPO extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-                height: 21.5,
-                padding: const EdgeInsets.only(left: 2.5),
-                child:
-                    // Class time and place
-                    Text("Class time and place",
-                        style: const TextStyle(
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.w700,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
-                        textAlign: TextAlign.center)),
+            Row(
+              children: [
+                Container(
+                  width: 10,
+                  margin: const EdgeInsets.only(bottom: 14.3),
+                  child: Icon(Icons.timer),
+                ),
+                Container(
+                  width: size.width - 15.3 - 14.8 - 30,
+                  margin: const EdgeInsets.only(left: 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.only(bottom: 14.3),
+                          child: Text(
+                            "요일과 시간을 설정해주세요",
+                            style: const TextStyle(
+                                color: const Color(0xff999999),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14.0),
+                          )),
+                    ],
+                  ),
+                ),
+              ],
+            ),
             Obx(() {
               double height =
-                  timeTableAddClassController.CLASS_LIST.length * 120.0;
+                  timeTableAddClassController.CLASS_LIST.length * 92.0;
               return Container(
                 height: height,
+                margin: const EdgeInsets.only(left: 30),
                 child: ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: timeTableAddClassController.CLASS_LIST.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        child: TpoSelector(
-                            timeTableAddClassController:
-                                timeTableAddClassController,
-                            classIndex: index,
-                            days: days,
-                            size: size),
-                        padding: const EdgeInsets.only(bottom: 18.8),
-                      );
+                      return Column(children: [
+                        Container(
+                          child: TpoSelector(
+                              timeTableAddClassController:
+                                  timeTableAddClassController,
+                              classIndex: index,
+                              days: days,
+                              size: size),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Container(
+                              width: size.width - 15.3 - 14.8,
+                              height: 1,
+                              decoration: BoxDecoration(
+                                  color: const Color(0xffdedede))),
+                        ),
+                      ]);
                     }),
               );
             }),
@@ -302,12 +313,12 @@ class ClassInfoTPO extends StatelessWidget {
             // 사각형 511
             InkWell(
               onTap: () {
-                print(timeTableAddClassController.CLASS_LIST.length);
                 timeTableAddClassController.selectIndex.value += 1;
               },
               child: Container(
                   width: 80,
                   height: 28,
+                  margin: const EdgeInsets.only(left: 30, top: 10),
                   child: // complete
                       Center(
                     child: Text("장소 및 시간 추가",
@@ -349,9 +360,6 @@ class TpoSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(timeTableAddClassController.CLASS_LIST[classIndex].value.start_time);
-    print(timeTableAddClassController.CLASS_LIST[classIndex].value.end_time);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -393,13 +401,7 @@ class TpoSelector extends StatelessWidget {
           ),
         ),
         Container(
-          width: size.width - 15.3 - 14.8,
-          height: 0.5,
-          // margin: const EdgeInsets.only(top: 14.3),
-          decoration: BoxDecoration(color: const Color(0xffdedede)),
-        ),
-        Container(
-          padding: const EdgeInsets.only(top: 18.8),
+          padding: const EdgeInsets.only(top: 1),
           child: TextFormField(
             controller:
                 timeTableAddClassController.classLocationController[classIndex],
@@ -414,13 +416,6 @@ class TpoSelector extends StatelessWidget {
             textAlign: TextAlign.left,
             decoration: inputDecoration("class"),
           ),
-        ),
-        Container(
-          padding: const EdgeInsets.only(top: 14.3),
-          child: Container(
-              width: size.width - 15.3 - 14.8,
-              height: 0.5,
-              decoration: BoxDecoration(color: const Color(0xffdedede))),
         ),
       ],
     );
