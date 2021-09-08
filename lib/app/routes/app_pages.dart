@@ -32,6 +32,7 @@ import 'package:polarstar_flutter/app/ui/android/outside/outside_board.dart';
 import 'package:polarstar_flutter/app/ui/android/outside/outside_post.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/profile.dart';
+import 'package:polarstar_flutter/app/ui/android/profile/setting.dart';
 import 'package:polarstar_flutter/app/ui/android/search/search_board.dart';
 import 'package:polarstar_flutter/app/ui/android/sign_up/sign_up_page.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
@@ -106,6 +107,7 @@ class AppPages {
       page: () => Mypage(),
       binding: MyPageBinding(),
     ),
+    GetPage(name: Routes.SETTING, page: () => Setting()),
     GetPage(
       name: Routes.OUTSIDE,
       page: () => OutSide(),

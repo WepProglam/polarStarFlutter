@@ -263,7 +263,9 @@ class ProfileIndex extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            onTap: () => {print("text")},
+            onTap: () async {
+              await Get.toNamed('/myPage/setting');
+            },
           ),
           flex: 80,
         ),
@@ -386,7 +388,9 @@ class MyPageProfile extends StatelessWidget {
                                 textAlign: TextAlign.left))
                       ]))),
               InkWell(
-                  onTap: () => {print("text")},
+                  onTap: () async {
+                    await Get.toNamed('/myPage/setting');
+                  },
                   child: Container(
                       height: 31,
                       width: 98,
