@@ -28,10 +28,6 @@ class Profile extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            title: Text('polarStar'),
-            actions: [IconButton(onPressed: () {}, icon: Icon(Icons.person))],
-          ),
           body: RefreshIndicator(
             onRefresh: myPageController.getMineWrite,
             child: Stack(
@@ -40,270 +36,276 @@ class Profile extends StatelessWidget {
                 Obx(
                   () {
                     if (myPageController.dataAvailableMypage) {
-                      return Row(
-                        children: [
-                          Spacer(
-                            flex: 80,
-                          ),
-                          Expanded(
-                              flex: 280,
-                              child: Column(children: [
-                                Spacer(
-                                  flex: 56,
-                                ),
-                                Expanded(
-                                    flex: 200,
-                                    child: Column(children: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Get.defaultDialog(
-                                              title: "프로필 사진을 변경하시겠습니까?",
-                                              textConfirm: "네",
-                                              textCancel: "아니오",
-                                              confirm: ElevatedButton(
-                                                  onPressed: () async {
-                                                    Get.back();
-
-                                                    await getGalleryImage();
-                                                    await myPageController
-                                                        .upload();
-                                                  },
-                                                  child: Text("네")),
-                                              cancel: ElevatedButton(
-                                                  onPressed: () {
-                                                    Get.back();
-                                                  },
-                                                  child: Text("아니오")));
-                                        },
-                                        child: CachedNetworkImage(
-                                            imageUrl:
-                                                'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/${myPageController.myProfile.value.PROFILE_PHOTO}',
-                                            fadeInDuration:
-                                                Duration(milliseconds: 0),
-                                            progressIndicatorBuilder: (context,
-                                                    url, downloadProgress) =>
-                                                Image(
-                                                    image: AssetImage(
-                                                        'image/spinner.gif')),
-                                            errorWidget: (context, url, error) {
-                                              print(error);
-                                              return Icon(Icons.error);
-                                            }),
+                      return Column(children: [
+                        Container(
+                            height: 268.5,
+                            child: Stack(children: [
+                              Container(
+                                height: 141,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image:
+                                            AssetImage('assets/images/279.png'),
+                                        fit: BoxFit.none)),
+                              ),
+                              Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Container(
+                                      height: 129,
+                                      width: 129,
+                                      margin: EdgeInsets.only(top: 70.5),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            color: const Color(0x24ffffff),
+                                            width: 11),
                                       ),
-                                    ])),
-                                Spacer(
-                                  flex: 60,
+                                      child: CachedNetworkImage(
+                                          imageUrl:
+                                              'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/${myPageController.myProfile.value.PROFILE_PHOTO}',
+                                          imageBuilder: (context,
+                                                  imageProvider) =>
+                                              Container(
+                                                  decoration: BoxDecoration(
+                                                      boxShadow: [
+                                                    BoxShadow(
+                                                        color: const Color(
+                                                            0x4a143a66),
+                                                        offset: Offset(0, 10),
+                                                        blurRadius: 26,
+                                                        spreadRadius: 0)
+                                                  ],
+                                                      shape: BoxShape.circle,
+                                                      image: DecorationImage(
+                                                          image: imageProvider,
+                                                          fit: BoxFit.fill))),
+                                          fadeInDuration:
+                                              Duration(milliseconds: 0),
+                                          progressIndicatorBuilder: (context,
+                                                  url, downloadProgress) =>
+                                              Image(
+                                                  image: AssetImage(
+                                                      'assets/images/spinner.gif')),
+                                          errorWidget: (context, url, error) {
+                                            print(error);
+                                            return Icon(Icons.error);
+                                          }))),
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 172, left: 100),
+                                  width: 30.5,
+                                  height: 30.5,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: const Color(0x3352749d),
+                                            offset: Offset(0, 6),
+                                            blurRadius: 20,
+                                            spreadRadius: 0)
+                                      ],
+                                      color: const Color(0xffffffff)),
                                 ),
-                                Expanded(
-                                  flex: 50,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "아이디",
-                                        textScaleFactor: 1.5,
-                                      ),
-                                      Expanded(
-                                          child: Text(
-                                        "${myPageController.myProfile.value.LOGIN_ID}",
-                                        style: TextStyle(fontSize: 20),
-                                        textAlign: TextAlign.center,
-                                      ))
-                                    ],
-                                  ),
-                                ),
-                                Spacer(
-                                  flex: 20,
-                                ),
-                                Expanded(
-                                  flex: 50,
-                                  child: Row(children: [
-                                    Text(
-                                      "학교",
-                                      style: TextStyle(fontSize: 30),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        "${myPageController.myProfile.value.PROFILE_SCHOOL}",
-                                        style: TextStyle(fontSize: 20),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    )
-                                  ]),
-                                ),
-                                Spacer(
-                                  flex: 20,
-                                ),
-                                Expanded(
-                                  flex: 50,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "프로필 메시지",
-                                        textScaleFactor: 1.5,
-                                      ),
-                                      Expanded(
-                                          child: Text(
-                                        myPageController
-                                            .myProfile.value.PROFILE_MESSAGE,
-                                        style: TextStyle(fontSize: 20),
-                                        textAlign: TextAlign.center,
-                                      )),
-                                      InkWell(
-                                        child: Icon(Icons.edit),
-                                        onTap: () {
-                                          Get.defaultDialog(
-                                            title: "프로필 메세지 변경",
-                                            barrierDismissible: true,
-                                            content: Column(
-                                              children: [
-                                                TextFormField(
-                                                  controller:
-                                                      profilemessageController,
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  maxLines: 1,
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                    "기존 프로필 메시지 : ${myPageController.myProfile.value.PROFILE_MESSAGE}"),
-                                                SizedBox(
-                                                  height: 30,
-                                                ),
-                                                ElevatedButton(
-                                                    onPressed: () async {
-                                                      String tempProfileMsg =
-                                                          profilemessageController
-                                                              .text;
-
-                                                      tempProfileMsg =
-                                                          tempProfileMsg.trim();
-                                                      if (tempProfileMsg
-                                                          .isNotEmpty) {
-                                                        if (tempProfileMsg ==
-                                                            myPageController
-                                                                .myProfile
-                                                                .value
-                                                                .PROFILE_MESSAGE) {
-                                                          Get.snackbar(
-                                                              "프로필 메세지가 동일합니다.",
-                                                              "프로필 메세지가 동일합니다.");
-                                                        } else {
-                                                          await myPageController
-                                                              .updateProfile(
-                                                                  tempProfileMsg,
-                                                                  myPageController
-                                                                      .myProfile
-                                                                      .value
-                                                                      .PROFILE_NICKNAME);
-                                                        }
-                                                        print(
-                                                            profilemessageController
-                                                                .text);
-                                                      }
-                                                    },
-                                                    child: Text("수정하기"))
-                                              ],
-                                            ),
-                                          );
-                                          print("수정하기");
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Spacer(
-                                  flex: 20,
-                                ),
-                                Expanded(
-                                  flex: 50,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "닉네임",
-                                        textScaleFactor: 1.5,
-                                      ),
-                                      Expanded(
-                                          child: Text(
-                                        myPageController
-                                            .myProfile.value.PROFILE_NICKNAME,
-                                        style: TextStyle(fontSize: 20),
-                                        textAlign: TextAlign.center,
-                                      )),
-                                      InkWell(
-                                        child: Icon(Icons.edit),
-                                        onTap: () {
-                                          Get.defaultDialog(
-                                            title: "닉네임 변경",
-                                            content: Column(
-                                              children: [
-                                                TextFormField(
-                                                  controller:
-                                                      nicknameController,
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  maxLines: 1,
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                    "기존 닉네임 : ${myPageController.myProfile.value.PROFILE_NICKNAME}"),
-                                                SizedBox(
-                                                  height: 30,
-                                                ),
-                                                ElevatedButton(
-                                                    onPressed: () async {
-                                                      String tempNickName =
-                                                          nicknameController
-                                                              .text;
-
-                                                      tempNickName =
-                                                          tempNickName.trim();
-                                                      if (tempNickName
-                                                          .isNotEmpty) {
-                                                        if (tempNickName ==
-                                                            myPageController
-                                                                .myProfile
-                                                                .value
-                                                                .PROFILE_NICKNAME) {
-                                                          Get.snackbar(
-                                                              "기존 닉네임과 동일합니다.",
-                                                              "기존 닉네임과 동일합니다.");
-                                                        } else {
-                                                          await myPageController
-                                                              .updateProfile(
-                                                                  myPageController
-                                                                      .myProfile
-                                                                      .value
-                                                                      .PROFILE_MESSAGE,
-                                                                  tempNickName);
-                                                        }
-                                                        print(
-                                                            profilemessageController
-                                                                .text);
-                                                      }
-                                                    },
-                                                    child: Text("수정하기"))
-                                              ],
-                                            ),
-                                          );
-                                          print("수정하기");
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Spacer(
-                                  flex: 20,
-                                ),
-                              ])),
-                          Spacer(
-                            flex: 80,
-                          ),
-                        ],
-                      );
+                              ),
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: Container(
+                                    margin:
+                                        EdgeInsets.only(top: 180, left: 100),
+                                    width: 13.7,
+                                    height: 11.8,
+                                    child:
+                                        Image.asset("assets/images/605.png")),
+                              ),
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: Container(
+                                    margin: EdgeInsets.only(top: 217),
+                                    height: 28,
+                                    child: // Userd
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                          Text(
+                                              '${myPageController.myProfile.value.LOGIN_ID}',
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff333333),
+                                                  fontWeight: FontWeight.w700,
+                                                  fontFamily: "PingFangSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 21.0),
+                                              textAlign: TextAlign.center),
+                                          InkWell(
+                                            child: Container(
+                                                margin:
+                                                    EdgeInsets.only(left: 10.3),
+                                                child: Image.asset(
+                                                    "assets/images/934.png",
+                                                    width: 15.3,
+                                                    height: 16.8)),
+                                            onTap: () => {},
+                                          )
+                                        ])),
+                              )
+                            ])),
+                        Container(
+                            height: 10,
+                            decoration:
+                                BoxDecoration(color: const Color(0xfff6f6f6))),
+                        Expanded(
+                            child: Container(
+                                child: Column(
+                          children: [
+                            Container(
+                                height: 54.6,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: const Color(0xffdedede),
+                                            width: 1))),
+                                child: Stack(children: [
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                          margin: EdgeInsets.only(left: 15),
+                                          child: Text("Name",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff333333),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "PingFangSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 16.0),
+                                              textAlign: TextAlign.left))),
+                                  Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Container(
+                                          margin: EdgeInsets.only(right: 18),
+                                          child: Text("Li Ming",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff666666),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "PingFangSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 16.0),
+                                              textAlign: TextAlign.left)))
+                                ])),
+                            Container(
+                                height: 54.6,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: const Color(0xffdedede),
+                                            width: 1))),
+                                child: Stack(children: [
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                          margin: EdgeInsets.only(left: 15),
+                                          child: Text("University",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff333333),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "PingFangSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 16.0),
+                                              textAlign: TextAlign.left))),
+                                  Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Container(
+                                          margin: EdgeInsets.only(right: 18),
+                                          child: Text("Li Ming",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff666666),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "PingFangSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 16.0),
+                                              textAlign: TextAlign.left)))
+                                ])),
+                            Container(
+                                height: 54.6,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: const Color(0xffdedede),
+                                            width: 1))),
+                                child: Stack(children: [
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                          margin: EdgeInsets.only(left: 15),
+                                          child: Text("ID",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff333333),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "PingFangSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 16.0),
+                                              textAlign: TextAlign.left))),
+                                  Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Container(
+                                          margin: EdgeInsets.only(right: 18),
+                                          child: Text("Li Ming",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff666666),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "PingFangSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 16.0),
+                                              textAlign: TextAlign.left)))
+                                ])),
+                            Container(
+                                height: 54.6,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: const Color(0xffdedede),
+                                            width: 1))),
+                                child: Stack(children: [
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                          margin: EdgeInsets.only(left: 15),
+                                          child: Text("PW",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff333333),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "PingFangSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 16.0),
+                                              textAlign: TextAlign.left))),
+                                  Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Container(
+                                          margin: EdgeInsets.only(right: 18),
+                                          child: Text("Li Ming",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff666666),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "PingFangSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 16.0),
+                                              textAlign: TextAlign.left)))
+                                ]))
+                          ],
+                        )))
+                      ]);
                     } else {
                       return CircularProgressIndicator();
                     }

@@ -33,19 +33,11 @@ class Mypage extends StatelessWidget {
                               myPageController: myPageController)),
                       Container(
                           width: MediaQuery.of(context).size.width,
-                          height: 58,
                           decoration:
                               BoxDecoration(color: const Color(0xffffffff)),
                           child: MyPageProfilePostIndex(
                               myPageController: myPageController)),
                       Expanded(
-                        flex: 2,
-                        child: Container(
-                          color: Colors.purple,
-                        ),
-                      ),
-                      Expanded(
-                          flex: 412,
                           child: SingleChildScrollView(
                               scrollDirection: Axis.vertical,
                               child: Obx(() {
@@ -108,61 +100,123 @@ class MyPageProfilePostIndex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          InkWell(
-            child: Container(
-                child: Text("Posted",
-                    style: TextStyle(
-                        color: myPageController.profilePostIndex.value == 0
-                            ? Color(0xff1a4678)
-                            : Color(0xff666666),
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "PingFangSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 18.0),
-                    textAlign: TextAlign.left)),
-            onTap: () {
-              myPageController.profilePostIndex.value = 0;
-            },
-          ),
-          InkWell(
-            child: Container(
-                margin: EdgeInsets.only(left: 68.5),
-                child: Text("Replied",
-                    style: TextStyle(
-                        color: myPageController.profilePostIndex.value == 1
-                            ? Color(0xff1a4678)
-                            : Color(0xff666666),
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "PingFangSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 18.0),
-                    textAlign: TextAlign.left)),
-            onTap: () {
-              myPageController.profilePostIndex.value = 1;
-            },
-          ),
-          InkWell(
-            child: Container(
-                margin: EdgeInsets.only(left: 71),
-                child: Text("Favorite",
-                    style: TextStyle(
-                        color: myPageController.profilePostIndex.value == 2
-                            ? Color(0xff1a4678)
-                            : Color(0xff666666),
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "PingFangSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 18.0),
-                    textAlign: TextAlign.left)),
-            onTap: () {
-              myPageController.profilePostIndex.value = 2;
-            },
-          )
-        ],
-      );
+      return Column(children: [
+        Container(
+            height: 58,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(top: 14),
+                            child: Text("Posted",
+                                style: TextStyle(
+                                    color: myPageController
+                                                .profilePostIndex.value ==
+                                            0
+                                        ? Color(0xff1a4678)
+                                        : Color(0xff666666),
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 18.0),
+                                textAlign: TextAlign.left)),
+                        Container(
+                            margin: EdgeInsets.only(top: 14),
+                            width: 46.5,
+                            height: 3,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(3)),
+                              color:
+                                  myPageController.profilePostIndex.value == 0
+                                      ? Color(0xff1a4678)
+                                      : Color(0xffffffff),
+                            ))
+                      ]),
+                  onTap: () {
+                    myPageController.profilePostIndex.value = 0;
+                  },
+                ),
+                InkWell(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(left: 68.5, top: 14),
+                            child: Text("Replied",
+                                style: TextStyle(
+                                    color: myPageController
+                                                .profilePostIndex.value ==
+                                            1
+                                        ? Color(0xff1a4678)
+                                        : Color(0xff666666),
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 18.0),
+                                textAlign: TextAlign.left)),
+                        Container(
+                            margin: EdgeInsets.only(left: 68.5, top: 14),
+                            width: 46.5,
+                            height: 3,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(3)),
+                              color:
+                                  myPageController.profilePostIndex.value == 1
+                                      ? Color(0xff1a4678)
+                                      : Color(0xffffffff),
+                            ))
+                      ]),
+                  onTap: () {
+                    myPageController.profilePostIndex.value = 1;
+                  },
+                ),
+                InkWell(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(left: 71, top: 14),
+                            child: Text("Favorite",
+                                style: TextStyle(
+                                    color: myPageController
+                                                .profilePostIndex.value ==
+                                            2
+                                        ? Color(0xff1a4678)
+                                        : Color(0xff666666),
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 18.0),
+                                textAlign: TextAlign.left)),
+                        Container(
+                            margin: EdgeInsets.only(left: 71, top: 14),
+                            width: 46.5,
+                            height: 3,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(3)),
+                              color:
+                                  myPageController.profilePostIndex.value == 2
+                                      ? Color(0xff1a4678)
+                                      : Color(0xffffffff),
+                            ))
+                      ]),
+                  onTap: () {
+                    myPageController.profilePostIndex.value = 2;
+                  },
+                )
+              ],
+            )),
+      ]);
     });
   }
 }
@@ -300,59 +354,67 @@ class MyPageProfile extends StatelessWidget {
             height: 31,
             margin: EdgeInsets.only(top: 29.5, bottom: 30),
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Container(
-                  height: 31,
-                  width: 98,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(31)),
-                      border:
-                          Border.all(color: const Color(0xffffffff), width: 2)),
-                  child: Row(children: [
-                    Container(
-                        margin: EdgeInsets.only(left: 17.2),
-                        width: 11.8406982421875,
-                        height: 13.6337890625,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage("assets/images/931.png")))),
-                    Container(
-                        margin: EdgeInsets.only(left: 9),
-                        child: Text("Profile",
-                            style: const TextStyle(
-                                color: const Color(0xffffffff),
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14.0),
-                            textAlign: TextAlign.left))
-                  ])),
-              Container(
-                  height: 31,
-                  width: 98,
-                  margin: EdgeInsets.only(left: 46.5),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(31)),
-                      border:
-                          Border.all(color: const Color(0xffffffff), width: 2)),
-                  child: Row(children: [
-                    Container(
-                        margin: EdgeInsets.only(left: 17.2),
-                        width: 11.8406982421875,
-                        height: 13.6337890625,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage("assets/images/601.png")))),
-                    Container(
-                        margin: EdgeInsets.only(left: 9),
-                        child: Text("Setting",
-                            style: const TextStyle(
-                                color: const Color(0xffffffff),
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14.0),
-                            textAlign: TextAlign.left))
-                  ]))
+              InkWell(
+                  onTap: () async {
+                    await Get.toNamed('/myPage/profile');
+                  },
+                  child: Container(
+                      height: 31,
+                      width: 98,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(31)),
+                          border: Border.all(
+                              color: const Color(0xffffffff), width: 2)),
+                      child: Row(children: [
+                        Container(
+                            margin: EdgeInsets.only(left: 17.2),
+                            width: 11.8406982421875,
+                            height: 13.6337890625,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image:
+                                        AssetImage("assets/images/931.png")))),
+                        Container(
+                            margin: EdgeInsets.only(left: 9),
+                            child: Text("Profile",
+                                style: const TextStyle(
+                                    color: const Color(0xffffffff),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                textAlign: TextAlign.left))
+                      ]))),
+              InkWell(
+                  onTap: () => {print("text")},
+                  child: Container(
+                      height: 31,
+                      width: 98,
+                      margin: EdgeInsets.only(left: 46.5),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(31)),
+                          border: Border.all(
+                              color: const Color(0xffffffff), width: 2)),
+                      child: Row(children: [
+                        Container(
+                            margin: EdgeInsets.only(left: 17.2),
+                            width: 11.8406982421875,
+                            height: 13.6337890625,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image:
+                                        AssetImage("assets/images/601.png")))),
+                        Container(
+                            margin: EdgeInsets.only(left: 9),
+                            child: Text("Setting",
+                                style: const TextStyle(
+                                    color: const Color(0xffffffff),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                textAlign: TextAlign.left))
+                      ])))
             ]))
       ]);
     });
