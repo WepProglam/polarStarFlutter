@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
-import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/timetable.dart';
 
@@ -27,24 +26,33 @@ class Timetable extends StatelessWidget {
               Container(
                 child: Obx(() {
                   bool temp = timeTableController.dataAvailable.value;
-                  return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TopIcon(
-                          timeTableController: timeTableController,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 3.5, 0, 0),
-                          child: Text("${timeTableController.yearSem}",
-                              style: const TextStyle(
-                                  color: const Color(0xff333333),
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "PingFangSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14.0),
-                              textAlign: TextAlign.left),
-                        )
-                      ]);
+                  return Container(
+                    margin: const EdgeInsets.only(left: 15),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 28,
+                            child: TopIcon(
+                              timeTableController: timeTableController,
+                            ),
+                          ),
+                          Container(
+                            height: 18.5,
+                            margin: const EdgeInsets.only(top: 3.5),
+                            child: FittedBox(
+                              child: Text("${timeTableController.yearSem}",
+                                  style: const TextStyle(
+                                      color: const Color(0xff333333),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "PingFangSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  textAlign: TextAlign.left),
+                            ),
+                          )
+                        ]),
+                  );
                 }),
               ),
               Container(

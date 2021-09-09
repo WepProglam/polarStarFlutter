@@ -39,6 +39,7 @@ import 'package:polarstar_flutter/app/ui/android/class/class_search.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class_view.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/timetable.dart';
+import 'package:polarstar_flutter/app/ui/android/timetable/timtable_bin.dart';
 
 part './app_routes.dart';
 
@@ -148,6 +149,7 @@ class AppPages {
     GetPage(
         name: Routes.TIMETABLE_ADDCLASS,
         page: () => TimetableAddClass(),
-        binding: TimetableClassBinding())
+        binding: TimetableClassBinding()),
+    GetPage(name: Routes.TIMETABLE_BIN, page: () => TimeTableBin())
   ];
 }

@@ -2,29 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
+import 'package:polarstar_flutter/session.dart';
 
 class TopIcon extends StatelessWidget {
   final TimeTableController timeTableController;
   const TopIcon({Key key, this.timeTableController}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return Row(
-        children: [
-          InkWell(
-            onTap: () {
-              Get.defaultDialog(
-                  title: "학기 선택",
-                  content: Container(
-                    width: 300,
-                    height: 100,
-                    child: ListView.builder(
-                        shrinkWrap: true,
+    return Row(
+      children: [
+        InkWell(
+          onTap: () {
+            for (var item in timeTableController.selectYearSemester) {
+              print(item.value.NAME);
+            }
+            print(timeTableController.selectYearSemester.length);
+
+            Get.defaultDialog(
+                title: "학기 선택",
+                content: Container(
+                  width: 300,
+                  height: 40.0 * timeTableController.selectYearSemester.length,
+                  child: Obx(() {
+                    return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount:
                             timeTableController.selectYearSemester.length,
                         itemBuilder: (BuildContext context, int index) {
                           String yearSemester =
-                              "${timeTableController.selectYearSemester[index].YEAR}년 ${timeTableController.selectYearSemester[index].SEMESTER}학기";
+                              "${timeTableController.selectYearSemester[index].value.YEAR}년 ${timeTableController.selectYearSemester[index].value.SEMESTER}학기";
 
                           return InkWell(
                             onTap: () async {
@@ -33,197 +39,372 @@ class TopIcon extends StatelessWidget {
                               Get.back();
                               await timeTableController.getSemesterTimeTable(
                                   timeTableController
-                                      .selectYearSemester[index].YEAR,
-                                  timeTableController
-                                      .selectYearSemester[index].SEMESTER);
+                                      .selectYearSemester[index].value.YEAR,
+                                  timeTableController.selectYearSemester[index]
+                                      .value.SEMESTER);
                             },
                             child: Container(
+                                height: 40,
                                 child: Row(children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text("${yearSemester}"),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                    "${timeTableController.selectYearSemester[index].NAME}"),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "DEFAULT",
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ),
-                            ])),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text("${yearSemester}"),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.all(8.0),
+                                    width: 100,
+                                    child: FittedBox(
+                                      child: Text(
+                                          "${timeTableController.selectYearSemester[index].value.NAME}"),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "DEFAULT",
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                ])),
                           );
-                        }),
-                  ));
-            },
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 15),
-                  child: Text("${timeTableController.selectTable.value.NAME}",
-                      style: const TextStyle(
-                          color: const Color(0xff333333),
-                          fontWeight: FontWeight.w700,
-                          fontFamily: "PingFangSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 21.0),
-                      textAlign: TextAlign.left),
-                ),
-                Container(
-                  margin:
-                      const EdgeInsets.only(left: 12, top: 14.8, bottom: 7.3),
-                  child: // 패스 940
-                      Container(
-                    width: 10.68267822265625,
-                    height: 5.931396484375,
-                    child: Image.asset(
-                      "assets/images/940.png",
-                      fit: BoxFit.fitHeight,
+                        });
+                  }),
+                ));
+          },
+          child: Obx(() {
+            return Container(
+              height: 28,
+              child: Row(
+                children: [
+                  Container(
+                    height: 28,
+                    child: FittedBox(
+                      child: Text(
+                          "${timeTableController.selectTable.value.NAME}",
+                          style: const TextStyle(
+                              color: const Color(0xff333333),
+                              fontWeight: FontWeight.w700,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 21.0),
+                          textAlign: TextAlign.left),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Spacer(),
-          Container(
-            margin: const EdgeInsets.only(top: 9.7, bottom: 2.3, right: 15),
-            child: // 패스 940
-                InkWell(
-              onTap: () {
-                Get.toNamed("/timetable/addClass");
-              },
-              child: Container(
-                width: 16,
-                height: 16,
-                child: Image.asset(
-                  "assets/images/941.png",
-                  fit: BoxFit.fitHeight,
-                ),
+                  Container(
+                    height: 28,
+                    margin:
+                        const EdgeInsets.only(left: 12, top: 14.8, bottom: 7.3),
+                    child: // 패스 940
+                        FittedBox(
+                      child: Container(
+                        width: 10.68267822265625,
+                        height: 5.931396484375,
+                        child: Image.asset(
+                          "assets/images/940.png",
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        ),
+        Spacer(),
+        Container(
+          margin: const EdgeInsets.only(top: 9.7, bottom: 2.3, right: 15),
+          child: // 패스 940
+              InkWell(
+            onTap: () {
+              Get.toNamed("/timetable/addClass");
+            },
+            child: Container(
+              width: 16,
+              height: 16,
+              child: Image.asset(
+                "assets/images/941.png",
+                fit: BoxFit.fitHeight,
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 9.7, bottom: 2.3, right: 15),
-            child: // 패스 940
-                InkWell(
-              onTap: () {
-                showModalBottomSheet(
-                    context: context,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(30),
-                            topRight: const Radius.circular(30))),
-                    builder: (BuildContext context) {
-                      return Container(
-                        height: 384.5,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  top: 26.5, left: 26.5, right: 26.5),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  // Rectangle-path
-                                  TimeTableSettingItem(
-                                    imagePath: "710.png",
-                                    title: "Edit Curriculam",
-                                  ),
-                                  TimeTableSettingItem(
-                                    imagePath: "713.png",
-                                    title: "Visible Range",
-                                  ),
-                                  TimeTableSettingItem(
-                                    imagePath: "714.png",
-                                    title: "Save Picture",
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  top: 24, left: 26.5, right: 26.5),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  // Rectangle-path
-                                  TimeTableSettingItem(
-                                    imagePath: "715.png",
-                                    title: "Share Links",
-                                  ),
-                                  TimeTableSettingItem(
-                                    imagePath: "320.png",
-                                    title: "Delete",
-                                  ),
-                                  TimeTableSettingItem(
-                                    imagePath: "897.png",
-                                    title: "Set Default",
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                                margin: const EdgeInsets.only(top: 24),
-                                width: 49,
-                                height: 49,
-                                child: InkWell(
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 9.7, bottom: 2.3, right: 15),
+          child: // 패스 940
+              InkWell(
+            onTap: () {
+              final formSize = MediaQuery.of(context).size;
+              showModalBottomSheet(
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(30),
+                          topRight: const Radius.circular(30))),
+                  builder: (BuildContext context) {
+                    return Container(
+                      height: 384.5,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(
+                                top: 26.5, left: 26.5, right: 26.5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Rectangle-path
+                                TimeTableSettingItem(
+                                  imagePath: "710.png",
+                                  title: "Edit Course Name",
+                                  onTap: () async {
+                                    // Get.back();
+                                    await Get.defaultDialog(
+                                        title: "Edit course name",
+                                        titlePadding:
+                                            const EdgeInsets.only(top: 15.5),
+                                        contentPadding: const EdgeInsets.all(0),
+                                        titleStyle: const TextStyle(
+                                            color: const Color(0xff333333),
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: "PingFangSC",
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 18.0),
+                                        content: Container(
+                                          width: formSize.width - 30,
+                                          height: 175,
+                                          child: Container(
+                                            margin:
+                                                const EdgeInsets.only(top: 31),
+                                            child: Container(
+                                              child: Column(
+                                                children: [
+                                                  // 사각형 544
+                                                  Container(
+                                                      width: formSize.width -
+                                                          30 -
+                                                          18.5 * 2,
+                                                      height: 41.5,
+                                                      margin: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 18.5),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          20)),
+                                                          color: const Color(
+                                                              0xfff0f0f0))),
+
+                                                  Container(
+                                                    height: 55.5,
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            top: 44),
+                                                    // width: formSize.width - 30,
+                                                    child: Row(
+                                                      children: [
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: // cancel
+                                                              InkWell(
+                                                            onTap: () {},
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  border: Border.all(
+                                                                      color: const Color(
+                                                                          0xffdedede),
+                                                                      width:
+                                                                          0.3)),
+                                                              child: Center(
+                                                                child:
+                                                                    FittedBox(
+                                                                  child: Text(
+                                                                      "Cancel",
+                                                                      style: const TextStyle(
+                                                                          color: const Color(
+                                                                              0xff1a4678),
+                                                                          fontWeight: FontWeight
+                                                                              .w700,
+                                                                          fontFamily:
+                                                                              "PingFangSC",
+                                                                          fontStyle: FontStyle
+                                                                              .normal,
+                                                                          fontSize:
+                                                                              18.0),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: // cancel
+                                                              InkWell(
+                                                            onTap: () {},
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  border: Border.all(
+                                                                      color: const Color(
+                                                                          0xffdedede),
+                                                                      width:
+                                                                          0.3)),
+                                                              child: Center(
+                                                                child:
+                                                                    FittedBox(
+                                                                  child: Text(
+                                                                      "Confirm",
+                                                                      style: const TextStyle(
+                                                                          color: const Color(
+                                                                              0xff1a4678),
+                                                                          fontWeight: FontWeight
+                                                                              .w700,
+                                                                          fontFamily:
+                                                                              "PingFangSC",
+                                                                          fontStyle: FontStyle
+                                                                              .normal,
+                                                                          fontSize:
+                                                                              18.0),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ));
+                                    Get.back();
+                                    print("Edit Course Name");
+                                  },
+                                ),
+                                TimeTableSettingItem(
+                                  imagePath: "713.png",
+                                  title: "Visible Range",
                                   onTap: () {
                                     Get.back();
+                                    print("Visible Range");
                                   },
-                                  child: Image.asset(
-                                    "assets/images/close.png",
-                                    fit: BoxFit.fitHeight,
-                                  ),
-                                )),
-                            Center(
-                              child: Container(
-                                  margin: const EdgeInsets.only(top: 22),
-                                  width: 135,
-                                  height: 5,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(100)),
-                                      color: const Color(0xff000000))),
-                            )
+                                ),
+                                TimeTableSettingItem(
+                                  imagePath: "714.png",
+                                  title: "Save Picture",
+                                  onTap: () {
+                                    Get.back();
+
+                                    print("Save Picture");
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(
+                                top: 24, left: 26.5, right: 26.5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Rectangle-path
+                                TimeTableSettingItem(
+                                  imagePath: "715.png",
+                                  title: "Share Links",
+                                  onTap: () {
+                                    Get.back();
+
+                                    print("Share Links");
+                                  },
+                                ),
+                                TimeTableSettingItem(
+                                  imagePath: "320.png",
+                                  title: "Delete",
+                                  onTap: () {
+                                    Get.back();
+
+                                    print("Delete");
+                                  },
+                                ),
+                                TimeTableSettingItem(
+                                  imagePath: "897.png",
+                                  title: "Set Default",
+                                  onTap: () async {
+                                    Get.back();
+
+                                    await timeTableController.setDefaultTable();
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                              margin: const EdgeInsets.only(top: 24),
+                              width: 49,
+                              height: 49,
+                              child: InkWell(
+                                onTap: () {
+                                  Get.back();
+                                },
+                                child: Image.asset(
+                                  "assets/images/close.png",
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              )),
+                          Center(
+                            child: Container(
+                                margin: const EdgeInsets.only(top: 22),
+                                width: 135,
+                                height: 5,
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(100)),
+                                    color: const Color(0xff000000))),
+                          )
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: const Color(0x4d4710b8),
+                                offset: Offset(0, -3),
+                                blurRadius: 6,
+                                spreadRadius: 0)
                           ],
-                        ),
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  color: const Color(0x4d4710b8),
-                                  offset: Offset(0, -3),
-                                  blurRadius: 6,
-                                  spreadRadius: 0)
-                            ],
-                            color: const Color(0xffffffff),
-                            borderRadius: BorderRadius.only(
-                                topLeft: const Radius.circular(30),
-                                topRight: const Radius.circular(30))),
-                      );
-                    });
-              },
-              child: Container(
-                width: 16,
-                height: 16,
-                child: Image.asset(
-                  "assets/images/17_2.png",
-                  fit: BoxFit.fitHeight,
-                ),
+                          color: const Color(0xffffffff),
+                          borderRadius: BorderRadius.only(
+                              topLeft: const Radius.circular(30),
+                              topRight: const Radius.circular(30))),
+                    );
+                  });
+            },
+            child: Container(
+              width: 16,
+              height: 16,
+              child: Image.asset(
+                "assets/images/17_2.png",
+                fit: BoxFit.fitHeight,
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 9.7, bottom: 2.3, right: 15),
-            child: // 패스 940
-                Container(
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 9.7, bottom: 2.3, right: 15),
+          child: // 패스 940
+              InkWell(
+            onTap: () {
+              Get.toNamed("/timetable/bin");
+            },
+            child: Container(
               width: 16,
               height: 16,
               child: Image.asset(
@@ -232,18 +413,19 @@ class TopIcon extends StatelessWidget {
               ),
             ),
           ),
-        ],
-      );
-    });
+        ),
+      ],
+    );
   }
 }
 
 class TimeTableSettingItem extends StatelessWidget {
-  const TimeTableSettingItem({Key key, this.imagePath, this.title})
+  const TimeTableSettingItem({Key key, this.imagePath, this.title, this.onTap})
       : super(key: key);
 
   final String imagePath;
   final String title;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -253,7 +435,7 @@ class TimeTableSettingItem extends StatelessWidget {
         InkWell(
           onTap: () {
             print("${title}");
-            Get.back();
+            onTap();
           },
           child: Stack(children: [
             Opacity(
@@ -305,51 +487,53 @@ class TableList extends StatelessWidget {
   final TimeTableController timeTableController;
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: ListView.builder(
-            itemCount: timeTableController
-                .otherTable["${timeTableController.yearSem}"].length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (BuildContext context, int index) {
-              TimeTableModel model = timeTableController
-                  .otherTable["${timeTableController.yearSem}"][index].value;
-              return // 사각형 526
-                  Obx(() {
-                return Container(
-                    width: 90,
-                    height: 44,
-                    margin: const EdgeInsets.only(right: 10),
-                    child: InkWell(
-                      onTap: () {
-                        timeTableController.selectedTimeTableId.value =
-                            model.TIMETABLE_ID;
-                      },
-                      child: Center(
-                        // margin: const EdgeInsets.fromLTRB(6.5, 12.5, 5.5, 13),
-                        child: Text(
-                            "${timeTableController.otherTable["${timeTableController.yearSem}"][index].value.NAME}",
-                            maxLines: 1,
-                            style: TextStyle(
-                                color: model.TIMETABLE_ID ==
-                                        timeTableController
-                                            .selectedTimeTableId.value
-                                    ? Color(0xffffffff)
-                                    : Color(0xff1a4678),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14.0),
-                            textAlign: TextAlign.left),
-                      ),
+    print(timeTableController.selectedTimeTableId.value);
+    return Container(child: Obx(() {
+      return ListView.builder(
+          itemCount: timeTableController
+              .otherTable["${timeTableController.yearSem}"].length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (BuildContext context, int index) {
+            TimeTableModel model = timeTableController
+                .otherTable["${timeTableController.yearSem}"][index].value;
+            return // 사각형 526
+                Obx(() {
+              return Container(
+                  width: 90,
+                  height: 44,
+                  margin: const EdgeInsets.only(right: 10),
+                  child: InkWell(
+                    onTap: () {
+                      timeTableController.selectedTimeTableId.value =
+                          model.TIMETABLE_ID;
+                    },
+                    child: Center(
+                      // margin: const EdgeInsets.fromLTRB(6.5, 12.5, 5.5, 13),
+                      child: Text(
+                          "${timeTableController.otherTable["${timeTableController.yearSem}"][index].value.NAME}",
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: model.TIMETABLE_ID ==
+                                      timeTableController
+                                          .selectedTimeTableId.value
+                                  ? Color(0xffffffff)
+                                  : Color(0xff1a4678),
+                              fontWeight: FontWeight.w700,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                          textAlign: TextAlign.left),
                     ),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                        color: model.TIMETABLE_ID ==
-                                timeTableController.selectedTimeTableId.value
-                            ? Color(0xff1a4678)
-                            : Color(0xffebf4ff)));
-              });
-            }));
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      color: model.TIMETABLE_ID ==
+                              timeTableController.selectedTimeTableId.value
+                          ? Color(0xff1a4678)
+                          : Color(0xffebf4ff)));
+            });
+          });
+    }));
   }
 }
 

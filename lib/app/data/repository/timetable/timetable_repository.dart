@@ -11,6 +11,12 @@ class TimeTableRepository {
 
   TimeTableRepository({@required this.apiClient}) : assert(apiClient != null);
 
+  Future<Map<String, dynamic>> setDefaultTable(
+      int tid, int year, int semester) async {
+    final response = await apiClient.setDefaultTable(tid, year, semester);
+    return {"statusCode": response.statusCode};
+  }
+
   Future<Map<String, dynamic>> getTimeTable(int TIMETABLE_ID) async {
     final response = await apiClient.getTimeTable(TIMETABLE_ID);
 

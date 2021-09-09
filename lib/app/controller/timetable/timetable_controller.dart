@@ -33,8 +33,8 @@ class TimeTableController extends GetxController {
       <String, Rx<SelectedTimeTableModel>>{}.obs;
 
   //  디폴트 시간표들의 간략 정보 리스트
-  RxList<SelectYearSemesterModel> selectYearSemester =
-      <SelectYearSemesterModel>[].obs;
+  RxList<Rx<SelectYearSemesterModel>> selectYearSemester =
+      <Rx<SelectYearSemesterModel>>[].obs;
 
   // 디폴트 시간표 선택용 인덱스
   RxInt yearSemesterIndex = 0.obs;
@@ -156,12 +156,60 @@ class TimeTableController extends GetxController {
     return needDownload;
   }
 
+  Future setDefaultTable() async {
+    int tid = selectTable.value.TIMETABLE_ID;
+    int year = selectTable.value.YEAR;
+    int semester = selectTable.value.SEMESTER;
+
+    var status = await repository.setDefaultTable(tid, year, semester);
+
+    switch (status["statusCode"]) {
+      case 200:
+        Get.snackbar("디폴트 변경 성공", "디폴트 변경 성공");
+        defaultTableList["${year}년 ${semester}학기"].value = selectTable.value;
+
+        //topbar에 나오는 애들 변경
+        for (var item in selectYearSemester) {
+          if (item.value.YEAR == year.toString() &&
+              item.value.SEMESTER == semester.toString()) {
+            item.update((val) {
+              val.NAME = selectTable.value.NAME;
+              val.TIMETABLE_ID = tid;
+            });
+          }
+        }
+
+        //테이블 리스트에 나오는 애들 변경
+        for (var item in otherTable["${year}년 ${semester}학기"]) {
+          if (item.value.IS_DEFAULT != 0) {
+            item.update((val) {
+              val.IS_DEFAULT = 0;
+            });
+          } else if (item.value.TIMETABLE_ID == tid) {
+            item.update((val) {
+              val.IS_DEFAULT = 1;
+            });
+          }
+        }
+
+        //테이블 리스트를 default 기반으로 재정렬
+        otherTable["${year}년 ${semester}학기"]
+            .sort((a, b) => b.value.IS_DEFAULT.compareTo(a.value.IS_DEFAULT));
+
+        break;
+      default:
+        Get.snackbar("디폴트 변경 실패", "디폴트 변경 실패");
+        break;
+    }
+  }
+
   Future getTableInfo() async {
     var response = await Session().getX("/timetable");
     Iterable tableInfoJson = jsonDecode(response.body);
     print(tableInfoJson);
-    selectYearSemester.value =
-        tableInfoJson.map((e) => SelectYearSemesterModel.fromJson(e)).toList();
+    selectYearSemester.value = tableInfoJson
+        .map((e) => SelectYearSemesterModel.fromJson(e).obs)
+        .toList();
 
     print(selectYearSemester.length);
   }
@@ -172,8 +220,8 @@ class TimeTableController extends GetxController {
     await getTableInfo();
 
     if (selectYearSemester.length > 0) {
-      await getSemesterTimeTable(
-          "${selectYearSemester[0].YEAR}", "${selectYearSemester[0].SEMESTER}");
+      await getSemesterTimeTable("${selectYearSemester[0].value.YEAR}",
+          "${selectYearSemester[0].value.SEMESTER}");
       initShowTimeTable();
       makeShowTimeTable();
     }
@@ -191,7 +239,7 @@ class TimeTableController extends GetxController {
   }
 
   String get yearSem =>
-      "${selectYearSemester[yearSemesterIndex.value].YEAR}년 ${selectYearSemester[yearSemesterIndex.value].SEMESTER}학기";
+      "${selectYearSemester[yearSemesterIndex.value].value.YEAR}년 ${selectYearSemester[yearSemesterIndex.value].value.SEMESTER}학기";
 }
 
 int getIndexFromDay(String day) {
