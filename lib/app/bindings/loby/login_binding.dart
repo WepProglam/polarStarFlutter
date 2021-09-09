@@ -1,4 +1,4 @@
-import 'package:polarstar_flutter/app/controller/login/login_controller.dart';
+import 'package:polarstar_flutter/app/controller/loby/login_controller.dart';
 
 import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';

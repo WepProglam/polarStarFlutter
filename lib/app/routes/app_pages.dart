@@ -1,18 +1,19 @@
 import 'package:get/get.dart';
 
+import 'package:polarstar_flutter/app/bindings/loby/init_binding.dart';
 import 'package:polarstar_flutter/app/bindings/board/board_binding.dart';
 import 'package:polarstar_flutter/app/bindings/board/hot_board_binding.dart';
 import 'package:polarstar_flutter/app/bindings/board/post_binding.dart';
 import 'package:polarstar_flutter/app/bindings/board/search_binding.dart';
 import 'package:polarstar_flutter/app/bindings/board/write_post_binding.dart';
-import 'package:polarstar_flutter/app/bindings/login_binding.dart';
+import 'package:polarstar_flutter/app/bindings/loby/login_binding.dart';
 import 'package:polarstar_flutter/app/bindings/mail/mailBox_binding.dart';
 import 'package:polarstar_flutter/app/bindings/mail/mailHistory_binding.dart';
 import 'package:polarstar_flutter/app/bindings/main_binding.dart';
 import 'package:polarstar_flutter/app/bindings/outside/outside_binding.dart';
 import 'package:polarstar_flutter/app/bindings/outside/post_binding.dart';
 import 'package:polarstar_flutter/app/bindings/profile/mypage_binding.dart';
-import 'package:polarstar_flutter/app/bindings/sign_up_binding.dart';
+import 'package:polarstar_flutter/app/bindings/loby/sign_up_binding.dart';
 import 'package:polarstar_flutter/app/bindings/class/class_binding.dart';
 import 'package:polarstar_flutter/app/bindings/class/class_search_binding.dart';
 import 'package:polarstar_flutter/app/bindings/class/class_view_binding.dart';
@@ -26,7 +27,8 @@ import 'package:polarstar_flutter/app/ui/android/board/write_post.dart';
 import 'package:polarstar_flutter/app/ui/android/mail/mailBox.dart';
 import 'package:polarstar_flutter/app/ui/android/mail/mailHistory.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
-import 'package:polarstar_flutter/app/ui/android/login/login_page.dart';
+import 'package:polarstar_flutter/app/ui/android/loby/login_page.dart';
+import 'package:polarstar_flutter/app/ui/android/loby/init_page.dart';
 import 'package:polarstar_flutter/app/ui/android/main/board_list.dart';
 import 'package:polarstar_flutter/app/ui/android/outside/outside_board.dart';
 import 'package:polarstar_flutter/app/ui/android/outside/outside_post.dart';
@@ -48,8 +50,8 @@ class AppPages {
   static final pages = [
     GetPage(
       name: Routes.INITIAL,
-      page: () => LoginPage(),
-      binding: LoginBinding(),
+      page: () => InitPage(),
+      binding: InitBinding(),
     ),
     GetPage(
       name: Routes.LOGIN,
