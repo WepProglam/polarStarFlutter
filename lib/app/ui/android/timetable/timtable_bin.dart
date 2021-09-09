@@ -56,8 +56,7 @@ class TimeTableBin extends StatelessWidget {
                             height: 16.00732421875,
                             child: InkWell(
                               onTap: () {
-                                print("시간표 추가 ui 생성하기");
-                                // Get.toNamed("/timetable/addClass");
+                                Get.toNamed("/timetable/addTimeTable");
                               },
                               child: Image.asset("assets/images/843.png"),
                             ),

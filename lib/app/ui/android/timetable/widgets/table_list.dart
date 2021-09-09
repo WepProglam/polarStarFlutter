@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
+import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
 import 'package:polarstar_flutter/session.dart';
 
 class TopIcon extends StatelessWidget {
   final TimeTableController timeTableController;
-  const TopIcon({Key key, this.timeTableController}) : super(key: key);
+  TopIcon({Key key, this.timeTableController}) : super(key: key);
+  final courseNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -159,6 +161,7 @@ class TopIcon extends StatelessWidget {
                                   imagePath: "710.png",
                                   title: "Edit Course Name",
                                   onTap: () async {
+                                    Get.back();
                                     // Get.back();
                                     await Get.defaultDialog(
                                         title: "Edit course name",
@@ -186,6 +189,27 @@ class TopIcon extends StatelessWidget {
                                                           30 -
                                                           18.5 * 2,
                                                       height: 41.5,
+                                                      child: Container(
+                                                        margin: const EdgeInsets
+                                                                .only(
+                                                            left: 25.5,
+                                                            top: 10,
+                                                            bottom: 10),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                right: 25.5),
+                                                        child: TextFormField(
+                                                            maxLines: 1,
+                                                            controller:
+                                                                courseNameController,
+                                                            style: textStyle,
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            decoration:
+                                                                inputDecoration(
+                                                                    "timetable name")),
+                                                      ),
                                                       margin: const EdgeInsets
                                                               .symmetric(
                                                           horizontal: 18.5),
@@ -208,9 +232,11 @@ class TopIcon extends StatelessWidget {
                                                       children: [
                                                         Expanded(
                                                           flex: 1,
-                                                          child: // cancel
+                                                          child: // Cancel
                                                               InkWell(
-                                                            onTap: () {},
+                                                            onTap: () {
+                                                              Get.back();
+                                                            },
                                                             child: Container(
                                                               decoration: BoxDecoration(
                                                                   border: Border.all(
@@ -244,9 +270,71 @@ class TopIcon extends StatelessWidget {
                                                         ),
                                                         Expanded(
                                                           flex: 1,
-                                                          child: // cancel
+                                                          child: // Confirm
                                                               InkWell(
-                                                            onTap: () {},
+                                                            onTap: () async {
+                                                              String newName =
+                                                                  courseNameController
+                                                                      .text
+                                                                      .trim();
+
+                                                              if (newName ==
+                                                                  timeTableController
+                                                                      .selectTable
+                                                                      .value
+                                                                      .NAME
+                                                                      .trim()) {
+                                                                Get.snackbar(
+                                                                    "변경 사항이 없습니다.",
+                                                                    "변경 사항이 없습니다.");
+                                                                return;
+                                                              }
+                                                              var response =
+                                                                  await Session()
+                                                                      .patchX(
+                                                                          "/timetable/table/tid/${timeTableController.selectedTimeTableId.value}?name=${newName}",
+                                                                          {});
+
+                                                              switch (response
+                                                                  .statusCode) {
+                                                                case 200:
+                                                                  timeTableController
+                                                                      .selectTable
+                                                                      .update(
+                                                                          (val) {
+                                                                    val.NAME =
+                                                                        courseNameController
+                                                                            .text;
+                                                                  });
+
+                                                                  for (var item
+                                                                      in timeTableController
+                                                                              .otherTable[
+                                                                          "${timeTableController.yearSem}"]) {
+                                                                    if (item.value
+                                                                            .TIMETABLE_ID ==
+                                                                        timeTableController
+                                                                            .selectTable
+                                                                            .value
+                                                                            .TIMETABLE_ID) {
+                                                                      item.update(
+                                                                          (val) {
+                                                                        val.NAME =
+                                                                            newName;
+                                                                      });
+                                                                    }
+                                                                  }
+                                                                  courseNameController
+                                                                      .clear();
+                                                                  Get.back();
+
+                                                                  break;
+                                                                default:
+                                                                  Get.snackbar(
+                                                                      "이름 변경 실패",
+                                                                      "이름 변경 실패");
+                                                              }
+                                                            },
                                                             child: Container(
                                                               decoration: BoxDecoration(
                                                                   border: Border.all(
@@ -286,7 +374,6 @@ class TopIcon extends StatelessWidget {
                                             ),
                                           ),
                                         ));
-                                    Get.back();
                                     print("Edit Course Name");
                                   },
                                 ),
@@ -329,7 +416,58 @@ class TopIcon extends StatelessWidget {
                                 TimeTableSettingItem(
                                   imagePath: "320.png",
                                   title: "Delete",
-                                  onTap: () {
+                                  onTap: () async {
+                                    String yearSem =
+                                        timeTableController.yearSem;
+
+                                    print(timeTableController
+                                        .selectTable.value.TIMETABLE_ID);
+                                    print(timeTableController
+                                        .selectTable.value.NAME);
+
+                                    //시간표 하나일때 삭제 방지
+                                    if (timeTableController
+                                                .otherTable["${yearSem}"]
+                                                .length -
+                                            1 <=
+                                        0) {
+                                      Get.snackbar("시간표가 하나일때는 지울 수 없습니다.",
+                                          "시간표가 하나일때는 지울 수 없습니다.");
+                                      return;
+                                    }
+
+                                    //디폴트 시간표 삭제 방지
+                                    for (var item in timeTableController
+                                        .otherTable["${yearSem}"]) {
+                                      if (item.value.TIMETABLE_ID ==
+                                          timeTableController
+                                              .selectTable.value.TIMETABLE_ID) {
+                                        if (item.value.IS_DEFAULT == 1) {
+                                          Get.snackbar("디폴트 시간표는 삭제할 수 없습니다.",
+                                              "디폴트 시간표는 삭제할 수 없습니다.");
+                                          return;
+                                        }
+                                      }
+                                    }
+
+                                    await Session().deleteX(
+                                        "/timetable/table/tid/${timeTableController.selectTable.value.TIMETABLE_ID}");
+
+                                    //other에서 삭제
+                                    timeTableController.otherTable["${yearSem}"]
+                                        .removeWhere((element) =>
+                                            element.value.TIMETABLE_ID ==
+                                            timeTableController.selectTable
+                                                .value.TIMETABLE_ID);
+
+                                    //디폴트를 SELECTED로 설정
+                                    timeTableController
+                                            .selectedTimeTableId.value =
+                                        timeTableController
+                                            .defaultTableList["${yearSem}"]
+                                            .value
+                                            .TIMETABLE_ID;
+
                                     Get.back();
 
                                     print("Delete");

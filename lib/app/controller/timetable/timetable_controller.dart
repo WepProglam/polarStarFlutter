@@ -41,6 +41,21 @@ class TimeTableController extends GetxController {
 
   RxList<List<Map<String, dynamic>>> showTimeTable =
       <List<Map<String, dynamic>>>[[], [], [], [], [], [], []].obs;
+
+  RxString addTimeTableYearSem = "".obs;
+
+  List<String> addTimeTableYearSemList = [
+    "2021년 2학기",
+    "2021년 겨울학기",
+  ];
+
+  RxString createYear = "".obs;
+  RxString createSemester = "".obs;
+  RxString createName = "".obs;
+
+  // RxString createTimeTableYear = "".obs;
+  // RxString createTimeTableSemester ="".obs;
+
   final List<Color> colorList = [
     Color(0xfff78773),
     Color(0xfff0c26c),
@@ -72,6 +87,32 @@ class TimeTableController extends GetxController {
 
   void initShowTimeTable() {
     showTimeTable.value = [[], [], [], [], [], [], []];
+  }
+
+  Future<void> createTimeTable(
+      String year, String semester, String name) async {
+    var response = await Session()
+        .postX("/timetable/${year}/${semester}?name=${name}", {});
+    switch (response.statusCode) {
+      case 200:
+        var rs = jsonDecode(response.body);
+        otherTable["${year}년 ${semester}학기"].add(TimeTableModel.fromJson({
+          "YEAR": int.parse(year),
+          "SEMESTER": int.parse(semester),
+          "NAME": name,
+          "IS_DEFAULT": 0,
+          "TIMETABLE_ID": rs["TIMETABLE_ID"]
+        }).obs);
+        print(otherTable["${year}년 ${semester}학기"].last.value.TIMETABLE_ID);
+        Get.snackbar("시간표 생성 성공", "시간표 생성 성공");
+        selectedTimeTableId.value = rs["TIMETABLE_ID"];
+        // Get.offNamedUntil(page, (route) => false);
+        // Get.offNamed("/timetable/bin");
+        Get.offAndToNamed("/timetable/addClass");
+        break;
+      default:
+        Get.snackbar("시발 정신 차려", "시발 정신 차려");
+    }
   }
 
   Future<void> refreshPage() async {

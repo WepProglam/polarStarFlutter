@@ -32,4 +32,5 @@ abstract class Routes {
   static const TIMETABLE = '/timetable';
   static const TIMETABLE_ADDCLASS = "/timetable/addClass";
   static const TIMETABLE_BIN = "/timetable/bin";
+  static const TIMETABLE_ADDTIMETABLE = "/timetable/addTimeTable";
 }
