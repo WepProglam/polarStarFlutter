@@ -15,6 +15,7 @@ class LoginController extends GetxController {
   LoginController({@required this.repository}) : assert(repository != null);
 
   var isAutoLogin = true.obs;
+  var isObscured = true.obs;
 
   var loginModel = LoginModel().obs;
 

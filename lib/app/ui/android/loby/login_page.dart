@@ -12,17 +12,16 @@ import 'package:polarstar_flutter/app/ui/android/widgets/custom_text_form_field.
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text('polarStar'),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: LoginInputs(),
       ),
-      body: LoginInputs(),
     );
   }
 }
 
-class LoginInputs extends StatelessWidget {
+class LoginInputs extends GetView<LoginController> {
   LoginInputs({Key key}) : super(key: key);
 
   final loginIdContoller = TextEditingController();
@@ -31,8 +30,6 @@ class LoginInputs extends StatelessWidget {
 
   final box = GetStorage();
 
-  final LoginController loginController = Get.find();
-
   // login 함수
 
   @override
@@ -40,57 +37,168 @@ class LoginInputs extends StatelessWidget {
     // final notiController = Get.put(NotiController());
     return Form(
       key: _formKey,
-      child: Column(
-        children: [
-          SizedBox(height: 20),
-          CustomTextFormField(
-            hint: "Enter Your ID",
-            textController: loginIdContoller,
-            funcValidator: (value) {
-              return checkEmpty(value);
-            },
-          ),
-          CustomTextFormField(
-            hint: "Enter Your PASSWORD",
-            textController: loginPwContoller,
-            funcValidator: (value) {
-              return checkEmpty(value);
-            },
-          ),
-          // 자동로그인 선택버튼
-          Row(children: [
-            Obx(
-              () => Checkbox(
-                  value: loginController.isAutoLogin.value,
-                  onChanged: (value) {
-                    loginController.isAutoLogin(value);
-                  }),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 35.0),
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                  width: 281.2,
+                  height: 232.4,
+                  margin: EdgeInsets.fromLTRB(2.3, 35.1, 21.5, 67.5),
+                  child: Image.asset("assets/images/636.png")),
             ),
-            InkWell(
-                onTap: () {
-                  loginController
-                      .isAutoLogin(!loginController.isAutoLogin.value);
-                },
-                child: Text('자동 로그인'))
-          ]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                  onPressed: () async {
-                    print(_formKey.currentState.validate());
-                    if (_formKey.currentState.validate()) {
-                      await loginController.login(loginIdContoller.text,
-                          loginPwContoller.text, "1123123123");
-                      // await userLogin(notiController.tokenFCM.value);
-                    }
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Account",
+                  style: const TextStyle(
+                      color: const Color(0xff999999),
+                      fontWeight: FontWeight.normal,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 13.5),
+                ),
+                Container(
+                  width: 305,
+                  height: 48.1,
+                  child: Stack(
+                    children: [
+                      TextFormField(
+                        controller: loginIdContoller,
+                        obscureText: false,
+                        validator: (value) {
+                          return checkEmpty(value);
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Enter Your ID",
+                        ),
+                      ),
+                      Positioned(
+                        right: 6.6,
+                        top: 14,
+                        child: Ink(
+                          width: 15.3,
+                          height: 15.3,
+                          child: InkWell(
+                            onTap: () {
+                              loginIdContoller.clear();
+                            },
+                            child: Image.asset(
+                              "assets/images/982.png",
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(top: 24.6, bottom: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Password",
+                    style: const TextStyle(
+                        color: const Color(0xff999999),
+                        fontWeight: FontWeight.normal,
+                        fontFamily: "PingFangSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 13.5),
+                  ),
+                  Stack(
+                    children: [
+                      Obx(() => TextFormField(
+                            controller: loginPwContoller,
+                            obscureText: controller.isObscured.value,
+                            validator: (value) {
+                              return checkEmpty(value);
+                            },
+                            decoration: InputDecoration(
+                              hintText: "Enter Your PW",
+                            ),
+                          )),
+                      Positioned(
+                        right: 6.6,
+                        top: 14,
+                        child: Ink(
+                          width: 15.3,
+                          height: 15.3,
+                          child: InkWell(
+                            onTap: () {
+                              controller
+                                  .isObscured(!controller.isObscured.value);
+                            },
+                            child: Image.asset(
+                              "assets/images/eye_off_fill.png",
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            // 자동로그인 선택버튼
+            Row(children: [
+              Obx(
+                () => Checkbox(
+                    value: controller.isAutoLogin.value,
+                    // splashRadius: 0,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    visualDensity: VisualDensity.compact,
+                    onChanged: (value) {
+                      controller.isAutoLogin(value);
+                    }),
+              ),
+              InkWell(
+                  onTap: () {
+                    controller.isAutoLogin(!controller.isAutoLogin.value);
                   },
-                  child: Text("로그인")),
-              ElevatedButton(
-                  onPressed: () => Get.toNamed('/signUp'), child: Text("회원가입"))
-            ],
-          )
-        ],
+                  child: Text('자동 로그인'))
+            ]),
+
+            Padding(
+              padding: const EdgeInsets.only(top: 65),
+              child: InkWell(
+                onTap: () async {
+                  print(_formKey.currentState.validate());
+                  if (_formKey.currentState.validate()) {
+                    await controller.login(loginIdContoller.text,
+                        loginPwContoller.text, "1123123123");
+                    // await userLogin(notiController.tokenFCM.value);
+                  }
+                },
+                child: Ink(
+                  width: 305,
+                  height: 52,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color(0xff1a4678)),
+                  child: Center(
+                      child: Text(
+                    "Log in",
+                    style: const TextStyle(
+                        color: const Color(0xffffffff),
+                        fontWeight: FontWeight.normal,
+                        fontFamily: "PingFangSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 18),
+                  )),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

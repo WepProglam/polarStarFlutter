@@ -36,7 +36,7 @@ import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/profile.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/setting.dart';
 import 'package:polarstar_flutter/app/ui/android/search/search_board.dart';
-import 'package:polarstar_flutter/app/ui/android/sign_up/sign_up_page.dart';
+import 'package:polarstar_flutter/app/ui/android/loby/sign_up_page.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class_search.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class_view.dart';
