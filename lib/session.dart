@@ -6,6 +6,8 @@ import 'package:get_storage/get_storage.dart';
 // import 'getXController.dart';
 // import 'crypt.dart';
 
+import 'package:polarstar_flutter/app/ui/android/functions/crypt.dart';
+
 class Session extends GetConnect {
   final box = GetStorage();
   // final notiController = Get.put(NotiController());
@@ -180,5 +182,19 @@ class Session extends GetConnect {
 
       return cookies[str];
     }
+  }
+
+  Future autoLogin(data) async {
+    getX('/login').then((value) {
+      salt = updateCookie(value, 'salt');
+      data['pw'] = crypto_login(data["id"], data["pw"]);
+    });
+
+    var response = await postX('/login', data).then((value) {
+      session = updateCookie(value, 'connect.sid');
+      return value;
+    });
+
+    return response;
   }
 }

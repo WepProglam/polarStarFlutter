@@ -57,15 +57,21 @@ class LoginInputs extends StatelessWidget {
               return checkEmpty(value);
             },
           ),
+          // 자동로그인 선택버튼
           Row(children: [
             Obx(
               () => Checkbox(
                   value: loginController.isAutoLogin.value,
                   onChanged: (value) {
-                    loginController.updateAutoLogin(value);
+                    loginController.isAutoLogin(value);
                   }),
             ),
-            Text('자동 로그인')
+            InkWell(
+                onTap: () {
+                  loginController
+                      .isAutoLogin(!loginController.isAutoLogin.value);
+                },
+                child: Text('자동 로그인'))
           ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -75,7 +81,7 @@ class LoginInputs extends StatelessWidget {
                     print(_formKey.currentState.validate());
                     if (_formKey.currentState.validate()) {
                       await loginController.login(loginIdContoller.text,
-                          loginIdContoller.text, "1123123123");
+                          loginPwContoller.text, "1123123123");
                       // await userLogin(notiController.tokenFCM.value);
                     }
                   },

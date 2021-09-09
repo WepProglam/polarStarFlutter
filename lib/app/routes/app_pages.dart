@@ -48,8 +48,8 @@ class AppPages {
   static final pages = [
     GetPage(
       name: Routes.INITIAL,
-      page: () => MainPage(),
-      binding: MainBinding(),
+      page: () => LoginPage(),
+      binding: LoginBinding(),
     ),
     GetPage(
       name: Routes.LOGIN,

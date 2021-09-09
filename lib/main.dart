@@ -8,21 +8,43 @@ import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'app/bindings/main_binding.dart';
 // import 'app/ui/theme/app_theme.dart';
 import 'package:get_storage/get_storage.dart';
-import 'session.dart';
 
 void main() async {
   await GetStorage.init();
-  if (GetStorage().hasData('token')) {
-    Session.headers['Cookie'] = await GetStorage().read('token');
-  }
   final box = GetStorage();
 
+  // Bindings initBinding = LoginBinding();
+  // String initRoute = Routes.LOGIN;
+
+  // if (box.hasData('id') && box.hasData('pw')) {
+  //   Map<String, String> user_data = {
+  //     'id': box.read('id'),
+  //     'pw': box.read('pw'),
+  //     'token': box.read('token')
+  //   };
+
+  //   print(user_data);
+
+  //   Session().autoLogin(user_data).then((value) {
+  //     print(value.statusCode);
+  //     switch (value.statusCode) {
+  //       case 200:
+  //         initBinding = MainBinding();
+  //         initRoute = Routes.MAIN_PAGE;
+  //         break;
+  //       default:
+  //         initBinding = LoginBinding();
+  //         initRoute = Routes.LOGIN;
+  //     }
+  //   });
+  // }
+
   await Firebase.initializeApp();
+
   runApp(GetMaterialApp(
     theme: ThemeData(fontFamily: "PingFangSC"),
     debugShowCheckedModeBanner: false,
-    // initialBinding: box.hasData('token') ? MainBinding() : LoginBinding(),
-    // initialRoute: box.hasData('token') ? Routes.MAIN_PAGE : Routes.INITIAL,
+
     initialBinding: LoginBinding(),
     initialRoute: Routes.LOGIN,
     // theme: appThemeData,

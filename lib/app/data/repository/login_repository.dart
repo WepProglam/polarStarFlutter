@@ -10,7 +10,7 @@ class LoginRepository {
   login(data) async {
     await apiClient.getSalt();
     data['pw'] = crypto_login(data["id"], data["pw"]);
-    final response = await apiClient.getLogin(data);
+    final response = await apiClient.postLogin(data);
     return response;
   }
 }

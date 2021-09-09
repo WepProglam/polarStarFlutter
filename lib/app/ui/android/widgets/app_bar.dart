@@ -25,13 +25,16 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
             },
             icon: Text("Class")),
         IconButton(
-            onPressed: () {
+            onPressed: () async {
               Session().getX('/logout');
               Session.cookies = {};
               Session.headers['Cookie'] = '';
+
+              box.write('isAutoLogin', false);
+              box.remove('id');
               box.remove('pw');
-              box.remove('isloggined');
               box.remove('token');
+
               Navigator.pushNamedAndRemoveUntil(
                   context, '/login', (Route<dynamic> route) => false);
               Get.offAllNamed('/login');
