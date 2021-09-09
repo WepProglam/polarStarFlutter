@@ -22,6 +22,7 @@ abstract class Routes {
   static const WRITE_PUT = "/board/:COMMUNITY_ID/bid/:BOARD_ID";
   static const MYPAGE = "/myPage";
   static const MYPROFILE = "/myPage/profile";
+  static const SETTING = "/myPage/setting";
   static const DETAILS = '/details';
 
   static const CLASS = '/class';

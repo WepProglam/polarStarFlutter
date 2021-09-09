@@ -28,6 +28,8 @@ class Profile extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
           resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          appBar: ProfileAppBars().classBasicAppBar(),
           body: RefreshIndicator(
             onRefresh: myPageController.getMineWrite,
             child: Stack(
@@ -110,13 +112,15 @@ class Profile extends StatelessWidget {
                               ),
                               Align(
                                 alignment: Alignment.topCenter,
-                                child: Container(
-                                    margin:
-                                        EdgeInsets.only(top: 180, left: 100),
-                                    width: 13.7,
-                                    height: 11.8,
-                                    child:
-                                        Image.asset("assets/images/605.png")),
+                                child: InkWell(
+                                    child: Container(
+                                        margin: EdgeInsets.only(
+                                            top: 180, left: 100),
+                                        width: 13.7,
+                                        height: 11.8,
+                                        child: Image.asset(
+                                            "assets/images/605.png")),
+                                    onTap: () => {print("text")}),
                               ),
                               Align(
                                 alignment: Alignment.topCenter,
@@ -314,6 +318,23 @@ class Profile extends StatelessWidget {
               ],
             ),
           )),
+    );
+  }
+}
+
+//어따 둬야할지 몰라서 여기다 둠
+class ProfileAppBars {
+  AppBar classBasicAppBar() {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leading: InkWell(
+        child: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+        onTap: () {
+          Get.back();
+        },
+      ),
+      leadingWidth: 35,
     );
   }
 }
