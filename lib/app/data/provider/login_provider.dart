@@ -6,7 +6,7 @@ class LoginApiClient {
     Session.salt = await Session().updateCookie(response, 'salt');
   }
 
-  Future<Map> getLogin(data) async {
+  Future<Map> postLogin(data) async {
     var response = await Session().postX('/login', data);
     Session.session = Session().updateCookie(response, 'connect.sid');
     return {"statusCode": response.statusCode};

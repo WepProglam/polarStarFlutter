@@ -15,10 +15,7 @@ class LoginController extends GetxController {
   LoginController({@required this.repository}) : assert(repository != null);
 
   var isAutoLogin = true.obs;
-
-  updateAutoLogin(bool b) {
-    isAutoLogin.value = b;
-  }
+  var isObscured = true.obs;
 
   var loginModel = LoginModel().obs;
 
@@ -39,20 +36,32 @@ class LoginController extends GetxController {
         Get.snackbar("로그인 성공", "로그인 성공");
 
         if (isAutoLogin.value) {
-          await box.write('isLoggined', true);
-          await box.write('token', Session.headers['Cookie']);
-          await box.write('tokenFCM', data["token"]);
+          await box.write('isAutoLogin', true);
+          await box.write('id', id);
+          await box.write('pw', pw);
+          await box.write('token', data["token"]);
         } else {
-          await box.remove('id');
-          await box.remove('pw');
-          await box.remove('isLoggined');
-          await box.remove('token');
-          await box.remove('tokenFCM');
+          box.remove('id');
+          box.remove('pw');
+          box.remove('token');
+          await box.write('isAutoLogin', false);
         }
+
         Get.offAndToNamed('/main');
         break;
       default:
         Get.snackbar("로그인 실패", "로그인 실패");
     }
+  }
+
+  @override
+  void onInit() async {
+    // if (box.hasData('isAutoLogin')) {
+    //   if (box.read('isAutoLogin')) {
+    //     await login(box.read('id'), box.read('pw'), box.read('token'));
+    //   }
+    // }
+
+    super.onInit();
   }
 }
