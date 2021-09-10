@@ -15,6 +15,7 @@ var inputDecoration = (hint) => InputDecoration(
     enabledBorder: InputBorder.none,
     errorBorder: InputBorder.none,
     disabledBorder: InputBorder.none,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
     hintStyle: const TextStyle(
         color: const Color(0xff999999),
         fontWeight: FontWeight.w400,
