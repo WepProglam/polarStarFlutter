@@ -206,7 +206,7 @@ class SignUpInputs extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(vertical: 8.5),
                 child: SignUpTextForm(
                   textEditingController: nicknameController,
-                  hint: "Please enter the password",
+                  hint: "Please enter the code",
                   funcValidator: (value) {
                     return checkEmpty(value);
                   },

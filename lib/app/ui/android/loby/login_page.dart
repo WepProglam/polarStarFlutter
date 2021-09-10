@@ -73,7 +73,19 @@ class LoginInputs extends GetView<LoginController> {
                         validator: (value) {
                           return checkEmpty(value);
                         },
+                        // decoration: InputDecoration(
+                        //     hintText: "Enter Your ID",
+                        //     contentPadding: EdgeInsets.zero),
                         decoration: InputDecoration(
+                          isDense: true,
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 0.0, vertical: 0.0),
+                          hintStyle: const TextStyle(
+                              color: const Color(0xff999999),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
                           hintText: "Enter Your ID",
                         ),
                       ),
@@ -122,8 +134,16 @@ class LoginInputs extends GetView<LoginController> {
                               return checkEmpty(value);
                             },
                             decoration: InputDecoration(
-                              hintText: "Enter Your PW",
-                            ),
+                                isDense: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 0.0, vertical: 0.0),
+                                hintStyle: const TextStyle(
+                                    color: const Color(0xff999999),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                hintText: "Enter the PW"),
                           )),
                       Positioned(
                         right: 6.6,

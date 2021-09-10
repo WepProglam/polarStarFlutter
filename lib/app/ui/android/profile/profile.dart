@@ -112,15 +112,23 @@ class Profile extends StatelessWidget {
                               ),
                               Align(
                                 alignment: Alignment.topCenter,
-                                child: InkWell(
-                                    child: Container(
-                                        margin: EdgeInsets.only(
-                                            top: 180, left: 100),
-                                        width: 13.7,
-                                        height: 11.8,
-                                        child: Image.asset(
-                                            "assets/images/605.png")),
-                                    onTap: () => {print("text")}),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 180, left: 100),
+                                  child: Ink(
+                                    decoration:
+                                        BoxDecoration(shape: BoxShape.circle),
+                                    width: 13.7,
+                                    height: 11.8,
+                                    child: InkWell(
+                                      onTap: () {
+                                        print("text");
+                                      },
+                                      child:
+                                          Image.asset("assets/images/605.png"),
+                                    ),
+                                  ),
+                                ),
                               ),
                               Align(
                                 alignment: Alignment.topCenter,

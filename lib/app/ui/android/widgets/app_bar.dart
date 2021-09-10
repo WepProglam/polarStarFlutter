@@ -37,7 +37,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
 
               Navigator.pushNamedAndRemoveUntil(
                   context, '/login', (Route<dynamic> route) => false);
-              Get.offAllNamed('/login');
+              Get.offAllNamed('/');
             },
             icon: Text('LOGOUT')),
         IconButton(
