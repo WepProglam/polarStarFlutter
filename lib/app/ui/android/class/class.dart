@@ -16,48 +16,48 @@ class Class extends StatelessWidget {
     final searchText = TextEditingController();
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xffffffff),
+          elevation: 0,
+          toolbarHeight: 33,
+          automaticallyImplyLeading: false,
+          titleSpacing: 0,
+          title: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 1.5, 15, 1.5),
+                child: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Ink(
+                    width: 9.36572265625,
+                    height: 16.6669921875,
+                    child: Image.asset(
+                      "assets/images/891.png",
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: size.width - 38.5 - 15,
+                height: 30,
+                child: ClassSearchBar(size: size, searchText: searchText),
+              )
+            ],
+          ),
+        ),
         body: RefreshIndicator(
           onRefresh: controller.refreshPage,
           child: CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(
-                child: Container(
-                  color: const Color(0xffffffff),
-                  margin: const EdgeInsets.fromLTRB(15, 1.5, 15, 19),
-                  child: Row(
-                    children: [
-                      // 패스 891
-                      InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Container(
-                          width: 9.36572265625,
-                          height: 16.6669921875,
-                          margin: const EdgeInsets.fromLTRB(0, 6.5, 14.1, 6.8),
-                          child: Image.asset(
-                            "assets/images/891.png",
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
-                      ),
-                      // 사각형 501
-                      SizedBox(
-                        width: size.width - 38.5 - 15,
-                        height: 30,
-                        child:
-                            ClassSearchBar(size: size, searchText: searchText),
-                      )
-                    ],
-                  ),
-                ),
-              ),
               // My last courses
               SliverToBoxAdapter(
                 child: Container(
                   decoration: BoxDecoration(color: Colors.white),
                   child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 0, 22),
+                      padding: const EdgeInsets.fromLTRB(15, 17.5, 0, 22),
                       child: // My last courses
                           Text("My last courses",
                               style: const TextStyle(
