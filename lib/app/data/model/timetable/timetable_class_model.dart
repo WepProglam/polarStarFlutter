@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class TimeTableClassModel {
   String professor, sector, degreeCourse, classNumber, className, refer;
-  int classID, credit;
+  String classID, credit;
   List<AddClassModel> classes;
 
   TimeTableClassModel(
@@ -23,8 +23,8 @@ class TimeTableClassModel {
     this.classNumber = json["classNumber"];
     this.className = json["className"];
     this.refer = json["refer"];
-    this.classID = json["classID"];
-    this.credit = json["credit"];
+    this.classID = "${json["classID"]}";
+    this.credit = "${json["credit"]}";
     Iterable tempClassJson = json["classes"];
 
     List<AddClassModel> tempClasses =
@@ -44,14 +44,14 @@ class TimeTableClassModel {
     data["classID"] = this.classID == null ? '0' : "${this.classID}";
     data["credit"] = this.credit == null ? '3' : "${this.credit}";
 
-    data["classes"] = this.classes.map((e) => e.toJson()).toList();
+    data["classes"] = jsonEncode(this.classes.map((e) => e.toJson()).toList());
     return data;
   }
 }
 
 class AddClassModel {
   String start_time, end_time, day, classRoom;
-  int online;
+  String online;
 
   AddClassModel({start_time, end_time, day, classRoom, online});
 
@@ -60,7 +60,7 @@ class AddClassModel {
     this.end_time = json["end_time"];
     this.day = json["day"];
     this.classRoom = json["classRoom"];
-    this.online = json["online"];
+    this.online = "${json["online"]}";
   }
 
   Map<String, dynamic> toJson() {

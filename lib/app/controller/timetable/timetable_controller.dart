@@ -62,7 +62,9 @@ class TimeTableController extends GetxController {
     Color(0xffadc972),
     Color(0xff7ba5ef),
     Color(0xff9c87e6),
-    Color(0xff9c87e6)
+    Colors.black,
+    Colors.orangeAccent,
+    Colors.cyan
   ];
   void makeShowTimeTable() {
     int colorIndex = 0;
@@ -74,11 +76,12 @@ class TimeTableController extends GetxController {
 
         List end = detail.end_time.split(":");
         int endTime = int.parse(end[0]) * 60 + int.parse(end[1]);
+
         showTimeTable[day_index].add({
           "start_time": startTime,
           "end_time": endTime,
           "classInfo": item,
-          "color": colorList[colorIndex % 6]
+          "color": colorList[colorIndex % colorList.length]
         });
       }
       colorIndex += 1;

@@ -107,6 +107,9 @@ class TimeTableContent extends StatelessWidget {
                             timeTableController.showTimeTable[index][i];
                         TimeTableClassModel classItemModel =
                             classItem["classInfo"];
+
+                        print("${i} ${classItem}");
+
                         // print(
                         //     "margin : ${(classItem["start_time"] - curEndTime) * 1.0}");
 
