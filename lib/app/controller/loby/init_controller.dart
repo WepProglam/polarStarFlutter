@@ -26,21 +26,24 @@ class InitController extends GetxController {
     switch (response["statusCode"]) {
       case 200:
         Get.snackbar("로그인 성공", "로그인 성공");
-        Get.offAndToNamed('/main');
         break;
       default:
         Get.snackbar("로그인 실패", "로그인 실패");
     }
   }
 
-  @override
-  void onInit() async {
+  Future<bool> checkLogin() async {
     if (box.hasData('isAutoLogin')) {
       if (box.read('isAutoLogin')) {
         await autoLogin(box.read('id'), box.read('pw'), box.read('token'));
+        return true;
       }
     }
+    return false;
+  }
 
+  @override
+  void onInit() async {
     super.onInit();
   }
 }

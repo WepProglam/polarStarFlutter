@@ -7,6 +7,7 @@ import 'package:polarstar_flutter/app/ui/android/main/widgets/boardPreview.dart'
 import 'package:polarstar_flutter/app/ui/android/main/widgets/hotBoardPreview.dart';
 import 'package:polarstar_flutter/app/ui/android/main/widgets/main_page_board.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
+import 'package:polarstar_flutter/session.dart';
 
 class MainPageScroll extends StatelessWidget {
   final box = GetStorage();
@@ -36,6 +37,24 @@ class MainPageScroll extends StatelessWidget {
             )
           ],
         ),
+      ),
+      //테스트 용으로 놔둠
+      floatingActionButton: FloatingActionButton(
+        child: Center(child: Text("로그아웃")),
+        onPressed: () async {
+          Session().getX('/logout');
+          Session.cookies = {};
+          Session.headers['Cookie'] = '';
+
+          box.write('isAutoLogin', false);
+          box.remove('id');
+          box.remove('pw');
+          box.remove('token');
+
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/login', (Route<dynamic> route) => false);
+          Get.offAllNamed('/');
+        },
       ),
       bottomNavigationBar:
           CustomBottomNavigationBar(mainController: mainController),
