@@ -95,6 +95,15 @@ class TimetableAddClass extends StatelessWidget {
                                     .TOTAL_CLASS.value.className);
                                 print(timeTableAddClassController
                                     .TOTAL_CLASS.value.professor);
+                                for (var items in timeTableController
+                                    .selectTable.value.CLASSES) {
+                                  for (var dd in items.classes) {
+                                    print("${dd.day},${dd.start_time}");
+                                  }
+                                }
+
+                                print("==============================");
+
                                 for (var item
                                     in timeTableAddClassController.CLASS_LIST) {
                                   //여기 검증하는 코드 추가 필요

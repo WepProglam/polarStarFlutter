@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/app/data/model/main_model.dart';
+import 'package:polarstar_flutter/app/ui/android/main/widgets/boardPreview.dart';
+import 'package:polarstar_flutter/app/ui/android/main/widgets/hotBoardPreview.dart';
 import 'package:polarstar_flutter/app/ui/android/main/widgets/main_page_board.dart';
-import 'package:polarstar_flutter/app/ui/android/widgets/app_bar.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
 
 class MainPageScroll extends StatelessWidget {
@@ -17,8 +19,23 @@ class MainPageScroll extends StatelessWidget {
     final deviceWidth = size.width;
 
     return Scaffold(
-      appBar: CustomAppBar(
-        pageName: "POLAR STAR",
+      appBar: AppBar(
+        backgroundColor: const Color(0xfff6f6f6),
+        elevation: 0,
+        toolbarHeight: 37 + 13.0,
+        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        title: Row(
+          children: [
+            Container(
+              margin:
+                  const EdgeInsets.only(left: 15, right: 15, top: 7, bottom: 5),
+              width: size.width - 15 * 2,
+              height: 30,
+              child: MainSearchBar(size: size, searchText: searchText),
+            )
+          ],
+        ),
       ),
       bottomNavigationBar:
           CustomBottomNavigationBar(mainController: mainController),
@@ -26,205 +43,122 @@ class MainPageScroll extends StatelessWidget {
         if (!mainController.dataAvailalbe) {
           return CircularProgressIndicator();
         } else {
-          return SingleChildScrollView(
-            child: Center(
+          return Container(
+            decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
+            child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 검색창
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 8,
-                          child: TextFormField(
-                            controller: searchText,
-                            textAlign: TextAlign.center,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Search',
-                                isDense: true,
-                                contentPadding: EdgeInsets.all(8)),
-                          ),
-                        ),
-                        Expanded(
-                            flex: 1,
-                            child: Container(
-                              child: IconButton(
-                                padding: EdgeInsets.all(0),
-                                onPressed: () {
-                                  Map arg = {
-                                    'search': searchText.text,
-                                  };
-
-                                  Get.toNamed('/board/searchAll/page/1',
-                                      arguments: arg);
-                                },
-                                icon: Icon(Icons.search_outlined),
-                                iconSize: 20,
-                              ),
-                            )),
-                      ],
-                    ),
-                  ),
-
-                  // 취업정보
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  //핫게
+                  Container(
+                    width: size.width,
+                    height: 372 + 5.0,
                     child: Container(
-                      height: 100,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        physics: PageScrollPhysics(), // 하나씩 스크롤 되게 해줌
-                        itemCount: 5,
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            child: Container(
-                              width: deviceWidth - 16,
-                              color: Colors.amber[600],
-                              child: Center(
-                                child: Text("취업 정보$index"),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+                      margin: const EdgeInsets.fromLTRB(15, 5, 15, 0),
+                      child: HotBoardMain(
+                          size: size, mainController: mainController),
                     ),
                   ),
-
-                  // 빌보드(핫게)
-                  Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Container(
-                                    child: Text(
-                                  '핫보드',
-                                )),
-                              ),
-                              Spacer(),
-                              InkWell(
-                                onTap: () {
-                                  Get.toNamed("/board/hot/page/1");
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: Container(
-                                      child: Text(
-                                    '더 보기',
-                                    style: TextStyle(color: Colors.redAccent),
-                                  )),
-                                ),
-                              ),
-                            ],
-                          ),
-                          for (var item in mainController.hotBoard)
-                            Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Container(
-                                child: billboardContent(item),
-                                width: deviceWidth,
-                                height: 50,
-                                decoration: BoxDecoration(color: Colors.orange),
-                              ),
-                            ),
-                        ],
-                      ))),
-
                   // 게시판
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10, left: 15, right: 15),
                     child: Container(
                       child: Column(
                         children: [
-                          Row(children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  '게시판',
-                                ),
-                              ),
-                            ),
-                            Spacer(),
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed("board/boardList");
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 8),
-                                child: Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    '더 보기',
-                                    style: TextStyle(color: Colors.red),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ]),
-                          Container(child: boards(mainController.boardInfo))
+                          Container(
+                            height: 24 + 13.0,
+                            child: BoardPreviewItem_top(),
+                            padding: const EdgeInsets.only(bottom: 13),
+                          ),
+                          Container(
+                            height:
+                                (81 + 10.0) * mainController.boardInfo.length,
+                            child: ListView.builder(
+                                itemCount: mainController.boardInfo.length,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (BuildContext context, int index) {
+                                  Rx<BoardInfo> boardInfo =
+                                      mainController.boardInfo[index];
+                                  return Container(
+                                    height: 81,
+                                    margin: const EdgeInsets.only(bottom: 10.0),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20))),
+                                    child: BoardPreviewItem_board(
+                                        boardInfo: boardInfo, size: size),
+                                  );
+                                }),
+                          ),
                         ],
                       ),
                     ),
                   ),
-
-                  //시간표 & 강의평가
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
+                  Container(
+                    margin: const EdgeInsets.only(left: 15, right: 15),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              '시간표/강의평가',
+                        Container(
+                          child: Row(children: [
+                            Container(
+                              height: 24,
+                              child: Text("My last courses",
+                                  style: const TextStyle(
+                                      color: const Color(0xff333333),
+                                      fontWeight: FontWeight.w900,
+                                      fontFamily: "PingFangSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 18.0),
+                                  textAlign: TextAlign.left),
                             ),
-                          ),
+                            Spacer(),
+                            Container(
+                              height: 16,
+                              margin:
+                                  const EdgeInsets.only(top: 4.5, bottom: 3.5),
+                              child: Text("View more",
+                                  style: const TextStyle(
+                                      color: const Color(0xff1a4678),
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: "PingFangSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12.0),
+                                  textAlign: TextAlign.center),
+                            )
+                          ]),
                         ),
                         Container(
-                          width: deviceWidth - 16,
-                          height: 200,
-                          margin: EdgeInsets.only(top: 2, bottom: 2),
-                          decoration: BoxDecoration(border: Border.all()),
-                          child: null,
-                        ),
+                            margin: const EdgeInsets.only(top: 12),
+                            height: 163.5,
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 23 - 13.5 / 2, horizontal: 15),
+                              child: Column(
+                                children: [
+                                  Container(
+                                      height: 52,
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 13.5 / 2),
+                                      child: ClassPreview_Main()),
+                                  Container(
+                                      height: 52,
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 13.5 / 2),
+                                      child: ClassPreview_Main()),
+                                ],
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                                color: const Color(0xffffffff)))
                       ],
                     ),
                   ),
-
-                  // 유니티
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              '유니티',
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: deviceWidth - 16,
-                          height: 200,
-                          margin: EdgeInsets.only(top: 2, bottom: 2),
-                          decoration: BoxDecoration(border: Border.all()),
-                          child: null,
-                        ),
-                      ],
-                    ),
+                  SizedBox(
+                    height: 15,
                   )
                 ],
               ),
@@ -233,5 +167,149 @@ class MainPageScroll extends StatelessWidget {
         }
       }),
     );
+  }
+}
+
+class ClassPreview_Main extends StatelessWidget {
+  const ClassPreview_Main({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        // 사각형 565
+        Container(
+            width: 52,
+            height: 52,
+            child: Center(
+              child: Container(
+                width: 24,
+                height: 24,
+                child: Image.asset("assets/images/568.png"),
+              ),
+            ),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: const Color(0xff1a785c))),
+        Container(
+          height: 47,
+          margin: const EdgeInsets.only(left: 18, top: 2.5, bottom: 2.5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 21.5,
+                child: Text("Your Subject",
+                    style: const TextStyle(
+                        color: const Color(0xff333333),
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "PingFangSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 16.0),
+                    textAlign: TextAlign.left),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 7),
+                height: 18.5,
+                child: Text("your teacher",
+                    style: const TextStyle(
+                        color: const Color(0xff999999),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "PingFangSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0),
+                    textAlign: TextAlign.left),
+              )
+            ],
+          ),
+        ),
+        Spacer(),
+        Container(
+            padding: const EdgeInsets.fromLTRB(7.5, 4, 7, 5.5),
+            child: Text("Evaluate",
+                style: const TextStyle(
+                    color: const Color(0xffffffff),
+                    fontWeight: FontWeight.w700,
+                    fontFamily: "PingFangSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 12.0),
+                textAlign: TextAlign.center),
+            margin: const EdgeInsets.only(top: 14.5, bottom: 12),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(26)),
+                color: const Color(0xff1a4678)))
+      ],
+    );
+  }
+}
+
+class MainSearchBar extends StatelessWidget {
+  const MainSearchBar({
+    Key key,
+    @required this.size,
+    @required this.searchText,
+  }) : super(key: key);
+
+  final Size size;
+  final TextEditingController searchText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              width: size.width - 38.5 - 15 - 23.5 - 19.4 - 15,
+              margin: const EdgeInsets.only(left: 23.5, top: 11),
+              child: TextFormField(
+                controller: searchText,
+                maxLines: 1,
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "PingFangSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
+                textAlign: TextAlign.left,
+                decoration: InputDecoration(
+                    isDense: true,
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    hintText: "Search Something!!!"),
+              ),
+            ),
+            Spacer(),
+            // 패스 894
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 8, 19.4, 7.7),
+              child: Container(
+                  width: 14.2841796875,
+                  height: 14.29736328125,
+                  child: InkWell(
+                    onTap: () {
+                      Map arg = {
+                        'search': searchText.text,
+                      };
+
+                      Get.toNamed('/board/searchAll/page/1', arguments: arg);
+                    },
+                    child: Image.asset(
+                      "assets/images/894.png",
+                      fit: BoxFit.fitHeight,
+                    ),
+                  )),
+            )
+          ],
+        ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            color: const Color(0xffeeeeee)));
   }
 }
