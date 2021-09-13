@@ -12,9 +12,23 @@ class MailHistory extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+          backgroundColor: const Color(0xffffffff),
           appBar: AppBar(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            elevation: 0,
+            leading: InkWell(
+              child: Icon(Icons.arrow_back_ios_new, color: Colors.black),
+              onTap: () {
+                Get.back();
+              },
+            ),
+            leadingWidth: 35,
+            titleSpacing: 0,
             title: Text(
-                '${mailController.opponentProfile.value.PROFILE_NICKNAME}'),
+              "${mailController.opponentProfile.value.PROFILE_NICKNAME}",
+              style: TextStyle(color: Colors.black),
+            ),
           ),
           body: RefreshIndicator(
             onRefresh: mailController.getMail,
@@ -25,7 +39,6 @@ class MailHistory extends StatelessWidget {
                   if (mailController.dataAvailableMailSendPage) {
                     //data가 available한 상태인지 확인
                     return Container(
-                      margin: const EdgeInsets.only(bottom: 60),
                       child: ListView.builder(
                         controller: controller,
                         itemCount: mailController.mailHistory.length,
@@ -37,35 +50,34 @@ class MailHistory extends StatelessWidget {
                             print((mailController.mailHistory[index].FROM_ME));
                           }
                           return Container(
-                              padding:
-                                  EdgeInsets.only(left: 14, right: 14, top: 10),
+                              padding: (mailController.mailHistory[index].FROM_ME == 0
+                                  ? EdgeInsets.only(left: 15, bottom: 33.5)
+                                  : EdgeInsets.only(right: 15, top: 26.5)),
                               child: Align(
-                                alignment: (mailController
-                                            .mailHistory[index].FROM_ME ==
-                                        0
-                                    ? Alignment.topLeft
-                                    : Alignment.topRight),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: (mailController
-                                                .mailHistory[index].FROM_ME ==
-                                            0
-                                        ? Colors.grey.shade400
-                                        : Colors.blue[200]),
-                                  ),
-                                  padding: EdgeInsets.all(16),
-                                  child: (mailController
-                                              .mailHistory[index].FROM_ME ==
-                                          0
-                                      ? Text(
-                                          '${mailController.opponentProfile.value.PROFILE_NICKNAME} : ${mailController.mailHistory[index].CONTENT}',
-                                          style: TextStyle(fontSize: 15))
-                                      : Text(
-                                          '${mailController.mailHistory[index].CONTENT}',
-                                          style: TextStyle(fontSize: 15))),
-                                ),
-                              ));
+                                  alignment:
+                                      (mailController.mailHistory[index].FROM_ME == 0
+                                          ? Alignment.topLeft
+                                          : Alignment.topRight),
+                                  child: (mailController.mailHistory[index].FROM_ME == 0
+                                      ? Container(
+                                          width: 41.5,
+                                          height: 41.5,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color:
+                                                      const Color(0x59ffffff),
+                                                  width: 3)))
+                                      : Container(
+                                          constraints:
+                                              BoxConstraints(maxWidth: 260),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(36),
+                                                  topRight: Radius.circular(36),
+                                                  bottomLeft: Radius.circular(36)),
+                                              border: Border.all(color: const Color(0xffdcdcdc), width: 1),
+                                              color: const Color(0xff1a4678)),
+                                          child: Container(margin: EdgeInsets.only(left: 11.5, top: 13, right: 13, bottom: 16), child: Text("${mailController.mailHistory[index].CONTENT}", style: const TextStyle(color: const Color(0xffffffff), fontWeight: FontWeight.w700, fontFamily: "PingFangSC", fontStyle: FontStyle.normal, fontSize: 16.0), textAlign: TextAlign.left))))));
                         },
                       ),
                     );
