@@ -5,6 +5,7 @@ import 'package:polarstar_flutter/app/controller/search/search_controller.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/search/widgets/search_bar.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/app_bar.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/board_name.dart';
 
 class Board extends StatelessWidget {
   Board({Key key}) : super(key: key);
@@ -14,8 +15,52 @@ class Board extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            appBar: WritePostAppBar(
-              COMMUNITY_ID: int.parse(Get.parameters["COMMUNITY_ID"]),
+            backgroundColor: Color(0xfff6f6f6),
+            appBar: AppBar(
+              backgroundColor: Color(0xffffffff),
+              foregroundColor: Color(0xff333333),
+              elevation: 0,
+              automaticallyImplyLeading: false,
+              leadingWidth: 15 + 13.1 + 9.4,
+              leading: InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 13.1),
+                  child: Ink(
+                    child: Image.asset(
+                      'assets/images/848.png',
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                ),
+              ),
+              titleSpacing: 0,
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      communityBoardName(
+                              int.parse(Get.parameters["COMMUNITY_ID"])) +
+                          "게시판",
+                      style: const TextStyle(
+                          color: const Color(0xff333333),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "PingFangSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16.0),
+                      textAlign: TextAlign.left),
+                  Text("Sungkyunkwan University",
+                      style: const TextStyle(
+                          color: const Color(0xff333333),
+                          fontWeight: FontWeight.normal,
+                          fontFamily: "PingFangSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 11.0),
+                      textAlign: TextAlign.left),
+                ],
+              ),
             ),
             body: RefreshIndicator(
               onRefresh: controller.refreshPage,
@@ -24,7 +69,7 @@ class Board extends StatelessWidget {
                   Column(
                     children: [
                       Container(
-                        height: 60,
+                        height: 56,
                         width: Get.mediaQuery.size.width,
                       ),
                       // 게시글 프리뷰 리스트

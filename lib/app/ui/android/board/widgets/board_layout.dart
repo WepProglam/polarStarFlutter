@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/board_name.dart';
+import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 
 // 게시글 프리뷰 위젯
 class PostPreview extends StatelessWidget {
@@ -16,152 +17,237 @@ class PostPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        print(item);
-        Get.toNamed('/board/${item.COMMUNITY_ID}/read/${item.BOARD_ID}');
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 4),
-        child: Container(
-          // height: 200,
-          decoration: BoxDecoration(
-            border: Border.symmetric(horizontal: BorderSide(width: 0.5)),
-          ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: InkWell(
+        onTap: () {
+          print(item);
+          Get.toNamed('/board/${item.COMMUNITY_ID}/read/${item.BOARD_ID}');
+        },
+        child: Ink(
+          color: Color(0xffffffff),
+          padding: EdgeInsets.fromLTRB(27, 19.5, 27, 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  // 프로필 이미지 & 닉네임
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 8.0, left: 8.0, right: 8.0),
-                          child: Container(
-                            // 그냥 사이즈 표기용
-                            // decoration: BoxDecoration(border: Border.all()),
-                            height: 30,
-                            width: 30,
-                            child: CachedNetworkImage(
-                                imageUrl:
-                                    'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/${item.PROFILE_PHOTO}',
-                                fit: BoxFit.fill,
-                                fadeInDuration: Duration(milliseconds: 0),
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) => Image(
-                                        image: AssetImage('image/spinner.gif')),
-                                errorWidget: (context, url, error) {
-                                  print(error);
-                                  return Icon(Icons.error);
-                                }),
-                          ),
-                        ),
-                        Text(item.PROFILE_NICKNAME),
-                      ],
-                    ),
-                  ),
-                  // 제목, 내용
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // 제목
-                          Text(
-                            item.TITLE,
-                            textScaleFactor: 1.5,
-                            maxLines: 1,
-                          ),
-                          // 내용
-                          Text(
-                            item.CONTENT,
-                            maxLines: 2,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  // Photo
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      // 그냥 사이즈 표기용
-                      // decoration: BoxDecoration(border: Border.all()),
-                      height: 50,
-                      width: 50,
-                      child: item.PHOTO.length == 0 || item.PHOTO == null
-                          ? Container()
-                          : CachedNetworkImage(
-                              imageUrl:
-                                  'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/board/${item.PHOTO[0]}',
-                              fit: BoxFit.fill,
-                              fadeInDuration: Duration(milliseconds: 0),
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) => Image(
-                                      image: AssetImage(
-                                          'assets/images/spinner.gif')),
-                              errorWidget: (context, url, error) {
-                                print(error);
-                                return Icon(Icons.error);
-                              }),
-                    ),
-                  ),
-                ],
-              ),
-              // 게시판, 좋아요, 댓글, 스크랩
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 8.0,
-                  right: 8.0,
-                  bottom: 8.0,
-                ),
+              // 프로필 이미지 & 닉네임 & 작성 시간
+              Container(
+                height: 39,
+                margin: EdgeInsets.only(bottom: 7.6),
                 child: Row(
                   children: [
-                    Text(boardName(item.COMMUNITY_ID) + '게시판'),
+                    // profile image
+                    Container(
+                        width: 39,
+                        height: 39,
+                        margin: EdgeInsets.only(right: 11.8),
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/${item.PROFILE_PHOTO}',
+                          imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover))),
+                        )),
+
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // nickname
+                        Text(item.PROFILE_NICKNAME,
+                            style: const TextStyle(
+                                color: const Color(0xff333333),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 15.0),
+                            textAlign: TextAlign.left),
+
+                        // time
+                        Text(timeParsing(item.TIME_CREATED, item.TIME_UPDATED),
+                            style: const TextStyle(
+                                color: const Color(0xff999999),
+                                fontWeight: FontWeight.normal,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 11.0),
+                            textAlign: TextAlign.left),
+                      ],
+                    ),
+
                     Spacer(),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 3.0, right: 3.0),
-                          child: Icon(
-                            Icons.thumb_up,
-                            size: 15,
-                          ),
+
+                    // 좋아요, 즐겨찾기
+                    Ink(
+                      width: 11,
+                      height: 11,
+                      child: InkWell(
+                        onTap: () {},
+                        child: Image.asset(
+                          "assets/images/invalid_name.png",
+                          fit: BoxFit.fitWidth,
                         ),
-                        Text(item.LIKES.toString()),
-                      ],
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 3.0, right: 3.0),
-                          child: Icon(
-                            Icons.comment,
-                            size: 15,
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 13.7),
+                      child: Ink(
+                        width: 11,
+                        height: 11,
+                        child: InkWell(
+                          onTap: () {},
+                          child: Image.asset(
+                            "assets/images/scrap_none.png",
+                            fit: BoxFit.fitWidth,
                           ),
                         ),
-                        Text(item.COMMENTS.toString()),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 3.0, right: 3.0),
-                          child: Icon(
-                            Icons.bookmark,
-                            size: 15,
-                          ),
-                        ),
-                        Text(item.SCRAPS.toString()),
-                      ],
+                      ),
                     ),
                   ],
                 ),
+              ),
+
+              // 제목, 내용
+              Text(item.TITLE,
+                  style: const TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.0),
+                  textAlign: TextAlign.left),
+              Text(item.CONTENT,
+                  maxLines: 2,
+                  style: const TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.normal,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                  textAlign: TextAlign.left),
+
+              // Photo
+              Container(
+                margin: EdgeInsets.only(top: 13.1 - 5.6, bottom: 17.8 - 5.6),
+                child: item.PHOTO.length == 0 || item.PHOTO == null
+                    ? Container()
+                    : Container(
+                        width: Get.mediaQuery.size.width,
+                        height: 110.7,
+                        margin: EdgeInsets.symmetric(vertical: 5.6),
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: item.PHOTO.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return CachedNetworkImage(
+                                  imageUrl:
+                                      'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/board/${item.PHOTO[index]}',
+                                  fadeInDuration: Duration(milliseconds: 0),
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) => Image(
+                                          image: AssetImage(
+                                              'assets/images/spinner.gif')),
+                                  errorWidget: (context, url, error) {
+                                    print(error);
+                                    return Icon(Icons.error);
+                                  },
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                        margin: EdgeInsets.only(right: 4.2),
+                                        width: 108.3,
+                                        height: 110.7,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover)),
+                                      ));
+                            }),
+                      ),
+              ),
+
+              //좋아요, 댓글, 스크랩 수
+              Row(
+                children: [
+                  Container(
+                    height: 16,
+                    margin: EdgeInsets.only(right: 20),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 10.6,
+                          height: 10.6,
+                          margin: const EdgeInsets.only(right: 6.4),
+                          child: Image.asset(
+                            "assets/images/invalid_name.png",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Text(item.LIKES.toString(),
+                            style: const TextStyle(
+                                color: const Color(0xff333333),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.0),
+                            textAlign: TextAlign.left)
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 16,
+                    margin: EdgeInsets.only(right: 20),
+                    child: Row(
+                      children: [
+                        Container(
+                            width: 10.6,
+                            height: 10.6,
+                            margin: const EdgeInsets.only(right: 6.4),
+                            child: Icon(
+                              Icons.comment_outlined,
+                              size: 10.6,
+                            )),
+                        Text(item.COMMENTS.toString(),
+                            style: const TextStyle(
+                                color: const Color(0xff333333),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.0),
+                            textAlign: TextAlign.left)
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 16,
+                    margin: EdgeInsets.only(right: 20),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 10.6,
+                          height: 10.6,
+                          margin: const EdgeInsets.only(right: 6.4),
+                          child: Image.asset(
+                            "assets/images/scrap_none.png",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Text(item.SCRAPS.toString(),
+                            style: const TextStyle(
+                                color: const Color(0xff333333),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.0),
+                            textAlign: TextAlign.left)
+                      ],
+                    ),
+                  )
+                ],
               ),
             ],
           ),
