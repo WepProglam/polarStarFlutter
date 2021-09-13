@@ -132,6 +132,11 @@ flutter:
     - assets/images/970.png
     - assets/images/627.png
     - assets/images/629.png
+    - assets/images/848.png
+    - assets/images/invalid_name.png
+    - assets/images/849.png
+    - assets/images/like_red.png
+    - assets/images/scrap_none.png
     - assets/fonts/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

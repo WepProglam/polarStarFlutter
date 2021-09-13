@@ -258,13 +258,13 @@ class ProfileIndex extends StatelessWidget {
                   border: Border.all(width: 1, color: Colors.black),
                   borderRadius: BorderRadius.all(Radius.circular(25))),
               child: Text(
-                "setting",
+                "Mail",
                 textScaleFactor: 0.8,
                 textAlign: TextAlign.center,
               ),
             ),
             onTap: () async {
-              await Get.toNamed('/myPage/setting');
+              await Get.toNamed('/mail');
             },
           ),
           flex: 80,
@@ -389,7 +389,7 @@ class MyPageProfile extends StatelessWidget {
                       ]))),
               InkWell(
                   onTap: () async {
-                    await Get.toNamed('/myPage/setting');
+                    await Get.toNamed('/mail');
                   },
                   child: Container(
                       height: 31,
@@ -410,7 +410,7 @@ class MyPageProfile extends StatelessWidget {
                                         AssetImage("assets/images/601.png")))),
                         Container(
                             margin: EdgeInsets.only(left: 9),
-                            child: Text("Setting",
+                            child: Text("Mail",
                                 style: const TextStyle(
                                     color: const Color(0xffffffff),
                                     fontWeight: FontWeight.w400,
