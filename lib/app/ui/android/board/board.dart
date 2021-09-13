@@ -16,6 +16,7 @@ class Board extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
             backgroundColor: Color(0xfff6f6f6),
+            // Get.toNamed('/board/$COMMUNITY_ID');
             appBar: AppBar(
               backgroundColor: Color(0xffffffff),
               foregroundColor: Color(0xff333333),
@@ -62,6 +63,7 @@ class Board extends StatelessWidget {
                 ],
               ),
             ),
+            floatingActionButton: FloatingActionButton(onPressed: () {}),
             body: RefreshIndicator(
               onRefresh: controller.refreshPage,
               child: Stack(
