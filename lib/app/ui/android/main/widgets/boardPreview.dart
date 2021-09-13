@@ -121,7 +121,7 @@ class BoardPreviewItem_boardTop extends StatelessWidget {
           Container(
             height: 15,
             width: 30.5,
-            margin: const EdgeInsets.only(left: 16, top: 2, bottom: 2),
+            margin: const EdgeInsets.only(left: 8, top: 2, bottom: 2),
             child: Image.asset("assets/images/627.png"),
           )
         ],

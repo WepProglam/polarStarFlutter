@@ -15,6 +15,7 @@ class MainApiClient {
     Iterable hotBoard = jsonResponse["HotBoard"];
     Iterable likeList = jsonResponse["LikeList"];
     Iterable scrapList = jsonResponse["ScrapList"];
+    Iterable classList = jsonResponse["CLASSES"];
 
     List<BoardInfo> listBoardInfo =
         boardInfo.map((model) => BoardInfo.fromJson(model)).toList();
@@ -28,12 +29,16 @@ class MainApiClient {
     List<ScrapListModel> listScrapList =
         scrapList.map((e) => ScrapListModel.fromJson(e)).toList();
 
+    List<MainClassModel> listClassList =
+        classList.map((e) => MainClassModel.fromJson(e)).toList();
+
     return {
       "statusCode": getResponse.statusCode,
       "boardInfo": listBoardInfo,
       "hotBoard": listHotBoard,
       "likeList": listLikeList,
-      "scrapList": listScrapList
+      "scrapList": listScrapList,
+      "classList": listClassList
     };
   }
 

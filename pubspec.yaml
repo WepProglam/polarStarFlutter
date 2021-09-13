@@ -53,6 +53,8 @@ dependencies:
   wechat_assets_picker : ^6.0.4
 
   string_validator: ^0.3.0
+
+  swipedetector: ^1.2.0
   
 
   

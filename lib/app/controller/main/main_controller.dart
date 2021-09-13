@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/data/provider/sqflite/database_helper.dart';
 import 'package:polarstar_flutter/app/data/repository/main_repository.dart';
+import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 
 class MainController extends GetxController {
   final MainRepository repository;
@@ -15,12 +16,14 @@ class MainController extends GetxController {
 
   RxList<Rx<BoardInfo>> boardInfo = <Rx<BoardInfo>>[].obs;
   RxList<HotBoard> hotBoard = <HotBoard>[].obs;
+  RxInt hotBoardIndex = 0.obs;
   RxInt followAmount = 0.obs;
 
   RxList<BoardInfo> boardListInfo = <BoardInfo>[].obs;
 
   RxList<LikeListModel> likeList = <LikeListModel>[].obs;
   RxList<ScrapListModel> scrapList = <ScrapListModel>[].obs;
+  RxList<MainClassModel> classList = <MainClassModel>[].obs;
 
   RxBool _dataAvailable = false.obs;
   RxInt mainPageIndex = 0.obs;
@@ -48,14 +51,12 @@ class MainController extends GetxController {
     hotBoard.value = value["hotBoard"];
     likeList.value = value["likeList"];
     scrapList.value = value["scrapList"];
+    classList.value = value["classList"];
 
     for (BoardInfo item in value["boardInfo"]) {
       boardListInfo.add(item);
       boardInfo.add(item.obs);
-      print(item.COMMUNITY_NAME);
     }
-    print("================================");
-    print(boardInfo[0].value.isFollowed);
 
     box.write("boardInfo", boardListInfo);
     _dataAvailable.value = true;
@@ -84,6 +85,15 @@ class MainController extends GetxController {
     }));
     await getFollowingCommunity();
     // await _dbHelper.dropTable();
+  }
+
+  void swipeLeftHotBoard() {
+    hotBoardIndex.value = (hotBoardIndex.value + 1) % (hotBoard.length);
+  }
+
+  void swipeRightHotBoard() {
+    hotBoardIndex.value =
+        (hotBoard.length - (hotBoardIndex.value - 1)) % (hotBoard.length);
   }
 
   @override

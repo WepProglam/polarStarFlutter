@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/app/data/model/main_model.dart';
+import 'package:swipedetector/swipedetector.dart';
 
 class HotBoardMain extends StatelessWidget {
   const HotBoardMain({
@@ -60,7 +63,7 @@ class HotBoardMain extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 62.5),
                 child: Opacity(
-                  opacity: 0.10000000149011612,
+                  opacity: 0.15000000149011612,
                   child: Container(
                       height: 50.5,
                       decoration: BoxDecoration(
@@ -72,7 +75,7 @@ class HotBoardMain extends StatelessWidget {
                 margin:
                     const EdgeInsets.only(top: 10.5, left: 30.3, right: 30.3),
                 child: Opacity(
-                  opacity: 0.10000000149011612,
+                  opacity: 0.15000000149011612,
                   child: Container(
                       height: 50.5,
                       decoration: BoxDecoration(
@@ -84,21 +87,40 @@ class HotBoardMain extends StatelessWidget {
               // 핫게
               Container(
                   margin: const EdgeInsets.only(top: 22),
-                  child: Container(
-                    width: size.width - 15 * 2,
-                    height: 301.6,
-                    margin: const EdgeInsets.only(top: 9),
-                    child: Ink(
-                      child: InkWell(
-                        onTap: () {
-                          Get.toNamed(
-                              "/board/${mainController.hotBoard[0].COMMUNITY_ID}/read/${mainController.hotBoard[0].BOARD_ID}");
-                        },
-                        child: HotBoardPreview(
-                            mainController: mainController, size: size),
+                  child: Obx(() {
+                    return SwipeDetector(
+                      onSwipeLeft: () async {
+                        await mainController.swipeLeftHotBoard();
+                      },
+                      onSwipeRight: () async {
+                        await mainController.swipeRightHotBoard();
+                      },
+                      child: Container(
+                        width: size.width - 15 * 2,
+                        height: 301.6,
+                        margin: const EdgeInsets.only(top: 9),
+                        child: Ink(
+                          child: InkWell(
+                            onTap: () {
+                              Get.toNamed(
+                                  "/board/${mainController.hotBoard[mainController.hotBoardIndex.value].COMMUNITY_ID}/read/${mainController.hotBoard[mainController.hotBoardIndex.value].BOARD_ID}");
+                            },
+                            child: HotBoardPreview(
+                                model: mainController.hotBoard[
+                                    mainController.hotBoardIndex.value],
+                                size: size),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                      swipeConfiguration: SwipeConfiguration(
+                          verticalSwipeMinVelocity: 100.0,
+                          verticalSwipeMinDisplacement: 50.0,
+                          verticalSwipeMaxWidthThreshold: 100.0,
+                          horizontalSwipeMaxHeightThreshold: 50.0,
+                          horizontalSwipeMinDisplacement: 50.0,
+                          horizontalSwipeMinVelocity: 200.0),
+                    );
+                  }),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       color: const Color(0xffffffff)))
@@ -113,11 +135,11 @@ class HotBoardMain extends StatelessWidget {
 class HotBoardPreview extends StatelessWidget {
   const HotBoardPreview({
     Key key,
-    @required this.mainController,
+    @required this.model,
     @required this.size,
   }) : super(key: key);
 
-  final MainController mainController;
+  final HotBoard model;
   final Size size;
 
   @override
@@ -129,14 +151,12 @@ class HotBoardPreview extends StatelessWidget {
           margin: const EdgeInsets.only(left: 11, right: 11),
           padding: const EdgeInsets.only(bottom: 15.2 / 2),
           height: 78 / 2 + 15.2 / 2,
-          child: HotBoardPreviewItem_Top(
-              mainController: mainController, size: size),
+          child: HotBoardPreviewItem_Top(model: model, size: size),
         ),
         Container(
           height: 195,
           margin: const EdgeInsets.only(left: 11, right: 11),
-          child:
-              HotBoardItem_content(mainController: mainController, size: size),
+          child: HotBoardItem_content(model: model, size: size),
         ),
         Container(
             height: 0.5,
@@ -144,7 +164,7 @@ class HotBoardPreview extends StatelessWidget {
             decoration: BoxDecoration(color: const Color(0xfff0f0f0))),
         Container(
           height: 44,
-          child: HotBoardItem_bottomLine(),
+          child: HotBoardItem_bottomLine(model: model),
         )
       ],
     );
@@ -152,9 +172,10 @@ class HotBoardPreview extends StatelessWidget {
 }
 
 class HotBoardItem_bottomLine extends StatelessWidget {
-  const HotBoardItem_bottomLine({
-    Key key,
-  }) : super(key: key);
+  const HotBoardItem_bottomLine({Key key, @required this.model})
+      : super(key: key);
+
+  final HotBoard model;
 
   @override
   Widget build(BuildContext context) {
@@ -165,11 +186,12 @@ class HotBoardItem_bottomLine extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             HotBoardPreviewItem_bottom(
-                image_url: "assets/images/good.png", amount: "8678"),
+                image_url: "assets/images/good.png", amount: "${model.LIKES}"),
             HotBoardPreviewItem_bottom(
-                image_url: "assets/images/comment.png", amount: "9365"),
+                image_url: "assets/images/comment.png",
+                amount: "${model.COMMENTS}"),
             HotBoardPreviewItem_bottom(
-                image_url: "assets/images/star.png", amount: "9976"),
+                image_url: "assets/images/star.png", amount: "${model.SCRAPS}"),
           ],
         ),
         decoration: BoxDecoration(
@@ -184,11 +206,11 @@ class HotBoardItem_bottomLine extends StatelessWidget {
 class HotBoardItem_content extends StatelessWidget {
   const HotBoardItem_content({
     Key key,
-    @required this.mainController,
+    @required this.model,
     @required this.size,
   }) : super(key: key);
 
-  final MainController mainController;
+  final HotBoard model;
   final Size size;
 
   @override
@@ -198,7 +220,7 @@ class HotBoardItem_content extends StatelessWidget {
       children: [
         Container(
           height: 43 / 2,
-          child: Text("${mainController.hotBoard[0].TITLE}",
+          child: Text("${model.TITLE}",
               // "Trains flying across the strait",
               style: const TextStyle(
                   color: const Color(0xff333333),
@@ -213,7 +235,7 @@ class HotBoardItem_content extends StatelessWidget {
           width: size.width - 15 * 2 - 11 * 2 - 20,
           child: Text(
               // "Taking the train may be the most common way to return home. You may not know that thereTaking the train may be the most common way to return home. You may not know that thereTaking the train may be the most common way to return home. You may not know that there\n",
-              "${mainController.hotBoard[0].CONTENT}\n",
+              "${model.CONTENT}\n",
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
@@ -227,11 +249,10 @@ class HotBoardItem_content extends StatelessWidget {
         Container(
           height: 118.5,
           margin: const EdgeInsets.only(top: 16 / 2),
-          child: mainController.hotBoard[0].PHOTO != null &&
-                  mainController.hotBoard[0].PHOTO.length > 0
+          child: model.PHOTO != null && model.PHOTO.length > 0
               ? CachedNetworkImage(
                   imageUrl:
-                      'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com/uploads/${mainController.hotBoard[0].PROFILE_PHOTO}',
+                      'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com/uploads/${model.PROFILE_PHOTO}',
                   imageBuilder: (context, imageProvider) => Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -295,11 +316,11 @@ class HotBoardPreviewItem_bottom extends StatelessWidget {
 class HotBoardPreviewItem_Top extends StatelessWidget {
   const HotBoardPreviewItem_Top({
     Key key,
-    @required this.mainController,
+    @required this.model,
     @required this.size,
   }) : super(key: key);
 
-  final MainController mainController;
+  final HotBoard model;
   final Size size;
 
   @override
@@ -310,7 +331,7 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
           height: 39,
           child: CachedNetworkImage(
               imageUrl:
-                  'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com/uploads/${mainController.hotBoard[0].PROFILE_PHOTO}',
+                  'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com/uploads/${model.PROFILE_PHOTO}',
               imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -336,7 +357,7 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(top: 0.3, bottom: 1.3),
                     child: // Userid
-                        Text("${mainController.hotBoard[0].PROFILE_NICKNAME}",
+                        Text("${model.PROFILE_NICKNAME}",
                             style: const TextStyle(
                                 color: const Color(0xff333333),
                                 fontWeight: FontWeight.w700,
@@ -361,7 +382,7 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
             Container(
                 height: 15,
                 child: // 2019.10.23  22:34:24
-                    Text("${mainController.hotBoard[0].TIME_CREATED}",
+                    Text("${model.TIME_CREATED}",
                         style: const TextStyle(
                             color: const Color(0xff999999),
                             fontWeight: FontWeight.w400,

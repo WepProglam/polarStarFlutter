@@ -58,15 +58,14 @@ class Class extends StatelessWidget {
                   decoration: BoxDecoration(color: Colors.white),
                   child: Padding(
                       padding: const EdgeInsets.fromLTRB(15, 17.5, 0, 22),
-                      child: // My last courses
-                          Text("My last courses",
-                              style: const TextStyle(
-                                  color: const Color(0xff333333),
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: "PingFangSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 18.0),
-                              textAlign: TextAlign.left)),
+                      child: Text("This Semester Courses",
+                          style: const TextStyle(
+                              color: const Color(0xff333333),
+                              fontWeight: FontWeight.w700,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 18.0),
+                          textAlign: TextAlign.left)),
                 ),
               ),
               // CourseList

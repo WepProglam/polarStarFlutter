@@ -42,7 +42,7 @@ class CoursePreview extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: const Color(0xff1a785c))),
+                      color: const Color(0xff1a4678))),
               // 강의명, 교수명, 평가
               Container(
                 margin: const EdgeInsets.only(left: 16.0, top: 1.5),
