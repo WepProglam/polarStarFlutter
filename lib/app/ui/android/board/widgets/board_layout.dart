@@ -132,7 +132,7 @@ class PostPreview extends StatelessWidget {
               // Photo
               Container(
                 margin: EdgeInsets.only(top: 13.1 - 5.6, bottom: 17.8 - 5.6),
-                child: item.PHOTO.length == 0 || item.PHOTO == null
+                child: item.PHOTO == null || item.PHOTO.length == 0
                     ? Container()
                     : Container(
                         width: Get.mediaQuery.size.width,
