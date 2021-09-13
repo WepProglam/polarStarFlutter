@@ -5,12 +5,16 @@ import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/session.dart';
 
 class MainApiClient {
-  Future<Map<String, List<dynamic>>> getBoardInfo() async {
-    var getResponse = await Session().getX('/');
+  Future<Map<String, dynamic>> getBoardInfo(
+      List<String> follwingCommunity) async {
+    var getResponse = await Session().getX('/?follow=${follwingCommunity}');
+
     final jsonResponse = jsonDecode(getResponse.body);
 
     Iterable boardInfo = jsonResponse["board"];
     Iterable hotBoard = jsonResponse["HotBoard"];
+    Iterable likeList = jsonResponse["LikeList"];
+    Iterable scrapList = jsonResponse["ScrapList"];
 
     List<BoardInfo> listBoardInfo =
         boardInfo.map((model) => BoardInfo.fromJson(model)).toList();
@@ -18,7 +22,19 @@ class MainApiClient {
     List<HotBoard> listHotBoard =
         hotBoard.map((model) => HotBoard.fromJson(model)).toList();
 
-    return {"boardInfo": listBoardInfo, "hotBoard": listHotBoard};
+    List<LikeListModel> listLikeList =
+        likeList.map((e) => LikeListModel.fromJson(e)).toList();
+
+    List<ScrapListModel> listScrapList =
+        scrapList.map((e) => ScrapListModel.fromJson(e)).toList();
+
+    return {
+      "statusCode": getResponse.statusCode,
+      "boardInfo": listBoardInfo,
+      "hotBoard": listHotBoard,
+      "likeList": listLikeList,
+      "scrapList": listScrapList
+    };
   }
 
   Future<Map<String, dynamic>> createCommunity(

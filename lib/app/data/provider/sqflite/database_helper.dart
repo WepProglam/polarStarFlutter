@@ -11,6 +11,8 @@ class DatabaseHelper {
 
   static final COLUMN_COMMUNITY_ID = 'COMMUNITY_ID';
   static final COLUMN_COMMUNITY_NAME = 'COMMUNITY_NAME';
+  static final COLUMN_isFollowed = 'isFollowed';
+  static final COLUMN_RECENT_TITLE = 'RECENT_TITLE';
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -27,11 +29,17 @@ class DatabaseHelper {
         version: _databaseVersion, onCreate: _onCreate);
   }
 
+  Future onCreate() async {
+    return await _onCreate(_database, _databaseVersion);
+  }
+
   Future _onCreate(Database db, int version) async {
     await db.execute('''
     CREATE TABLE $table (
       $COLUMN_COMMUNITY_ID INTEGER PRIMARY KEY,
-      $COLUMN_COMMUNITY_NAME VARCHAR(50) NOT NULL
+      $COLUMN_COMMUNITY_NAME VARCHAR(50) NOT NULL,
+      $COLUMN_isFollowed VARCHAR(50),
+      $COLUMN_RECENT_TITLE VARCHAR(50)
     )
   ''');
   }
@@ -63,5 +71,10 @@ class DatabaseHelper {
   Future<void> clearTable() async {
     Database db = await instance.database;
     return await db.rawQuery("DELETE FROM $table");
+  }
+
+  Future<void> dropTable() async {
+    Database db = await instance.database;
+    return await db.rawQuery("DROP TABLE $table");
   }
 }

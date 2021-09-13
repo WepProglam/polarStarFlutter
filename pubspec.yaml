@@ -51,6 +51,8 @@ dependencies:
   sqflite: ^2.0.0+4
 
   wechat_assets_picker : ^6.0.4
+
+  string_validator: ^0.3.0
   
 
   

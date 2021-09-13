@@ -14,63 +14,72 @@ class BoardPreviewItem_board extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Ink(
+      child: InkWell(
+        onTap: () {
+          Get.toNamed("/board/${boardInfo.value.COMMUNITY_ID}/page/1");
+        },
         child: Container(
-          height: 45,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // 타원 108
-              Container(
-                  width: 45,
-                  height: 45,
-                  margin: const EdgeInsets.only(right: 19.5),
-                  child: Center(
+            child: Container(
+              height: 45,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // 타원 108
+                  Container(
+                      width: 45,
+                      height: 45,
+                      margin: const EdgeInsets.only(right: 19.5),
+                      child: Center(
+                        child: Container(
+                          width: 24,
+                          height: 24,
+                          child: Image.asset(
+                            "assets/images/968.png",
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: const Color(0xffe6effa))),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 1),
+                    height: 43,
                     child: Container(
-                      width: 24,
-                      height: 24,
-                      child: Image.asset(
-                        "assets/images/968.png",
-                        fit: BoxFit.fitHeight,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          BoardPreviewItem_boardTop(boardInfo: boardInfo),
+                          BoardPreviewItem_boardContent(
+                              size: size, boardInfo: boardInfo)
+                        ],
                       ),
                     ),
-                  ),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: const Color(0xffe6effa))),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 1),
-                height: 43,
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      BoardPreviewItem_boardTop(boardInfo: boardInfo),
-                      BoardPreviewItem_boardContent(size: size)
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        margin: const EdgeInsets.symmetric(horizontal: 19, vertical: 18));
+                  )
+                ],
+              ),
+            ),
+            margin: const EdgeInsets.symmetric(horizontal: 19, vertical: 18)),
+      ),
+    );
   }
 }
 
 class BoardPreviewItem_boardContent extends StatelessWidget {
-  const BoardPreviewItem_boardContent({
-    Key key,
-    @required this.size,
-  }) : super(key: key);
+  const BoardPreviewItem_boardContent(
+      {Key key, @required this.size, @required this.boardInfo})
+      : super(key: key);
 
   final Size size;
+  final Rx<BoardInfo> boardInfo;
 
   @override
   Widget build(BuildContext context) {
     return Container(
         height: 18.5,
         width: size.width - 55.5 - 99.5,
-        child: Text("You know,I have a dream,Within my",
+        child: Text("${boardInfo.value.RECENT_TITLE}",
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(

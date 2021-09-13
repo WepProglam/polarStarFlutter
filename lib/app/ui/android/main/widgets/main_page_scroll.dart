@@ -5,9 +5,7 @@ import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/ui/android/main/widgets/boardPreview.dart';
 import 'package:polarstar_flutter/app/ui/android/main/widgets/hotBoardPreview.dart';
-import 'package:polarstar_flutter/app/ui/android/main/widgets/main_page_board.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
-import 'package:polarstar_flutter/session.dart';
 
 class MainPageScroll extends StatelessWidget {
   final box = GetStorage();
@@ -17,8 +15,6 @@ class MainPageScroll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final deviceWidth = size.width;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xfff6f6f6),
@@ -37,24 +33,6 @@ class MainPageScroll extends StatelessWidget {
             )
           ],
         ),
-      ),
-      //테스트 용으로 놔둠
-      floatingActionButton: FloatingActionButton(
-        child: Center(child: Text("로그아웃")),
-        onPressed: () async {
-          Session().getX('/logout');
-          Session.cookies = {};
-          Session.headers['Cookie'] = '';
-
-          box.write('isAutoLogin', false);
-          box.remove('id');
-          box.remove('pw');
-          box.remove('token');
-
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/login', (Route<dynamic> route) => false);
-          Get.offAllNamed('/');
-        },
       ),
       bottomNavigationBar:
           CustomBottomNavigationBar(mainController: mainController),
@@ -90,14 +68,25 @@ class MainPageScroll extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 13),
                           ),
                           Container(
-                            height:
-                                (81 + 10.0) * mainController.boardInfo.length,
+                            height: (81 + 10.0) *
+                                mainController.followingCommunity.length,
                             child: ListView.builder(
-                                itemCount: mainController.boardInfo.length,
+                                itemCount:
+                                    mainController.followingCommunity.length,
                                 physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (BuildContext context, int index) {
-                                  Rx<BoardInfo> boardInfo =
-                                      mainController.boardInfo[index];
+                                  String target_community_id =
+                                      mainController.followingCommunity[index];
+                                  Rx<BoardInfo> boardInfo;
+
+                                  for (var item in mainController.boardInfo) {
+                                    if ("${item.value.COMMUNITY_ID}" ==
+                                        target_community_id) {
+                                      boardInfo = item;
+                                      break;
+                                    }
+                                  }
+
                                   return Container(
                                     height: 81,
                                     margin: const EdgeInsets.only(bottom: 10.0),
@@ -211,7 +200,7 @@ class ClassPreview_Main extends StatelessWidget {
             ),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: const Color(0xff1a785c))),
+                color: const Color(0xff1a4678))),
         Container(
           height: 47,
           margin: const EdgeInsets.only(left: 18, top: 2.5, bottom: 2.5),

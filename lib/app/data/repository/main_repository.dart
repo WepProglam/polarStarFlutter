@@ -9,9 +9,9 @@ class MainRepository {
 
   MainRepository({@required this.apiClient}) : assert(apiClient != null);
 
-  Future<Map<String, List<dynamic>>> getBoardInfo() async {
-    var MapBoardInfo = await apiClient.getBoardInfo();
-    return MapBoardInfo;
+  Future<Map<String, dynamic>> getBoardInfo(
+      List<String> follwingCommunity) async {
+    return await apiClient.getBoardInfo(follwingCommunity);
   }
 
   Future<Map<String, dynamic>> createCommunity(

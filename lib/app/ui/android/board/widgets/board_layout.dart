@@ -94,7 +94,7 @@ class PostPreview extends StatelessWidget {
                       // decoration: BoxDecoration(border: Border.all()),
                       height: 50,
                       width: 50,
-                      child: item.PHOTO.length == 0 || item.PHOTO == null
+                      child: item.PHOTO == null || item.PHOTO.length == 0
                           ? Container()
                           : CachedNetworkImage(
                               imageUrl:

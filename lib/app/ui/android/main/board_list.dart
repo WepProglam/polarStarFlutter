@@ -117,8 +117,7 @@ Widget boards(MainController mainController) {
   List<BoardInfo> data = mainController.boardListInfo;
 
   data.forEach((element) {
-    boardList.add(
-        board(element.COMMUNITY_ID, element.COMMUNITY_NAME, mainController));
+    boardList.add(board(element, mainController));
   });
 
   return Column(
@@ -128,8 +127,11 @@ Widget boards(MainController mainController) {
 }
 
 // 게시판 위젯
-Widget board(
-    int COMMUNITY_ID, dynamic COMMUNITY_NAME, MainController mainController) {
+Widget board(BoardInfo element, MainController mainController) {
+  int COMMUNITY_ID = element.COMMUNITY_ID;
+  String COMMUNITY_NAME = element.COMMUNITY_NAME;
+  String RECENT_TITLE = "${element.RECENT_TITLE}";
+  bool isFollowed = element.isFollowed;
   return Obx(() {
     return Padding(
       padding: const EdgeInsets.all(1),
@@ -149,7 +151,7 @@ Widget board(
               onTap: () async {
                 if (!checkFollow(COMMUNITY_ID, mainController.boardInfo)) {
                   await mainController.setFollowingCommunity(
-                      COMMUNITY_ID, COMMUNITY_NAME);
+                      COMMUNITY_ID, COMMUNITY_NAME, RECENT_TITLE, isFollowed);
                 } else {
                   await mainController.deleteFollowingCommunity(COMMUNITY_ID);
                 }

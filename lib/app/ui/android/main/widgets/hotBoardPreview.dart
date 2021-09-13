@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 
 class HotBoardMain extends StatelessWidget {
@@ -30,17 +31,24 @@ class HotBoardMain extends StatelessWidget {
                   textAlign: TextAlign.center),
             ),
             Spacer(),
-            Container(
-              margin: const EdgeInsets.only(top: 5, bottom: 3),
-              child: // View more
-                  Text("View more",
-                      style: const TextStyle(
-                          color: const Color(0xff1a4678),
-                          fontWeight: FontWeight.w700,
-                          fontFamily: "PingFangSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 12.0),
-                      textAlign: TextAlign.center),
+            Ink(
+              child: InkWell(
+                onTap: () {
+                  Get.toNamed("/board/hot/page/1");
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(top: 5, bottom: 3),
+                  child: // View more
+                      Text("View more",
+                          style: const TextStyle(
+                              color: const Color(0xff1a4678),
+                              fontWeight: FontWeight.w700,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0),
+                          textAlign: TextAlign.center),
+                ),
+              ),
             ),
           ]),
         ),
@@ -80,8 +88,16 @@ class HotBoardMain extends StatelessWidget {
                     width: size.width - 15 * 2,
                     height: 301.6,
                     margin: const EdgeInsets.only(top: 9),
-                    child: HotBoardPreview(
-                        mainController: mainController, size: size),
+                    child: Ink(
+                      child: InkWell(
+                        onTap: () {
+                          Get.toNamed(
+                              "/board/${mainController.hotBoard[0].COMMUNITY_ID}/read/${mainController.hotBoard[0].BOARD_ID}");
+                        },
+                        child: HotBoardPreview(
+                            mainController: mainController, size: size),
+                      ),
+                    ),
                   ),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -183,6 +199,7 @@ class HotBoardItem_content extends StatelessWidget {
         Container(
           height: 43 / 2,
           child: Text("${mainController.hotBoard[0].TITLE}",
+              // "Trains flying across the strait",
               style: const TextStyle(
                   color: const Color(0xff333333),
                   fontWeight: FontWeight.w700,
@@ -195,8 +212,8 @@ class HotBoardItem_content extends StatelessWidget {
           margin: const EdgeInsets.only(top: 9.3 / 2),
           width: size.width - 15 * 2 - 11 * 2 - 20,
           child: Text(
-              "Taking the train may be the most common way to return home. You may not know that thereTaking the train may be the most common way to return home. You may not know that thereTaking the train may be the most common way to return home. You may not know that there",
-              // "${mainController.hotBoard[0].CONTENT}",
+              // "Taking the train may be the most common way to return home. You may not know that thereTaking the train may be the most common way to return home. You may not know that thereTaking the train may be the most common way to return home. You may not know that there\n",
+              "${mainController.hotBoard[0].CONTENT}\n",
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
@@ -210,23 +227,26 @@ class HotBoardItem_content extends StatelessWidget {
         Container(
           height: 118.5,
           margin: const EdgeInsets.only(top: 16 / 2),
-          child: CachedNetworkImage(
-              imageUrl:
-                  'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com/uploads/${mainController.hotBoard[0].PROFILE_PHOTO}',
-              imageBuilder: (context, imageProvider) => Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      // shape: BoxShape
-                      //     .circle,
-                      image: DecorationImage(
-                          image: imageProvider, fit: BoxFit.fill))),
-              fadeInDuration: Duration(milliseconds: 0),
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  Image(image: AssetImage('assets/images/spinner.gif')),
-              errorWidget: (context, url, error) {
-                print(error);
-                return Icon(Icons.error);
-              }),
+          child: mainController.hotBoard[0].PHOTO != null &&
+                  mainController.hotBoard[0].PHOTO.length > 0
+              ? CachedNetworkImage(
+                  imageUrl:
+                      'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com/uploads/${mainController.hotBoard[0].PROFILE_PHOTO}',
+                  imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          // shape: BoxShape
+                          //     .circle,
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.fill))),
+                  fadeInDuration: Duration(milliseconds: 0),
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      Image(image: AssetImage('assets/images/spinner.gif')),
+                  errorWidget: (context, url, error) {
+                    print(error);
+                    return Icon(Icons.error);
+                  })
+              : Container(),
         ),
       ],
     );

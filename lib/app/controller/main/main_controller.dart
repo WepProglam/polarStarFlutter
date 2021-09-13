@@ -15,11 +15,16 @@ class MainController extends GetxController {
 
   RxList<Rx<BoardInfo>> boardInfo = <Rx<BoardInfo>>[].obs;
   RxList<HotBoard> hotBoard = <HotBoard>[].obs;
-  RxList<BoardInfo> totalBoardInfo = <BoardInfo>[].obs;
+  RxInt followAmount = 0.obs;
+
   RxList<BoardInfo> boardListInfo = <BoardInfo>[].obs;
+
+  RxList<LikeListModel> likeList = <LikeListModel>[].obs;
+  RxList<ScrapListModel> scrapList = <ScrapListModel>[].obs;
 
   RxBool _dataAvailable = false.obs;
   RxInt mainPageIndex = 0.obs;
+  RxList<dynamic> followingCommunity = [].obs;
 
   Future<void> createCommunity(
       String COMMUNITY_NAME, String COMMUNITY_DESCRIPTION) async {
@@ -37,24 +42,22 @@ class MainController extends GetxController {
   }
 
   Future<void> getBoardInfo() async {
-    final value = await repository.getBoardInfo();
-    totalBoardInfo.clear();
+    final value = await repository.getBoardInfo(followingCommunity.value);
     boardListInfo.clear();
 
     hotBoard.value = value["hotBoard"];
+    likeList.value = value["likeList"];
+    scrapList.value = value["scrapList"];
 
     for (BoardInfo item in value["boardInfo"]) {
-      totalBoardInfo.add(item);
       boardListInfo.add(item);
+      boardInfo.add(item.obs);
+      print(item.COMMUNITY_NAME);
     }
+    print("================================");
+    print(boardInfo[0].value.isFollowed);
 
-    totalBoardInfo.addAll([
-      BoardInfo.fromJson({"COMMUNITY_ID": 1, "COMMUNITY_NAME": "취업"}),
-      BoardInfo.fromJson({"COMMUNITY_ID": 2, "COMMUNITY_NAME": "알바"}),
-      BoardInfo.fromJson({"COMMUNITY_ID": 3, "COMMUNITY_NAME": "공모전"}),
-    ]);
-
-    box.write("boardInfo", totalBoardInfo);
+    box.write("boardInfo", boardListInfo);
     _dataAvailable.value = true;
   }
 
@@ -65,25 +68,29 @@ class MainController extends GetxController {
 
   Future<void> getFollowingCommunity() async {
     List<Rx<BoardInfo>> follwing = await _dbHelper.queryAllRows();
-    boardInfo.clear();
     boardInfo.value = follwing;
+    followAmount.value = follwing.length;
+    followingCommunity.value =
+        follwing.map((e) => "${e.value.COMMUNITY_ID}").toList();
   }
 
-  Future<void> setFollowingCommunity(
-      int COMMUNITY_ID, String COMMUNITY_NAME) async {
+  Future<void> setFollowingCommunity(int COMMUNITY_ID, String COMMUNITY_NAME,
+      String RECENT_TITLE, bool isFollowed) async {
     await _dbHelper.insert(BoardInfo.fromJson({
       "COMMUNITY_ID": COMMUNITY_ID,
       "COMMUNITY_NAME": COMMUNITY_NAME,
+      "RECENT_TITLE": RECENT_TITLE,
+      "isFollowed": isFollowed
     }));
-
     await getFollowingCommunity();
+    // await _dbHelper.dropTable();
   }
 
   @override
   onInit() async {
     super.onInit();
-    await getBoardInfo();
     await getFollowingCommunity();
+    await getBoardInfo();
   }
 
   @override
