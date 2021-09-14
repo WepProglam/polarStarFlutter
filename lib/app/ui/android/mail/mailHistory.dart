@@ -163,48 +163,71 @@ class MailHistory extends StatelessWidget {
           ),
           //입력창
           bottomSheet: Container(
-              height: 107,
+              height: 117,
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(color: const Color(0xffffffff)),
               child:
                   //키보드
-                  Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                          width: MediaQuery.of(context).size.width - 30,
-                          height: 52,
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(52)),
-                              border: Border.all(
-                                  color: const Color(0xffd4d4d4), width: 1),
-                              color: const Color(0x05333333)),
-                          child: Stack(children: [
-                            Positioned(
-                                top: 14,
-                                left: 18.5,
-                                child: Container(
-                                  height: 21.5,
-                                  width: 144,
-                                  child: TextFormField(
-                                      controller: commentWriteController,
-                                      style: const TextStyle(
-                                          color: const Color(0xff333333),
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: "PingFangSC",
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 16.0),
-                                      onFieldSubmitted: (value) {
-                                        mailController.sendMailIn(
-                                            commentWriteController.text,
-                                            controller);
-                                      },
-                                      textInputAction: TextInputAction.done,
-                                      decoration: InputDecoration(
-                                        hintText: "Please enter content",
-                                        border: InputBorder.none,
-                                      )),
-                                ))
-                          ]))))),
+                  Column(children: [
+                Container(
+                    margin: EdgeInsets.only(top: 10, bottom: 55),
+                    width: MediaQuery.of(context).size.width - 30,
+                    height: 52,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(52)),
+                        border: Border.all(
+                            color: const Color(0xffd4d4d4), width: 1),
+                        color: const Color(0x05333333)),
+                    child: Row(children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 18.5,
+                          right: 18.5,
+                        ),
+                        width: MediaQuery.of(context).size.width -
+                            30 -
+                            37 -
+                            38 -
+                            15,
+                        child: TextFormField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            controller: commentWriteController,
+                            style: const TextStyle(
+                                color: const Color(0xff333333),
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 16.0),
+                            onFieldSubmitted: (value) {
+                              mailController.sendMailIn(
+                                  commentWriteController.text, controller);
+                            },
+                            textInputAction: TextInputAction.done,
+                            decoration: InputDecoration(
+                              hintText: "Please enter content",
+                              border: InputBorder.none,
+                            )),
+                      ),
+                      InkWell(
+                          child: Container(
+                            width: 38,
+                            height: 38,
+                            decoration: BoxDecoration(
+                                color: const Color(0xff1a4678),
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: AssetImage('assets/images/869.png'),
+                                    scale: 1.8)),
+                          ),
+                          onTap: () {
+                            mailController.sendMailIn(
+                                commentWriteController.text, controller);
+
+                            commentWriteController.clear();
+                          }),
+                    ]))
+              ]))),
     );
   }
 }
