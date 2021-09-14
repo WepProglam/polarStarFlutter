@@ -7,7 +7,7 @@ import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:swipedetector/swipedetector.dart';
 
 class HotBoardMain extends StatelessWidget {
-  const HotBoardMain({
+  HotBoardMain({
     Key key,
     @required this.size,
     @required this.mainController,
@@ -15,6 +15,9 @@ class HotBoardMain extends StatelessWidget {
 
   final Size size;
   final MainController mainController;
+  final controller = PageController(
+    initialPage: 0,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +26,7 @@ class HotBoardMain extends StatelessWidget {
       children: [
         Container(
           height: 24,
+          margin: const EdgeInsets.symmetric(horizontal: 15),
           child: Row(children: [
             Container(
               child: Text("HotBoard",
@@ -65,65 +69,72 @@ class HotBoardMain extends StatelessWidget {
                 child: Opacity(
                   opacity: 0.15000000149011612,
                   child: Container(
-                      height: 50.5,
+                      height: 22 + 310.0,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                           color: const Color(0xff1a4678))),
                 ),
               ),
               Container(
-                margin:
-                    const EdgeInsets.only(top: 10.5, left: 30.3, right: 30.3),
+                margin: const EdgeInsets.only(top: 10.5, left: 33, right: 33),
                 child: Opacity(
                   opacity: 0.15000000149011612,
                   child: Container(
-                      height: 50.5,
+                      height: 11.5 + 310,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                           color: const Color(0xff1a4678))),
                 ),
               ),
 
+              // Container(
+              //   margin: const EdgeInsets.only(top: 22, left: 15, right: 15),
+              //   child: Opacity(
+              //     opacity: 0.15000000149011612,
+              //     child: Container(
+              //         height: 310,
+              //         decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.all(Radius.circular(20)),
+              //             color: const Color(0xff1a4678))),
+              //   ),
+              // ),
+
               // 핫게
-              Container(
-                  margin: const EdgeInsets.only(top: 22),
-                  child: Obx(() {
-                    return SwipeDetector(
-                      onSwipeLeft: () async {
-                        await mainController.swipeLeftHotBoard();
-                      },
-                      onSwipeRight: () async {
-                        await mainController.swipeRightHotBoard();
-                      },
-                      child: Container(
-                        width: size.width - 15 * 2,
-                        height: 301.6,
-                        margin: const EdgeInsets.only(top: 9),
-                        child: Ink(
-                          child: InkWell(
-                            onTap: () {
-                              Get.toNamed(
-                                  "/board/${mainController.hotBoard[mainController.hotBoardIndex.value].COMMUNITY_ID}/read/${mainController.hotBoard[mainController.hotBoardIndex.value].BOARD_ID}");
-                            },
-                            child: HotBoardPreview(
-                                model: mainController.hotBoard[
-                                    mainController.hotBoardIndex.value],
-                                size: size),
+              PageView.builder(
+                controller: controller,
+                scrollDirection: Axis.horizontal,
+                physics: BouncingScrollPhysics(),
+                onPageChanged: (int index) =>
+                    mainController.hotBoardIndex.value = index,
+                pageSnapping: true,
+                itemCount: mainController.hotBoard.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                      margin:
+                          const EdgeInsets.only(top: 22, left: 15, right: 15),
+                      child: Obx(() {
+                        return Container(
+                          width: size.width - 15 * 2,
+                          height: 301.6,
+                          margin: const EdgeInsets.only(top: 9),
+                          child: Ink(
+                            child: InkWell(
+                              onTap: () {
+                                Get.toNamed(
+                                    "/board/${mainController.hotBoard[mainController.hotBoardIndex.value].COMMUNITY_ID}/read/${mainController.hotBoard[mainController.hotBoardIndex.value].BOARD_ID}");
+                              },
+                              child: HotBoardPreview(
+                                  model: mainController.hotBoard[index],
+                                  size: size),
+                            ),
                           ),
-                        ),
-                      ),
-                      swipeConfiguration: SwipeConfiguration(
-                          verticalSwipeMinVelocity: 100.0,
-                          verticalSwipeMinDisplacement: 50.0,
-                          verticalSwipeMaxWidthThreshold: 100.0,
-                          horizontalSwipeMaxHeightThreshold: 50.0,
-                          horizontalSwipeMinDisplacement: 50.0,
-                          horizontalSwipeMinVelocity: 200.0),
-                    );
-                  }),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      color: const Color(0xffffffff)))
+                        );
+                      }),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          color: const Color(0xffffffff)));
+                },
+              )
             ],
           ),
         )
