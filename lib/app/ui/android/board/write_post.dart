@@ -173,7 +173,10 @@ class WritePost extends StatelessWidget {
                     TextFormField(
                       controller: content,
                       // textAlign: TextAlign.center,
-                      // maxLines: 10,
+                      keyboardType: TextInputType.multiline,
+                      minLines: 1,
+                      maxLines: 10,
+
                       style: const TextStyle(
                           color: const Color(0xff333333),
                           fontWeight: FontWeight.normal,
