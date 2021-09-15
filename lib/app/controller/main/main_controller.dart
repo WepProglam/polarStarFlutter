@@ -47,6 +47,7 @@ class MainController extends GetxController {
   Future<void> getBoardInfo() async {
     final value = await repository.getBoardInfo(followingCommunity.value);
     boardListInfo.clear();
+    boardInfo.clear();
 
     hotBoard.value = value["hotBoard"];
     likeList.value = value["likeList"];
@@ -69,7 +70,7 @@ class MainController extends GetxController {
 
   Future<void> getFollowingCommunity() async {
     List<Rx<BoardInfo>> follwing = await _dbHelper.queryAllRows();
-    boardInfo.value = follwing;
+
     followAmount.value = follwing.length;
     followingCommunity.value =
         follwing.map((e) => "${e.value.COMMUNITY_ID}").toList();

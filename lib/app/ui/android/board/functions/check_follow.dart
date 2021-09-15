@@ -5,8 +5,10 @@ bool checkFollow(int COMMUNITY_ID, List<Rx<BoardInfo>> followCommunity) {
   bool flag = false;
   followCommunity.forEach((element) {
     if (element.value.COMMUNITY_ID == COMMUNITY_ID) {
-      flag = true;
-      return;
+      if (element.value.isFollowed) {
+        flag = true;
+        return;
+      }
     }
   });
 

@@ -68,9 +68,10 @@ class TimeTableBin extends StatelessWidget {
                   // height: (114.5 + 15) * 10 + 15,
                   height: Get.mediaQuery.size.height - 66,
                   child: ListView.builder(
-                      itemCount: 10,
+                      itemCount: timeTableController.otherTable.keys.length,
                       // physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int i) {
+                        print(timeTableController.otherTable);
                         return // 사각형 406
                             Container(
                                 width: 345,

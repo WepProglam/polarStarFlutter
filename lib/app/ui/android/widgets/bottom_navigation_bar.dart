@@ -23,15 +23,19 @@ class CustomBottomNavigationBar extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.work_outlined),
-            label: '취알공',
+            label: '정보 제공',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
             label: '강의평가/시간표',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.map_outlined),
-            label: '유니티',
+            icon: Icon(Icons.doorbell),
+            label: '알림함',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: '마이 페이지',
           ),
         ],
         unselectedItemColor: Colors.black,

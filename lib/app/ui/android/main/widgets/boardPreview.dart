@@ -1,67 +1,102 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
+import 'package:polarstar_flutter/app/ui/android/board/functions/check_follow.dart';
 
 class BoardPreviewItem_board extends StatelessWidget {
-  const BoardPreviewItem_board({
-    Key key,
-    @required this.boardInfo,
-    @required this.size,
-  }) : super(key: key);
+  BoardPreviewItem_board(
+      {Key key,
+      @required this.boardInfo,
+      @required this.size,
+      @required this.fromList})
+      : super(key: key);
 
   final Rx<BoardInfo> boardInfo;
   final Size size;
-
+  final bool fromList;
+  final MainController mainController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Ink(
-      child: InkWell(
-        onTap: () {
-          Get.toNamed("/board/${boardInfo.value.COMMUNITY_ID}/page/1");
-        },
-        child: Container(
-            child: Container(
-              height: 45,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // 타원 108
-                  Container(
-                      width: 45,
-                      height: 45,
-                      margin: const EdgeInsets.only(right: 19.5),
-                      child: Center(
-                        child: Container(
-                          width: 24,
-                          height: 24,
-                          child: Image.asset(
-                            "assets/images/968.png",
-                            fit: BoxFit.fitHeight,
+      child: Obx(() {
+        return InkWell(
+          onTap: () {
+            Get.toNamed("/board/${boardInfo.value.COMMUNITY_ID}/page/1");
+          },
+          child: Container(
+              child: Container(
+                height: 45,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // 타원 108
+                    Container(
+                        margin: const EdgeInsets.only(right: 19.5),
+                        child: Ink(
+                          width: 45,
+                          height: 45,
+                          child: InkWell(
+                            onTap: fromList
+                                ? () async {
+                                    if (!checkFollow(
+                                        boardInfo.value.COMMUNITY_ID,
+                                        mainController.boardInfo)) {
+                                      await mainController
+                                          .setFollowingCommunity(
+                                              boardInfo.value.COMMUNITY_ID,
+                                              boardInfo.value.COMMUNITY_NAME,
+                                              boardInfo.value.RECENT_TITLE,
+                                              boardInfo.value.isFollowed);
+                                    } else {
+                                      await mainController
+                                          .deleteFollowingCommunity(
+                                              boardInfo.value.COMMUNITY_ID);
+                                    }
+                                    boardInfo.update((val) {
+                                      val.isFollowed = !val.isFollowed;
+                                    });
+                                  }
+                                : () {},
+                            child: Center(
+                              child: Container(
+                                width: 24,
+                                height: 24,
+                                child: Image.asset(
+                                  boardInfo.value.isFollowed
+                                      ? "assets/images/968.png"
+                                      : "assets/images/970.png",
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: boardInfo.value.isFollowed
+                                ? const Color(0xffe6effa)
+                                : const Color(0xfffae6f0))),
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 1),
+                      height: 43,
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            BoardPreviewItem_boardTop(boardInfo: boardInfo),
+                            BoardPreviewItem_boardContent(
+                                size: size, boardInfo: boardInfo)
+                          ],
+                        ),
                       ),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: const Color(0xffe6effa))),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 1),
-                    height: 43,
-                    child: Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          BoardPreviewItem_boardTop(boardInfo: boardInfo),
-                          BoardPreviewItem_boardContent(
-                              size: size, boardInfo: boardInfo)
-                        ],
-                      ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-            margin: const EdgeInsets.symmetric(horizontal: 19, vertical: 18)),
-      ),
+              margin: const EdgeInsets.symmetric(horizontal: 19, vertical: 18)),
+        );
+      }),
     );
   }
 }

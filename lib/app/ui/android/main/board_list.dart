@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
+import 'package:polarstar_flutter/app/ui/android/main/widgets/boardPreview.dart';
 import 'package:polarstar_flutter/app/ui/android/main/widgets/new_board_dialog.dart';
 
 import '../board/functions/check_follow.dart';
@@ -13,62 +14,88 @@ class BoardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xfff6f6f6),
+          elevation: 0,
+          toolbarHeight: 37 + 13.0,
+          automaticallyImplyLeading: false,
+          titleSpacing: 0,
+          title: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            width: size.width - 15 * 2,
+            child: Row(
+              children: [
+                Spacer(),
+                InkWell(
+                  onTap: () async {
+                    await createNewCommunity(mainController);
+                  },
+                  child: Container(
+                      width: 16,
+                      height: 16,
+                      child: Image.asset("assets/images/941.png")),
+                )
+              ],
+            ),
+          ),
+        ),
         body: Obx(() {
           if (mainController.dataAvailalbe) {
             return SingleChildScrollView(
               child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    child: Column(
-                      children: [
-                        // // Hot
-                        // Container(child: hotBoard()),
-                        // // Recruit
-                        // Recruit(),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Row(
+                decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
+                child: Container(
+                  child: Column(
+                    children: [
+                      // // Hot
+                      // Container(child: hotBoard()),
+                      // // Recruit
+
+                      // 게시판
+                      Container(
+                        margin:
+                            const EdgeInsets.only(left: 15, right: 15, top: 8),
+                        child: Container(
+                          child: Column(
                             children: [
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  '전체 게시판 목록',
-                                ),
-                              ),
-                              Spacer(),
-                              // Container(
-                              //   height: 20,
-                              //   width: 150,
-                              //   child: TextFormField(
-                              //     controller: boardNameController,
-                              //     inputFormatters: [
-                              //       LengthLimitingTextInputFormatter(9)
-                              //     ],
-                              //   ),
-                              // ),
-                              // 게시판 추가
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "게시판 새로 만들기",
-                                  textScaleFactor: 1,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  await createNewCommunity(mainController);
-                                },
-                                child: Icon(Icons.add),
-                              )
+                              Obx(() {
+                                return Container(
+                                  height: (81 + 10.0) *
+                                      mainController.boardInfo.length,
+                                  child: ListView.builder(
+                                      itemCount:
+                                          mainController.boardInfo.length,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        Rx<BoardInfo> boardInfo =
+                                            mainController.boardInfo[index];
+
+                                        return Container(
+                                          height: 81,
+                                          margin: const EdgeInsets.only(
+                                              bottom: 10.0),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20))),
+                                          child: BoardPreviewItem_board(
+                                            boardInfo: boardInfo,
+                                            size: size,
+                                            fromList: true,
+                                          ),
+                                        );
+                                      }),
+                                );
+                              }),
                             ],
                           ),
                         ),
-                        Container(child: boards(mainController))
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

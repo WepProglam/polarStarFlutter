@@ -36,7 +36,7 @@ class MainPageScroll extends StatelessWidget {
       //       const Color(0xfff6f6f6),
       //     ])),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        // backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor:
               // Colors.transparent,
@@ -67,13 +67,14 @@ class MainPageScroll extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 4),
-                  child: Icon(
-                    Icons.doorbell_outlined,
-                    color: Colors.black,
-                  ),
-                )
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 4),
+                //   child: Icon(
+                //     Icons.doorbell_outlined,
+                //     color: Colors.black,
+                //   ),
+                // )
+
                 // Container(
                 //   margin:
                 //       const EdgeInsets.only(left: 15, right: 15, top: 7, bottom: 5),
@@ -149,7 +150,10 @@ class MainPageScroll extends StatelessWidget {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(20))),
                                       child: BoardPreviewItem_board(
-                                          boardInfo: boardInfo, size: size),
+                                        boardInfo: boardInfo,
+                                        size: size,
+                                        fromList: false,
+                                      ),
                                     );
                                   }),
                             ),

@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/ui/android/main/widgets/main_page_scroll.dart';
 import 'package:polarstar_flutter/app/ui/android/outside/outside_board.dart';
+import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/timetable.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/app_bar.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
@@ -16,7 +17,8 @@ class MainPage extends StatelessWidget {
       from: "main",
     ),
     Timetable(),
-    Timetable(),
+    Mypage(),
+    Mypage()
   ];
 
   final MainController mainController = Get.find();

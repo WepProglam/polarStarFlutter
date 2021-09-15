@@ -2,89 +2,96 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 import 'package:polarstar_flutter/app/data/model/profile/mypage_model.dart';
-import 'package:polarstar_flutter/app/ui/android/widgets/app_bar.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
 
 class Mypage extends StatelessWidget {
   final MyPageController myPageController = Get.find();
+  final MainController mainController = Get.find();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+          bottomNavigationBar:
+              CustomBottomNavigationBar(mainController: mainController),
           body: RefreshIndicator(
-        onRefresh: myPageController.getRefresh,
-        child: Stack(
-          children: [
-            ListView(),
-            Obx(
-              () {
-                if (myPageController.dataAvailableMypage) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage('assets/images/279.png'),
-                                  fit: BoxFit.none)),
-                          child: MyPageProfile(
-                              myPageController: myPageController)),
-                      Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration:
-                              BoxDecoration(color: const Color(0xffffffff)),
-                          child: MyPageProfilePostIndex(
-                              myPageController: myPageController)),
-                      Expanded(
-                          child: SingleChildScrollView(
-                              scrollDirection: Axis.vertical,
-                              child: Obx(() {
-                                List<bool> dataAvailable = [
-                                  myPageController.dataAvailableMypageWrite,
-                                  myPageController.dataAvailableMypageLike,
-                                  myPageController.dataAvailableMypageScrap
-                                ];
+            onRefresh: myPageController.getRefresh,
+            child: Stack(
+              children: [
+                ListView(),
+                Obx(
+                  () {
+                    if (myPageController.dataAvailableMypage) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image:
+                                          AssetImage('assets/images/279.png'),
+                                      fit: BoxFit.none)),
+                              child: MyPageProfile(
+                                  myPageController: myPageController)),
+                          Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration:
+                                  BoxDecoration(color: const Color(0xffffffff)),
+                              child: MyPageProfilePostIndex(
+                                  myPageController: myPageController)),
+                          Expanded(
+                              child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: Obx(() {
+                                    List<bool> dataAvailable = [
+                                      myPageController.dataAvailableMypageWrite,
+                                      myPageController.dataAvailableMypageLike,
+                                      myPageController.dataAvailableMypageScrap
+                                    ];
 
-                                List<RxList<MyPageBoardModel>> userPost = [
-                                  myPageController.myBoardWrite,
-                                  myPageController.myBoardLike,
-                                  myPageController.myBoardScrap,
-                                ];
+                                    List<RxList<MyPageBoardModel>> userPost = [
+                                      myPageController.myBoardWrite,
+                                      myPageController.myBoardLike,
+                                      myPageController.myBoardScrap,
+                                    ];
 
-                                if (dataAvailable[
-                                    myPageController.profilePostIndex.value]) {
-                                  return Column(
-                                    children: [
-                                      for (var i = 0;
-                                          i <
-                                              userPost[myPageController
-                                                      .profilePostIndex.value]
-                                                  .length;
-                                          i++)
-                                        Container(
-                                            height: 120,
-                                            child: getPosts(
-                                                userPost[myPageController
-                                                    .profilePostIndex.value][i],
-                                                myPageController))
-                                    ],
-                                  );
-                                } else {
-                                  return CircularProgressIndicator();
-                                }
-                              })))
-                    ],
-                  );
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            )
-          ],
-        ),
-      )),
+                                    if (dataAvailable[myPageController
+                                        .profilePostIndex.value]) {
+                                      return Column(
+                                        children: [
+                                          for (var i = 0;
+                                              i <
+                                                  userPost[myPageController
+                                                          .profilePostIndex
+                                                          .value]
+                                                      .length;
+                                              i++)
+                                            Container(
+                                                height: 120,
+                                                child: getPosts(
+                                                    userPost[myPageController
+                                                        .profilePostIndex
+                                                        .value][i],
+                                                    myPageController))
+                                        ],
+                                      );
+                                    } else {
+                                      return CircularProgressIndicator();
+                                    }
+                                  })))
+                        ],
+                      );
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                )
+              ],
+            ),
+          )),
     );
   }
 }
