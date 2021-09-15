@@ -613,7 +613,9 @@ class ClassExamInfo extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 3,
-                    child: Text(classExamModel.TEST_TYPE),
+                    child: classExamModel.TEST_TYPE != null
+                        ? Text(classExamModel.TEST_TYPE)
+                        : Text(''),
                   )
                 ],
               ),
