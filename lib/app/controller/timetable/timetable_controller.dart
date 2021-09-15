@@ -66,6 +66,7 @@ class TimeTableController extends GetxController {
     Colors.orangeAccent,
     Colors.cyan
   ];
+
   void makeShowTimeTable() {
     int colorIndex = 0;
     for (var item in selectTable.value.CLASSES) {
