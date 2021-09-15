@@ -595,7 +595,9 @@ class ClassExamInfo extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 3,
-                    child: Text(classExamModel.TEST_STRATEGY),
+                    child: classExamModel.TEST_STRATEGY != null
+                        ? Text(classExamModel.TEST_STRATEGY)
+                        : Text(''),
                   )
                 ],
               ),
@@ -636,8 +638,10 @@ class ClassExamInfo extends StatelessWidget {
                               itemBuilder: (BuildContext context, int index) {
                                 return Padding(
                                   padding: const EdgeInsets.only(bottom: 8.0),
-                                  child:
-                                      Text(classExamModel.TEST_EXAMPLE[index]),
+                                  child: classExamModel.TEST_EXAMPLE[index] !=
+                                          null
+                                      ? Text(classExamModel.TEST_EXAMPLE[index])
+                                      : Text(''),
                                 );
                                 ;
                               })
