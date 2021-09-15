@@ -9,9 +9,7 @@ import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_mail_dialog.dart';
 
 class PostLayout extends StatelessWidget {
-  PostLayout({this.c});
-
-  final PostController c;
+  final PostController c = Get.find();
 
   final MailController mailController = Get.find();
   final mailWriteController = TextEditingController();
@@ -181,8 +179,7 @@ class PostLayout extends StatelessWidget {
                         height: 150.0,
                         child: Center(
                             child: CachedNetworkImage(
-                                imageUrl:
-                                    'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/board/${item.PHOTO[index]}')),
+                                imageUrl: item.PHOTO[index])),
                       ),
                     ),
                   );

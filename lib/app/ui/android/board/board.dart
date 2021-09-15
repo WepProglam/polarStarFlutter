@@ -16,7 +16,6 @@ class Board extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
             backgroundColor: Color(0xfff6f6f6),
-            // Get.toNamed('/board/$COMMUNITY_ID');
             appBar: AppBar(
               backgroundColor: Color(0xffffffff),
               foregroundColor: Color(0xff333333),
@@ -63,7 +62,6 @@ class Board extends StatelessWidget {
                 ],
               ),
             ),
-            floatingActionButton: FloatingActionButton(onPressed: () {}),
             body: RefreshIndicator(
               onRefresh: controller.refreshPage,
               child: Stack(
@@ -99,6 +97,39 @@ class Board extends StatelessWidget {
                   SearchBar(
                     controller: searchController,
                   ),
+                  Positioned(
+                      bottom: 151.5,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed(
+                              '/board/${Get.parameters["COMMUNITY_ID"]}');
+                        },
+                        child: Container(
+                          width: 72,
+                          height: 47,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(47),
+                                  bottomLeft: Radius.circular(47)),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: const Color(0x24111111),
+                                    offset: Offset(0, 8),
+                                    blurRadius: 20,
+                                    spreadRadius: 0)
+                              ],
+                              color: const Color(0xffffffff)),
+                          child: Container(
+                            width: 39,
+                            height: 39,
+                            margin: const EdgeInsets.fromLTRB(6, 4, 27, 4),
+                            decoration: BoxDecoration(
+                                color: const Color(0xff1a4678),
+                                shape: BoxShape.circle),
+                          ),
+                        ),
+                      ))
                 ],
               ),
             )));

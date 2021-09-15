@@ -143,8 +143,7 @@ class PostPreview extends StatelessWidget {
                             itemCount: item.PHOTO.length,
                             itemBuilder: (BuildContext context, int index) {
                               return CachedNetworkImage(
-                                  imageUrl:
-                                      'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/board/${item.PHOTO[index]}',
+                                  imageUrl: item.PHOTO[index],
                                   fadeInDuration: Duration(milliseconds: 0),
                                   progressIndicatorBuilder:
                                       (context, url, downloadProgress) => Image(

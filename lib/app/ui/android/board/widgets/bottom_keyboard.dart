@@ -6,16 +6,16 @@ class BottomKeyboard extends StatelessWidget {
   const BottomKeyboard({
     Key key,
     @required this.BOTTOM_SHEET_HEIGHT,
-    @required this.c,
     @required this.commentWriteController,
   }) : super(key: key);
 
   final int BOTTOM_SHEET_HEIGHT;
-  final PostController c;
   final TextEditingController commentWriteController;
 
   @override
   Widget build(BuildContext context) {
+    final PostController c = Get.find();
+
     return Container(
       height: 60,
       child: Stack(children: [

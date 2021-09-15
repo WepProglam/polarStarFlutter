@@ -24,14 +24,11 @@ class Post extends StatelessWidget {
             if (!c.dataAvailable) {
               return CircularProgressIndicator();
             } else {
-              return PostLayout(
-                c: c,
-              );
+              return PostLayout();
             }
           }),
           bottomSheet: BottomKeyboard(
               BOTTOM_SHEET_HEIGHT: BOTTOM_SHEET_HEIGHT,
-              c: c,
               commentWriteController: commentWriteController)),
     );
   }
