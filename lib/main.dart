@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/bindings/loby/login_binding.dart';
 import 'package:polarstar_flutter/app/bindings/loby/init_binding.dart';
-import 'package:polarstar_flutter/app/bindings/main_binding.dart';
+import 'package:polarstar_flutter/app/bindings/main/main_binding.dart';
 import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';

@@ -7,6 +7,7 @@ import 'package:polarstar_flutter/session.dart';
 class MainApiClient {
   Future<Map<String, dynamic>> getBoardInfo(
       List<String> follwingCommunity) async {
+    print(follwingCommunity);
     var getResponse = await Session().getX('/?follow=${follwingCommunity}');
 
     final jsonResponse = jsonDecode(getResponse.body);

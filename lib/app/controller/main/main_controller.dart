@@ -4,7 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/data/provider/sqflite/database_helper.dart';
-import 'package:polarstar_flutter/app/data/repository/main_repository.dart';
+import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 
 class MainController extends GetxController {
@@ -27,7 +27,7 @@ class MainController extends GetxController {
 
   RxBool _dataAvailable = false.obs;
   RxInt mainPageIndex = 0.obs;
-  RxList<dynamic> followingCommunity = [].obs;
+  RxList<String> followingCommunity = <String>[].obs;
 
   Future<void> createCommunity(
       String COMMUNITY_NAME, String COMMUNITY_DESCRIPTION) async {
@@ -45,9 +45,11 @@ class MainController extends GetxController {
   }
 
   Future<void> getBoardInfo() async {
-    final value = await repository.getBoardInfo(followingCommunity.value);
+    final value = await repository.getBoardInfo(followingCommunity);
     boardListInfo.clear();
     boardInfo.clear();
+
+    print(value);
 
     hotBoard.value = value["hotBoard"];
     likeList.value = value["likeList"];
@@ -70,7 +72,7 @@ class MainController extends GetxController {
 
   Future<void> getFollowingCommunity() async {
     List<Rx<BoardInfo>> follwing = await _dbHelper.queryAllRows();
-
+    print(follwing);
     followAmount.value = follwing.length;
     followingCommunity.value =
         follwing.map((e) => "${e.value.COMMUNITY_ID}").toList();
@@ -100,7 +102,9 @@ class MainController extends GetxController {
   @override
   onInit() async {
     super.onInit();
+    print("getFollowingCommunity");
     await getFollowingCommunity();
+
     await getBoardInfo();
   }
 

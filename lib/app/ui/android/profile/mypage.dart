@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
+import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/data/model/profile/mypage_model.dart';
+import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
 
 class Mypage extends StatelessWidget {
@@ -16,81 +18,61 @@ class Mypage extends StatelessWidget {
       child: Scaffold(
           bottomNavigationBar:
               CustomBottomNavigationBar(mainController: mainController),
-          body: RefreshIndicator(
-            onRefresh: myPageController.getRefresh,
-            child: Stack(
-              children: [
-                ListView(),
-                Obx(
-                  () {
-                    if (myPageController.dataAvailableMypage) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image:
-                                          AssetImage('assets/images/279.png'),
-                                      fit: BoxFit.none)),
-                              child: MyPageProfile(
-                                  myPageController: myPageController)),
-                          Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration:
-                                  BoxDecoration(color: const Color(0xffffffff)),
-                              child: MyPageProfilePostIndex(
-                                  myPageController: myPageController)),
-                          Expanded(
-                              child: SingleChildScrollView(
-                                  scrollDirection: Axis.vertical,
-                                  child: Obx(() {
-                                    List<bool> dataAvailable = [
-                                      myPageController.dataAvailableMypageWrite,
-                                      myPageController.dataAvailableMypageLike,
-                                      myPageController.dataAvailableMypageScrap
-                                    ];
+          body: Obx(
+            () {
+              if (myPageController.dataAvailableMypage) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('assets/images/279.png'),
+                                fit: BoxFit.none)),
+                        child:
+                            MyPageProfile(myPageController: myPageController)),
+                    Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration:
+                            BoxDecoration(color: const Color(0xffffffff)),
+                        child: MyPageProfilePostIndex(
+                            myPageController: myPageController)),
+                    Expanded(child: Obx(() {
+                      List<bool> dataAvailable = [
+                        myPageController.dataAvailableMypageWrite,
+                        myPageController.dataAvailableMypageLike,
+                        myPageController.dataAvailableMypageScrap
+                      ];
 
-                                    List<RxList<MyPageBoardModel>> userPost = [
-                                      myPageController.myBoardWrite,
-                                      myPageController.myBoardLike,
-                                      myPageController.myBoardScrap,
-                                    ];
+                      List<RxList<Board>> userPost = [
+                        myPageController.myBoardWrite,
+                        myPageController.myBoardLike,
+                        myPageController.myBoardScrap,
+                      ];
 
-                                    if (dataAvailable[myPageController
-                                        .profilePostIndex.value]) {
-                                      return Column(
-                                        children: [
-                                          for (var i = 0;
-                                              i <
-                                                  userPost[myPageController
-                                                          .profilePostIndex
-                                                          .value]
-                                                      .length;
-                                              i++)
-                                            Container(
-                                                height: 120,
-                                                child: getPosts(
-                                                    userPost[myPageController
-                                                        .profilePostIndex
-                                                        .value][i],
-                                                    myPageController))
-                                        ],
-                                      );
-                                    } else {
-                                      return CircularProgressIndicator();
-                                    }
-                                  })))
-                        ],
-                      );
-                    } else {
-                      return CircularProgressIndicator();
-                    }
-                  },
-                )
-              ],
-            ),
+                      if (dataAvailable[
+                          myPageController.profilePostIndex.value]) {
+                        return ListView.builder(
+                            itemCount: userPost[
+                                    myPageController.profilePostIndex.value]
+                                .length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return PostPreview(
+                                item: userPost[myPageController
+                                    .profilePostIndex.value][index],
+                              );
+                            });
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }))
+                  ],
+                );
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
           )),
     );
   }
@@ -156,7 +138,7 @@ class MyPageProfilePostIndex extends StatelessWidget {
                       children: [
                         Container(
                             margin: EdgeInsets.only(left: 68.5, top: 14),
-                            child: Text("Replied",
+                            child: Text("Scraped",
                                 style: TextStyle(
                                     color: myPageController
                                                 .profilePostIndex.value ==
@@ -192,7 +174,7 @@ class MyPageProfilePostIndex extends StatelessWidget {
                       children: [
                         Container(
                             margin: EdgeInsets.only(left: 71, top: 14),
-                            child: Text("Favorite",
+                            child: Text("Liked",
                                 style: TextStyle(
                                     color: myPageController
                                                 .profilePostIndex.value ==

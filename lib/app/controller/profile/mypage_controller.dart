@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/data/model/profile/mypage_model.dart';
 import 'package:polarstar_flutter/app/data/repository/profile/mypage_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
@@ -14,9 +15,9 @@ class MyPageController extends GetxController {
   MyPageController({@required this.repository}) : assert(repository != null);
 
   Rx<MyProfileModel> myProfile = new MyProfileModel().obs;
-  RxList<MyPageBoardModel> myBoardWrite = <MyPageBoardModel>[].obs;
-  RxList<MyPageBoardModel> myBoardLike = <MyPageBoardModel>[].obs;
-  RxList<MyPageBoardModel> myBoardScrap = <MyPageBoardModel>[].obs;
+  RxList<Board> myBoardWrite = <Board>[].obs;
+  RxList<Board> myBoardLike = <Board>[].obs;
+  RxList<Board> myBoardScrap = <Board>[].obs;
   Rx<int> profilePostIndex = 0.obs;
   Rx<String> imagePath = ''.obs;
 

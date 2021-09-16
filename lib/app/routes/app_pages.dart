@@ -9,7 +9,8 @@ import 'package:polarstar_flutter/app/bindings/board/write_post_binding.dart';
 import 'package:polarstar_flutter/app/bindings/loby/login_binding.dart';
 import 'package:polarstar_flutter/app/bindings/mail/mailBox_binding.dart';
 import 'package:polarstar_flutter/app/bindings/mail/mailHistory_binding.dart';
-import 'package:polarstar_flutter/app/bindings/main_binding.dart';
+import 'package:polarstar_flutter/app/bindings/main/main_binding.dart';
+import 'package:polarstar_flutter/app/bindings/main/main_search_binding.dart';
 import 'package:polarstar_flutter/app/bindings/outside/outside_binding.dart';
 import 'package:polarstar_flutter/app/bindings/outside/post_binding.dart';
 import 'package:polarstar_flutter/app/bindings/profile/mypage_binding.dart';
@@ -30,6 +31,7 @@ import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
 import 'package:polarstar_flutter/app/ui/android/loby/login_page.dart';
 import 'package:polarstar_flutter/app/ui/android/loby/init_page.dart';
 import 'package:polarstar_flutter/app/ui/android/main/board_list.dart';
+import 'package:polarstar_flutter/app/ui/android/main/main_page_search.dart';
 import 'package:polarstar_flutter/app/ui/android/outside/outside_board.dart';
 import 'package:polarstar_flutter/app/ui/android/outside/outside_post.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
@@ -68,6 +70,10 @@ class AppPages {
       page: () => MainPage(),
       bindings: [MainBinding(), OutSideBinding(), TimetableBinding()],
     ),
+    GetPage(
+        name: Routes.MAIN_PAGE_SEARCH,
+        page: () => MainPageSearch(),
+        binding: MainSearchBinding()),
     GetPage(
       name: Routes.POST,
       page: () => Post(),

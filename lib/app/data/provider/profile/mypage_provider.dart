@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/data/model/profile/mypage_model.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:http/http.dart' as http;
@@ -9,12 +10,11 @@ class MyPageApiClient {
     var responseBody = jsonDecode(response.body);
     var profileData = responseBody["PROFILE"];
     Iterable listMyPageBoard = responseBody["WritePost"];
-    List<MyPageBoardModel> listMyPageBoardVal;
+    List<Board> listMyPageBoardVal;
     MyProfileModel myProfile;
 
-    listMyPageBoardVal = listMyPageBoard
-        .map((model) => MyPageBoardModel.fromJson(model))
-        .toList();
+    listMyPageBoardVal =
+        listMyPageBoard.map((model) => Board.fromJson(model)).toList();
     myProfile = MyProfileModel.fromJson(profileData);
 
     return {
@@ -32,11 +32,10 @@ class MyPageApiClient {
     }
 
     var responseBody = jsonDecode(response.body);
-    List<MyPageBoardModel> listMyPageBoardVal;
+    List<Board> listMyPageBoardVal;
     Iterable listMyPageBoard = responseBody["LIKE"];
-    listMyPageBoardVal = listMyPageBoard
-        .map((model) => MyPageBoardModel.fromJson(model))
-        .toList();
+    listMyPageBoardVal =
+        listMyPageBoard.map((model) => Board.fromJson(model)).toList();
     return {"status": response.statusCode, "myPageBoard": listMyPageBoardVal};
   }
 
@@ -48,11 +47,10 @@ class MyPageApiClient {
     }
 
     var responseBody = jsonDecode(response.body);
-    List<MyPageBoardModel> listMyPageBoardVal;
+    List<Board> listMyPageBoardVal;
     Iterable listMyPageBoard = responseBody["SCRAP"];
-    listMyPageBoardVal = listMyPageBoard
-        .map((model) => MyPageBoardModel.fromJson(model))
-        .toList();
+    listMyPageBoardVal =
+        listMyPageBoard.map((model) => Board.fromJson(model)).toList();
     return {"status": response.statusCode, "myPageBoard": listMyPageBoardVal};
   }
 

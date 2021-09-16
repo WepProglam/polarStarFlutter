@@ -56,7 +56,7 @@ class DatabaseHelper {
   Future<List<Rx<BoardInfo>>> queryAllRows() async {
     Database db = await instance.database;
     Iterable res = await db.query(table, orderBy: "$COLUMN_COMMUNITY_ID DESC");
-
+    print(res);
     List<Rx<BoardInfo>> listFollwingCommunity =
         res.map((e) => BoardInfo.fromJson(e).obs).toList();
     return listFollwingCommunity;
