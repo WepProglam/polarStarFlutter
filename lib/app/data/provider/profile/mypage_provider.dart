@@ -54,11 +54,11 @@ class MyPageApiClient {
     return {"status": response.statusCode, "myPageBoard": listMyPageBoardVal};
   }
 
-  Future<Map<String, dynamic>> uploadProfileImage(String imagePath) async {
+  Future<Map<String, dynamic>> uploadProfileImage(
+      http.MultipartFile photo) async {
     var request = Session().multipartReq('PATCH', '/info/modify/photo');
 
-    var pic = await http.MultipartFile.fromPath("photo", imagePath);
-    request.files.add(pic);
+    request.files.add(photo);
 
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);

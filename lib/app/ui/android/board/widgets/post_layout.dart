@@ -53,7 +53,7 @@ class PostLayout extends StatelessWidget {
                   width: 30,
                   child: CachedNetworkImage(
                       imageUrl:
-                          'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/${item.PROFILE_PHOTO}'),
+                          'https://polarstar-image.s3.ap-northeast-2.amazonaws.com/image_profile/${item.PROFILE_PHOTO}'),
                 ),
               ),
               //닉네임, 작성 시간
@@ -179,7 +179,8 @@ class PostLayout extends StatelessWidget {
                         height: 150.0,
                         child: Center(
                             child: CachedNetworkImage(
-                                imageUrl: item.PHOTO[index])),
+                                imageUrl:
+                                    "https://polarstar-image.s3.ap-northeast-2.amazonaws.com/image_community/${item.PHOTO[index]}")),
                       ),
                     ),
                   );
@@ -273,7 +274,7 @@ class PostLayout extends StatelessWidget {
                   width: 20,
                   child: CachedNetworkImage(
                       imageUrl:
-                          'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/${item.PROFILE_PHOTO}'),
+                          'https://polarstar-image.s3.ap-northeast-2.amazonaws.com/image_profile/${item.PROFILE_PHOTO}'),
                 ),
               ),
               Column(

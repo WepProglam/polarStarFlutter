@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,8 @@ import 'package:polarstar_flutter/app/data/model/profile/mypage_model.dart';
 import 'package:polarstar_flutter/app/data/repository/profile/mypage_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
 import 'package:polarstar_flutter/session.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+import 'package:http/http.dart' as http;
 
 class MyPageController extends GetxController {
   final MyPageRepository repository;
@@ -20,6 +23,7 @@ class MyPageController extends GetxController {
   RxList<Board> myBoardScrap = <Board>[].obs;
   Rx<int> profilePostIndex = 0.obs;
   Rx<String> imagePath = ''.obs;
+  RxList<AssetEntity> photoAssets = <AssetEntity>[].obs;
 
   var _dataAvailableMypage = false.obs;
   var _dataAvailableMypageWrite = false.obs;
@@ -121,13 +125,8 @@ class MyPageController extends GetxController {
     });
   }
 
-  Future<void> getRefresh() async {
-    _dataAvailableMypage.value = false;
-    _dataAvailableMypageWrite.value = false;
-    _dataAvailableMypageLike.value = false;
-    _dataAvailableMypageScrap.value = false;
-    profilePostIndex.value = 0;
-    await getMineWrite();
+  getMultipleGallertImage(BuildContext context) async {
+    photoAssets.value = await AssetPicker.pickAssets(context, maxAssets: 1);
   }
 
   Future<void> updateProfile(String profileMsg, String profileNickname) async {
@@ -155,13 +154,18 @@ class MyPageController extends GetxController {
   }
 
   Future<void> upload() async {
-    Map<String, dynamic> value =
-        await repository.uploadProfileImage(imagePath.value);
+    Uint8List photoByte = await photoAssets[0].originBytes;
+
+    http.MultipartFile photo = http.MultipartFile.fromBytes('photo', photoByte,
+        filename: "${photoAssets[0].title}");
+
+    Map<String, dynamic> value = await repository.uploadProfileImage(photo);
 
     switch (value["status"]) {
       case 200:
         Get.snackbar("사진 변경 성공", "사진 변경 성공",
             snackPosition: SnackPosition.BOTTOM);
+
         myProfile.update((val) {
           val.PROFILE_PHOTO = value["src"];
         });

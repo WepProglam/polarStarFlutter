@@ -305,7 +305,7 @@ class MyPageProfile extends StatelessWidget {
             margin: EdgeInsets.only(top: 22.5),
             child: CachedNetworkImage(
                 imageUrl:
-                    'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/${myPageController.myProfile.value.PROFILE_PHOTO}',
+                    'https://polarstar-image.s3.ap-northeast-2.amazonaws.com/image_profile/${myPageController.myProfile.value.PROFILE_PHOTO}',
                 imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,

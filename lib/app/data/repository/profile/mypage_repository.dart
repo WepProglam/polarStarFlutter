@@ -1,3 +1,4 @@
+import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
 import 'package:polarstar_flutter/app/data/provider/profile/mypage_provider.dart';
@@ -20,8 +21,8 @@ class MyPageRepository {
     return await apiClient.getMineScrap();
   }
 
-  Future<Map<String, dynamic>> uploadProfileImage(String imagePath) async {
-    var map = await apiClient.uploadProfileImage(imagePath);
+  Future<Map<String, dynamic>> uploadProfileImage(MultipartFile photo) async {
+    var map = await apiClient.uploadProfileImage(photo);
     return map;
   }
 }

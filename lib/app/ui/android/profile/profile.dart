@@ -16,11 +16,6 @@ class Profile extends StatelessWidget {
 
   final box = GetStorage();
 
-  getGalleryImage() async {
-    var img = await _picker.pickImage(source: ImageSource.gallery);
-    myPageController.imagePath.value = img.path;
-  }
-
   bool showProgress = false;
 
   @override
@@ -64,7 +59,7 @@ class Profile extends StatelessWidget {
                                       ),
                                       child: CachedNetworkImage(
                                           imageUrl:
-                                              'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/${myPageController.myProfile.value.PROFILE_PHOTO}',
+                                              'https://polarstar-image.s3.ap-northeast-2.amazonaws.com/image_profile/${myPageController.myProfile.value.PROFILE_PHOTO}',
                                           imageBuilder: (context,
                                                   imageProvider) =>
                                               Container(
@@ -121,8 +116,10 @@ class Profile extends StatelessWidget {
                                     width: 13.7,
                                     height: 11.8,
                                     child: InkWell(
-                                      onTap: () {
-                                        print("text");
+                                      onTap: () async {
+                                        await myPageController
+                                            .getMultipleGallertImage(context);
+                                        await myPageController.upload();
                                       },
                                       child:
                                           Image.asset("assets/images/605.png"),
