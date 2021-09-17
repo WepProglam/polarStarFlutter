@@ -41,8 +41,16 @@ class TimeTableController extends GetxController {
   // 디폴트 시간표 선택용 인덱스
   RxInt yearSemesterIndex = 0.obs;
 
-  RxList<List<Map<String, dynamic>>> showTimeTable =
-      <List<Map<String, dynamic>>>[[], [], [], [], [], [], []].obs;
+  RxList<RxList<Map<String, dynamic>>> showTimeTable =
+      <RxList<Map<String, dynamic>>>[
+    <Map<String, dynamic>>[].obs,
+    <Map<String, dynamic>>[].obs,
+    <Map<String, dynamic>>[].obs,
+    <Map<String, dynamic>>[].obs,
+    <Map<String, dynamic>>[].obs,
+    <Map<String, dynamic>>[].obs,
+    <Map<String, dynamic>>[].obs,
+  ].obs;
 
   RxString addTimeTableYearSem = "".obs;
 
@@ -72,7 +80,7 @@ class TimeTableController extends GetxController {
   void makeShowTimeTable() {
     int colorIndex = 0;
     for (var item in selectTable.value.CLASSES) {
-      for (var detail in item.classes) {
+      for (var detail in item.value.classes) {
         int day_index = getIndexFromDay(detail.day);
         List start = detail.start_time.split(":");
         int startTime = int.parse(start[0]) * 60 + int.parse(start[1]);
@@ -92,7 +100,15 @@ class TimeTableController extends GetxController {
   }
 
   void initShowTimeTable() {
-    showTimeTable.value = [[], [], [], [], [], [], []];
+    showTimeTable.value = [
+      <Map<String, dynamic>>[].obs,
+      <Map<String, dynamic>>[].obs,
+      <Map<String, dynamic>>[].obs,
+      <Map<String, dynamic>>[].obs,
+      <Map<String, dynamic>>[].obs,
+      <Map<String, dynamic>>[].obs,
+      <Map<String, dynamic>>[].obs,
+    ];
   }
 
   Future<void> createTimeTable(

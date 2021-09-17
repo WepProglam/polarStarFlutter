@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 
 class TimeTableModel {
@@ -21,7 +22,7 @@ class SelectedTimeTableModel {
 
   String NAME;
 
-  List<TimeTableClassModel> CLASSES;
+  RxList<Rx<TimeTableClassModel>> CLASSES;
 
   SelectedTimeTableModel({YEAR, SEMESTER, TIMETABLE_ID, NAME, CLASSES});
 
@@ -33,7 +34,10 @@ class SelectedTimeTableModel {
     Iterable classesJson = json["CLASSES"];
     this.CLASSES = classesJson == null
         ? []
-        : classesJson.map((e) => TimeTableClassModel.fromJson(e)).toList();
+        : classesJson
+            .map((e) => TimeTableClassModel.fromJson(e).obs)
+            .toList()
+            .obs;
   }
 }
 

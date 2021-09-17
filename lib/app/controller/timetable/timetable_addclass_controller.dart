@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_addclass_repository.dart';
 
@@ -11,6 +12,8 @@ import 'package:polarstar_flutter/session.dart';
 
 class TimeTableAddClassController extends GetxController {
   final TimeTableAddClassRepository repository;
+
+  final TimeTableController timeTableController = Get.find();
 
   TimeTableAddClassController({@required this.repository});
 
@@ -37,6 +40,12 @@ class TimeTableAddClassController extends GetxController {
     Map<String, dynamic> data = TOTAL_CLASS.toJson();
 
     await Session().postX("/timetable/tid/${tid}", data);
+
+    timeTableController.selectTable.update((val) {
+      val.CLASSES.add(TOTAL_CLASS);
+    });
+    timeTableController.initShowTimeTable();
+    timeTableController.makeShowTimeTable();
   }
 
   void initClass() {

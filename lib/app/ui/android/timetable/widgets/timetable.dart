@@ -105,7 +105,7 @@ class TimeTableContent extends StatelessWidget {
                         int curEndTime = last_end_time;
                         Map classItem =
                             timeTableController.showTimeTable[index][i];
-                        TimeTableClassModel classItemModel =
+                        Rx<TimeTableClassModel> classItemModel =
                             classItem["classInfo"];
 
                         print("${i} ${classItem}");
@@ -125,7 +125,7 @@ class TimeTableContent extends StatelessWidget {
                                   (classItem["start_time"] - curEndTime) * 1.0),
                           child: Center(
                             child: Text(
-                              "${classItemModel.className}",
+                              "${classItemModel.value.className}",
                               maxLines: 3,
                               style: const TextStyle(
                                   color: const Color(0xffffffff),
