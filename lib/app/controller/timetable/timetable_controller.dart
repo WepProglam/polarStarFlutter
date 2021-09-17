@@ -14,8 +14,10 @@ class TimeTableController extends GetxController {
 
   final dataAvailable = false.obs;
 
+  bool visitedBin = false;
+
   // 학기별 시간표 간략 정보 리스트
-  Map<String, RxList<Rx<TimeTableModel>>> otherTable =
+  RxMap<String, RxList<Rx<TimeTableModel>>> otherTable =
       <String, RxList<Rx<TimeTableModel>>>{}.obs;
 
   //(선택된) 세부 정보 시간표
@@ -284,7 +286,7 @@ class TimeTableController extends GetxController {
   }
 
   String get yearSem =>
-      "${selectYearSemester[yearSemesterIndex.value].value.YEAR}년 ${selectYearSemester[yearSemesterIndex.value].value.SEMESTER}학기";
+      "${selectTable.value.YEAR}년 ${selectTable.value.SEMESTER}학기";
 }
 
 int getIndexFromDay(String day) {

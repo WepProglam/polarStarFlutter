@@ -19,6 +19,7 @@ import 'package:polarstar_flutter/app/bindings/class/class_binding.dart';
 import 'package:polarstar_flutter/app/bindings/class/class_search_binding.dart';
 import 'package:polarstar_flutter/app/bindings/class/class_view_binding.dart';
 import 'package:polarstar_flutter/app/bindings/timetable/timetable_addclass_binding.dart';
+import 'package:polarstar_flutter/app/bindings/timetable/timetable_bin_binding.dart';
 import 'package:polarstar_flutter/app/bindings/timetable/timetable_binding.dart';
 
 import 'package:polarstar_flutter/app/ui/android/board/board.dart';
@@ -161,7 +162,13 @@ class AppPages {
         name: Routes.TIMETABLE_ADDCLASS,
         page: () => TimetableAddClass(),
         binding: TimetableClassBinding()),
-    GetPage(name: Routes.TIMETABLE_BIN, page: () => TimeTableBin()),
-    GetPage(name: Routes.TIMETABLE_ADDTIMETABLE, page: () => TimeTableAdd())
+    GetPage(
+        name: Routes.TIMETABLE_BIN,
+        page: () => TimeTableBin(),
+        binding: TimetableBinBinding()),
+    GetPage(
+        name: Routes.TIMETABLE_ADDTIMETABLE,
+        page: () => TimeTableAdd(),
+        binding: TimetableBinBinding())
   ];
 }

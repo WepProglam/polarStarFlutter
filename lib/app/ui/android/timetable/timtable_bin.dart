@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/timetable/timetable_bin_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
+import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
 
 class TimeTableBin extends StatelessWidget {
   TimeTableBin({Key key}) : super(key: key);
 
   final TimeTableController timeTableController = Get.find();
+  final TimeTableBinController timeTableBinController = Get.find();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -67,151 +70,153 @@ class TimeTableBin extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(horizontal: 15),
                   // height: (114.5 + 15) * 10 + 15,
                   height: Get.mediaQuery.size.height - 66,
-                  child: ListView.builder(
-                      itemCount: timeTableController.otherTable.keys.length,
-                      // physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (BuildContext context, int i) {
-                        print(timeTableController.otherTable);
-                        return // 사각형 406
-                            Container(
-                                width: 345,
-                                height: 114.5,
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 15.5, top: 12.5),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      // In the summer of 2021
-                                      Container(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 12.5),
-                                        child: Text("In the summer of 2021",
-                                            style: const TextStyle(
-                                                color: const Color(0xff333333),
-                                                fontWeight: FontWeight.w700,
-                                                fontFamily: "PingFangSC",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 18.0),
-                                            textAlign: TextAlign.left),
-                                      ),
-                                      Container(
-                                        height: 18.5,
-                                        child: // Schedule 1
-                                            Row(children: [
-                                          // 타원 162
-                                          Container(
-                                              width: 3.5,
-                                              height: 3.5,
-                                              margin: const EdgeInsets.only(
-                                                  top: 8.5,
-                                                  bottom: 6.5,
-                                                  right: 5),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
+                  child: Obx(() {
+                    return ListView.builder(
+                        itemCount: timeTableController.otherTable.keys.length,
+                        // physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context, int i) {
+                          String key =
+                              timeTableController.otherTable.keys.toList()[i];
+                          RxList<Rx<TimeTableModel>> items =
+                              timeTableController.otherTable[key];
+
+                          print(timeTableController.otherTable);
+                          return // 사각형 406
+                              Container(
+                                  width: 345,
+                                  child: Container(
+                                    margin: const EdgeInsets.only(
+                                        left: 15.5, top: 12.5),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 12.5),
+                                          child: Text(
+                                              "${items[0].value.YEAR}년 ${items[0].value.SEMESTER}학기",
+                                              style: const TextStyle(
                                                   color:
-                                                      const Color(0xff1a4678))),
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                right: 18.5),
-                                            child: Text("Schedule 1",
-                                                style: const TextStyle(
-                                                    color:
-                                                        const Color(0xff1a4678),
-                                                    fontWeight: FontWeight.w500,
-                                                    fontFamily: "PingFangSC",
-                                                    fontStyle: FontStyle.normal,
-                                                    fontSize: 14.0),
-                                                textAlign: TextAlign.left),
-                                          ),
-                                          Container(
-                                            height: 15,
-                                            width: 38,
-                                            margin: const EdgeInsets.only(
-                                                top: 2.5, bottom: 1),
-                                            child: // default
-                                                Container(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 3),
-                                              child: FittedBox(
-                                                child: Text("Default",
-                                                    style: const TextStyle(
-                                                        color: const Color(
-                                                            0xffffffff),
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontFamily:
-                                                            "PingFangSC",
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontSize: 10.0),
-                                                    textAlign:
-                                                        TextAlign.center),
-                                              ),
-                                            ),
-                                            decoration: BoxDecoration(
-                                                color: const Color(0xff781a49),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(8))),
-                                          )
-                                        ]),
-                                      ),
-                                      Container(
-                                        height: 18.5,
-                                        margin: const EdgeInsets.only(top: 6.5),
-                                        child: // Schedule 1
-                                            Row(children: [
-                                          // 타원 162
-                                          Container(
-                                              width: 3.5,
-                                              height: 3.5,
-                                              margin: const EdgeInsets.only(
-                                                  top: 8.5,
-                                                  bottom: 6.5,
-                                                  right: 5),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
-                                                  color:
-                                                      const Color(0xff1a4678))),
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                right: 18.5),
-                                            child: Text("Schedule 1",
-                                                style: const TextStyle(
-                                                    color:
-                                                        const Color(0xff1a4678),
-                                                    fontWeight: FontWeight.w500,
-                                                    fontFamily: "PingFangSC",
-                                                    fontStyle: FontStyle.normal,
-                                                    fontSize: 14.0),
-                                                textAlign: TextAlign.left),
-                                          ),
-                                        ]),
-                                      )
-                                    ],
+                                                      const Color(0xff333333),
+                                                  fontWeight: FontWeight.w700,
+                                                  fontFamily: "PingFangSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 18.0),
+                                              textAlign: TextAlign.left),
+                                        ),
+                                        Container(
+                                          height: (18.5) * items.length,
+                                          margin: const EdgeInsets.only(
+                                              bottom: 22.5),
+                                          child: ListView.builder(
+                                              itemCount: items.length,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                Rx<TimeTableModel> item =
+                                                    items[index];
+                                                return Container(
+                                                  height: 18.5,
+                                                  child: TimeTableBinItem(
+                                                      timeTableController:
+                                                          timeTableController,
+                                                      item: item),
+                                                );
+                                              }),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                margin: const EdgeInsets.only(top: 15),
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)),
-                                    boxShadow: [
-                                      BoxShadow(
+                                  margin: const EdgeInsets.only(top: 15),
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                      boxShadow: [
+                                        BoxShadow(
                                           color: const Color(0x17000000),
                                           offset: Offset(0, 6),
                                           blurRadius: 20,
-                                          spreadRadius: 0)
-                                    ],
-                                    color: const Color(0xffffffff)));
-                      }),
+                                          spreadRadius: 0,
+                                        )
+                                      ],
+                                      color: const Color(0xffffffff)));
+                        });
+                  }),
                 )
               ],
             )));
+  }
+}
+
+class TimeTableBinItem extends StatelessWidget {
+  const TimeTableBinItem(
+      {Key key, @required this.item, @required this.timeTableController})
+      : super(key: key);
+
+  final Rx<TimeTableModel> item;
+  final TimeTableController timeTableController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      return Row(
+        children: [
+          Container(
+              width: 3.5,
+              height: 3.5,
+              margin: const EdgeInsets.only(top: 8.5, bottom: 6.5, right: 5),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: const Color(0xff1a4678))),
+          Container(
+            margin: const EdgeInsets.only(right: 18.5),
+            child: Ink(
+              child: InkWell(
+                onTap: () {
+                  timeTableController.selectedTimeTableId.value =
+                      item.value.TIMETABLE_ID;
+                  Get.back();
+                },
+                child: Text("${item.value.NAME}",
+                    style: const TextStyle(
+                        color: const Color(0xff1a4678),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "PingFangSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0),
+                    textAlign: TextAlign.left),
+              ),
+            ),
+          ),
+          (item.value.IS_DEFAULT == 1)
+              ? Container(
+                  height: 15,
+                  width: 38,
+                  margin: const EdgeInsets.only(top: 2.5, bottom: 1),
+                  child: // default
+                      Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 3),
+                    child: FittedBox(
+                      child: Text("Default",
+                          style: const TextStyle(
+                              color: const Color(0xffffffff),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 10.0),
+                          textAlign: TextAlign.center),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      color: const Color(0xff781a49),
+                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                )
+              : Container(),
+        ],
+      );
+    });
   }
 }
