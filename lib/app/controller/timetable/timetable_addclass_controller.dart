@@ -42,7 +42,7 @@ class TimeTableAddClassController extends GetxController {
     await Session().postX("/timetable/tid/${tid}", data);
 
     timeTableController.selectTable.update((val) {
-      val.CLASSES.add(TOTAL_CLASS);
+      val.CLASSES.add(TOTAL_CLASS.value);
     });
     timeTableController.initShowTimeTable();
     timeTableController.makeShowTimeTable();

@@ -80,7 +80,7 @@ class TimeTableController extends GetxController {
   void makeShowTimeTable() {
     int colorIndex = 0;
     for (var item in selectTable.value.CLASSES) {
-      for (var detail in item.value.classes) {
+      for (var detail in item.classes) {
         int day_index = getIndexFromDay(detail.day);
         List start = detail.start_time.split(":");
         int startTime = int.parse(start[0]) * 60 + int.parse(start[1]);

@@ -743,7 +743,7 @@ class SubjectList extends StatelessWidget {
                                     top: 9.5, bottom: 11.5),
                                 child: // Your subject
                                     Text(
-                                        "${timeTableController.selectTable.value.CLASSES[i].value.className}",
+                                        "${timeTableController.selectTable.value.CLASSES[i].className}",
                                         style: const TextStyle(
                                             color: const Color(0xff333333),
                                             fontWeight: FontWeight.w900,
@@ -755,17 +755,17 @@ class SubjectList extends StatelessWidget {
                               FittedBox(
                                 child: SubjectPreviewList(
                                     text:
-                                        "학수번호 : ${timeTableController.selectTable.value.CLASSES[i].value.classNumber}"),
+                                        "학수번호 : ${timeTableController.selectTable.value.CLASSES[i].classNumber}"),
                               ),
                               FittedBox(
                                 child: SubjectPreviewList(
                                     text:
-                                        "학점 : ${timeTableController.selectTable.value.CLASSES[i].value.credit}"),
+                                        "학점 : ${timeTableController.selectTable.value.CLASSES[i].credit}"),
                               ),
                               FittedBox(
                                 child: SubjectPreviewList(
                                     text:
-                                        "교수명 : ${timeTableController.selectTable.value.CLASSES[i].value.professor}"),
+                                        "교수명 : ${timeTableController.selectTable.value.CLASSES[i].professor}"),
                               ),
                             ],
                           ),

@@ -97,7 +97,7 @@ class TimetableAddClass extends StatelessWidget {
                                     .TOTAL_CLASS.value.professor);
                                 for (var items in timeTableController
                                     .selectTable.value.CLASSES) {
-                                  for (var dd in items.value.classes) {
+                                  for (var dd in items.classes) {
                                     print("${dd.day},${dd.start_time}");
                                   }
                                 }
