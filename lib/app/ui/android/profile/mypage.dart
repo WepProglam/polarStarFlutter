@@ -16,6 +16,7 @@ class Mypage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+          backgroundColor: const Color(0xfff2f2f2),
           bottomNavigationBar:
               CustomBottomNavigationBar(mainController: mainController),
           body: Obx(
@@ -25,6 +26,7 @@ class Mypage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
+                        height: 294,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                             image: DecorationImage(
@@ -34,6 +36,7 @@ class Mypage extends StatelessWidget {
                             MyPageProfile(myPageController: myPageController)),
                     Container(
                         width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.only(bottom: 10),
                         decoration:
                             BoxDecoration(color: const Color(0xffffffff)),
                         child: MyPageProfilePostIndex(
@@ -96,102 +99,97 @@ class MyPageProfilePostIndex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return Column(children: [
-        Container(
-            height: 58,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                          margin: EdgeInsets.only(top: 14),
-                          child: Text("Posted",
-                              style: TextStyle(
-                                  color:
-                                      myPageController.profilePostIndex.value ==
-                                              0
-                                          ? Color(0xff1a4678)
-                                          : Color(0xff666666),
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: "PingFangSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 18.0),
-                              textAlign: TextAlign.left)),
-                      Container(
-                          margin: EdgeInsets.only(top: 14),
-                          width: 46.5,
-                          height: 3,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(3)),
-                            color: myPageController.profilePostIndex.value == 0
-                                ? Color(0xff1a4678)
-                                : Color(0xffffffff),
-                          ))
-                    ]),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                          margin: EdgeInsets.only(left: 68.5, top: 14),
-                          child: Text("Scraped",
-                              style: TextStyle(
-                                  color:
-                                      myPageController.profilePostIndex.value ==
-                                              1
-                                          ? Color(0xff1a4678)
-                                          : Color(0xff666666),
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: "PingFangSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 18.0),
-                              textAlign: TextAlign.left)),
-                      Container(
-                          margin: EdgeInsets.only(left: 68.5, top: 14),
-                          width: 46.5,
-                          height: 3,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(3)),
-                            color: myPageController.profilePostIndex.value == 1
-                                ? Color(0xff1a4678)
-                                : Color(0xffffffff),
-                          ))
-                    ]),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                          margin: EdgeInsets.only(left: 71, top: 14),
-                          child: Text("Liked",
-                              style: TextStyle(
-                                  color:
-                                      myPageController.profilePostIndex.value ==
-                                              2
-                                          ? Color(0xff1a4678)
-                                          : Color(0xff666666),
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: "PingFangSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 18.0),
-                              textAlign: TextAlign.left)),
-                      Container(
-                          margin: EdgeInsets.only(left: 71, top: 14),
-                          width: 46.5,
-                          height: 3,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(3)),
-                            color: myPageController.profilePostIndex.value == 2
-                                ? Color(0xff1a4678)
-                                : Color(0xffffffff),
-                          ))
-                    ])
-              ],
-            )),
-      ]);
+      return Container(
+          height: 58,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        margin: EdgeInsets.only(top: 14),
+                        child: Text("Posted",
+                            style: TextStyle(
+                                color:
+                                    myPageController.profilePostIndex.value == 0
+                                        ? Color(0xff1a4678)
+                                        : Color(0xff666666),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 18.0),
+                            textAlign: TextAlign.left)),
+                    Container(
+                        margin: EdgeInsets.only(top: 14),
+                        width: 46.5,
+                        height: 3,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(3)),
+                          color: myPageController.profilePostIndex.value == 0
+                              ? Color(0xff1a4678)
+                              : Color(0xffffffff),
+                        ))
+                  ]),
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        margin: EdgeInsets.only(left: 68.5, top: 14),
+                        child: Text("Scraped",
+                            style: TextStyle(
+                                color:
+                                    myPageController.profilePostIndex.value == 1
+                                        ? Color(0xff1a4678)
+                                        : Color(0xff666666),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 18.0),
+                            textAlign: TextAlign.left)),
+                    Container(
+                        margin: EdgeInsets.only(left: 68.5, top: 14),
+                        width: 46.5,
+                        height: 3,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(3)),
+                          color: myPageController.profilePostIndex.value == 1
+                              ? Color(0xff1a4678)
+                              : Color(0xffffffff),
+                        ))
+                  ]),
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        margin: EdgeInsets.only(left: 71, top: 14),
+                        child: Text("Liked",
+                            style: TextStyle(
+                                color:
+                                    myPageController.profilePostIndex.value == 2
+                                        ? Color(0xff1a4678)
+                                        : Color(0xff666666),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 18.0),
+                            textAlign: TextAlign.left)),
+                    Container(
+                        margin: EdgeInsets.only(left: 71, top: 14),
+                        width: 46.5,
+                        height: 3,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(3)),
+                          color: myPageController.profilePostIndex.value == 2
+                              ? Color(0xff1a4678)
+                              : Color(0xffffffff),
+                        ))
+                  ])
+            ],
+          ));
     });
   }
 }

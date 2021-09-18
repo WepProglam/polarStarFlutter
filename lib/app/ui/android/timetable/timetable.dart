@@ -24,53 +24,44 @@ class Timetable extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                child: Obx(() {
-                  bool temp = timeTableController.dataAvailable.value;
-                  return Container(
-                    margin: const EdgeInsets.only(left: 15),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 28,
-                            child: TopIcon(
-                              timeTableController: timeTableController,
-                            ),
-                          ),
-                          Container(
-                            height: 18.5,
-                            margin: const EdgeInsets.only(top: 3.5),
-                            child: FittedBox(
-                              child: Text("${timeTableController.yearSem}",
-                                  style: const TextStyle(
-                                      color: const Color(0xff333333),
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "PingFangSC",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 14.0),
-                                  textAlign: TextAlign.left),
-                            ),
-                          )
-                        ]),
-                  );
-                }),
-              ),
+                  child: Container(
+                margin: const EdgeInsets.only(left: 15),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 28,
+                        child: TopIcon(
+                          timeTableController: timeTableController,
+                        ),
+                      ),
+                      Container(
+                        height: 18.5,
+                        margin: const EdgeInsets.only(top: 3.5),
+                        child: FittedBox(
+                          child: Text("${timeTableController.yearSem}",
+                              style: const TextStyle(
+                                  color: const Color(0xff333333),
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "PingFangSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14.0),
+                              textAlign: TextAlign.left),
+                        ),
+                      )
+                    ]),
+              )),
               Container(
-                width: size.width,
-                margin: const EdgeInsets.only(top: 15.5),
-                height:
-                    // 100,
-                    44 + 60.0 * 13,
-                // 44 + 60.0 * 13,
-                child: Obx(() {
-                  // temp 이거 뺴면 오류남(야매)
-                  bool temp = timeTableController.dataAvailable.value;
-                  return TimeTablePackage(
+                  width: size.width,
+                  margin: const EdgeInsets.only(top: 15.5),
+                  height:
+                      // 100,
+                      44 + 60.0 * 13,
+                  // 44 + 60.0 * 13,
+                  child: TimeTablePackage(
                       timeTableController: timeTableController,
                       size: size,
-                      scrollable: false);
-                }),
-              ),
+                      scrollable: false)),
               Container(
                 // height: 10,
                 margin: const EdgeInsets.only(left: 15, top: 20.3),
@@ -102,13 +93,7 @@ class Timetable extends StatelessWidget {
                 margin: const EdgeInsets.only(left: 15, top: 22, bottom: 20),
                 height: 184.5,
                 //과목 리스트
-                child: Obx(() {
-                  // temp 이거 뺴면 오류남(야매)
-                  bool temp = timeTableController.dataAvailable.value;
-                  return SubjectList(
-                    timeTableController: timeTableController,
-                  );
-                }),
+                child: SubjectList(model: timeTableController.selectTable),
               )
             ],
           ))),

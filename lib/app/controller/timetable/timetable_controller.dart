@@ -24,8 +24,7 @@ class TimeTableController extends GetxController {
   Rx<SelectedTimeTableModel> selectTable = SelectedTimeTableModel().obs;
 
   // 고유번호 별 세부 정보 시간표 리스트
-  RxList<SelectedTimeTableModel> selectTableList =
-      <SelectedTimeTableModel>[].obs;
+  List<SelectedTimeTableModel> selectTableList = <SelectedTimeTableModel>[];
 
   // 고유번호 인덱스
   RxInt selectedTimeTableId = 0.obs;
@@ -143,7 +142,7 @@ class TimeTableController extends GetxController {
 
   Future getSemesterTimeTable(String YEAR, String SEMESTER) async {
     if (need_download_semester(YEAR, SEMESTER)) {
-      dataAvailable(false);
+      // dataAvailable(false);
 
       Map<String, dynamic> jsonResponse =
           await repository.getSemesterTimeTable(YEAR, SEMESTER);
@@ -181,14 +180,14 @@ class TimeTableController extends GetxController {
   }
 
   Future getTimeTable(int TIMETABLE_ID) async {
-    dataAvailable.value = false;
+    // dataAvailable.value = false;
 
     Map<String, dynamic> jsonResponse =
         await repository.getTimeTable(TIMETABLE_ID);
 
     switch (jsonResponse["statusCode"]) {
       case 200:
-        selectTable = jsonResponse["selectTable"];
+        selectTable.value = jsonResponse["selectTable"].value;
         selectTableList.add(jsonResponse["selectTable"].value);
         dataAvailable(true);
         break;

@@ -676,17 +676,13 @@ class TableList extends StatelessWidget {
 }
 
 class SubjectList extends StatelessWidget {
-  final TimeTableController timeTableController;
-
-  const SubjectList({Key key, this.timeTableController}) : super(key: key);
-
+  const SubjectList({Key key, this.model}) : super(key: key);
+  final Rx<SelectedTimeTableModel> model;
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      int total_length = timeTableController.selectTable.value.CLASSES == null
-          ? 1
-          : timeTableController.selectTable.value.CLASSES.length + 1;
-      // print(timeTableController.selectTable.value.NAME);
+      int total_length =
+          model.value.CLASSES == null ? 1 : model.value.CLASSES.length + 1;
       return Container(
           child: ListView.builder(
               itemCount: total_length,
@@ -742,8 +738,7 @@ class SubjectList extends StatelessWidget {
                                 margin: const EdgeInsets.only(
                                     top: 9.5, bottom: 11.5),
                                 child: // Your subject
-                                    Text(
-                                        "${timeTableController.selectTable.value.CLASSES[i].className}",
+                                    Text("${model.value.CLASSES[i].className}",
                                         style: const TextStyle(
                                             color: const Color(0xff333333),
                                             fontWeight: FontWeight.w900,
@@ -755,17 +750,17 @@ class SubjectList extends StatelessWidget {
                               FittedBox(
                                 child: SubjectPreviewList(
                                     text:
-                                        "학수번호 : ${timeTableController.selectTable.value.CLASSES[i].classNumber}"),
+                                        "학수번호 : ${model.value.CLASSES[i].classNumber}"),
                               ),
                               FittedBox(
                                 child: SubjectPreviewList(
                                     text:
-                                        "학점 : ${timeTableController.selectTable.value.CLASSES[i].credit}"),
+                                        "학점 : ${model.value.CLASSES[i].credit}"),
                               ),
                               FittedBox(
                                 child: SubjectPreviewList(
                                     text:
-                                        "교수명 : ${timeTableController.selectTable.value.CLASSES[i].professor}"),
+                                        "교수명 : ${model.value.CLASSES[i].professor}"),
                               ),
                             ],
                           ),
