@@ -27,7 +27,8 @@ class PhotoLayout extends StatelessWidget {
                 fadeInDuration: Duration(milliseconds: 0),
                 progressIndicatorBuilder: (context, url, downloadProgress) =>
                     Container(
-                      width: 108.3 + 4.2,
+                      margin: EdgeInsets.only(right: 4.2),
+                      width: 108.3,
                       height: 110.7,
                       child:
                           Image(image: AssetImage('assets/images/spinner.gif')),
