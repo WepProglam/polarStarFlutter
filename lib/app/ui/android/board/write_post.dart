@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:image_picker/image_picker.dart';
-
 import 'package:polarstar_flutter/app/controller/board/write_post_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/board/write_post_model.dart';
@@ -15,7 +13,6 @@ class WritePost extends StatelessWidget {
 
   final Post item = Get.arguments;
 
-  final ImagePicker _picker = ImagePicker();
   final TextEditingController photoName = TextEditingController();
 
   getMultipleGallertImage(BuildContext context) async {

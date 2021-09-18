@@ -7,6 +7,7 @@ import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_mail_dialog.dart';
+import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 
 class PostLayout extends StatelessWidget {
   final PostController c = Get.find();
@@ -162,31 +163,7 @@ class PostLayout extends StatelessWidget {
       ),
       //사진
       item.PHOTO != [] && item.PHOTO != null
-          ? SizedBox(
-              height: 150.0,
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                scrollDirection: Axis.horizontal,
-                itemCount: item.PHOTO.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Center(
-                      child: SizedBox(
-                        width: 150.0,
-                        height: 150.0,
-                        child: Center(
-                            child: CachedNetworkImage(
-                                imageUrl: "${item.PHOTO[index]}")),
-                      ),
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Container(width: 0.1, color: Colors.black);
-                },
-              ),
-            )
+          ? PhotoLayout(model: item)
           : Container(),
       // 좋아요, 댓글, 스크랩 수
       Container(

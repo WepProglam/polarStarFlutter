@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/board_name.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
+import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 
 // 게시글 프리뷰 위젯
 class PostPreview extends StatelessWidget {
@@ -130,43 +131,12 @@ class PostPreview extends StatelessWidget {
 
               // Photo
               Container(
-                margin: EdgeInsets.only(top: 13.1 - 5.6, bottom: 17.8 - 5.6),
-                child: item.PHOTO == null || item.PHOTO.length == 0
-                    ? Container()
-                    : Container(
-                        width: Get.mediaQuery.size.width,
-                        height: 110.7,
-                        margin: EdgeInsets.symmetric(vertical: 5.6),
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: item.PHOTO.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return CachedNetworkImage(
-                                  imageUrl: "${item.PHOTO[index]}",
-                                  fadeInDuration: Duration(milliseconds: 0),
-                                  progressIndicatorBuilder:
-                                      (context, url, downloadProgress) => Image(
-                                          image: AssetImage(
-                                              'assets/images/spinner.gif')),
-                                  errorWidget: (context, url, error) {
-                                    print(error);
-                                    return Icon(Icons.error);
-                                  },
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(
-                                        margin: EdgeInsets.only(right: 4.2),
-                                        width: 108.3,
-                                        height: 110.7,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            image: DecorationImage(
-                                                image: imageProvider,
-                                                fit: BoxFit.cover)),
-                                      ));
-                            }),
-                      ),
-              ),
+                  margin: EdgeInsets.only(top: 13.1 - 5.6, bottom: 17.8 - 5.6),
+                  child: item.PHOTO == null || item.PHOTO.length == 0
+                      ? Container()
+                      : PhotoLayout(
+                          model: item,
+                        )),
 
               //좋아요, 댓글, 스크랩 수
               Row(

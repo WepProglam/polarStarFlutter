@@ -51,21 +51,28 @@ class Mypage extends StatelessWidget {
                         myPageController.myBoardScrap,
                       ];
 
-                      if (dataAvailable[
-                          myPageController.profilePostIndex.value]) {
-                        return ListView.builder(
-                            itemCount: userPost[
-                                    myPageController.profilePostIndex.value]
-                                .length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return PostPreview(
-                                item: userPost[myPageController
-                                    .profilePostIndex.value][index],
-                              );
-                            });
-                      } else {
-                        return CircularProgressIndicator();
-                      }
+                      return PageView.builder(
+                          controller: myPageController.pageController,
+                          onPageChanged: (value) {
+                            myPageController.profilePostIndex.value = value;
+                          },
+                          itemCount: 3,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (dataAvailable[
+                                myPageController.profilePostIndex.value]) {
+                              return Obx(() {
+                                return ListView.builder(
+                                    itemCount: userPost[index].length,
+                                    itemBuilder: (BuildContext context, int i) {
+                                      return PostPreview(
+                                        item: userPost[index][i],
+                                      );
+                                    });
+                              });
+                            } else {
+                              return Center(child: CircularProgressIndicator());
+                            }
+                          });
                     }))
                   ],
                 );
@@ -95,114 +102,93 @@ class MyPageProfilePostIndex extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                InkWell(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                            margin: EdgeInsets.only(top: 14),
-                            child: Text("Posted",
-                                style: TextStyle(
-                                    color: myPageController
-                                                .profilePostIndex.value ==
-                                            0
-                                        ? Color(0xff1a4678)
-                                        : Color(0xff666666),
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "PingFangSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 18.0),
-                                textAlign: TextAlign.left)),
-                        Container(
-                            margin: EdgeInsets.only(top: 14),
-                            width: 46.5,
-                            height: 3,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(3)),
-                              color:
-                                  myPageController.profilePostIndex.value == 0
-                                      ? Color(0xff1a4678)
-                                      : Color(0xffffffff),
-                            ))
-                      ]),
-                  onTap: () {
-                    myPageController.profilePostIndex.value = 0;
-                  },
-                ),
-                InkWell(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                            margin: EdgeInsets.only(left: 68.5, top: 14),
-                            child: Text("Scraped",
-                                style: TextStyle(
-                                    color: myPageController
-                                                .profilePostIndex.value ==
-                                            1
-                                        ? Color(0xff1a4678)
-                                        : Color(0xff666666),
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "PingFangSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 18.0),
-                                textAlign: TextAlign.left)),
-                        Container(
-                            margin: EdgeInsets.only(left: 68.5, top: 14),
-                            width: 46.5,
-                            height: 3,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(3)),
-                              color:
-                                  myPageController.profilePostIndex.value == 1
-                                      ? Color(0xff1a4678)
-                                      : Color(0xffffffff),
-                            ))
-                      ]),
-                  onTap: () {
-                    myPageController.profilePostIndex.value = 1;
-                  },
-                ),
-                InkWell(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                            margin: EdgeInsets.only(left: 71, top: 14),
-                            child: Text("Liked",
-                                style: TextStyle(
-                                    color: myPageController
-                                                .profilePostIndex.value ==
-                                            2
-                                        ? Color(0xff1a4678)
-                                        : Color(0xff666666),
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "PingFangSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 18.0),
-                                textAlign: TextAlign.left)),
-                        Container(
-                            margin: EdgeInsets.only(left: 71, top: 14),
-                            width: 46.5,
-                            height: 3,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(3)),
-                              color:
-                                  myPageController.profilePostIndex.value == 2
-                                      ? Color(0xff1a4678)
-                                      : Color(0xffffffff),
-                            ))
-                      ]),
-                  onTap: () {
-                    myPageController.profilePostIndex.value = 2;
-                  },
-                )
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                          margin: EdgeInsets.only(top: 14),
+                          child: Text("Posted",
+                              style: TextStyle(
+                                  color:
+                                      myPageController.profilePostIndex.value ==
+                                              0
+                                          ? Color(0xff1a4678)
+                                          : Color(0xff666666),
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: "PingFangSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 18.0),
+                              textAlign: TextAlign.left)),
+                      Container(
+                          margin: EdgeInsets.only(top: 14),
+                          width: 46.5,
+                          height: 3,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(3)),
+                            color: myPageController.profilePostIndex.value == 0
+                                ? Color(0xff1a4678)
+                                : Color(0xffffffff),
+                          ))
+                    ]),
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                          margin: EdgeInsets.only(left: 68.5, top: 14),
+                          child: Text("Scraped",
+                              style: TextStyle(
+                                  color:
+                                      myPageController.profilePostIndex.value ==
+                                              1
+                                          ? Color(0xff1a4678)
+                                          : Color(0xff666666),
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: "PingFangSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 18.0),
+                              textAlign: TextAlign.left)),
+                      Container(
+                          margin: EdgeInsets.only(left: 68.5, top: 14),
+                          width: 46.5,
+                          height: 3,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(3)),
+                            color: myPageController.profilePostIndex.value == 1
+                                ? Color(0xff1a4678)
+                                : Color(0xffffffff),
+                          ))
+                    ]),
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                          margin: EdgeInsets.only(left: 71, top: 14),
+                          child: Text("Liked",
+                              style: TextStyle(
+                                  color:
+                                      myPageController.profilePostIndex.value ==
+                                              2
+                                          ? Color(0xff1a4678)
+                                          : Color(0xff666666),
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: "PingFangSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 18.0),
+                              textAlign: TextAlign.left)),
+                      Container(
+                          margin: EdgeInsets.only(left: 71, top: 14),
+                          width: 46.5,
+                          height: 3,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(3)),
+                            color: myPageController.profilePostIndex.value == 2
+                                ? Color(0xff1a4678)
+                                : Color(0xffffffff),
+                          ))
+                    ])
               ],
             )),
       ]);

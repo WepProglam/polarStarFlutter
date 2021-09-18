@@ -22,6 +22,7 @@ class MailController extends GetxController {
   RxList<Rx<MailBoxModel>> mailBox = <Rx<MailBoxModel>>[].obs; //쪽지함
   RxList<MailHistoryModel> mailHistory = <MailHistoryModel>[].obs; //쪽지내역
   Rx<MailProfile> opponentProfile = MailProfile().obs; //쪽지 상대방 프로필
+  Rx<MailProfile> myProfile = MailProfile().obs; //쪽지 상대방 프로필
 
   @override
   onInit() async {
@@ -119,6 +120,7 @@ class MailController extends GetxController {
 
     mailHistory.value = value["listMailHistory"];
     opponentProfile.value = value["target_profile"];
+    myProfile.value = value["profile"];
     _dataAvailableMailSendPage.value = true;
   }
 

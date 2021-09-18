@@ -26,6 +26,9 @@ class MyPageController extends GetxController {
   Rx<String> imagePath = ''.obs;
   RxList<AssetEntity> photoAssets = <AssetEntity>[].obs;
 
+  final PageController pageController =
+      PageController(initialPage: 0, viewportFraction: 1.0);
+
   var _dataAvailableMypage = false.obs;
   var _dataAvailableMypageWrite = false.obs;
   var _dataAvailableMypageLike = false.obs;
@@ -95,6 +98,8 @@ class MyPageController extends GetxController {
   void onInit() async {
     super.onInit();
     await getMineWrite();
+    // await getMineLike();
+    // await getMineScrap();
     profilePostIndex.value = 0;
 
     //사용자가 인덱스 변경 시 매번 다운 받았는지 체크 후, 안받았으면 http 요청 보냄

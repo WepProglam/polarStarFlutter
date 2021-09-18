@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
+import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 import 'package:swipedetector/swipedetector.dart';
 
 class HotBoardMain extends StatelessWidget {
@@ -261,48 +262,8 @@ class HotBoardItem_content extends StatelessWidget {
           height: 118.5,
           margin: const EdgeInsets.only(top: 16 / 2),
           child: model.PHOTO != null && model.PHOTO.length > 0
-              ? SizedBox(
-                  height: 150.0,
-                  child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: model.PHOTO.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        // padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Center(
-                          child: SizedBox(
-                            width: 150.0,
-                            height: 150.0,
-                            child: Center(
-                                child: CachedNetworkImage(
-                                    imageUrl: "${model.PHOTO[index]}")),
-                          ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return Container(width: 0.1, color: Colors.black);
-                    },
-                  ),
-                )
+              ? PhotoLayout(model: model)
               : Container(),
-          // CachedNetworkImage(
-          //     imageUrl: '${model.PHOTO[0]}',
-          //     imageBuilder: (context, imageProvider) => Container(
-          //         decoration: BoxDecoration(
-          //             borderRadius: BorderRadius.all(Radius.circular(10)),
-          //             // shape: BoxShape
-          //             //     .circle,
-          //             image: DecorationImage(
-          //                 image: imageProvider, fit: BoxFit.fill))),
-          //     fadeInDuration: Duration(milliseconds: 0),
-          //     progressIndicatorBuilder: (context, url, downloadProgress) =>
-          //         Image(image: AssetImage('assets/images/spinner.gif')),
-          //     errorWidget: (context, url, error) {
-          //       print(error);
-          //       return Icon(Icons.error);
-          //     })
         ),
       ],
     );
@@ -365,7 +326,9 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
           width: 39,
           height: 39,
           child: CachedNetworkImage(
-              imageUrl: '${model.PROFILE_PHOTO}',
+              imageUrl: model.PROFILE_PHOTO.trim() == "anonymous.jpg"
+                  ? "https://polarstar-image.s3.ap-northeast-2.amazonaws.com/image_profile/${model.PROFILE_PHOTO}"
+                  : '${model.PROFILE_PHOTO}',
               imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
