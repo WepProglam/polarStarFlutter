@@ -66,10 +66,7 @@ class TimeTableBin extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
-                  // height: (114.5 + 15) * 10 + 15,
-                  height: Get.mediaQuery.size.height - 66,
+                Expanded(
                   child: Obx(() {
                     return ListView.builder(
                         itemCount: timeTableController.otherTable.keys.length,
@@ -130,7 +127,8 @@ class TimeTableBin extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  margin: const EdgeInsets.only(top: 15),
+                                  margin: const EdgeInsets.only(
+                                      top: 15, left: 15, right: 15),
                                   decoration: BoxDecoration(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(20)),

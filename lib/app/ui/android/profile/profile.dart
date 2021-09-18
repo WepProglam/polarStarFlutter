@@ -59,7 +59,7 @@ class Profile extends StatelessWidget {
                                       ),
                                       child: CachedNetworkImage(
                                           imageUrl:
-                                              'https://polarstar-image.s3.ap-northeast-2.amazonaws.com/image_profile/${myPageController.myProfile.value.PROFILE_PHOTO}',
+                                              '${myPageController.myProfile.value.PROFILE_PHOTO}',
                                           imageBuilder: (context,
                                                   imageProvider) =>
                                               Container(

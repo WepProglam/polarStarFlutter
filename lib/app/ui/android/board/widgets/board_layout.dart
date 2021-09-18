@@ -42,8 +42,7 @@ class PostPreview extends StatelessWidget {
                         height: 39,
                         margin: EdgeInsets.only(right: 11.8),
                         child: CachedNetworkImage(
-                          imageUrl:
-                              'https://polarstar-image.s3.ap-northeast-2.amazonaws.com/image_profile/${item.PROFILE_PHOTO}',
+                          imageUrl: '${item.PROFILE_PHOTO}',
                           imageBuilder: (context, imageProvider) => Container(
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
@@ -143,8 +142,7 @@ class PostPreview extends StatelessWidget {
                             itemCount: item.PHOTO.length,
                             itemBuilder: (BuildContext context, int index) {
                               return CachedNetworkImage(
-                                  imageUrl:
-                                      "https://polarstar-image.s3.ap-northeast-2.amazonaws.com/image_community/${item.PHOTO[index]}",
+                                  imageUrl: "${item.PHOTO[index]}",
                                   fadeInDuration: Duration(milliseconds: 0),
                                   progressIndicatorBuilder:
                                       (context, url, downloadProgress) => Image(

@@ -304,8 +304,7 @@ class MyPageProfile extends StatelessWidget {
             height: 87,
             margin: EdgeInsets.only(top: 22.5),
             child: CachedNetworkImage(
-                imageUrl:
-                    'https://polarstar-image.s3.ap-northeast-2.amazonaws.com/image_profile/${myPageController.myProfile.value.PROFILE_PHOTO}',
+                imageUrl: '${myPageController.myProfile.value.PROFILE_PHOTO}',
                 imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -457,8 +456,7 @@ Widget getPosts(MyPageBoardModel item, myPageController) {
                   Expanded(
                       flex: 20,
                       child: CachedNetworkImage(
-                          imageUrl:
-                              'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/${item.PROFILE_PHOTO}',
+                          imageUrl: '${item.PROFILE_PHOTO}',
                           fadeInDuration: Duration(milliseconds: 0),
                           progressIndicatorBuilder:
                               (context, url, downloadProgress) => Image(
@@ -544,8 +542,7 @@ Widget getPosts(MyPageBoardModel item, myPageController) {
                       child: item.PHOTO.length == 0 || item.PHOTO == null
                           ? Container()
                           : CachedNetworkImage(
-                              imageUrl:
-                                  'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000/uploads/board/${item.PHOTO[0]}',
+                              imageUrl: '${item.PHOTO[0]}',
                               fit: BoxFit.fill,
                               fadeInDuration: Duration(milliseconds: 0),
                               progressIndicatorBuilder:

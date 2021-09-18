@@ -48,21 +48,21 @@ class TopIcon extends StatelessWidget {
                             child: Container(
                                 height: 40,
                                 child: Row(children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                  Container(
+                                    // padding: const EdgeInsets.all(8.0),
                                     child: Text("${yearSemester}"),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.all(8.0),
-                                    width: 100,
-                                    child: FittedBox(
-                                      child: Text(
-                                          "${timeTableController.selectYearSemester[index].value.NAME}"),
-                                    ),
+                                    // padding: const EdgeInsets.all(8.0),
+                                    margin: const EdgeInsets.only(left: 15),
+                                    // width: 100,
+                                    child: Text(
+                                        "${timeTableController.selectYearSemester[index].value.NAME}"),
                                   ),
-                                  Spacer(),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                  // Spacer(),
+                                  Container(
+                                    // padding: const EdgeInsets.all(8.0),
+                                    margin: const EdgeInsets.only(left: 15),
                                     child: Text(
                                       "DEFAULT",
                                       style: TextStyle(color: Colors.red),
