@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
+
 class TimeTableClassModel {
   String professor, sector, degreeCourse, classNumber, className, refer;
   String classID, credit;
@@ -50,14 +52,21 @@ class TimeTableClassModel {
 }
 
 class AddClassModel {
-  String start_time, end_time, day, classRoom;
+  DateTime start_time, end_time;
+  String day, classRoom;
   String online;
 
   AddClassModel({start_time, end_time, day, classRoom, online});
 
   AddClassModel.fromJson(Map<String, dynamic> json) {
-    this.start_time = json["start_time"];
-    this.end_time = json["end_time"];
+    List<String> start = json["start_time"].split(":");
+    List<String> end = json["end_time"].split(":");
+
+    this.start_time = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, int.parse(start[0]), int.parse(start[1]));
+    this.end_time = DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, int.parse(end[0]), int.parse(end[1]));
+
     this.day = json["day"];
     this.classRoom = json["classRoom"];
     this.online = "${json["online"]}";
@@ -65,8 +74,8 @@ class AddClassModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['start_time'] = this.start_time;
-    data['end_time'] = this.end_time;
+    data['start_time'] = timeFormatter(this.start_time);
+    data['end_time'] = timeFormatter(this.end_time);
     data["day"] = this.day;
     data["total_elapsed_time"] = "60";
     data["classRoom"] = this.classRoom;

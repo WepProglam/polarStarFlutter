@@ -91,12 +91,10 @@ class TimeTableAddClass extends StatelessWidget {
           child: Obx(() {
             int last_end_time = 60 * 9;
 
-            int start_time =
-                int.parse(new_class.value.start_time.split(":")[0]) * 60 +
-                    int.parse(new_class.value.start_time.split(":")[1]);
-            int end_time =
-                int.parse(new_class.value.end_time.split(":")[0]) * 60 +
-                    int.parse(new_class.value.end_time.split(":")[1]);
+            int start_time = new_class.value.start_time.hour * 60 +
+                new_class.value.start_time.minute;
+            int end_time = new_class.value.end_time.hour * 60 +
+                new_class.value.end_time.minute;
 
             if (start_time >= end_time) {
               start_time = end_time;

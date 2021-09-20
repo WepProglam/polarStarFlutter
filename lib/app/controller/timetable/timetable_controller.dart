@@ -82,11 +82,11 @@ class TimeTableController extends GetxController {
     for (var item in selectTable.value.CLASSES) {
       for (var detail in item.classes) {
         int day_index = getIndexFromDay(detail.day);
-        List start = detail.start_time.split(":");
-        int startTime = int.parse(start[0]) * 60 + int.parse(start[1]);
+        DateTime start = detail.start_time;
+        int startTime = start.hour * 60 + start.minute;
 
-        List end = detail.end_time.split(":");
-        int endTime = int.parse(end[0]) * 60 + int.parse(end[1]);
+        DateTime end = detail.end_time;
+        int endTime = end.hour * 60 + end.minute;
 
         showTimeTable[day_index].add({
           "start_time": startTime,

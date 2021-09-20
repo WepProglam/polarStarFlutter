@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_addclass_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
+import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/timetable.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
 
@@ -43,227 +45,231 @@ class TimetableAddClass extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 32,
-            margin: const EdgeInsets.only(left: 15, right: 15),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 8, 14.6, 7.3),
-                  child: // 패스 907
-                      InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Container(
-                      width: 9.365753173828125,
-                      height: 16.6669921875,
-                      child: Image.asset(
-                        "assets/images/891.png",
-                        fit: BoxFit.fitHeight,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 32,
+                margin: const EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 14.6, 7.3),
+                      child: // 패스 907
+                          InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Container(
+                          width: 9.365753173828125,
+                          height: 16.6669921875,
+                          child: Image.asset(
+                            "assets/images/891.png",
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 4),
-                  child: Text("Add  Course",
-                      style: const TextStyle(
-                          color: const Color(0xff333333),
-                          fontWeight: FontWeight.w700,
-                          fontFamily: "PingFangSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 21.0),
-                      textAlign: TextAlign.left),
-                ),
-                Spacer(),
-                Container(
-                  margin: const EdgeInsets.only(top: 4, right: 0),
-                  child: // 사각형 511
-                      Container(
-                          // width: 74.5,
-                          // height: 28,
-                          child: // complete
-                              Padding(
-                            padding: const EdgeInsets.fromLTRB(7.5, 4, 7, 5.5),
-                            child: InkWell(
-                              onTap: () {
-                                print(timeTableAddClassController
-                                    .TOTAL_CLASS.value.className);
-                                print(timeTableAddClassController
-                                    .TOTAL_CLASS.value.professor);
-                                for (var items in timeTableController
-                                    .selectTable.value.CLASSES) {
-                                  for (var dd in items.classes) {
-                                    print("${dd.day},${dd.start_time}");
-                                  }
-                                }
-
-                                print("==============================");
-
-                                for (var item
-                                    in timeTableAddClassController.CLASS_LIST) {
-                                  //여기 검증하는 코드 추가 필요
-                                  print(item.value.day);
-                                  print(item.value.start_time);
-                                  print(item.value.end_time);
-                                  print(item.value.classRoom);
-                                }
-                                timeTableAddClassController.addClass(
-                                    timeTableController
-                                        .selectedTimeTableId.value);
-                                Get.back();
-                              },
-                              child: Text("Complete",
-                                  style: const TextStyle(
-                                      color: const Color(0xff1a4678),
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "PingFangSC",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 14.0),
-                                  textAlign: TextAlign.center),
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(28)),
-                              color: const Color(0xffdceafa))),
-                )
-              ],
-            ),
-          ),
-          Expanded(
-            // margin: const EdgeInsets.only(top: 12.5),
-            // height: 200,
-            // width: size.width,
-            child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              child: Container(
-                height: 44 + 60.0 * 13,
-                child: Obx(() {
-                  print(timeTableAddClassController.CLASS_LIST.toString());
-                  return Stack(children: [
-                    TimeTableBin(
-                      timeTableController: timeTableController,
-                      width: size.width,
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 4),
+                      child: Text("Add  Course",
+                          style: const TextStyle(
+                              color: const Color(0xff333333),
+                              fontWeight: FontWeight.w700,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 21.0),
+                          textAlign: TextAlign.left),
                     ),
-                    TimeTableContent(
-                      timeTableController: timeTableController,
-                      width: size.width,
-                    ),
-                    //선택한 애들 띄우기
-                    for (Rx<AddClassModel> item
-                        in timeTableAddClassController.CLASS_LIST)
-                      Positioned(
-                        child: TimeTableAddClass(
-                          new_class: item,
+                    Spacer(),
+                    Container(
+                      margin: const EdgeInsets.only(top: 4, right: 0),
+                      child: // 사각형 511
+                          Container(
+                              // width: 74.5,
+                              // height: 28,
+                              child: // complete
+                                  Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(7.5, 4, 7, 5.5),
+                                child: InkWell(
+                                  onTap: () {
+                                    bool checkClasses =
+                                        timeTableAddClassController
+                                            .checkClassValidate();
+                                    TimeTableClassModel postData =
+                                        timeTableAddClassController
+                                            .TOTAL_CLASS.value;
+                                    if (postData.professor == null ||
+                                        postData.professor.isEmpty) {
+                                      Get.snackbar("교강사명을 입력하세요", "교강사명을 입력하세요",
+                                          snackPosition: SnackPosition.BOTTOM);
+                                    } else if (postData.className == null ||
+                                        postData.className.isEmpty) {
+                                      Get.snackbar("강의명을 입력하세요", "강의명을 입력하세요",
+                                          snackPosition: SnackPosition.BOTTOM);
+                                    } else if (!checkClasses) {
+                                      Get.snackbar(
+                                          "시간이 중복되었습니다.", "시간이 중복되었습니다.",
+                                          snackPosition: SnackPosition.BOTTOM);
+                                    } else {
+                                      timeTableAddClassController.addClass(
+                                          timeTableController
+                                              .selectedTimeTableId.value);
+                                      Get.back();
+                                    }
+                                  },
+                                  child: Text("Complete",
+                                      style: const TextStyle(
+                                          color: const Color(0xff1a4678),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "PingFangSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 14.0),
+                                      textAlign: TextAlign.center),
+                                ),
+                              ),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(28)),
+                                  color: const Color(0xffdceafa))),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                // margin: const EdgeInsets.only(top: 12.5),
+                // height: 200,
+                // width: size.width,
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Container(
+                    height: 44 + 60.0 * 13,
+                    child: Obx(() {
+                      print(timeTableAddClassController.CLASS_LIST.toString());
+                      return Stack(children: [
+                        TimeTableBin(
+                          timeTableController: timeTableController,
                           width: size.width,
                         ),
+                        TimeTableContent(
+                          timeTableController: timeTableController,
+                          width: size.width,
+                        ),
+                        //선택한 애들 띄우기
+                        for (Rx<AddClassModel> item
+                            in timeTableAddClassController.CLASS_LIST)
+                          Positioned(
+                            child: TimeTableAddClass(
+                              new_class: item,
+                              width: size.width,
+                            ),
+                          )
+                      ]);
+                    }),
+                  ),
+                ),
+              ),
+              Container(
+                height: 300,
+                margin: const EdgeInsets.only(left: 16, top: 11.3),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      //교강사명
+                      Container(
+                        margin: const EdgeInsets.only(top: 12.3),
+                        child: Row(children: [
+                          Container(
+                            width: 10,
+                            margin: const EdgeInsets.only(bottom: 14.3),
+                            child: Icon(Icons.book),
+                          ),
+                          Container(
+                            width: size.width - 15.3 - 14.8 - 30,
+                            margin: const EdgeInsets.only(left: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 14.3),
+                                  child: TextFormField(
+                                    controller: timeTableAddClassController
+                                        .professorNameController,
+                                    onChanged: (value) {
+                                      timeTableAddClassController.TOTAL_CLASS
+                                          .update((val) {
+                                        val.professor =
+                                            timeTableAddClassController
+                                                .professorNameController.text;
+                                      });
+                                    },
+                                    maxLines: 1,
+                                    style: textStyle,
+                                    textAlign: TextAlign.left,
+                                    decoration: inputDecoration("professor"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ]),
+                      ),
+                      //강의명
+                      Container(
+                        margin: const EdgeInsets.only(top: 12.3),
+                        child: Row(children: [
+                          Container(
+                            width: 10,
+                            margin: const EdgeInsets.only(bottom: 14.3),
+                            child: Icon(Icons.school),
+                          ),
+                          Container(
+                            width: size.width - 15.3 - 14.8 - 30,
+                            margin: const EdgeInsets.only(left: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 14.3),
+                                  child: TextFormField(
+                                    controller: timeTableAddClassController
+                                        .courseNameController,
+                                    onChanged: (value) {
+                                      timeTableAddClassController.TOTAL_CLASS
+                                          .update((val) {
+                                        val.className =
+                                            timeTableAddClassController
+                                                .courseNameController.text;
+                                      });
+                                    },
+                                    maxLines: 1,
+                                    style: textStyle,
+                                    textAlign: TextAlign.left,
+                                    decoration: inputDecoration("course"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ]),
+                      ),
+                      //강의 장소 및 시간
+                      Container(
+                        margin: const EdgeInsets.only(top: 12.3),
+                        child: ClassInfoTPO(
+                          size: size,
+                          timeTableAddClassController:
+                              timeTableAddClassController,
+                        ),
                       )
-                  ]);
-                }),
-              ),
-            ),
-          ),
-          Container(
-            height: 300,
-            margin: const EdgeInsets.only(left: 16, top: 11.3),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  //교강사명
-                  Container(
-                    margin: const EdgeInsets.only(top: 12.3),
-                    child: Row(children: [
-                      Container(
-                        width: 10,
-                        margin: const EdgeInsets.only(bottom: 14.3),
-                        child: Icon(Icons.book),
-                      ),
-                      Container(
-                        width: size.width - 15.3 - 14.8 - 30,
-                        margin: const EdgeInsets.only(left: 30),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 14.3),
-                              child: TextFormField(
-                                controller: timeTableAddClassController
-                                    .professorNameController,
-                                onChanged: (value) {
-                                  timeTableAddClassController.TOTAL_CLASS
-                                      .update((val) {
-                                    val.professor = timeTableAddClassController
-                                        .professorNameController.text;
-                                  });
-                                },
-                                maxLines: 1,
-                                style: textStyle,
-                                textAlign: TextAlign.left,
-                                decoration: inputDecoration("professor"),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ]),
+                    ],
                   ),
-                  //강의명
-                  Container(
-                    margin: const EdgeInsets.only(top: 12.3),
-                    child: Row(children: [
-                      Container(
-                        width: 10,
-                        margin: const EdgeInsets.only(bottom: 14.3),
-                        child: Icon(Icons.school),
-                      ),
-                      Container(
-                        width: size.width - 15.3 - 14.8 - 30,
-                        margin: const EdgeInsets.only(left: 30),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 14.3),
-                              child: TextFormField(
-                                controller: timeTableAddClassController
-                                    .courseNameController,
-                                onChanged: (value) {
-                                  timeTableAddClassController.TOTAL_CLASS
-                                      .update((val) {
-                                    val.className = timeTableAddClassController
-                                        .courseNameController.text;
-                                  });
-                                },
-                                maxLines: 1,
-                                style: textStyle,
-                                textAlign: TextAlign.left,
-                                decoration: inputDecoration("course"),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ]),
-                  ),
-                  //강의 장소 및 시간
-                  Container(
-                    margin: const EdgeInsets.only(top: 12.3),
-                    child: ClassInfoTPO(
-                      size: size,
-                      timeTableAddClassController: timeTableAddClassController,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )
-        ],
-      )),
+                ),
+              )
+            ],
+          )),
     );
   }
 }
@@ -538,33 +544,43 @@ class SelectStartTime extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        List<String> timeInfo = newClass.value.start_time.split(":");
-        TimeOfDay time = await showTimePicker(
-            context: context,
-            initialTime: TimeOfDay(
-                hour: int.parse(timeInfo[0]), minute: int.parse(timeInfo[1])));
-        if (time.hour > 21 || time.hour < 9) {
-          Get.snackbar("9시에서 21시 사이로 선택해주세요", "9시에서 21시 사이로 선택해주세요");
-        } else {
+        DateTime now = DateTime.now();
+        DateTime start_time = newClass.value.start_time;
+
+        DateTime timeInput = DateTime(start_time.year, start_time.month,
+            start_time.day, start_time.hour, start_time.minute);
+        DateTime end_time = newClass.value.end_time;
+        bool flag = false;
+
+        await Get.defaultDialog(
+            content: Container(
+          height: 200,
+          width: Get.mediaQuery.size.width,
+          child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.time,
+              use24hFormat: true,
+              initialDateTime: start_time,
+              minuteInterval: 5,
+              onDateTimeChanged: (DateTime dateTime) {
+                timeInput = dateTime;
+              }),
+        ));
+        if (timeInput.isAfter(end_time) ||
+            timeInput.isAtSameMomentAs(end_time)) {
           newClass.update((val) {
-            String tempHour = time.hour.toString();
-            String tempMin = time.minute.toString();
-
-            if (tempHour.length == 1) {
-              tempHour = "0" + tempHour;
-            }
-
-            if (tempMin.length == 1) {
-              tempMin += "0";
-            }
-            val.start_time = "${tempHour}:${tempMin}";
+            val.end_time = DateTime(timeInput.year, timeInput.month,
+                timeInput.day, timeInput.hour + 1, timeInput.minute);
           });
         }
+        newClass.update((val) {
+          val.start_time = DateTime(timeInput.year, timeInput.month,
+              timeInput.day, timeInput.hour, timeInput.minute);
+        });
       },
       child: Obx(() {
         return Row(children: [
           Container(
-            child: Text("${newClass.value.start_time}",
+            child: Text("${timeFormatter(newClass.value.start_time)}",
                 style: const TextStyle(
                     color: const Color(0xff333333),
                     fontWeight: FontWeight.w400,
@@ -597,34 +613,75 @@ class SelectEndTime extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        List<String> timeInfo = newClass.value.end_time.split(":");
-        TimeOfDay time = await showTimePicker(
-            context: context,
-            initialTime: TimeOfDay(
-                hour: int.parse(timeInfo[0]), minute: int.parse(timeInfo[1])));
+        DateTime now = DateTime.now();
+        DateTime end_time = newClass.value.end_time;
 
-        if (time.hour > 21 || time.hour < 9) {
-          Get.snackbar("9시에서 21시 사이로 선택해주세요", "9시에서 21시 사이로 선택해주세요");
-        } else {
+        DateTime timeInput = DateTime(end_time.year, end_time.month,
+            end_time.day, end_time.hour, end_time.minute);
+
+        DateTime start_time = newClass.value.start_time;
+        await Get.defaultDialog(
+            content: Container(
+          height: 200,
+          width: Get.mediaQuery.size.width,
+          child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.time,
+              use24hFormat: true,
+              initialDateTime: newClass.value.end_time,
+              minuteInterval: 5,
+              onDateTimeChanged: (DateTime dateTime) {
+                // if (dateTime.isBefore(start_time)) {
+
+                //   if (dateTime.hour <= 9) {
+                //     self_flag = true;
+                //   } else {
+                //     other_flag = true;
+                //   }
+                // }
+                timeInput = dateTime;
+              }),
+        ));
+        print(timeInput);
+        print(start_time);
+        if (timeInput.isBefore(start_time) ||
+            timeInput.isAtSameMomentAs(start_time)) {
+          print(timeInput.isBefore(start_time));
+          print(timeInput.isAtSameMomentAs(start_time));
           newClass.update((val) {
-            String tempHour = time.hour.toString();
-            String tempMin = time.minute.toString();
-
-            if (tempHour.length == 1) {
-              tempHour = "0" + tempHour;
-            }
-
-            if (tempMin.length == 1) {
-              tempMin += "0";
-            }
-            val.end_time = "${tempHour}:${tempMin}";
+            val.start_time = DateTime(timeInput.year, timeInput.month,
+                timeInput.day, timeInput.hour - 1, timeInput.minute);
           });
         }
+        newClass.update((val) {
+          val.end_time = DateTime(timeInput.year, timeInput.month,
+              timeInput.day, timeInput.hour, timeInput.minute);
+        });
+
+        // if (other_flag) {
+        //   newClass.update((val) {
+        //     val.start_time = DateTime(start_time.year, start_time.month,
+        //         start_time.day, timeInput.hour - 1, timeInput.minute);
+        //   });
+        // } else {
+        //   newClass.update((val) {
+        //     timeInput = DateTime(
+        //         timeInput.year,
+        //         timeInput.month,
+        //         timeInput.day,
+        //         (timeInput.hour > 21)
+        //             ? 21
+        //             : self_flag
+        //                 ? start_time.hour + 1
+        //                 : timeInput.hour,
+        //         timeInput.minute);
+        //     val.end_time = timeInput;
+        //   });
+        // }
       },
       child: Obx(() {
         return Row(children: [
           Container(
-            child: Text("${newClass.value.end_time}",
+            child: Text("${timeFormatter(newClass.value.end_time)}",
                 style: const TextStyle(
                     color: const Color(0xff333333),
                     fontWeight: FontWeight.w400,

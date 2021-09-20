@@ -59,6 +59,40 @@ class TimeTableAddClassController extends GetxController {
     CLASS_LIST.add(tmp);
   }
 
+  bool checkClassValidate() {
+    List<List<AddClassModel>> curClasses = timeTableController
+        .selectTable.value.CLASSES
+        .map((e) => e.classes)
+        .toList();
+    for (var CurClass in curClasses) {
+      for (var item in CurClass) {
+        for (var new_item in CLASS_LIST) {
+          if (new_item.value.day != item.day) {
+            continue;
+          }
+          bool afterClass =
+              (new_item.value.start_time.isAfter(item.start_time) &&
+                  new_item.value.start_time.isAfter(item.end_time));
+
+          bool beforeClass =
+              (new_item.value.end_time.isBefore(item.start_time) &&
+                  new_item.value.end_time.isBefore(item.end_time));
+
+          bool innerCheck =
+              new_item.value.start_time.isBefore(new_item.value.end_time);
+
+          //한 수업에 대해 시작과 끝 시간이 모두 이르거나 느린 경우 통과
+          bool checkItOut = (afterClass || beforeClass) && innerCheck;
+
+          if (!checkItOut) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
   @override
   void onInit() async {
     super.onInit();
