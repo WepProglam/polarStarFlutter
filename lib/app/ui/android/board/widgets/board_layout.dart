@@ -134,8 +134,11 @@ class PostPreview extends StatelessWidget {
                   margin: EdgeInsets.only(top: 13.1 - 5.6, bottom: 17.8 - 5.6),
                   child: item.PHOTO == null || item.PHOTO.length == 0
                       ? Container()
-                      : PhotoLayout(
-                          model: item,
+                      : Container(
+                          height: 120,
+                          child: PhotoLayout(
+                            model: item,
+                          ),
                         )),
 
               //좋아요, 댓글, 스크랩 수

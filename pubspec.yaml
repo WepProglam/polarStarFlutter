@@ -141,6 +141,7 @@ flutter:
     - assets/images/869.png
     - assets/images/scrap_none.png
     - assets/images/417.png
+    - assets/images/photo_placeholder.jpg
     - assets/fonts/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

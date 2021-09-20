@@ -36,7 +36,7 @@ class Mypage extends StatelessWidget {
                             MyPageProfile(myPageController: myPageController)),
                     Container(
                         width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.only(bottom: 10),
+                        // margin: const EdgeInsets.only(bottom: 10),
                         decoration:
                             BoxDecoration(color: const Color(0xffffffff)),
                         child: MyPageProfilePostIndex(
@@ -64,13 +64,31 @@ class Mypage extends StatelessWidget {
                             if (dataAvailable[
                                 myPageController.profilePostIndex.value]) {
                               return Obx(() {
-                                return ListView.builder(
-                                    itemCount: userPost[index].length,
-                                    itemBuilder: (BuildContext context, int i) {
-                                      return PostPreview(
-                                        item: userPost[index][i],
-                                      );
-                                    });
+                                return RefreshIndicator(
+                                  onRefresh: () async {
+                                    switch (index) {
+                                      case 0:
+                                        await myPageController.getMineWrite();
+                                        break;
+                                      case 1:
+                                        await myPageController.getMineLike();
+                                        break;
+                                      case 2:
+                                        await myPageController.getMineScrap();
+                                        break;
+                                      default:
+                                    }
+                                    return true;
+                                  },
+                                  child: ListView.builder(
+                                      itemCount: userPost[index].length,
+                                      itemBuilder:
+                                          (BuildContext context, int i) {
+                                        return PostPreview(
+                                          item: userPost[index][i],
+                                        );
+                                      }),
+                                );
                               });
                             } else {
                               return Center(child: CircularProgressIndicator());
@@ -397,160 +415,160 @@ class MyPageProfile extends StatelessWidget {
   }
 }
 
-Widget getPosts(MyPageBoardModel item, myPageController) {
-  String communityBoardName(int COMMUNITY_ID) {
-    final box = GetStorage();
-    var boardList = box.read('boardInfo');
-    for (var item in boardList) {
-      if (item.COMMUNITY_ID == COMMUNITY_ID) {
-        return item.COMMUNITY_NAME;
-      }
-    }
-    return null;
-  }
+// Widget getPosts(MyPageBoardModel item, myPageController) {
+//   String communityBoardName(int COMMUNITY_ID) {
+//     final box = GetStorage();
+//     var boardList = box.read('boardInfo');
+//     for (var item in boardList) {
+//       if (item.COMMUNITY_ID == COMMUNITY_ID) {
+//         return item.COMMUNITY_NAME;
+//       }
+//     }
+//     return null;
+//   }
 
-  String boardName(int COMMUNITY_ID) {
-    return communityBoardName(COMMUNITY_ID);
-  }
+//   String boardName(int COMMUNITY_ID) {
+//     return communityBoardName(COMMUNITY_ID);
+//   }
 
-  return InkWell(
-    onTap: () async {
-      String url = item.COMMUNITY_ID < 4
-          ? "/outside/${item.COMMUNITY_ID}/read/${item.BOARD_ID}"
-          : "/board/${item.COMMUNITY_ID}/read/${item.BOARD_ID}";
+//   return InkWell(
+//     onTap: () async {
+//       String url = item.COMMUNITY_ID < 4
+//           ? "/outside/${item.COMMUNITY_ID}/read/${item.BOARD_ID}"
+//           : "/board/${item.COMMUNITY_ID}/read/${item.BOARD_ID}";
 
-      Get.toNamed(url);
-    },
-    child: Container(
-      decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.black54))),
-      child: Row(
-        children: [
-          Spacer(
-            flex: 6,
-          ),
-          Expanded(
-              flex: 40,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Spacer(
-                    flex: 7,
-                  ),
-                  Expanded(
-                      flex: 20,
-                      child: CachedNetworkImage(
-                          imageUrl: '${item.PROFILE_PHOTO}',
-                          fadeInDuration: Duration(milliseconds: 0),
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) => Image(
-                                  image:
-                                      AssetImage('assets/images/spinner.gif')),
-                          errorWidget: (context, url, error) {
-                            print(error);
-                            return Icon(Icons.error);
-                          })),
-                  Spacer(
-                    flex: 5,
-                  ),
-                  Expanded(
-                    flex: 9,
-                    child: Text(
-                      "${item.PROFILE_NICKNAME}",
-                      textScaleFactor: 0.8,
-                    ),
-                  ),
-                  Expanded(
-                    flex: 9,
-                    child: Text(
-                      '${boardName(item.COMMUNITY_ID)} 게시판',
-                      textScaleFactor: 0.5,
-                    ),
-                  ),
-                  Spacer(
-                    flex: 8,
-                  )
-                ],
-              )),
-          Spacer(
-            flex: 10,
-          ),
-          Expanded(
-              flex: 200,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Spacer(
-                    flex: 11,
-                  ),
-                  Expanded(
-                      flex: 18,
-                      child: Text(
-                        item.TITLE.toString(),
-                        textScaleFactor: 1.5,
-                      )),
-                  Spacer(
-                    flex: 11,
-                  ),
-                  Expanded(
-                      flex: 12,
-                      child: Text(
-                        item.CONTENT.toString(),
-                        textScaleFactor: 1.0,
-                      )),
-                  Spacer(
-                    flex: 7,
-                  )
-                ],
-              )),
-          item.PHOTO == "" || item.PHOTO == null //빈 문자열 처리해야함
-              ? Expanded(
-                  flex: 80,
-                  child: Column(children: [
-                    Spacer(
-                      flex: 40,
-                    ),
-                    Expanded(
-                      child: Text(
-                        "좋아요${item.LIKES} 댓글${item.COMMENTS} 스크랩${item.SCRAPS}",
-                        textScaleFactor: 0.5,
-                      ),
-                      flex: 9,
-                    )
-                  ]))
-              : Expanded(
-                  flex: 80,
-                  child: Column(children: [
-                    Expanded(
-                      flex: 40,
-                      child: item.PHOTO.length == 0 || item.PHOTO == null
-                          ? Container()
-                          : CachedNetworkImage(
-                              imageUrl: '${item.PHOTO[0]}',
-                              fit: BoxFit.fill,
-                              fadeInDuration: Duration(milliseconds: 0),
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) => Image(
-                                      image: AssetImage(
-                                          'assets/images/spinner.gif')),
-                              errorWidget: (context, url, error) {
-                                print(error);
-                                return Icon(Icons.error);
-                              }),
-                    ),
-                    Expanded(
-                      child: Text(
-                        "좋아요${item.LIKES} 댓글${item.COMMENTS} 스크랩${item.SCRAPS}",
-                        textScaleFactor: 0.5,
-                      ),
-                      flex: 9,
-                    )
-                  ])),
-          Spacer(
-            flex: 4,
-          )
-        ],
-      ),
-    ),
-  );
-}
+//       Get.toNamed(url);
+//     },
+//     child: Container(
+//       decoration: BoxDecoration(
+//           border: Border(bottom: BorderSide(color: Colors.black54))),
+//       child: Row(
+//         children: [
+//           Spacer(
+//             flex: 6,
+//           ),
+//           Expanded(
+//               flex: 40,
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   Spacer(
+//                     flex: 7,
+//                   ),
+//                   Expanded(
+//                       flex: 20,
+//                       child: CachedNetworkImage(
+//                           imageUrl: '${item.PROFILE_PHOTO}',
+//                           fadeInDuration: Duration(milliseconds: 0),
+//                           progressIndicatorBuilder:
+//                               (context, url, downloadProgress) => Image(
+//                                   image:
+//                                       AssetImage('assets/images/spinner.gif')),
+//                           errorWidget: (context, url, error) {
+//                             print(error);
+//                             return Icon(Icons.error);
+//                           })),
+//                   Spacer(
+//                     flex: 5,
+//                   ),
+//                   Expanded(
+//                     flex: 9,
+//                     child: Text(
+//                       "${item.PROFILE_NICKNAME}",
+//                       textScaleFactor: 0.8,
+//                     ),
+//                   ),
+//                   Expanded(
+//                     flex: 9,
+//                     child: Text(
+//                       '${boardName(item.COMMUNITY_ID)} 게시판',
+//                       textScaleFactor: 0.5,
+//                     ),
+//                   ),
+//                   Spacer(
+//                     flex: 8,
+//                   )
+//                 ],
+//               )),
+//           Spacer(
+//             flex: 10,
+//           ),
+//           Expanded(
+//               flex: 200,
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   Spacer(
+//                     flex: 11,
+//                   ),
+//                   Expanded(
+//                       flex: 18,
+//                       child: Text(
+//                         item.TITLE.toString(),
+//                         textScaleFactor: 1.5,
+//                       )),
+//                   Spacer(
+//                     flex: 11,
+//                   ),
+//                   Expanded(
+//                       flex: 12,
+//                       child: Text(
+//                         item.CONTENT.toString(),
+//                         textScaleFactor: 1.0,
+//                       )),
+//                   Spacer(
+//                     flex: 7,
+//                   )
+//                 ],
+//               )),
+//           item.PHOTO == "" || item.PHOTO == null //빈 문자열 처리해야함
+//               ? Expanded(
+//                   flex: 80,
+//                   child: Column(children: [
+//                     Spacer(
+//                       flex: 40,
+//                     ),
+//                     Expanded(
+//                       child: Text(
+//                         "좋아요${item.LIKES} 댓글${item.COMMENTS} 스크랩${item.SCRAPS}",
+//                         textScaleFactor: 0.5,
+//                       ),
+//                       flex: 9,
+//                     )
+//                   ]))
+//               : Expanded(
+//                   flex: 80,
+//                   child: Column(children: [
+//                     Expanded(
+//                       flex: 40,
+//                       child: item.PHOTO.length == 0 || item.PHOTO == null
+//                           ? Container()
+//                           : CachedNetworkImage(
+//                               imageUrl: '${item.PHOTO[0]}',
+//                               fit: BoxFit.fill,
+//                               fadeInDuration: Duration(milliseconds: 0),
+//                               progressIndicatorBuilder:
+//                                   (context, url, downloadProgress) => Image(
+//                                       image: AssetImage(
+//                                           'assets/images/spinner.gif')),
+//                               errorWidget: (context, url, error) {
+//                                 print(error);
+//                                 return Icon(Icons.error);
+//                               }),
+//                     ),
+//                     Expanded(
+//                       child: Text(
+//                         "좋아요${item.LIKES} 댓글${item.COMMENTS} 스크랩${item.SCRAPS}",
+//                         textScaleFactor: 0.5,
+//                       ),
+//                       flex: 9,
+//                     )
+//                   ])),
+//           Spacer(
+//             flex: 4,
+//           )
+//         ],
+//       ),
+//     ),
+//   );
+// }

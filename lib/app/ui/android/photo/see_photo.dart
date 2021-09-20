@@ -30,8 +30,8 @@ class _SeePhotoState extends State<SeePhoto> {
               itemBuilder: (context, int index) {
                 return InteractiveViewer(
                   maxScale: 4,
-                  minScale: 0.5,
-                  panEnabled: false,
+                  minScale: 1,
+                  // panEnabled: false,
                   boundaryMargin: EdgeInsets.all(80),
                   child: Container(
                       width: size.width,

@@ -16,7 +16,7 @@ class PhotoLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: Get.mediaQuery.size.width,
-      height: 120,
+      height: 110,
       margin: EdgeInsets.symmetric(vertical: 5.6),
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -24,14 +24,16 @@ class PhotoLayout extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return CachedNetworkImage(
                 imageUrl: "${model.PHOTO[index]}",
-                fadeInDuration: Duration(milliseconds: 0),
+                // fadeInDuration: Duration(milliseconds: 0),
                 progressIndicatorBuilder: (context, url, downloadProgress) =>
                     Container(
                       margin: EdgeInsets.only(right: 4.2),
-                      width: 108.3,
-                      height: 110.7,
-                      child:
-                          Image(image: AssetImage('assets/images/spinner.gif')),
+                      width: 110,
+                      height: 110,
+                      color: Colors.white,
+                      // child: Image(
+                      //     image: AssetImage(
+                      //         'assets/images/photo_placeholder.jpg')),
                     ),
                 errorWidget: (context, url, error) {
                   print(error);
@@ -44,8 +46,8 @@ class PhotoLayout extends StatelessWidget {
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: 4.2),
-                          width: 108.3,
-                          height: 110.7,
+                          width: 110,
+                          height: 110,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               image: DecorationImage(

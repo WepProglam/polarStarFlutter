@@ -27,7 +27,7 @@ class MyPageController extends GetxController {
   RxList<AssetEntity> photoAssets = <AssetEntity>[].obs;
 
   final PageController pageController =
-      PageController(initialPage: 0, viewportFraction: 1.0);
+      PageController(initialPage: 0, viewportFraction: 1.0, keepPage: true);
 
   var _dataAvailableMypage = false.obs;
   var _dataAvailableMypageWrite = false.obs;
@@ -36,8 +36,6 @@ class MyPageController extends GetxController {
 
   //내가 쓴 글 목록 불러옴
   Future<void> getMineWrite() async {
-    _dataAvailableMypageWrite.value = false;
-
     final response = await repository.getMineWrite();
     final status = response["status"];
 
@@ -58,8 +56,6 @@ class MyPageController extends GetxController {
 
   //유저 좋아요 글
   Future<void> getMineLike() async {
-    _dataAvailableMypageLike.value = false;
-
     final response = await repository.getMineLike();
     final status = response["status"];
 
@@ -77,8 +73,6 @@ class MyPageController extends GetxController {
 
   //유저 스크랩 글
   Future<void> getMineScrap() async {
-    _dataAvailableMypageScrap.value = false;
-
     final response = await repository.getMineScrap();
     final status = response["status"];
 
@@ -95,9 +89,13 @@ class MyPageController extends GetxController {
   }
 
   @override
+  void onClose() async {}
+
+  @override
   void onInit() async {
     super.onInit();
     await getMineWrite();
+
     // await getMineLike();
     // await getMineScrap();
     profilePostIndex.value = 0;
