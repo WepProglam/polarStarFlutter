@@ -90,13 +90,17 @@ class TimeTableAddClass extends StatelessWidget {
         child: Container(
           child: Obx(() {
             int last_end_time = 60 * 9;
-            int curEndTime = last_end_time;
-            int start_time = int.tryParse(new_class.value.start_time) == null
-                ? 60 * 9
-                : int.tryParse(new_class.value.start_time);
-            int end_time = int.tryParse(new_class.value.end_time) == null
-                ? 60 * 10
-                : int.tryParse(new_class.value.end_time);
+
+            int start_time =
+                int.parse(new_class.value.start_time.split(":")[0]) * 60 +
+                    int.parse(new_class.value.start_time.split(":")[1]);
+            int end_time =
+                int.parse(new_class.value.end_time.split(":")[0]) * 60 +
+                    int.parse(new_class.value.end_time.split(":")[1]);
+
+            if (start_time >= end_time) {
+              start_time = end_time;
+            }
 
             return Opacity(
               opacity: 0.5,
@@ -105,7 +109,7 @@ class TimeTableAddClass extends StatelessWidget {
                 height: (end_time - start_time) * 1.0,
                 decoration: contentTableBoxDecoration(Colors.black),
                 margin: EdgeInsets.only(
-                    top: (start_time - curEndTime) * 1.0,
+                    top: (start_time - last_end_time) * 1.0,
                     left: getIndexFromDay(new_class.value.day) *
                         (width * 11 / 12) /
                         7),
