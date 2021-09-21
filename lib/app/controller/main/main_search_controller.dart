@@ -14,6 +14,7 @@ class MainSearchController extends GetxController {
   final box = GetStorage();
 
   var scrollController = ScrollController().obs;
+  final pageController = PageController(initialPage: 0);
 
   bool searchStarted = false;
 
@@ -82,6 +83,8 @@ class MainSearchController extends GetxController {
       } else {
         print("이미 다운로드");
       }
+      // await pageController.animateToPage(searchType.value,
+      //     duration: Duration(milliseconds: 500), curve: Curves.easeIn);
     });
 
     scrollController.value.addListener(() async {

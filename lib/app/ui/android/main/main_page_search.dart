@@ -46,8 +46,8 @@ class MainPageSearch extends StatelessWidget {
               ],
             ),
           ),
-          bottomNavigationBar:
-              CustomBottomNavigationBar(mainController: mainController),
+          // bottomNavigationBar:
+          //     CustomBottomNavigationBar(mainController: mainController),
           body: Stack(children: [
             Obx(() {
               if (!mainSearchController.dataAvailalbe) {
@@ -158,6 +158,13 @@ class MainSearchBar extends StatelessWidget {
               margin: const EdgeInsets.only(left: 23.5, top: 11),
               child: TextFormField(
                 controller: searchText,
+                onEditingComplete: () async {
+                  String text = searchText.text.trim();
+                  mainSearchController.searchText(text);
+                  await mainSearchController.clearAll();
+                  await mainSearchController.searchApi();
+                  FocusScope.of(context).unfocus();
+                },
                 maxLines: 1,
                 style: const TextStyle(
                     color: Colors.black,
