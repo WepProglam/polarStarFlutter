@@ -59,10 +59,6 @@ class Timetable extends StatelessWidget {
               Container(
                   width: size.width,
                   margin: const EdgeInsets.only(top: 15.5),
-                  height:
-                      // 100,
-                      44 + 60.0 * 13,
-                  // 44 + 60.0 * 13,
                   child: TimeTablePackage(
                       timeTableController: timeTableController,
                       size: size,
@@ -124,33 +120,41 @@ class TimeTablePackage extends StatelessWidget {
       physics: scrollable
           ? AlwaysScrollableScrollPhysics()
           : NeverScrollableScrollPhysics(),
-      child: Container(
-        child: Column(
-          children: [
-            Container(
-              height: 44 + 60.0 * 13,
-              child: Stack(children: [
-                Obx(() {
-                  // temp 이거 뺴면 오류남(야매)
-                  bool temp = timeTableController.dataAvailable.value;
-                  return TimeTableBin(
-                    timeTableController: timeTableController,
-                    width: size.width,
-                  );
-                }),
-                Obx(() {
-                  // temp 이거 뺴면 오류남(야매)
-                  bool temp = timeTableController.dataAvailable.value;
-                  return TimeTableContent(
-                    timeTableController: timeTableController,
-                    width: size.width,
-                  );
-                })
-              ]),
-            )
-          ],
-        ),
-      ),
+      child: Obx(() {
+        RxBool isExpandedHor = timeTableController.isExpandedHor;
+        RxBool isExpandedVer = timeTableController.isExpandedVer;
+        int dayAmount = isExpandedHor.value ? 7 : 5;
+        int verAmount = isExpandedVer.value ? 14 : 10;
+        return Container(
+          child: Column(
+            children: [
+              Container(
+                height: 44 + 60.0 * (verAmount - 1),
+                child: Stack(children: [
+                  Obx(() {
+                    // temp 이거 뺴면 오류남(야매)
+                    bool temp = timeTableController.dataAvailable.value;
+                    return TimeTableBin(
+                        timeTableController: timeTableController,
+                        width: size.width,
+                        dayAmount: dayAmount,
+                        verAmount: verAmount);
+                  }),
+                  Obx(() {
+                    // temp 이거 뺴면 오류남(야매)
+                    bool temp = timeTableController.dataAvailable.value;
+                    return TimeTableContent(
+                        timeTableController: timeTableController,
+                        width: size.width,
+                        dayAmount: dayAmount,
+                        verAmount: verAmount);
+                  })
+                ]),
+              )
+            ],
+          ),
+        );
+      }),
     );
   }
 }

@@ -701,7 +701,7 @@ class SubjectList extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(36)),
-                              color: const Color(0xfffff7e6)),
+                              color: const Color(0xffe6edf5)),
                           child: Icon(
                             Icons.add,
                             size: 50,
@@ -733,11 +733,12 @@ class SubjectList extends StatelessWidget {
                                 ),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(100),
-                                    color: const Color(0xfffcaa02)),
+                                    color: const Color(0xff024b9e)),
                               ),
                               Container(
                                 margin: const EdgeInsets.only(
                                     top: 9.5, bottom: 11.5),
+                                height: 23,
                                 child: // Your subject
                                     Text("${model.value.CLASSES[i].className}",
                                         style: const TextStyle(
@@ -768,7 +769,7 @@ class SubjectList extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(36)),
-                            color: const Color(0xfffff7e6)));
+                            color: const Color(0xffe6edf5)));
               }));
     });
   }

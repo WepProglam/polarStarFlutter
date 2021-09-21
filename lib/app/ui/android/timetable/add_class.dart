@@ -5,6 +5,7 @@ import 'package:polarstar_flutter/app/controller/timetable/timetable_addclass_co
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
+import 'package:polarstar_flutter/app/ui/android/board/functions/timetable_daytoindex.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/timetable.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
 
@@ -138,35 +139,42 @@ class TimetableAddClass extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(
-                // margin: const EdgeInsets.only(top: 12.5),
-                // height: 200,
-                // width: size.width,
-                child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  child: Container(
-                    height: 44 + 60.0 * 13,
+              ConstrainedBox(
+                constraints:
+                    BoxConstraints(maxHeight: size.height - 32 - 320 - 16),
+                child: Container(
+                  child: SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
                     child: Obx(() {
-                      print(timeTableAddClassController.CLASS_LIST.toString());
-                      return Stack(children: [
-                        TimeTableBin(
-                          timeTableController: timeTableController,
-                          width: size.width,
-                        ),
-                        TimeTableContent(
-                          timeTableController: timeTableController,
-                          width: size.width,
-                        ),
-                        //선택한 애들 띄우기
-                        for (Rx<AddClassModel> item
-                            in timeTableAddClassController.CLASS_LIST)
-                          Positioned(
-                            child: TimeTableAddClass(
-                              new_class: item,
+                      RxBool isExpandedHor = timeTableController.isExpandedHor;
+                      RxBool isExpandedVer = timeTableController.isExpandedVer;
+                      int dayAmount = isExpandedHor.value ? 7 : 5;
+                      int verAmount = isExpandedVer.value ? 14 : 10;
+                      return Container(
+                        height: 44 + 60.0 * (verAmount - 1),
+                        child: Stack(children: [
+                          TimeTableBin(
+                              timeTableController: timeTableController,
                               width: size.width,
-                            ),
-                          )
-                      ]);
+                              dayAmount: dayAmount,
+                              verAmount: verAmount),
+                          TimeTableContent(
+                              timeTableController: timeTableController,
+                              width: size.width,
+                              dayAmount: dayAmount,
+                              verAmount: verAmount),
+                          //선택한 애들 띄우기
+                          for (Rx<AddClassModel> item
+                              in timeTableAddClassController.CLASS_LIST)
+                            Positioned(
+                              child: TimeTableAddClass(
+                                  new_class: item,
+                                  width: size.width,
+                                  dayAmount: dayAmount,
+                                  verAmount: verAmount),
+                            )
+                        ]),
+                      );
                     }),
                   ),
                 ),
@@ -493,7 +501,7 @@ class ClassTrashCan extends StatelessWidget {
 }
 
 class SelectDay extends StatelessWidget {
-  const SelectDay({
+  SelectDay({
     Key key,
     @required this.newClass,
     @required this.days,
@@ -501,6 +509,7 @@ class SelectDay extends StatelessWidget {
 
   final Rx<AddClassModel> newClass;
   final List<String> days;
+  final TimeTableController timeTableController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -518,6 +527,9 @@ class SelectDay extends StatelessWidget {
           onChanged: (value) {
             newClass.update((val) {
               val.day = value;
+              if (getIndexFromDay(value) >= 5) {
+                timeTableController.isExpandedHor.value = true;
+              }
             });
           },
           items: days
@@ -533,12 +545,13 @@ class SelectDay extends StatelessWidget {
 }
 
 class SelectStartTime extends StatelessWidget {
-  const SelectStartTime({
+  SelectStartTime({
     Key key,
     @required this.newClass,
   }) : super(key: key);
 
   final Rx<AddClassModel> newClass;
+  final TimeTableController timeTableController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -551,6 +564,9 @@ class SelectStartTime extends StatelessWidget {
             start_time.day, start_time.hour, start_time.minute);
         DateTime end_time = newClass.value.end_time;
         bool flag = false;
+
+        int fastest = 9 * 60;
+        int lastest = 21 * 60;
 
         await Get.defaultDialog(
             content: Container(
@@ -565,6 +581,19 @@ class SelectStartTime extends StatelessWidget {
                 timeInput = dateTime;
               }),
         ));
+
+        int cal_time = timeInput.hour * 60 + timeInput.minute;
+        if (cal_time >= fastest && cal_time < lastest) {
+          timeInput = timeInput;
+        } else {
+          Get.snackbar("9시부터 21시 사이로 골라주세요", "9시부터 21시 사이로 골라주세요",
+              snackPosition: SnackPosition.BOTTOM);
+          return;
+        }
+
+        if (timeInput.hour >= 6) {
+          timeTableController.isExpandedVer.value = true;
+        }
         if (timeInput.isAfter(end_time) ||
             timeInput.isAtSameMomentAs(end_time)) {
           newClass.update((val) {
@@ -620,6 +649,9 @@ class SelectEndTime extends StatelessWidget {
             end_time.day, end_time.hour, end_time.minute);
 
         DateTime start_time = newClass.value.start_time;
+
+        int fastest = 9 * 60;
+        int lastest = 21 * 60;
         await Get.defaultDialog(
             content: Container(
           height: 200,
@@ -630,19 +662,19 @@ class SelectEndTime extends StatelessWidget {
               initialDateTime: newClass.value.end_time,
               minuteInterval: 5,
               onDateTimeChanged: (DateTime dateTime) {
-                // if (dateTime.isBefore(start_time)) {
-
-                //   if (dateTime.hour <= 9) {
-                //     self_flag = true;
-                //   } else {
-                //     other_flag = true;
-                //   }
-                // }
                 timeInput = dateTime;
               }),
         ));
-        print(timeInput);
-        print(start_time);
+
+        int cal_time = timeInput.hour * 60 + timeInput.minute;
+        if (cal_time > fastest && cal_time <= lastest) {
+          timeInput = timeInput;
+        } else {
+          Get.snackbar("9시부터 21시 사이로 골라주세요", "9시부터 21시 사이로 골라주세요",
+              snackPosition: SnackPosition.BOTTOM);
+          return;
+        }
+
         if (timeInput.isBefore(start_time) ||
             timeInput.isAtSameMomentAs(start_time)) {
           print(timeInput.isBefore(start_time));

@@ -163,7 +163,6 @@ class MainSearchBar extends StatelessWidget {
                   mainSearchController.searchText(text);
                   await mainSearchController.clearAll();
                   await mainSearchController.searchApi();
-                  FocusScope.of(context).unfocus();
                 },
                 maxLines: 1,
                 style: const TextStyle(

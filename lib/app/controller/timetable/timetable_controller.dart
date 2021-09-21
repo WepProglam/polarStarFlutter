@@ -18,6 +18,9 @@ class TimeTableController extends GetxController {
 
   bool visitedBin = false;
 
+  RxBool isExpandedHor = false.obs;
+  RxBool isExpandedVer = false.obs;
+
   // 학기별 시간표 간략 정보 리스트
   RxMap<String, RxList<Rx<TimeTableModel>>> otherTable =
       <String, RxList<Rx<TimeTableModel>>>{}.obs;
@@ -68,18 +71,18 @@ class TimeTableController extends GetxController {
   // RxString createTimeTableSemester ="".obs;
 
   final List<Color> colorList = [
-    Color(0xfff78773),
-    Color(0xfff0c26c),
-    Color(0xffadc972),
-    Color(0xff7ba5ef),
-    Color(0xff9c87e6),
-    Colors.black,
-    Colors.orangeAccent,
-    Colors.cyan
+    Colors.lightBlue[300],
+    Colors.lightBlue[400],
+    Colors.lightBlue,
+    Colors.lightBlue[600],
+    Colors.lightBlue[700],
+    Colors.lightBlue[800],
+    Colors.lightBlue[900],
   ];
 
   void makeShowTimeTable() {
     int colorIndex = 0;
+    isExpandedVer.value = false;
     for (var item in selectTable.value.CLASSES) {
       for (var detail in item.classes) {
         int day_index = getIndexFromDay(detail.day);
@@ -88,6 +91,10 @@ class TimeTableController extends GetxController {
 
         DateTime end = detail.end_time;
         int endTime = end.hour * 60 + end.minute;
+
+        if (checkVerExpand(endTime)) {
+          isExpandedVer.value = true;
+        }
 
         showTimeTable[day_index].add({
           "start_time": startTime,
@@ -98,6 +105,27 @@ class TimeTableController extends GetxController {
       }
       colorIndex += 1;
     }
+
+    isExpandedHor.value = checkHorExpand();
+  }
+
+  bool checkHorExpand() {
+    print("checkHor Expaned");
+    if (showTimeTable[5].length == 0 && showTimeTable[6].length == 0) {
+      return false;
+    }
+    print(showTimeTable[5]);
+    return true;
+  }
+
+  bool checkVerExpand(int endTime) {
+    print("checkVer Expaned");
+
+    if (endTime > 18 * 60) {
+      print(endTime);
+      return true;
+    }
+    return false;
   }
 
   void initShowTimeTable() {
@@ -296,6 +324,15 @@ class TimeTableController extends GetxController {
       initShowTimeTable();
       makeShowTimeTable();
     }
+
+    ever(isExpandedHor, (_) {
+      print(isExpandedHor.value);
+      print("변경");
+    });
+
+    ever(isExpandedVer, (_) {
+      print("======================");
+    });
 
     ever(selectedTimeTableId, (_) async {
       print("인덱스 변경 ${selectedTimeTableId.value}");

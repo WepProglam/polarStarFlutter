@@ -1,34 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/timetable_daytoindex.dart';
-import 'package:polarstar_flutter/session.dart';
 
 class TimeTableBin extends StatelessWidget {
   const TimeTableBin(
-      {Key key, @required this.timeTableController, @required this.width})
+      {Key key,
+      @required this.timeTableController,
+      @required this.width,
+      @required this.dayAmount,
+      @required this.verAmount})
       : super(key: key);
 
   final TimeTableController timeTableController;
   final double width;
+  final int dayAmount;
+  final int verAmount;
 
   @override
   Widget build(BuildContext context) {
-    final List<String> days = [
-      "Mon.",
-      "Tues.",
-      "Wed.",
-      "Thur.",
-      "Fri.",
-      "Sat.",
-      "Sun."
-    ];
+    List<String> days = dayAmount == 7
+        ? ["Mon.", "Tues.", "Wed.", "Thur.", "Fri.", "Sat.", "Sun."]
+        : ["Mon.", "Tues.", "Wed.", "Thur.", "Fri."];
     return Container(
       child: ListView.builder(
-          itemCount: 14,
+          itemCount: verAmount,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
             if (index == 0) {
@@ -45,7 +43,7 @@ class TimeTableBin extends StatelessWidget {
               return Container(
                 height: 60,
                 child: ListView.builder(
-                    itemCount: 8,
+                    itemCount: dayAmount + 1,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int i) {
                       if (i == 0) {
@@ -65,7 +63,7 @@ class TimeTableBin extends StatelessWidget {
                         );
                       } else {
                         return Container(
-                          width: (width * (11 / 12)) / 7,
+                          width: (width * (11 / 12)) / dayAmount,
                           decoration: innerTableBoxDecoration,
                         );
                       }
@@ -79,11 +77,17 @@ class TimeTableBin extends StatelessWidget {
 
 class TimeTableAddClass extends StatelessWidget {
   const TimeTableAddClass(
-      {Key key, @required this.new_class, @required this.width})
+      {Key key,
+      @required this.new_class,
+      @required this.width,
+      @required this.dayAmount,
+      @required this.verAmount})
       : super(key: key);
 
   final Rx<AddClassModel> new_class;
   final double width;
+  final int dayAmount;
+  final int verAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -106,14 +110,14 @@ class TimeTableAddClass extends StatelessWidget {
             return Opacity(
               opacity: 0.5,
               child: Container(
-                width: (width * 11 / 12) / 7,
+                width: (width * 11 / 12) / dayAmount,
                 height: (end_time - start_time) * 1.0,
                 decoration: contentTableBoxDecoration(Colors.black),
                 margin: EdgeInsets.only(
                     top: (start_time - last_end_time) * 1.0,
                     left: getIndexFromDay(new_class.value.day) *
                         (width * 11 / 12) /
-                        7),
+                        dayAmount),
               ),
             );
           }),
@@ -123,11 +127,17 @@ class TimeTableAddClass extends StatelessWidget {
 
 class TimeTableContent extends StatelessWidget {
   const TimeTableContent(
-      {Key key, @required this.timeTableController, @required this.width})
+      {Key key,
+      @required this.timeTableController,
+      @required this.width,
+      @required this.dayAmount,
+      @required this.verAmount})
       : super(key: key);
 
   final TimeTableController timeTableController;
   final double width;
+  final int dayAmount;
+  final int verAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -135,21 +145,20 @@ class TimeTableContent extends StatelessWidget {
       width: width * 11 / 12,
       margin: EdgeInsets.only(top: 44, left: width / 12),
       child: ListView.builder(
-          itemCount: 7,
+          itemCount: dayAmount,
           scrollDirection: Axis.horizontal,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
             int last_end_time = 60 * 9;
-
             return Container(
-                width: (width * 11 / 12) / 7,
+                width: (width * 11 / 12) / dayAmount,
                 child: Obx(() {
                   return Stack(
                     children: [
                       for (var item in timeTableController.showTimeTable[index])
                         Positioned(
                           top: (item["start_time"] - last_end_time) * 1.0,
-                          width: (width * 11 / 12) / 7,
+                          width: (width * 11 / 12) / dayAmount,
                           child: TimeTableItem(
                             classItem: item,
                             classItemModel: item["classInfo"],
@@ -388,7 +397,7 @@ class TimeTableDays extends StatelessWidget {
         Container(
           width: width,
           child: ListView.builder(
-              itemCount: 8,
+              itemCount: days.length + 1,
               scrollDirection: Axis.horizontal,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (BuildContext context, int i) {
@@ -399,7 +408,7 @@ class TimeTableDays extends StatelessWidget {
                   );
                 } else {
                   return Container(
-                    width: (width * (11 / 12)) / 7,
+                    width: (width * (11 / 12)) / days.length,
                     decoration: tableBoxDecoration,
                     child: Center(
                       child: Text(
