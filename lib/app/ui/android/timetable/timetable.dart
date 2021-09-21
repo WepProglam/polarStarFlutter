@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
+import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/timetable.dart';
 
@@ -30,24 +31,28 @@ class Timetable extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 28,
-                        child: TopIcon(
-                          timeTableController: timeTableController,
-                        ),
-                      ),
+                          height: 28,
+                          child: TopIcon(
+                              timeTableController: timeTableController,
+                              selectedModel: timeTableController.selectTable)),
                       Container(
                         height: 18.5,
                         margin: const EdgeInsets.only(top: 3.5),
-                        child: FittedBox(
-                          child: Text("${timeTableController.yearSem}",
-                              style: const TextStyle(
-                                  color: const Color(0xff333333),
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "PingFangSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14.0),
-                              textAlign: TextAlign.left),
-                        ),
+                        child: Obx(() {
+                          print(
+                              "${timeTableController.selectTable.value.SEMESTER}학기");
+                          return FittedBox(
+                            child: Text(
+                                "${timeTableController.selectTable.value.YEAR}년 ${timeTableController.selectTable.value.SEMESTER}학기",
+                                style: const TextStyle(
+                                    color: const Color(0xff333333),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                textAlign: TextAlign.left),
+                          );
+                        }),
                       )
                     ]),
               )),

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -156,13 +157,14 @@ class TimeTableController extends GetxController {
           otherTable["${YEAR}년 ${SEMESTER}학기"]
               .sort((a, b) => b.value.IS_DEFAULT.compareTo(a.value.IS_DEFAULT));
 
-          selectTable = jsonResponse["defaultTable"];
+          selectedTimeTableId.value =
+              jsonResponse["defaultTable"].value.TIMETABLE_ID;
 
-          selectedTimeTableId.value = selectTable.value.TIMETABLE_ID;
-
-          defaultTableList["${YEAR}년 ${SEMESTER}학기"] = selectTable;
+          defaultTableList["${YEAR}년 ${SEMESTER}학기"] =
+              jsonResponse["defaultTable"];
 
           selectTableList.add(jsonResponse["defaultTable"].value);
+          selectTable.value = jsonResponse["defaultTable"].value;
 
           dataAvailable(true);
           break;
@@ -170,14 +172,15 @@ class TimeTableController extends GetxController {
           dataAvailable(false);
           printError(info: "Data Fetch ERROR!!");
       }
-    } else {
-      dataAvailable(false);
-
-      selectTable = defaultTableList["${YEAR}년 ${SEMESTER}학기"];
-      selectedTimeTableId.value = selectTable.value.TIMETABLE_ID;
-
-      dataAvailable(true);
     }
+    // else {
+    //   print("${YEAR}년 ${SEMESTER}학기");
+    //   // selectTable.value = defaultTableList["${YEAR}년 ${SEMESTER}학기"].value;
+    //   selectedTimeTableId.value =
+    //       defaultTableList["${YEAR}년 ${SEMESTER}학기"].value.TIMETABLE_ID;
+    //   print("asdfasdfasdf");
+    //   dataAvailable(true);
+    // }
   }
 
   Future getTimeTable(int TIMETABLE_ID) async {
@@ -188,7 +191,6 @@ class TimeTableController extends GetxController {
 
     switch (jsonResponse["statusCode"]) {
       case 200:
-        selectTable.value = jsonResponse["selectTable"].value;
         selectTableList.add(jsonResponse["selectTable"].value);
         dataAvailable(true);
         break;
@@ -196,6 +198,12 @@ class TimeTableController extends GetxController {
         dataAvailable(false);
         printError(info: "Data Fetch ERROR!!");
     }
+  }
+
+  Future<int> deleteClass(int TIMETABLE_ID, String class_name) async {
+    Response<dynamic> response = await Session()
+        .deleteX("/timetable/tid/${TIMETABLE_ID}?className=${class_name}");
+    return response.statusCode;
   }
 
   bool need_download_semester(String YEAR, String SEMESTER) {
@@ -296,8 +304,17 @@ class TimeTableController extends GetxController {
         print("need Download ${selectedTimeTableId.value}!");
         await getTimeTable(selectedTimeTableId.value);
       }
+
+      for (var item in selectTableList) {
+        if (item.TIMETABLE_ID == selectedTimeTableId.value) {
+          selectTable.value = item;
+          break;
+        }
+      }
       initShowTimeTable();
       makeShowTimeTable();
+
+      print(selectTable.value.SEMESTER);
     });
   }
 

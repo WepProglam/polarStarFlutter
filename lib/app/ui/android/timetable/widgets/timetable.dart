@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
+import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/timetable_daytoindex.dart';
+import 'package:polarstar_flutter/session.dart';
 
 class TimeTableBin extends StatelessWidget {
   const TimeTableBin(
@@ -136,18 +139,23 @@ class TimeTableContent extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
+            int last_end_time = 60 * 9;
+
             return Container(
                 width: (width * 11 / 12) / 7,
                 child: Obx(() {
-                  int last_end_time = 60 * 9;
-
                   return Stack(
                     children: [
                       for (var item in timeTableController.showTimeTable[index])
-                        TimeTableItem(
-                          classItem: item,
-                          classItemModel: item["classInfo"],
-                          curEndTime: last_end_time,
+                        Positioned(
+                          top: (item["start_time"] - last_end_time) * 1.0,
+                          width: (width * 11 / 12) / 7,
+                          child: TimeTableItem(
+                            classItem: item,
+                            classItemModel: item["classInfo"],
+                            curEndTime: last_end_time,
+                            timeTableController: timeTableController,
+                          ),
                         )
                     ],
                   );
@@ -158,34 +166,205 @@ class TimeTableContent extends StatelessWidget {
 }
 
 class TimeTableItem extends StatelessWidget {
-  const TimeTableItem({
-    Key key,
-    @required this.classItem,
-    @required this.curEndTime,
-    @required this.classItemModel,
-  }) : super(key: key);
+  const TimeTableItem(
+      {Key key,
+      @required this.classItem,
+      @required this.curEndTime,
+      @required this.classItemModel,
+      @required this.timeTableController})
+      : super(key: key);
 
   final Map classItem;
   final int curEndTime;
   final TimeTableClassModel classItemModel;
+  final TimeTableController timeTableController;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: (classItem["end_time"] - classItem["start_time"]) * 1.0,
-      decoration: contentTableBoxDecoration(classItem["color"]),
-      margin:
-          EdgeInsets.only(top: (classItem["start_time"] - curEndTime) * 1.0),
-      child: Center(
-        child: Text(
-          "${classItemModel.className}",
-          maxLines: 3,
-          style: const TextStyle(
-              color: const Color(0xffffffff),
-              fontWeight: FontWeight.w900,
-              fontFamily: "PingFangSC",
-              fontStyle: FontStyle.normal,
-              fontSize: 14.0),
+    return Ink(
+      child: InkWell(
+        onTap: () {
+          List<String> times = classItemModel.classes
+              .map((e) =>
+                  "${e.day} ${timeFormatter(e.start_time)}~${timeFormatter(e.end_time)}\n")
+              .toList();
+
+          String timeString = "";
+          for (String item in times) {
+            timeString += item;
+          }
+          Get.defaultDialog(
+              contentPadding: EdgeInsets.zero,
+              titlePadding: EdgeInsets.zero,
+              title: "",
+              content: Container(
+                // height: 300,
+                width: 300,
+                color: Colors.white,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                  color: classItem["color"],
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(left: 10),
+                              child: Container(
+                                child: Text("${classItemModel.className}"),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 40),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 20,
+                              width: 20,
+                              child: Icon(Icons.person),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: Container(
+                                child: Text("${classItemModel.professor}"),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 20,
+                              width: 20,
+                              child: Icon(Icons.lock_clock),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: Container(
+                                // width: 300 - 30.0 - 40,
+                                child: FittedBox(
+                                  child: Text(
+                                    "${timeString}",
+                                    maxLines: 2,
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 20,
+                              width: 20,
+                              child: Icon(Icons.location_city),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: Container(
+                                child: FittedBox(
+                                  child: Text(
+                                    "${classItemModel.classNumber}",
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 20, bottom: 10),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 20,
+                              width: 20,
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ),
+                            ),
+                            Ink(
+                              child: InkWell(
+                                onTap: () async {
+                                  var statusCode =
+                                      await timeTableController.deleteClass(
+                                          timeTableController
+                                              .selectTable.value.TIMETABLE_ID,
+                                          classItemModel.className);
+                                  switch (statusCode) {
+                                    case 200:
+                                      timeTableController.selectTable
+                                          .update((val) {
+                                        val.CLASSES.removeWhere((element) =>
+                                            element.className ==
+                                            classItemModel.className);
+                                      });
+
+                                      timeTableController.initShowTimeTable();
+                                      timeTableController.makeShowTimeTable();
+
+                                      break;
+                                    default:
+                                  }
+
+                                  Get.back();
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(left: 20),
+                                  child: Container(
+                                    child: FittedBox(
+                                      child: Text(
+                                        "삭제",
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ));
+        },
+        child: Container(
+          height: (classItem["end_time"] - classItem["start_time"]) * 1.0,
+          decoration: contentTableBoxDecoration(classItem["color"]),
+          // margin: EdgeInsets.only(
+          //     top: (classItem["start_time"] - curEndTime) * 1.0),
+          child: Center(
+            child: Text(
+              "${classItemModel.className}",
+              maxLines: 3,
+              style: const TextStyle(
+                  color: const Color(0xffffffff),
+                  fontWeight: FontWeight.w900,
+                  fontFamily: "PingFangSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
+            ),
+          ),
         ),
       ),
     );

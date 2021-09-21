@@ -7,8 +7,10 @@ import 'package:polarstar_flutter/session.dart';
 
 class TopIcon extends StatelessWidget {
   final TimeTableController timeTableController;
-  TopIcon({Key key, this.timeTableController}) : super(key: key);
+  TopIcon({Key key, this.timeTableController, this.selectedModel})
+      : super(key: key);
   final courseNameController = TextEditingController();
+  Rx<SelectedTimeTableModel> selectedModel;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -18,7 +20,6 @@ class TopIcon extends StatelessWidget {
             for (var item in timeTableController.selectYearSemester) {
               print(item.value.NAME);
             }
-            print(timeTableController.selectYearSemester.length);
 
             Get.defaultDialog(
                 title: "학기 선택",
@@ -36,14 +37,15 @@ class TopIcon extends StatelessWidget {
 
                           return InkWell(
                             onTap: () async {
-                              timeTableController.yearSemesterIndex.value =
-                                  index;
-                              Get.back();
                               await timeTableController.getSemesterTimeTable(
                                   timeTableController
                                       .selectYearSemester[index].value.YEAR,
                                   timeTableController.selectYearSemester[index]
                                       .value.SEMESTER);
+                              timeTableController.selectedTimeTableId.value =
+                                  timeTableController.selectYearSemester[index]
+                                      .value.TIMETABLE_ID;
+                              Get.back();
                             },
                             child: Container(
                                 height: 40,
@@ -82,8 +84,7 @@ class TopIcon extends StatelessWidget {
                   Container(
                     height: 28,
                     child: FittedBox(
-                      child: Text(
-                          "${timeTableController.selectTable.value.NAME}",
+                      child: Text("${selectedModel.value.NAME}",
                           style: const TextStyle(
                               color: const Color(0xff333333),
                               fontWeight: FontWeight.w700,
@@ -420,10 +421,7 @@ class TopIcon extends StatelessWidget {
                                     String yearSem =
                                         timeTableController.yearSem;
 
-                                    print(timeTableController
-                                        .selectTable.value.TIMETABLE_ID);
-                                    print(timeTableController
-                                        .selectTable.value.NAME);
+                                    print(yearSem);
 
                                     //시간표 하나일때 삭제 방지
                                     if (timeTableController
@@ -451,14 +449,13 @@ class TopIcon extends StatelessWidget {
                                     }
 
                                     await Session().deleteX(
-                                        "/timetable/table/tid/${timeTableController.selectTable.value.TIMETABLE_ID}");
+                                        "/timetable/table/tid/${selectedModel.value.TIMETABLE_ID}");
 
                                     //other에서 삭제
                                     timeTableController.otherTable["${yearSem}"]
                                         .removeWhere((element) =>
                                             element.value.TIMETABLE_ID ==
-                                            timeTableController.selectTable
-                                                .value.TIMETABLE_ID);
+                                            selectedModel.value.TIMETABLE_ID);
 
                                     //디폴트를 SELECTED로 설정
                                     timeTableController
@@ -626,52 +623,56 @@ class TableList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(timeTableController.selectedTimeTableId.value);
-    return Container(child: Obx(() {
-      return ListView.builder(
-          itemCount: timeTableController
-              .otherTable["${timeTableController.yearSem}"].length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context, int index) {
-            TimeTableModel model = timeTableController
-                .otherTable["${timeTableController.yearSem}"][index].value;
-            return // 사각형 526
-                Obx(() {
-              return Container(
-                  width: 90,
-                  height: 44,
-                  margin: const EdgeInsets.only(right: 10),
-                  child: InkWell(
-                    onTap: () {
-                      timeTableController.selectedTimeTableId.value =
-                          model.TIMETABLE_ID;
-                    },
-                    child: Center(
-                      // margin: const EdgeInsets.fromLTRB(6.5, 12.5, 5.5, 13),
-                      child: Text(
-                          "${timeTableController.otherTable["${timeTableController.yearSem}"][index].value.NAME}",
-                          maxLines: 1,
-                          style: TextStyle(
-                              color: model.TIMETABLE_ID ==
-                                      timeTableController
-                                          .selectedTimeTableId.value
-                                  ? Color(0xffffffff)
-                                  : Color(0xff1a4678),
-                              fontWeight: FontWeight.w700,
-                              fontFamily: "PingFangSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          textAlign: TextAlign.left),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      color: model.TIMETABLE_ID ==
-                              timeTableController.selectedTimeTableId.value
-                          ? Color(0xff1a4678)
-                          : Color(0xffebf4ff)));
-            });
-          });
-    }));
+    return Container(
+      child: Obx(
+        () {
+          return ListView.builder(
+              itemCount: timeTableController
+                  .otherTable["${timeTableController.yearSem}"].length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index) {
+                TimeTableModel model = timeTableController
+                    .otherTable["${timeTableController.yearSem}"][index].value;
+                return // 사각형 526
+                    Obx(() {
+                  return Container(
+                      width: 90,
+                      height: 44,
+                      margin: const EdgeInsets.only(right: 10),
+                      child: InkWell(
+                        onTap: () {
+                          timeTableController.selectedTimeTableId.value =
+                              model.TIMETABLE_ID;
+                        },
+                        child: Center(
+                          // margin: const EdgeInsets.fromLTRB(6.5, 12.5, 5.5, 13),
+                          child: Text(
+                              "${timeTableController.otherTable["${timeTableController.yearSem}"][index].value.NAME}",
+                              maxLines: 1,
+                              style: TextStyle(
+                                  color: model.TIMETABLE_ID ==
+                                          timeTableController
+                                              .selectedTimeTableId.value
+                                      ? Color(0xffffffff)
+                                      : Color(0xff1a4678),
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: "PingFangSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14.0),
+                              textAlign: TextAlign.left),
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          color: model.TIMETABLE_ID ==
+                                  timeTableController.selectedTimeTableId.value
+                              ? Color(0xff1a4678)
+                              : Color(0xffebf4ff)));
+                });
+              });
+        },
+      ),
+    );
   }
 }
 
