@@ -70,13 +70,18 @@ class TimeTableAddClassController extends GetxController {
           if (new_item.value.day != item.day) {
             continue;
           }
-          bool afterClass =
-              (new_item.value.start_time.isAfter(item.start_time) &&
-                  new_item.value.start_time.isAfter(item.end_time));
+          bool afterClass = ((new_item.value.start_time
+                      .isAfter(item.start_time) ||
+                  new_item.value.start_time
+                      .isAtSameMomentAs(item.start_time)) &&
+              (new_item.value.start_time.isAfter(item.end_time) ||
+                  new_item.value.start_time.isAtSameMomentAs(item.end_time)));
 
-          bool beforeClass =
-              (new_item.value.end_time.isBefore(item.start_time) &&
-                  new_item.value.end_time.isBefore(item.end_time));
+          bool beforeClass = ((new_item.value.end_time
+                      .isBefore(item.start_time) ||
+                  new_item.value.end_time.isAtSameMomentAs(item.start_time)) &&
+              (new_item.value.end_time.isBefore(item.end_time) ||
+                  new_item.value.end_time.isAtSameMomentAs(item.end_time)));
 
           bool innerCheck =
               new_item.value.start_time.isBefore(new_item.value.end_time);

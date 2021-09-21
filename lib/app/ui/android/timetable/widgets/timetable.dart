@@ -141,44 +141,53 @@ class TimeTableContent extends StatelessWidget {
                 child: Obx(() {
                   int last_end_time = 60 * 9;
 
-                  return ListView.builder(
-                      itemCount:
-                          timeTableController.showTimeTable[index].length,
-                      physics: NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (BuildContext context, int i) {
-                        int curEndTime = last_end_time;
-                        Map classItem =
-                            timeTableController.showTimeTable[index][i];
-                        TimeTableClassModel classItemModel =
-                            classItem["classInfo"];
-
-                        last_end_time = classItem["end_time"];
-                        return Container(
-                          height: (classItem["end_time"] -
-                                  classItem["start_time"]) *
-                              1.0,
-                          decoration:
-                              contentTableBoxDecoration(classItem["color"]),
-                          margin: EdgeInsets.only(
-                              top:
-                                  (classItem["start_time"] - curEndTime) * 1.0),
-                          child: Center(
-                            child: Text(
-                              "${classItemModel.className}",
-                              maxLines: 3,
-                              style: const TextStyle(
-                                  color: const Color(0xffffffff),
-                                  fontWeight: FontWeight.w900,
-                                  fontFamily: "PingFangSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14.0),
-                            ),
-                          ),
-                        );
-                      });
+                  return Stack(
+                    children: [
+                      for (var item in timeTableController.showTimeTable[index])
+                        TimeTableItem(
+                          classItem: item,
+                          classItemModel: item["classInfo"],
+                          curEndTime: last_end_time,
+                        )
+                    ],
+                  );
                 }));
           }),
+    );
+  }
+}
+
+class TimeTableItem extends StatelessWidget {
+  const TimeTableItem({
+    Key key,
+    @required this.classItem,
+    @required this.curEndTime,
+    @required this.classItemModel,
+  }) : super(key: key);
+
+  final Map classItem;
+  final int curEndTime;
+  final TimeTableClassModel classItemModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: (classItem["end_time"] - classItem["start_time"]) * 1.0,
+      decoration: contentTableBoxDecoration(classItem["color"]),
+      margin:
+          EdgeInsets.only(top: (classItem["start_time"] - curEndTime) * 1.0),
+      child: Center(
+        child: Text(
+          "${classItemModel.className}",
+          maxLines: 3,
+          style: const TextStyle(
+              color: const Color(0xffffffff),
+              fontWeight: FontWeight.w900,
+              fontFamily: "PingFangSC",
+              fontStyle: FontStyle.normal,
+              fontSize: 14.0),
+        ),
+      ),
     );
   }
 }
