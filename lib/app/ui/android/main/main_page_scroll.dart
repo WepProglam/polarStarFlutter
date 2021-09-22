@@ -107,7 +107,7 @@ class MainPageScroll extends StatelessWidget {
             CustomBottomNavigationBar(mainController: mainController),
         body: Obx(() {
           if (!mainController.dataAvailalbe) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           } else {
             return Container(
               height: size.height,

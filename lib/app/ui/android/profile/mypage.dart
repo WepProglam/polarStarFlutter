@@ -55,44 +55,48 @@ class Mypage extends StatelessWidget {
                       ];
 
                       return PageView.builder(
+                          allowImplicitScrolling: true,
                           controller: myPageController.pageController,
                           onPageChanged: (value) {
                             myPageController.profilePostIndex.value = value;
                           },
                           itemCount: 3,
                           itemBuilder: (BuildContext context, int index) {
-                            if (dataAvailable[
-                                myPageController.profilePostIndex.value]) {
-                              return Obx(() {
-                                return RefreshIndicator(
-                                  onRefresh: () async {
-                                    switch (index) {
-                                      case 0:
-                                        await myPageController.getMineWrite();
-                                        break;
-                                      case 1:
-                                        await myPageController.getMineLike();
-                                        break;
-                                      case 2:
-                                        await myPageController.getMineScrap();
-                                        break;
-                                      default:
-                                    }
-                                    return true;
-                                  },
-                                  child: ListView.builder(
-                                      itemCount: userPost[index].length,
-                                      itemBuilder:
-                                          (BuildContext context, int i) {
-                                        return PostPreview(
-                                          item: userPost[index][i],
-                                        );
-                                      }),
-                                );
-                              });
-                            } else {
-                              return Center(child: CircularProgressIndicator());
-                            }
+                            return RefreshIndicator(
+                              onRefresh: () async {
+                                switch (index) {
+                                  case 0:
+                                    await myPageController.getMineWrite();
+                                    break;
+                                  case 1:
+                                    await myPageController.getMineLike();
+                                    break;
+                                  case 2:
+                                    await myPageController.getMineScrap();
+                                    break;
+                                  default:
+                                }
+                                return true;
+                              },
+                              child: Builder(
+                                builder: (BuildContext context) {
+                                  if (dataAvailable[myPageController
+                                      .profilePostIndex.value]) {
+                                    return ListView.builder(
+                                        itemCount: userPost[index].length,
+                                        itemBuilder:
+                                            (BuildContext context, int i) {
+                                          return PostPreview(
+                                            item: userPost[index][i],
+                                          );
+                                        });
+                                  } else {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                },
+                              ),
+                            );
                           });
                     }))
                   ],
@@ -122,90 +126,123 @@ class MyPageProfilePostIndex extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        margin: EdgeInsets.only(top: 14),
-                        child: Text("Posted",
-                            style: TextStyle(
-                                color:
-                                    myPageController.profilePostIndex.value == 0
+              Ink(
+                child: InkWell(
+                  onTap: () {
+                    myPageController.profilePostIndex.value = 0;
+                    myPageController.pageController.jumpToPage(0);
+                  },
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(top: 14),
+                            child: Text("Posted",
+                                style: TextStyle(
+                                    color: myPageController
+                                                .profilePostIndex.value ==
+                                            0
                                         ? Color(0xff1a4678)
                                         : Color(0xff666666),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 18.0),
-                            textAlign: TextAlign.left)),
-                    Container(
-                        margin: EdgeInsets.only(top: 14),
-                        width: 46.5,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(3)),
-                          color: myPageController.profilePostIndex.value == 0
-                              ? Color(0xff1a4678)
-                              : Color(0xffffffff),
-                        ))
-                  ]),
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        margin: EdgeInsets.only(left: 68.5, top: 14),
-                        child: Text("Scraped",
-                            style: TextStyle(
-                                color:
-                                    myPageController.profilePostIndex.value == 1
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 18.0),
+                                textAlign: TextAlign.left)),
+                        Container(
+                            margin: EdgeInsets.only(top: 14),
+                            width: 46.5,
+                            height: 3,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(3)),
+                              color:
+                                  myPageController.profilePostIndex.value == 0
+                                      ? Color(0xff1a4678)
+                                      : Color(0xffffffff),
+                            ))
+                      ]),
+                ),
+              ),
+              Ink(
+                child: InkWell(
+                  onTap: () {
+                    myPageController.profilePostIndex.value = 1;
+                    myPageController.pageController.jumpToPage(1);
+                  },
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(left: 68.5, top: 14),
+                            child: Text("Scraped",
+                                style: TextStyle(
+                                    color: myPageController
+                                                .profilePostIndex.value ==
+                                            1
                                         ? Color(0xff1a4678)
                                         : Color(0xff666666),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 18.0),
-                            textAlign: TextAlign.left)),
-                    Container(
-                        margin: EdgeInsets.only(left: 68.5, top: 14),
-                        width: 46.5,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(3)),
-                          color: myPageController.profilePostIndex.value == 1
-                              ? Color(0xff1a4678)
-                              : Color(0xffffffff),
-                        ))
-                  ]),
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        margin: EdgeInsets.only(left: 71, top: 14),
-                        child: Text("Liked",
-                            style: TextStyle(
-                                color:
-                                    myPageController.profilePostIndex.value == 2
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 18.0),
+                                textAlign: TextAlign.left)),
+                        Container(
+                            margin: EdgeInsets.only(left: 68.5, top: 14),
+                            width: 46.5,
+                            height: 3,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(3)),
+                              color:
+                                  myPageController.profilePostIndex.value == 1
+                                      ? Color(0xff1a4678)
+                                      : Color(0xffffffff),
+                            ))
+                      ]),
+                ),
+              ),
+              Ink(
+                child: InkWell(
+                  onTap: () {
+                    myPageController.profilePostIndex.value = 2;
+                    myPageController.pageController.jumpToPage(2);
+                  },
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(left: 71, top: 14),
+                            child: Text("Liked",
+                                style: TextStyle(
+                                    color: myPageController
+                                                .profilePostIndex.value ==
+                                            2
                                         ? Color(0xff1a4678)
                                         : Color(0xff666666),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 18.0),
-                            textAlign: TextAlign.left)),
-                    Container(
-                        margin: EdgeInsets.only(left: 71, top: 14),
-                        width: 46.5,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(3)),
-                          color: myPageController.profilePostIndex.value == 2
-                              ? Color(0xff1a4678)
-                              : Color(0xffffffff),
-                        ))
-                  ])
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 18.0),
+                                textAlign: TextAlign.left)),
+                        Container(
+                            margin: EdgeInsets.only(left: 71, top: 14),
+                            width: 46.5,
+                            height: 3,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(3)),
+                              color:
+                                  myPageController.profilePostIndex.value == 2
+                                      ? Color(0xff1a4678)
+                                      : Color(0xffffffff),
+                            ))
+                      ]),
+                ),
+              )
             ],
           ));
     });

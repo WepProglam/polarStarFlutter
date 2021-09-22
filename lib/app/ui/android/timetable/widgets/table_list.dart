@@ -641,6 +641,7 @@ class TableList extends StatelessWidget {
                       margin: const EdgeInsets.only(right: 10),
                       child: InkWell(
                         onTap: () {
+                          timeTableController.scrollController.jumpTo(0.0);
                           timeTableController.selectedTimeTableId.value =
                               model.TIMETABLE_ID;
                         },

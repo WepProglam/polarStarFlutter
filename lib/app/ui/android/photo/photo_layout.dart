@@ -19,21 +19,27 @@ class PhotoLayout extends StatelessWidget {
       height: 110,
       margin: EdgeInsets.symmetric(vertical: 5.6),
       child: ListView.builder(
+          cacheExtent: 10,
           scrollDirection: Axis.horizontal,
           itemCount: model.PHOTO.length,
           itemBuilder: (BuildContext context, int index) {
             return CachedNetworkImage(
                 imageUrl: "${model.PHOTO[index]}",
-                // fadeInDuration: Duration(milliseconds: 0),
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    Container(
+                // progressIndicatorBuilder: (context, url, downloadProgress) =>
+                //     Container(
+                //       margin: EdgeInsets.only(right: 4.2),
+                //       width: 110,
+                //       height: 110,
+                //       color: Colors.lightBlue[50],
+                //       // child: Image(
+                //       //     image: AssetImage(
+                //       //         'assets/images/photo_placeholder.jpg')),
+                //     ),
+                placeholder: (context, url) => Container(
                       margin: EdgeInsets.only(right: 4.2),
                       width: 110,
                       height: 110,
-                      color: Colors.white,
-                      // child: Image(
-                      //     image: AssetImage(
-                      //         'assets/images/photo_placeholder.jpg')),
+                      color: Colors.lightBlue[50],
                     ),
                 errorWidget: (context, url, error) {
                   print(error);

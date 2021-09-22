@@ -15,7 +15,8 @@ class TimeTableController extends GetxController {
   TimeTableController({@required this.repository});
 
   final dataAvailable = false.obs;
-
+  final ScrollController scrollController =
+      ScrollController(initialScrollOffset: 0.0);
   bool visitedBin = false;
 
   RxBool isExpandedHor = false.obs;

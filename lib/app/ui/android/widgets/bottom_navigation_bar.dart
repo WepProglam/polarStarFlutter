@@ -2,14 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
-  const CustomBottomNavigationBar({
+  CustomBottomNavigationBar({
     Key key,
     @required this.mainController,
   }) : super(key: key);
 
   final MainController mainController;
+  final MyPageController myPageController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
         selectedItemColor: Colors.amber[800],
         onTap: (index) async {
           mainController.mainPageIndex.value = index;
+          myPageController.profilePostIndex.value = 0;
         },
       );
     });
