@@ -138,7 +138,7 @@ class Profile extends StatelessWidget {
                                                 MainAxisAlignment.center,
                                             children: [
                                           Text(
-                                              '${myPageController.myProfile.value.LOGIN_ID}',
+                                              '${myPageController.myProfile.value.PROFILE_NICKNAME}',
                                               style: const TextStyle(
                                                   color:
                                                       const Color(0xff333333),
@@ -147,15 +147,18 @@ class Profile extends StatelessWidget {
                                                   fontStyle: FontStyle.normal,
                                                   fontSize: 21.0),
                                               textAlign: TextAlign.center),
-                                          InkWell(
-                                            child: Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 10.3),
-                                                child: Image.asset(
-                                                    "assets/images/934.png",
-                                                    width: 15.3,
-                                                    height: 16.8)),
-                                            onTap: () => {},
+                                          Container(
+                                            margin: EdgeInsets.only(left: 10.3),
+                                            child: InkWell(
+                                              child: Image.asset(
+                                                  "assets/images/934.png",
+                                                  width: 15.3,
+                                                  height: 16.8),
+                                              onTap: () => {
+                                                FlutterDialog(
+                                                    context, myPageController)
+                                              },
+                                            ),
                                           )
                                         ])),
                               )
@@ -274,7 +277,7 @@ class Profile extends StatelessWidget {
                                                   fontFamily: "PingFangSC",
                                                   fontStyle: FontStyle.normal,
                                                   fontSize: 16.0),
-                                              textAlign: TextAlign.left)))
+                                              textAlign: TextAlign.left))),
                                 ])),
                             Container(
                                 height: 54.6,
@@ -311,6 +314,80 @@ class Profile extends StatelessWidget {
                                                   fontStyle: FontStyle.normal,
                                                   fontSize: 16.0),
                                               textAlign: TextAlign.left)))
+                                ])),
+                            Container(
+                                height: 54.6,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: const Color(0xffdedede),
+                                            width: 1))),
+                                child: Stack(children: [
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                          margin: EdgeInsets.only(left: 15),
+                                          child: Text("PROFILE MESSAGE",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff333333),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "PingFangSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 16.0),
+                                              textAlign: TextAlign.left))),
+                                  Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Container(
+                                          margin: EdgeInsets.only(right: 18),
+                                          child: Text(
+                                              "${myPageController.myProfile.value.PROFILE_MESSAGE}",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff666666),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "PingFangSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 16.0),
+                                              textAlign: TextAlign.left))),
+                                ])),
+                            Container(
+                                height: 54.6,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: const Color(0xffdedede),
+                                            width: 1))),
+                                child: Stack(children: [
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                          margin: EdgeInsets.only(left: 15),
+                                          child: Text("STUDENT ID",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff333333),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "PingFangSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 16.0),
+                                              textAlign: TextAlign.left))),
+                                  Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Container(
+                                          margin: EdgeInsets.only(right: 18),
+                                          child: Text(
+                                              "${myPageController.myProfile.value.PROFILE_SCHOOL}",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff666666),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "PingFangSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 16.0),
+                                              textAlign: TextAlign.left))),
                                 ]))
                           ],
                         )))
@@ -342,4 +419,86 @@ class ProfileAppBars {
       leadingWidth: 35,
     );
   }
+}
+
+void FlutterDialog(BuildContext context, MyPageController myPageController) {
+  final nicknameController = TextEditingController();
+  final profileMessageController = TextEditingController();
+  showDialog(
+      context: context,
+      //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          //Dialog Main Title
+          title: Column(
+            children: <Widget>[
+              new Text("Change Profile", style: TextStyle(fontSize: 20)),
+            ],
+          ),
+          //
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "NICKNAME",
+                style: TextStyle(color: const Color(0xff333333)),
+              ),
+              TextFormField(
+                  controller: nicknameController,
+                  style: const TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.0),
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(
+                    hintText:
+                        "${myPageController.myProfile.value.PROFILE_NICKNAME}",
+                    border: InputBorder.none,
+                  )),
+              Text("PROFILE MESSAGE"),
+              TextFormField(
+                  controller: profileMessageController,
+                  style: const TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.0),
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(
+                    hintText:
+                        "${myPageController.myProfile.value.PROFILE_MESSAGE}",
+                    border: InputBorder.none,
+                  ))
+            ],
+          ),
+          actions: <Widget>[
+            new TextButton(
+              child: new Text("Confirm"),
+              onPressed: () async {
+                myPageController.updateProfile(
+                    profileMessageController.text != ""
+                        ? profileMessageController.text
+                        : '${myPageController.myProfile.toJson()['PROFILE_MESSAGE']}',
+                    nicknameController.text != ""
+                        ? nicknameController.text
+                        : '${myPageController.myProfile.value.PROFILE_NICKNAME}');
+              },
+            ),
+            new TextButton(
+              child: new Text("Cancel"),
+              onPressed: () async {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      });
 }
