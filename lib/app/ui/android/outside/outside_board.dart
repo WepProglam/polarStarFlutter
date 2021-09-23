@@ -14,7 +14,7 @@ class OutSide extends StatelessWidget {
 
   OutSide({Key key, this.from}) : super(key: key);
   final OutSideController controller = Get.find();
-  final SearchController searchController = Get.find();
+  // final SearchController searchController = Get.find();
   final MainController mainController = Get.find();
 
   @override
@@ -27,15 +27,18 @@ class OutSide extends StatelessWidget {
             bottomNavigationBar:
                 CustomBottomNavigationBar(mainController: mainController),
             body: OutSideBody(
-                controller: controller, searchController: searchController))
+              controller: controller,
+              // searchController: searchController
+            ))
         : SafeArea(
             child: Scaffold(
                 appBar: CustomAppBar(
                   pageName: "OUTSIDE",
                 ),
                 body: OutSideBody(
-                    controller: controller,
-                    searchController: searchController)));
+                  controller: controller,
+                  // searchController: searchController
+                )));
   }
 }
 
@@ -43,11 +46,11 @@ class OutSideBody extends StatelessWidget {
   const OutSideBody({
     Key key,
     @required this.controller,
-    @required this.searchController,
+    // @required this.searchController,
   }) : super(key: key);
 
   final OutSideController controller;
-  final SearchController searchController;
+  // final SearchController searchController;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +73,7 @@ class OutSideBody extends StatelessWidget {
                         onPressed: () {
                           controller.COMMUNITY_ID.value = 1;
                           //정보 검색 컨트롤러 값도 변경
-                          searchController.COMMUNITY_ID.value = 1;
+                          // searchController.COMMUNITY_ID.value = 1;
                         },
                         child: Text("취업")),
                   ),
@@ -80,7 +83,7 @@ class OutSideBody extends StatelessWidget {
                         onPressed: () {
                           controller.COMMUNITY_ID.value = 2;
                           //정보 검색 컨트롤러 값도 변경
-                          searchController.COMMUNITY_ID.value = 2;
+                          // searchController.COMMUNITY_ID.value = 2;
                         },
                         child: Text("알바")),
                   ),
@@ -90,7 +93,7 @@ class OutSideBody extends StatelessWidget {
                         onPressed: () {
                           controller.COMMUNITY_ID.value = 3;
                           //정보 검색 컨트롤러 값도 변경
-                          searchController.COMMUNITY_ID.value = 3;
+                          // searchController.COMMUNITY_ID.value = 3;
                         },
                         child: Text("공모전")),
                   )
@@ -117,9 +120,9 @@ class OutSideBody extends StatelessWidget {
               ),
             ],
           ),
-          SearchBar(
-            controller: searchController,
-          ),
+          // SearchBar(
+          //     controller: searchController,
+          //     ),
         ],
       ),
     );

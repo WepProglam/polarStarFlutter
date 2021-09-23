@@ -47,8 +47,8 @@ class Search extends StatelessWidget {
             ],
           ),
           SearchBar(
-            controller: controller,
-          ),
+              // controller: controller,
+              ),
         ],
       ),
     ));

@@ -23,10 +23,10 @@ class OutSideBinding implements Bindings {
         initCommunityId: initCommunityId,
         initPage: initPage)));
 
-    Get.lazyPut<SearchController>(() => (SearchController(
-        repository: SearchRepository(apiClient: SearchApiClient()),
-        initCommunityId: initCommunityId,
-        initPage: initPage,
-        from: "outside")));
+    // Get.lazyPut<SearchController>(() => (SearchController(
+    //     repository: SearchRepository(apiClient: SearchApiClient()),
+    //     initCommunityId: initCommunityId,
+    //     initPage: initPage,
+    //     from: "outside")));
   }
 }

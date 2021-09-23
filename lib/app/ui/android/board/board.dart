@@ -95,8 +95,8 @@ class Board extends StatelessWidget {
                     ],
                   ),
                   SearchBar(
-                    controller: searchController,
-                  ),
+                      // controller: searchController,
+                      ),
                   Positioned(
                       bottom: 151.5,
                       right: 0,

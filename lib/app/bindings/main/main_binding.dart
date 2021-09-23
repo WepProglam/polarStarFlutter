@@ -17,11 +17,11 @@ class MainBinding implements Bindings {
     Get.lazyPut<MainController>(() =>
         MainController(repository: MainRepository(apiClient: MainApiClient())));
 
-    Get.lazyPut<SearchController>(() => (SearchController(
-        repository: SearchRepository(apiClient: SearchApiClient()),
-        initCommunityId: 1,
-        initPage: 1,
-        from: "outside")));
+    // Get.lazyPut<SearchController>(() => (SearchController(
+    //     repository: SearchRepository(apiClient: SearchApiClient()),
+    //     initCommunityId: 1,
+    //     initPage: 1,
+    //     from: "outside")));
 
     Get.lazyPut<MyPageController>(() => MyPageController(
         repository: MyPageRepository(apiClient: MyPageApiClient())));

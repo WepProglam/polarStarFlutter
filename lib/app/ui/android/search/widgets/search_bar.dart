@@ -2,13 +2,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/search/search_controller.dart';
+import 'package:polarstar_flutter/app/data/provider/search/search_provider.dart';
+import 'package:polarstar_flutter/app/data/repository/search/search_repository.dart';
 
 class SearchBar extends StatelessWidget {
-  const SearchBar({Key key, @required this.controller}) : super(key: key);
-  final SearchController controller;
+  const SearchBar({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final SearchController controller = Get.put(SearchController(
+        repository: SearchRepository(apiClient: SearchApiClient()),
+        initCommunityId: Get.parameters["COMMUNITY_ID"] == null
+            ? 1
+            : int.parse(Get.parameters["COMMUNITY_ID"]),
+        initPage: Get.parameters["page"] == null
+            ? 1
+            : int.parse(Get.parameters["page"]),
+        from: "outside"));
     TextEditingController searchText = TextEditingController(
         text: controller.searchText.value == null
             ? ""
