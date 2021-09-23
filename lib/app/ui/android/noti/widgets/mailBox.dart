@@ -89,10 +89,10 @@ class NotiMailBox extends StatelessWidget {
                                           )
                                         ]),
                                         Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 2.5),
-                                          child: Text(
-                                              "${model.value.PROFILE_NICKNAME}",
+                                          margin: const EdgeInsets.only(
+                                              top: 2.5, right: 37),
+                                          child: Text("${model.value.CONTENT}",
+                                              maxLines: 1,
                                               style: const TextStyle(
                                                   color:
                                                       const Color(0xff333333),

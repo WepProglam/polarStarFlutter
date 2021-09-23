@@ -20,7 +20,7 @@ class NotiAppBar extends StatelessWidget {
       title: Row(
         children: [
           Container(
-            margin: const EdgeInsets.only(left: 18.5 - 8),
+            margin: const EdgeInsets.only(left: 18.5 - 8, top: 4),
             child: Ink(
               child: InkWell(
                 onTap: () {
@@ -28,7 +28,7 @@ class NotiAppBar extends StatelessWidget {
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Column(children: [
+                  child: Stack(children: [
                     Container(
                         height: 28,
                         width: 42 + 8.0 * 2,
@@ -44,9 +44,8 @@ class NotiAppBar extends StatelessWidget {
                                 fontSize: 21.0),
                             textAlign: TextAlign.center)),
                     pageViewIndex == 0
-                        ? Container(
-                            margin: const EdgeInsets.only(left: 8 - 6.5),
-                            child: NotiTopLine())
+                        ? Positioned(
+                            left: 8 - 6.5, top: 28 + 1.0, child: NotiTopLine())
                         : Container()
                   ]),
                 ),
@@ -54,19 +53,18 @@ class NotiAppBar extends StatelessWidget {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(left: 26 - 8.0 * 2),
+            margin: const EdgeInsets.only(left: 26 - 8.0 * 2, top: 4),
             child: Ink(
               child: InkWell(
                 onTap: () {
                   notiController.pageController.jumpToPage(1);
                 },
                 child: Container(
-                  margin: const EdgeInsets.only(bottom: 4),
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  child: Stack(
                     children: [
                       Container(
+                          margin: const EdgeInsets.only(bottom: 4),
                           width: 42 + 8.0 * 2,
                           height: 28,
                           child: Text(
@@ -82,9 +80,10 @@ class NotiAppBar extends StatelessWidget {
                             textAlign: TextAlign.center,
                           )),
                       pageViewIndex == 0
-                          ? Container()
-                          : Container(
-                              margin: const EdgeInsets.only(left: 8 - 6.5),
+                          ? Positioned(child: Container())
+                          : Positioned(
+                              left: 8 - 6.5,
+                              top: 28 + 1.0,
                               child: NotiTopLine())
                     ],
                   ),
