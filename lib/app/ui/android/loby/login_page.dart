@@ -47,7 +47,7 @@ class LoginInputs extends GetView<LoginController> {
               child: Container(
                   width: 281.2,
                   height: 232.4,
-                  margin: EdgeInsets.fromLTRB(2.3, 35.1, 21.5, 25),
+                  margin: EdgeInsets.fromLTRB(2.3, 35.1, 21.5, 20),
                   child: Image.asset("assets/images/636.png")),
             ),
 
@@ -193,12 +193,25 @@ class LoginInputs extends GetView<LoginController> {
                   onTap: () {
                     controller.isAutoLogin(!controller.isAutoLogin.value);
                   },
-                  child: Text('자동 로그인'))
+                  child: Text('자동 로그인')),
+              Spacer(),
+              GestureDetector(
+                onTap: () {},
+                child: Text(
+                  "Having trouble logging in?",
+                  style: const TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                ),
+              ),
             ]),
 
             // 로그인 버튼
             Padding(
-              padding: const EdgeInsets.only(top: 30),
+              padding: const EdgeInsets.only(top: 40),
               child: InkWell(
                 onTap: () async {
                   print(_formKey.currentState.validate());
@@ -230,7 +243,7 @@ class LoginInputs extends GetView<LoginController> {
 
             // 회원가입 버튼
             Padding(
-              padding: const EdgeInsets.only(top: 39),
+              padding: const EdgeInsets.only(top: 30),
               child: InkWell(
                 onTap: () {
                   Get.toNamed("/signUp");
