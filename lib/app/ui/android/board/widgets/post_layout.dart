@@ -18,6 +18,7 @@ class PostLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> finalPost = [];
+
     c.sortedList.forEach((Post item) {
       finalPost.addAll(item.DEPTH == 0
           ? returningPost(item)
@@ -39,191 +40,227 @@ class PostLayout extends StatelessWidget {
 
   List<Widget> returningPost(Post item) {
     return [
-      Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child: Container(
-          decoration:
-              BoxDecoration(border: BorderDirectional(top: BorderSide())),
-          child: Row(
-            children: [
-              // 프로필 사진
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: 30,
-                  width: 30,
-                  child: CachedNetworkImage(imageUrl: '${item.PROFILE_PHOTO}'),
-                ),
-              ),
-              //닉네임, 작성 시간
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      Container(
+        margin: const EdgeInsets.fromLTRB(15, 8, 15, 18.5),
+        decoration: BoxDecoration(
+            color: Color(0xffffffff),
+            boxShadow: [
+              BoxShadow(
+                  color: const Color(0x1c000000),
+                  offset: Offset(0, 6),
+                  blurRadius: 14,
+                  spreadRadius: 0)
+            ],
+            borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(11.5, 9, 11.5, 9.5),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Container(
+              child: Row(
                 children: [
-                  Text(item.PROFILE_NICKNAME),
-                  Text(
-                    item.TIME_CREATED
-                        .substring(2, 16)
-                        .replaceAll(RegExp(r'-'), '/'),
-                    textScaleFactor: 0.6,
+                  // 프로필 사진
+                  Container(
+                    height: 39,
+                    width: 39,
+                    margin: const EdgeInsets.only(right: 11.8),
+                    child: CachedNetworkImage(
+                      imageUrl: '${item.PROFILE_PHOTO}',
+                      imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover))),
+                    ),
                   ),
+                  //닉네임, 작성 시간
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(item.PROFILE_NICKNAME,
+                          style: const TextStyle(
+                              color: const Color(0xff333333),
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 15.0),
+                          textAlign: TextAlign.left),
+                      Text(
+                          item.TIME_CREATED
+                              .substring(2, 19)
+                              .replaceAll('-', '/')
+                              .replaceAll('T', ' '),
+                          style: const TextStyle(
+                              color: const Color(0xff999999),
+                              fontWeight: FontWeight.normal,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 11.0),
+                          textAlign: TextAlign.left),
+                    ],
+                  ),
+                  Spacer(),
+                  // 게시글 좋아요 버튼
+                  Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: InkWell(
+                      onTap: () {
+                        if (item.MYSELF) {
+                        } else {
+                          c.totalSend(
+                              '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
+                              '좋아요');
+                        }
+                      },
+                      child: item.MYSELF ? Container() : Icon(Icons.thumb_up),
+                    ),
+                  ),
+                  // 게시글 수정, 스크랩 버튼
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      onTap: () {
+                        if (item.MYSELF) {
+                          Get.toNamed(
+                              '/board/${item.COMMUNITY_ID}/bid/${item.BOARD_ID}',
+                              arguments: item);
+                        } else {
+                          c.totalSend(
+                              '/scrap/${item.COMMUNITY_ID}/id/${item.BOARD_ID}',
+                              '스크랩');
+                        }
+                      },
+                      child:
+                          item.MYSELF ? Icon(Icons.edit) : Icon(Icons.bookmark),
+                    ),
+                  ),
+                  // 게시글 삭제, 신고 버튼
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: InkWell(
+                      onTap: () async {
+                        // 게시글 삭제
+                        if (item.MYSELF) {
+                          await c.deleteResource(
+                              item.COMMUNITY_ID, item.UNIQUE_ID, "bid");
+                        }
+                        // 게시글 신고
+                        else {
+                          var ARREST_TYPE = await c.getArrestType();
+                          c.totalSend(
+                              '/arrest/${item.COMMUNITY_ID}/id/${item.BOARD_ID}?ARREST_TYPE=$ARREST_TYPE',
+                              '신고');
+                        }
+                      },
+                      child:
+                          item.MYSELF ? Icon(Icons.delete) : Icon(Icons.report),
+                    ),
+                  ),
+                  //쪽지
+                  item.MYSELF
+                      ? Container()
+                      : Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: InkWell(
+                              onTap: () async {
+                                await sendMail(
+                                    item.UNIQUE_ID,
+                                    item.COMMUNITY_ID,
+                                    mailWriteController,
+                                    mailController);
+                              },
+                              child: Icon(Icons.mail)),
+                        ),
                 ],
               ),
-              Spacer(),
-              // 게시글 좋아요 버튼
-              Padding(
-                padding: const EdgeInsets.all(0.0),
-                child: InkWell(
-                  onTap: () {
-                    if (item.MYSELF) {
-                    } else {
-                      c.totalSend(
-                          '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
-                          '좋아요');
-                    }
-                  },
-                  child: item.MYSELF ? Container() : Icon(Icons.thumb_up),
-                ),
-              ),
-              // 게시글 수정, 스크랩 버튼
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onTap: () {
-                    if (item.MYSELF) {
-                      Get.toNamed(
-                          '/board/${item.COMMUNITY_ID}/bid/${item.BOARD_ID}',
-                          arguments: item);
-                    } else {
+            ),
+            // 제목
+            Container(
+              margin:
+                  const EdgeInsets.only(top: 46.6 - 39, bottom: 72.7 - 57.6),
+              child: Text("${item.TITLE}",
+                  style: const TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.0),
+                  textAlign: TextAlign.left),
+            ),
+            // 내용
+            Container(
+              margin: const EdgeInsets.only(bottom: 119 - 94.8),
+              child: Text("${item.CONTENT}",
+                  style: const TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.normal,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                  textAlign: TextAlign.left),
+            ),
+            //사진
+            item.PHOTO != [] && item.PHOTO != null
+                ? PhotoLayout(model: item)
+                : Container(),
+            // 좋아요, 댓글, 스크랩 수
+            Container(
+              child: Row(
+                children: [
+                  // 게시글 좋아요 수 버튼
+                  TextButton.icon(
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Colors.red)),
+                    onPressed: () {
+                      if (item.MYSELF) {
+                      } else {
+                        c.totalSend(
+                            '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
+                            '좋아요');
+                      }
+                    },
+                    icon: Icon(
+                      Icons.thumb_up,
+                      size: 20,
+                    ),
+                    label: Text(item.LIKES.toString()),
+                  ),
+                  // 게시글 댓글 수 버튼
+                  TextButton.icon(
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Colors.black)),
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.comment,
+                      size: 20,
+                    ),
+                    label: Text(item.COMMENTS.toString()),
+                  ),
+                  // 게시글 스크랩 수 버튼
+                  TextButton.icon(
+                    style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Colors.yellow[700])),
+                    onPressed: () {
                       c.totalSend(
                           '/scrap/${item.COMMUNITY_ID}/id/${item.BOARD_ID}',
                           '스크랩');
-                    }
-                  },
-                  child: item.MYSELF ? Icon(Icons.edit) : Icon(Icons.bookmark),
-                ),
-              ),
-              // 게시글 삭제, 신고 버튼
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: InkWell(
-                  onTap: () async {
-                    // 게시글 삭제
-                    if (item.MYSELF) {
-                      await c.deleteResource(
-                          item.COMMUNITY_ID, item.UNIQUE_ID, "bid");
-                    }
-                    // 게시글 신고
-                    else {
-                      var ARREST_TYPE = await c.getArrestType();
-                      c.totalSend(
-                          '/arrest/${item.COMMUNITY_ID}/id/${item.BOARD_ID}?ARREST_TYPE=$ARREST_TYPE',
-                          '신고');
-                    }
-                  },
-                  child: item.MYSELF ? Icon(Icons.delete) : Icon(Icons.report),
-                ),
-              ),
-              //쪽지
-              item.MYSELF
-                  ? Container()
-                  : Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: InkWell(
-                          onTap: () async {
-                            await sendMail(item.UNIQUE_ID, item.COMMUNITY_ID,
-                                mailWriteController, mailController);
-                          },
-                          child: Icon(Icons.mail)),
+                    },
+                    icon: Icon(
+                      Icons.bookmark,
+                      size: 20,
                     ),
-            ],
-          ),
-        ),
-      ),
-      // 제목
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          // decoration: BoxDecoration(border: Border.all()),
-          child: Text(
-            "${item.TITLE}",
-            textScaleFactor: 2,
-          ),
-        ),
-      ),
-      // 내용
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          // decoration: BoxDecoration(border: Border.all()),
-          child: Text(
-            "${item.CONTENT}",
-            textScaleFactor: 1.5,
-          ),
-        ),
-      ),
-      //사진
-      item.PHOTO != [] && item.PHOTO != null
-          ? PhotoLayout(model: item)
-          : Container(),
-      // 좋아요, 댓글, 스크랩 수
-      Container(
-        decoration:
-            BoxDecoration(border: BorderDirectional(bottom: BorderSide())),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-          child: Row(
-            children: [
-              // 게시글 좋아요 수 버튼
-              TextButton.icon(
-                style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.red)),
-                onPressed: () {
-                  if (item.MYSELF) {
-                  } else {
-                    c.totalSend(
-                        '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
-                        '좋아요');
-                  }
-                },
-                icon: Icon(
-                  Icons.thumb_up,
-                  size: 20,
-                ),
-                label: Text(item.LIKES.toString()),
+                    label: Text(item.SCRAPS.toString()),
+                  ),
+                  Spacer(),
+                ],
               ),
-              // 게시글 댓글 수 버튼
-              TextButton.icon(
-                style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.black)),
-                onPressed: () {},
-                icon: Icon(
-                  Icons.comment,
-                  size: 20,
-                ),
-                label: Text(item.COMMENTS.toString()),
-              ),
-              // 게시글 스크랩 수 버튼
-              TextButton.icon(
-                style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.yellow[700])),
-                onPressed: () {
-                  c.totalSend(
-                      '/scrap/${item.COMMUNITY_ID}/id/${item.BOARD_ID}', '스크랩');
-                },
-                icon: Icon(
-                  Icons.bookmark,
-                  size: 20,
-                ),
-                label: Text(item.SCRAPS.toString()),
-              ),
-              Spacer(),
-            ],
-          ),
+            ),
+          ]),
         ),
-      ),
+      )
     ];
   }
 
