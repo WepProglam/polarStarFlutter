@@ -31,6 +31,7 @@ import 'package:polarstar_flutter/app/ui/android/mail/mailHistory.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
 import 'package:polarstar_flutter/app/ui/android/loby/login_page.dart';
 import 'package:polarstar_flutter/app/ui/android/loby/init_page.dart';
+import 'package:polarstar_flutter/app/ui/android/loby/find_password.dart';
 import 'package:polarstar_flutter/app/ui/android/main/board_list.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page_search.dart';
 import 'package:polarstar_flutter/app/ui/android/outside/outside_board.dart';
@@ -56,6 +57,7 @@ class AppPages {
       name: Routes.INITIAL,
       page: () => InitPage(),
       binding: InitBinding(),
+     
     ),
     GetPage(
       name: Routes.LOGIN,
@@ -66,6 +68,10 @@ class AppPages {
         name: Routes.SIGNUP,
         page: () => SignUpPage(),
         binding: SignUpBinding()),
+    GetPage(
+      name: Routes.FINDPW,
+      page: () => FindPw(),
+    ),
     GetPage(
       name: Routes.MAIN_PAGE,
       page: () => MainPage(),

@@ -196,7 +196,9 @@ class LoginInputs extends GetView<LoginController> {
                   child: Text('자동 로그인')),
               Spacer(),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed("/findPw");
+                },
                 child: Text(
                   "Having trouble logging in?",
                   style: const TextStyle(
