@@ -44,11 +44,12 @@ class PostController extends GetxController {
   }
 
   Future<void> refreshPost() async {
+    _dataAvailable.value = false;
     await getPostData();
   }
 
   Future<void> getPostData() async {
-    _dataAvailable.value = false;
+    // _dataAvailable.value = false;
     final Map<String, dynamic> response =
         await repository.getPostData(this.COMMUNITY_ID, this.BOARD_ID);
     final status = response["statusCode"];
@@ -63,6 +64,7 @@ class PostController extends GetxController {
       case 200:
         sortPCCC(response["listPost"]);
         _dataAvailable.value = true;
+        print(sortedList[0].PHOTO);
         return;
       default:
     }
@@ -160,13 +162,20 @@ class PostController extends GetxController {
     }
   }
 
-  void totalSend(String urlTemp, String what) {
+  void totalSend(String urlTemp, String what, int index) {
     String url = "/board" + urlTemp;
     Session().getX(url).then((value) {
       switch (value.statusCode) {
         case 200:
           Get.snackbar("$what 성공", "$what 성공",
               snackPosition: SnackPosition.BOTTOM);
+          // if (what == "좋아요") {
+          //   sortedList[index].LIKES++;
+          // } else if (what == "스크랩") {
+          //   sortedList[index].SCRAPS++;
+          // }
+          _dataAvailable(false);
+          _dataAvailable.refresh();
           getPostData();
           break;
         case 403:
