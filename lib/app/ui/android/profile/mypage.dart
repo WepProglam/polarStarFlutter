@@ -83,6 +83,7 @@ class Mypage extends StatelessWidget {
                                   if (dataAvailable[myPageController
                                       .profilePostIndex.value]) {
                                     return ListView.builder(
+                                        cacheExtent: 10,
                                         itemCount: userPost[index].length,
                                         itemBuilder:
                                             (BuildContext context, int i) {

@@ -33,6 +33,7 @@ import 'package:polarstar_flutter/app/ui/android/loby/login_page.dart';
 import 'package:polarstar_flutter/app/ui/android/loby/init_page.dart';
 import 'package:polarstar_flutter/app/ui/android/main/board_list.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page_search.dart';
+import 'package:polarstar_flutter/app/ui/android/noti/noti.dart';
 import 'package:polarstar_flutter/app/ui/android/outside/outside_board.dart';
 import 'package:polarstar_flutter/app/ui/android/outside/outside_post.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
@@ -169,6 +170,7 @@ class AppPages {
     GetPage(
         name: Routes.TIMETABLE_ADDTIMETABLE,
         page: () => TimeTableAdd(),
-        binding: TimetableBinBinding())
+        binding: TimetableBinBinding()),
+    GetPage(name: Routes.NOTI, page: () => Noti())
   ];
 }

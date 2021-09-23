@@ -7,9 +7,7 @@ import 'package:polarstar_flutter/app/data/repository/mail/mail_repository.dart'
 class MailBoxBinding implements Bindings {
   @override
   void dependencies() async {
-    Get.put(
+    Get.lazyPut<MailController>(() =>
         MailController(repository: MailRepository(apiClient: MailApiClient())));
-    final MailController mailController = Get.find();
-    await mailController.getMailBox();
   }
 }

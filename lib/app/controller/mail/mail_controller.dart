@@ -27,6 +27,7 @@ class MailController extends GetxController {
   @override
   onInit() async {
     super.onInit();
+    await getMailBox();
   }
 
   @override
