@@ -52,22 +52,21 @@ class LoginInputs extends GetView<LoginController> {
             ),
 
             // 아이디 입력
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Account",
-                  style: const TextStyle(
-                      color: const Color(0xff999999),
-                      fontWeight: FontWeight.normal,
-                      fontFamily: "PingFangSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 13.5),
-                ),
-                Container(
-                  width: 305,
-                  height: 48.1,
-                  child: Stack(
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12.3),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Account",
+                    style: const TextStyle(
+                        color: const Color(0xff999999),
+                        fontWeight: FontWeight.normal,
+                        fontFamily: "PingFangSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 13.5),
+                  ),
+                  Stack(
                     children: [
                       TextFormField(
                         controller: loginIdContoller,
@@ -111,13 +110,13 @@ class LoginInputs extends GetView<LoginController> {
                       )
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
 
             // 비밀번호 입력
             Padding(
-              padding: const EdgeInsets.only(top: 24.6, bottom: 10),
+              padding: const EdgeInsets.only(top: 12.3, bottom: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
