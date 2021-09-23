@@ -73,13 +73,10 @@ class LoginInputs extends GetView<LoginController> {
                         validator: (value) {
                           return checkEmpty(value);
                         },
-                        // decoration: InputDecoration(
-                        //     hintText: "Enter Your ID",
-                        //     contentPadding: EdgeInsets.zero),
                         decoration: InputDecoration(
                           isDense: true,
                           contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 0.0, vertical: 0.0),
+                              horizontal: 0.0, vertical: 11.6),
                           hintStyle: const TextStyle(
                               color: const Color(0xff999999),
                               fontWeight: FontWeight.w400,
@@ -89,18 +86,23 @@ class LoginInputs extends GetView<LoginController> {
                           hintText: "Enter Your ID",
                         ),
                       ),
-                      Positioned(
-                        right: 6.6,
-                        top: 14,
-                        child: Ink(
-                          width: 15.3,
-                          height: 15.3,
-                          child: InkWell(
-                            onTap: () {
-                              loginIdContoller.clear();
-                            },
-                            child: Image.asset(
-                              "assets/images/982.png",
+                      Positioned.fill(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 43.4 - 35),
+                            child: Ink(
+                              width: 15.3,
+                              height: 15.3,
+                              child: InkWell(
+                                onTap: () {
+                                  loginIdContoller.clear();
+                                },
+                                child: Image.asset(
+                                  "assets/images/982.png",
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -136,7 +138,7 @@ class LoginInputs extends GetView<LoginController> {
                             decoration: InputDecoration(
                                 isDense: true,
                                 contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 0.0, vertical: 0.0),
+                                    horizontal: 0.0, vertical: 11.6),
                                 hintStyle: const TextStyle(
                                     color: const Color(0xff999999),
                                     fontWeight: FontWeight.w400,
@@ -145,19 +147,23 @@ class LoginInputs extends GetView<LoginController> {
                                     fontSize: 14.0),
                                 hintText: "Enter the PW"),
                           )),
-                      Positioned(
-                        right: 6.6,
-                        top: 14,
-                        child: Ink(
-                          width: 15.3,
-                          height: 15.3,
-                          child: InkWell(
-                            onTap: () {
-                              controller
-                                  .isObscured(!controller.isObscured.value);
-                            },
-                            child: Image.asset(
-                              "assets/images/eye_off_fill.png",
+                      Positioned.fill(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 43.4 - 35),
+                            child: Ink(
+                              width: 15.3,
+                              height: 15.3,
+                              child: InkWell(
+                                onTap: () {
+                                  controller
+                                      .isObscured(!controller.isObscured.value);
+                                },
+                                child: Image.asset(
+                                  "assets/images/eye_off_fill.png",
+                                ),
+                              ),
                             ),
                           ),
                         ),
