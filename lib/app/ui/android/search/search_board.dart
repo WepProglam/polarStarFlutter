@@ -14,15 +14,16 @@ class Search extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: CustomAppBar(
-        pageName: "${communityBoardName(controller.COMMUNITY_ID.value)}",
-      ),
+      // appBar:
+      // CustomAppBar(
+      //   pageName: "${communityBoardName(controller.COMMUNITY_ID.value)}",
+      // ),
       body: Stack(
         children: [
           Column(
             children: [
               Container(
-                height: 60,
+                height: 62,
                 width: Get.mediaQuery.size.width,
               ),
               // 게시글 프리뷰 리스트
@@ -33,8 +34,11 @@ class Search extends StatelessWidget {
                         controller: controller.scrollController.value,
                         itemCount: controller.postBody.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return PostPreview(
-                            item: controller.postBody[index],
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: PostPreview(
+                              item: controller.postBody[index],
+                            ),
                           );
                         });
                   } else if (controller.httpStatus != 200) {

@@ -41,9 +41,7 @@ class Board extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      communityBoardName(
-                              int.parse(Get.parameters["COMMUNITY_ID"])) +
-                          "게시판",
+                      communityBoardName(controller.COMMUNITY_ID.value) + "게시판",
                       style: const TextStyle(
                           color: const Color(0xff333333),
                           fontWeight: FontWeight.bold,
@@ -69,7 +67,7 @@ class Board extends StatelessWidget {
                   Column(
                     children: [
                       Container(
-                        height: 56,
+                        height: 63,
                         width: Get.mediaQuery.size.width,
                       ),
                       // 게시글 프리뷰 리스트

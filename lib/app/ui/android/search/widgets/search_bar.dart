@@ -23,10 +23,11 @@ class SearchBar extends StatelessWidget {
         text: controller.searchText.value == null
             ? ""
             : controller.searchText.value);
+
     return Container(
       color: Color(0xffffffff),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10.5),
         child: Stack(
           children: [
             TextFormField(
@@ -34,29 +35,42 @@ class SearchBar extends StatelessWidget {
               textAlign: TextAlign.start,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                    borderSide: BorderSide.none),
+                filled: true,
+                fillColor: Color(0xffeeeeee),
                 hintText: 'search',
                 isDense: true,
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                    EdgeInsets.symmetric(vertical: 6, horizontal: 17),
               ),
-              style: TextStyle(),
+              style: const TextStyle(
+                  color: const Color(0xff333333),
+                  fontWeight: FontWeight.normal,
+                  fontFamily: "PingFangSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
             ),
             Positioned.fill(
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Container(
-                      child: InkWell(
+                  padding: const EdgeInsets.only(right: 19.4),
+                  child: InkWell(
                     onTap: () async {
                       await controller.getSearchBoard(searchText.text);
                       searchText.clear();
                       Get.toNamed("/searchBoard");
                     },
-                    child: Icon(Icons.search_outlined),
-                  )),
+                    child: Ink(
+                      width: 14.3,
+                      height: 14.3,
+                      child: Image.asset(
+                        'assets/images/894.png',
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
