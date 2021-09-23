@@ -28,7 +28,7 @@ class PostLayout extends StatelessWidget {
     // });
 
     return Container(
-        height: MediaQuery.of(context).size.height - 60 - 100,
+        height: Get.mediaQuery.size.height - 50 - 85,
         margin: const EdgeInsets.symmetric(horizontal: 15),
         child: RefreshIndicator(
           onRefresh: c.refreshPost,

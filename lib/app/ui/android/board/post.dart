@@ -19,6 +19,7 @@ class Post extends StatelessWidget {
       child: Scaffold(
           backgroundColor: Color(0xffffffff),
           appBar: AppBar(
+            toolbarHeight: 50,
             backgroundColor: Color(0xffffffff),
             foregroundColor: Color(0xff333333),
             elevation: 0,
