@@ -13,4 +13,14 @@ class SignUpRepository {
     final response = await apiClient.signUpApi(data);
     return response;
   }
+
+  emailAuthRequest(data) async {
+    final response = await apiClient.emailAuthRequestApi(data);
+    return response;
+  }
+
+  emailAuthVerify(data) async {
+    final response = await apiClient.emailAuthVerifyApi(data);
+    return response;
+  }
 }
