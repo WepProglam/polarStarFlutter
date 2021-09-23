@@ -42,14 +42,16 @@ class LoginInputs extends GetView<LoginController> {
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // 로고 이미지
             Center(
               child: Container(
                   width: 281.2,
                   height: 232.4,
-                  margin: EdgeInsets.fromLTRB(2.3, 35.1, 21.5, 67.5),
+                  margin: EdgeInsets.fromLTRB(2.3, 35.1, 21.5, 25),
                   child: Image.asset("assets/images/636.png")),
             ),
 
+            // 아이디 입력
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -113,6 +115,7 @@ class LoginInputs extends GetView<LoginController> {
               ],
             ),
 
+            // 비밀번호 입력
             Padding(
               padding: const EdgeInsets.only(top: 24.6, bottom: 10),
               child: Column(
@@ -193,8 +196,9 @@ class LoginInputs extends GetView<LoginController> {
                   child: Text('자동 로그인'))
             ]),
 
+            // 로그인 버튼
             Padding(
-              padding: const EdgeInsets.only(top: 65),
+              padding: const EdgeInsets.only(top: 30),
               child: InkWell(
                 onTap: () async {
                   print(_formKey.currentState.validate());
@@ -205,7 +209,7 @@ class LoginInputs extends GetView<LoginController> {
                   }
                 },
                 child: Ink(
-                  width: 305,
+                  width: Get.mediaQuery.size.width - 70,
                   height: 52,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -220,6 +224,35 @@ class LoginInputs extends GetView<LoginController> {
                         fontStyle: FontStyle.normal,
                         fontSize: 18),
                   )),
+                ),
+              ),
+            ),
+
+            // 회원가입 버튼
+            Padding(
+              padding: const EdgeInsets.only(top: 39),
+              child: InkWell(
+                onTap: () {
+                  Get.toNamed("/signUp");
+                },
+                child: Ink(
+                  width: Get.mediaQuery.size.width - 70,
+                  height: 52,
+                  decoration: BoxDecoration(
+                      color: Color(0xffffffff),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Color(0xff1a4678), width: 2)),
+                  child: Center(
+                    child: Text(
+                      "Sign Up",
+                      style: const TextStyle(
+                          color: const Color(0xff1a4678),
+                          fontWeight: FontWeight.normal,
+                          fontFamily: "PingFangSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 18.0),
+                    ),
+                  ),
                 ),
               ),
             ),
