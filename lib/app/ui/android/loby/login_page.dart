@@ -42,30 +42,31 @@ class LoginInputs extends GetView<LoginController> {
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // 로고 이미지
             Center(
               child: Container(
                   width: 281.2,
                   height: 232.4,
-                  margin: EdgeInsets.fromLTRB(2.3, 35.1, 21.5, 67.5),
+                  margin: EdgeInsets.fromLTRB(2.3, 35.1, 21.5, 20),
                   child: Image.asset("assets/images/636.png")),
             ),
 
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Account",
-                  style: const TextStyle(
-                      color: const Color(0xff999999),
-                      fontWeight: FontWeight.normal,
-                      fontFamily: "PingFangSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 13.5),
-                ),
-                Container(
-                  width: 305,
-                  height: 48.1,
-                  child: Stack(
+            // 아이디 입력
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12.3),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Account",
+                    style: const TextStyle(
+                        color: const Color(0xff999999),
+                        fontWeight: FontWeight.normal,
+                        fontFamily: "PingFangSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 13.5),
+                  ),
+                  Stack(
                     children: [
                       TextFormField(
                         controller: loginIdContoller,
@@ -73,13 +74,10 @@ class LoginInputs extends GetView<LoginController> {
                         validator: (value) {
                           return checkEmpty(value);
                         },
-                        // decoration: InputDecoration(
-                        //     hintText: "Enter Your ID",
-                        //     contentPadding: EdgeInsets.zero),
                         decoration: InputDecoration(
                           isDense: true,
                           contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 0.0, vertical: 0.0),
+                              horizontal: 0.0, vertical: 11.6),
                           hintStyle: const TextStyle(
                               color: const Color(0xff999999),
                               fontWeight: FontWeight.w400,
@@ -89,30 +87,36 @@ class LoginInputs extends GetView<LoginController> {
                           hintText: "Enter Your ID",
                         ),
                       ),
-                      Positioned(
-                        right: 6.6,
-                        top: 14,
-                        child: Ink(
-                          width: 15.3,
-                          height: 15.3,
-                          child: InkWell(
-                            onTap: () {
-                              loginIdContoller.clear();
-                            },
-                            child: Image.asset(
-                              "assets/images/982.png",
+                      Positioned.fill(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 43.4 - 35),
+                            child: Ink(
+                              width: 15.3,
+                              height: 15.3,
+                              child: InkWell(
+                                onTap: () {
+                                  loginIdContoller.clear();
+                                },
+                                child: Image.asset(
+                                  "assets/images/982.png",
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       )
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
 
+            // 비밀번호 입력
             Padding(
-              padding: const EdgeInsets.only(top: 24.6, bottom: 10),
+              padding: const EdgeInsets.only(top: 12.3, bottom: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -136,7 +140,7 @@ class LoginInputs extends GetView<LoginController> {
                             decoration: InputDecoration(
                                 isDense: true,
                                 contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 0.0, vertical: 0.0),
+                                    horizontal: 0.0, vertical: 11.6),
                                 hintStyle: const TextStyle(
                                     color: const Color(0xff999999),
                                     fontWeight: FontWeight.w400,
@@ -145,19 +149,23 @@ class LoginInputs extends GetView<LoginController> {
                                     fontSize: 14.0),
                                 hintText: "Enter the PW"),
                           )),
-                      Positioned(
-                        right: 6.6,
-                        top: 14,
-                        child: Ink(
-                          width: 15.3,
-                          height: 15.3,
-                          child: InkWell(
-                            onTap: () {
-                              controller
-                                  .isObscured(!controller.isObscured.value);
-                            },
-                            child: Image.asset(
-                              "assets/images/eye_off_fill.png",
+                      Positioned.fill(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 43.4 - 35),
+                            child: Ink(
+                              width: 15.3,
+                              height: 15.3,
+                              child: InkWell(
+                                onTap: () {
+                                  controller
+                                      .isObscured(!controller.isObscured.value);
+                                },
+                                child: Image.asset(
+                                  "assets/images/eye_off_fill.png",
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -184,11 +192,27 @@ class LoginInputs extends GetView<LoginController> {
                   onTap: () {
                     controller.isAutoLogin(!controller.isAutoLogin.value);
                   },
-                  child: Text('자동 로그인'))
+                  child: Text('자동 로그인')),
+              Spacer(),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed("/findPw");
+                },
+                child: Text(
+                  "Having trouble logging in?",
+                  style: const TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                ),
+              ),
             ]),
 
+            // 로그인 버튼
             Padding(
-              padding: const EdgeInsets.only(top: 65),
+              padding: const EdgeInsets.only(top: 40),
               child: InkWell(
                 onTap: () async {
                   print(_formKey.currentState.validate());
@@ -199,7 +223,7 @@ class LoginInputs extends GetView<LoginController> {
                   }
                 },
                 child: Ink(
-                  width: 305,
+                  width: Get.mediaQuery.size.width - 70,
                   height: 52,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -214,6 +238,35 @@ class LoginInputs extends GetView<LoginController> {
                         fontStyle: FontStyle.normal,
                         fontSize: 18),
                   )),
+                ),
+              ),
+            ),
+
+            // 회원가입 버튼
+            Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: InkWell(
+                onTap: () {
+                  Get.toNamed("/signUp");
+                },
+                child: Ink(
+                  width: Get.mediaQuery.size.width - 70,
+                  height: 52,
+                  decoration: BoxDecoration(
+                      color: Color(0xffffffff),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Color(0xff1a4678), width: 2)),
+                  child: Center(
+                    child: Text(
+                      "Sign Up",
+                      style: const TextStyle(
+                          color: const Color(0xff1a4678),
+                          fontWeight: FontWeight.normal,
+                          fontFamily: "PingFangSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 18.0),
+                    ),
+                  ),
                 ),
               ),
             ),
