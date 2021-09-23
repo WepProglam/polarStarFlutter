@@ -330,7 +330,7 @@ class PostLayout extends StatelessWidget {
               : BorderRadius.zero,
           color: Color(0xfff6f6f6)),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10.5, 11.3, 12.2, 9.7),
+        padding: const EdgeInsets.fromLTRB(10.5, 11.3, 12.2, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -558,14 +558,22 @@ class PostLayout extends StatelessWidget {
               ),
             ),
             // 댓글 내용
-            Text(item.CONTENT,
-                style: const TextStyle(
-                    color: const Color(0xff333333),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: "PingFangSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 14.0),
-                textAlign: TextAlign.left),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 9.7),
+              child: Text(item.CONTENT,
+                  style: const TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                  textAlign: TextAlign.left),
+            ),
+            Container(
+              width: Get.mediaQuery.size.width - 30,
+              height: 0.5,
+              decoration: BoxDecoration(color: const Color(0xffdedede)),
+            )
           ],
         ),
       ),
@@ -576,7 +584,7 @@ class PostLayout extends StatelessWidget {
     return Container(
       color: Color(0xfff6f6f6),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(25.3, 9.7, 12.2, 9.7),
+        padding: const EdgeInsets.fromLTRB(25.3, 9.7, 12.2, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -762,9 +770,23 @@ class PostLayout extends StatelessWidget {
 
             // 대댓 내용
             Padding(
-              padding: const EdgeInsets.only(left: 74.8 - 25.3),
-              child: Text(item.CONTENT),
+              padding: const EdgeInsets.only(left: 74.8 - 25.3, bottom: 9.7),
+              child: Text(item.CONTENT,
+                  style: const TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                  textAlign: TextAlign.left),
             ),
+
+            Container(
+              width: Get.mediaQuery.size.width - (74.8 - 25.3) - 30,
+              height: 0.5,
+              margin: const EdgeInsets.only(left: 74.8 - 25.3),
+              decoration: BoxDecoration(color: const Color(0xffdedede)),
+            )
           ],
         ),
       ),
