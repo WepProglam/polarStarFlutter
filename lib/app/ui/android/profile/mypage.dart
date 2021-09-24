@@ -62,6 +62,7 @@ class Mypage extends StatelessWidget {
                           },
                           itemCount: 3,
                           itemBuilder: (BuildContext context, int index) {
+                            print(index);
                             return RefreshIndicator(
                               onRefresh: () async {
                                 switch (index) {
@@ -69,10 +70,10 @@ class Mypage extends StatelessWidget {
                                     myPageController.getMineWrite();
                                     break;
                                   case 1:
-                                    myPageController.getMineLike();
+                                    myPageController.getMineScrap();
                                     break;
                                   case 2:
-                                    myPageController.getMineScrap();
+                                    myPageController.getMineLike();
                                     break;
                                   default:
                                 }
@@ -83,21 +84,25 @@ class Mypage extends StatelessWidget {
                                 () {
                                   if (dataAvailable[myPageController
                                       .profilePostIndex.value]) {
-                                    print("ㄴㄴㄴ");
-
-                                    return ListView.builder(
-                                        cacheExtent: 10,
-                                        itemCount: userPost[index].length,
-                                        itemBuilder:
-                                            (BuildContext context, int i) {
-                                          return PostPreview(
-                                            item: userPost[index][i],
-                                          );
-                                        });
+                                    if (userPost[index].length == 0) {
+                                      return Center(
+                                        child: Text("아직 정보가 없습니다."),
+                                      );
+                                    } else {
+                                      return ListView.builder(
+                                          cacheExtent: 10,
+                                          itemCount: userPost[index].length,
+                                          itemBuilder:
+                                              (BuildContext context, int i) {
+                                            return PostPreview(
+                                              item: userPost[index][i],
+                                            );
+                                          });
+                                    }
                                   } else {
-                                    print("ㅇㅇㅇ");
                                     return Center(
-                                        child: CircularProgressIndicator());
+                                      child: Text("아직 정보가 없습니다."),
+                                    );
                                   }
                                 },
                               ),

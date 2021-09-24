@@ -41,14 +41,15 @@ class MyPageController extends GetxController {
 
     switch (status) {
       case 200:
+        myBoardWrite.value = response["myPageBoard"];
         break;
       default:
-        Get.snackbar("에러 발생", "에러 발생");
+        myBoardWrite.value = [];
+        // Get.snackbar("에러 발생", "에러 발생");
         break;
     }
 
     myProfile.value = response["myProfile"];
-    myBoardWrite.value = response["myPageBoard"];
 
     _dataAvailableMypage.value = true;
     _dataAvailableMypageWrite.value = true;
@@ -61,13 +62,16 @@ class MyPageController extends GetxController {
 
     switch (status) {
       case 200:
+        myBoardLike.value = response["myPageBoard"];
+
         break;
       default:
-        Get.snackbar("에러 발생", "에러 발생");
+        myBoardLike.value = [];
+
+        // Get.snackbar("에러 발생", "에러 발생");
         break;
     }
 
-    myBoardLike.value = response["myPageBoard"];
     _dataAvailableMypageLike.value = true;
   }
 
@@ -78,13 +82,16 @@ class MyPageController extends GetxController {
 
     switch (status) {
       case 200:
+        myBoardScrap.value = response["myPageBoard"];
+
         break;
       default:
-        Get.snackbar("에러 발생", "에러 발생");
+        myBoardScrap.value = [];
+
+        // Get.snackbar("에러 발생", "에러 발생");
         break;
     }
 
-    myBoardScrap.value = response["myPageBoard"];
     _dataAvailableMypageScrap.value = true;
   }
 
@@ -111,13 +118,13 @@ class MyPageController extends GetxController {
 
         case 1:
           if (!dataAvailableMypageLike) {
-            getMineLike();
+            getMineScrap();
           }
           break;
 
         case 2:
           if (!dataAvailableMypageScrap) {
-            getMineScrap();
+            getMineLike();
           }
           break;
         default:
