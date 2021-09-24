@@ -38,8 +38,8 @@ class MailHistory extends StatelessWidget {
           body: RefreshIndicator(
             onRefresh: mailController.getMail,
             child: Obx(() {
-              if (mailController.dataAvailableMailSendPage) {
-                //data가 available한 상태인지 확인
+              print(mailController.dataAvailableMailSendPage.value);
+              if (mailController.dataAvailableMailSendPage.value) {
                 return ListView.builder(
                   controller: mailController.scrollController,
                   itemCount: mailController.mailHistory.length,

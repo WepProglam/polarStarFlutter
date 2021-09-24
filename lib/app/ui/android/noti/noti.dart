@@ -16,7 +16,6 @@ class Noti extends StatelessWidget {
     Key key,
   }) : super(key: key);
   final MainController mainController = Get.find();
-  final MailController mailController = Get.find();
   final NotiController notiController = Get.find();
   @override
   Widget build(BuildContext context) {
@@ -43,8 +42,8 @@ class Noti extends StatelessWidget {
                 return NotiNotiBox(notiController: notiController);
               } else {
                 return NotiMailBox(
-                    notiController: notiController,
-                    mailController: mailController);
+                  notiController: notiController,
+                );
               }
             }));
   }

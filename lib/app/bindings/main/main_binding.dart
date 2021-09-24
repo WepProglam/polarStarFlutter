@@ -32,7 +32,7 @@ class MainBinding implements Bindings {
     Get.lazyPut<MyPageController>(() => MyPageController(
         repository: MyPageRepository(apiClient: MyPageApiClient())));
 
-    Get.lazyPut<MailController>(() =>
-        MailController(repository: MailRepository(apiClient: MailApiClient())));
+    // Get.lazyPut<MailController>(() =>
+    //     MailController(repository: MailRepository(apiClient: MailApiClient())));
   }
 }

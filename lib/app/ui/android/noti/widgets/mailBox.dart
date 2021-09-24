@@ -6,12 +6,9 @@ import 'package:polarstar_flutter/app/data/model/mail/mailBox_model.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
 
 class NotiMailBox extends StatelessWidget {
-  const NotiMailBox(
-      {Key key, @required this.notiController, @required this.mailController})
-      : super(key: key);
+  const NotiMailBox({Key key, @required this.notiController}) : super(key: key);
 
   final NotiController notiController;
-  final MailController mailController;
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(

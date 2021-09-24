@@ -15,10 +15,8 @@ class MailController extends GetxController {
   final box = GetStorage();
 
   MailController({@required this.repository}) : assert(repository != null);
-  RxBool _dataAvailableMailPage = false.obs;
-  RxBool _dataAvailableMailSendPage = false.obs;
-  final //스크롤 초기 설정 필요함
-      ScrollController scrollController =
+  RxBool dataAvailableMailSendPage = false.obs;
+  final ScrollController scrollController =
       new ScrollController(initialScrollOffset: 0);
 
   RxBool mailAnonymous = false.obs; //쪽지함 익명
@@ -37,7 +35,6 @@ class MailController extends GetxController {
 
   @override
   onClose() async {
-    _dataAvailableMailSendPage.value = false;
     super.onClose();
   }
 
@@ -74,13 +71,6 @@ class MailController extends GetxController {
       default:
         Get.snackbar("쪽지 보내기 실패", "쪽지 보내기 실패");
     }
-
-    //쪽지 보내면 자동으로 스크롤을 최하단으로 가게 하는 코드
-    //근데 시부레 안됨 ㅈ같네
-    // controller.animateTo(controller.position.maxScrollExtent,
-    //     duration: Duration(microseconds: 300), curve: Curves.easeOut);
-
-    //쪽지 보내고나면 텍스트 입력창 다시 초기화
   }
 
   void sendMailOut(int UNIQUE_ID, int COMMUNITY_ID, String content) async {
@@ -127,13 +117,6 @@ class MailController extends GetxController {
     mailHistory.value = value["listMailHistory"];
     opponentProfile.value = value["target_profile"];
     myProfile.value = value["profile"];
-    _dataAvailableMailSendPage.value = true;
+    dataAvailableMailSendPage.value = true;
   }
-
-  void setDataAvailableMailSendPageFalse() {
-    _dataAvailableMailSendPage.value = false;
-  }
-
-  bool get dataAvailalbeMailPage => _dataAvailableMailPage.value;
-  bool get dataAvailableMailSendPage => _dataAvailableMailSendPage.value;
 }
