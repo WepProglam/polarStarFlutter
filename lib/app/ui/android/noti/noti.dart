@@ -42,7 +42,9 @@ class Noti extends StatelessWidget {
               if (index == 0) {
                 return NotiNotiBox(notiController: notiController);
               } else {
-                return NotiMailBox(mailController: mailController);
+                return NotiMailBox(
+                    notiController: notiController,
+                    mailController: mailController);
               }
             }));
   }

@@ -7,9 +7,7 @@ import 'package:polarstar_flutter/app/data/model/mail/mailSend_model.dart';
 class MailHistory extends StatelessWidget {
   final MailController mailController = Get.find();
   final commentWriteController = TextEditingController();
-  //스크롤 초기 설정 필요함
-  ScrollController controller =
-      new ScrollController(initialScrollOffset: 10000);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -39,76 +37,66 @@ class MailHistory extends StatelessWidget {
           ),
           body: RefreshIndicator(
             onRefresh: mailController.getMail,
-            child: Stack(
-              children: [
-                ListView(),
-                Obx(() {
-                  if (mailController.dataAvailableMailSendPage) {
-                    //data가 available한 상태인지 확인
-                    return ListView.builder(
-                      controller: controller,
-                      itemCount: mailController.mailHistory.length,
-                      scrollDirection: Axis.vertical,
-                      padding: EdgeInsets.only(top: 10, bottom: 97),
-                      itemBuilder: (context, index) {
-                        return Container(
-                            padding:
-                                (mailController.mailHistory[index].FROM_ME == 0
-                                    ? EdgeInsets.only(left: 15, bottom: 33.5)
-                                    : EdgeInsets.only(right: 15, bottom: 26.5)),
-                            child: Align(
-                              alignment:
-                                  (mailController.mailHistory[index].FROM_ME ==
-                                          0
-                                      ? Alignment.topLeft
-                                      : Alignment.topRight),
-                              child: (mailController
-                                          .mailHistory[index].FROM_ME ==
-                                      0
-                                  ? Row(children: [
-                                      MAIL_PROFILE_ITEM(
-                                          FROM_ME: false,
-                                          profile:
-                                              mailController.opponentProfile),
+            child: Obx(() {
+              if (mailController.dataAvailableMailSendPage) {
+                //data가 available한 상태인지 확인
+                return ListView.builder(
+                  controller: mailController.scrollController,
+                  itemCount: mailController.mailHistory.length,
+                  scrollDirection: Axis.vertical,
+                  padding: EdgeInsets.only(top: 10, bottom: 97),
+                  itemBuilder: (context, index) {
+                    return Container(
+                        padding: (mailController.mailHistory[index].FROM_ME == 0
+                            ? EdgeInsets.only(left: 15, bottom: 33.5)
+                            : EdgeInsets.only(right: 15, bottom: 26.5)),
+                        child: Align(
+                          alignment:
+                              (mailController.mailHistory[index].FROM_ME == 0
+                                  ? Alignment.topLeft
+                                  : Alignment.topRight),
+                          child: (mailController.mailHistory[index].FROM_ME == 0
+                              ? Row(children: [
+                                  MAIL_PROFILE_ITEM(
+                                      FROM_ME: false,
+                                      profile: mailController.opponentProfile),
+                                  MAIL_CONTENT_ITEM(
+                                    mailController: mailController,
+                                    model: mailController.mailHistory[index],
+                                  )
+                                ])
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
                                       MAIL_CONTENT_ITEM(
                                         mailController: mailController,
                                         model:
                                             mailController.mailHistory[index],
-                                      )
-                                    ])
-                                  : Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                          MAIL_CONTENT_ITEM(
-                                            mailController: mailController,
-                                            model: mailController
-                                                .mailHistory[index],
-                                          ),
-                                          MAIL_PROFILE_ITEM(
-                                              FROM_ME: true,
-                                              profile:
-                                                  mailController.myProfile),
-                                        ])),
-                            ));
-                      },
-                    );
-                  } else {
-                    return CircularProgressIndicator();
-                  }
-                })
-              ],
-            ),
+                                      ),
+                                      MAIL_PROFILE_ITEM(
+                                          FROM_ME: true,
+                                          profile: mailController.myProfile),
+                                    ])),
+                        ));
+                  },
+                );
+              } else {
+                return Container(
+                  color: Colors.white,
+                );
+              }
+            }),
           ),
           //입력창
           bottomSheet: Container(
-              height: 117,
+              height: 107 - 13.0 - 22,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(color: const Color(0xffffffff)),
               child:
                   //키보드
                   Column(children: [
                 Container(
-                    margin: EdgeInsets.only(top: 10, bottom: 55),
+                    margin: EdgeInsets.only(bottom: 42 - 22.0),
                     width: MediaQuery.of(context).size.width - 30,
                     height: 52,
                     decoration: BoxDecoration(
@@ -129,6 +117,13 @@ class MailHistory extends StatelessWidget {
                             15,
                         child: TextFormField(
                             keyboardType: TextInputType.multiline,
+                            onEditingComplete: () async {
+                              await mailController.sendMailIn(
+                                  commentWriteController.text,
+                                  mailController.scrollController);
+
+                              commentWriteController.clear();
+                            },
                             maxLines: null,
                             controller: commentWriteController,
                             style: const TextStyle(
@@ -139,7 +134,8 @@ class MailHistory extends StatelessWidget {
                                 fontSize: 16.0),
                             onFieldSubmitted: (value) {
                               mailController.sendMailIn(
-                                  commentWriteController.text, controller);
+                                  commentWriteController.text,
+                                  mailController.scrollController);
                             },
                             textInputAction: TextInputAction.done,
                             decoration: InputDecoration(
@@ -158,9 +154,10 @@ class MailHistory extends StatelessWidget {
                                     image: AssetImage('assets/images/869.png'),
                                     scale: 1.8)),
                           ),
-                          onTap: () {
-                            mailController.sendMailIn(
-                                commentWriteController.text, controller);
+                          onTap: () async {
+                            await mailController.sendMailIn(
+                                commentWriteController.text,
+                                mailController.scrollController);
 
                             commentWriteController.clear();
                           }),

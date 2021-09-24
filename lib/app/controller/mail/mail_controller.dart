@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:meta/meta.dart';
+import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/data/model/mail/mailBox_model.dart';
 import 'package:polarstar_flutter/app/data/model/mail/mailSend_model.dart';
 import 'package:polarstar_flutter/app/data/repository/mail/mail_repository.dart';
@@ -16,18 +17,22 @@ class MailController extends GetxController {
   MailController({@required this.repository}) : assert(repository != null);
   RxBool _dataAvailableMailPage = false.obs;
   RxBool _dataAvailableMailSendPage = false.obs;
+  final //스크롤 초기 설정 필요함
+      ScrollController scrollController =
+      new ScrollController(initialScrollOffset: 0);
 
   RxBool mailAnonymous = false.obs; //쪽지함 익명
   RxInt MAIL_BOX_ID = 0.obs; //쪽지함 ID
-  RxList<Rx<MailBoxModel>> mailBox = <Rx<MailBoxModel>>[].obs; //쪽지함
+
   RxList<MailHistoryModel> mailHistory = <MailHistoryModel>[].obs; //쪽지내역
   Rx<MailProfile> opponentProfile = MailProfile().obs; //쪽지 상대방 프로필
   Rx<MailProfile> myProfile = MailProfile().obs; //쪽지 상대방 프로필
 
+  final NotiController notiController = Get.find();
+
   @override
   onInit() async {
     super.onInit();
-    await getMailBox();
   }
 
   @override
@@ -37,7 +42,7 @@ class MailController extends GetxController {
   }
 
   //쪽지 보내느 함수
-  void sendMailIn(String content, ScrollController controller) async {
+  Future<void> sendMailIn(String content, ScrollController controller) async {
     if (content.trim().isEmpty) {
       //빈 값 보내면 snackBar 반환
       Get.snackbar("텍스트를 입력해주세요", "텍스트를 입력해주세요",
@@ -53,11 +58,11 @@ class MailController extends GetxController {
         mailHistory.add(MailHistoryModel.fromJson({
           "FROM_ME": 1,
           "CONTENT": content,
-          "TIME_CREATED": "${DateTime.now()}"
+          "TIME_CREATED": DateTime.now()
         }));
 
         //mailBox에서 해당 mail 찾아서 미리보기 내용 바꿈
-        for (Rx<MailBoxModel> item in mailBox) {
+        for (Rx<MailBoxModel> item in notiController.mailBox) {
           if (item.value.MAIL_BOX_ID == MAIL_BOX_ID.value) {
             item.update((val) {
               val.CONTENT = content;
@@ -123,19 +128,6 @@ class MailController extends GetxController {
     opponentProfile.value = value["target_profile"];
     myProfile.value = value["profile"];
     _dataAvailableMailSendPage.value = true;
-  }
-
-  Future<void> getMailBox() async {
-    //쪽지함 보기
-    Map<String, dynamic> value = await repository.getMailBox();
-
-    if (value["status"] != 200) {
-      Get.snackbar("오류", "오류");
-      return;
-    }
-    mailBox.value = value["listMailBox"];
-
-    _dataAvailableMailPage.value = true;
   }
 
   void setDataAvailableMailSendPageFalse() {

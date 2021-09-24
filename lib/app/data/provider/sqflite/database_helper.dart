@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
+import 'package:polarstar_flutter/app/data/provider/sqflite/src/db_community.dart';
+import 'package:polarstar_flutter/app/data/provider/sqflite/src/db_noti.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -7,15 +9,9 @@ class DatabaseHelper {
   static final _databaseName = "info.db";
   static final _databaseVersion = 1;
 
-  static final table = "INFO";
-
-  static final COLUMN_COMMUNITY_ID = 'COMMUNITY_ID';
-  static final COLUMN_COMMUNITY_NAME = 'COMMUNITY_NAME';
-  static final COLUMN_isFollowed = 'isFollowed';
-  static final COLUMN_RECENT_TITLE = 'RECENT_TITLE';
-
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
+
   static Database _database;
   Future<Database> get database async {
     if (_database != null) return _database;
@@ -35,46 +31,29 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-    CREATE TABLE $table (
-      $COLUMN_COMMUNITY_ID INTEGER PRIMARY KEY,
-      $COLUMN_COMMUNITY_NAME VARCHAR(50) NOT NULL,
-      $COLUMN_isFollowed VARCHAR(50),
-      $COLUMN_RECENT_TITLE VARCHAR(50)
-    )
+    CREATE TABLE ${COMMUNITY_DB_HELPER.table} (
+      ${COMMUNITY_DB_HELPER.COLUMN_COMMUNITY_ID} INTEGER PRIMARY KEY,
+      ${COMMUNITY_DB_HELPER.COLUMN_COMMUNITY_NAME} VARCHAR(50) NOT NULL,
+      ${COMMUNITY_DB_HELPER.COLUMN_isFollowed} VARCHAR(50),
+      ${COMMUNITY_DB_HELPER.COLUMN_RECENT_TITLE} VARCHAR(50)
+    );
+  ''');
+
+    await db.execute('''
+    CREATE TABLE ${NOTI_DB_HELPER.table} (
+      ${NOTI_DB_HELPER.COLUMN_NOTI_ID} INTEGER PRIMARY KEY,
+      ${NOTI_DB_HELPER.COLUMN_LOOKUP_DATE} DATETIME(6)
+    );
   ''');
   }
 
-  Future<void> insert(BoardInfo board) async {
-    final Database db = await instance.database;
-    await db.insert(
-      table,
-      board.toJson(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
-
-  Future<List<Rx<BoardInfo>>> queryAllRows() async {
-    Database db = await instance.database;
-    Iterable res = await db.query(table, orderBy: "$COLUMN_COMMUNITY_ID DESC");
-    print(res);
-    List<Rx<BoardInfo>> listFollwingCommunity =
-        res.map((e) => BoardInfo.fromJson(e).obs).toList();
-    return listFollwingCommunity;
-  }
-
-  Future<int> delete(int COMMUNITY_ID) async {
-    Database db = await instance.database;
-    return await db.delete(table,
-        where: '$COLUMN_COMMUNITY_ID = ?', whereArgs: [COMMUNITY_ID]);
-  }
-
-  Future<void> clearTable() async {
-    Database db = await instance.database;
+  Future<void> clearTable(String table) async {
+    Database db = await DatabaseHelper.instance.database;
     return await db.rawQuery("DELETE FROM $table");
   }
 
-  Future<void> dropTable() async {
-    Database db = await instance.database;
+  Future<void> dropTable(String table) async {
+    Database db = await DatabaseHelper.instance.database;
     return await db.rawQuery("DROP TABLE $table");
   }
 }

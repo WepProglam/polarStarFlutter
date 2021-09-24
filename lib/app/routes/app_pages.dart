@@ -26,7 +26,6 @@ import 'package:polarstar_flutter/app/ui/android/board/board.dart';
 import 'package:polarstar_flutter/app/ui/android/board/hot_board.dart';
 import 'package:polarstar_flutter/app/ui/android/board/post.dart';
 import 'package:polarstar_flutter/app/ui/android/board/write_post.dart';
-import 'package:polarstar_flutter/app/ui/android/mail/mailBox.dart';
 import 'package:polarstar_flutter/app/ui/android/mail/mailHistory.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
 import 'package:polarstar_flutter/app/ui/android/loby/login_page.dart';
@@ -58,7 +57,6 @@ class AppPages {
       name: Routes.INITIAL,
       page: () => InitPage(),
       binding: InitBinding(),
-     
     ),
     GetPage(
       name: Routes.LOGIN,
@@ -140,11 +138,6 @@ class AppPages {
         name: Routes.MAILHISTORY,
         page: () => MailHistory(),
         binding: MailHistoryBinding()),
-    GetPage(
-      name: Routes.MAILBOX,
-      page: () => MailBox(),
-      binding: MailBoxBinding(),
-    ),
     GetPage(
       name: Routes.CLASS,
       page: () => Class(),

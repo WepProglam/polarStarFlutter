@@ -417,7 +417,7 @@ class MyPageProfile extends StatelessWidget {
                       ]))),
               InkWell(
                   onTap: () async {
-                    await Get.toNamed('/mail');
+                    // await Get.toNamed('/mail');
                   },
                   child: Container(
                       height: 31,
@@ -427,26 +427,28 @@ class MyPageProfile extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(31)),
                           border: Border.all(
                               color: const Color(0xffffffff), width: 2)),
-                      child: Row(children: [
-                        Container(
-                            margin: EdgeInsets.only(left: 17.2),
-                            width: 11.8406982421875,
-                            height: 13.6337890625,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/601.png")))),
-                        Container(
-                            margin: EdgeInsets.only(left: 9),
-                            child: Text("Mail",
-                                style: const TextStyle(
-                                    color: const Color(0xffffffff),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "PingFangSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                textAlign: TextAlign.left))
-                      ])))
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                                margin: EdgeInsets.only(left: 17.2),
+                                width: 11.8406982421875,
+                                height: 13.6337890625,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            "assets/images/601.png")))),
+                            Container(
+                                margin: EdgeInsets.only(left: 9),
+                                child: Text("Setting",
+                                    style: const TextStyle(
+                                        color: const Color(0xffffffff),
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "PingFangSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14.0),
+                                    textAlign: TextAlign.left))
+                          ])))
             ]))
       ]);
     });

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -12,6 +13,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   final MainController mainController;
   final MyPageController myPageController = Get.find();
+  final NotiController notiController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
         onTap: (index) async {
           mainController.mainPageIndex.value = index;
           myPageController.profilePostIndex.value = 0;
+          notiController.pageViewIndex.value = 0;
         },
       );
     });
