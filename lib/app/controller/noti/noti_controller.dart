@@ -44,7 +44,6 @@ class NotiController extends GetxController {
 
     for (var item in noties) {
       for (SaveNotiModel saveNoti in readNoties) {
-        print("${item.value.NOTI_ID} == ${saveNoti.NOTI_ID}");
         if (item.value.NOTI_ID == saveNoti.NOTI_ID) {
           item.update((val) {
             val.isReaded = true;

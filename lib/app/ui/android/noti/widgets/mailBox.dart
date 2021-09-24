@@ -30,8 +30,10 @@ class NotiMailBox extends StatelessWidget {
                       Get.toNamed("/mail/${model.value.MAIL_BOX_ID}");
                     },
                     child: Container(
-                      height: 56,
-                      margin: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+                      height: 56 + 10.0,
+                      // margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 15, right: 15),
                       child: Container(
                         child: Column(
                           children: [

@@ -8,6 +8,7 @@ mixin NOTI_DB_HELPER implements DatabaseHelper {
   static final COLUMN_NOTI_ID = 'NOTI_ID';
   static final COLUMN_LOOKUP_DATE = 'LOOKUP_DATE';
   static final table = "NOTI";
+
   static Future<void> insert(SaveNotiModel noti) async {
     final Database db = await DatabaseHelper.instance.database;
     await db.insert(

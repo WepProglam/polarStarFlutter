@@ -24,7 +24,6 @@ class NotiNotiBox extends StatelessWidget {
               itemCount: notiController.noties.length,
               itemBuilder: (BuildContext context, int index) {
                 Rx<NotiModel> model = notiController.noties[index];
-                print("object");
                 return Obx(() {
                   return Ink(
                     child: InkWell(
@@ -38,15 +37,12 @@ class NotiNotiBox extends StatelessWidget {
                           "NOTI_ID": model.value.NOTI_ID,
                           "LOOKUP_DATE": "${DateTime.now()}"
                         }));
-
-                        // mailController.MAIL_BOX_ID.value = model.MAIL_BOX_ID;
-                        // //처음에 정보(쪽지 주고 받은 내역) 받고 보냄
-                        // await mailController.getMail();
-                        // Get.toNamed("/mail/${model.MAIL_BOX_ID}");
                       },
                       child: Container(
-                        height: 56,
-                        margin: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+                        height: 56 + 10.0,
+                        padding:
+                            const EdgeInsets.only(top: 10, left: 15, right: 15),
+                        // margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                         color: model.value.isReaded
                             ? Color(0xfff6f6f6)
                             : Colors.lightBlue[50],
