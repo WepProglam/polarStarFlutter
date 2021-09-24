@@ -66,22 +66,25 @@ class Mypage extends StatelessWidget {
                               onRefresh: () async {
                                 switch (index) {
                                   case 0:
-                                    await myPageController.getMineWrite();
+                                    myPageController.getMineWrite();
                                     break;
                                   case 1:
-                                    await myPageController.getMineLike();
+                                    myPageController.getMineLike();
                                     break;
                                   case 2:
-                                    await myPageController.getMineScrap();
+                                    myPageController.getMineScrap();
                                     break;
                                   default:
                                 }
+
                                 return true;
                               },
-                              child: Builder(
-                                builder: (BuildContext context) {
+                              child: Obx(
+                                () {
                                   if (dataAvailable[myPageController
                                       .profilePostIndex.value]) {
+                                    print("ㄴㄴㄴ");
+
                                     return ListView.builder(
                                         cacheExtent: 10,
                                         itemCount: userPost[index].length,
@@ -92,6 +95,7 @@ class Mypage extends StatelessWidget {
                                           );
                                         });
                                   } else {
+                                    print("ㅇㅇㅇ");
                                     return Center(
                                         child: CircularProgressIndicator());
                                   }
@@ -132,6 +136,10 @@ class MyPageProfilePostIndex extends StatelessWidget {
                   onTap: () {
                     myPageController.profilePostIndex.value = 0;
                     myPageController.pageController.jumpToPage(0);
+
+                    // myPageController.pageController.animateToPage(0,
+                    //     duration: Duration(milliseconds: 300),
+                    //     curve: Curves.fastOutSlowIn);
                   },
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -171,6 +179,10 @@ class MyPageProfilePostIndex extends StatelessWidget {
                   onTap: () {
                     myPageController.profilePostIndex.value = 1;
                     myPageController.pageController.jumpToPage(1);
+
+                    // myPageController.pageController.animateToPage(1,
+                    //     duration: Duration(milliseconds: 300),
+                    //     curve: Curves.fastOutSlowIn);
                   },
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -210,6 +222,10 @@ class MyPageProfilePostIndex extends StatelessWidget {
                   onTap: () {
                     myPageController.profilePostIndex.value = 2;
                     myPageController.pageController.jumpToPage(2);
+
+                    // myPageController.pageController.animateToPage(2,
+                    //     duration: Duration(milliseconds: 300),
+                    //     curve: Curves.fastOutSlowIn);
                   },
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

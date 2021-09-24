@@ -1,16 +1,18 @@
 class NotiModel {
-  String URL, CONTENT;
-  int NOTI_ID;
+  String URL, CONTENT, TITLE;
+  int NOTI_ID, NOTI_TYPE;
   DateTime TIME_CREATED;
   bool isReaded;
 
-  NotiModel({URL, CONTENT, TIME_CREATED, isReaded});
+  NotiModel({URL, CONTENT, TIME_CREATED, isReaded, TITLE, NOTI_TYPE});
 
   NotiModel.fromJson(Map<String, dynamic> json) {
     this.URL = json["URL"];
     this.CONTENT = json["CONTENT"];
+    this.TITLE = json["TITLE"];
     this.TIME_CREATED = DateTime.parse(json["TIME_CREATED"]);
     this.NOTI_ID = json["NOTI_ID"];
+    this.NOTI_TYPE = json["NOTI_TYPE"];
     this.isReaded = false;
   }
 }

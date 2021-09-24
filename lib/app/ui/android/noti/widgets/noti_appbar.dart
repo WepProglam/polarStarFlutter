@@ -24,7 +24,9 @@ class NotiAppBar extends StatelessWidget {
             child: Ink(
               child: InkWell(
                 onTap: () {
-                  notiController.pageController.jumpToPage(0);
+                  notiController.pageController.animateToPage(0,
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.linear);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -57,7 +59,9 @@ class NotiAppBar extends StatelessWidget {
             child: Ink(
               child: InkWell(
                 onTap: () {
-                  notiController.pageController.jumpToPage(1);
+                  notiController.pageController.animateToPage(1,
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.linear);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
