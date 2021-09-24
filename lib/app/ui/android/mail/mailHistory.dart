@@ -17,28 +17,77 @@ class MailHistory extends StatelessWidget {
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
             elevation: 0,
-            leading: InkWell(
-              child: Icon(Icons.arrow_back_ios_new, color: Colors.black),
-              onTap: () {
-                Get.back();
-              },
+            leading: Container(
+              margin: const EdgeInsets.only(top: 8),
+              child: InkWell(
+                child: Icon(Icons.arrow_back_ios_new, color: Colors.black),
+                onTap: () {
+                  Get.back();
+                },
+              ),
             ),
+            actions: [
+              PopupMenuButton<String>(
+                padding: EdgeInsets.zero,
+                icon: Container(
+                  margin: const EdgeInsets.only(top: 8, right: 8),
+                  height: 15.5,
+                  width: 19.2,
+                  child: Image.asset("assets/images/16_10.png"),
+                ),
+                //여기다 삭제 추가 신고 메서드 추가 필요
+                onSelected: (String result) {
+                  switch (result) {
+                    case '전체 삭제하기':
+                      print('filter 1 clicked');
+                      break;
+                    case '차단하기':
+                      print('filter 2 clicked');
+                      break;
+                    case '신고하기':
+                      print('Clear filters');
+                      break;
+                    default:
+                  }
+                },
+                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                  const PopupMenuItem<String>(
+                    value: '전체 삭제하기',
+                    child: Text('전체 삭제하기'),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: '차단하기',
+                    child: Text('차단하기'),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: '신고하기',
+                    child: Text('신고하기'),
+                  ),
+                ],
+              ),
+            ],
             leadingWidth: 35,
             titleSpacing: 0,
-            title: Text(
-                "${mailController.opponentProfile.value.PROFILE_NICKNAME}",
-                style: const TextStyle(
-                    color: const Color(0xff333333),
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "PingFangSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 21.0),
-                textAlign: TextAlign.left),
+            title: Obx(() {
+              return Container(
+                margin: const EdgeInsets.only(top: 1.5),
+                child: Row(children: [
+                  Text(
+                      "${mailController.opponentProfile.value.PROFILE_NICKNAME}",
+                      style: const TextStyle(
+                          color: const Color(0xff333333),
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "PingFangSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 21.0),
+                      textAlign: TextAlign.left),
+                ]),
+              );
+            }),
           ),
           body: RefreshIndicator(
             onRefresh: mailController.getMail,
             child: Obx(() {
-              print(mailController.dataAvailableMailSendPage.value);
               if (mailController.dataAvailableMailSendPage.value) {
                 return ListView.builder(
                   controller: mailController.scrollController,

@@ -64,11 +64,14 @@ class HotBoard extends StatelessWidget {
             body: Obx(() {
               if (controller.dataAvailablePostPreview.value) {
                 return RefreshIndicator(
-                  onRefresh: () async {},
+                  onRefresh: () async {
+                    await controller.refreshHotPage();
+                  },
                   child: ListView.builder(
                       controller: controller.scrollController.value,
                       itemCount: controller.postBody.length,
                       physics: AlwaysScrollableScrollPhysics(),
+                      cacheExtent: 10,
                       itemBuilder: (BuildContext context, int index) {
                         return PostPreview(
                           item: controller.postBody[index],
@@ -76,9 +79,13 @@ class HotBoard extends StatelessWidget {
                       }),
                 );
               } else if (controller.httpStatus == 404) {
-                return Text("아직 게시글이 없습니다.");
+                return Container(
+                  color: Colors.white,
+                );
               } else {
-                return Text("아직 게시글이 없습니다.");
+                return Container(
+                  color: Colors.white,
+                );
               }
             })));
   }

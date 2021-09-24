@@ -39,7 +39,7 @@ class PhotoLayout extends StatelessWidget {
                       margin: EdgeInsets.only(right: 4.2),
                       width: 110,
                       height: 110,
-                      color: Colors.lightBlue[50],
+                      color: const Color(0xff194678),
                     ),
                 errorWidget: (context, url, error) {
                   print(error);
