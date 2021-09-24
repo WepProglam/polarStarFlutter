@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
 
 class NotiNotiBox extends StatelessWidget {
   const NotiNotiBox({
@@ -75,7 +76,8 @@ class NotiNotiBox extends StatelessWidget {
                                           Container(
                                             margin: const EdgeInsets.only(
                                                 top: 2, right: 0.5),
-                                            child: Text("${model.TIME_CREATED}",
+                                            child: Text(
+                                                "${prettyDate(model.TIME_CREATED)}",
                                                 style: const TextStyle(
                                                     color:
                                                         const Color(0xff333333),
@@ -87,9 +89,10 @@ class NotiNotiBox extends StatelessWidget {
                                           )
                                         ]),
                                         Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 2.5),
+                                          margin: const EdgeInsets.only(
+                                              top: 2.5, right: 37),
                                           child: Text("${model.CONTENT}",
+                                              maxLines: 1,
                                               style: const TextStyle(
                                                   color:
                                                       const Color(0xff333333),
