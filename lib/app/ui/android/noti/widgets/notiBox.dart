@@ -37,15 +37,24 @@ class NotiNotiBox extends StatelessWidget {
                     return Ink(
                       child: InkWell(
                         onTap: () async {
-                          Get.toNamed("/board/32/read/20");
-                          model.update((val) {
-                            val.isReaded = true;
-                          });
-                          await notiController.setReadNotied(
-                              SaveNotiModel.fromJson({
-                            "NOTI_ID": model.value.NOTI_ID,
-                            "LOOKUP_DATE": "${DateTime.now()}"
-                          }));
+                          if (model.value.NOTI_TYPE == 0) {
+                            String COMMUNITY_ID = model.value.URL.split("/")[1];
+                            String BOARD_ID = model.value.URL.split("/")[3];
+                            Get.toNamed(
+                                "/board/${COMMUNITY_ID}/read/${BOARD_ID}");
+                          } else {
+                            Get.toNamed("/board/32/read/20");
+                          }
+                          if (!model.value.isReaded) {
+                            model.update((val) {
+                              val.isReaded = true;
+                            });
+                            notiController.setReadNotied(
+                                SaveNotiModel.fromJson({
+                              "NOTI_ID": model.value.NOTI_ID,
+                              "LOOKUP_DATE": "${DateTime.now()}"
+                            }));
+                          }
                         },
                         child: Container(
                           height: 56 + 10.0,

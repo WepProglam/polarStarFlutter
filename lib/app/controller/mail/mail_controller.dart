@@ -107,10 +107,10 @@ class MailController extends GetxController {
   Future<void> getMail() async {
     //쪽지 내역 보기
 
-    print("/message/${MAIL_BOX_ID.value}");
     Map<String, dynamic> value = await repository.getMail(MAIL_BOX_ID.value);
     if (value["status"] != 200) {
-      Get.snackbar("오류", "오류");
+      await Get.defaultDialog(content: Text("삭제된 페이지입니다."));
+      await Get.back();
       return;
     }
 

@@ -73,7 +73,10 @@ class MailHistory extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 1.5),
                 child: Row(children: [
                   Text(
-                      "${mailController.opponentProfile.value.PROFILE_NICKNAME}",
+                      mailController.opponentProfile.value.PROFILE_NICKNAME ==
+                              null
+                          ? ""
+                          : "${mailController.opponentProfile.value.PROFILE_NICKNAME}",
                       style: const TextStyle(
                           color: const Color(0xff333333),
                           fontWeight: FontWeight.w700,

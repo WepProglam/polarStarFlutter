@@ -40,7 +40,10 @@ class Post extends StatelessWidget {
               ),
             ),
             titleSpacing: 0,
-            title: Text('${communityBoardName(c.COMMUNITY_ID)}',
+            title: Text(
+                communityBoardName(c.COMMUNITY_ID) == null
+                    ? ""
+                    : '${communityBoardName(c.COMMUNITY_ID)}',
                 style: const TextStyle(
                     color: const Color(0xff333333),
                     fontWeight: FontWeight.bold,
