@@ -10,13 +10,13 @@ class ClassViewController extends GetxController {
   final ClassRepository repository;
   ClassViewController({@required this.repository});
 
-  final commentRate = 5.obs;
-  final teamProjectRate = 5.obs;
-  final assignmentRate = 5.obs;
-  final examRate = 5.obs;
-  final gradeRate = 5.obs;
+  // final commentRate = 5.obs;
+  // final teamProjectRate = 5.obs;
+  // final assignmentRate = 5.obs;
+  // final examRate = 5.obs;
+  // final gradeRate = 5.obs;
 
-  final writeCommentSemester = 0.obs;
+  // final writeCommentSemester = 0.obs;
 
   final examIndex = 0.obs;
   final questionTypeIndex = 0.obs;
@@ -152,21 +152,21 @@ class ClassViewController extends GetxController {
     }
   }
 
-  Future postComment(int CLASS_ID, Map data) async {
-    final jsonResponse = await repository.postComment(CLASS_ID, data);
+  // Future postComment(int CLASS_ID, Map data) async {
+  //   final jsonResponse = await repository.postComment(CLASS_ID, data);
 
-    switch (jsonResponse["statusCode"]) {
-      case 200:
-        Get.snackbar("강평 작성 완료", "강의평가 작성이 완료되었습니다.",
-            duration: Duration(seconds: 2));
-        Get.back();
+  //   switch (jsonResponse["statusCode"]) {
+  //     case 200:
+  //       Get.snackbar("강평 작성 완료", "강의평가 작성이 완료되었습니다.",
+  //           duration: Duration(seconds: 2));
+  //       Get.back();
 
-        break;
-      default:
-        print(jsonResponse["statusCode"]);
-        Get.snackbar("강평 작성 실패", "Failed", duration: Duration(seconds: 2));
-    }
-  }
+  //       break;
+  //     default:
+  //       print(jsonResponse["statusCode"]);
+  //       Get.snackbar("강평 작성 실패", "Failed", duration: Duration(seconds: 2));
+  //   }
+  // }
 
   Future postExam(int CLASS_ID, Map<String, dynamic> data) async {
     final jsonResponse = await repository.postExam(CLASS_ID, data);
@@ -200,7 +200,6 @@ class ClassViewController extends GetxController {
   @override
   void onInit() async {
     await getClassView(int.parse(Get.parameters["classid"]));
-
     super.onInit();
   }
 }

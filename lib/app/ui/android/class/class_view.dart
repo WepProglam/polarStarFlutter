@@ -44,8 +44,10 @@ class ClassView extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return WriteComment(
-                          classViewController: classViewController,
-                          reviewTextController: reviewTextController);
+                        // classViewController: classViewController,
+                        reviewTextController: reviewTextController,
+                        CLASS_ID: classViewController.classInfo.value.CLASS_ID,
+                      );
                     });
               } else {
                 showModalBottomSheet(

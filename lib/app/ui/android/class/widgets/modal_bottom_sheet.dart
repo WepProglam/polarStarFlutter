@@ -3,18 +3,28 @@ import 'package:get/get.dart';
 
 import 'package:polarstar_flutter/app/controller/class/class_view_controller.dart';
 
-class WriteComment extends StatelessWidget {
-  const WriteComment({
-    Key key,
-    @required this.classViewController,
-    @required this.reviewTextController,
-  }) : super(key: key);
+import 'package:polarstar_flutter/app/controller/class/write_comment_controller.dart';
+import 'package:polarstar_flutter/app/data/provider/class/class_provider.dart';
+import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
 
-  final ClassViewController classViewController;
+class WriteComment extends StatelessWidget {
+  const WriteComment(
+      {Key key,
+      // @required this.classViewController,
+      @required this.reviewTextController,
+      @required this.CLASS_ID})
+      : super(key: key);
+
+  // final ClassViewController classViewController;
   final TextEditingController reviewTextController;
+  final int CLASS_ID;
 
   @override
   Widget build(BuildContext context) {
+    WriteCommentController writeCommentController = Get.find();
+
+    print(CLASS_ID);
+
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.only(bottom: Get.mediaQuery.viewInsets.bottom),
@@ -44,14 +54,16 @@ class WriteComment extends StatelessWidget {
                       for (int i = 0; i < 5; i++)
                         InkWell(
                             onTap: () {
-                              classViewController.commentRate(i + 1);
+                              writeCommentController.commentRate(i + 1);
                             },
                             child: Obx(
                               () => Container(
                                 width: 27.4,
                                 height: 26.5,
                                 child: Image.asset(
-                                  i + 1 <= classViewController.commentRate.value
+                                  i + 1 <=
+                                          writeCommentController
+                                              .commentRate.value
                                       ? 'assets/images/897.png'
                                       : 'assets/images/898.png',
                                   fit: BoxFit.fitHeight,
@@ -61,7 +73,7 @@ class WriteComment extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 23.2),
                         child: Obx(() => Text(
-                              "${classViewController.commentRate}/5",
+                              "${writeCommentController.commentRate}/5",
                               style: TextStyle(
                                   color: const Color(0xff333333),
                                   fontWeight: FontWeight.bold,
@@ -100,7 +112,7 @@ class WriteComment extends StatelessWidget {
                     for (int i = 0; i < 5; i++)
                       InkWell(
                           onTap: () {
-                            classViewController.teamProjectRate(i + 1);
+                            writeCommentController.teamProjectRate(i + 1);
                           },
                           child: Obx(
                             () => Container(
@@ -110,7 +122,7 @@ class WriteComment extends StatelessWidget {
                               // 하트로 바꿔야 되는데 이미지가 없음
                               child: Image.asset(
                                 i + 1 <=
-                                        classViewController
+                                        writeCommentController
                                             .teamProjectRate.value
                                     ? 'assets/images/897.png'
                                     : 'assets/images/898.png',
@@ -137,7 +149,7 @@ class WriteComment extends StatelessWidget {
                     for (int i = 0; i < 5; i++)
                       InkWell(
                           onTap: () {
-                            classViewController.assignmentRate(i + 1);
+                            writeCommentController.assignmentRate(i + 1);
                           },
                           child: Obx(
                             () => Container(
@@ -147,7 +159,8 @@ class WriteComment extends StatelessWidget {
                               // 하트로 바꿔야 되는데 이미지가 없음
                               child: Image.asset(
                                 i + 1 <=
-                                        classViewController.assignmentRate.value
+                                        writeCommentController
+                                            .assignmentRate.value
                                     ? 'assets/images/897.png'
                                     : 'assets/images/898.png',
                                 fit: BoxFit.fitHeight,
@@ -174,7 +187,7 @@ class WriteComment extends StatelessWidget {
                     for (int i = 0; i < 5; i++)
                       InkWell(
                           onTap: () {
-                            classViewController.examRate(i + 1);
+                            writeCommentController.examRate(i + 1);
                           },
                           child: Obx(
                             () => Container(
@@ -183,7 +196,7 @@ class WriteComment extends StatelessWidget {
                               margin: EdgeInsets.only(left: 8),
                               // 하트로 바꿔야 되는데 이미지가 없음
                               child: Image.asset(
-                                i + 1 <= classViewController.examRate.value
+                                i + 1 <= writeCommentController.examRate.value
                                     ? 'assets/images/897.png'
                                     : 'assets/images/898.png',
                                 fit: BoxFit.fitHeight,
@@ -209,7 +222,7 @@ class WriteComment extends StatelessWidget {
                     for (int i = 0; i < 5; i++)
                       InkWell(
                           onTap: () {
-                            classViewController.gradeRate(i + 1);
+                            writeCommentController.gradeRate(i + 1);
                           },
                           child: Obx(
                             () => Container(
@@ -218,7 +231,7 @@ class WriteComment extends StatelessWidget {
                               margin: EdgeInsets.only(left: 8),
                               // 하트로 바꿔야 되는데 이미지가 없음
                               child: Image.asset(
-                                i + 1 <= classViewController.gradeRate.value
+                                i + 1 <= writeCommentController.gradeRate.value
                                     ? 'assets/images/897.png'
                                     : 'assets/images/898.png',
                                 fit: BoxFit.fitHeight,
@@ -255,7 +268,7 @@ class WriteComment extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 16.3, bottom: 16.3),
                     child: DropdownButtonFormField(
                       hint: Text("Please select semester"),
-                      value: classViewController.writeCommentSemester.value,
+                      value: writeCommentController.writeCommentSemester.value,
                       items: [
                         DropdownMenuItem(
                           child: Text("2021년도 1학기"),
@@ -267,8 +280,8 @@ class WriteComment extends StatelessWidget {
                         ),
                       ],
                       onChanged: (value) {
-                        classViewController.writeCommentSemester(value);
-                        classViewController.writeCommentSemester.refresh();
+                        writeCommentController.writeCommentSemester(value);
+                        writeCommentController.writeCommentSemester.refresh();
                       },
                     ),
                   ),
@@ -313,30 +326,28 @@ class WriteComment extends StatelessWidget {
                           onTap: () {
                             Map data = {
                               "content": reviewTextController.text,
-                              "rate": classViewController.commentRate.value
+                              "rate": writeCommentController.commentRate.value
                                   .toDouble()
                                   .toString(),
-                              "rate_assignment": classViewController
+                              "rate_assignment": writeCommentController
                                   .assignmentRate.value
                                   .toDouble()
                                   .toString(),
-                              "rate_group_study": classViewController
+                              "rate_group_study": writeCommentController
                                   .teamProjectRate.value
                                   .toDouble()
                                   .toString(),
-                              "rate_exam_study": classViewController
+                              "rate_exam_study": writeCommentController
                                   .examRate.value
                                   .toDouble()
                                   .toString(),
-                              "rate_grade_ratio": classViewController
+                              "rate_grade_ratio": writeCommentController
                                   .gradeRate.value
                                   .toDouble()
                                   .toString(),
                             };
 
-                            classViewController.postComment(
-                                classViewController.classInfo.value.CLASS_ID,
-                                data);
+                            writeCommentController.postComment(CLASS_ID, data);
                           },
                           child: Center(
                               child: Text(
@@ -427,8 +438,8 @@ class WriteExamInfo extends StatelessWidget {
                       ),
                     ],
                     onChanged: (value) {
-                      classViewController.writeCommentSemester(value);
-                      classViewController.writeCommentSemester.refresh();
+                      classViewController.writeExamInfoSemester(value);
+                      classViewController.writeExamInfoSemester.refresh();
                     },
                   ),
                 ),
