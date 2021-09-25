@@ -104,7 +104,10 @@ class MainPageSearch extends StatelessWidget {
                   child: Container(
                       height: 30,
                       child: Obx(() {
-                        bool dataAvailbale = mainSearchController.dataAvailalbe;
+                        int selectedType =
+                            mainSearchController.searchType.value;
+                        List<bool> _isSelected = [false, false, false];
+                        _isSelected[selectedType] = true;
                         return ToggleButtons(
                             children: <Widget>[
                               Container(
@@ -129,7 +132,7 @@ class MainPageSearch extends StatelessWidget {
                                 Get.snackbar("잘못된 타입입니다.", "잘못된 타입입니다.");
                               }
                             },
-                            isSelected: mainSearchController.typeSelect);
+                            isSelected: _isSelected);
                       })))
             ]),
           ),
