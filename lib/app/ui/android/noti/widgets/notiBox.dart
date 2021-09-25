@@ -116,7 +116,7 @@ class NotiNotiBox extends StatelessWidget {
                                                           color: const Color(
                                                               0xff333333),
                                                           fontWeight:
-                                                              FontWeight.w400,
+                                                              FontWeight.w700,
                                                           fontFamily:
                                                               "PingFangSC",
                                                           fontStyle:

@@ -32,7 +32,7 @@ class BoardController extends GetxController {
   var scrollController = ScrollController().obs;
 
   Future<void> refreshPage() async {
-    postBody.clear();
+    // postBody.clear();
     // dataAvailablePostPreview.value = false;
     await getBoard().then((value) => postBody.refresh());
   }
@@ -54,12 +54,11 @@ class BoardController extends GetxController {
 
     switch (status) {
       case 200:
-        // postBody.clear();
+        postBody.clear();
 
         for (int i = 0; i < listBoard.length; i++) {
           postBody.add(listBoard[i]);
         }
-        // postBody(listBoard);
         dataAvailablePostPreview.value = true;
         break;
 

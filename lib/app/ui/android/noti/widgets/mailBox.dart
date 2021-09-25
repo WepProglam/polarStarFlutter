@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
@@ -35,6 +36,7 @@ class NotiMailBox extends StatelessWidget {
                         Get.toNamed("/mail/${model.value.MAIL_BOX_ID}");
                       },
                       child: Container(
+                        color: Colors.lightBlue[50],
                         height: 56 + 10.0,
                         // margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                         padding:
@@ -49,10 +51,28 @@ class NotiMailBox extends StatelessWidget {
                                       Container(
                                         height: 46,
                                         width: 46,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            color: Colors.black),
+                                        child: CachedNetworkImage(
+                                          placeholder: (context, url) =>
+                                              Container(
+                                            margin: EdgeInsets.only(right: 4.2),
+                                            width: 110,
+                                            height: 110,
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xff194678),
+                                              shape: BoxShape.circle,
+                                            ),
+                                          ),
+                                          imageUrl:
+                                              '${model.value.PROFILE_PHOTO}',
+                                          imageBuilder: (context,
+                                                  imageProvider) =>
+                                              Container(
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      image: DecorationImage(
+                                                          image: imageProvider,
+                                                          fit: BoxFit.cover))),
+                                        ),
                                       ),
                                       Container(
                                         margin: const EdgeInsets.only(left: 16),
@@ -93,7 +113,7 @@ class NotiMailBox extends StatelessWidget {
                                                         color: const Color(
                                                             0xff333333),
                                                         fontWeight:
-                                                            FontWeight.w400,
+                                                            FontWeight.w700,
                                                         fontFamily:
                                                             "PingFangSC",
                                                         fontStyle:

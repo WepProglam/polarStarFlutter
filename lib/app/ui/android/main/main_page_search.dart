@@ -48,86 +48,91 @@ class MainPageSearch extends StatelessWidget {
           ),
           // bottomNavigationBar:
           //     CustomBottomNavigationBar(mainController: mainController),
-          body: Stack(children: [
-            Obx(() {
-              if (!mainSearchController.dataAvailalbe) {
-                return Container(
-                  height: size.height,
-                  decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
-                  child: Container(
-                    child: Center(
-                      child: Text(
-                        "Search Things",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                  ),
-                );
-              } else if (mainSearchController
-                      .hasData[mainSearchController.searchType.value].value &&
-                  mainSearchController
-                      .didfetched[mainSearchController.searchType.value]) {
-                return Container(
+          body: Container(
+            child: Stack(children: [
+              Obx(() {
+                if (!mainSearchController.dataAvailalbe) {
+                  return Container(
                     height: size.height,
                     decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
-                    child: ListView.builder(
-                        controller: mainSearchController.scrollController.value,
-                        itemCount: mainSearchController
-                            .searchData[mainSearchController.searchType.value]
-                            .length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return PostPreview(
-                            item: mainSearchController.searchData[
-                                mainSearchController.searchType.value][index],
-                          );
-                        }));
-              } else {
-                return Container(
-                  height: size.height,
-                  decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
-                  child: Container(
-                    child: Center(
-                      child: Text(
-                        "No result",
-                        style: TextStyle(fontSize: 20),
+                    child: Container(
+                      child: Center(
+                        child: Text(
+                          "Search Things",
+                          style: TextStyle(fontSize: 20),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              }
-            }),
-            Obx(() {
-              return Positioned(
-                top: 0,
-                right: 15,
-                child: Container(
-                  height: 30,
-                  child: ToggleButtons(
-                      children: <Widget>[
-                        Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            child: FittedBox(child: Text("커뮤니티"))),
-                        Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            child: FittedBox(child: Text("장학금"))),
-                        Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            child: FittedBox(child: Text("공모전"))),
-                      ],
-                      selectedBorderColor: Colors.blue,
-                      borderRadius: BorderRadius.circular(20),
-                      onPressed: (int index) {
-                        if (index >= 0 && index <= 2) {
-                          mainSearchController.searchType(index);
-                        } else {
-                          Get.snackbar("잘못된 타입입니다.", "잘못된 타입입니다.");
-                        }
-                      },
-                      isSelected: mainSearchController.typeSelect),
-                ),
-              );
-            }),
-          ]),
+                  );
+                } else if (mainSearchController
+                        .hasData[mainSearchController.searchType.value].value &&
+                    mainSearchController
+                        .didfetched[mainSearchController.searchType.value]) {
+                  return Container(
+                      height: size.height,
+                      decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
+                      child: ListView.builder(
+                          controller:
+                              mainSearchController.scrollController.value,
+                          itemCount: mainSearchController
+                              .searchData[mainSearchController.searchType.value]
+                              .length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return PostPreview(
+                              item: mainSearchController.searchData[
+                                  mainSearchController.searchType.value][index],
+                            );
+                          }));
+                } else {
+                  return Container(
+                    height: size.height,
+                    decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
+                    child: Container(
+                      child: Center(
+                        child: Text(
+                          "No result",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              }),
+              Positioned(
+                  top: 0,
+                  right: 15,
+                  child: Container(
+                      height: 30,
+                      child: Obx(() {
+                        bool dataAvailbale = mainSearchController.dataAvailalbe;
+                        return ToggleButtons(
+                            children: <Widget>[
+                              Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: FittedBox(child: Text("커뮤니티"))),
+                              Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: FittedBox(child: Text("장학금"))),
+                              Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: FittedBox(child: Text("공모전"))),
+                            ],
+                            selectedBorderColor: Colors.blue,
+                            borderRadius: BorderRadius.circular(20),
+                            onPressed: (int index) {
+                              if (index >= 0 && index <= 2) {
+                                mainSearchController.searchType(index);
+                              } else {
+                                Get.snackbar("잘못된 타입입니다.", "잘못된 타입입니다.");
+                              }
+                            },
+                            isSelected: mainSearchController.typeSelect);
+                      })))
+            ]),
+          ),
         ),
       ),
     );
@@ -163,6 +168,7 @@ class MainSearchBar extends StatelessWidget {
                   mainSearchController.searchText(text);
                   await mainSearchController.clearAll();
                   await mainSearchController.searchApi();
+                  FocusScope.of(context).unfocus();
                 },
                 maxLines: 1,
                 style: const TextStyle(
@@ -195,6 +201,7 @@ class MainSearchBar extends StatelessWidget {
                       mainSearchController.searchText(text);
                       await mainSearchController.clearAll();
                       await mainSearchController.searchApi();
+                      FocusScope.of(context).unfocus();
                     },
                     child: Image.asset(
                       "assets/images/894.png",

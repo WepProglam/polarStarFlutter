@@ -366,14 +366,19 @@ class MyPageProfile extends StatelessWidget {
             margin: EdgeInsets.only(top: 22.5),
             child: CachedNetworkImage(
                 imageUrl: '${myPageController.myProfile.value.PROFILE_PHOTO}',
+                placeholder: (context, url) => Container(
+                      width: 87,
+                      height: 87,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff194678),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
                 imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             image: imageProvider, fit: BoxFit.fill))),
-                fadeInDuration: Duration(milliseconds: 0),
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    Image(image: AssetImage('assets/images/spinner.gif')),
                 errorWidget: (context, url, error) {
                   print(error);
                   return Icon(Icons.error);

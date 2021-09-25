@@ -77,7 +77,6 @@ class Board extends StatelessWidget {
                       // 게시글 프리뷰 리스트
                       Expanded(
                         child: Obx(() {
-                          print(controller.httpStatus);
                           if (controller.dataAvailablePostPreview.value) {
                             return ListView.builder(
                                 controller: controller.scrollController.value,
