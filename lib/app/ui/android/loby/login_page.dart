@@ -230,7 +230,7 @@ class LoginInputs extends GetView<LoginController> {
                       color: Color(0xff1a4678)),
                   child: Center(
                       child: Text(
-                    "Log in",
+                    "Log In",
                     style: const TextStyle(
                         color: const Color(0xffffffff),
                         fontWeight: FontWeight.normal,

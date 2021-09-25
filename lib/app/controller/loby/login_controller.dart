@@ -47,7 +47,8 @@ class LoginController extends GetxController {
           await box.write('isAutoLogin', false);
         }
 
-        Get.offAndToNamed('/main');
+        // Get.offAndToNamed('/main');
+        Get.offAllNamed('/main');
         break;
       default:
         Get.snackbar("로그인 실패", "로그인 실패");

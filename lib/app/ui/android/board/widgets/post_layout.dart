@@ -139,6 +139,7 @@ class PostLayout extends StatelessWidget {
                             padding: const EdgeInsets.only(right: 9.2),
                             child: InkWell(
                               onTap: () {
+                                // 게시글 수정
                                 Get.toNamed(
                                     '/board/${item.COMMUNITY_ID}/bid/${item.BOARD_ID}',
                                     arguments: item);
@@ -150,6 +151,7 @@ class PostLayout extends StatelessWidget {
                               ),
                             ),
                           ),
+                          // 게시글 삭제
                           InkWell(
                             onTap: () async {
                               await c.deleteResource(
@@ -166,6 +168,7 @@ class PostLayout extends StatelessWidget {
                     : Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // 게시글 신고
                           Padding(
                             padding: const EdgeInsets.only(right: 9.2),
                             child: InkWell(
@@ -185,6 +188,7 @@ class PostLayout extends StatelessWidget {
                                           Icon(Icons.report_problem_outlined))),
                             ),
                           ),
+                          // 쪽지
                           InkWell(
                             onTap: () async {
                               await sendMail(item.UNIQUE_ID, item.COMMUNITY_ID,

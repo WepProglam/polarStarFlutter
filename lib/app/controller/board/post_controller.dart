@@ -92,19 +92,19 @@ class PostController extends GetxController {
         await repository.deleteResource(COMMUNITY_ID, UNIQUE_ID, tag);
     switch (status) {
       case 200:
-        Get.snackbar("게시글 삭제 성공", "게시글 삭제 성공",
-            snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar("삭제 성공", "삭제 성공", snackPosition: SnackPosition.BOTTOM);
 
         if (tag == "bid") {
-          Get.offAllNamed("/board/$COMMUNITY_ID/page/1");
+          // Get.offNamed("/board/$COMMUNITY_ID/page/1");
+          Get.offNamedUntil('/main', (route) => false);
+          Get.toNamed("/board/$COMMUNITY_ID/page/1");
         } else {
           await getPostData();
         }
 
         break;
       default:
-        Get.snackbar("게시글 삭제 실패", "게시글 삭제 실패",
-            snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar("삭제 실패", "삭제 실패", snackPosition: SnackPosition.BOTTOM);
     }
   }
 
