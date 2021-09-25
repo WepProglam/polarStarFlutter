@@ -173,8 +173,8 @@ class MailHistory extends StatelessWidget {
                               await mailController.sendMailIn(
                                   commentWriteController.text,
                                   mailController.scrollController);
-
                               commentWriteController.clear();
+                              FocusScope.of(context).unfocus();
                             },
                             maxLines: null,
                             controller: commentWriteController,
@@ -188,6 +188,7 @@ class MailHistory extends StatelessWidget {
                               mailController.sendMailIn(
                                   commentWriteController.text,
                                   mailController.scrollController);
+                              FocusScope.of(context).unfocus();
                             },
                             textInputAction: TextInputAction.done,
                             decoration: InputDecoration(
@@ -212,6 +213,7 @@ class MailHistory extends StatelessWidget {
                                 mailController.scrollController);
 
                             commentWriteController.clear();
+                            FocusScope.of(context).unfocus();
                           }),
                     ]))
               ]))),

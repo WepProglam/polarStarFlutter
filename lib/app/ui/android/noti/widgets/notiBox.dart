@@ -22,12 +22,15 @@ class NotiNotiBox extends StatelessWidget {
       child: Obx(() {
         if (notiController.notiNotiFetched.value) {
           if (notiController.noties.length == 0) {
-            return Center(
-              child: Text(
-                "아직 알림이 없습니다.",
-                style: TextStyle(fontSize: 20),
+            return Stack(children: [
+              ListView(),
+              Center(
+                child: Text(
+                  "아직 알림이 없습니다.",
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
-            );
+            ]);
           } else {
             return ListView.builder(
                 itemCount: notiController.noties.length,

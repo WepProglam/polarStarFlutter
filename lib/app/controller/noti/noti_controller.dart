@@ -87,7 +87,13 @@ class NotiController extends GetxController {
         }
       }
     }
+    await sortMailBox();
     notiMailFetched.value = true;
+  }
+
+  Future<void> sortMailBox() async {
+    mailBox
+        .sort((a, b) => b.value.TIME_CREATED.compareTo(a.value.TIME_CREATED));
   }
 
   @override

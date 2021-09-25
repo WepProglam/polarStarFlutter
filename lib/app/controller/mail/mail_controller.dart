@@ -52,20 +52,27 @@ class MailController extends GetxController {
     switch (response["status"]) {
       case 200:
         //mailHistory(Obs)에 추가 =>  돔 자동 수정
-        mailHistory.add(MailHistoryModel.fromJson({
-          "FROM_ME": 1,
-          "CONTENT": content,
-          "TIME_CREATED": DateTime.now()
-        }));
-
-        //mailBox에서 해당 mail 찾아서 미리보기 내용 바꿈
+        DateTime now = DateTime.now();
+        mailHistory.add(MailHistoryModel.fromJson(
+            {"FROM_ME": 1, "CONTENT": content, "TIME_CREATED": "${now}"}));
+        List<Rx<MailBoxModel>> tempMailBox = [];
+        MailBoxModel temp;
         for (Rx<MailBoxModel> item in notiController.mailBox) {
           if (item.value.MAIL_BOX_ID == MAIL_BOX_ID.value) {
             item.update((val) {
               val.CONTENT = content;
+              val.TIME_CREATED = now;
             });
+            temp = item.value;
           }
+
+          tempMailBox.add(item);
         }
+
+        notiController.mailBox.removeWhere(
+            (element) => element.value.MAIL_BOX_ID == MAIL_BOX_ID.value);
+        notiController.mailBox.insert(0, temp.obs);
+
         break;
 
       default:
@@ -91,6 +98,7 @@ class MailController extends GetxController {
         MAIL_BOX_ID.value = targetMessageBoxID;
 
         await getMail();
+        await notiController.sortMailBox();
 
         break;
       case 403:

@@ -19,12 +19,15 @@ class NotiMailBox extends StatelessWidget {
       child: Obx(() {
         if (notiController.notiMailFetched.value) {
           if (notiController.mailBox.length == 0) {
-            return Center(
-              child: Text(
-                "아직 개설된 쪽지함이 없습니다.",
-                style: TextStyle(fontSize: 20),
+            return Stack(children: [
+              ListView(),
+              Center(
+                child: Text(
+                  "아직 개설된 쪽지함이 없습니다.",
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
-            );
+            ]);
           } else {
             return ListView.builder(
                 itemCount: notiController.mailBox.length,
@@ -34,7 +37,6 @@ class NotiMailBox extends StatelessWidget {
                     return Ink(
                       child: InkWell(
                         onTap: () async {
-                          // Get.toNamed("/mail/1023");
                           Get.toNamed("/mail/${model.value.MAIL_BOX_ID}");
                           if (!model.value.isReaded) {
                             model.update((val) {
@@ -49,9 +51,9 @@ class NotiMailBox extends StatelessWidget {
                           }
                         },
                         child: Container(
-                          color: model.value.isReaded
-                              ? Color(0xfff6f6f6)
-                              : Colors.lightBlue[50],
+                          color: !model.value.isReaded && !model.value.MY_SELF
+                              ? Colors.lightBlue[50]
+                              : Color(0xfff6f6f6),
                           height: 56 + 10.0,
                           // margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                           padding: const EdgeInsets.only(

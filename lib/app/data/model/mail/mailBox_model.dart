@@ -2,7 +2,7 @@ class MailBoxModel {
   String PROFILE_NICKNAME, PROFILE_PHOTO;
   int MAIL_BOX_ID, MAIL_ID;
   String CONTENT;
-  bool isReaded;
+  bool isReaded, MY_SELF;
   DateTime TIME_CREATED;
 
   MailBoxModel(
@@ -12,7 +12,8 @@ class MailBoxModel {
       this.isReaded,
       this.TIME_CREATED,
       this.CONTENT,
-      this.PROFILE_PHOTO});
+      this.PROFILE_PHOTO,
+      this.MY_SELF});
 
   MailBoxModel.fromJson(Map<String, dynamic> json) {
     this.MAIL_BOX_ID = json["MAIL_BOX_ID"];
@@ -21,6 +22,7 @@ class MailBoxModel {
     this.TIME_CREATED = DateTime.parse(json["TIME_CREATED"]);
     this.CONTENT = json["CONTENT"];
     this.PROFILE_PHOTO = json["PROFILE_PHOTO"];
+    this.MY_SELF = json["MY_SELF"] == true;
     this.isReaded = false;
   }
 }
