@@ -72,6 +72,7 @@ class PostLayout extends StatelessWidget {
           Container(
             margin: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 0),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // 프로필 사진
                 Container(
@@ -115,75 +116,88 @@ class PostLayout extends StatelessWidget {
                 ),
                 Spacer(),
                 // 게시글 좋아요 버튼
-                Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: InkWell(
-                    onTap: () {
-                      if (item.MYSELF) {
-                      } else {
-                        c.totalSend(
-                            '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
-                            '좋아요',
-                            index);
-                      }
-                    },
-                    child: item.MYSELF ? Container() : Icon(Icons.thumb_up),
-                  ),
-                ),
-                // 게시글 수정, 스크랩 버튼
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onTap: () {
-                      if (item.MYSELF) {
-                        Get.toNamed(
-                            '/board/${item.COMMUNITY_ID}/bid/${item.BOARD_ID}',
-                            arguments: item);
-                      } else {
-                        c.totalSend(
-                            '/scrap/${item.COMMUNITY_ID}/id/${item.BOARD_ID}',
-                            '스크랩',
-                            index);
-                      }
-                    },
-                    child:
-                        item.MYSELF ? Icon(Icons.edit) : Icon(Icons.bookmark),
-                  ),
-                ),
-                // 게시글 삭제, 신고 버튼
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: InkWell(
-                    onTap: () async {
-                      // 게시글 삭제
-                      if (item.MYSELF) {
-                        await c.deleteResource(
-                            item.COMMUNITY_ID, item.UNIQUE_ID, "bid");
-                      }
-                      // 게시글 신고
-                      else {
-                        var ARREST_TYPE = await c.getArrestType();
-                        c.totalSend(
-                            '/arrest/${item.COMMUNITY_ID}/id/${item.BOARD_ID}?ARREST_TYPE=$ARREST_TYPE',
-                            '신고',
-                            index);
-                      }
-                    },
-                    child:
-                        item.MYSELF ? Icon(Icons.delete) : Icon(Icons.report),
-                  ),
-                ),
-                //쪽지
+                // Padding(
+                //   padding: const EdgeInsets.all(0.0),
+                //   child: InkWell(
+                //     onTap: () {
+                //       if (item.MYSELF) {
+                //       } else {
+                //         c.totalSend(
+                //             '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
+                //             '좋아요',
+                //             index);
+                //       }
+                //     },
+                //     child: item.MYSELF ? Container() : Icon(Icons.thumb_up),
+                //   ),
+                // ),
+
                 item.MYSELF
-                    ? Container()
-                    : Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: InkWell(
+                    ? Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 9.2),
+                            child: InkWell(
+                              onTap: () {
+                                Get.toNamed(
+                                    '/board/${item.COMMUNITY_ID}/bid/${item.BOARD_ID}',
+                                    arguments: item);
+                              },
+                              child: Ink(
+                                width: 16,
+                                height: 16,
+                                child: Image.asset('assets/images/934.png'),
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              await c.deleteResource(
+                                  item.COMMUNITY_ID, item.UNIQUE_ID, "bid");
+                            },
+                            child: Ink(
+                              width: 16,
+                              height: 16,
+                              child: Image.asset('assets/images/15_4.png'),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 9.2),
+                            child: InkWell(
+                              onTap: () async {
+                                var ARREST_TYPE = await c.getArrestType();
+                                c.totalSend(
+                                    '/arrest/${item.COMMUNITY_ID}/id/${item.BOARD_ID}?ARREST_TYPE=$ARREST_TYPE',
+                                    '신고',
+                                    index);
+                              },
+                              child: Ink(
+                                  width: 16,
+                                  height: 16,
+                                  child: FittedBox(
+                                      fit: BoxFit.fitHeight,
+                                      child:
+                                          Icon(Icons.report_problem_outlined))),
+                            ),
+                          ),
+                          InkWell(
                             onTap: () async {
                               await sendMail(item.UNIQUE_ID, item.COMMUNITY_ID,
                                   mailWriteController, mailController);
                             },
-                            child: Icon(Icons.mail)),
+                            child: Ink(
+                                width: 16,
+                                height: 16,
+                                child: FittedBox(
+                                    fit: BoxFit.fitHeight,
+                                    child: Icon(Icons.mail_outlined))),
+                          ),
+                        ],
                       ),
               ],
             ),
