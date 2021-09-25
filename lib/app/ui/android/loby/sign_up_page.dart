@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -294,13 +295,15 @@ class SignUpInputs extends StatelessWidget {
                         fontSize: 14.0),
                     text: "Already have an account, click "),
                 TextSpan(
-                    style: const TextStyle(
-                        color: const Color(0xff1a4678),
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "PingFangSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14.0),
-                    text: "Log in")
+                  style: const TextStyle(
+                      color: const Color(0xff1a4678),
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                  text: "Log in",
+                  recognizer: TapGestureRecognizer()..onTap = () => Get.back(),
+                )
               ]))
             ],
           ),

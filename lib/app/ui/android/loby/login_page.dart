@@ -30,8 +30,8 @@ class LoginInputs extends GetView<LoginController> {
 
   final box = GetStorage();
 
+  final focus = FocusNode();
   // login 함수
-
   @override
   Widget build(BuildContext context) {
     // final notiController = Get.put(NotiController());
@@ -71,6 +71,9 @@ class LoginInputs extends GetView<LoginController> {
                       TextFormField(
                         controller: loginIdContoller,
                         obscureText: false,
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) =>
+                            FocusScope.of(context).requestFocus(focus),
                         validator: (value) {
                           return checkEmpty(value);
                         },
@@ -134,6 +137,15 @@ class LoginInputs extends GetView<LoginController> {
                       Obx(() => TextFormField(
                             controller: loginPwContoller,
                             obscureText: controller.isObscured.value,
+                            textInputAction: TextInputAction.send,
+                            focusNode: focus,
+                            onFieldSubmitted: (_) async {
+                              if (_formKey.currentState.validate()) {
+                                await controller.login(loginIdContoller.text,
+                                    loginPwContoller.text, "1123123123");
+                                // await userLogin(notiController.tokenFCM.value);
+                              }
+                            },
                             validator: (value) {
                               return checkEmpty(value);
                             },
@@ -199,7 +211,7 @@ class LoginInputs extends GetView<LoginController> {
                   Get.toNamed("/findPw");
                 },
                 child: Text(
-                  "Having trouble logging in?",
+                  "Having trouble loggin in?",
                   style: const TextStyle(
                       color: const Color(0xff333333),
                       fontWeight: FontWeight.bold,
