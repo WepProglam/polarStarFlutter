@@ -297,7 +297,7 @@ class PostLayout extends StatelessWidget {
                       height: 16,
                       child: Image.asset('assets/images/comment.png'),
                     ),
-                    label: Text(item.COMMENTS.toString(),
+                    label: Text("${c.sortedList.length - 1}",
                         style: const TextStyle(
                             color: const Color(0xff333333),
                             fontWeight: FontWeight.w700,

@@ -46,7 +46,7 @@ class PostController extends GetxController {
   }
 
   Future<void> refreshPost() async {
-    _dataAvailable.value = false;
+    // _dataAvailable.value = false;
     await getPostData();
   }
 
@@ -177,7 +177,7 @@ class PostController extends GetxController {
           // } else if (what == "스크랩") {
           //   sortedList[index].SCRAPS++;
           // }
-          _dataAvailable(false);
+          // _dataAvailable(false);
           _dataAvailable.refresh();
           getPostData();
           break;

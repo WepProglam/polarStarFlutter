@@ -262,7 +262,7 @@ class WritePost extends StatelessWidget {
                                     : Stack(children: [
                                         Center(
                                           child: Image(
-                                              // fit: BoxFit.fill,
+                                              fit: BoxFit.cover,
                                               image: AssetEntityImageProvider(
                                                   c.photoAssets[index - 1],
                                                   isOriginal: true)),
