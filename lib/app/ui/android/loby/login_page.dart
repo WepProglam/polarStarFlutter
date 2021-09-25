@@ -140,6 +140,7 @@ class LoginInputs extends GetView<LoginController> {
                             textInputAction: TextInputAction.send,
                             focusNode: focus,
                             onFieldSubmitted: (_) async {
+                              FocusScope.of(context).unfocus();
                               if (_formKey.currentState.validate()) {
                                 await controller.login(loginIdContoller.text,
                                     loginPwContoller.text, "1123123123");
