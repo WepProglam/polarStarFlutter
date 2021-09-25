@@ -680,7 +680,7 @@ class PostLayout extends StatelessWidget {
                                 child: Container(
                                   width: 11,
                                   height: 11,
-                                  margin: EdgeInsets.symmetric(horizontal: 9.2),
+                                  margin: EdgeInsets.only(left: 9.2),
                                   child: Image.asset('assets/images/320.png'),
                                 )),
                           ],
@@ -756,8 +756,7 @@ class PostLayout extends StatelessWidget {
                                 child: Container(
                                     width: 11,
                                     height: 11,
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 9.2),
+                                    margin: EdgeInsets.only(left: 9.2),
                                     child: FittedBox(
                                         fit: BoxFit.fitHeight,
                                         child: Icon(Icons.mail_outlined)))),
