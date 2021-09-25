@@ -27,30 +27,34 @@ class PostLayout extends StatelessWidget {
     //           : returningCC(item));
     // });
 
-    return Container(
-        height: Get.mediaQuery.size.height - 50 - 85,
-        margin: const EdgeInsets.symmetric(horizontal: 15),
-        child: RefreshIndicator(
-          onRefresh: c.refreshPost,
-          child: ListView.builder(
-              itemCount: c.sortedList.length,
-              itemBuilder: (BuildContext context, int index) {
-                if (c.sortedList[index].DEPTH == 0) {
-                  return returningPost(c.sortedList[index], index);
-                } else if (c.sortedList[index].DEPTH == 1) {
-                  return returningComment(c.sortedList[index], index);
-                } else {
-                  return returningCC(c.sortedList[index], index);
-                }
-              }),
-        )
-        // SingleChildScrollView(
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: finalPost,
-        //   ),
-        // ),
-        );
+    return Obx(() => Padding(
+          padding: EdgeInsets.only(
+              bottom: 60.0 + ((c.bottomTextLine.value - 1) * 21)),
+          child: Container(
+              height: Get.mediaQuery.size.height,
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              child: RefreshIndicator(
+                onRefresh: c.refreshPost,
+                child: ListView.builder(
+                    itemCount: c.sortedList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (c.sortedList[index].DEPTH == 0) {
+                        return returningPost(c.sortedList[index], index);
+                      } else if (c.sortedList[index].DEPTH == 1) {
+                        return returningComment(c.sortedList[index], index);
+                      } else {
+                        return returningCC(c.sortedList[index], index);
+                      }
+                    }),
+              )
+              // SingleChildScrollView(
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: finalPost,
+              //   ),
+              // ),
+              ),
+        ));
   }
 
   Widget returningPost(Post item, int index) {

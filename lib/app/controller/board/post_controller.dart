@@ -21,6 +21,8 @@ class PostController extends GetxController {
 
   Rx<bool> _dataAvailable = false.obs;
 
+  Rx<int> bottomTextLine = 1.obs;
+
   int COMMUNITY_ID;
   int BOARD_ID;
 
