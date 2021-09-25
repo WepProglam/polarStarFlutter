@@ -30,6 +30,7 @@ class BottomKeyboard extends StatelessWidget {
                 // 익명 체크
                 Container(
                   height: BOTTOM_SHEET_HEIGHT.toDouble(),
+                  width: 70,
                   child: GestureDetector(
                     onTap: () {
                       c.changeAnonymous(!c.anonymousCheck.value);
@@ -37,6 +38,7 @@ class BottomKeyboard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Obx(() => Container(
                                 width: 20,
@@ -52,45 +54,62 @@ class BottomKeyboard extends StatelessWidget {
                                           Color(0xff333333))),
                                 ),
                               )),
-                          Text(' 익명'),
+                          Text(
+                            ' 익명',
+                            style: const TextStyle(
+                                color: const Color(0xff333333),
+                                fontWeight: FontWeight.normal,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 16.0),
+                            textAlign: TextAlign.start,
+                          ),
                         ],
                       ),
                     ),
                   ),
                 ),
+
                 Expanded(
                     child: Obx(
                   () => TextFormField(
                     controller: commentWriteController,
-                    autofocus: c.autoFocusTextForm.value,
+                    // autofocus: c.autoFocusTextForm.value,
+                    scrollPadding: const EdgeInsets.all(0),
                     minLines: 1,
-                    maxLines: 10,
+                    maxLines: null,
                     onChanged: (String str) {
                       int line_num = '\n'.allMatches(str).length + 1;
+
                       List<String> splitStr = str.split("\n");
 
+                      // 줄바뀜 횟수 체크
                       for (var item in splitStr) {
                         final span = TextSpan(text: item);
-                        var tp = TextPainter(
+
+                        bool str_end = false;
+                        for (int line_end_num = 1; !str_end; line_end_num++) {
+                          var tp = TextPainter(
                             text: span,
-                            maxLines: 1,
-                            textDirection: TextDirection.ltr);
-                        tp.layout(maxWidth: Get.mediaQuery.size.width);
+                            textAlign: TextAlign.start,
+                            maxLines: line_end_num,
+                            textDirection: TextDirection.ltr,
+                          );
 
-                        if (tp.didExceedMaxLines) {
-                          line_num++;
+                          tp.layout(
+                              maxWidth:
+                                  MediaQuery.of(context).size.width - 140 - 45);
+
+                          print(tp.minIntrinsicWidth);
+
+                          if (tp.didExceedMaxLines) {
+                            line_num++;
+
+                            print(line_end_num);
+                          } else {
+                            str_end = true;
+                          }
                         }
-
-                        // for (int i = 2;;) {
-                        //   if (tp.didExceedMaxLines) {
-                        //     line_num++;
-                        //     i++;
-                        //   }
-                        //   tp = TextPainter(
-                        //       text: span,
-                        //       maxLines: i,
-                        //       textDirection: TextDirection.ltr);
-                        // }
                       }
 
                       if (line_num < 4) {
@@ -106,9 +125,11 @@ class BottomKeyboard extends StatelessWidget {
                         fontFamily: "PingFangSC",
                         fontStyle: FontStyle.normal,
                         fontSize: 16.0),
+
                     textAlign: TextAlign.left,
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(bottom: 5),
+                      isDense: true,
+                      contentPadding: EdgeInsets.only(bottom: 5, right: 5),
                       hintText: c.autoFocusTextForm.value
                           ? '수정하기'
                           : c.isCcomment.value
@@ -156,7 +177,7 @@ class BottomKeyboard extends StatelessWidget {
                           height: 18,
                           child: Image.asset(
                             'assets/images/512.png',
-                            fit: BoxFit.fitHeight,
+                            fit: BoxFit.fitWidth,
                           ))),
                 ),
               ],
