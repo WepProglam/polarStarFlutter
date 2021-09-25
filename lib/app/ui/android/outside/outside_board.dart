@@ -19,26 +19,43 @@ class OutSide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return from == "main"
-        ? Scaffold(
-            appBar: CustomAppBar(
-              pageName: "OUTSIDE",
+    return Scaffold(
+        bottomNavigationBar: CustomBottomNavigationBar(
+          mainController: mainController,
+        ),
+        body: Center(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Icon(
+              Icons.construction,
+              size: 200,
             ),
-            bottomNavigationBar:
-                CustomBottomNavigationBar(mainController: mainController),
-            body: OutSideBody(
-              controller: controller,
-              // searchController: searchController
-            ))
-        : SafeArea(
-            child: Scaffold(
-                appBar: CustomAppBar(
-                  pageName: "OUTSIDE",
-                ),
-                body: OutSideBody(
-                  controller: controller,
-                  // searchController: searchController
-                )));
+            Text(
+              "Comming soon",
+              style: TextStyle(fontSize: 16),
+            )
+          ]),
+        ));
+
+    // from == "main"
+    //     ? Scaffold(
+    //         appBar: CustomAppBar(
+    //           pageName: "OUTSIDE",
+    //         ),
+    //         bottomNavigationBar:
+    //             CustomBottomNavigationBar(mainController: mainController),
+    //         body: OutSideBody(
+    //           controller: controller,
+    //           // searchController: searchController
+    //         ))
+    //     : SafeArea(
+    //         child: Scaffold(
+    //             appBar: CustomAppBar(
+    //               pageName: "OUTSIDE",
+    //             ),
+    //             body: OutSideBody(
+    //               controller: controller,
+    //               // searchController: searchController
+    //             )));
   }
 }
 
