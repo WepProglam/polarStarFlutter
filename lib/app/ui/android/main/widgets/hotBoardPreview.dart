@@ -167,7 +167,7 @@ class HotBoardPreview extends StatelessWidget {
           child: HotBoardPreviewItem_Top(model: model, size: size),
         ),
         Container(
-          height: 195,
+          // height: 195,
           margin: const EdgeInsets.only(left: 11, right: 11),
           child: HotBoardItem_content(model: model, size: size),
         ),
