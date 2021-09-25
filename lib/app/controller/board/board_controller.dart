@@ -33,18 +33,18 @@ class BoardController extends GetxController {
 
   Future<void> refreshPage() async {
     postBody.clear();
-    dataAvailablePostPreview.value = false;
+    // dataAvailablePostPreview.value = false;
     await getBoard().then((value) => postBody.refresh());
   }
 
   Future<void> refreshHotPage() async {
     postBody.clear();
-    dataAvailablePostPreview.value = false;
+    // dataAvailablePostPreview.value = false;
     await getHotBoard().then((value) => postBody.refresh());
   }
 
   Future<void> getBoard() async {
-    dataAvailablePostPreview.value = false;
+    // dataAvailablePostPreview.value = false;
     Map<String, dynamic> response =
         await repository.getBoard(COMMUNITY_ID.value, page.value);
     final int status = response["status"];
@@ -54,11 +54,12 @@ class BoardController extends GetxController {
 
     switch (status) {
       case 200:
-        postBody.clear();
+        // postBody.clear();
 
         for (int i = 0; i < listBoard.length; i++) {
           postBody.add(listBoard[i]);
         }
+        // postBody(listBoard);
         dataAvailablePostPreview.value = true;
         break;
 
