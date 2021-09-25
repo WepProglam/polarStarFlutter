@@ -36,8 +36,8 @@ class ClassViewController extends GetxController {
   final classExamList = [].obs;
 
   Future<void> refreshPage() async {
-    classViewAvailable(false);
-    classExamAvailable(false);
+    // classViewAvailable(false);
+    // classExamAvailable(false);
     await getClassView(int.parse(Get.parameters["classid"]));
     await getExamInfo(int.parse(Get.parameters["classid"]));
   }
@@ -75,6 +75,7 @@ class ClassViewController extends GetxController {
       case 200:
         classExamList(jsonResponse["classExamList"]);
         classExamAvailable(true);
+
         break;
       case 400:
         Get.snackbar("400 Error", "class Id가 유효하지 않습니다.");
@@ -180,6 +181,19 @@ class ClassViewController extends GetxController {
       default:
         print(jsonResponse["statusCode"]);
         Get.snackbar("시험정보 작성 실패", "Failed", duration: Duration(seconds: 2));
+    }
+  }
+
+  Future buyExamInfo(int CLASS_ID, int CLASS_EXAM_ID) async {
+    final jsonResponse = await repository.buyExamInfo(CLASS_ID, CLASS_EXAM_ID);
+
+    switch (jsonResponse["statusCode"]) {
+      case 200:
+        Get.snackbar("구매 성공", "시험정보 구매 성공", duration: Duration(seconds: 2));
+        refreshPage();
+        break;
+      default:
+        Get.snackbar("구매 실패", "시험정보 구매 실패", duration: Duration(seconds: 2));
     }
   }
 

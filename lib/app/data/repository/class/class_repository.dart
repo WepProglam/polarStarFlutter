@@ -117,4 +117,11 @@ class ClassRepository {
 
     return {"statusCode": response.statusCode};
   }
+
+  Future<Map<String, dynamic>> buyExamInfo(
+      int CLASS_ID, int CLASS_EXAM_ID) async {
+    final response = await apiClient.buyExamInfo(CLASS_ID, CLASS_EXAM_ID);
+
+    return {"statusCode": response.statusCode};
+  }
 }
