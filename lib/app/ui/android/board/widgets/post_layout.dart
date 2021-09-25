@@ -17,7 +17,7 @@ class PostLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> finalPost = [];
+    // List<Widget> finalPost = [];
 
     // c.sortedList.forEach((Post item) {
     //   finalPost.addAll(item.DEPTH == 0
@@ -457,7 +457,6 @@ class PostLayout extends StatelessWidget {
                             // 좋아요 버튼
                             InkWell(
                               onTap: () async {
-                                c.isCcomment.value = !c.isCcomment.value;
                                 await c.totalSend(
                                     '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
                                     '좋아요',
