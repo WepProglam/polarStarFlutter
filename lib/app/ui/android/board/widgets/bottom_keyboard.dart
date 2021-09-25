@@ -67,6 +67,32 @@ class BottomKeyboard extends StatelessWidget {
                     maxLines: 10,
                     onChanged: (String str) {
                       int line_num = '\n'.allMatches(str).length + 1;
+                      List<String> splitStr = str.split("\n");
+
+                      for (var item in splitStr) {
+                        final span = TextSpan(text: item);
+                        var tp = TextPainter(
+                            text: span,
+                            maxLines: 1,
+                            textDirection: TextDirection.ltr);
+                        tp.layout(maxWidth: Get.mediaQuery.size.width);
+
+                        if (tp.didExceedMaxLines) {
+                          line_num++;
+                        }
+
+                        // for (int i = 2;;) {
+                        //   if (tp.didExceedMaxLines) {
+                        //     line_num++;
+                        //     i++;
+                        //   }
+                        //   tp = TextPainter(
+                        //       text: span,
+                        //       maxLines: i,
+                        //       textDirection: TextDirection.ltr);
+                        // }
+                      }
+
                       if (line_num < 4) {
                         c.bottomTextLine(line_num);
                       } else {
