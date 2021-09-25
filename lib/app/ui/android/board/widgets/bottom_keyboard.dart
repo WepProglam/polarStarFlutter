@@ -100,7 +100,7 @@ class BottomKeyboard extends StatelessWidget {
                     //댓 대댓 수정
                     if (c.autoFocusTextForm.value) {
                       c.autoFocusTextForm.value = false;
-                      c.putComment(c.putUrl.value, commentData);
+                      await c.putComment(c.putUrl.value, commentData);
                     }
 
                     //댓 대댓 작성
@@ -114,10 +114,11 @@ class BottomKeyboard extends StatelessWidget {
                         postUrl = c.commentUrl.value;
                       }
                       c.isCcomment.value = false;
-                      c.postComment(postUrl, commentData);
+                      await c.postComment(postUrl, commentData);
                     }
 
                     commentWriteController.clear();
+                    await c.refreshPost();
                   },
                   child: Ink(
                       width: 18,

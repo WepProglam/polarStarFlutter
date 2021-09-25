@@ -99,7 +99,8 @@ class PostController extends GetxController {
           Get.offNamedUntil('/main', (route) => false);
           Get.toNamed("/board/$COMMUNITY_ID/page/1");
         } else {
-          await getPostData();
+          // await getPostData();
+          await refreshPost();
         }
 
         break;
