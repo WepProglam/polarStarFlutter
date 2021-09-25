@@ -1,13 +1,13 @@
 class MailHistoryModel {
   int FROM_ME;
   String CONTENT;
-  String TIME_CREATED;
+  DateTime TIME_CREATED;
 
   MailHistoryModel({this.FROM_ME, this.TIME_CREATED, this.CONTENT});
 
   MailHistoryModel.fromJson(Map<String, dynamic> json) {
     this.FROM_ME = json["FROM_ME"];
-    this.TIME_CREATED = json["TIME_CREATED"];
+    this.TIME_CREATED = DateTime.parse(json["TIME_CREATED"]);
     this.CONTENT = json["CONTENT"];
   }
 }

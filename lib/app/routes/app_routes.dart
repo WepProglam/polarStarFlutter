@@ -9,6 +9,7 @@ abstract class Routes {
   static const MAIN_PAGE_SEARCH = '/main/search';
   static const POST = "/board/:COMMUNITY_ID/read/:BOARD_ID";
   static const OUTSIDE_POST = "/outside/:COMMUNITY_ID/read/:BOARD_ID";
+  static const NOTI = "/noti";
 
   static const BOARD_LIST = "/board/boardList";
   static const HOTBOARD = "/board/hot/page/:page";

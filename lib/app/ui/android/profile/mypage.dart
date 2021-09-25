@@ -62,37 +62,47 @@ class Mypage extends StatelessWidget {
                           },
                           itemCount: 3,
                           itemBuilder: (BuildContext context, int index) {
+                            print(index);
                             return RefreshIndicator(
                               onRefresh: () async {
                                 switch (index) {
                                   case 0:
-                                    await myPageController.getMineWrite();
+                                    myPageController.getMineWrite();
                                     break;
                                   case 1:
-                                    await myPageController.getMineLike();
+                                    myPageController.getMineScrap();
                                     break;
                                   case 2:
-                                    await myPageController.getMineScrap();
+                                    myPageController.getMineLike();
                                     break;
                                   default:
                                 }
+
                                 return true;
                               },
-                              child: Builder(
-                                builder: (BuildContext context) {
+                              child: Obx(
+                                () {
                                   if (dataAvailable[myPageController
                                       .profilePostIndex.value]) {
-                                    return ListView.builder(
-                                        itemCount: userPost[index].length,
-                                        itemBuilder:
-                                            (BuildContext context, int i) {
-                                          return PostPreview(
-                                            item: userPost[index][i],
-                                          );
-                                        });
+                                    if (userPost[index].length == 0) {
+                                      return Center(
+                                        child: Text("아직 정보가 없습니다."),
+                                      );
+                                    } else {
+                                      return ListView.builder(
+                                          cacheExtent: 10,
+                                          itemCount: userPost[index].length,
+                                          itemBuilder:
+                                              (BuildContext context, int i) {
+                                            return PostPreview(
+                                              item: userPost[index][i],
+                                            );
+                                          });
+                                    }
                                   } else {
                                     return Center(
-                                        child: CircularProgressIndicator());
+                                      child: Text("아직 정보가 없습니다."),
+                                    );
                                   }
                                 },
                               ),
@@ -131,6 +141,10 @@ class MyPageProfilePostIndex extends StatelessWidget {
                   onTap: () {
                     myPageController.profilePostIndex.value = 0;
                     myPageController.pageController.jumpToPage(0);
+
+                    // myPageController.pageController.animateToPage(0,
+                    //     duration: Duration(milliseconds: 300),
+                    //     curve: Curves.fastOutSlowIn);
                   },
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -170,6 +184,10 @@ class MyPageProfilePostIndex extends StatelessWidget {
                   onTap: () {
                     myPageController.profilePostIndex.value = 1;
                     myPageController.pageController.jumpToPage(1);
+
+                    // myPageController.pageController.animateToPage(1,
+                    //     duration: Duration(milliseconds: 300),
+                    //     curve: Curves.fastOutSlowIn);
                   },
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -209,6 +227,10 @@ class MyPageProfilePostIndex extends StatelessWidget {
                   onTap: () {
                     myPageController.profilePostIndex.value = 2;
                     myPageController.pageController.jumpToPage(2);
+
+                    // myPageController.pageController.animateToPage(2,
+                    //     duration: Duration(milliseconds: 300),
+                    //     curve: Curves.fastOutSlowIn);
                   },
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -416,7 +438,7 @@ class MyPageProfile extends StatelessWidget {
                       ]))),
               InkWell(
                   onTap: () async {
-                    await Get.toNamed('/mail');
+                    // await Get.toNamed('/mail');
                   },
                   child: Container(
                       height: 31,
@@ -426,26 +448,28 @@ class MyPageProfile extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(31)),
                           border: Border.all(
                               color: const Color(0xffffffff), width: 2)),
-                      child: Row(children: [
-                        Container(
-                            margin: EdgeInsets.only(left: 17.2),
-                            width: 11.8406982421875,
-                            height: 13.6337890625,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/601.png")))),
-                        Container(
-                            margin: EdgeInsets.only(left: 9),
-                            child: Text("Mail",
-                                style: const TextStyle(
-                                    color: const Color(0xffffffff),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "PingFangSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                textAlign: TextAlign.left))
-                      ])))
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                                margin: EdgeInsets.only(left: 17.2),
+                                width: 11.8406982421875,
+                                height: 13.6337890625,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            "assets/images/601.png")))),
+                            Container(
+                                margin: EdgeInsets.only(left: 9),
+                                child: Text("Setting",
+                                    style: const TextStyle(
+                                        color: const Color(0xffffffff),
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "PingFangSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14.0),
+                                    textAlign: TextAlign.left))
+                          ])))
             ]))
       ]);
     });

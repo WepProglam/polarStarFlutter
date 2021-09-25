@@ -33,4 +33,38 @@ class SignUpController extends GetxController {
         Get.snackbar("회원가입 실패", "회원가입 실패");
     }
   }
+
+  Future emailAuthRequest(String email) async {
+    Map<String, String> data = {"email": email};
+
+    final response = await repository.emailAuthRequest(data);
+
+    switch (response["statusCode"]) {
+      case 200:
+        print("emailAuthRequest 성공");
+        Get.snackbar("emailAuthRequest 성공", "emailAuthRequest 성공");
+
+        break;
+      default:
+        print("emailAuthRequest 실패");
+        Get.snackbar("emailAuthRequest 실패", "emailAuthRequest 실패");
+    }
+  }
+
+  Future emailAuthVerify(String email, String code) async {
+    Map<String, String> data = {"email": email, "code": code};
+
+    final response = await repository.emailAuthVerify(data);
+
+    switch (response["statusCode"]) {
+      case 200:
+        print("emailAuthVerify 성공");
+        Get.snackbar("emailAuthVerify 성공", "emailAuthVerify 성공");
+
+        break;
+      default:
+        print("emailAuthRequest 실패");
+        Get.snackbar("emailAuthVerify 실패", "emailAuthVerify 실패");
+    }
+  }
 }

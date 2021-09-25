@@ -26,7 +26,6 @@ import 'package:polarstar_flutter/app/ui/android/board/board.dart';
 import 'package:polarstar_flutter/app/ui/android/board/hot_board.dart';
 import 'package:polarstar_flutter/app/ui/android/board/post.dart';
 import 'package:polarstar_flutter/app/ui/android/board/write_post.dart';
-import 'package:polarstar_flutter/app/ui/android/mail/mailBox.dart';
 import 'package:polarstar_flutter/app/ui/android/mail/mailHistory.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
 import 'package:polarstar_flutter/app/ui/android/loby/login_page.dart';
@@ -34,6 +33,7 @@ import 'package:polarstar_flutter/app/ui/android/loby/init_page.dart';
 import 'package:polarstar_flutter/app/ui/android/loby/find_password.dart';
 import 'package:polarstar_flutter/app/ui/android/main/board_list.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page_search.dart';
+import 'package:polarstar_flutter/app/ui/android/noti/noti.dart';
 import 'package:polarstar_flutter/app/ui/android/outside/outside_board.dart';
 import 'package:polarstar_flutter/app/ui/android/outside/outside_post.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
@@ -57,7 +57,6 @@ class AppPages {
       name: Routes.INITIAL,
       page: () => InitPage(),
       binding: InitBinding(),
-     
     ),
     GetPage(
       name: Routes.LOGIN,
@@ -140,11 +139,6 @@ class AppPages {
         page: () => MailHistory(),
         binding: MailHistoryBinding()),
     GetPage(
-      name: Routes.MAILBOX,
-      page: () => MailBox(),
-      binding: MailBoxBinding(),
-    ),
-    GetPage(
       name: Routes.CLASS,
       page: () => Class(),
       binding: ClassBinding(),
@@ -175,6 +169,7 @@ class AppPages {
     GetPage(
         name: Routes.TIMETABLE_ADDTIMETABLE,
         page: () => TimeTableAdd(),
-        binding: TimetableBinBinding())
+        binding: TimetableBinBinding()),
+    GetPage(name: Routes.NOTI, page: () => Noti())
   ];
 }

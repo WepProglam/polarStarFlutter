@@ -37,27 +37,31 @@ class Board extends StatelessWidget {
                 ),
               ),
               titleSpacing: 0,
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      communityBoardName(controller.COMMUNITY_ID.value) + "게시판",
-                      style: const TextStyle(
-                          color: const Color(0xff333333),
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "PingFangSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 16.0),
-                      textAlign: TextAlign.left),
-                  Text("Sungkyunkwan University",
-                      style: const TextStyle(
-                          color: const Color(0xff333333),
-                          fontWeight: FontWeight.normal,
-                          fontFamily: "PingFangSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 11.0),
-                      textAlign: TextAlign.left),
-                ],
+              title: Container(
+                height: 40,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                        communityBoardName(controller.COMMUNITY_ID.value) +
+                            "게시판",
+                        style: const TextStyle(
+                            color: const Color(0xff333333),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 16.0),
+                        textAlign: TextAlign.left),
+                    Text("Sungkyunkwan University",
+                        style: const TextStyle(
+                            color: const Color(0xff333333),
+                            fontWeight: FontWeight.normal,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 11.0),
+                        textAlign: TextAlign.left),
+                  ],
+                ),
               ),
             ),
             body: RefreshIndicator(

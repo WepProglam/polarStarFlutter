@@ -51,7 +51,7 @@ class Post extends StatelessWidget {
           ),
           body: Obx(() {
             if (!c.dataAvailable) {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             } else {
               return PostLayout();
             }

@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/data/provider/sqflite/database_helper.dart';
+import 'package:polarstar_flutter/app/data/provider/sqflite/src/db_community.dart';
 import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 
@@ -50,6 +51,7 @@ class MainController extends GetxController {
     boardInfo.clear();
 
     print(value);
+    print("=------------------------------------------------");
 
     hotBoard.value = value["hotBoard"];
     likeList.value = value["likeList"];
@@ -66,12 +68,12 @@ class MainController extends GetxController {
   }
 
   Future<void> deleteFollowingCommunity(int COMMUNITY_ID) async {
-    await _dbHelper.delete(COMMUNITY_ID);
+    await COMMUNITY_DB_HELPER.delete(COMMUNITY_ID);
     await getFollowingCommunity();
   }
 
   Future<void> getFollowingCommunity() async {
-    List<Rx<BoardInfo>> follwing = await _dbHelper.queryAllRows();
+    List<Rx<BoardInfo>> follwing = await COMMUNITY_DB_HELPER.queryAllRows();
     print(follwing);
     followAmount.value = follwing.length;
     followingCommunity.value =
@@ -80,7 +82,7 @@ class MainController extends GetxController {
 
   Future<void> setFollowingCommunity(int COMMUNITY_ID, String COMMUNITY_NAME,
       String RECENT_TITLE, bool isFollowed) async {
-    await _dbHelper.insert(BoardInfo.fromJson({
+    await COMMUNITY_DB_HELPER.insert(BoardInfo.fromJson({
       "COMMUNITY_ID": COMMUNITY_ID,
       "COMMUNITY_NAME": COMMUNITY_NAME,
       "RECENT_TITLE": RECENT_TITLE,
