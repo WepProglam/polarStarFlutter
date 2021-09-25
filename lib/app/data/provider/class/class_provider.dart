@@ -51,4 +51,11 @@ class ClassApiClient {
     final response = await Session().postX("/class/exam/$CLASS_ID", data);
     return response;
   }
+
+  Future buyExamInfo(int CLASS_ID, int CLASS_EXAM_ID) async {
+    final response = await Session()
+        .getX("/class/exam/$CLASS_ID/buy?CLASS_EXAM_ID=$CLASS_EXAM_ID");
+
+    return response;
+  }
 }
