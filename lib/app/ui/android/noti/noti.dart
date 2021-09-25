@@ -21,7 +21,7 @@ class Noti extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(44),
+            preferredSize: Size.fromHeight(55),
             child: Obx(() {
               int pageViewIndex = notiController.pageViewIndex.value;
               return NotiAppBar(
