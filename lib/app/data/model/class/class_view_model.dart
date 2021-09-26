@@ -111,7 +111,7 @@ class ClassExamModel {
       CLASS_EXAM_YEAR,
       CLASS_EXAM_SEMESTER,
       LIKES;
-  String TEST_STRATEGY, TEST_TYPE, TIME_CREATED;
+  String TEST_STRATEGY, TEST_TYPE, TIME_CREATED, MID_FINAL;
   List TEST_EXAMPLE;
   bool IS_BUYED;
 
@@ -126,6 +126,7 @@ class ClassExamModel {
       CLASS_EXAM_YEAR,
       CLASS_EXAM_SEMESTER,
       LIKES,
+      MID_FINAL,
       IS_BUYED});
 
   ClassExamModel.fromJson(Map<String, dynamic> json) {
@@ -150,6 +151,7 @@ class ClassExamModel {
     this.CLASS_EXAM_YEAR = json["CLASS_EXAM_YEAR"];
     this.CLASS_EXAM_SEMESTER = json["CLASS_EXAM_SEMESTER"];
     this.LIKES = json["LIKES"];
+    this.MID_FINAL = json["MID_FINAL"];
     this.IS_BUYED = json["IS_BUYED"];
   }
 }

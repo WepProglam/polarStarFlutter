@@ -257,14 +257,17 @@ class ClassViewInfo extends StatelessWidget {
                             height: 14.6,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children:
-                                  rate_star(classInfoModel.AVG_RATE, 14.6),
+                              children: classInfoModel.AVG_RATE != null
+                                  ? rate_star(classInfoModel.AVG_RATE, 14.6)
+                                  : rate_star("5.0", 14.6),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 12.6),
                             child: Text(
-                              classInfoModel.AVG_RATE,
+                              classInfoModel.AVG_RATE != null
+                                  ? classInfoModel.AVG_RATE
+                                  : "5.0",
                               style: const TextStyle(
                                   color: const Color(0xff333333),
                                   fontWeight: FontWeight.normal,
@@ -344,8 +347,11 @@ class ClassViewInfo extends StatelessWidget {
                           margin: EdgeInsets.only(right: 11),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: rate_heart(
-                                classInfoModel.AVG_RATE_GROUP_STUDY, 24),
+                            children:
+                                classInfoModel.AVG_RATE_GROUP_STUDY != null
+                                    ? rate_heart(
+                                        classInfoModel.AVG_RATE_GROUP_STUDY, 24)
+                                    : rate_heart("5.0", 24),
                           ),
                         ),
                       ),
@@ -376,8 +382,10 @@ class ClassViewInfo extends StatelessWidget {
                           margin: EdgeInsets.only(right: 11),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: rate_heart(
-                                classInfoModel.AVG_RATE_ASSIGNMENT, 24),
+                            children: classInfoModel.AVG_RATE_ASSIGNMENT != null
+                                ? rate_heart(
+                                    classInfoModel.AVG_RATE_ASSIGNMENT, 24)
+                                : rate_heart("5.0", 24),
                           ),
                         ),
                       ),
@@ -408,8 +416,10 @@ class ClassViewInfo extends StatelessWidget {
                           margin: EdgeInsets.only(right: 11),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: rate_heart(
-                                classInfoModel.AVG_RATE_EXAM_STUDY, 24),
+                            children: classInfoModel.AVG_RATE_EXAM_STUDY != null
+                                ? rate_heart(
+                                    classInfoModel.AVG_RATE_EXAM_STUDY, 24)
+                                : rate_heart("5.0", 24),
                           ),
                         ),
                       ),
@@ -440,8 +450,11 @@ class ClassViewInfo extends StatelessWidget {
                           margin: EdgeInsets.only(right: 11),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: rate_heart(
-                                classInfoModel.AVG_RATE_GRADE_RATIO, 24),
+                            children:
+                                classInfoModel.AVG_RATE_GRADE_RATIO != null
+                                    ? rate_heart(
+                                        classInfoModel.AVG_RATE_GRADE_RATIO, 24)
+                                    : rate_heart("5.0", 24),
                           ),
                         ),
                       ),
@@ -594,7 +607,9 @@ class ClassExamInfo extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      "The Final Exam",
+                      classExamModel.MID_FINAL != null
+                          ? "The ${classExamModel.MID_FINAL} Exam"
+                          : "The Unknown Exam",
                       textScaleFactor: 1.4,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),

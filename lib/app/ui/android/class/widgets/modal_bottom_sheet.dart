@@ -6,6 +6,7 @@ import 'package:polarstar_flutter/app/controller/class/class_view_controller.dar
 import 'package:polarstar_flutter/app/controller/class/write_comment_controller.dart';
 import 'package:polarstar_flutter/app/data/provider/class/class_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
+import 'package:polarstar_flutter/app/ui/android/timetable/widgets/timetable.dart';
 
 class WriteComment extends StatelessWidget {
   const WriteComment(
@@ -266,23 +267,65 @@ class WriteComment extends StatelessWidget {
                   // 학기 선택 버튼
                   Padding(
                     padding: const EdgeInsets.only(top: 16.3, bottom: 16.3),
-                    child: DropdownButtonFormField(
-                      hint: Text("Please select semester"),
-                      value: writeCommentController.writeCommentSemester.value,
-                      items: [
-                        DropdownMenuItem(
-                          child: Text("2021년도 1학기"),
-                          value: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: DropdownButtonFormField(
+                            isExpanded: true,
+                            hint: Text("Please select year"),
+                            value:
+                                writeCommentController.writeCommentYear.value,
+                            items: [
+                              for (int i = DateTime.now().year; i > 1999; i--)
+                                DropdownMenuItem(
+                                  child: Center(
+                                    child: Text(
+                                      "$i년도",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  value: i,
+                                )
+                            ],
+                            onChanged: (value) {
+                              print(value);
+                              writeCommentController.writeCommentYear(value);
+                              writeCommentController.writeCommentYear.refresh();
+                            },
+                          ),
                         ),
-                        DropdownMenuItem(
-                          child: Text("2021년도 2학기"),
-                          value: 1,
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: DropdownButtonFormField(
+                            isExpanded: true,
+                            hint: Text("Please select semester"),
+                            value: writeCommentController
+                                .writeCommentSemester.value,
+                            items: [
+                              for (int j = 1; j < 3; j++)
+                                DropdownMenuItem(
+                                  child: Center(
+                                    child: Text(
+                                      "$j학기",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  value: j,
+                                )
+                            ],
+                            onChanged: (value) {
+                              print(value);
+                              writeCommentController
+                                  .writeCommentSemester(value);
+                              writeCommentController.writeCommentSemester
+                                  .refresh();
+                            },
+                          ),
                         ),
                       ],
-                      onChanged: (value) {
-                        writeCommentController.writeCommentSemester(value);
-                        writeCommentController.writeCommentSemester.refresh();
-                      },
                     ),
                   ),
 
@@ -323,8 +366,8 @@ class WriteComment extends StatelessWidget {
                                   blurRadius: 15)
                             ]),
                         child: InkWell(
-                          onTap: () {
-                            Map data = {
+                          onTap: () async {
+                            Map<String, String> data = {
                               "content": reviewTextController.text,
                               "rate": writeCommentController.commentRate.value
                                   .toDouble()
@@ -345,9 +388,16 @@ class WriteComment extends StatelessWidget {
                                   .gradeRate.value
                                   .toDouble()
                                   .toString(),
+                              "class_year": writeCommentController
+                                  .writeCommentYear.value
+                                  .toString(),
+                              "class_semester": writeCommentController
+                                  .writeCommentSemester.value
+                                  .toString()
                             };
 
-                            writeCommentController.postComment(CLASS_ID, data);
+                            await writeCommentController.postComment(
+                                CLASS_ID, data);
                           },
                           child: Center(
                               child: Text(
