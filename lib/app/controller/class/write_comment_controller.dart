@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
-
+import 'package:polarstar_flutter/app/controller/class/class_view_controller.dart';
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
+import 'package:polarstar_flutter/app/ui/android/class/class_view.dart';
 
 class WriteCommentController extends GetxController {
   final ClassRepository repository;
@@ -24,9 +25,15 @@ class WriteCommentController extends GetxController {
 
     switch (jsonResponse["statusCode"]) {
       case 200:
+        Get.back();
+
+        if (Get.currentRoute != "/class") {
+          ClassViewController classViewController = Get.find();
+          classViewController.refreshPage();
+        }
+
         Get.snackbar("강평 작성 완료", "강의평가 작성이 완료되었습니다.",
             duration: Duration(seconds: 2));
-        Get.back();
 
         break;
       default:

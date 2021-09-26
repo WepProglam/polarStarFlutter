@@ -174,10 +174,10 @@ class ClassViewController extends GetxController {
 
     switch (jsonResponse["statusCode"]) {
       case 200:
+        Get.back();
+        await refreshPage();
         Get.snackbar("시험정보 작성 완료", "시험정보 작성이 완료되었습니다.",
             duration: Duration(seconds: 2));
-        Get.back();
-
         break;
       default:
         print(jsonResponse["statusCode"]);

@@ -368,6 +368,7 @@ class WriteComment extends StatelessWidget {
                             ]),
                         child: InkWell(
                           onTap: () async {
+                            print(Get.currentRoute);
                             Map<String, String> data = {
                               "content": reviewTextController.text,
                               "rate": writeCommentController.commentRate.value
