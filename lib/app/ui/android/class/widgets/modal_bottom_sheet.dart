@@ -6,6 +6,7 @@ import 'package:polarstar_flutter/app/controller/class/class_view_controller.dar
 import 'package:polarstar_flutter/app/controller/class/write_comment_controller.dart';
 import 'package:polarstar_flutter/app/data/provider/class/class_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
+import 'package:polarstar_flutter/app/ui/android/class/functions/semester.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/timetable.dart';
 
 class WriteComment extends StatelessWidget {
@@ -474,23 +475,62 @@ class WriteExamInfo extends StatelessWidget {
                 // 일단 임시로 해놓음
                 Padding(
                   padding: const EdgeInsets.only(bottom: 14.5),
-                  child: DropdownButtonFormField(
-                    hint: Text("Please select semester"),
-                    value: classViewController.writeExamInfoSemester.value,
-                    items: [
-                      DropdownMenuItem(
-                        child: Text("2021년도 1학기"),
-                        value: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: DropdownButtonFormField(
+                          isExpanded: true,
+                          hint: Text("Please select year"),
+                          value: classViewController.writeExamInfoYear.value,
+                          items: [
+                            for (int i = DateTime.now().year; i > 1999; i--)
+                              DropdownMenuItem(
+                                child: Center(
+                                  child: Text(
+                                    "$i년도",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                value: i,
+                              )
+                          ],
+                          onChanged: (value) {
+                            print(value);
+                            classViewController.writeExamInfoYear(value);
+                            classViewController.writeExamInfoYear.refresh();
+                          },
+                        ),
                       ),
-                      DropdownMenuItem(
-                        child: Text("2021년도 2학기"),
-                        value: 1,
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                        child: DropdownButtonFormField(
+                          isExpanded: true,
+                          hint: Text("Please select semester"),
+                          value:
+                              classViewController.writeExamInfoSemester.value,
+                          items: [
+                            for (int j = 1; j < 3; j++)
+                              DropdownMenuItem(
+                                child: Center(
+                                  child: Text(
+                                    "$j학기",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                value: j,
+                              )
+                          ],
+                          onChanged: (value) {
+                            print(value);
+                            classViewController.writeExamInfoSemester(value);
+                            classViewController.writeExamInfoSemester.refresh();
+                          },
+                        ),
                       ),
                     ],
-                    onChanged: (value) {
-                      classViewController.writeExamInfoSemester(value);
-                      classViewController.writeExamInfoSemester.refresh();
-                    },
                   ),
                 ),
               ]),
@@ -727,9 +767,16 @@ class WriteExamInfo extends StatelessWidget {
                                 .examList[classViewController.examIndex.value],
                             "strategy": testStrategyController.text,
                             "example": [examInfoTextController.text].toString(),
-                            "year": 2021.toString(),
-                            "semester": 2.toString()
+                            "year": classViewController.writeExamInfoYear.value
+                                .toString(),
+                            "semester": classViewController
+                                .writeExamInfoSemester.value
+                                .toString(),
+                            "mid_final":
+                                examType(classViewController.examIndex.value)
                           };
+
+                          print(data["year"] + data["semester"]);
 
                           classViewController.postExam(
                               classViewController.classInfo.value.CLASS_ID,

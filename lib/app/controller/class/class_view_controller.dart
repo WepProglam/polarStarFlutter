@@ -24,7 +24,8 @@ class ClassViewController extends GetxController {
   final List<String> examList = ["중간고사", "기말고사"];
   final List<String> questionTypeList = ["객관식", "단답형", "서술형", "혼합형"];
 
-  final writeExamInfoSemester = 0.obs;
+  final writeExamInfoYear = DateTime.now().year.obs;
+  final writeExamInfoSemester = 1.obs;
 
   final classViewAvailable = false.obs;
   final classExamAvailable = false.obs;

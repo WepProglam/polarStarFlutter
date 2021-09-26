@@ -12,3 +12,18 @@ String semester(int intSemester) {
   }
   return retString;
 }
+
+String examType(int examIndex) {
+  String retExam = "중간";
+  switch (examIndex) {
+    case 0:
+      retExam = "중간";
+      break;
+    case 1:
+      retExam = "기말";
+      break;
+    default:
+      retExam = "중간";
+  }
+  return retExam;
+}
