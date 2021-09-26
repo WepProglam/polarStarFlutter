@@ -73,7 +73,10 @@ class MailHistory extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 1.5),
                 child: Row(children: [
                   Text(
-                      "${mailController.opponentProfile.value.PROFILE_NICKNAME}",
+                      mailController.opponentProfile.value.PROFILE_NICKNAME ==
+                              null
+                          ? ""
+                          : "${mailController.opponentProfile.value.PROFILE_NICKNAME}",
                       style: const TextStyle(
                           color: const Color(0xff333333),
                           fontWeight: FontWeight.w700,
@@ -170,8 +173,8 @@ class MailHistory extends StatelessWidget {
                               await mailController.sendMailIn(
                                   commentWriteController.text,
                                   mailController.scrollController);
-
                               commentWriteController.clear();
+                              FocusScope.of(context).unfocus();
                             },
                             maxLines: null,
                             controller: commentWriteController,
@@ -185,6 +188,7 @@ class MailHistory extends StatelessWidget {
                               mailController.sendMailIn(
                                   commentWriteController.text,
                                   mailController.scrollController);
+                              FocusScope.of(context).unfocus();
                             },
                             textInputAction: TextInputAction.done,
                             decoration: InputDecoration(
@@ -209,6 +213,7 @@ class MailHistory extends StatelessWidget {
                                 mailController.scrollController);
 
                             commentWriteController.clear();
+                            FocusScope.of(context).unfocus();
                           }),
                     ]))
               ]))),

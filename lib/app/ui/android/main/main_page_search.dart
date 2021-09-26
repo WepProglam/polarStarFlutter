@@ -31,19 +31,15 @@ class MainPageSearch extends StatelessWidget {
             toolbarHeight: 37 + 13.0,
             automaticallyImplyLeading: false,
             titleSpacing: 0,
-            title: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(
-                      left: 15, right: 15, top: 7, bottom: 5),
-                  width: size.width - 15 * 2,
-                  height: 30,
-                  child: MainSearchBar(
-                      size: size,
-                      searchText: searchText,
-                      mainSearchController: mainSearchController),
-                )
-              ],
+            title: Container(
+              margin:
+                  const EdgeInsets.only(left: 15, right: 15, top: 7, bottom: 5),
+              width: size.width - 15 * 2,
+              height: 32,
+              child: MainSearchBar(
+                  size: size,
+                  searchText: searchText,
+                  mainSearchController: mainSearchController),
             ),
           ),
           // bottomNavigationBar:
@@ -157,13 +153,15 @@ class MainSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        // width: size.width - 38.5 - 15 - 20 - 19.4 - 15,
+        // margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              width: size.width - 38.5 - 15 - 23.5 - 19.4 - 15,
-              margin: const EdgeInsets.only(left: 23.5, top: 11),
+              width: 20,
+            ),
+            Expanded(
               child: TextFormField(
                 controller: searchText,
                 onEditingComplete: () async {
@@ -191,8 +189,11 @@ class MainSearchBar extends StatelessWidget {
                     hintText: ""),
               ),
             ),
-            Spacer(),
+            // Spacer(),
             // 패스 894
+            Container(
+              width: 10,
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 8, 19.4, 7.7),
               child: Container(

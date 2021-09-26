@@ -27,24 +27,29 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Obx(() {
-      return mainPageWidget[mainController.mainPageIndex.value];
-    })
-        // Scaffold(
-        //   appBar: CustomAppBar(
-        //     pageName: "POLAR STAR",
-        //   ),
-        //   bottomNavigationBar:
-        //       CustomBottomNavigationBar(mainController: mainController),
-        //   body: Obx(() {
-        //     // if (mainController.mainPageIndex.value == 1) {
-        //     //   return OutSide(
-        //     //     from: "main",
-        //     //   );
-        //     // }
-        //     return mainPageWidget[mainController.mainPageIndex.value];
-        //   }),
-        // ),
-        );
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: SafeArea(child: Obx(() {
+        return mainPageWidget[mainController.mainPageIndex.value];
+      })
+          // Scaffold(
+          //   appBar: CustomAppBar(
+          //     pageName: "POLAR STAR",
+          //   ),
+          //   bottomNavigationBar:
+          //       CustomBottomNavigationBar(mainController: mainController),
+          //   body: Obx(() {
+          //     // if (mainController.mainPageIndex.value == 1) {
+          //     //   return OutSide(
+          //     //     from: "main",
+          //     //   );
+          //     // }
+          //     return mainPageWidget[mainController.mainPageIndex.value];
+          //   }),
+          // ),
+          ),
+    );
   }
 }

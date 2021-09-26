@@ -9,6 +9,7 @@ import 'package:polarstar_flutter/app/data/model/mail/mailBox_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/data/provider/sqflite/database_helper.dart';
+import 'package:polarstar_flutter/app/data/provider/sqflite/src/db_mail.dart';
 import 'package:polarstar_flutter/app/data/provider/sqflite/src/db_noti.dart';
 import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/noti/noti_repository.dart';
@@ -25,11 +26,20 @@ class NotiController extends GetxController {
   RxBool notiMailFetched = false.obs;
   RxList<Rx<MailBoxModel>> mailBox = <Rx<MailBoxModel>>[].obs; //쪽지함
   RxList<SaveNotiModel> readNoties = <SaveNotiModel>[].obs;
+  RxList<SaveMailBoxModel> readMails = <SaveMailBoxModel>[].obs;
 
   NotiController({@required this.repository}) : assert(repository != null);
 
+  Future<void> getReadMails() async {
+    readMails.value = await MAIL_DB_HELPER.queryAllRows();
+  }
+
   Future<void> getReadNoties() async {
     readNoties.value = await NOTI_DB_HELPER.queryAllRows();
+  }
+
+  Future<void> setReadMails(SaveMailBoxModel mailBox) async {
+    await MAIL_DB_HELPER.insert(mailBox);
   }
 
   Future<void> setReadNotied(SaveNotiModel noti) async {
@@ -56,6 +66,7 @@ class NotiController extends GetxController {
   }
 
   Future<void> getMailBox() async {
+    await getReadMails();
     //쪽지함 보기
     Map<String, dynamic> value = await repository.getMailBox();
 
@@ -64,14 +75,32 @@ class NotiController extends GetxController {
       return;
     }
     mailBox.value = value["listMailBox"];
+
+    for (var item in mailBox) {
+      for (SaveMailBoxModel saveMailBox in readMails) {
+        if (item.value.MAIL_BOX_ID == saveMailBox.MAIL_BOX_ID &&
+            item.value.MAIL_ID == saveMailBox.MAIL_ID) {
+          item.update((val) {
+            val.isReaded = true;
+          });
+          break;
+        }
+      }
+    }
+    await sortMailBox();
     notiMailFetched.value = true;
+  }
+
+  Future<void> sortMailBox() async {
+    mailBox
+        .sort((a, b) => b.value.TIME_CREATED.compareTo(a.value.TIME_CREATED));
   }
 
   @override
   onInit() async {
     super.onInit();
-    getNoties();
-    getMailBox();
+    await getNoties();
+    await getMailBox();
   }
 
   @override

@@ -20,6 +20,7 @@ class PostController extends GetxController {
       : assert(repository != null);
 
   Rx<bool> _dataAvailable = false.obs;
+  RxBool isDeleted = false.obs;
 
   Rx<int> bottomTextLine = 1.obs;
 
@@ -55,6 +56,7 @@ class PostController extends GetxController {
     final Map<String, dynamic> response =
         await repository.getPostData(this.COMMUNITY_ID, this.BOARD_ID);
     final status = response["statusCode"];
+    print(status);
 
     switch (status) {
       case 401:
@@ -62,13 +64,15 @@ class PostController extends GetxController {
         Get.offAllNamed('/login');
         return null;
         break;
-      case 400:
       case 200:
         sortPCCC(response["listPost"]);
         _dataAvailable.value = true;
-        print(sortedList[0].PHOTO);
         return;
       default:
+        await Get.defaultDialog(
+            content: Text("삭제된 게시글입니다."), title: "유효하지 않은 접근");
+        Get.back();
+        isDeleted.value = true;
     }
   }
 
