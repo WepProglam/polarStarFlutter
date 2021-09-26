@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:flutter/material.dart';
 
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
@@ -29,6 +30,9 @@ class MainController extends GetxController {
   RxBool _dataAvailable = false.obs;
   RxInt mainPageIndex = 0.obs;
   RxList<String> followingCommunity = <String>[].obs;
+
+  // var animationController = AnimationController().obs;
+  var pageController = PageController().obs;
 
   Future<void> createCommunity(
       String COMMUNITY_NAME, String COMMUNITY_DESCRIPTION) async {
@@ -106,6 +110,8 @@ class MainController extends GetxController {
     super.onInit();
     print("getFollowingCommunity");
     await getFollowingCommunity();
+
+    // pageController.value.addListener(() {});
 
     await getBoardInfo();
   }

@@ -103,7 +103,7 @@ class HotBoardMain extends StatelessWidget {
               // 핫게
               PageView.builder(
                 allowImplicitScrolling: true,
-                controller: controller,
+                controller: mainController.pageController.value,
                 scrollDirection: Axis.horizontal,
                 physics: BouncingScrollPhysics(),
                 onPageChanged: (int index) =>
