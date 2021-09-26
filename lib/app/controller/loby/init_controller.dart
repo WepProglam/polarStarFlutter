@@ -40,17 +40,16 @@ class InitController extends GetxController {
         box.hasData('pw') &&
         box.hasData('token')) {
       if (box.read('isAutoLogin')) {
-        await autoLogin(box.read('id'), box.read('pw'), box.read('token'));
-        return true;
-        //     .then((response) {
-        //   switch (response["statusCode"]) {
-        //     case 200:
-        //       return true;
-        //       break;
-        //     default:
-        //       return false;
-        //   }
-        // });
+        var res =
+            await autoLogin(box.read('id'), box.read('pw'), box.read('token'));
+
+        switch (res["statusCode"]) {
+          case 200:
+            return true;
+            break;
+          default:
+            return false;
+        }
       }
     }
     return false;
