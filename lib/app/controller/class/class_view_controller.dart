@@ -44,7 +44,9 @@ class ClassViewController extends GetxController {
   }
 
   Future getClassView(int CLASS_ID) async {
+    print("asdfasdfasdfadfasdf");
     final jsonResponse = await repository.getClassView(CLASS_ID);
+    print(jsonResponse["statusCode"]);
 
     switch (jsonResponse["statusCode"]) {
       case 200:
@@ -89,9 +91,9 @@ class ClassViewController extends GetxController {
         printError(info: "Data Fetch ERROR!!");
         break;
       case 404:
-        Get.snackbar("400 Error", "없는 class Id 요청입니다.");
-        classExamAvailable(false);
-        printError(info: "Data Fetch ERROR!!");
+        // Get.snackbar("400 Error", "없는 class Id 요청입니다.");
+        classExamAvailable(true);
+        // printError(info: "Data Fetch ERROR!!");
         break;
       default:
         classExamAvailable(false);

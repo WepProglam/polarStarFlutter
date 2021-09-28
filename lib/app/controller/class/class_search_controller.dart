@@ -12,19 +12,29 @@ class ClassSearchController extends GetxController {
 
   final classSearchListAvailable = false.obs;
   final classSearchList = <ClassModel>[].obs;
+  final ScrollController scrollController =
+      ScrollController(initialScrollOffset: 0);
+  RxInt page = 0.obs;
+  RxString searchText = "".obs;
+  bool isFetching = false;
+  int searchLength = 0;
+  bool fetchTilEnd = false;
 
   Future<void> refreshPage() async {
     await getClassSearchList();
   }
 
   Future getClassSearchList() async {
-    print(Get.parameters["search"]);
     Map<String, dynamic> jsonResponse =
-        await repository.getClassSearchList(Get.parameters["search"]);
+        await repository.getClassSearchList(searchText.value, page.value);
 
     switch (jsonResponse["statusCode"]) {
       case 200:
         classSearchList(jsonResponse["classList"]);
+        if (searchLength >= classSearchList.length) {
+          fetchTilEnd = true;
+        }
+        searchLength = classSearchList.length;
         classSearchListAvailable(true);
         break;
       default:
@@ -35,7 +45,19 @@ class ClassSearchController extends GetxController {
 
   @override
   void onInit() async {
-    await getClassSearchList();
     super.onInit();
+    searchText.value = Get.parameters["search"];
+
+    await getClassSearchList();
+    scrollController.addListener(() async {
+      print(scrollController.position.maxScrollExtent);
+      if ((scrollController.position.pixels ==
+                  scrollController.position.maxScrollExtent ||
+              !scrollController.position.hasPixels) &&
+          !fetchTilEnd) {
+        page.value += 1;
+        await getClassSearchList();
+      }
+    });
   }
 }

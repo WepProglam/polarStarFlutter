@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,8 +17,7 @@ class MailController extends GetxController {
 
   MailController({@required this.repository}) : assert(repository != null);
   RxBool dataAvailableMailSendPage = false.obs;
-  final ScrollController scrollController =
-      new ScrollController(initialScrollOffset: 0);
+  final scrollController = new ScrollController(initialScrollOffset: 0);
 
   RxBool mailAnonymous = false.obs; //쪽지함 익명
   RxInt MAIL_BOX_ID = 0.obs; //쪽지함 ID

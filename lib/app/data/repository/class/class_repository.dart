@@ -36,8 +36,9 @@ class ClassRepository {
     }
   }
 
-  Future<Map<String, dynamic>> getClassSearchList(String searchText) async {
-    final response = await apiClient.getClassSearchList(searchText);
+  Future<Map<String, dynamic>> getClassSearchList(
+      String searchText, int page) async {
+    final response = await apiClient.getClassSearchList(searchText, page);
 
     if (response.statusCode != 200) {
       return {"statusCode": response.statusCode};
@@ -59,6 +60,7 @@ class ClassRepository {
     } else {
       Map responseBody = json.decode(response.body);
 
+      print(responseBody);
       ClassInfoModel classInfo =
           ClassInfoModel.fromJson(responseBody["classInfo"]);
       Iterable classReviewList = responseBody["classReview"];

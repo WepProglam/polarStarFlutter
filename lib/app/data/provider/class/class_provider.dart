@@ -15,8 +15,9 @@ class ClassApiClient {
     return response;
   }
 
-  Future getClassSearchList(String searchText) async {
-    final response = await Session().getX('/class/search?search=$searchText');
+  Future getClassSearchList(String searchText, int page) async {
+    final response =
+        await Session().getX('/class/search/page/$page?search=$searchText');
     return response;
   }
 

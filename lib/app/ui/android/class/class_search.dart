@@ -24,6 +24,7 @@ class ClassSearch extends StatelessWidget {
           if (controller.classSearchListAvailable.value) {
             return ListView.builder(
                 itemCount: controller.classSearchList.length,
+                controller: controller.scrollController,
                 itemBuilder: (BuildContext context, int index) {
                   return CoursePreview(
                     classModel: controller.classSearchList[index],

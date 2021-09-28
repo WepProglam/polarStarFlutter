@@ -226,7 +226,7 @@ class ClassViewInfo extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        classInfoModel.CLASS_NAME,
+                        "${classInfoModel.CLASS_NAME}",
                         style: const TextStyle(
                             color: const Color(0xff333333),
                             fontWeight: FontWeight.w700,
@@ -239,7 +239,7 @@ class ClassViewInfo extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 6, bottom: 6),
                         child: Text(
-                          classInfoModel.PROFESSOR,
+                          "${classInfoModel.PROFESSOR}",
                           style: const TextStyle(
                               color: const Color(0xff333333),
                               fontWeight: FontWeight.normal,
@@ -310,7 +310,7 @@ class ClassViewInfo extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          classInfoModel.SECTOR,
+                          "${classInfoModel.CLASS_SECTOR_1}",
                           style: TextStyle(
                               color: const Color(0xff333333),
                               fontWeight: FontWeight.bold,

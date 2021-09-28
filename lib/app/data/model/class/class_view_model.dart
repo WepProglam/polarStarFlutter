@@ -4,6 +4,7 @@ import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 
 class ClassInfoModel {
   int CLASS_ID;
+  double CREDIT;
   String AVG_RATE,
       AVG_RATE_ASSIGNMENT,
       AVG_RATE_GROUP_STUDY,
@@ -12,11 +13,12 @@ class ClassInfoModel {
       CLASS_NUMBER,
       CLASS_NAME,
       PROFESSOR,
-      CREDIT,
-      DEGREE_COURSE,
-      SECTOR,
-      REFER;
-  List CLASSES;
+      CLASS_SECTOR_1,
+      CLASS_SECTOR_TOTAL,
+      COLLEGE_NAME,
+      COLLEGE_MAJOR;
+
+  List CLASS_TIME;
 
   ClassInfoModel(
       {CLASS_ID,
@@ -31,8 +33,11 @@ class ClassInfoModel {
       CREDIT,
       DEGREE_COURSE,
       SECTOR,
-      REFER,
-      CLASSES});
+      CLASS_TIME,
+      CLASS_SECTOR_1,
+      CLASS_SECTOR_TOTAL,
+      COLLEGE_NAME,
+      COLLEGE_MAJOR});
 
   ClassInfoModel.fromJson(Map<String, dynamic> json) {
     this.CLASS_ID = json["CLASS_ID"];
@@ -44,12 +49,12 @@ class ClassInfoModel {
     this.CLASS_NUMBER = json["CLASS_NUMBER"];
     this.CLASS_NAME = json["CLASS_NAME"];
     this.PROFESSOR = json["PROFESSOR"];
-    this.CREDIT = json["CREDIT"];
-    this.DEGREE_COURSE = json["DEGREE_COURSE"];
-    this.SECTOR = json["SECTOR"];
-    this.REFER = json["REFER"];
-
-    this.CLASSES = json["CLASSES"];
+    this.CREDIT = double.parse("${json["CREDIT"]}");
+    this.CLASS_SECTOR_1 = json["CLASS_SECTOR_1"];
+    this.CLASS_SECTOR_TOTAL = json["CLASS_SECTOR_TOTAL"];
+    this.COLLEGE_NAME = json["COLLEGE_NAME"];
+    this.COLLEGE_MAJOR = json["COLLEGE_MAJOR"];
+    this.CLASS_TIME = json["CLASSES"];
   }
 }
 

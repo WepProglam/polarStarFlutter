@@ -1,39 +1,48 @@
 import 'dart:collection';
 
 class ClassModel {
-  int CLASS_ID;
+  int CLASS_ID, HEAD_COUNT;
   String CLASS_NUMBER,
       CLASS_NAME,
       PROFESSOR,
-      CREDIT,
-      DEGREE_COURSE,
-      SECTOR,
-      REFER;
-  List CLASSES;
+      CLASS_SECTOR_1,
+      CLASS_SECTOR_TOTAL,
+      COLLEGE_NAME,
+      COLLEGE_MAJOR;
+
+  List CLASS_TIME;
+  List OPEN_TIME;
+  double CREDIT;
 
   ClassModel(
       {CLASS_ID,
+      HEAD_COUNT,
       CLASS_NUMBER,
       CLASS_NAME,
       PROFESSOR,
-      CREDIT,
-      DEGREE_COURSE,
-      SECTOR,
-      REFER,
-      CLASSES});
+      CLASS_SECTOR_1,
+      CLASS_SECTOR_TOTAL,
+      COLLEGE_NAME,
+      COLLEGE_MAJOR,
+      CLASS_TIME,
+      OPEN_TIME,
+      CREDIT});
 
   ClassModel.fromJson(Map<String, dynamic> json) {
     this.CLASS_ID = json["CLASS_ID"];
+    this.HEAD_COUNT = json["HEAD_COUNT"];
 
     this.CLASS_NUMBER = json["CLASS_NUMBER"];
     this.CLASS_NAME = json["CLASS_NAME"];
     this.PROFESSOR = json["PROFESSOR"];
-    this.CREDIT = json["CREDIT"];
-    this.DEGREE_COURSE = json["DEGREE_COURSE"];
-    this.SECTOR = json["SECTOR"];
-    this.REFER = json["REFER"];
+    this.CREDIT = double.parse("${json["CREDIT"]}");
+    this.CLASS_SECTOR_1 = json["CLASS_SECTOR_1"];
+    this.CLASS_SECTOR_TOTAL = json["CLASS_SECTOR_TOTAL"];
+    this.COLLEGE_NAME = json["COLLEGE_NAME"];
 
-    this.CLASSES = json["CLASSES"];
+    this.COLLEGE_MAJOR = json["COLLEGE_MAJOR"];
+    this.CLASS_TIME = json["CLASS_TIME"];
+    this.OPEN_TIME = json["OPEN_TIME"];
   }
 }
 
