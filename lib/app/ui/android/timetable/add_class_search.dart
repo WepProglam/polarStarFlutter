@@ -53,67 +53,135 @@ class TimetableAddClassSearch extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           bottomSheet: // 사각형 612
               Container(
-                  height: 473.5,
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverAppBar(
-                        backgroundColor: Colors.white,
-                        floating: true,
-                        pinned: true,
-                        flexibleSpace: FlexibleSpaceBar(
-                          centerTitle: true,
-                          title: Text(
-                            "SliverList Widget",
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          background: Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                top: BorderSide(
-                                  color: Colors.black26,
-                                  width: 1.0,
+            height: 473.5,
+            decoration: BoxDecoration(
+                border: Border.all(color: const Color(0xff707070), width: 1),
+                color: const Color(0xffffffff)),
+            child: CustomScrollView(
+              slivers: [
+                searchClassSliverAppBar(),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                    // showModalBottomSheet(
+                    //     context: context,
+                    //     builder: (BuildContext context) {
+
+                    //     });
+                    return Container(
+                        height: 104.4,
+                        margin: const EdgeInsets.only(
+                            left: 15, right: 15, bottom: 12),
+                        child: Column(
+                          children: [
+                            Row(children: [
+                              Container(
+                                height: 19.5,
+                                child: Text("관리회계 ",
+                                    style: const TextStyle(
+                                        color: const Color(0xff333333),
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: "PingFangSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 15.0),
+                                    textAlign: TextAlign.center),
+                              ),
+                              Spacer(),
+                              Container(
+                                margin:
+                                    const EdgeInsets.only(right: 15, bottom: 9),
+                                child: Row(
+                                  children: [
+                                    for (var i = 0; i < 5; i++)
+                                      Container(
+                                        margin:
+                                            const EdgeInsets.only(left: 2.5),
+                                        height: 10,
+                                        width: 10,
+                                        child: Image.asset(
+                                            "assets/images/647.png"),
+                                      )
+                                  ],
+                                ),
+                              )
+                            ]),
+                            for (var i = 0; i < 2; i++)
+                              Container(
+                                margin: const EdgeInsets.only(top: 7.5),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                        height: 15,
+                                        width: 15,
+                                        child: Icon(Icons.ac_unit)),
+                                    Container(
+                                      height: 12,
+                                      margin: const EdgeInsets.only(
+                                          left: 15, bottom: 1.5, top: 1.5),
+                                      child: Text("금현숙",
+                                          style: const TextStyle(
+                                              color: const Color(0xff333333),
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: "PingFangSC",
+                                              fontStyle: FontStyle.normal,
+                                              fontSize: 9.0),
+                                          textAlign: TextAlign.center),
+                                    )
+                                  ],
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                          return Container(
-                            height: 100.0,
-                            color: Color((Random().nextDouble() * 0xFFFFFF)
-                                        .toInt() <<
-                                    0)
-                                .withOpacity(1.0),
-                            child: Center(
-                              child: Text(
-                                "Sliver List item: $index",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 7.5),
+                              child: Row(
+                                children: [
+                                  Container(
+                                      height: 15,
+                                      width: 15,
+                                      child: Icon(Icons.ac_unit)),
+                                  Container(
+                                    height: 12,
+                                    margin: const EdgeInsets.only(
+                                        left: 15, bottom: 1.5, top: 1.5),
+                                    child: Text("금현숙",
+                                        style: const TextStyle(
+                                            color: const Color(0xff333333),
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: "PingFangSC",
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 9.0),
+                                        textAlign: TextAlign.center),
+                                  ),
+                                  Spacer(),
+                                  // 전공
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 7),
+                                    child: Text("전공 3학점 GEMD001-02",
+                                        style: const TextStyle(
+                                            color: const Color(0xff000000),
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: "PingFangSC",
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 9.0),
+                                        textAlign: TextAlign.center),
+                                  )
+                                ],
                               ),
                             ),
-                          );
-                        }, childCount: 100),
-                      ),
-                    ],
-                  ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(50),
-                          topRight: Radius.circular(50)),
-                      border:
-                          Border.all(color: const Color(0xff707070), width: 1),
-                      color: const Color(0xffffffff))),
+                            // 패스 987
+                            Container(
+                                height: 0.3564453125,
+                                margin: const EdgeInsets.only(top: 12),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: const Color(0xffcfc3c3),
+                                        width: 1)))
+                          ],
+                        ));
+                  }, childCount: 100),
+                ),
+              ],
+            ),
+          ),
           body: Container(
             height: size.height - 473.5,
             child: Column(
@@ -247,6 +315,67 @@ class TimetableAddClassSearch extends StatelessWidget {
                 ),
               ],
             ),
+          )),
+    );
+  }
+}
+
+class searchClassSliverAppBar extends StatelessWidget {
+  const searchClassSliverAppBar({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      backgroundColor: Colors.white,
+      floating: true,
+      pinned: true,
+      automaticallyImplyLeading: false,
+      toolbarHeight: 45 + 12.0,
+      leadingWidth: 0,
+      titleSpacing: 0.0,
+      flexibleSpace: FlexibleSpaceBar(
+          titlePadding: const EdgeInsets.fromLTRB(0, 0, 0, 12.0),
+          title: Row(
+            children: [
+              // 사각형 613
+              Container(
+                  width: 100,
+                  height: 35,
+                  child: // 전공/영역: 전체
+                      Center(
+                    child: Text("전공/영역: 전체",
+                        style: const TextStyle(
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14),
+                        textAlign: TextAlign.left),
+                  ),
+                  margin: const EdgeInsets.only(left: 15),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(29)),
+                      color: const Color(0xff1a4678))),
+              Container(
+                  width: 100,
+                  height: 35,
+                  margin: const EdgeInsets.only(left: 15),
+                  child: Center(
+                    child: Text("과목명 : 없음",
+                        style: const TextStyle(
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14),
+                        textAlign: TextAlign.left),
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(29)),
+                      color: const Color(0xff1a4678)))
+            ],
           )),
     );
   }

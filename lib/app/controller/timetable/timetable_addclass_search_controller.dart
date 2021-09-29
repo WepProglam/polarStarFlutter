@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,9 @@ class TimeTableAddClassSearchController extends GetxController {
   RxList<TimeTableClassModel> CLASS_SEARCH = <TimeTableClassModel>[].obs;
 
   TextEditingController classSearchController = new TextEditingController();
+
+  RxBool isItBuild = false.obs;
+  BuildContext context;
 
   Future<void> addClass(int tid) async {
     // TOTAL_CLASS.update((val) {
@@ -86,8 +90,22 @@ class TimeTableAddClassSearchController extends GetxController {
   }
 
   @override
+  void onReady() async {
+    super.onReady();
+    timeTableController.initShowTimeTable();
+    timeTableController.makeShowTimeTable();
+  }
+
+  @override
   void onInit() async {
     super.onInit();
+
+    // once(isItBuild, (_) {
+    //   print("sadfsadfadsf");
+    //   if (isItBuild.value) {
+    //     showBottomSheet();
+    //   }
+    // });
     // initClass();
     // dataAvailable.value = true;
     // ever(CLASS_LIST, (_) {
