@@ -11,7 +11,7 @@ class ClassSearchController extends GetxController {
   ClassSearchController({@required this.repository});
 
   final classSearchListAvailable = false.obs;
-  final classSearchList = <ClassModel>[].obs;
+  RxList classSearchList = <ClassModel>[].obs;
   final ScrollController scrollController =
       ScrollController(initialScrollOffset: 0);
   RxInt page = 0.obs;
@@ -30,7 +30,7 @@ class ClassSearchController extends GetxController {
 
     switch (jsonResponse["statusCode"]) {
       case 200:
-        classSearchList(jsonResponse["classList"]);
+        classSearchList.addAll(jsonResponse["classList"]);
         if (searchLength >= classSearchList.length) {
           fetchTilEnd = true;
         }
