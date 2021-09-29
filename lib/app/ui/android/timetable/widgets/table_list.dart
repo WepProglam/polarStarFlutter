@@ -121,7 +121,7 @@ class TopIcon extends StatelessWidget {
           child: // 패스 940
               InkWell(
             onTap: () {
-              Get.toNamed("/timetable/addClass");
+              Get.toNamed("/timetable/addClass/search");
             },
             child: Container(
               width: 16,
@@ -741,7 +741,7 @@ class SubjectList extends StatelessWidget {
                                     top: 9.5, bottom: 11.5),
                                 height: 23,
                                 child: // Your subject
-                                    Text("${model.value.CLASSES[i].className}",
+                                    Text("${model.value.CLASSES[i].CLASS_NAME}",
                                         style: const TextStyle(
                                             color: const Color(0xff333333),
                                             fontWeight: FontWeight.w900,
@@ -753,17 +753,17 @@ class SubjectList extends StatelessWidget {
                               FittedBox(
                                 child: SubjectPreviewList(
                                     text:
-                                        "학수번호 : ${model.value.CLASSES[i].classNumber}"),
+                                        "학수번호 : ${model.value.CLASSES[i].CLASS_NUMBER}"),
                               ),
                               FittedBox(
                                 child: SubjectPreviewList(
                                     text:
-                                        "학점 : ${model.value.CLASSES[i].credit}"),
+                                        "학점 : ${model.value.CLASSES[i].CREDIT}"),
                               ),
                               FittedBox(
                                 child: SubjectPreviewList(
                                     text:
-                                        "교수명 : ${model.value.CLASSES[i].professor}"),
+                                        "교수명 : ${model.value.CLASSES[i].PROFESSOR}"),
                               ),
                             ],
                           ),

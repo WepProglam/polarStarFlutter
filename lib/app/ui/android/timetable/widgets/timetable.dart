@@ -193,7 +193,7 @@ class TimeTableItem extends StatelessWidget {
     return Ink(
       child: InkWell(
         onTap: () {
-          List<String> times = classItemModel.classes
+          List<String> times = classItemModel.CLASS_TIME
               .map((e) =>
                   "${e.day} ${timeFormatter(e.start_time)}~${timeFormatter(e.end_time)}\n")
               .toList();
@@ -227,7 +227,7 @@ class TimeTableItem extends StatelessWidget {
                             Container(
                               margin: const EdgeInsets.only(left: 10),
                               child: Container(
-                                child: Text("${classItemModel.className}"),
+                                child: Text("${classItemModel.CLASS_NAME}"),
                               ),
                             )
                           ],
@@ -245,7 +245,7 @@ class TimeTableItem extends StatelessWidget {
                             Container(
                               margin: const EdgeInsets.only(left: 20),
                               child: Container(
-                                child: Text("${classItemModel.professor}"),
+                                child: Text("${classItemModel.PROFESSOR}"),
                               ),
                             )
                           ],
@@ -290,7 +290,7 @@ class TimeTableItem extends StatelessWidget {
                               child: Container(
                                 child: FittedBox(
                                   child: Text(
-                                    "${classItemModel.classNumber}",
+                                    "${classItemModel.CLASS_NUMBER}",
                                   ),
                                 ),
                               ),
@@ -317,14 +317,14 @@ class TimeTableItem extends StatelessWidget {
                                       await timeTableController.deleteClass(
                                           timeTableController
                                               .selectTable.value.TIMETABLE_ID,
-                                          classItemModel.className);
+                                          classItemModel.CLASS_NAME);
                                   switch (statusCode) {
                                     case 200:
                                       timeTableController.selectTable
                                           .update((val) {
                                         val.CLASSES.removeWhere((element) =>
-                                            element.className ==
-                                            classItemModel.className);
+                                            element.CLASS_NAME ==
+                                            classItemModel.CLASS_NAME);
                                       });
 
                                       timeTableController.initShowTimeTable();
@@ -364,7 +364,7 @@ class TimeTableItem extends StatelessWidget {
           //     top: (classItem["start_time"] - curEndTime) * 1.0),
           child: Center(
             child: Text(
-              "${classItemModel.className}",
+              "${classItemModel.CLASS_NAME}",
               maxLines: 3,
               style: const TextStyle(
                   color: const Color(0xffffffff),

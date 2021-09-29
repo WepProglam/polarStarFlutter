@@ -34,7 +34,7 @@ class TimeTableAddClassController extends GetxController {
 
   Future<void> addClass(int tid) async {
     TOTAL_CLASS.update((val) {
-      val.classes = CLASS_LIST.map((element) => element.value).toList();
+      val.CLASS_TIME = CLASS_LIST.map((element) => element.value).toList();
     });
 
     Map<String, dynamic> data = TOTAL_CLASS.toJson();
@@ -62,7 +62,7 @@ class TimeTableAddClassController extends GetxController {
   bool checkClassValidate() {
     List<List<AddClassModel>> curClasses = timeTableController
         .selectTable.value.CLASSES
-        .map((e) => e.classes)
+        .map((e) => e.CLASS_TIME)
         .toList();
     for (var CurClass in curClasses) {
       for (var item in CurClass) {

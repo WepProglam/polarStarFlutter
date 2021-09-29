@@ -85,7 +85,7 @@ class TimeTableController extends GetxController {
     int colorIndex = 0;
     isExpandedVer.value = false;
     for (var item in selectTable.value.CLASSES) {
-      for (var detail in item.classes) {
+      for (var detail in item.CLASS_TIME) {
         int day_index = getIndexFromDay(detail.day);
         DateTime start = detail.start_time;
         int startTime = start.hour * 60 + start.minute;
