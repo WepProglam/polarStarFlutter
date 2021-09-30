@@ -19,3 +19,11 @@ String addZero(int time) {
   }
   return returnTime;
 }
+
+//여기 수정
+String classTimePretty(List<DateTime> source) {
+  String a = "";
+  for (var item in source) {
+    a += "${item.day} ${addZero(item.hour)}:${addZero(item.minute)}";
+  }
+}
