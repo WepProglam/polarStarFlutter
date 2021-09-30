@@ -68,6 +68,7 @@ class TimetableAddClassSearch extends StatelessWidget {
                     //     builder: (BuildContext context) {
 
                     //     });
+                    TimeTableClassModel model = controller.CLASS_SEARCH[index];
                     return Container(
                         height: 104.4,
                         margin: const EdgeInsets.only(
@@ -77,7 +78,7 @@ class TimetableAddClassSearch extends StatelessWidget {
                             Row(children: [
                               Container(
                                 height: 19.5,
-                                child: Text("관리회계 ",
+                                child: Text("${model.CLASS_NAME}",
                                     style: const TextStyle(
                                         color: const Color(0xff333333),
                                         fontWeight: FontWeight.w700,
@@ -105,31 +106,6 @@ class TimetableAddClassSearch extends StatelessWidget {
                                 ),
                               )
                             ]),
-                            for (var i = 0; i < 2; i++)
-                              Container(
-                                margin: const EdgeInsets.only(top: 7.5),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                        height: 15,
-                                        width: 15,
-                                        child: Icon(Icons.ac_unit)),
-                                    Container(
-                                      height: 12,
-                                      margin: const EdgeInsets.only(
-                                          left: 15, bottom: 1.5, top: 1.5),
-                                      child: Text("금현숙",
-                                          style: const TextStyle(
-                                              color: const Color(0xff333333),
-                                              fontWeight: FontWeight.w400,
-                                              fontFamily: "PingFangSC",
-                                              fontStyle: FontStyle.normal,
-                                              fontSize: 9.0),
-                                          textAlign: TextAlign.center),
-                                    )
-                                  ],
-                                ),
-                              ),
                             Container(
                               margin: const EdgeInsets.only(top: 7.5),
                               child: Row(
@@ -137,12 +113,66 @@ class TimetableAddClassSearch extends StatelessWidget {
                                   Container(
                                       height: 15,
                                       width: 15,
-                                      child: Icon(Icons.ac_unit)),
+                                      child:
+                                          Image.asset("assets/images/647.png")),
                                   Container(
                                     height: 12,
                                     margin: const EdgeInsets.only(
                                         left: 15, bottom: 1.5, top: 1.5),
-                                    child: Text("금현숙",
+                                    child: Text("${model.PROFESSOR}",
+                                        style: const TextStyle(
+                                            color: const Color(0xff333333),
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: "PingFangSC",
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 9.0),
+                                        textAlign: TextAlign.center),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 7.5),
+                              child: Row(
+                                children: [
+                                  Container(
+                                      height: 15,
+                                      width: 15,
+                                      child:
+                                          Image.asset("assets/images/647.png")),
+                                  Container(
+                                    height: 12,
+                                    margin: const EdgeInsets.only(
+                                        left: 15, bottom: 1.5, top: 1.5),
+                                    child: Text(
+                                        "${model.CLASS_TIME[0].day} ${model.CLASS_TIME[0].start_time.hour}:${model.CLASS_TIME[0].start_time.minute}~${model.CLASS_TIME[0].end_time.hour}:${model.CLASS_TIME[0].end_time.minute}",
+                                        style: const TextStyle(
+                                            color: const Color(0xff333333),
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: "PingFangSC",
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 9.0),
+                                        textAlign: TextAlign.center),
+                                  )
+                                ],
+                              ),
+                            ),
+
+                            Container(
+                              margin: const EdgeInsets.only(top: 7.5),
+                              child: Row(
+                                children: [
+                                  Container(
+                                      height: 15,
+                                      width: 15,
+                                      child:
+                                          Image.asset("assets/images/647.png")),
+                                  Container(
+                                    height: 12,
+                                    margin: const EdgeInsets.only(
+                                        left: 15, bottom: 1.5, top: 1.5),
+                                    child: Text(
+                                        "${model.CLASS_TIME[0].class_room}",
                                         style: const TextStyle(
                                             color: const Color(0xff333333),
                                             fontWeight: FontWeight.w400,
@@ -155,7 +185,8 @@ class TimetableAddClassSearch extends StatelessWidget {
                                   // 전공
                                   Container(
                                     margin: const EdgeInsets.only(top: 7),
-                                    child: Text("전공 3학점 GEMD001-02",
+                                    child: Text(
+                                        "${model.CLASS_SECTOR_TOTAL} ${model.CREDIT}학점 ${model.CLASS_NUMBER}",
                                         style: const TextStyle(
                                             color: const Color(0xff000000),
                                             fontWeight: FontWeight.w400,
@@ -177,7 +208,7 @@ class TimetableAddClassSearch extends StatelessWidget {
                                         width: 1)))
                           ],
                         ));
-                  }, childCount: 100),
+                  }, childCount: controller.CLASS_SEARCH.length),
                 ),
               ],
             ),

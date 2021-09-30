@@ -100,3 +100,5 @@ class AddClassModel {
     return data;
   }
 }
+
+class SearchClass {}

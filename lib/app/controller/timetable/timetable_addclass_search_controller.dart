@@ -24,6 +24,7 @@ class TimeTableAddClassSearchController extends GetxController {
 
   RxBool isItBuild = false.obs;
   BuildContext context;
+  RxBool dataAvailbale = false.obs;
 
   Future<void> addClass(int tid) async {
     // TOTAL_CLASS.update((val) {
@@ -89,6 +90,15 @@ class TimeTableAddClassSearchController extends GetxController {
     return true;
   }
 
+  Future<void> getClassInfo() async {
+    var response = await Session().getX("/class/timetable");
+    var json = jsonDecode(response.body);
+    Iterable classList = json["CLASS"];
+    CLASS_SEARCH.value =
+        classList.map((e) => TimeTableClassModel.fromJson(e)).toList();
+    dataAvailbale.value = true;
+  }
+
   @override
   void onReady() async {
     super.onReady();
@@ -99,6 +109,7 @@ class TimeTableAddClassSearchController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    await getClassInfo();
 
     // once(isItBuild, (_) {
     //   print("sadfsadfadsf");
