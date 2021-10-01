@@ -37,7 +37,11 @@ class TimetableClassFilter extends StatelessWidget {
                       onTap: () async {
                         int INDEX_COLLEGE_NAME = controller
                             .college_name_list[index].INDEX_COLLEGE_NAME;
-                        await controller.getMajorInfo(INDEX_COLLEGE_NAME);
+
+                        controller.INDEX_COLLEGE_NAME.value =
+                            INDEX_COLLEGE_NAME;
+
+                        await controller.getMajorInfo();
 
                         Get.toNamed(Routes.TIMETABLE_ADDCLASS_FILTER_MAJOR);
                       },
@@ -73,13 +77,19 @@ class TimetableClassMajor extends StatelessWidget {
                     height: 50,
                     child: InkWell(
                       onTap: () async {
-                        await controller.getFilteredClass(
-                            controller
-                                .college_major_list[index].INDEX_COLLEGE_NAME,
-                            controller
-                                .college_major_list[index].INDEX_COLLEGE_MAJOR);
+                        controller.INDEX_COLLEGE_MAJOR.value = controller
+                            .college_major_list[index].INDEX_COLLEGE_MAJOR;
                         controller.college_major.value =
                             controller.college_major_list[index].NAME;
+
+                        String text = controller.search_name.value.trim();
+                        //통합 검색 X
+                        if (text.isEmpty) {
+                          await controller.getFilteredClass();
+                        } else {
+                          await controller.getFilterAndSearch(0);
+                        }
+                        FocusScope.of(context).unfocus();
                         Get.back();
                         Get.back();
                       },
@@ -154,8 +164,15 @@ class TimetableClassSearchBar extends StatelessWidget {
                 controller: searchText,
                 onEditingComplete: () async {
                   String text = searchText.text.trim();
-
+                  controller.search_name.value = text;
+                  //통합 검색 X
+                  if (text.isEmpty || controller.INDEX_COLLEGE_MAJOR == -1) {
+                    await controller.getSearchedClass();
+                  } else {
+                    await controller.getFilterAndSearch(0);
+                  }
                   FocusScope.of(context).unfocus();
+                  Get.back();
                 },
                 maxLines: 1,
                 style: const TextStyle(
@@ -188,9 +205,16 @@ class TimetableClassSearchBar extends StatelessWidget {
                   child: InkWell(
                     onTap: () async {
                       String text = searchText.text.trim();
-                      await controller.getSearchedClass(text);
-                      Get.back();
+                      controller.search_name.value = text;
+                      //통합 검색 X
+                      if (text.isEmpty ||
+                          controller.INDEX_COLLEGE_MAJOR == -1) {
+                        await controller.getSearchedClass();
+                      } else {
+                        await controller.getFilterAndSearch(0);
+                      }
                       FocusScope.of(context).unfocus();
+                      Get.back();
                     },
                     child: Image.asset(
                       "assets/images/894.png",

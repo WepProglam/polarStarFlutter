@@ -570,7 +570,6 @@ class TimeTableSettingItem extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
-            print("${title}");
             onTap();
           },
           child: Stack(children: [

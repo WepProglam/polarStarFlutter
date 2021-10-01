@@ -168,8 +168,6 @@ class TimetableAddClassMain extends StatelessWidget {
                       int dayAmount = isExpandedHor.value ? 7 : 5;
                       int verAmount = isExpandedVer.value ? 14 : 10;
 
-                      print(isExpandedVer);
-
                       return Container(
                         height: 44 + 60.0 * (verAmount - 1) + 30,
                         child: Stack(children: [
@@ -235,8 +233,6 @@ class classSearchBottomSheet extends StatelessWidget {
                     controller.NewClass.value =
                         model.CLASS_TIME.map((e) => e.obs).toList();
                     for (var item in controller.NewClass) {
-                      print("${item.value.day}  ${item.value.end_time}");
-
                       if (item.value.end_time.hour > 18) {
                         timeTableController.isExpandedVer.value = true;
                       }
@@ -465,16 +461,32 @@ class searchClassSliverAppBar extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
                         child: Obx(() {
-                          return Text(
-                              "전공/영역: ${controller.college_major.value.isEmpty ? "없음" : controller.college_major.value}",
-                              maxLines: 1,
-                              style: const TextStyle(
-                                  color: const Color(0xffffffff),
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: "PingFangSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14),
-                              textAlign: TextAlign.left);
+                          return Row(children: [
+                            Text(
+                                "전공/영역: ${controller.college_major.value.isEmpty ? "없음" : controller.college_major.value}",
+                                maxLines: 1,
+                                style: const TextStyle(
+                                    color: const Color(0xffffffff),
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14),
+                                textAlign: TextAlign.left),
+                            Ink(
+                              child: InkWell(
+                                onTap: () async {
+                                  controller.college_major.value = "";
+                                  controller.INDEX_COLLEGE_MAJOR.value = -1;
+                                  controller.INDEX_COLLEGE_NAME.value = -1;
+                                  await controller.getSearchedClass();
+                                },
+                                child: Icon(
+                                  Icons.delete,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          ]);
                         }),
                       ),
                     ),
@@ -493,14 +505,31 @@ class searchClassSliverAppBar extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
-                        child: Text("과목명 : 없음",
-                            style: const TextStyle(
-                                color: const Color(0xffffffff),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14),
-                            textAlign: TextAlign.left),
+                        child: Obx(() {
+                          return Row(children: [
+                            Text(
+                                "검색 : ${controller.search_name.isEmpty ? "없음" : controller.search_name}",
+                                style: const TextStyle(
+                                    color: const Color(0xffffffff),
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14),
+                                textAlign: TextAlign.left),
+                            Ink(
+                              child: InkWell(
+                                onTap: () async {
+                                  controller.search_name.value = "";
+                                  await controller.getFilteredClass();
+                                },
+                                child: Icon(
+                                  Icons.delete,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          ]);
+                        }),
                       ),
                     ),
                   ),
@@ -908,8 +937,6 @@ class SelectEndTime extends StatelessWidget {
 
         if (timeInput.isBefore(start_time) ||
             timeInput.isAtSameMomentAs(start_time)) {
-          print(timeInput.isBefore(start_time));
-          print(timeInput.isAtSameMomentAs(start_time));
           newClass.update((val) {
             val.start_time = DateTime(timeInput.year, timeInput.month,
                 timeInput.day, timeInput.hour - 1, timeInput.minute);

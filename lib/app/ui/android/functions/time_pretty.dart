@@ -24,6 +24,9 @@ String addZero(int time) {
 String classTimePretty(List<AddClassModel> source) {
   String a = "";
   for (var item in source) {
+    if (item.day == null) {
+      return "미지정";
+    }
     a +=
         "${item.day} ${addZero(item.start_time.hour)}:${addZero(item.start_time.minute)}~${addZero(item.end_time.hour)}:${addZero(item.end_time.minute)} ";
   }

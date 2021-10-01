@@ -678,8 +678,6 @@ class SelectEndTime extends StatelessWidget {
 
         if (timeInput.isBefore(start_time) ||
             timeInput.isAtSameMomentAs(start_time)) {
-          print(timeInput.isBefore(start_time));
-          print(timeInput.isAtSameMomentAs(start_time));
           newClass.update((val) {
             val.start_time = DateTime(timeInput.year, timeInput.month,
                 timeInput.day, timeInput.hour - 1, timeInput.minute);

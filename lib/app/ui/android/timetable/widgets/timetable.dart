@@ -93,7 +93,7 @@ class TimeTableAddClass extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return show
+    return show && new_class.value.day != null
         ? Container(
             // width: 10,
             margin: EdgeInsets.only(top: 44, left: width / 12),
