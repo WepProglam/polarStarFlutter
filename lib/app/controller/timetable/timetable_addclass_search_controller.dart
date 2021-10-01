@@ -19,14 +19,20 @@ class TimeTableAddClassSearchController extends GetxController {
   TimeTableAddClassSearchController({@required this.repository});
 
   RxList<TimeTableClassModel> CLASS_SEARCH = <TimeTableClassModel>[].obs;
+  RxList<Rx<AddClassModel>> NewClass = <Rx<AddClassModel>>[].obs;
 
   TextEditingController classSearchController = new TextEditingController();
 
   RxBool isItBuild = false.obs;
   BuildContext context;
   RxBool dataAvailbale = false.obs;
-
+  RxInt selectedIndex = (-1).obs;
+  RxList<CollegeNameModel> college_name_list = <CollegeNameModel>[].obs;
+  RxList<CollegeMajorModel> college_major_list = <CollegeMajorModel>[].obs;
+  RxString college_major = "".obs;
+  RxString search_name = "".obs;
   Future<void> addClass(int tid) async {
+    print(CLASS_SEARCH[selectedIndex.value].toJson());
     // TOTAL_CLASS.update((val) {
     //   val.CLASS_TIME = CLASS_LIST.map((element) => element.value).toList();
     // });
@@ -94,9 +100,43 @@ class TimeTableAddClassSearchController extends GetxController {
     var response = await Session().getX("/class/timetable");
     var json = jsonDecode(response.body);
     Iterable classList = json["CLASS"];
+    Iterable collegeList = json["index"];
     CLASS_SEARCH.value =
         classList.map((e) => TimeTableClassModel.fromJson(e)).toList();
+    college_name_list.value =
+        collegeList.map((e) => CollegeNameModel.fromJson(e)).toList();
+
     dataAvailbale.value = true;
+  }
+
+  Future<void> getFilteredClass(
+      int INDEX_COLLEGE_NAME, int INDEX_COLLEGE_MAJOR) async {
+    var response = await Session().getX(
+        "/class/timetable/filter/page/0?INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR}");
+    Iterable class_list = jsonDecode(response.body);
+    print(class_list);
+    CLASS_SEARCH.value =
+        class_list.map((e) => TimeTableClassModel.fromJson(e)).toList();
+  }
+
+  Future<void> getSearchedClass(String search) async {
+    search_name.value = search;
+
+    var response =
+        await Session().getX("/class/search/page/0?search=${search}");
+
+    Iterable class_list = jsonDecode(response.body);
+    CLASS_SEARCH.value =
+        class_list.map((e) => TimeTableClassModel.fromJson(e)).toList();
+  }
+
+  Future<void> getMajorInfo(int INDEX_COLLEGE_NAME) async {
+    var response = await Session().getX(
+        "/class/timetable/major?INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME}");
+    Iterable majorList = jsonDecode(response.body);
+    college_major_list.value =
+        majorList.map((e) => CollegeMajorModel.fromJson(e)).toList();
+    print(majorList);
   }
 
   @override

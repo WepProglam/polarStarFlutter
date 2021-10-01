@@ -8,8 +8,10 @@ import 'package:polarstar_flutter/app/controller/timetable/timetable_addclass_co
 import 'package:polarstar_flutter/app/controller/timetable/timetable_addclass_search_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/timetable_daytoindex.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/timetable.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
 
@@ -39,8 +41,8 @@ const textStyle = const TextStyle(
     fontStyle: FontStyle.normal,
     fontSize: 14.0);
 
-class TimetableAddClassSearch extends StatelessWidget {
-  TimetableAddClassSearch({Key key}) : super(key: key);
+class TimetableAddClassMain extends StatelessWidget {
+  TimetableAddClassMain({Key key}) : super(key: key);
   final TimeTableController timeTableController = Get.find();
   final MainController mainController = Get.find();
   final TimeTableAddClassSearchController controller = Get.find();
@@ -57,161 +59,9 @@ class TimetableAddClassSearch extends StatelessWidget {
             decoration: BoxDecoration(
                 border: Border.all(color: const Color(0xff707070), width: 1),
                 color: const Color(0xffffffff)),
-            child: CustomScrollView(
-              slivers: [
-                searchClassSliverAppBar(),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                    // showModalBottomSheet(
-                    //     context: context,
-                    //     builder: (BuildContext context) {
-
-                    //     });
-                    TimeTableClassModel model = controller.CLASS_SEARCH[index];
-                    return Container(
-                        height: 104.4,
-                        margin: const EdgeInsets.only(
-                            left: 15, right: 15, bottom: 12),
-                        child: Column(
-                          children: [
-                            Row(children: [
-                              Container(
-                                height: 19.5,
-                                child: Text("${model.CLASS_NAME}",
-                                    style: const TextStyle(
-                                        color: const Color(0xff333333),
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily: "PingFangSC",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 15.0),
-                                    textAlign: TextAlign.center),
-                              ),
-                              Spacer(),
-                              Container(
-                                margin:
-                                    const EdgeInsets.only(right: 15, bottom: 9),
-                                child: Row(
-                                  children: [
-                                    for (var i = 0; i < 5; i++)
-                                      Container(
-                                        margin:
-                                            const EdgeInsets.only(left: 2.5),
-                                        height: 10,
-                                        width: 10,
-                                        child: Image.asset(
-                                            "assets/images/647.png"),
-                                      )
-                                  ],
-                                ),
-                              )
-                            ]),
-                            Container(
-                              margin: const EdgeInsets.only(top: 7.5),
-                              child: Row(
-                                children: [
-                                  Container(
-                                      height: 15,
-                                      width: 15,
-                                      child:
-                                          Image.asset("assets/images/647.png")),
-                                  Container(
-                                    height: 12,
-                                    margin: const EdgeInsets.only(
-                                        left: 15, bottom: 1.5, top: 1.5),
-                                    child: Text("${model.PROFESSOR}",
-                                        style: const TextStyle(
-                                            color: const Color(0xff333333),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: "PingFangSC",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 9.0),
-                                        textAlign: TextAlign.center),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 7.5),
-                              child: Row(
-                                children: [
-                                  Container(
-                                      height: 15,
-                                      width: 15,
-                                      child:
-                                          Image.asset("assets/images/647.png")),
-                                  Container(
-                                    height: 12,
-                                    margin: const EdgeInsets.only(
-                                        left: 15, bottom: 1.5, top: 1.5),
-                                    child: Text(
-                                        "${model.CLASS_TIME[0].day} ${model.CLASS_TIME[0].start_time.hour}:${model.CLASS_TIME[0].start_time.minute}~${model.CLASS_TIME[0].end_time.hour}:${model.CLASS_TIME[0].end_time.minute}",
-                                        style: const TextStyle(
-                                            color: const Color(0xff333333),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: "PingFangSC",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 9.0),
-                                        textAlign: TextAlign.center),
-                                  )
-                                ],
-                              ),
-                            ),
-
-                            Container(
-                              margin: const EdgeInsets.only(top: 7.5),
-                              child: Row(
-                                children: [
-                                  Container(
-                                      height: 15,
-                                      width: 15,
-                                      child:
-                                          Image.asset("assets/images/647.png")),
-                                  Container(
-                                    height: 12,
-                                    margin: const EdgeInsets.only(
-                                        left: 15, bottom: 1.5, top: 1.5),
-                                    child: Text(
-                                        "${model.CLASS_TIME[0].class_room}",
-                                        style: const TextStyle(
-                                            color: const Color(0xff333333),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: "PingFangSC",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 9.0),
-                                        textAlign: TextAlign.center),
-                                  ),
-                                  Spacer(),
-                                  // 전공
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 7),
-                                    child: Text(
-                                        "${model.CLASS_SECTOR_TOTAL} ${model.CREDIT}학점 ${model.CLASS_NUMBER}",
-                                        style: const TextStyle(
-                                            color: const Color(0xff000000),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: "PingFangSC",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 9.0),
-                                        textAlign: TextAlign.center),
-                                  )
-                                ],
-                              ),
-                            ),
-                            // 패스 987
-                            Container(
-                                height: 0.3564453125,
-                                margin: const EdgeInsets.only(top: 12),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: const Color(0xffcfc3c3),
-                                        width: 1)))
-                          ],
-                        ));
-                  }, childCount: controller.CLASS_SEARCH.length),
-                ),
-              ],
-            ),
+            child: classSearchBottomSheet(
+                controller: controller,
+                timeTableController: timeTableController),
           ),
           body: Container(
             height: size.height - 473.5,
@@ -314,8 +164,12 @@ class TimetableAddClassSearch extends StatelessWidget {
                     child: Obx(() {
                       RxBool isExpandedHor = timeTableController.isExpandedHor;
                       RxBool isExpandedVer = timeTableController.isExpandedVer;
+                      // RxBool isExpandedVer = timeTableController.isExpandedVer;
                       int dayAmount = isExpandedHor.value ? 7 : 5;
                       int verAmount = isExpandedVer.value ? 14 : 10;
+
+                      print(isExpandedVer);
+
                       return Container(
                         height: 44 + 60.0 * (verAmount - 1) + 30,
                         child: Stack(children: [
@@ -329,16 +183,18 @@ class TimetableAddClassSearch extends StatelessWidget {
                               width: size.width,
                               dayAmount: dayAmount,
                               verAmount: verAmount),
-                          // //선택한 애들 띄우기
-                          // for (Rx<AddClassModel> item
-                          //     in controller.CLASS_LIST)
-                          //   Positioned(
-                          //     child: TimeTableAddClass(
-                          //         new_class: item,
-                          //         width: size.width,
-                          //         dayAmount: dayAmount,
-                          //         verAmount: verAmount),
-                          //   )
+                          //선택한 애들 띄우기
+                          for (Rx<AddClassModel> item in controller.NewClass)
+                            Positioned(
+                              child: TimeTableAddClass(
+                                  new_class: item,
+                                  width: size.width,
+                                  show: controller.selectedIndex == -1
+                                      ? false
+                                      : true,
+                                  dayAmount: dayAmount,
+                                  verAmount: verAmount),
+                            )
                         ]),
                       );
                     }),
@@ -351,11 +207,237 @@ class TimetableAddClassSearch extends StatelessWidget {
   }
 }
 
-class searchClassSliverAppBar extends StatelessWidget {
-  const searchClassSliverAppBar({
-    Key key,
-  }) : super(key: key);
+class classSearchBottomSheet extends StatelessWidget {
+  const classSearchBottomSheet(
+      {Key key, @required this.controller, @required this.timeTableController})
+      : super(key: key);
 
+  final TimeTableAddClassSearchController controller;
+  final TimeTableController timeTableController;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        searchClassSliverAppBar(controller: controller),
+        Obx(() {
+          return SliverList(
+            delegate:
+                SliverChildBuilderDelegate((BuildContext context, int index) {
+              TimeTableClassModel model = controller.CLASS_SEARCH[index];
+              return Ink(
+                  child: InkWell(
+                onTap: () {
+                  if (controller.selectedIndex.value == index) {
+                    controller.selectedIndex.value = -1;
+                  } else {
+                    controller.selectedIndex.value = index;
+                    controller.NewClass.value =
+                        model.CLASS_TIME.map((e) => e.obs).toList();
+                    for (var item in controller.NewClass) {
+                      print("${item.value.day}  ${item.value.end_time}");
+
+                      if (item.value.end_time.hour > 18) {
+                        timeTableController.isExpandedVer.value = true;
+                      }
+                      if (item.value.day == "토" || item.value.day == "일") {
+                        timeTableController.isExpandedHor.value = true;
+                      }
+                    }
+                  }
+                },
+                child: Obx(() {
+                  return Container(
+                      height:
+                          index == controller.selectedIndex.value ? 135 : 104.4,
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, bottom: 6, top: 6),
+                      color: index == controller.selectedIndex.value
+                          ? Colors.lightBlue[50]
+                          : Colors.white,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 19.5,
+                                  child: Text("${model.CLASS_NAME}",
+                                      style: const TextStyle(
+                                          color: const Color(0xff333333),
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: "PingFangSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 15.0),
+                                      textAlign: TextAlign.center),
+                                ),
+                                Spacer(),
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                      right: 15, bottom: 9),
+                                  child: Row(
+                                    children: [
+                                      for (var i = 0; i < 5; i++)
+                                        Container(
+                                          margin:
+                                              const EdgeInsets.only(left: 2.5),
+                                          height: 10,
+                                          width: 10,
+                                          child: Image.asset(
+                                              "assets/images/647.png"),
+                                        )
+                                    ],
+                                  ),
+                                )
+                              ]),
+                          Container(
+                            margin: const EdgeInsets.only(top: 7.5),
+                            child: Row(
+                              children: [
+                                Container(
+                                    height: 15,
+                                    width: 15,
+                                    child:
+                                        Image.asset("assets/images/647.png")),
+                                Container(
+                                  height: 12,
+                                  margin: const EdgeInsets.only(
+                                      left: 15, bottom: 1.5, top: 1.5),
+                                  child: Text("${model.PROFESSOR}",
+                                      style: const TextStyle(
+                                          color: const Color(0xff333333),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "PingFangSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 9.0),
+                                      textAlign: TextAlign.center),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 7.5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                    height: 15,
+                                    width: 15,
+                                    child:
+                                        Image.asset("assets/images/647.png")),
+                                Container(
+                                  // width: size.width - 100 + 173,
+                                  height: 12,
+                                  margin: const EdgeInsets.only(
+                                      left: 15,
+                                      bottom: 1.5,
+                                      top: 1.5,
+                                      right: 15),
+                                  child: Text(
+                                      "${classTimePretty(model.CLASS_TIME)}",
+                                      style: const TextStyle(
+                                          color: const Color(0xff333333),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "PingFangSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 9.0),
+                                      textAlign: TextAlign.left),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 7.5),
+                            child: Row(
+                              children: [
+                                Container(
+                                    height: 15,
+                                    width: 15,
+                                    child:
+                                        Image.asset("assets/images/647.png")),
+                                Container(
+                                  height: 12,
+                                  margin: const EdgeInsets.only(
+                                      left: 15, bottom: 1.5, top: 1.5),
+                                  child: Text(
+                                      "${model.CLASS_TIME[0].class_room}",
+                                      style: const TextStyle(
+                                          color: const Color(0xff333333),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "PingFangSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 9.0),
+                                      textAlign: TextAlign.center),
+                                ),
+                                Spacer(),
+                                // 전공
+                                Container(
+                                  margin: const EdgeInsets.only(top: 7),
+                                  child: Text(
+                                      "${model.CLASS_SECTOR_TOTAL} ${model.CREDIT}학점 ${model.CLASS_NUMBER}",
+                                      style: const TextStyle(
+                                          color: const Color(0xff000000),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "PingFangSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 9.0),
+                                      textAlign: TextAlign.center),
+                                )
+                              ],
+                            ),
+                          ),
+                          index == controller.selectedIndex.value
+                              ? Container(
+                                  margin: const EdgeInsets.only(top: 7),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xff1a4678),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10))),
+                                        child: Ink(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 2, 8, 2),
+                                          child: InkWell(
+                                            onTap: () {
+                                              controller.addClass(
+                                                  timeTableController
+                                                      .selectedTimeTableId
+                                                      .value);
+                                            },
+                                            child: Center(
+                                              child: Text(
+                                                "등록",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              : Container(),
+                        ],
+                      ));
+                }),
+              ));
+            }, childCount: controller.CLASS_SEARCH.length),
+          );
+        }),
+      ],
+    );
+  }
+}
+
+class searchClassSliverAppBar extends StatelessWidget {
+  const searchClassSliverAppBar({Key key, @required this.controller})
+      : super(key: key);
+  final TimeTableAddClassSearchController controller;
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -363,49 +445,68 @@ class searchClassSliverAppBar extends StatelessWidget {
       floating: true,
       pinned: true,
       automaticallyImplyLeading: false,
-      toolbarHeight: 45 + 12.0,
+      toolbarHeight: 45 + 6.0,
       leadingWidth: 0,
       titleSpacing: 0.0,
       flexibleSpace: FlexibleSpaceBar(
-          titlePadding: const EdgeInsets.fromLTRB(0, 0, 0, 12.0),
+          titlePadding: const EdgeInsets.fromLTRB(0, 0, 0, 6.0),
           title: Row(
             children: [
               // 사각형 613
               Container(
-                  width: 100,
+                  // width: 100,
                   height: 35,
                   child: // 전공/영역: 전체
-                      Center(
-                    child: Text("전공/영역: 전체",
-                        style: const TextStyle(
-                            color: const Color(0xffffffff),
-                            fontWeight: FontWeight.w700,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14),
-                        textAlign: TextAlign.left),
+                      InkWell(
+                    onTap: () {
+                      Get.toNamed(Routes.TIMETABLE_ADDCLASS_FILTER_COLLEGE);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Obx(() {
+                          return Text(
+                              "전공/영역: ${controller.college_major.value.isEmpty ? "없음" : controller.college_major.value}",
+                              maxLines: 1,
+                              style: const TextStyle(
+                                  color: const Color(0xffffffff),
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: "PingFangSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14),
+                              textAlign: TextAlign.left);
+                        }),
+                      ),
+                    ),
                   ),
                   margin: const EdgeInsets.only(left: 15),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(29)),
                       color: const Color(0xff1a4678))),
               Container(
-                  width: 100,
                   height: 35,
                   margin: const EdgeInsets.only(left: 15),
-                  child: Center(
-                    child: Text("과목명 : 없음",
-                        style: const TextStyle(
-                            color: const Color(0xffffffff),
-                            fontWeight: FontWeight.w700,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14),
-                        textAlign: TextAlign.left),
+                  child: InkWell(
+                    onTap: () {
+                      Get.toNamed(Routes.TIMETABLE_ADDCLASS_SEARCH);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text("과목명 : 없음",
+                            style: const TextStyle(
+                                color: const Color(0xffffffff),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14),
+                            textAlign: TextAlign.left),
+                      ),
+                    ),
                   ),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(29)),
-                      color: const Color(0xff1a4678)))
+                      color: const Color(0xff1a4678))),
             ],
           )),
     );

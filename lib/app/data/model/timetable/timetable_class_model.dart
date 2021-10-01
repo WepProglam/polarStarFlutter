@@ -79,6 +79,9 @@ class AddClassModel {
   AddClassModel({start_time, end_time, day, class_room});
 
   AddClassModel.fromJson(Map<String, dynamic> json) {
+    print(json);
+    // {day: 미지정, end_time: 미지정, class_room: 미지정, start_time: 미지정}
+    // 으로 날라올때 에러처리
     List<String> start = json["start_time"].split(":");
     List<String> end = json["end_time"].split(":");
 
@@ -101,4 +104,28 @@ class AddClassModel {
   }
 }
 
-class SearchClass {}
+class CollegeNameModel {
+  String COLLEGE_NAME;
+  int INDEX_COLLEGE_NAME;
+
+  CollegeNameModel({COLLEGE_NAME, INDEX_COLLEGE_NAME});
+
+  CollegeNameModel.fromJson(Map<String, dynamic> json) {
+    this.COLLEGE_NAME = json["NAME"];
+    this.INDEX_COLLEGE_NAME = json["INDEX"];
+  }
+}
+
+class CollegeMajorModel {
+  int INDEX_COLLEGE_MAJOR, INDEX_COLLEGE_NAME;
+  String NAME;
+
+  CollegeMajorModel(
+      {this.INDEX_COLLEGE_MAJOR, this.INDEX_COLLEGE_NAME, this.NAME});
+
+  CollegeMajorModel.fromJson(Map<String, dynamic> json) {
+    this.INDEX_COLLEGE_MAJOR = json["INDEX"];
+    this.INDEX_COLLEGE_NAME = json["INDEX_COLLEGE_NAME"];
+    this.NAME = json["NAME"];
+  }
+}

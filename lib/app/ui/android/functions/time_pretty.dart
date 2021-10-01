@@ -1,3 +1,4 @@
+import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 
 String prettyDate(DateTime date) {
@@ -20,10 +21,11 @@ String addZero(int time) {
   return returnTime;
 }
 
-//여기 수정
-String classTimePretty(List<DateTime> source) {
+String classTimePretty(List<AddClassModel> source) {
   String a = "";
   for (var item in source) {
-    a += "${item.day} ${addZero(item.hour)}:${addZero(item.minute)}";
+    a +=
+        "${item.day} ${addZero(item.start_time.hour)}:${addZero(item.start_time.minute)}~${addZero(item.end_time.hour)}:${addZero(item.end_time.minute)} ";
   }
+  return a.trim();
 }

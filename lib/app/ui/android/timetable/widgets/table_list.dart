@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
 import 'package:polarstar_flutter/session.dart';
 
@@ -121,7 +122,7 @@ class TopIcon extends StatelessWidget {
           child: // 패스 940
               InkWell(
             onTap: () {
-              Get.toNamed("/timetable/addClass/search");
+              Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
             },
             child: Container(
               width: 16,

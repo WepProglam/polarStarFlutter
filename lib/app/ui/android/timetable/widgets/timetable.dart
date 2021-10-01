@@ -81,47 +81,51 @@ class TimeTableAddClass extends StatelessWidget {
       @required this.new_class,
       @required this.width,
       @required this.dayAmount,
-      @required this.verAmount})
+      @required this.verAmount,
+      @required this.show})
       : super(key: key);
 
   final Rx<AddClassModel> new_class;
   final double width;
   final int dayAmount;
   final int verAmount;
+  final bool show;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        // width: 10,
-        margin: EdgeInsets.only(top: 44, left: width / 12),
-        child: Container(
-          child: Obx(() {
-            int last_end_time = 60 * 9;
+    return show
+        ? Container(
+            // width: 10,
+            margin: EdgeInsets.only(top: 44, left: width / 12),
+            child: Container(
+              child: Obx(() {
+                int last_end_time = 60 * 9;
 
-            int start_time = new_class.value.start_time.hour * 60 +
-                new_class.value.start_time.minute;
-            int end_time = new_class.value.end_time.hour * 60 +
-                new_class.value.end_time.minute;
+                int start_time = new_class.value.start_time.hour * 60 +
+                    new_class.value.start_time.minute;
+                int end_time = new_class.value.end_time.hour * 60 +
+                    new_class.value.end_time.minute;
 
-            if (start_time >= end_time) {
-              start_time = end_time;
-            }
+                if (start_time >= end_time) {
+                  start_time = end_time;
+                }
 
-            return Opacity(
-              opacity: 0.5,
-              child: Container(
-                width: (width * 11 / 12) / dayAmount,
-                height: (end_time - start_time) * 1.0,
-                decoration: contentTableBoxDecoration(Colors.black),
-                margin: EdgeInsets.only(
-                    top: (start_time - last_end_time) * 1.0,
-                    left: getIndexFromDay(new_class.value.day) *
-                        (width * 11 / 12) /
-                        dayAmount),
-              ),
-            );
-          }),
-        ));
+                return Opacity(
+                  opacity: 0.5,
+                  child: Container(
+                    width: (width * 11 / 12) / dayAmount,
+                    height: (end_time - start_time) * 1.0,
+                    decoration: contentTableBoxDecoration(Colors.black),
+                    margin: EdgeInsets.only(
+                        top: (start_time - last_end_time) * 1.0,
+                        left: getIndexFromDay(new_class.value.day) *
+                            (width * 11 / 12) /
+                            dayAmount),
+                  ),
+                );
+              }),
+            ))
+        : Container();
   }
 }
 

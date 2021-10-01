@@ -171,6 +171,7 @@ class TimetableAddClass extends StatelessWidget {
                                   new_class: item,
                                   width: size.width,
                                   dayAmount: dayAmount,
+                                  show: true,
                                   verAmount: verAmount),
                             )
                         ]),

@@ -33,7 +33,12 @@ abstract class Routes {
   static const CLASSVIEW = '/class/view/:classid';
 
   static const TIMETABLE = '/timetable';
+  static const TIMETABLE_ADDCLASS_MAIN = "/timetable/addClass/main";
   static const TIMETABLE_ADDCLASS_SEARCH = "/timetable/addClass/search";
+  static const TIMETABLE_ADDCLASS_FILTER_COLLEGE =
+      "/timetable/addClass/filter/college";
+  static const TIMETABLE_ADDCLASS_FILTER_MAJOR =
+      "/timetable/addClass/filter/major";
   static const TIMETABLE_ADDCLASS_DIRECT = "/timetable/addClass/direct";
 
   static const TIMETABLE_BIN = "/timetable/bin";
