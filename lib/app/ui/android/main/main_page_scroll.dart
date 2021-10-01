@@ -249,8 +249,8 @@ class MainPageScroll extends StatelessWidget {
                                                   height: 40,
                                                   child: InkWell(
                                                     onTap: () async {
-                                                      Get.toNamed(
-                                                          "/timetable/addClass");
+                                                      Get.toNamed(Routes
+                                                          .TIMETABLE_ADDCLASS_MAIN);
                                                     },
                                                     child: Image.asset(
                                                         "assets/images/941.png"),

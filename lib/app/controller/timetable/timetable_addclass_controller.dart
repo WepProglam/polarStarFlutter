@@ -38,19 +38,23 @@ class TimeTableAddClassController extends GetxController {
     });
 
     Map<String, dynamic> data = TOTAL_CLASS.toJson();
+    print(data);
 
-    await Session().postX("/timetable/tid/${tid}", data);
-
-    timeTableController.selectTable.update((val) {
-      val.CLASSES.add(TOTAL_CLASS.value);
-    });
-    timeTableController.initShowTimeTable();
-    timeTableController.makeShowTimeTable();
+    var response = await Session().postX("/timetable/tid/${tid}", data);
+    if (response.statusCode == 200) {
+      timeTableController.selectTable.update((val) {
+        val.CLASSES.add(TOTAL_CLASS.value);
+      });
+      timeTableController.initShowTimeTable();
+      timeTableController.makeShowTimeTable();
+    } else {
+      Get.snackbar("오류", "오류");
+    }
   }
 
   void initClass() {
     Rx<AddClassModel> tmp = AddClassModel.fromJson({
-      "day": "월요일",
+      "day": "월",
       "start_time": "09:00",
       "end_time": "10:00",
     }).obs;

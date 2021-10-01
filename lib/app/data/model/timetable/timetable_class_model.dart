@@ -37,7 +37,12 @@ class TimeTableClassModel {
     this.CLASS_NUMBER = json["CLASS_NUMBER"];
     this.CLASS_NAME = json["CLASS_NAME"];
     this.PROFESSOR = json["PROFESSOR"];
-    this.CREDIT = double.parse("${json["CREDIT"]}");
+    print(json['CREDIT']);
+    if (json['CREDIT'] == null) {
+      this.CREDIT = null;
+    } else {
+      this.CREDIT = double.parse("${json['CREDIT']}");
+    }
     this.CLASS_SECTOR_1 = json["CLASS_SECTOR_1"];
     this.CLASS_SECTOR_TOTAL = json["CLASS_SECTOR_TOTAL"];
     this.COLLEGE_NAME = json["COLLEGE_NAME"];
@@ -54,19 +59,26 @@ class TimeTableClassModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['CLASS_ID'] = this.CLASS_ID;
-    data['HEAD_COUNT'] = this.HEAD_COUNT;
-    data['CLASS_NUMBER'] = this.CLASS_NUMBER;
-    data['CLASS_NAME'] = this.CLASS_NAME;
-    data['PROFESSOR'] = this.PROFESSOR;
-    data['CREDIT'] = this.CREDIT;
-    data['CLASS_SECTOR_1'] = this.CLASS_SECTOR_1;
-    data['CLASS_SECTOR_TOTAL'] = this.CLASS_SECTOR_TOTAL;
-    data["COLLEGE_NAME"] = this.COLLEGE_NAME;
-    data["COLLEGE_MAJOR"] = this.COLLEGE_MAJOR;
-    data["OPEN_TIME"] = this.OPEN_TIME;
-    data["CLASS_TIME"] =
-        jsonEncode(this.CLASS_TIME.map((e) => e.toJson()).toList());
+    if (this.CLASS_ID != null) {
+      data['CLASS_ID'] = this.CLASS_ID;
+      data['HEAD_COUNT'] = this.HEAD_COUNT;
+      data['CLASS_NUMBER'] = this.CLASS_NUMBER;
+      data['CLASS_NAME'] = this.CLASS_NAME;
+      data['PROFESSOR'] = this.PROFESSOR;
+      data['CREDIT'] = this.CREDIT;
+      data['CLASS_SECTOR_1'] = this.CLASS_SECTOR_1;
+      data['CLASS_SECTOR_TOTAL'] = this.CLASS_SECTOR_TOTAL;
+      data["COLLEGE_NAME"] = this.COLLEGE_NAME;
+      data["COLLEGE_MAJOR"] = this.COLLEGE_MAJOR;
+      data["OPEN_TIME"] = this.OPEN_TIME;
+      data["CLASS_TIME"] =
+          jsonEncode(this.CLASS_TIME.map((e) => e.toJson()).toList());
+    } else {
+      data['CLASS_NAME'] = this.CLASS_NAME;
+      data['PROFESSOR'] = this.PROFESSOR;
+      data["CLASS_TIME"] =
+          jsonEncode(this.CLASS_TIME.map((e) => e.toJson()).toList());
+    }
 
     return data;
   }

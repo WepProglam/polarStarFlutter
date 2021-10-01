@@ -202,7 +202,7 @@ class ClassViewController extends GetxController {
 
   @override
   void onInit() async {
-    await getClassView(int.parse(Get.parameters["classid"]));
+    await getClassView(int.parse(Get.parameters["CLASS_ID"]));
     super.onInit();
   }
 }

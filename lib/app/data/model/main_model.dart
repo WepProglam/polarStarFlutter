@@ -95,12 +95,14 @@ class ScrapListModel {
 }
 
 class MainClassModel {
-  String className, professor;
-  MainClassModel({className, professor});
+  String CLASS_NAME, PROFESSOR;
+  int CLASS_ID;
+  MainClassModel({className, professor, CLASS_ID});
 
   MainClassModel.fromJson(Map<String, dynamic> json) {
-    this.className = json["className"];
-    this.professor = json["professor"];
+    this.CLASS_NAME = json["CLASS_NAME"];
+    this.PROFESSOR = json["PROFESSOR"];
+    this.CLASS_ID = json["CLASS_ID"];
   }
 }
 // class FollowCommunity {

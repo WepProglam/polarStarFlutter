@@ -45,13 +45,20 @@ class TimeTableAddClassSearchController extends GetxController {
 
     // Map<String, dynamic> data = TOTAL_CLASS.toJson();
 
-    // await Session().postX("/timetable/tid/${tid}", data);
+    var response = await Session().postX(
+        "/timetable/class/tid/${tid}?CLASS_ID=${CLASS_SEARCH[selectedIndex.value].CLASS_ID}",
+        {});
 
-    // timeTableController.selectTable.update((val) {
-    //   val.CLASSES.add(TOTAL_CLASS.value);
-    // });
-    timeTableController.initShowTimeTable();
-    timeTableController.makeShowTimeTable();
+    if (response.statusCode == 200) {
+      timeTableController.selectTable.update((val) {
+        val.CLASSES.add(CLASS_SEARCH[selectedIndex.value]);
+      });
+      selectedIndex.value = -1;
+      timeTableController.initShowTimeTable();
+      timeTableController.makeShowTimeTable();
+    } else {
+      Get.snackbar("오류", "오류");
+    }
   }
 
   // void initClass() {

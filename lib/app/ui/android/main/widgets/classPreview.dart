@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
 
 class ClassItem_Content extends StatelessWidget {
   const ClassItem_Content({
@@ -111,7 +112,7 @@ class ClassPreview_Main extends StatelessWidget {
             children: [
               Container(
                 height: 21.5,
-                child: Text("${model.className}",
+                child: Text("${model.CLASS_NAME}",
                     style: const TextStyle(
                         color: const Color(0xff333333),
                         fontWeight: FontWeight.w700,
@@ -123,7 +124,7 @@ class ClassPreview_Main extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.only(top: 7),
                 height: 18.5,
-                child: Text("${model.professor}",
+                child: Text("${model.PROFESSOR}",
                     style: const TextStyle(
                         color: const Color(0xff999999),
                         fontWeight: FontWeight.w400,
@@ -140,7 +141,9 @@ class ClassPreview_Main extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(7.5, 4, 7, 5.5),
             child: Ink(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed("/class/view/${model.CLASS_ID}");
+                },
                 child: Text("Evaluate",
                     style: const TextStyle(
                         color: const Color(0xffffffff),

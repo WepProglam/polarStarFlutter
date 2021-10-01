@@ -441,10 +441,7 @@ const tableBoxDecoration = BoxDecoration(
         right: BorderSide(color: Color(0xffdedede), width: 0.5)));
 
 var contentTableBoxDecoration = (Color color) => BoxDecoration(
-    color: color,
-    border: Border(
-        bottom: BorderSide(color: Color(0xffdedede), width: 0.5),
-        right: BorderSide(color: Color(0xffdedede), width: 0.5)));
+    color: color, borderRadius: BorderRadius.all(Radius.circular(8)));
 
 const innerTableBoxDecoration = BoxDecoration(
     color: Colors.white,

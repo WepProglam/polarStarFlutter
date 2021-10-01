@@ -59,8 +59,8 @@ class Timetable extends StatelessWidget {
                         ]),
                   )),
                   Container(
-                      width: size.width,
-                      margin: const EdgeInsets.only(top: 15.5),
+                      margin:
+                          const EdgeInsets.only(top: 15.5, left: 15, right: 15),
                       child: TimeTablePackage(
                           timeTableController: timeTableController,
                           size: size,
@@ -139,7 +139,7 @@ class TimeTablePackage extends StatelessWidget {
                     bool temp = timeTableController.dataAvailable.value;
                     return TimeTableBin(
                         timeTableController: timeTableController,
-                        width: size.width,
+                        width: size.width - 30,
                         dayAmount: dayAmount,
                         verAmount: verAmount);
                   }),
@@ -148,7 +148,7 @@ class TimeTablePackage extends StatelessWidget {
                     bool temp = timeTableController.dataAvailable.value;
                     return TimeTableContent(
                         timeTableController: timeTableController,
-                        width: size.width,
+                        width: size.width - 30,
                         dayAmount: dayAmount,
                         verAmount: verAmount);
                   })

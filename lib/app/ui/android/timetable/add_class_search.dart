@@ -170,15 +170,16 @@ class TimetableAddClassMain extends StatelessWidget {
 
                       return Container(
                         height: 44 + 60.0 * (verAmount - 1) + 30,
+                        margin: const EdgeInsets.symmetric(horizontal: 15),
                         child: Stack(children: [
                           TimeTableBin(
                               timeTableController: timeTableController,
-                              width: size.width,
+                              width: size.width - 30,
                               dayAmount: dayAmount,
                               verAmount: verAmount),
                           TimeTableContent(
                               timeTableController: timeTableController,
-                              width: size.width,
+                              width: size.width - 30,
                               dayAmount: dayAmount,
                               verAmount: verAmount),
                           //선택한 애들 띄우기

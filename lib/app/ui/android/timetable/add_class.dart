@@ -152,15 +152,16 @@ class TimetableAddClass extends StatelessWidget {
                       int verAmount = isExpandedVer.value ? 14 : 10;
                       return Container(
                         height: 44 + 60.0 * (verAmount - 1),
+                        margin: const EdgeInsets.symmetric(horizontal: 15),
                         child: Stack(children: [
                           TimeTableBin(
                               timeTableController: timeTableController,
-                              width: size.width,
+                              width: size.width - 30,
                               dayAmount: dayAmount,
                               verAmount: verAmount),
                           TimeTableContent(
                               timeTableController: timeTableController,
-                              width: size.width,
+                              width: size.width - 30,
                               dayAmount: dayAmount,
                               verAmount: verAmount),
                           //선택한 애들 띄우기
@@ -294,7 +295,7 @@ class ClassInfoTPO extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final days = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"];
+    final days = ["월", "화", "수", "목", "금", "토", "일"];
 
     return Obx(() {
       if (timeTableAddClassController.dataAvailable.value) {

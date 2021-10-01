@@ -72,13 +72,11 @@ class TimeTableController extends GetxController {
   // RxString createTimeTableSemester ="".obs;
 
   final List<Color> colorList = [
-    Colors.lightBlue[300],
-    Colors.lightBlue[400],
-    Colors.lightBlue,
-    Colors.lightBlue[600],
-    Colors.lightBlue[700],
-    Colors.lightBlue[800],
-    Colors.lightBlue[900],
+    const Color.fromARGB(255, 28, 72, 121),
+    const Color.fromARGB(255, 54, 122, 197),
+    const Color.fromARGB(255, 29, 117, 217),
+    const Color.fromARGB(255, 125, 167, 241),
+    const Color.fromARGB(255, 167, 196, 230),
   ];
 
   void makeShowTimeTable() {
@@ -88,6 +86,9 @@ class TimeTableController extends GetxController {
       for (var detail in item.CLASS_TIME) {
         int day_index = getIndexFromDay(detail.day);
         DateTime start = detail.start_time;
+        if (start == null) {
+          continue;
+        }
         int startTime = start.hour * 60 + start.minute;
 
         DateTime end = detail.end_time;

@@ -693,7 +693,7 @@ class SubjectList extends StatelessWidget {
                 return i == total_length - 1
                     ? InkWell(
                         onTap: () {
-                          Get.toNamed("/timetable/addClass");
+                          Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
                         },
                         child: Container(
                           width: 157.5,
