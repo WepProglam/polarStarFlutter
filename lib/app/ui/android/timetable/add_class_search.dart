@@ -187,7 +187,7 @@ class TimetableAddClassMain extends StatelessWidget {
                             Positioned(
                               child: TimeTableAddClass(
                                   new_class: item,
-                                  width: size.width,
+                                  width: size.width - 30,
                                   show: controller.selectedIndex == -1
                                       ? false
                                       : true,

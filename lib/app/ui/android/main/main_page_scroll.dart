@@ -20,30 +20,37 @@ class MainPageScroll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return Container(
-      height: size.height,
-      // decoration: BoxDecoration(
-      //     gradient: LinearGradient(
-      //         begin: Alignment.topCenter,
-      //         // Alignment(0.5, 0),
-      //         end: Alignment.bottomCenter,
-      //         // Alignment(0.5, 1),
-      //         stops: [
-      //       0.1,
-      //       0.2,
-      //       0.4
-      //     ],
-      //         colors: [
-      //       const Color(0xff1a4678),
-      //       const Color(0xba1a4678),
-      //       const Color(0xfff6f6f6),
-      //     ])),
-      child: Scaffold(
+    return Stack(children: [
+      // Container(
+      //   height: size.height,
+      //   decoration: BoxDecoration(
+      //       gradient: LinearGradient(
+      //           begin: Alignment.topCenter,
+      //           // Alignment(0.5, 0),
+      //           end: Alignment.bottomCenter,
+      //           // Alignment(0.5, 1),
+      //           stops: [
+      //         0.1,
+      //         0.2,
+      //         0.5
+      //       ],
+      //           colors: [
+      //         // Colors.lightBlue[200],
+      //         // Colors.lightBlue[50],
+      //         // const Color(0xfff6f6f6),
+      //         const Color(0xff1a4678),
+      //         const Color(0xba1a4678),
+      //         const Color(0xfff6f6f6),
+      //       ])),
+      // ),
+      Scaffold(
         // backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor:
               // Colors.transparent,
-              const Color(0xfff6f6f6),
+              const Color(0xff1a4678),
+          // Colors.lightBlue[100],
+          // const Color(0xfff6f6f6),
           elevation: 0,
           toolbarHeight: 37 + 13.0,
           automaticallyImplyLeading: false,
@@ -55,10 +62,10 @@ class MainPageScroll extends StatelessWidget {
               children: [
                 Container(
                   child: Text(
-                    "PolarStar",
+                    "POLAR STAR",
                     style: TextStyle(
-                        fontSize: 19,
-                        color: Colors.black,
+                        fontSize: 22,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -80,7 +87,7 @@ class MainPageScroll extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: Icon(
                         Icons.logout,
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -94,7 +101,7 @@ class MainPageScroll extends StatelessWidget {
                       },
                       child: Icon(
                         Icons.search,
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -111,131 +118,122 @@ class MainPageScroll extends StatelessWidget {
           } else {
             return Container(
               height: size.height,
-              decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
+              decoration: BoxDecoration(color: Colors.transparent),
+              // decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
+              // decoration: BoxDecoration(
+              //     gradient: LinearGradient(
+              //         begin: Alignment.topCenter,
+              //         // Alignment(0.5, 0),
+              //         end: Alignment.bottomCenter,
+              //         // Alignment(0.5, 1),
+              //         stops: [
+              //       0.1,
+              //       0.2,
+              //       0.3
+              //     ],
+              //         colors: [
+              //       Colors.lightBlue[100],
+              //       Colors.lightBlue[50],
+              //       const Color(0xfff6f6f6),
+              //       // const Color(0xff1a4678),
+              //       // const Color(0xba1a4678),
+              //       // const Color(0xfff6f6f6),
+              //     ])),
               child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //핫게
-                    Container(
-                      width: size.width,
-                      height: 372 + 5.0,
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                        child: HotBoardMain(
-                            size: size, mainController: mainController),
-                      ),
-                    ),
-                    // 게시판
-                    Container(
-                      margin:
-                          const EdgeInsets.only(left: 15, right: 15, top: 13),
-                      child: Container(
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 24 + 13.0,
-                              child: BoardPreviewItem_top(),
-                              padding: const EdgeInsets.only(bottom: 13),
-                            ),
-                            mainController.followingCommunity.length > 0
-                                ? Container(
-                                    height: (81 + 10.0) *
-                                        mainController
-                                            .followingCommunity.length,
-                                    child: ListView.builder(
-                                        itemCount: mainController
-                                            .followingCommunity.length,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          String target_community_id =
-                                              mainController
-                                                  .followingCommunity[index];
-                                          Rx<BoardInfo> boardInfo;
-
-                                          for (var item
-                                              in mainController.boardInfo) {
-                                            if ("${item.value.COMMUNITY_ID}" ==
-                                                target_community_id) {
-                                              boardInfo = item;
-                                              break;
-                                            }
-                                          }
-
-                                          return Container(
-                                            height: 81,
-                                            margin: const EdgeInsets.only(
-                                                bottom: 10.0),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(20))),
-                                            child: BoardPreviewItem_board(
-                                              boardInfo: boardInfo,
-                                              size: size,
-                                              fromList: false,
-                                            ),
-                                          );
-                                        }),
-                                  )
-                                : Container(
-                                    height: 150,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20)),
-                                        color: const Color(0xffffffff)),
-                                    child: Center(
-                                      child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  bottom: 10),
-                                              child: Ink(
-                                                width: 40,
-                                                height: 40,
-                                                child: InkWell(
-                                                  onTap: () async {
-                                                    Get.toNamed(
-                                                        "/board/boardList");
-                                                  },
-                                                  child: Image.asset(
-                                                      "assets/images/941.png"),
-                                                ),
-                                              ),
-                                            ),
-                                            Text(
-                                              "Follow communites",
-                                              style: textStyle,
-                                            ),
-                                          ]),
-                                    ),
-                                  ),
-                          ],
+                child: Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          // Alignment(0.5, 0),
+                          end: Alignment.bottomCenter,
+                          // Alignment(0.5, 1),
+                          stops: [
+                        0.01,
+                        0.1,
+                        0.3
+                      ],
+                          colors: [
+                        // Colors.lightBlue[100],
+                        // Colors.lightBlue[50],
+                        // const Color(0xfff6f6f6),
+                        const Color(0xff1a4678),
+                        const Color(0xba1a4678),
+                        const Color(0xfff6f6f6),
+                      ])),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //핫게
+                      Container(
+                        width: size.width,
+                        // height: 372 + 5.0,
+                        child: Container(
+                          margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          child: HotBoardMain(
+                              size: size, mainController: mainController),
                         ),
                       ),
-                    ),
-                    //강의정보
-                    Container(
-                      //리스트 뷰에서 bottom 13 마진 줌
-                      margin:
-                          const EdgeInsets.only(left: 15, right: 15, top: 17),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: ClassItem_TOP(),
-                          ),
-                          Container(
-                              margin: const EdgeInsets.only(top: 12),
-                              // height: 163.5,
-                              child: mainController.classList.length > 0
-                                  ? ClassItem_Content(
-                                      mainController: mainController)
+                      // 게시판
+                      Container(
+                        margin:
+                            const EdgeInsets.only(left: 15, right: 15, top: 13),
+                        child: Container(
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 24 + 13.0,
+                                child: BoardPreviewItem_top(),
+                                padding: const EdgeInsets.only(bottom: 13),
+                              ),
+                              mainController.followingCommunity.length > 0
+                                  ? Container(
+                                      height: (81 + 10.0) *
+                                          mainController
+                                              .followingCommunity.length,
+                                      child: ListView.builder(
+                                          itemCount: mainController
+                                              .followingCommunity.length,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            String target_community_id =
+                                                mainController
+                                                    .followingCommunity[index];
+                                            Rx<BoardInfo> boardInfo;
+
+                                            for (var item
+                                                in mainController.boardInfo) {
+                                              if ("${item.value.COMMUNITY_ID}" ==
+                                                  target_community_id) {
+                                                boardInfo = item;
+                                                break;
+                                              }
+                                            }
+
+                                            return Container(
+                                              height: 81,
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 10.0),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(20))),
+                                              child: BoardPreviewItem_board(
+                                                boardInfo: boardInfo,
+                                                size: size,
+                                                fromList: false,
+                                              ),
+                                            );
+                                          }),
+                                    )
                                   : Container(
                                       height: 150,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                          color: const Color(0xffffffff)),
                                       child: Center(
                                         child: Column(
                                             mainAxisAlignment:
@@ -249,8 +247,8 @@ class MainPageScroll extends StatelessWidget {
                                                   height: 40,
                                                   child: InkWell(
                                                     onTap: () async {
-                                                      Get.toNamed(Routes
-                                                          .TIMETABLE_ADDCLASS_MAIN);
+                                                      Get.toNamed(
+                                                          "/board/boardList");
                                                     },
                                                     child: Image.asset(
                                                         "assets/images/941.png"),
@@ -258,30 +256,82 @@ class MainPageScroll extends StatelessWidget {
                                                 ),
                                               ),
                                               Text(
-                                                "Add classes",
+                                                "Follow communites",
                                                 style: textStyle,
                                               ),
                                             ]),
                                       ),
                                     ),
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
-                                  color: const Color(0xffffffff)))
-                        ],
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    )
-                  ],
+                      //강의정보
+                      Container(
+                        //리스트 뷰에서 bottom 13 마진 줌
+                        margin:
+                            const EdgeInsets.only(left: 15, right: 15, top: 17),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: ClassItem_TOP(),
+                            ),
+                            Container(
+                                margin: const EdgeInsets.only(top: 12),
+                                // height: 163.5,
+                                child: mainController.classList.length > 0
+                                    ? ClassItem_Content(
+                                        mainController: mainController)
+                                    : Container(
+                                        height: 150,
+                                        child: Center(
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  margin: const EdgeInsets.only(
+                                                      bottom: 10),
+                                                  child: Ink(
+                                                    width: 40,
+                                                    height: 40,
+                                                    child: InkWell(
+                                                      onTap: () async {
+                                                        Get.toNamed(Routes
+                                                            .TIMETABLE_ADDCLASS_MAIN);
+                                                      },
+                                                      child: Image.asset(
+                                                          "assets/images/941.png"),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "Add classes",
+                                                  style: textStyle,
+                                                ),
+                                              ]),
+                                        ),
+                                      ),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20)),
+                                    color: const Color(0xffffffff)))
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      )
+                    ],
+                  ),
                 ),
               ),
             );
           }
         }),
       ),
-    );
+    ]);
   }
 }
 

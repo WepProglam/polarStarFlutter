@@ -170,7 +170,7 @@ class TimetableAddClass extends StatelessWidget {
                             Positioned(
                               child: TimeTableAddClass(
                                   new_class: item,
-                                  width: size.width,
+                                  width: size.width - 30,
                                   dayAmount: dayAmount,
                                   show: true,
                                   verAmount: verAmount),

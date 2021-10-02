@@ -156,6 +156,7 @@ class TimeTableContent extends StatelessWidget {
             int last_end_time = 60 * 9;
             return Container(
                 width: (width * 11 / 12) / dayAmount,
+                padding: const EdgeInsets.symmetric(horizontal: 1),
                 child: Obx(() {
                   return Stack(
                     children: [

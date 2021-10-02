@@ -25,41 +25,41 @@ class HotBoardMain extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          height: 24,
-          margin: const EdgeInsets.symmetric(horizontal: 15),
-          child: Row(children: [
-            Container(
-              child: Text("HotBoard",
-                  style: const TextStyle(
-                      color: const Color(0xff333333),
-                      fontWeight: FontWeight.w900,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 18.0),
-                  textAlign: TextAlign.center),
-            ),
-            Spacer(),
-            Ink(
-              child: InkWell(
-                onTap: () {
-                  Get.toNamed("/board/hot/page/1");
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(top: 5, bottom: 3),
-                  child: // View more
-                      Text("View more",
-                          style: const TextStyle(
-                              color: const Color(0xff1a4678),
-                              fontWeight: FontWeight.w700,
-                              fontFamily: "PingFangSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.center),
-                ),
-              ),
-            ),
-          ]),
-        ),
+        // Container(
+        //   height: 24,
+        //   margin: const EdgeInsets.symmetric(horizontal: 15),
+        //   child: Row(children: [
+        //     Container(
+        //       child: Text("HotBoard",
+        //           style: const TextStyle(
+        //               color: const Color(0xff333333),
+        //               fontWeight: FontWeight.w900,
+        //               fontStyle: FontStyle.normal,
+        //               fontSize: 18.0),
+        //           textAlign: TextAlign.center),
+        //     ),
+        //     Spacer(),
+        //     Ink(
+        //       child: InkWell(
+        //         onTap: () {
+        //           Get.toNamed("/board/hot/page/1");
+        //         },
+        //         child: Container(
+        //           margin: const EdgeInsets.only(top: 5, bottom: 3),
+        //           child: // View more
+        //               Text("View more",
+        //                   style: const TextStyle(
+        //                       color: const Color(0xff1a4678),
+        //                       fontWeight: FontWeight.w700,
+        //                       fontFamily: "PingFangSC",
+        //                       fontStyle: FontStyle.normal,
+        //                       fontSize: 12.0),
+        //                   textAlign: TextAlign.center),
+        //         ),
+        //       ),
+        //     ),
+        //   ]),
+        // ),
         Container(
           margin: const EdgeInsets.only(top: 14),
           height: 317 + 15.5 - 4.1 + 4.6,
@@ -68,23 +68,29 @@ class HotBoardMain extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 62.5),
                 child: Opacity(
-                  opacity: 0.15000000149011612,
+                  opacity: 0.3,
+                  // opacity: 0.15000000149011612,
                   child: Container(
                       height: 22 + 310.0,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: const Color(0xff1a4678))),
+                          // color: const Color(0xff1a4678)
+                          color: Colors.white)),
                 ),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 10.5, left: 33, right: 33),
                 child: Opacity(
-                  opacity: 0.15000000149011612,
+                  opacity: 0.3,
+                  // opacity: 0.15000000149011612,
                   child: Container(
                       height: 11.5 + 310,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: const Color(0xff1a4678))),
+                          color: Colors.white
+                          // color: const Color(0xff1a4678)
+
+                          )),
                 ),
               ),
 
@@ -349,7 +355,7 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
           children: [
             Container(
               height: 21.5,
-              width: size.width - 30 - 10.5 * 2 - 15 * 2 - 39,
+              width: size.width - 30 - 10.5 * 2 - 15 * 2 - 39 + 8,
               child: Row(
                 children: [
                   Container(
@@ -365,15 +371,38 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
                             textAlign: TextAlign.left),
                   ),
                   Spacer(),
-                  Container(
-                    height: 4.5,
-                    width: 23,
-                    margin: const EdgeInsets.only(
-                      top: 13,
-                      bottom: 4,
+                  Ink(
+                    // height: 4.5,
+                    child: InkWell(
+                      onTap: () {
+                        Get.toNamed("/board/hot/page/1");
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(
+                            // top: 13,
+                            // bottom: 4,
+                            ),
+                        child: // View more
+                            Text("View more",
+                                style: const TextStyle(
+                                    color: const Color(0xff1a4678),
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 12.0),
+                                textAlign: TextAlign.center),
+                      ),
                     ),
-                    child: Image.asset("assets/images/dots.png"),
-                  )
+                  ),
+                  // Container(
+                  //   height: 4.5,
+                  //   width: 23,
+                  //   margin: const EdgeInsets.only(
+                  //     top: 13,
+                  //     bottom: 4,
+                  //   ),
+                  //   child: Image.asset("assets/images/dots.png"),
+                  // )
                 ],
               ),
             ),
