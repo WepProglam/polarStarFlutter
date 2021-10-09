@@ -769,7 +769,7 @@ class IndexButton extends SliverPersistentHeaderDelegate {
                   if (!classViewController.classExamAvailable.value) {
                     print("exam data fetch");
                     classViewController
-                        .getExamInfo(int.parse(Get.parameters["classid"]));
+                        .getExamInfo(int.parse(Get.parameters["CLASS_ID"]));
                   }
                 },
                 child: Obx(
