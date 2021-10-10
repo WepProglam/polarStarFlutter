@@ -16,7 +16,8 @@ class WritePost extends StatelessWidget {
   final TextEditingController photoName = TextEditingController();
 
   getMultipleGallertImage(BuildContext context) async {
-    c.photoAssets.value = await AssetPicker.pickAssets(context, maxAssets: 10);
+    c.photoAssets.clear();
+    c.photoAssets.addAll(await AssetPicker.pickAssets(context, maxAssets: 10));
   }
 
   // getGalleryImage() async {
@@ -250,7 +251,8 @@ class WritePost extends StatelessWidget {
                                         child: Stack(
                                           children: [
                                             Image.asset(
-                                                "assets/images/417.png"),
+                                              "assets/images/417.png",
+                                            ),
                                             Center(
                                                 child: Icon(
                                               Icons.add_outlined,
@@ -262,6 +264,8 @@ class WritePost extends StatelessWidget {
                                     : Stack(children: [
                                         Center(
                                           child: Image(
+                                              width: 110,
+                                              height: 110,
                                               fit: BoxFit.cover,
                                               image: AssetEntityImageProvider(
                                                   c.photoAssets[index - 1],
