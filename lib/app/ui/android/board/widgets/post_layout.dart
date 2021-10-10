@@ -208,25 +208,8 @@ class PostLayout extends StatelessWidget {
                           // 쪽지
                           InkWell(
                             onTap: () async {
-                              Get.defaultDialog(
-                                  title: "쪽지 보내기",
-                                  middleText: "작성자에게 쪽지를 보내시겠습니까?",
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () async {
-                                          await sendMail(
-                                              item.UNIQUE_ID,
-                                              item.COMMUNITY_ID,
-                                              mailWriteController,
-                                              mailController);
-                                        },
-                                        child: Text("네")),
-                                    TextButton(
-                                        onPressed: () {
-                                          Get.back();
-                                        },
-                                        child: Text("아니요"))
-                                  ]);
+                              await sendMail(item.UNIQUE_ID, item.COMMUNITY_ID,
+                                  mailWriteController, mailController);
                             },
                             child: Ink(
                                 width: 16,
