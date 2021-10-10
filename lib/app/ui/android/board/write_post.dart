@@ -302,23 +302,38 @@ class WritePost extends StatelessWidget {
                                   unnamed: (c.anonymousCheck.value) ? '1' : '0')
                               .toJson();
 
+                          Get.defaultDialog(
+                              title: "게시글 작성",
+                              middleText: "게시글을 작성하시겠습니까?",
+                              actions: [
+                                TextButton(
+                                    onPressed: () async {
+                                      Get.back();
+                                      if (c.putOrPost == "put") {
+                                        if (c.photoAssets.length > 0) {
+                                          await c.putPostImage(data);
+                                        } else {
+                                          await c.putPostNoImage(data);
+                                        }
+                                      }
+                                      //작성
+                                      else {
+                                        if (c.photoAssets.length > 0) {
+                                          print("이미지 포스트");
+                                          await c.postPostImage(data);
+                                        } else {
+                                          await c.postPostNoImage(data);
+                                        }
+                                      }
+                                    },
+                                    child: Text("네")),
+                                TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: Text("네")),
+                              ]);
                           //수정
-                          if (c.putOrPost == "put") {
-                            if (c.photoAssets.length > 0) {
-                              await c.putPostImage(data);
-                            } else {
-                              await c.putPostNoImage(data);
-                            }
-                          }
-                          //작성
-                          else {
-                            if (c.photoAssets.length > 0) {
-                              print("이미지 포스트");
-                              await c.postPostImage(data);
-                            } else {
-                              await c.postPostNoImage(data);
-                            }
-                          }
                         },
                         child: Container(
                           width: 288,
