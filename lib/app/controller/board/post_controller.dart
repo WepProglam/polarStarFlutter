@@ -94,25 +94,39 @@ class PostController extends GetxController {
   // }
 
   void deleteResource(int COMMUNITY_ID, int UNIQUE_ID, String tag) async {
-    final status =
-        await repository.deleteResource(COMMUNITY_ID, UNIQUE_ID, tag);
-    switch (status) {
-      case 200:
-        Get.snackbar("삭제 성공", "삭제 성공", snackPosition: SnackPosition.BOTTOM);
+    Get.defaultDialog(title: "삭제", middleText: "정말 삭제하시겠습니까?", actions: [
+      TextButton(
+          onPressed: () async {
+            final status =
+                await repository.deleteResource(COMMUNITY_ID, UNIQUE_ID, tag);
+            Get.back();
+            switch (status) {
+              case 200:
+                Get.snackbar("삭제 성공", "삭제 성공",
+                    snackPosition: SnackPosition.BOTTOM);
 
-        if (tag == "bid") {
-          // Get.offNamed("/board/$COMMUNITY_ID/page/1");
-          Get.offNamedUntil('/main', (route) => false);
-          Get.toNamed("/board/$COMMUNITY_ID/page/1");
-        } else {
-          // await getPostData();
-          await refreshPost();
-        }
+                if (tag == "bid") {
+                  // Get.offNamed("/board/$COMMUNITY_ID/page/1");
+                  Get.offNamedUntil('/main', (route) => false);
+                  Get.toNamed("/board/$COMMUNITY_ID/page/1");
+                } else {
+                  // await getPostData();
+                  await refreshPost();
+                }
 
-        break;
-      default:
-        Get.snackbar("삭제 실패", "삭제 실패", snackPosition: SnackPosition.BOTTOM);
-    }
+                break;
+              default:
+                Get.snackbar("삭제 실패", "삭제 실패",
+                    snackPosition: SnackPosition.BOTTOM);
+            }
+          },
+          child: Text("네")),
+      TextButton(
+          onPressed: () {
+            Get.back();
+          },
+          child: Text("아니요"))
+    ]);
   }
 
   void postComment(String url, var data) async {
@@ -171,27 +185,45 @@ class PostController extends GetxController {
 
   void totalSend(String urlTemp, String what, int index) {
     String url = "/board" + urlTemp;
-    Session().getX(url).then((value) {
-      switch (value.statusCode) {
-        case 200:
-          Get.snackbar("$what 성공", "$what 성공",
-              snackPosition: SnackPosition.BOTTOM);
-          // if (what == "좋아요") {
-          //   sortedList[index].LIKES++;
-          // } else if (what == "스크랩") {
-          //   sortedList[index].SCRAPS++;
-          // }
-          // _dataAvailable(false);
-          _dataAvailable.refresh();
-          getPostData();
-          break;
-        case 403:
-          Get.snackbar('이미 $what 한 게시글입니다', '이미 $what 한 게시글입니다',
-              snackPosition: SnackPosition.BOTTOM);
-          break;
-        default:
-      }
-    });
+    Get.defaultDialog(title: what, middleText: "$what 하시겠습니까?", actions: [
+      TextButton(
+          onPressed: () async {
+            if (what == '신고') {
+              Get.back();
+              var ARREST_TYPE = await getArrestType();
+              url = url + ARREST_TYPE.toString();
+            } else {
+              Get.back();
+            }
+            Session().getX(url).then((value) {
+              switch (value.statusCode) {
+                case 200:
+                  Get.snackbar("$what 성공", "$what 성공",
+                      snackPosition: SnackPosition.BOTTOM);
+                  // if (what == "좋아요") {
+                  //   sortedList[index].LIKES++;
+                  // } else if (what == "스크랩") {
+                  //   sortedList[index].SCRAPS++;
+                  // }
+                  // _dataAvailable(false);
+                  _dataAvailable.refresh();
+                  getPostData();
+                  break;
+                case 403:
+                  Get.snackbar('이미 $what 한 게시글입니다', '이미 $what 한 게시글입니다',
+                      snackPosition: SnackPosition.BOTTOM);
+                  break;
+                default:
+              }
+            });
+          },
+          child: Text("네")),
+      TextButton(
+          onPressed: () {
+            Get.back();
+          },
+          child: Text("아니요"))
+    ]);
   }
 
   Future<int> getArrestType() async {

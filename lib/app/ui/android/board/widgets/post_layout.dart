@@ -144,9 +144,23 @@ class PostLayout extends StatelessWidget {
                             child: InkWell(
                               onTap: () {
                                 // 게시글 수정
-                                Get.toNamed(
-                                    '/board/${item.COMMUNITY_ID}/bid/${item.BOARD_ID}',
-                                    arguments: item);
+                                Get.defaultDialog(
+                                    title: "게시글 수정",
+                                    middleText: "수정하시겠습니까?",
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () async {
+                                            Get.offAndToNamed(
+                                                '/board/${item.COMMUNITY_ID}/bid/${item.BOARD_ID}',
+                                                arguments: item);
+                                          },
+                                          child: Text("네")),
+                                      TextButton(
+                                          onPressed: () {
+                                            Get.back();
+                                          },
+                                          child: Text("아니요"))
+                                    ]);
                               },
                               child: Ink(
                                 width: 16,
@@ -177,9 +191,8 @@ class PostLayout extends StatelessWidget {
                             padding: const EdgeInsets.only(right: 9.2),
                             child: InkWell(
                               onTap: () async {
-                                var ARREST_TYPE = await c.getArrestType();
                                 c.totalSend(
-                                    '/arrest/${item.COMMUNITY_ID}/id/${item.BOARD_ID}?ARREST_TYPE=$ARREST_TYPE',
+                                    '/arrest/${item.COMMUNITY_ID}/id/${item.BOARD_ID}?ARREST_TYPE=',
                                     '신고',
                                     index);
                               },
@@ -195,8 +208,25 @@ class PostLayout extends StatelessWidget {
                           // 쪽지
                           InkWell(
                             onTap: () async {
-                              await sendMail(item.UNIQUE_ID, item.COMMUNITY_ID,
-                                  mailWriteController, mailController);
+                              Get.defaultDialog(
+                                  title: "쪽지 보내기",
+                                  middleText: "작성자에게 쪽지를 보내시겠습니까?",
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () async {
+                                          await sendMail(
+                                              item.UNIQUE_ID,
+                                              item.COMMUNITY_ID,
+                                              mailWriteController,
+                                              mailController);
+                                        },
+                                        child: Text("네")),
+                                    TextButton(
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        child: Text("아니요"))
+                                  ]);
                             },
                             child: Ink(
                                 width: 16,
@@ -262,6 +292,8 @@ class PostLayout extends StatelessWidget {
                     ),
                     onPressed: () {
                       if (item.MYSELF) {
+                        Get.snackbar("게시글 좋아요", "내가 쓴 게시글에는 할 수 없습니다.",
+                            snackPosition: SnackPosition.BOTTOM);
                       } else {
                         c.totalSend(
                             '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
@@ -291,7 +323,7 @@ class PostLayout extends StatelessWidget {
                     style: ButtonStyle(
                         foregroundColor:
                             MaterialStateProperty.all<Color>(Colors.black)),
-                    onPressed: () {},
+                    onPressed: null,
                     icon: Container(
                       width: 16,
                       height: 16,
