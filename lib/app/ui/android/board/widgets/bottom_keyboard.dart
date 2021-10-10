@@ -129,7 +129,7 @@ class BottomKeyboard extends StatelessWidget {
                     textAlign: TextAlign.left,
                     decoration: InputDecoration(
                       isDense: true,
-                      contentPadding: EdgeInsets.only(bottom: 5, right: 5),
+                      contentPadding: EdgeInsets.only(bottom: 0, right: 5),
                       hintText: c.autoFocusTextForm.value
                           ? '수정하기'
                           : c.isCcomment.value
@@ -152,7 +152,24 @@ class BottomKeyboard extends StatelessWidget {
                         //댓 대댓 수정
                         if (c.autoFocusTextForm.value) {
                           c.autoFocusTextForm.value = false;
-                          await c.putComment(c.putUrl.value, commentData);
+                          Get.defaultDialog(
+                              title: "댓글 수정",
+                              middleText:
+                                  "${commentData['content']}로 수정하시겠습니까?",
+                              actions: [
+                                TextButton(
+                                    onPressed: () async {
+                                      await c.putComment(
+                                          c.putUrl.value, commentData);
+                                      Get.back();
+                                    },
+                                    child: Text("네")),
+                                TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: Text("아니요"))
+                              ]);
                         }
 
                         //댓 대댓 작성
@@ -165,8 +182,26 @@ class BottomKeyboard extends StatelessWidget {
                             // 댓글인경우
                             postUrl = c.commentUrl.value;
                           }
+
+                          Get.defaultDialog(
+                              title: "댓글 작성",
+                              middleText:
+                                  "${commentData['content']}로 댓글을 작성하시겠습니까?",
+                              actions: [
+                                TextButton(
+                                    onPressed: () async {
+                                      await c.postComment(postUrl, commentData);
+                                      Get.back();
+                                    },
+                                    child: Text("네")),
+                                TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: Text("아니요"))
+                              ]);
+
                           c.isCcomment.value = false;
-                          await c.postComment(postUrl, commentData);
                         }
 
                         commentWriteController.clear();
