@@ -205,12 +205,18 @@ class HotBoardItem_bottomLine extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             HotBoardPreviewItem_bottom(
-                image_url: "assets/images/good.png", amount: "${model.LIKES}"),
+                image_url: (isLiked(model)
+                    ? "assets/images/like_red.png"
+                    : "assets/images/good.png"),
+                amount: "${model.LIKES}"),
             HotBoardPreviewItem_bottom(
                 image_url: "assets/images/comment.png",
                 amount: "${model.COMMENTS}"),
             HotBoardPreviewItem_bottom(
-                image_url: "assets/images/star.png", amount: "${model.SCRAPS}"),
+                image_url: (isScrapped(model)
+                    ? "assets/images/849.png"
+                    : "assets/images/star.png"),
+                amount: "${model.SCRAPS}"),
           ],
         ),
         decoration: BoxDecoration(
@@ -423,4 +429,32 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
       )
     ]);
   }
+}
+
+bool isLiked(HotBoard model) {
+  final MainController mainController = Get.find();
+
+  for (int i = 0; i < mainController.likeList.length; i++) {
+    if (mainController.likeList[i].UNIQUE_ID == model.BOARD_ID) {
+      if (mainController.likeList[i].COMMUNITY_ID == model.COMMUNITY_ID) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+bool isScrapped(HotBoard model) {
+  final MainController mainController = Get.find();
+
+  for (int i = 0; i < mainController.scrapList.length; i++) {
+    if (mainController.scrapList[i].UNIQUE_ID == model.BOARD_ID) {
+      if (mainController.scrapList[i].COMMUNITY_ID == model.COMMUNITY_ID) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }

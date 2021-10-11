@@ -5,13 +5,13 @@ import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_mail_dialog.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 
 class PostLayout extends StatelessWidget {
   final PostController c = Get.find();
-
   final MailController mailController = Get.find();
   final mailWriteController = TextEditingController();
 
@@ -277,6 +277,7 @@ class PostLayout extends StatelessWidget {
                       if (item.MYSELF) {
                         Get.snackbar("게시글 좋아요", "내가 쓴 게시글에는 할 수 없습니다.",
                             snackPosition: SnackPosition.BOTTOM);
+                      } else if (isLiked()) {
                       } else {
                         c.totalSend(
                             '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
@@ -287,10 +288,15 @@ class PostLayout extends StatelessWidget {
                     icon: Container(
                       width: 16,
                       height: 16,
-                      child: Image.asset(
-                        'assets/images/good.png',
-                        fit: BoxFit.fitHeight,
-                      ),
+                      child: (isLiked()
+                          ? Image.asset(
+                              'assets/images/like_red.png',
+                              fit: BoxFit.fitHeight,
+                            )
+                          : Image.asset(
+                              'assets/images/good.png',
+                              fit: BoxFit.fitHeight,
+                            )),
                     ),
                     label: Text(item.LIKES.toString(),
                         style: const TextStyle(
@@ -327,15 +333,20 @@ class PostLayout extends StatelessWidget {
                         foregroundColor:
                             MaterialStateProperty.all<Color>(Colors.black)),
                     onPressed: () {
-                      c.totalSend(
-                          '/scrap/${item.COMMUNITY_ID}/id/${item.BOARD_ID}',
-                          '스크랩',
-                          index);
+                      if (isScrapped()) {
+                      } else {
+                        c.totalSend(
+                            '/scrap/${item.COMMUNITY_ID}/id/${item.BOARD_ID}',
+                            '스크랩',
+                            index);
+                      }
                     },
                     icon: Container(
                       width: 16,
                       height: 16,
-                      child: Image.asset('assets/images/star.png'),
+                      child: (isScrapped()
+                          ? Image.asset("assets/images/849.png")
+                          : Image.asset('assets/images/star.png')),
                     ),
                     label: Text(item.SCRAPS.toString(),
                         style: const TextStyle(
@@ -827,4 +838,34 @@ class PostLayout extends StatelessWidget {
       ),
     );
   }
+}
+
+bool isLiked() {
+  final MainController mainController = Get.find();
+  final PostController c = Get.find();
+
+  for (int i = 0; i < mainController.likeList.length; i++) {
+    if (mainController.likeList[i].UNIQUE_ID == c.BOARD_ID) {
+      if (mainController.likeList[i].COMMUNITY_ID == c.COMMUNITY_ID) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+bool isScrapped() {
+  final MainController mainController = Get.find();
+  final PostController c = Get.find();
+
+  for (int i = 0; i < mainController.scrapList.length; i++) {
+    if (mainController.scrapList[i].UNIQUE_ID == c.BOARD_ID) {
+      if (mainController.scrapList[i].COMMUNITY_ID == c.COMMUNITY_ID) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }

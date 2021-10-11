@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/board_name.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
@@ -153,10 +154,15 @@ class PostPreview extends StatelessWidget {
                           width: 10.6,
                           height: 10.6,
                           margin: const EdgeInsets.only(right: 6.4),
-                          child: Image.asset(
-                            "assets/images/invalid_name.png",
-                            fit: BoxFit.cover,
-                          ),
+                          child: (isLiked(item)
+                              ? Image.asset(
+                                  "assets/images/like_red.png",
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  "assets/images/invalid_name.png",
+                                  fit: BoxFit.cover,
+                                )),
                         ),
                         Text(item.LIKES.toString(),
                             style: const TextStyle(
@@ -202,10 +208,15 @@ class PostPreview extends StatelessWidget {
                           width: 10.6,
                           height: 10.6,
                           margin: const EdgeInsets.only(right: 6.4),
-                          child: Image.asset(
-                            "assets/images/scrap_none.png",
-                            fit: BoxFit.cover,
-                          ),
+                          child: (isScrapped(item)
+                              ? Image.asset(
+                                  "assets/images/849.png",
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  "assets/images/scrap_none.png",
+                                  fit: BoxFit.cover,
+                                )),
                         ),
                         Text(item.SCRAPS.toString(),
                             style: const TextStyle(
@@ -226,4 +237,32 @@ class PostPreview extends StatelessWidget {
       ),
     );
   }
+}
+
+bool isLiked(Board item) {
+  final MainController mainController = Get.find();
+
+  for (int i = 0; i < mainController.likeList.length; i++) {
+    if (mainController.likeList[i].UNIQUE_ID == item.BOARD_ID) {
+      if (mainController.likeList[i].COMMUNITY_ID == item.COMMUNITY_ID) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+bool isScrapped(Board item) {
+  final MainController mainController = Get.find();
+
+  for (int i = 0; i < mainController.scrapList.length; i++) {
+    if (mainController.scrapList[i].UNIQUE_ID == item.BOARD_ID) {
+      if (mainController.scrapList[i].COMMUNITY_ID == item.COMMUNITY_ID) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
