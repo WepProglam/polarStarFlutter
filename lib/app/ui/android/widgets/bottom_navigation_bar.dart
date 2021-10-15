@@ -18,38 +18,78 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: '커뮤니티',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.work_outlined),
-            label: '정보 제공',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: '강의평가/시간표',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.doorbell),
-            label: '알림함',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: '마이 페이지',
-          ),
-        ],
-        unselectedItemColor: Colors.black,
-        currentIndex: mainController.mainPageIndex.value,
-        selectedItemColor: Colors.amber[800],
-        onTap: (index) async {
-          mainController.mainPageIndex.value = index;
-          myPageController.profilePostIndex.value = 0;
-          notiController.pageViewIndex.value = 0;
-        },
+      return Container(
+        height: 83,
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+              color: const Color(0x1c000000),
+              offset: Offset(0, -3),
+              blurRadius: 6,
+              spreadRadius: 0)
+        ], color: const Color(0xffffffff)),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+              icon: Container(
+                  width: 20,
+                  height: 20,
+                  margin: const EdgeInsets.only(top: 15),
+                  child: mainController.mainPageIndex.value == 0
+                      ? Image.asset("assets/images/homepage_selected.png")
+                      : Image.asset("assets/images/500.png")),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Container(
+                  width: 20,
+                  height: 20,
+                  margin: const EdgeInsets.only(top: 15),
+                  child: mainController.mainPageIndex.value == 1
+                      ? Image.asset("assets/images/outside_selected.png")
+                      : Image.asset("assets/images/306.png")),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Container(
+                  width: 20,
+                  margin: const EdgeInsets.only(top: 15),
+                  height: 20,
+                  child: mainController.mainPageIndex.value == 2
+                      ? Image.asset("assets/images/outside_selected.png")
+                      : Image.asset("assets/images/306.png")),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Container(
+                  width: 20,
+                  height: 20,
+                  margin: const EdgeInsets.only(top: 15),
+                  child: mainController.mainPageIndex.value == 3
+                      ? Image.asset("assets/images/timetable_selected.png")
+                      : Image.asset("assets/images/687.png")),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Container(
+                  width: 20,
+                  height: 20,
+                  margin: const EdgeInsets.only(top: 15),
+                  child: mainController.mainPageIndex.value == 4
+                      ? Image.asset("assets/images/mypage_selected.png")
+                      : Image.asset("assets/images/689.png")),
+              label: '',
+            ),
+          ],
+          unselectedItemColor: const Color(0xffbbc7d4),
+          currentIndex: mainController.mainPageIndex.value,
+          selectedItemColor: const Color(0xff1a4678),
+          onTap: (index) async {
+            mainController.mainPageIndex.value = index;
+            myPageController.profilePostIndex.value = 0;
+            notiController.pageViewIndex.value = 0;
+          },
+        ),
       );
     });
   }
