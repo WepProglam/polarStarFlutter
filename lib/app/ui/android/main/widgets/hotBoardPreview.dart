@@ -292,32 +292,23 @@ class HotBoardPreviewItem_bottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 16,
-      width: 53,
-      child: Row(
-        children: [
-          Container(
-            height: 10.6,
-            width: 10.6,
-            margin: const EdgeInsets.only(bottom: 1.9, top: 3.5),
-            child: Image.asset("${image_url}"),
-          ),
-          Container(
-            height: 16,
-            padding: const EdgeInsets.only(left: 12.9 / 2),
-            child: // 8678
-                Text("${amount}",
-                    style: const TextStyle(
-                        color: const Color(0xff333333),
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "PingFangSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 12.0),
-                    textAlign: TextAlign.left),
-          )
-        ],
+    return TextButton.icon(
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
       ),
+      icon: Container(
+        width: 16,
+        height: 16,
+        child: Image.asset("${image_url}"),
+      ),
+      label: Text("${amount}",
+          style: const TextStyle(
+              color: const Color(0xff333333),
+              fontWeight: FontWeight.w700,
+              fontFamily: "PingFangSC",
+              fontStyle: FontStyle.normal,
+              fontSize: 12.0),
+          textAlign: TextAlign.left),
     );
   }
 }

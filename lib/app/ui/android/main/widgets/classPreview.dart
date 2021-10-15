@@ -51,7 +51,7 @@ class ClassItem_TOP extends StatelessWidget {
         child: Text("This Semester Courses",
             style: const TextStyle(
                 color: const Color(0xff333333),
-                fontWeight: FontWeight.w900,
+                fontWeight: FontWeight.w500,
                 fontFamily: "PingFangSC",
                 fontStyle: FontStyle.normal,
                 fontSize: 18.0),
