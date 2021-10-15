@@ -156,19 +156,21 @@ class TimeTableContent extends StatelessWidget {
             int last_end_time = 60 * 9;
             return Container(
                 width: (width * 11 / 12) / dayAmount,
-                padding: const EdgeInsets.symmetric(horizontal: 1),
                 child: Obx(() {
                   return Stack(
                     children: [
                       for (var item in timeTableController.showTimeTable[index])
                         Positioned(
                           top: (item["start_time"] - last_end_time) * 1.0,
-                          width: (width * 11 / 12) / dayAmount,
-                          child: TimeTableItem(
-                            classItem: item,
-                            classItemModel: item["classInfo"],
-                            curEndTime: last_end_time,
-                            timeTableController: timeTableController,
+                          width: ((width - 4) * 11 / 12) / dayAmount,
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 2),
+                            child: TimeTableItem(
+                              classItem: item,
+                              classItemModel: item["classInfo"],
+                              curEndTime: last_end_time,
+                              timeTableController: timeTableController,
+                            ),
                           ),
                         )
                     ],
@@ -370,13 +372,14 @@ class TimeTableItem extends StatelessWidget {
           child: Center(
             child: Text(
               "${classItemModel.CLASS_NAME}",
-              maxLines: 3,
+              maxLines: 2,
               style: const TextStyle(
                   color: const Color(0xffffffff),
                   fontWeight: FontWeight.w900,
                   fontFamily: "PingFangSC",
                   fontStyle: FontStyle.normal,
                   fontSize: 14.0),
+              textAlign: TextAlign.center,
             ),
           ),
         ),
