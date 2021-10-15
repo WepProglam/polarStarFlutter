@@ -118,7 +118,7 @@ class MainPageScroll extends StatelessWidget {
           } else {
             return Container(
               height: size.height,
-              decoration: BoxDecoration(color: Colors.transparent),
+              // decoration: BoxDecoration(color: Colors.transparent),
               // decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
               // decoration: BoxDecoration(
               //     gradient: LinearGradient(
