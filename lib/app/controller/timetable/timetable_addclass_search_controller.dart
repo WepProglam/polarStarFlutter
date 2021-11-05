@@ -131,7 +131,7 @@ class TimeTableAddClassSearchController extends GetxController {
     var response = await Session().getX(
         "/class/timetable/filter/page/0?INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
     Iterable class_list = jsonDecode(response.body);
-    print(class_list);
+    // print(class_list);
     CLASS_SEARCH.value =
         class_list.map((e) => TimeTableClassModel.fromJson(e)).toList();
   }
@@ -163,7 +163,7 @@ class TimeTableAddClassSearchController extends GetxController {
     Iterable majorList = jsonDecode(response.body);
     college_major_list.value =
         majorList.map((e) => CollegeMajorModel.fromJson(e)).toList();
-    print(majorList);
+    // print(majorList);
   }
 
   @override
@@ -177,7 +177,7 @@ class TimeTableAddClassSearchController extends GetxController {
   void onInit() async {
     super.onInit();
     await getClassInfo();
-
+    await timeTableController.handleAddButtonFalse();
     // once(isItBuild, (_) {
     //   print("sadfsadfadsf");
     //   if (isItBuild.value) {
@@ -200,5 +200,13 @@ class TimeTableAddClassSearchController extends GetxController {
     //     initClass();
     //   }
     // });
+  }
+
+  @override
+  void onClose() async {
+    //print("CURR ROUTE!! : ${Get.currentRoute}");
+    // Get.currentRoute == Routes.MAIN_PAGE
+    print("close!1");
+    await timeTableController.handleAddButtonTrue();
   }
 }

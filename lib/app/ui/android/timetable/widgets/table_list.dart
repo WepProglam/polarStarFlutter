@@ -686,13 +686,16 @@ class SubjectList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       int total_length =
-          model.value.CLASSES == null ? 1 : model.value.CLASSES.length + 1;
+          model.value.CLASSES == null ? 0 : model.value.CLASSES.length + 0;
+      // 밑에서 강의 추가하는 기능
+      // model.value.CLASSES == null ? 1 : model.value.CLASSES.length + 1;
       return Container(
           child: ListView.builder(
               itemCount: total_length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int i) {
-                return i == total_length - 1
+                return i == total_length
+                    // return i == total_length - 1
                     ? InkWell(
                         onTap: () {
                           Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);

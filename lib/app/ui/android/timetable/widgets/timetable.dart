@@ -122,7 +122,9 @@ class TimeTableAddClass extends StatelessWidget {
                     height: (end_time - start_time) * 1.0,
                     decoration: contentTableBoxDecoration(Colors.black),
                     margin: EdgeInsets.only(
-                        top: (start_time - last_end_time) * 1.0,
+                        top: ((start_time - last_end_time) * 1.0) < 0
+                            ? 0
+                            : (start_time - last_end_time) * 1.0,
                         left: getIndexFromDay(new_class.value.day) *
                             (width * 11 / 12) /
                             dayAmount),
@@ -153,18 +155,20 @@ class TimeTableContent extends StatelessWidget {
     return Container(
       width: width * 11 / 12,
       margin: EdgeInsets.only(top: 44, left: width / 12),
-      child: ListView.builder(
-          itemCount: dayAmount,
-          scrollDirection: Axis.horizontal,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (BuildContext context, int index) {
-            int last_end_time = 60 * timeTableController.limitStartTime.value;
-            int add_pos_startTime =
-                (timeTableController.limitEndTime.value + 1) * 60;
-            return Container(
-                width: (width * 11 / 12) / dayAmount,
-                child: Obx(() {
-                  return Stack(
+      child: Obx(() {
+        //지우지마 오류나 시부레
+        print(timeTableController.inTimeTableMainPage.value);
+        return ListView.builder(
+            itemCount: dayAmount,
+            scrollDirection: Axis.horizontal,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              int last_end_time = 60 * timeTableController.limitStartTime.value;
+              int add_pos_startTime =
+                  (timeTableController.limitEndTime.value + 1) * 60;
+              return Container(
+                  width: (width * 11 / 12) / dayAmount,
+                  child: Stack(
                     children: [
                       for (var item in timeTableController.showTimeTable[index])
                         Positioned(
@@ -180,7 +184,8 @@ class TimeTableContent extends StatelessWidget {
                           ),
                         ),
                       //목요일 밑에 add 버튼
-                      if (index == 3)
+                      if (index == 3 &&
+                          timeTableController.inTimeTableMainPage.value)
                         Positioned(
                           top: (add_pos_startTime - last_end_time) * 1.0 + 1,
                           width: ((width - 4) * 11 / 12) / dayAmount,
@@ -198,9 +203,9 @@ class TimeTableContent extends StatelessWidget {
                           ),
                         )
                     ],
-                  );
-                }));
-          }),
+                  ));
+            });
+      }),
     );
   }
 }

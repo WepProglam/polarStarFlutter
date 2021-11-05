@@ -163,10 +163,6 @@ class TimetableAddClassMain extends StatelessWidget {
                     physics: AlwaysScrollableScrollPhysics(),
                     child: Obx(() {
                       RxBool isExpandedHor = timeTableController.isExpandedHor;
-                      // // RxBool isExpandedVer = timeTableController.isExpandedVer;
-                      // int limitEndTime = timeTableController.limitEndTime.value;
-                      // int limitStartTime =
-                      //     timeTableController.limitStartTime.value;
                       int dayAmount = isExpandedHor.value ? 7 : 5;
                       int verAmount = timeTableController.verAmount.value;
 

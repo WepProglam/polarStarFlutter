@@ -23,9 +23,10 @@ class TimeTableController extends GetxController {
   RxInt limitStartTime = 9.obs;
   RxInt limitEndTime = 17.obs;
 
-  RxInt verAmount = 12.obs;
+  RxInt verAmount = 11.obs;
 
   RxBool isHidden = false.obs;
+  RxBool inTimeTableMainPage = true.obs;
 
   // 학기별 시간표 간략 정보 리스트
   RxMap<String, RxList<Rx<TimeTableModel>>> otherTable =
@@ -129,7 +130,7 @@ class TimeTableController extends GetxController {
     if (showTimeTable[5].length == 0 && showTimeTable[6].length == 0) {
       return false;
     }
-    print(showTimeTable[5]);
+    // print(showTimeTable[5]);
     return true;
   }
 
@@ -320,7 +321,7 @@ class TimeTableController extends GetxController {
   Future getTableInfo() async {
     var response = await Session().getX("/timetable");
     Iterable tableInfoJson = jsonDecode(response.body);
-    print(tableInfoJson);
+    // print(tableInfoJson);
     selectYearSemester.value = tableInfoJson
         .map((e) => SelectYearSemesterModel.fromJson(e).obs)
         .toList();
@@ -330,6 +331,14 @@ class TimeTableController extends GetxController {
 
   void setVerAmount() {
     verAmount.value = limitEndTime.value - limitStartTime.value + 2 + 1;
+  }
+
+  void handleAddButtonTrue() {
+    inTimeTableMainPage.value = true;
+  }
+
+  void handleAddButtonFalse() {
+    inTimeTableMainPage.value = false;
   }
 
   @override

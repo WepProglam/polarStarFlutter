@@ -32,24 +32,34 @@ class TimeTableAddClassController extends GetxController {
 
   TextEditingController professorNameController = new TextEditingController();
 
-  void refactoringTime() {
-    int limitTempStart = 9;
-    int limitTempEnd = 17;
+  Future<void> refactoringTime() async {
+    print("refactoring!!");
 
-    for (Rx<AddClassModel> model in CLASS_LIST) {
-      int limitStart = model.value.start_time.hour;
-      int limitEnd = model.value.end_time.hour;
+    await timeTableController.initShowTimeTable();
+    await timeTableController.makeShowTimeTable();
+    // int limitTempStart = timeTableController.limitStartTime.value;
+    // int limitTempEnd = timeTableController.limitEndTime.value;
 
-      if (limitTempStart > limitStart) {
-        limitTempStart = limitStart;
-      }
-      if (limitTempEnd < limitEnd) {
-        limitTempEnd = limitEnd;
-      }
-    }
-    timeTableController.limitStartTime.value = limitTempStart;
-    timeTableController.limitEndTime.value = limitTempEnd;
-    print("완료");
+    // print("limitTempStart : ${limitTempStart}");
+    // print("limitTempEnd : ${limitTempEnd}");
+
+    // for (Rx<AddClassModel> model in CLASS_LIST) {
+    //   int limitStart = model.value.start_time.hour;
+    //   int limitEnd = model.value.end_time.hour;
+
+    //   if (limitStart < limitTempStart) {
+    //     limitTempStart = limitStart;
+    //   }
+    //   if (limitEnd > limitTempEnd) {
+    //     limitTempEnd = limitEnd;
+    //   }
+    // }
+
+    // print("limitTempStart : ${limitTempStart}");
+    // print("limitTempEnd : ${limitTempEnd}");
+
+    // timeTableController.limitStartTime.value = limitTempStart;
+    // timeTableController.limitEndTime.value = limitTempEnd;
   }
 
   Future<void> addClass(int tid) async {
@@ -129,6 +139,7 @@ class TimeTableAddClassController extends GetxController {
     super.onInit();
     initClass();
     dataAvailable.value = true;
+    await timeTableController.handleAddButtonFalse();
     ever(CLASS_LIST, (_) {
       for (var item in CLASS_LIST) {
         print(item.value.day);
@@ -146,7 +157,9 @@ class TimeTableAddClassController extends GetxController {
   }
 
   @override
-  void onClose() {
-    refactoringTime();
+  void onClose() async {
+    print("onclose");
+    await refactoringTime();
+    await timeTableController.handleAddButtonTrue();
   }
 }

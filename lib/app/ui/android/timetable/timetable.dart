@@ -129,9 +129,9 @@ class Timetable extends StatelessWidget {
                     child: SubjectList(model: timeTableController.selectTable),
                   );
                 }),
-                Container(
-                  height: 86,
-                )
+                // Container(
+                //   height: 86,
+                // )
               ],
             )));
   }
@@ -160,6 +160,7 @@ class TimeTablePackage extends StatelessWidget {
 
         int dayAmount = isExpandedHor.value ? 7 : 5;
         int verAmount = timeTableController.verAmount.value;
+        print("limitEndTime : ${timeTableController.limitEndTime.value}");
         print("verAmount : $verAmount");
         return Container(
           child: Column(
