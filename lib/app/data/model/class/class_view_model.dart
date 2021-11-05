@@ -4,6 +4,7 @@ import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 
 class ClassInfoModel {
   int CLASS_ID;
+  int MY_CLASS_POINT;
   double CREDIT;
   String AVG_RATE,
       AVG_RATE_ASSIGNMENT,
@@ -37,7 +38,8 @@ class ClassInfoModel {
       CLASS_SECTOR_1,
       CLASS_SECTOR_TOTAL,
       COLLEGE_NAME,
-      COLLEGE_MAJOR});
+      COLLEGE_MAJOR,
+      MY_CLASS_POINT});
 
   ClassInfoModel.fromJson(Map<String, dynamic> json) {
     this.CLASS_ID = json["CLASS_ID"];
@@ -55,6 +57,7 @@ class ClassInfoModel {
     this.COLLEGE_NAME = json["COLLEGE_NAME"];
     this.COLLEGE_MAJOR = json["COLLEGE_MAJOR"];
     this.CLASS_TIME = json["CLASSES"];
+    this.MY_CLASS_POINT = json["CLASS_POINT"];
   }
 }
 

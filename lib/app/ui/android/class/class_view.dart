@@ -138,6 +138,8 @@ class ClassView extends StatelessWidget {
                               return ClassExamInfo(
                                 classExamModel:
                                     classViewController.classExamList[index],
+                                classInfoModel:
+                                    classViewController.classInfo.value,
                                 index: index,
                               );
                             },
@@ -552,179 +554,204 @@ class ClassViewReview extends StatelessWidget {
 }
 
 class ClassExamInfo extends StatelessWidget {
-  const ClassExamInfo({Key key, @required this.classExamModel, this.index})
+  const ClassExamInfo(
+      {Key key,
+      @required this.classExamModel,
+      @required this.classInfoModel,
+      this.index})
       : super(key: key);
   final ClassExamModel classExamModel;
+  final ClassInfoModel classInfoModel;
   final int index;
 
   @override
   Widget build(BuildContext context) {
     final ClassViewController classViewController = Get.find();
 
-    return ImageFiltered(
-      imageFilter: classExamModel.IS_BUYED
-          ? ImageFilter.blur(sigmaX: 0, sigmaY: 0)
-          : ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-      child: GestureDetector(
-        onTap: () {
-          print(classExamModel.CLASS_ID);
-          print(classExamModel.CLASS_EXAM_ID);
+    return Stack(children: [
+      Container(
+          child: ImageFiltered(
+        imageFilter: classExamModel.IS_BUYED
+            ? ImageFilter.blur(sigmaX: 0, sigmaY: 0)
+            : ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+        child: GestureDetector(
+          onTap: () {
+            print(classExamModel.CLASS_ID);
+            print(classExamModel.CLASS_EXAM_ID);
 
-          if (classExamModel.IS_BUYED) {
-            print("이미 구매한 정보");
-          } else {
-            Get.defaultDialog(
-                title: "시험 정보 구매",
-                middleText: "시험 정보를 구매하시겠습니까?",
-                actions: [
-                  TextButton(
-                      onPressed: () async {
-                        Get.back();
-                        await classViewController.buyExamInfo(
-                            classExamModel.CLASS_ID,
-                            classExamModel.CLASS_EXAM_ID);
-                      },
-                      child: Text("네")),
-                  TextButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: Text("아니요")),
-                ]);
-          }
-        },
-        child: Container(
-          margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(10)),
-          child: Padding(
-            padding:
-                const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 시험 종류 이것도 데이터 없음
-                Row(
-                  children: [
-                    Text(
-                      classExamModel.MID_FINAL != null
-                          ? "The ${classExamModel.MID_FINAL} Exam"
-                          : "The Unknown Exam",
-                      textScaleFactor: 1.4,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Spacer(),
-                    TextButton.icon(
-                        style: ButtonStyle(
-                            foregroundColor:
-                                MaterialStateProperty.all(Colors.red),
-                            overlayColor: MaterialStateProperty.all(
-                                Colors.red.withOpacity(0.6))),
+            if (classExamModel.IS_BUYED) {
+              print("이미 구매한 정보");
+            } else {
+              Get.defaultDialog(
+                  title: "시험 정보 구매",
+                  middleText: "시험 정보를 구매하시겠습니까?",
+                  actions: [
+                    TextButton(
                         onPressed: () async {
-                          await classViewController.getExamLike(
+                          Get.back();
+                          await classViewController.buyExamInfo(
                               classExamModel.CLASS_ID,
-                              classExamModel.CLASS_EXAM_ID,
-                              index);
+                              classExamModel.CLASS_EXAM_ID);
                         },
-                        icon: Icon(Icons.thumb_up, size: 20),
-                        label: Text(classExamModel.LIKES.toString()))
-                  ],
-                ),
-                // 학기 정보
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                  child: Text(semester(classExamModel.CLASS_EXAM_SEMESTER) +
-                      " Semester Of " +
-                      classExamModel.CLASS_EXAM_YEAR.toString()),
-                ),
+                        child: Text("네")),
+                    TextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Text("아니요")),
+                  ]);
+            }
+          },
+          child: Container(
+            margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 시험 종류 이것도 데이터 없음
+                  Row(
+                    children: [
+                      Text(
+                        classExamModel.MID_FINAL != null
+                            ? "The ${classExamModel.MID_FINAL} Exam"
+                            : "The Unknown Exam",
+                        textScaleFactor: 1.4,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Spacer(),
+                      TextButton.icon(
+                          style: ButtonStyle(
+                              foregroundColor:
+                                  MaterialStateProperty.all(Colors.red),
+                              overlayColor: MaterialStateProperty.all(
+                                  Colors.red.withOpacity(0.6))),
+                          onPressed: () async {
+                            await classViewController.getExamLike(
+                                classExamModel.CLASS_ID,
+                                classExamModel.CLASS_EXAM_ID,
+                                index);
+                          },
+                          icon: Icon(Icons.thumb_up, size: 20),
+                          label: Text(classExamModel.LIKES.toString()))
+                    ],
+                  ),
+                  // 학기 정보
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    child: Text(semester(classExamModel.CLASS_EXAM_SEMESTER) +
+                        " Semester Of " +
+                        classExamModel.CLASS_EXAM_YEAR.toString()),
+                  ),
 
-                // 시험 전략
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Text("Test Strategy",
-                            style: TextStyle(fontWeight: FontWeight.w300)),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: classExamModel.TEST_STRATEGY != null
-                            ? Text(
-                                classExamModel.TEST_STRATEGY,
-                              )
-                            : Text(''),
-                      )
-                    ],
-                  ),
-                ),
-                // 문제 유형
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Text("Questions Type",
-                            style: TextStyle(fontWeight: FontWeight.w300)),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: classExamModel.TEST_TYPE != null
-                            ? Text(classExamModel.TEST_TYPE)
-                            : Text(''),
-                      )
-                    ],
-                  ),
-                ),
-                // 문제 예시
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Text("For Example",
-                            style: TextStyle(fontWeight: FontWeight.w300)),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          height: 90,
-                          child: classExamModel.TEST_EXAMPLE != null
-                              ? ListView.builder(
-                                  itemCount: classExamModel.TEST_EXAMPLE.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child:
-                                          classExamModel.TEST_EXAMPLE[index] !=
-                                                  null
-                                              ? Text(classExamModel
-                                                  .TEST_EXAMPLE[index])
-                                              : Text(''),
-                                    );
-                                    ;
-                                  })
-                              : Padding(
-                                  padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: Text("There are no examples"),
-                                ),
+                  // 시험 전략
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Text("Test Strategy",
+                              style: TextStyle(fontWeight: FontWeight.w300)),
                         ),
-                      )
-                    ],
+                        Expanded(
+                          flex: 3,
+                          child: classExamModel.TEST_STRATEGY != null
+                              ? Text(
+                                  classExamModel.TEST_STRATEGY,
+                                )
+                              : Text(''),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  // 문제 유형
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Text("Questions Type",
+                              style: TextStyle(fontWeight: FontWeight.w300)),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: classExamModel.TEST_TYPE != null
+                              ? Text(classExamModel.TEST_TYPE)
+                              : Text(''),
+                        )
+                      ],
+                    ),
+                  ),
+                  // 문제 예시
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Text("For Example",
+                              style: TextStyle(fontWeight: FontWeight.w300)),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Container(
+                            height: 90,
+                            child: classExamModel.TEST_EXAMPLE != null
+                                ? ListView.builder(
+                                    itemCount:
+                                        classExamModel.TEST_EXAMPLE.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8.0),
+                                        child: classExamModel
+                                                    .TEST_EXAMPLE[index] !=
+                                                null
+                                            ? Text(classExamModel
+                                                .TEST_EXAMPLE[index])
+                                            : Text(''),
+                                      );
+                                      ;
+                                    })
+                                : Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: Text("There are no examples"),
+                                  ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      )),
+      Positioned.fill(
+          child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                  child: Text(
+                      classExamModel.IS_BUYED
+                          ? ""
+                          : '시험 정보를 구매해야 열람할 수 있습니다!\n' +
+                              '현재 내 포인트 : ${classInfoModel.MY_CLASS_POINT}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: const Color(0xff333333),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "PingFangSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16.0)))))
+    ]);
   }
 }
 
