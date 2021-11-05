@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/timetable_daytoindex.dart';
 
@@ -153,7 +154,9 @@ class TimeTableContent extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
-            int last_end_time = 60 * 9;
+            int last_end_time = 60 * timeTableController.limitStartTime.value;
+            int add_pos_startTime =
+                (timeTableController.limitEndTime.value + 1) * 60;
             return Container(
                 width: (width * 11 / 12) / dayAmount,
                 child: Obx(() {
@@ -161,16 +164,33 @@ class TimeTableContent extends StatelessWidget {
                     children: [
                       for (var item in timeTableController.showTimeTable[index])
                         Positioned(
-                          top: (item["start_time"] - last_end_time) * 1.0,
+                          top: (item["start_time"] - last_end_time) * 1.0 + 1,
                           width: ((width - 4) * 11 / 12) / dayAmount,
                           child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 2),
                             child: TimeTableItem(
                               classItem: item,
                               classItemModel: item["classInfo"],
                               curEndTime: last_end_time,
                               timeTableController: timeTableController,
                             ),
+                          ),
+                        ),
+                      //목요일 밑에 add 버튼
+                      if (index == 3)
+                        Positioned(
+                          top: (add_pos_startTime - last_end_time) * 1.0 + 1,
+                          width: ((width - 4) * 11 / 12) / dayAmount,
+                          child: InkWell(
+                            onTap: () {
+                              Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
+                            },
+                            child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 20),
+                                height: 60, // 20 + 20 + 20
+                                width: 60, // 20 + 20 + 20
+                                child: Image.asset(
+                                    "assets/images/timetable_add.png")),
                           ),
                         )
                     ],
@@ -365,7 +385,10 @@ class TimeTableItem extends StatelessWidget {
               ));
         },
         child: Container(
-          height: (classItem["end_time"] - classItem["start_time"]) * 1.0,
+          // margin: const EdgeInsets.only(top: 1),
+          margin: const EdgeInsets.symmetric(horizontal: 2),
+
+          height: (classItem["end_time"] - classItem["start_time"]) * 1.0 - 1,
           decoration: contentTableBoxDecoration(classItem["color"]),
           // margin: EdgeInsets.only(
           //     top: (classItem["start_time"] - curEndTime) * 1.0),
@@ -375,8 +398,7 @@ class TimeTableItem extends StatelessWidget {
               maxLines: 2,
               style: const TextStyle(
                   color: const Color(0xffffffff),
-                  fontWeight: FontWeight.w900,
-                  fontFamily: "PingFangSC",
+                  fontWeight: FontWeight.w500,
                   fontStyle: FontStyle.normal,
                   fontSize: 14.0),
               textAlign: TextAlign.center,
@@ -445,7 +467,7 @@ const tableBoxDecoration = BoxDecoration(
         right: BorderSide(color: Color(0xffdedede), width: 0.5)));
 
 var contentTableBoxDecoration = (Color color) => BoxDecoration(
-    color: color, borderRadius: BorderRadius.all(Radius.circular(8)));
+    color: color, borderRadius: BorderRadius.all(Radius.circular(6)));
 
 const innerTableBoxDecoration = BoxDecoration(
     color: Colors.white,

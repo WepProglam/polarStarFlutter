@@ -62,21 +62,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: Container(
-                width: 20,
-                height: 20,
-
-                margin: const EdgeInsets.only(top: 15),
-                child: Icon(Icons.doorbell,
-                    color: mainController.mainPageIndex.value == 3
-                        ? Color(0xff1a4678)
-                        : null),
-                // child: mainController.mainPageIndex.value == 3
-                //     ? Image.asset("assets/images/timetable_selected.png")
-                //     : Image.asset("assets/images/687.png")),
-                // child: mainController.mainPageIndex.value == 3
-                //     ? Image.asset("assets/images/timetable_selected.png")
-                //     : Image.asset("assets/images/687.png")),
-              ),
+                  width: 20,
+                  height: 20,
+                  margin: const EdgeInsets.only(top: 15),
+                  child: mainController.mainPageIndex.value == 3
+                      ? Image.asset("assets/images/bottom_alarm_selected.png")
+                      : Image.asset("assets/images/bottom_alarm.png")),
               label: '',
             ),
             BottomNavigationBarItem(

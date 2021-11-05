@@ -118,24 +118,25 @@ class TopIcon extends StatelessWidget {
         ),
         Spacer(),
         Container(
-          margin: const EdgeInsets.only(top: 9.7, bottom: 2.3, right: 15),
+          margin: const EdgeInsets.only(top: 9, bottom: 1.5, right: 13.3),
           child: // 패스 940
               InkWell(
             onTap: () {
-              Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
+              Get.toNamed(Routes.CLASS);
+              // Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
             },
             child: Container(
-              width: 16,
-              height: 16,
+              width: 15.3,
+              height: 17.5,
               child: Image.asset(
-                "assets/images/941.png",
+                "assets/images/person.png",
                 fit: BoxFit.fitHeight,
               ),
             ),
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 9.7, bottom: 2.3, right: 15),
+          margin: const EdgeInsets.only(top: 9, bottom: 1.5, right: 13.3),
           child: // 패스 940
               InkWell(
             onTap: () {
@@ -524,8 +525,8 @@ class TopIcon extends StatelessWidget {
                   });
             },
             child: Container(
-              width: 16,
-              height: 16,
+              width: 15.3,
+              height: 17.5,
               child: Image.asset(
                 "assets/images/17_2.png",
                 fit: BoxFit.fitHeight,
@@ -534,15 +535,16 @@ class TopIcon extends StatelessWidget {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 9.7, bottom: 2.3, right: 15),
+          margin: const EdgeInsets.only(
+              top: 9 + 1.7, bottom: 1.5 + 1.7, right: 13.3),
           child: // 패스 940
               InkWell(
             onTap: () {
               Get.toNamed("/timetable/bin");
             },
             child: Container(
-              width: 16,
-              height: 16,
+              width: 16.2,
+              height: 14,
               child: Image.asset(
                 "assets/images/16_12.png",
                 fit: BoxFit.fitHeight,
@@ -714,7 +716,8 @@ class SubjectList extends StatelessWidget {
                         height: 184.5,
                         margin: const EdgeInsets.only(right: 31),
                         child: Container(
-                          margin: const EdgeInsets.only(left: 19, top: 19.5),
+                          margin: const EdgeInsets.only(
+                              left: 19, top: 19.5, right: 19),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -741,14 +744,16 @@ class SubjectList extends StatelessWidget {
                                     top: 9.5, bottom: 11.5),
                                 height: 23,
                                 child: // Your subject
-                                    Text("${model.value.CLASSES[i].CLASS_NAME}",
-                                        style: const TextStyle(
-                                            color: const Color(0xff333333),
-                                            fontWeight: FontWeight.w900,
-                                            fontFamily: "PingFangSC",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 16.0),
-                                        textAlign: TextAlign.left),
+                                    FittedBox(
+                                  child: Text(
+                                      "${model.value.CLASSES[i].CLASS_NAME}",
+                                      style: const TextStyle(
+                                          color: const Color(0xff333333),
+                                          fontWeight: FontWeight.w600,
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 16.0),
+                                      textAlign: TextAlign.left),
+                                ),
                               ),
                               FittedBox(
                                 child: SubjectPreviewList(

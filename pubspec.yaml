@@ -157,6 +157,11 @@ flutter:
     - assets/images/mypage_selected.png
     - assets/images/outside_selected.png
     - assets/images/timetable_selected.png
+    - assets/images/person.png
+    - assets/images/timetable_hidden.png
+    - assets/images/bottom_alarm.png
+    - assets/images/bottom_alarm_selected.png
+    - assets/images/timetable_add.png
     - assets/fonts/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

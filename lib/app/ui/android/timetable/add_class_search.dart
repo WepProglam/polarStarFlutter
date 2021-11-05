@@ -163,10 +163,12 @@ class TimetableAddClassMain extends StatelessWidget {
                     physics: AlwaysScrollableScrollPhysics(),
                     child: Obx(() {
                       RxBool isExpandedHor = timeTableController.isExpandedHor;
-                      RxBool isExpandedVer = timeTableController.isExpandedVer;
-                      // RxBool isExpandedVer = timeTableController.isExpandedVer;
+                      // // RxBool isExpandedVer = timeTableController.isExpandedVer;
+                      // int limitEndTime = timeTableController.limitEndTime.value;
+                      // int limitStartTime =
+                      //     timeTableController.limitStartTime.value;
                       int dayAmount = isExpandedHor.value ? 7 : 5;
-                      int verAmount = isExpandedVer.value ? 14 : 10;
+                      int verAmount = timeTableController.verAmount.value;
 
                       return Container(
                         height: 44 + 60.0 * (verAmount - 1) + 30,
@@ -234,8 +236,10 @@ class classSearchBottomSheet extends StatelessWidget {
                     controller.NewClass.value =
                         model.CLASS_TIME.map((e) => e.obs).toList();
                     for (var item in controller.NewClass) {
-                      if (item.value.end_time.hour > 18) {
-                        timeTableController.isExpandedVer.value = true;
+                      if (item.value.end_time.hour >
+                          timeTableController.limitStartTime.value) {
+                        timeTableController.limitStartTime.value =
+                            item.value.end_time.hour;
                       }
                       if (item.value.day == "토" || item.value.day == "일") {
                         timeTableController.isExpandedHor.value = true;
@@ -852,8 +856,9 @@ class SelectStartTime extends StatelessWidget {
           return;
         }
 
-        if (timeInput.hour >= 6) {
-          timeTableController.isExpandedVer.value = true;
+        if (timeInput.hour >= 0 &&
+            timeInput.hour < timeTableController.limitStartTime.value) {
+          timeTableController.limitStartTime.value = timeInput.hour;
         }
         if (timeInput.isAfter(end_time) ||
             timeInput.isAtSameMomentAs(end_time)) {

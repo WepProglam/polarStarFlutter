@@ -147,9 +147,11 @@ class TimetableAddClass extends StatelessWidget {
                     physics: AlwaysScrollableScrollPhysics(),
                     child: Obx(() {
                       RxBool isExpandedHor = timeTableController.isExpandedHor;
-                      RxBool isExpandedVer = timeTableController.isExpandedVer;
+                      // int limitEndTime = timeTableController.limitEndTime.value;
+                      // int limitStartTime =
+                      //     timeTableController.limitStartTime.value;
                       int dayAmount = isExpandedHor.value ? 7 : 5;
-                      int verAmount = isExpandedVer.value ? 14 : 10;
+                      int verAmount = timeTableController.verAmount.value;
                       return Container(
                         height: 44 + 60.0 * (verAmount - 1),
                         margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -593,9 +595,6 @@ class SelectStartTime extends StatelessWidget {
           return;
         }
 
-        if (timeInput.hour >= 6) {
-          timeTableController.isExpandedVer.value = true;
-        }
         if (timeInput.isAfter(end_time) ||
             timeInput.isAtSameMomentAs(end_time)) {
           newClass.update((val) {
@@ -603,6 +602,12 @@ class SelectStartTime extends StatelessWidget {
                 timeInput.day, timeInput.hour + 1, timeInput.minute);
           });
         }
+
+        if (timeInput.hour >= 0 &&
+            timeInput.hour < timeTableController.limitStartTime.value) {
+          timeTableController.limitStartTime.value = timeInput.hour;
+        }
+
         newClass.update((val) {
           val.start_time = DateTime(timeInput.year, timeInput.month,
               timeInput.day, timeInput.hour, timeInput.minute);

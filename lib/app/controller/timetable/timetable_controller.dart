@@ -20,7 +20,12 @@ class TimeTableController extends GetxController {
   bool visitedBin = false;
 
   RxBool isExpandedHor = false.obs;
-  RxBool isExpandedVer = false.obs;
+  RxInt limitStartTime = 9.obs;
+  RxInt limitEndTime = 17.obs;
+
+  RxInt verAmount = 12.obs;
+
+  RxBool isHidden = false.obs;
 
   // 학기별 시간표 간략 정보 리스트
   RxMap<String, RxList<Rx<TimeTableModel>>> otherTable =
@@ -72,16 +77,17 @@ class TimeTableController extends GetxController {
   // RxString createTimeTableSemester ="".obs;
 
   final List<Color> colorList = [
-    const Color.fromARGB(255, 28, 72, 121),
-    const Color.fromARGB(255, 54, 122, 197),
-    const Color.fromARGB(255, 29, 117, 217),
-    const Color.fromARGB(255, 125, 167, 241),
-    const Color.fromARGB(255, 167, 196, 230),
+    const Color(0xff1a4678),
+    const Color(0xff3478c5),
+    const Color(0xff1b74d9),
+    const Color(0xff7ba5ef),
+    const Color(0xffa3bede),
   ];
 
   void makeShowTimeTable() {
     int colorIndex = 0;
-    isExpandedVer.value = false;
+    int limitTempStart = 9;
+    int limitTempEnd = 18;
     for (var item in selectTable.value.CLASSES) {
       for (var detail in item.CLASS_TIME) {
         int day_index = getIndexFromDay(detail.day);
@@ -94,8 +100,12 @@ class TimeTableController extends GetxController {
         DateTime end = detail.end_time;
         int endTime = end.hour * 60 + end.minute;
 
-        if (checkVerExpand(endTime)) {
-          isExpandedVer.value = true;
+        if (limitTempStart > start.hour) {
+          limitTempStart = start.hour;
+        }
+
+        if (limitTempEnd < end.hour) {
+          limitTempEnd = end.hour;
         }
 
         showTimeTable[day_index].add({
@@ -108,6 +118,9 @@ class TimeTableController extends GetxController {
       colorIndex += 1;
     }
 
+    limitStartTime.value = limitTempStart;
+    limitEndTime.value = limitTempEnd;
+    setVerAmount();
     isExpandedHor.value = checkHorExpand();
   }
 
@@ -315,6 +328,10 @@ class TimeTableController extends GetxController {
     print(selectYearSemester.length);
   }
 
+  void setVerAmount() {
+    verAmount.value = limitEndTime.value - limitStartTime.value + 2 + 1;
+  }
+
   @override
   void onInit() async {
     super.onInit();
@@ -323,6 +340,7 @@ class TimeTableController extends GetxController {
     if (selectYearSemester.length > 0) {
       await getSemesterTimeTable("${selectYearSemester[0].value.YEAR}",
           "${selectYearSemester[0].value.SEMESTER}");
+      print("fffffffffffffffffffffffffffffffffffffff");
       initShowTimeTable();
       makeShowTimeTable();
     }
@@ -332,8 +350,11 @@ class TimeTableController extends GetxController {
       print("변경");
     });
 
-    ever(isExpandedVer, (_) {
-      print("======================");
+    ever(limitStartTime, (_) {
+      setVerAmount();
+    });
+    ever(limitEndTime, (_) {
+      setVerAmount();
     });
 
     ever(selectedTimeTableId, (_) async {
