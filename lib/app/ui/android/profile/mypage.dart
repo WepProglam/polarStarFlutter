@@ -91,8 +91,7 @@ class Mypage extends StatelessWidget {
                                       );
                                     } else {
                                       return Container(
-                                        margin: const EdgeInsets.only(
-                                            left: 15, right: 15, top: 15),
+                                        margin: const EdgeInsets.only(top: 10),
                                         child: ListView.builder(
                                             cacheExtent: 10,
                                             itemCount: userPost[index].length,

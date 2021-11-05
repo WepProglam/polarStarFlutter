@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/search/search_controller.dart';
+import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/search/widgets/search_bar.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/app_bar.dart';
@@ -70,8 +71,11 @@ class Board extends StatelessWidget {
                 children: [
                   Column(
                     children: [
+                      /**
+                       * Todo: 밑에 컨테이너 40 하드코딩 바꾸기 
+                       */
                       Container(
-                        height: 63,
+                        height: 40,
                         width: Get.mediaQuery.size.width,
                       ),
                       // 게시글 프리뷰 리스트

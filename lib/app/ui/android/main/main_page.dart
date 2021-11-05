@@ -9,6 +9,7 @@ import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/timetable.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/app_bar.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
+import 'package:flutter/services.dart';
 
 class MainPage extends StatelessWidget {
   final box = GetStorage();
@@ -31,25 +32,11 @@ class MainPage extends StatelessWidget {
       onWillPop: () async {
         return false;
       },
-      child: SafeArea(child: Obx(() {
-        return mainPageWidget[mainController.mainPageIndex.value];
-      })
-          // Scaffold(
-          //   appBar: CustomAppBar(
-          //     pageName: "POLAR STAR",
-          //   ),
-          //   bottomNavigationBar:
-          //       CustomBottomNavigationBar(mainController: mainController),
-          //   body: Obx(() {
-          //     // if (mainController.mainPageIndex.value == 1) {
-          //     //   return OutSide(
-          //     //     from: "main",
-          //     //   );
-          //     // }
-          //     return mainPageWidget[mainController.mainPageIndex.value];
-          //   }),
-          // ),
-          ),
+      child: SafeArea(
+        child: Obx(() {
+          return mainPageWidget[mainController.mainPageIndex.value];
+        }),
+      ),
     );
   }
 }

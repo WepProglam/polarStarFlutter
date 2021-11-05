@@ -11,6 +11,7 @@ import 'package:polarstar_flutter/app/ui/android/main/widgets/hotBoardPreview.da
 import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
 import 'package:polarstar_flutter/session.dart';
+import 'package:flutter/services.dart';
 
 class MainPageScroll extends StatelessWidget {
   final box = GetStorage();

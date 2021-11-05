@@ -53,3 +53,9 @@ class Board {
     this.BOARD_ID = json["BOARD_ID"];
   }
 }
+
+class LTRB {
+  double left, top, right, bottom;
+
+  LTRB({this.left, this.top, this.right, this.bottom});
+}

@@ -10,8 +10,16 @@ import 'package:polarstar_flutter/app/routes/app_pages.dart';
 // import 'package:polarstar_flutter/app/translations/app_translations.dart';
 // import 'app/ui/theme/app_theme.dart';
 import 'package:get_storage/get_storage.dart';
-
+import 'package:flutter/services.dart';
 import 'app/controller/loby/init_controller.dart';
+
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
+  }
+}
 
 void main() async {
   await GetStorage.init();
@@ -31,9 +39,9 @@ void main() async {
   print("start");
 
   await runApp(GetMaterialApp(
-    theme: ThemeData(fontFamily: "PingFangSC"),
+    theme: ThemeData(),
+    scrollBehavior: MyBehavior(),
     debugShowCheckedModeBanner: false,
-
     initialBinding: isLogined ? MainBinding() : LoginBinding(),
     initialRoute: isLogined ? Routes.MAIN_PAGE : Routes.LOGIN,
     // theme: appThemeData,
