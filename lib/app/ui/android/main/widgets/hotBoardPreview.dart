@@ -62,7 +62,7 @@ class HotBoardMain extends StatelessWidget {
         // ),
 
         Container(
-          margin: const EdgeInsets.only(top: 14),
+          // margin: const EdgeInsets.only(top: 14),
           height: 317 + 15.5 - 4.1 + 4.6,
           child: Stack(
             children: [
@@ -121,7 +121,7 @@ class HotBoardMain extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                       margin:
-                          const EdgeInsets.only(top: 10, left: 15, right: 15),
+                          const EdgeInsets.only(top: 0, left: 15, right: 15),
                       child: Obx(() {
                         return Container(
                           width: size.width - 15 * 2,
@@ -370,12 +370,14 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
                             textAlign: TextAlign.left),
                   ),
                   Spacer(),
-                  Ink(
+                  // ToDo: 쓸데없는 View more 버튼임 제거해야할듯
+                  /* Ink(
                     // height: 4.5,
                     child: InkWell(
                       onTap: () {
                         Get.toNamed("/board/hot/page/1");
                       },
+                      
                       child: Container(
                         margin: const EdgeInsets.only(
                             // top: 13,
@@ -392,7 +394,7 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
                                 textAlign: TextAlign.center),
                       ),
                     ),
-                  ),
+                  ), */
                   // Container(
                   //   height: 4.5,
                   //   width: 23,

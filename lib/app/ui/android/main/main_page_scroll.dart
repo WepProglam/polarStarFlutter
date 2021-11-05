@@ -193,6 +193,35 @@ class MainPageScroll extends StatelessWidget {
                       ),
 
                       //핫게
+                      Padding(
+                        padding: const EdgeInsets.all(18),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Hotboard",
+                                style: const TextStyle(
+                                    color: const Color(0xff333333),
+                                    fontWeight: FontWeight.w900,
+                                    // fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 18.0),
+                                textAlign: TextAlign.center),
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed("/board/hot/page/1");
+                              },
+                              child: Text("View more",
+                                  style: const TextStyle(
+                                      color: const Color(0xff1a4678),
+                                      fontWeight: FontWeight.w700,
+                                      // fontFamily: "PingFangSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12.0),
+                                  textAlign: TextAlign.center),
+                            )
+                          ],
+                        ),
+                      ),
                       Container(
                         width: size.width,
                         // height: 372 + 5.0,
