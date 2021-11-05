@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
@@ -21,6 +23,7 @@ class MainPageScroll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    final PageController outsidePageController = PageController();
     return Stack(children: [
       // Container(
       //   height: size.height,
@@ -168,13 +171,26 @@ class MainPageScroll extends StatelessWidget {
                       // ToDo: 서버에서 정보 제공해주면 수정해야함
                       Container(
                           height: 188.5,
-                          child: ListView.builder(
+                          child: PageView.builder(
                               scrollDirection: Axis.horizontal,
                               physics: PageScrollPhysics(),
+                              controller: outsidePageController,
                               itemCount: 5,
                               itemBuilder: (context, index) {
                                 return OutsidePreview();
                               })),
+                      Center(
+                        child: SmoothPageIndicator(
+                          controller: outsidePageController,
+                          count: 5,
+                          effect: ExpandingDotsEffect(
+                              dotWidth: 8.5,
+                              dotHeight: 8.5,
+                              expansionFactor: 2,
+                              dotColor: const Color(0xffbacde3),
+                              activeDotColor: const Color(0xff1a4678)),
+                        ),
+                      ),
 
                       //핫게
                       Container(
