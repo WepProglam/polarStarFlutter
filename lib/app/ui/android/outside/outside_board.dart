@@ -27,11 +27,11 @@ class OutSide extends StatelessWidget {
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Icon(
               Icons.construction,
-              size: 200,
+              size: 150,
             ),
             Text(
               "Comming soon",
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 10),
             )
           ]),
         ));
