@@ -271,6 +271,11 @@ class TimeTableController extends GetxController {
     return needDownload;
   }
 
+  void refactoringTime() {
+    initShowTimeTable();
+    makeShowTimeTable();
+  }
+
   Future setDefaultTable() async {
     int tid = selectTable.value.TIMETABLE_ID;
     int year = selectTable.value.YEAR;
@@ -350,8 +355,7 @@ class TimeTableController extends GetxController {
       await getSemesterTimeTable("${selectYearSemester[0].value.YEAR}",
           "${selectYearSemester[0].value.SEMESTER}");
       print("fffffffffffffffffffffffffffffffffffffff");
-      initShowTimeTable();
-      makeShowTimeTable();
+      refactoringTime();
     }
 
     ever(isExpandedHor, (_) {
@@ -381,8 +385,8 @@ class TimeTableController extends GetxController {
           break;
         }
       }
-      initShowTimeTable();
-      makeShowTimeTable();
+
+      refactoringTime();
 
       print(selectTable.value.SEMESTER);
     });

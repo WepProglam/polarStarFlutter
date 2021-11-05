@@ -102,6 +102,8 @@ class MyPageController extends GetxController {
   void onInit() async {
     super.onInit();
     await getMineWrite();
+    getMineLike();
+    getMineScrap();
 
     // await getMineLike();
     // await getMineScrap();

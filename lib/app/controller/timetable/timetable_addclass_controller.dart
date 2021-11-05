@@ -159,7 +159,7 @@ class TimeTableAddClassController extends GetxController {
   @override
   void onClose() async {
     print("onclose");
-    await refactoringTime();
+    await timeTableController.refactoringTime();
     await timeTableController.handleAddButtonTrue();
   }
 }

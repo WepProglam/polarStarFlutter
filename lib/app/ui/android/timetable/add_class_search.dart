@@ -452,63 +452,72 @@ class searchClassSliverAppBar extends StatelessWidget {
       backgroundColor: Colors.white,
       floating: true,
       pinned: true,
+      shadowColor: Colors.black,
       automaticallyImplyLeading: false,
-      toolbarHeight: 45 + 6.0,
+      toolbarHeight: 45 + 8.0,
       leadingWidth: 0,
+      elevation: 5,
       titleSpacing: 0.0,
       flexibleSpace: FlexibleSpaceBar(
           titlePadding: const EdgeInsets.fromLTRB(0, 0, 0, 6.0),
           title: Row(
             children: [
-              // 사각형 613
               Container(
-                  // width: 100,
-                  height: 35,
+                  height: 38,
                   child: // 전공/영역: 전체
                       InkWell(
                     onTap: () {
                       Get.toNamed(Routes.TIMETABLE_ADDCLASS_FILTER_COLLEGE);
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 8),
                       child: Center(
                         child: Obx(() {
-                          return Row(children: [
-                            Text(
-                                "전공/영역: ${controller.college_major.value.isEmpty ? "없음" : controller.college_major.value}",
-                                maxLines: 1,
-                                style: const TextStyle(
-                                    color: const Color(0xffffffff),
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "PingFangSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14),
-                                textAlign: TextAlign.left),
-                            Ink(
-                              child: InkWell(
-                                onTap: () async {
-                                  controller.college_major.value = "";
-                                  controller.INDEX_COLLEGE_MAJOR.value = -1;
-                                  controller.INDEX_COLLEGE_NAME.value = -1;
-                                  await controller.getSearchedClass();
-                                },
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Colors.white,
+                          return Row(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(right: 4),
+                                child: Text(
+                                    "전공/영역: ${controller.college_major.value.isEmpty ? "없음" : controller.college_major.value}",
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                        color: const Color(0xffffffff),
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: "PingFangSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14),
+                                    textAlign: TextAlign.left),
+                              ),
+                              Ink(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 3),
+                                child: InkWell(
+                                  onTap: () async {
+                                    controller.college_major.value = "";
+                                    controller.INDEX_COLLEGE_MAJOR.value = -1;
+                                    controller.INDEX_COLLEGE_NAME.value = -1;
+                                    await controller.getSearchedClass();
+                                  },
+                                  child: Icon(
+                                    Icons.delete,
+                                    size: 16,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
-                            )
-                          ]);
+                            ],
+                          );
                         }),
                       ),
                     ),
                   ),
                   margin: const EdgeInsets.only(left: 15),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(29)),
+                      borderRadius: BorderRadius.all(Radius.circular(14)),
                       color: const Color(0xff1a4678))),
               Container(
-                  height: 35,
+                  height: 38,
                   margin: const EdgeInsets.only(left: 15),
                   child: InkWell(
                     onTap: () {
@@ -519,16 +528,20 @@ class searchClassSliverAppBar extends StatelessWidget {
                       child: Center(
                         child: Obx(() {
                           return Row(children: [
-                            Text(
-                                "검색 : ${controller.search_name.isEmpty ? "없음" : controller.search_name}",
-                                style: const TextStyle(
-                                    color: const Color(0xffffffff),
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "PingFangSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14),
-                                textAlign: TextAlign.left),
+                            Container(
+                              margin: const EdgeInsets.only(right: 4),
+                              child: Text(
+                                  "검색 : ${controller.search_name.isEmpty ? "없음" : controller.search_name}",
+                                  style: const TextStyle(
+                                      color: const Color(0xffffffff),
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: "PingFangSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14),
+                                  textAlign: TextAlign.left),
+                            ),
                             Ink(
+                              padding: const EdgeInsets.symmetric(vertical: 3),
                               child: InkWell(
                                 onTap: () async {
                                   controller.search_name.value = "";
@@ -536,6 +549,7 @@ class searchClassSliverAppBar extends StatelessWidget {
                                 },
                                 child: Icon(
                                   Icons.delete,
+                                  size: 16,
                                   color: Colors.white,
                                 ),
                               ),
@@ -546,7 +560,7 @@ class searchClassSliverAppBar extends StatelessWidget {
                     ),
                   ),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(29)),
+                      borderRadius: BorderRadius.all(Radius.circular(14)),
                       color: const Color(0xff1a4678))),
             ],
           )),

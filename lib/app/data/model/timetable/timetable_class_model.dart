@@ -103,13 +103,20 @@ class AddClassModel {
       List<String> start = json["start_time"].split(":");
       List<String> end = json["end_time"].split(":");
 
-      this.start_time = DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day, int.parse(start[0]), int.parse(start[1]));
-      this.end_time = DateTime(DateTime.now().year, DateTime.now().month,
-          DateTime.now().day, int.parse(end[0]), int.parse(end[1]));
+      if (start.length < 2) {
+        this.start_time = null;
+        this.end_time = null;
+        this.day = null;
+        this.class_room = "[iCampus 수업]";
+      } else {
+        this.start_time = DateTime(DateTime.now().year, DateTime.now().month,
+            DateTime.now().day, int.parse(start[0]), int.parse(start[1]));
+        this.end_time = DateTime(DateTime.now().year, DateTime.now().month,
+            DateTime.now().day, int.parse(end[0]), int.parse(end[1]));
 
-      this.day = json["day"];
-      this.class_room = json["class_room"];
+        this.day = json["day"];
+        this.class_room = json["class_room"];
+      }
     }
     // {day: 미지정, end_time: 미지정, class_room: 미지정, start_time: 미지정}
     // 으로 날라올때 에러처리

@@ -169,8 +169,7 @@ class TimeTableAddClassSearchController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-    timeTableController.initShowTimeTable();
-    timeTableController.makeShowTimeTable();
+    timeTableController.refactoringTime();
   }
 
   @override
@@ -207,6 +206,7 @@ class TimeTableAddClassSearchController extends GetxController {
     //print("CURR ROUTE!! : ${Get.currentRoute}");
     // Get.currentRoute == Routes.MAIN_PAGE
     print("close!1");
+    await timeTableController.refactoringTime();
     await timeTableController.handleAddButtonTrue();
   }
 }
