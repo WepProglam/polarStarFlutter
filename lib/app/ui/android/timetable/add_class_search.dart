@@ -165,6 +165,7 @@ class TimetableAddClassMain extends StatelessWidget {
                       RxBool isExpandedHor = timeTableController.isExpandedHor;
                       int dayAmount = isExpandedHor.value ? 7 : 5;
                       int verAmount = timeTableController.verAmount.value;
+                      print("veramount : $verAmount");
 
                       return Container(
                         height: 44 + 60.0 * (verAmount - 1) + 30,
@@ -184,6 +185,7 @@ class TimetableAddClassMain extends StatelessWidget {
                           for (Rx<AddClassModel> item in controller.NewClass)
                             Positioned(
                               child: TimeTableAddClass(
+                                  timeTableController: timeTableController,
                                   new_class: item,
                                   width: size.width - 30,
                                   show: controller.selectedIndex == -1
@@ -232,11 +234,20 @@ class classSearchBottomSheet extends StatelessWidget {
                     controller.NewClass.value =
                         model.CLASS_TIME.map((e) => e.obs).toList();
                     for (var item in controller.NewClass) {
+                      //끝 시간 맞추기
                       if (item.value.end_time.hour >
-                          timeTableController.limitStartTime.value) {
-                        timeTableController.limitStartTime.value =
+                          timeTableController.limitEndTime.value) {
+                        timeTableController.limitEndTime.value =
                             item.value.end_time.hour;
                       }
+
+                      //시작 시간 맞추기
+                      if (item.value.start_time.hour <
+                          timeTableController.limitStartTime.value) {
+                        timeTableController.limitStartTime.value =
+                            item.value.start_time.hour;
+                      }
+
                       if (item.value.day == "토" || item.value.day == "일") {
                         timeTableController.isExpandedHor.value = true;
                       }
