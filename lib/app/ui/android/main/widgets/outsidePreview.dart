@@ -11,6 +11,7 @@ class OutsidePreview extends StatelessWidget {
         width: Get.size.width - 30,
         height: 150,
         child: Image.asset("assets/images/main_card_temp.png"));
+    // Todo: container위에 사진 포개기(포개면 자꾸 사진이 작게 나옴)
     // Container(
     //     margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
     //     width: Get.mediaQuery.size.width - 30,
