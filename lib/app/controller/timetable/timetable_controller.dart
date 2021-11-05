@@ -351,6 +351,7 @@ class TimeTableController extends GetxController {
     });
 
     ever(limitStartTime, (_) {
+      print("변경");
       setVerAmount();
     });
     ever(limitEndTime, (_) {

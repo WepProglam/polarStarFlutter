@@ -32,10 +32,32 @@ class TimeTableAddClassController extends GetxController {
 
   TextEditingController professorNameController = new TextEditingController();
 
+  void refactoringTime() {
+    int limitTempStart = 9;
+    int limitTempEnd = 17;
+
+    for (Rx<AddClassModel> model in CLASS_LIST) {
+      int limitStart = model.value.start_time.hour;
+      int limitEnd = model.value.end_time.hour;
+
+      if (limitTempStart > limitStart) {
+        limitTempStart = limitStart;
+      }
+      if (limitTempEnd < limitEnd) {
+        limitTempEnd = limitEnd;
+      }
+    }
+    timeTableController.limitStartTime.value = limitTempStart;
+    timeTableController.limitEndTime.value = limitTempEnd;
+    print("완료");
+  }
+
   Future<void> addClass(int tid) async {
     TOTAL_CLASS.update((val) {
       val.CLASS_TIME = CLASS_LIST.map((element) => element.value).toList();
     });
+
+    refactoringTime();
 
     Map<String, dynamic> data = TOTAL_CLASS.toJson();
     print(data);
@@ -121,5 +143,10 @@ class TimeTableAddClassController extends GetxController {
         initClass();
       }
     });
+  }
+
+  @override
+  void onClose() {
+    refactoringTime();
   }
 }

@@ -44,244 +44,258 @@ class TimetableAddClass extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
-    return SafeArea(
-      child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 32,
-                margin: const EdgeInsets.only(left: 15, right: 15),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 8, 14.6, 7.3),
-                      child: // 패스 907
-                          InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Container(
-                          width: 9.365753173828125,
-                          height: 16.6669921875,
-                          child: Image.asset(
-                            "assets/images/891.png",
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 4),
-                      child: Text("Add  Course",
-                          style: const TextStyle(
-                              color: const Color(0xff333333),
-                              fontWeight: FontWeight.w700,
-                              fontFamily: "PingFangSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 21.0),
-                          textAlign: TextAlign.left),
-                    ),
-                    Spacer(),
-                    Container(
-                      margin: const EdgeInsets.only(top: 4, right: 0),
-                      child: // 사각형 511
-                          Container(
-                              // width: 74.5,
-                              // height: 28,
-                              child: // complete
-                                  Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(7.5, 4, 7, 5.5),
-                                child: InkWell(
-                                  onTap: () {
-                                    bool checkClasses =
-                                        timeTableAddClassController
-                                            .checkClassValidate();
-                                    TimeTableClassModel postData =
-                                        timeTableAddClassController
-                                            .TOTAL_CLASS.value;
-                                    if (postData.PROFESSOR == null ||
-                                        postData.PROFESSOR.isEmpty) {
-                                      Get.snackbar("교강사명을 입력하세요", "교강사명을 입력하세요",
-                                          snackPosition: SnackPosition.BOTTOM);
-                                    } else if (postData.CLASS_NAME == null ||
-                                        postData.CLASS_NAME.isEmpty) {
-                                      Get.snackbar("강의명을 입력하세요", "강의명을 입력하세요",
-                                          snackPosition: SnackPosition.BOTTOM);
-                                    } else if (!checkClasses) {
-                                      Get.snackbar(
-                                          "시간이 중복되었습니다.", "시간이 중복되었습니다.",
-                                          snackPosition: SnackPosition.BOTTOM);
-                                    } else {
-                                      timeTableAddClassController.addClass(
-                                          timeTableController
-                                              .selectedTimeTableId.value);
-                                      Get.back();
-                                    }
-                                  },
-                                  child: Text("Complete",
-                                      style: const TextStyle(
-                                          color: const Color(0xff1a4678),
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: "PingFangSC",
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 14.0),
-                                      textAlign: TextAlign.center),
-                                ),
-                              ),
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(28)),
-                                  color: const Color(0xffdceafa))),
-                    )
-                  ],
-                ),
-              ),
-              ConstrainedBox(
-                constraints:
-                    BoxConstraints(maxHeight: size.height - 32 - 320 - 16),
-                child: Container(
-                  child: SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    child: Obx(() {
-                      RxBool isExpandedHor = timeTableController.isExpandedHor;
-                      // int limitEndTime = timeTableController.limitEndTime.value;
-                      // int limitStartTime =
-                      //     timeTableController.limitStartTime.value;
-                      int dayAmount = isExpandedHor.value ? 7 : 5;
-                      int verAmount = timeTableController.verAmount.value;
-                      return Container(
-                        height: 44 + 60.0 * (verAmount - 1),
-                        margin: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Stack(children: [
-                          TimeTableBin(
-                              timeTableController: timeTableController,
-                              width: size.width - 30,
-                              dayAmount: dayAmount,
-                              verAmount: verAmount),
-                          TimeTableContent(
-                              timeTableController: timeTableController,
-                              width: size.width - 30,
-                              dayAmount: dayAmount,
-                              verAmount: verAmount),
-                          //선택한 애들 띄우기
-                          for (Rx<AddClassModel> item
-                              in timeTableAddClassController.CLASS_LIST)
-                            Positioned(
-                              child: TimeTableAddClass(
-                                  new_class: item,
-                                  width: size.width - 30,
-                                  dayAmount: dayAmount,
-                                  show: true,
-                                  verAmount: verAmount),
-                            )
-                        ]),
-                      );
-                    }),
-                  ),
-                ),
-              ),
-              Container(
-                height: 300,
-                margin: const EdgeInsets.only(left: 16, top: 11.3),
-                child: SingleChildScrollView(
-                  child: Column(
+    return WillPopScope(
+      onWillPop: () async {
+        timeTableAddClassController.refactoringTime();
+        return true;
+      },
+      child: SafeArea(
+        child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 32,
+                  margin: const EdgeInsets.only(left: 15, right: 15),
+                  child: Row(
                     children: [
-                      //교강사명
-                      Container(
-                        margin: const EdgeInsets.only(top: 12.3),
-                        child: Row(children: [
-                          Container(
-                            width: 10,
-                            margin: const EdgeInsets.only(bottom: 14.3),
-                            child: Icon(Icons.book),
-                          ),
-                          Container(
-                            width: size.width - 15.3 - 14.8 - 30,
-                            margin: const EdgeInsets.only(left: 30),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 14.3),
-                                  child: TextFormField(
-                                    controller: timeTableAddClassController
-                                        .professorNameController,
-                                    onChanged: (value) {
-                                      timeTableAddClassController.TOTAL_CLASS
-                                          .update((val) {
-                                        val.PROFESSOR =
-                                            timeTableAddClassController
-                                                .professorNameController.text;
-                                      });
-                                    },
-                                    maxLines: 1,
-                                    style: textStyle,
-                                    textAlign: TextAlign.left,
-                                    decoration: inputDecoration("professor"),
-                                  ),
-                                ),
-                              ],
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 14.6, 7.3),
+                        child: // 패스 907
+                            InkWell(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Container(
+                            width: 9.365753173828125,
+                            height: 16.6669921875,
+                            child: Image.asset(
+                              "assets/images/891.png",
+                              fit: BoxFit.fitHeight,
                             ),
                           ),
-                        ]),
-                      ),
-                      //강의명
-                      Container(
-                        margin: const EdgeInsets.only(top: 12.3),
-                        child: Row(children: [
-                          Container(
-                            width: 10,
-                            margin: const EdgeInsets.only(bottom: 14.3),
-                            child: Icon(Icons.school),
-                          ),
-                          Container(
-                            width: size.width - 15.3 - 14.8 - 30,
-                            margin: const EdgeInsets.only(left: 30),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 14.3),
-                                  child: TextFormField(
-                                    controller: timeTableAddClassController
-                                        .courseNameController,
-                                    onChanged: (value) {
-                                      timeTableAddClassController.TOTAL_CLASS
-                                          .update((val) {
-                                        val.CLASS_NAME =
-                                            timeTableAddClassController
-                                                .courseNameController.text;
-                                      });
-                                    },
-                                    maxLines: 1,
-                                    style: textStyle,
-                                    textAlign: TextAlign.left,
-                                    decoration: inputDecoration("course"),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ]),
-                      ),
-                      //강의 장소 및 시간
-                      Container(
-                        margin: const EdgeInsets.only(top: 12.3),
-                        child: ClassInfoTPO(
-                          size: size,
-                          timeTableAddClassController:
-                              timeTableAddClassController,
                         ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 4),
+                        child: Text("Add  Course",
+                            style: const TextStyle(
+                                color: const Color(0xff333333),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 21.0),
+                            textAlign: TextAlign.left),
+                      ),
+                      Spacer(),
+                      Container(
+                        margin: const EdgeInsets.only(top: 4, right: 0),
+                        child: // 사각형 511
+                            Container(
+                                // width: 74.5,
+                                // height: 28,
+                                child: // complete
+                                    Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(7.5, 4, 7, 5.5),
+                                  child: InkWell(
+                                    onTap: () {
+                                      bool checkClasses =
+                                          timeTableAddClassController
+                                              .checkClassValidate();
+                                      TimeTableClassModel postData =
+                                          timeTableAddClassController
+                                              .TOTAL_CLASS.value;
+                                      if (postData.PROFESSOR == null ||
+                                          postData.PROFESSOR.isEmpty) {
+                                        Get.snackbar(
+                                            "교강사명을 입력하세요", "교강사명을 입력하세요",
+                                            snackPosition:
+                                                SnackPosition.BOTTOM);
+                                      } else if (postData.CLASS_NAME == null ||
+                                          postData.CLASS_NAME.isEmpty) {
+                                        Get.snackbar("강의명을 입력하세요", "강의명을 입력하세요",
+                                            snackPosition:
+                                                SnackPosition.BOTTOM);
+                                      } else if (!checkClasses) {
+                                        Get.snackbar(
+                                            "시간이 중복되었습니다.", "시간이 중복되었습니다.",
+                                            snackPosition:
+                                                SnackPosition.BOTTOM);
+                                      } else {
+                                        timeTableAddClassController.addClass(
+                                            timeTableController
+                                                .selectedTimeTableId.value);
+                                        Get.back();
+                                      }
+                                    },
+                                    child: Text("Complete",
+                                        style: const TextStyle(
+                                            color: const Color(0xff1a4678),
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: "PingFangSC",
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 14.0),
+                                        textAlign: TextAlign.center),
+                                  ),
+                                ),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(28)),
+                                    color: const Color(0xffdceafa))),
                       )
                     ],
                   ),
                 ),
-              )
-            ],
-          )),
+                ConstrainedBox(
+                  constraints:
+                      BoxConstraints(maxHeight: size.height - 32 - 320 - 16),
+                  child: Container(
+                    child: SingleChildScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      child: Obx(() {
+                        RxBool isExpandedHor =
+                            timeTableController.isExpandedHor;
+                        // int limitEndTime = timeTableController.limitEndTime.value;
+                        // int limitStartTime =
+                        //     timeTableController.limitStartTime.value;
+                        int dayAmount = isExpandedHor.value ? 7 : 5;
+                        int verAmount = timeTableController.verAmount.value;
+                        return Container(
+                          height: 44 + 60.0 * (verAmount - 1),
+                          margin: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Stack(children: [
+                            TimeTableBin(
+                                timeTableController: timeTableController,
+                                width: size.width - 30,
+                                dayAmount: dayAmount,
+                                verAmount: verAmount),
+                            TimeTableContent(
+                                timeTableController: timeTableController,
+                                width: size.width - 30,
+                                dayAmount: dayAmount,
+                                verAmount: verAmount),
+                            //선택한 애들 띄우기
+                            for (Rx<AddClassModel> item
+                                in timeTableAddClassController.CLASS_LIST)
+                              Positioned(
+                                child: TimeTableAddClass(
+                                    new_class: item,
+                                    width: size.width - 30,
+                                    timeTableController: timeTableController,
+                                    dayAmount: dayAmount,
+                                    show: true,
+                                    verAmount: verAmount),
+                              )
+                          ]),
+                        );
+                      }),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 300,
+                  margin: const EdgeInsets.only(left: 16, top: 11.3),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        //교강사명
+                        Container(
+                          margin: const EdgeInsets.only(top: 12.3),
+                          child: Row(children: [
+                            Container(
+                              width: 10,
+                              margin: const EdgeInsets.only(bottom: 14.3),
+                              child: Icon(Icons.book),
+                            ),
+                            Container(
+                              width: size.width - 15.3 - 14.8 - 30,
+                              margin: const EdgeInsets.only(left: 30),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 14.3),
+                                    child: TextFormField(
+                                      controller: timeTableAddClassController
+                                          .professorNameController,
+                                      onChanged: (value) {
+                                        timeTableAddClassController.TOTAL_CLASS
+                                            .update((val) {
+                                          val.PROFESSOR =
+                                              timeTableAddClassController
+                                                  .professorNameController.text;
+                                        });
+                                      },
+                                      maxLines: 1,
+                                      style: textStyle,
+                                      textAlign: TextAlign.left,
+                                      decoration: inputDecoration("professor"),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]),
+                        ),
+                        //강의명
+                        Container(
+                          margin: const EdgeInsets.only(top: 12.3),
+                          child: Row(children: [
+                            Container(
+                              width: 10,
+                              margin: const EdgeInsets.only(bottom: 14.3),
+                              child: Icon(Icons.school),
+                            ),
+                            Container(
+                              width: size.width - 15.3 - 14.8 - 30,
+                              margin: const EdgeInsets.only(left: 30),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 14.3),
+                                    child: TextFormField(
+                                      controller: timeTableAddClassController
+                                          .courseNameController,
+                                      onChanged: (value) {
+                                        timeTableAddClassController.TOTAL_CLASS
+                                            .update((val) {
+                                          val.CLASS_NAME =
+                                              timeTableAddClassController
+                                                  .courseNameController.text;
+                                        });
+                                      },
+                                      maxLines: 1,
+                                      style: textStyle,
+                                      textAlign: TextAlign.left,
+                                      decoration: inputDecoration("course"),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]),
+                        ),
+                        //강의 장소 및 시간
+                        Container(
+                          margin: const EdgeInsets.only(top: 12.3),
+                          child: ClassInfoTPO(
+                            size: size,
+                            timeTableAddClassController:
+                                timeTableAddClassController,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            )),
+      ),
     );
   }
 }
@@ -569,9 +583,6 @@ class SelectStartTime extends StatelessWidget {
         DateTime end_time = newClass.value.end_time;
         bool flag = false;
 
-        int fastest = 9 * 60;
-        int lastest = 21 * 60;
-
         await Get.defaultDialog(
             content: Container(
           height: 200,
@@ -586,26 +597,25 @@ class SelectStartTime extends StatelessWidget {
               }),
         ));
 
-        int cal_time = timeInput.hour * 60 + timeInput.minute;
-        if (cal_time >= fastest && cal_time < lastest) {
+        int cal_time = timeInput.hour;
+        if (cal_time >= 0 && cal_time < 24) {
           timeInput = timeInput;
         } else {
-          Get.snackbar("9시부터 21시 사이로 골라주세요", "9시부터 21시 사이로 골라주세요",
+          Get.snackbar("0시부터 24시 사이로 골라주세요", "0시부터 24시 사이로 골라주세요",
               snackPosition: SnackPosition.BOTTOM);
           return;
         }
 
+        if (timeInput.hour >= 0 &&
+            timeInput.hour < timeTableController.limitStartTime.value) {
+          timeTableController.limitStartTime.value = timeInput.hour;
+        }
         if (timeInput.isAfter(end_time) ||
             timeInput.isAtSameMomentAs(end_time)) {
           newClass.update((val) {
             val.end_time = DateTime(timeInput.year, timeInput.month,
                 timeInput.day, timeInput.hour + 1, timeInput.minute);
           });
-        }
-
-        if (timeInput.hour >= 0 &&
-            timeInput.hour < timeTableController.limitStartTime.value) {
-          timeTableController.limitStartTime.value = timeInput.hour;
         }
 
         newClass.update((val) {
@@ -657,8 +667,6 @@ class SelectEndTime extends StatelessWidget {
 
         DateTime start_time = newClass.value.start_time;
 
-        int fastest = 9 * 60;
-        int lastest = 21 * 60;
         await Get.defaultDialog(
             content: Container(
           height: 200,
@@ -673,11 +681,12 @@ class SelectEndTime extends StatelessWidget {
               }),
         ));
 
-        int cal_time = timeInput.hour * 60 + timeInput.minute;
-        if (cal_time > fastest && cal_time <= lastest) {
+        int cal_time = timeInput.hour;
+
+        if (cal_time > 0 && cal_time <= 24) {
           timeInput = timeInput;
         } else {
-          Get.snackbar("9시부터 21시 사이로 골라주세요", "9시부터 21시 사이로 골라주세요",
+          Get.snackbar("0시부터 24시 사이로 골라주세요", "0시부터 24시 사이로 골라주세요",
               snackPosition: SnackPosition.BOTTOM);
           return;
         }

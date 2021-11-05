@@ -128,7 +128,10 @@ class Timetable extends StatelessWidget {
                     //과목 리스트
                     child: SubjectList(model: timeTableController.selectTable),
                   );
-                })
+                }),
+                Container(
+                  height: 86,
+                )
               ],
             )));
   }

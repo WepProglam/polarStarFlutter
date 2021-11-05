@@ -25,6 +25,7 @@ class TimeTableBin extends StatelessWidget {
     List<String> days = dayAmount == 7
         ? ["Mon.", "Tues.", "Wed.", "Thur.", "Fri.", "Sat.", "Sun."]
         : ["Mon.", "Tues.", "Wed.", "Thur.", "Fri."];
+    int startTime = timeTableController.limitStartTime.value;
     return Container(
       child: ListView.builder(
           itemCount: verAmount,
@@ -52,7 +53,7 @@ class TimeTableBin extends StatelessWidget {
                           width: width / 12,
                           decoration: tableBoxDecoration,
                           child: Center(
-                            child: Text("${index + 8}",
+                            child: Text("${startTime - 1 + index}",
                                 style: const TextStyle(
                                     color: const Color(0xff333333),
                                     fontWeight: FontWeight.w700,
@@ -80,6 +81,7 @@ class TimeTableAddClass extends StatelessWidget {
   const TimeTableAddClass(
       {Key key,
       @required this.new_class,
+      @required this.timeTableController,
       @required this.width,
       @required this.dayAmount,
       @required this.verAmount,
@@ -91,6 +93,7 @@ class TimeTableAddClass extends StatelessWidget {
   final int dayAmount;
   final int verAmount;
   final bool show;
+  final TimeTableController timeTableController;
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +103,8 @@ class TimeTableAddClass extends StatelessWidget {
             margin: EdgeInsets.only(top: 44, left: width / 12),
             child: Container(
               child: Obx(() {
-                int last_end_time = 60 * 9;
+                int last_end_time =
+                    60 * timeTableController.limitStartTime.value;
 
                 int start_time = new_class.value.start_time.hour * 60 +
                     new_class.value.start_time.minute;
