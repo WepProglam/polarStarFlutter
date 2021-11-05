@@ -8,6 +8,7 @@ import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/main/widgets/boardPreview.dart';
 import 'package:polarstar_flutter/app/ui/android/main/widgets/classPreview.dart';
 import 'package:polarstar_flutter/app/ui/android/main/widgets/hotBoardPreview.dart';
+import 'package:polarstar_flutter/app/ui/android/main/widgets/outsidePreview.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
 import 'package:polarstar_flutter/session.dart';
@@ -163,6 +164,18 @@ class MainPageScroll extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // 정보제공
+                      // ToDo: 서버에서 정보 제공해주면 수정해야함
+                      Container(
+                          height: 188.5,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              physics: PageScrollPhysics(),
+                              itemCount: 5,
+                              itemBuilder: (context, index) {
+                                return OutsidePreview();
+                              })),
+
                       //핫게
                       Container(
                         width: size.width,
@@ -173,6 +186,7 @@ class MainPageScroll extends StatelessWidget {
                               size: size, mainController: mainController),
                         ),
                       ),
+
                       // 게시판
                       Container(
                         margin:

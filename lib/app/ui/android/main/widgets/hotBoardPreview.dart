@@ -60,12 +60,14 @@ class HotBoardMain extends StatelessWidget {
         //     ),
         //   ]),
         // ),
+
         Container(
           margin: const EdgeInsets.only(top: 14),
           height: 317 + 15.5 - 4.1 + 4.6,
           child: Stack(
             children: [
-              Container(
+              // background animation indicator
+              /* Container(
                 margin: const EdgeInsets.symmetric(horizontal: 62.5),
                 child: Opacity(
                   opacity: 0.3,
@@ -92,7 +94,7 @@ class HotBoardMain extends StatelessWidget {
 
                           )),
                 ),
-              ),
+              ), */
 
               // Container(
               //   margin: const EdgeInsets.only(top: 22, left: 15, right: 15),
@@ -119,7 +121,7 @@ class HotBoardMain extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                       margin:
-                          const EdgeInsets.only(top: 22, left: 15, right: 15),
+                          const EdgeInsets.only(top: 10, left: 15, right: 15),
                       child: Obx(() {
                         return Container(
                           width: size.width - 15 * 2,
@@ -250,7 +252,7 @@ class HotBoardItem_content extends StatelessWidget {
               style: const TextStyle(
                   color: const Color(0xff333333),
                   fontWeight: FontWeight.w700,
-                  fontFamily: "PingFangSC",
+                  // fontFamily: "PingFangSC",
                   fontStyle: FontStyle.normal,
                   fontSize: 16.0),
               textAlign: TextAlign.left),
@@ -266,7 +268,7 @@ class HotBoardItem_content extends StatelessWidget {
               style: const TextStyle(
                   color: const Color(0xff333333),
                   fontWeight: FontWeight.w400,
-                  fontFamily: "PingFangSC",
+                  // fontFamily: "PingFangSC",
                   fontStyle: FontStyle.normal,
                   fontSize: 14.0),
               textAlign: TextAlign.left),
@@ -305,7 +307,7 @@ class HotBoardPreviewItem_bottom extends StatelessWidget {
           style: const TextStyle(
               color: const Color(0xff333333),
               fontWeight: FontWeight.w700,
-              fontFamily: "PingFangSC",
+              // fontFamily: "PingFangSC",
               fontStyle: FontStyle.normal,
               fontSize: 12.0),
           textAlign: TextAlign.left),
@@ -362,7 +364,7 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
                             style: const TextStyle(
                                 color: const Color(0xff333333),
                                 fontWeight: FontWeight.w700,
-                                fontFamily: "PingFangSC",
+                                // fontFamily: "PingFangSC",
                                 fontStyle: FontStyle.normal,
                                 fontSize: 15.0),
                             textAlign: TextAlign.left),
@@ -384,7 +386,7 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
                                 style: const TextStyle(
                                     color: const Color(0xff1a4678),
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: "PingFangSC",
+                                    // fontFamily: "PingFangSC",
                                     fontStyle: FontStyle.normal,
                                     fontSize: 12.0),
                                 textAlign: TextAlign.center),
@@ -410,7 +412,7 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
                         style: const TextStyle(
                             color: const Color(0xff999999),
                             fontWeight: FontWeight.w400,
-                            fontFamily: "PingFangSC",
+                            // fontFamily: "PingFangSC",
                             fontStyle: FontStyle.normal,
                             fontSize: 11.0),
                         textAlign: TextAlign.left),
