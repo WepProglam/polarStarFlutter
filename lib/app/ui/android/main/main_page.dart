@@ -15,10 +15,10 @@ class MainPage extends StatelessWidget {
   final box = GetStorage();
   final List<Widget> mainPageWidget = [
     MainPageScroll(),
+    Timetable(),
     OutSide(
       from: "main",
     ),
-    Timetable(),
     Noti(),
     Mypage()
   ];

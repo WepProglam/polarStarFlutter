@@ -43,21 +43,21 @@ class CustomBottomNavigationBar extends StatelessWidget {
             BottomNavigationBarItem(
               icon: Container(
                   width: 20,
-                  height: 20,
                   margin: const EdgeInsets.only(top: 15),
+                  height: 20,
                   child: mainController.mainPageIndex.value == 1
-                      ? Image.asset("assets/images/outside_selected.png")
-                      : Image.asset("assets/images/306.png")),
+                      ? Image.asset("assets/images/timetable_selected.png")
+                      : Image.asset("assets/images/timetable.png")),
               label: '',
             ),
             BottomNavigationBarItem(
               icon: Container(
                   width: 20,
-                  margin: const EdgeInsets.only(top: 15),
                   height: 20,
+                  margin: const EdgeInsets.only(top: 15),
                   child: mainController.mainPageIndex.value == 2
-                      ? Image.asset("assets/images/timetable_selected.png")
-                      : Image.asset("assets/images/687.png")),
+                      ? Image.asset("assets/images/information_selected.png")
+                      : Image.asset("assets/images/information.png")),
               label: '',
             ),
             BottomNavigationBarItem(
