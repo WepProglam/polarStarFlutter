@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
@@ -8,6 +10,7 @@ import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/main/widgets/boardPreview.dart';
 import 'package:polarstar_flutter/app/ui/android/main/widgets/classPreview.dart';
 import 'package:polarstar_flutter/app/ui/android/main/widgets/hotBoardPreview.dart';
+import 'package:polarstar_flutter/app/ui/android/main/widgets/outsidePreview.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
 import 'package:polarstar_flutter/session.dart';
@@ -21,6 +24,7 @@ class MainPageScroll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    final PageController outsidePageController = PageController();
     return Stack(children: [
       // Container(
       //   height: size.height,
@@ -164,7 +168,61 @@ class MainPageScroll extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // 정보제공
+                      // ToDo: 서버에서 정보 제공해주면 수정해야함
+                      Container(
+                          height: 188.5,
+                          child: PageView.builder(
+                              scrollDirection: Axis.horizontal,
+                              physics: PageScrollPhysics(),
+                              controller: outsidePageController,
+                              itemCount: 5,
+                              itemBuilder: (context, index) {
+                                return OutsidePreview();
+                              })),
+                      Center(
+                        child: SmoothPageIndicator(
+                          controller: outsidePageController,
+                          count: 5,
+                          effect: ExpandingDotsEffect(
+                              dotWidth: 8.5,
+                              dotHeight: 8.5,
+                              expansionFactor: 2,
+                              dotColor: const Color(0xffbacde3),
+                              activeDotColor: const Color(0xff1a4678)),
+                        ),
+                      ),
+
                       //핫게
+                      Padding(
+                        padding: const EdgeInsets.all(18),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Hotboard",
+                                style: const TextStyle(
+                                    color: const Color(0xff333333),
+                                    fontWeight: FontWeight.w900,
+                                    // fontFamily: "PingFangSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 18.0),
+                                textAlign: TextAlign.center),
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed("/board/hot/page/1");
+                              },
+                              child: Text("View more",
+                                  style: const TextStyle(
+                                      color: const Color(0xff1a4678),
+                                      fontWeight: FontWeight.w700,
+                                      // fontFamily: "PingFangSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12.0),
+                                  textAlign: TextAlign.center),
+                            )
+                          ],
+                        ),
+                      ),
                       Container(
                         width: size.width,
                         // height: 372 + 5.0,
@@ -174,6 +232,7 @@ class MainPageScroll extends StatelessWidget {
                               size: size, mainController: mainController),
                         ),
                       ),
+
                       // 게시판
                       Container(
                         margin:
