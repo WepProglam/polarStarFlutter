@@ -57,21 +57,41 @@ class MainPageScroll extends StatelessWidget {
           // Colors.lightBlue[100],
           // const Color(0xfff6f6f6),
           elevation: 0,
-          toolbarHeight: 37 + 13.0,
+          toolbarHeight: 9 + 24.0,
           automaticallyImplyLeading: false,
           titleSpacing: 0,
           title: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 15),
-            width: size.width - 15 * 2,
+            padding: const EdgeInsets.only(top: 9, left: 15, right: 15),
+            margin: const EdgeInsets.only(bottom: 12.25),
+            width: size.width,
+            // decoration: BoxDecoration(
+            //     gradient: LinearGradient(
+            //         begin: Alignment.topCenter,
+            //         // Alignment(0.5, 0),
+            //         end: Alignment.bottomCenter,
+            //         // Alignment(0.5, 1),
+            //         stops: [
+            //       0.01,
+            //       0.1,
+            //       0.3
+            //     ],
+            //         colors: [
+            //       // Colors.lightBlue[100],
+            //       // Colors.lightBlue[50],
+            //       // const Color(0xfff6f6f6),
+            //       const Color(0xff1a4678),
+            //       const Color(0xff1a4678),
+            //       const Color(0xff1a4678),
+            //     ])),
             child: Row(
               children: [
                 Container(
                   child: Text(
                     "POLAR STAR",
                     style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 18,
                         color: Colors.white,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w400),
                   ),
                 ),
                 Spacer(),
@@ -171,15 +191,18 @@ class MainPageScroll extends StatelessWidget {
                       // 정보제공
                       // ToDo: 서버에서 정보 제공해주면 수정해야함
                       Container(
-                          height: 188.5,
-                          child: PageView.builder(
-                              scrollDirection: Axis.horizontal,
-                              physics: PageScrollPhysics(),
-                              controller: outsidePageController,
-                              itemCount: 5,
-                              itemBuilder: (context, index) {
-                                return OutsidePreview();
-                              })),
+                        margin: const EdgeInsets.only(top: 25, bottom: 18),
+                        height: 150,
+                        child: PageView.builder(
+                          scrollDirection: Axis.horizontal,
+                          physics: PageScrollPhysics(),
+                          controller: outsidePageController,
+                          itemCount: 5,
+                          itemBuilder: (context, index) {
+                            return OutsidePreview();
+                          },
+                        ),
+                      ),
                       Center(
                         child: SmoothPageIndicator(
                           controller: outsidePageController,
@@ -194,16 +217,16 @@ class MainPageScroll extends StatelessWidget {
                       ),
 
                       //핫게
-                      Padding(
-                        padding: const EdgeInsets.all(18),
+                      Container(
+                        // padding: const EdgeInsets.all(18),
+                        margin: const EdgeInsets.fromLTRB(18, 17.5, 14, 14),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Hotboard",
                                 style: const TextStyle(
                                     color: const Color(0xff333333),
-                                    fontWeight: FontWeight.w900,
-                                    // fontFamily: "PingFangSC",
+                                    fontWeight: FontWeight.w600,
                                     fontStyle: FontStyle.normal,
                                     fontSize: 18.0),
                                 textAlign: TextAlign.center),

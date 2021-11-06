@@ -63,7 +63,7 @@ class HotBoardMain extends StatelessWidget {
 
         Container(
           // margin: const EdgeInsets.only(top: 14),
-          height: 317 + 15.5 - 4.1 + 4.6,
+          height: 317 + 15.5 - 4.1 + 4.6 - 100 + 74,
           child: Stack(
             children: [
               // background animation indicator
