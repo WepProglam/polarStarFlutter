@@ -17,23 +17,31 @@ class OutsidePreview extends StatelessWidget {
         Container(
             width: Get.mediaQuery.size.width - 30,
             margin: const EdgeInsets.symmetric(horizontal: 15),
-            height: 150,
-            child: Center(
-              child: Text(
-                " T E S T ",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal),
+            height: 182.5,
+            child: Container(
+              margin: const EdgeInsets.only(top: 6),
+              child: Image.asset(
+                // "assets/images/main_card_temp.png",
+                "assets/images/main_card_expanded.png",
+                fit: BoxFit.fitWidth,
               ),
             ),
+            // Center(
+            //   child: Text(
+            //     " T E S T ",
+            //     style: TextStyle(
+            //         color: Colors.white,
+            //         fontSize: 20,
+            //         fontWeight: FontWeight.normal),
+            //   ),
+            // ),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 boxShadow: [
                   BoxShadow(
                       color: const Color(0xff426690),
-                      offset: Offset(0, 0),
-                      blurRadius: 20,
+                      offset: Offset(0, 9),
+                      blurRadius: 0,
                       spreadRadius: 0)
                 ],
                 color: const Color(0xff1a4678)));

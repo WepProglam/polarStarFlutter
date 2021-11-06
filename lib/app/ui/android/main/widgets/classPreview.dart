@@ -29,7 +29,9 @@ class ClassItem_Content extends StatelessWidget {
                       height: 52,
                       margin: const EdgeInsets.symmetric(vertical: 13.5 / 2),
                       child: ClassPreview_Main(
-                          model: mainController.classList[index]));
+                          mainController: mainController,
+                          model: mainController.classList[index],
+                          index: index));
                 }),
           )
         ],
@@ -82,9 +84,16 @@ class ClassItem_TOP extends StatelessWidget {
 }
 
 class ClassPreview_Main extends StatelessWidget {
-  const ClassPreview_Main({Key key, @required this.model}) : super(key: key);
+  const ClassPreview_Main(
+      {Key key,
+      @required this.model,
+      @required this.index,
+      @required this.mainController})
+      : super(key: key);
 
   final MainClassModel model;
+  final int index;
+  final MainController mainController;
 
   @override
   Widget build(BuildContext context) {
@@ -98,12 +107,14 @@ class ClassPreview_Main extends StatelessWidget {
               child: Container(
                 width: 24,
                 height: 24,
-                child: Image.asset("assets/images/568.png"),
+                child: Image.asset(mainController.classIconList[index % 10]),
               ),
             ),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: const Color(0xff1a4678))),
+                color: const Color(0xff1a4678)
+                // color: mainController.classColorList[index % 10],
+                )),
         Container(
           height: 47,
           margin: const EdgeInsets.only(left: 18, top: 2.5, bottom: 2.5),
@@ -112,11 +123,12 @@ class ClassPreview_Main extends StatelessWidget {
             children: [
               Container(
                 height: 21.5,
+                width: 150,
                 child: Text("${model.CLASS_NAME}",
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: const Color(0xff333333),
                         fontWeight: FontWeight.w700,
-                        fontFamily: "PingFangSC",
                         fontStyle: FontStyle.normal,
                         fontSize: 16.0),
                     textAlign: TextAlign.left),
@@ -128,7 +140,6 @@ class ClassPreview_Main extends StatelessWidget {
                     style: const TextStyle(
                         color: const Color(0xff999999),
                         fontWeight: FontWeight.w400,
-                        fontFamily: "PingFangSC",
                         fontStyle: FontStyle.normal,
                         fontSize: 14.0),
                     textAlign: TextAlign.left),

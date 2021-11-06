@@ -141,7 +141,7 @@ class TimetableAddClass extends StatelessWidget {
               ),
               ConstrainedBox(
                 constraints:
-                    BoxConstraints(maxHeight: size.height - 32 - 320 - 16),
+                    BoxConstraints(maxHeight: size.height - 32 - 320 - 16 - 10),
                 child: Container(
                   child: SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
@@ -152,17 +152,24 @@ class TimetableAddClass extends StatelessWidget {
                       //     timeTableController.limitStartTime.value;
                       int dayAmount = isExpandedHor.value ? 7 : 5;
                       int verAmount = timeTableController.verAmount.value;
+                      double time_height = timeTableController.timeHeight.value;
+                      double top_height = timeTableController.topHeight.value;
+
                       return Container(
-                        height: 44 + 60.0 * (verAmount - 1),
+                        height: top_height + time_height * (verAmount - 1),
                         margin: const EdgeInsets.symmetric(horizontal: 15),
                         child: Stack(children: [
                           TimeTableBin(
                               timeTableController: timeTableController,
+                              time_height: time_height,
+                              top_height: top_height,
                               width: size.width - 30,
                               dayAmount: dayAmount,
                               verAmount: verAmount),
                           TimeTableContent(
                               timeTableController: timeTableController,
+                              time_height: time_height,
+                              top_height: top_height,
                               width: size.width - 30,
                               dayAmount: dayAmount,
                               verAmount: verAmount),
@@ -172,6 +179,8 @@ class TimetableAddClass extends StatelessWidget {
                             Positioned(
                               child: TimeTableAddClass(
                                   new_class: item,
+                                  time_height: time_height,
+                                  top_height: top_height,
                                   width: size.width - 30,
                                   timeTableController: timeTableController,
                                   dayAmount: dayAmount,

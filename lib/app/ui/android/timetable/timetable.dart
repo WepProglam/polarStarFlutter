@@ -145,32 +145,44 @@ class TimeTablePackage extends StatelessWidget {
         int verAmount = timeTableController.verAmount.value;
         print("limitEndTime : ${timeTableController.limitEndTime.value}");
         print("verAmount : $verAmount");
+
         return Container(
           child: Column(
             children: [
-              Container(
-                height: 44 + 60.0 * (verAmount - 1),
-                child: Stack(children: [
-                  Obx(() {
-                    // temp 이거 뺴면 오류남(야매)
-                    bool temp = timeTableController.dataAvailable.value;
-                    return TimeTableBin(
-                        timeTableController: timeTableController,
-                        width: size.width - 30,
-                        dayAmount: dayAmount,
-                        verAmount: verAmount);
-                  }),
-                  Obx(() {
-                    // temp 이거 뺴면 오류남(야매)
-                    bool temp = timeTableController.dataAvailable.value;
-                    return TimeTableContent(
-                        timeTableController: timeTableController,
-                        width: size.width - 30,
-                        dayAmount: dayAmount,
-                        verAmount: verAmount);
-                  })
-                ]),
-              )
+              Obx(() {
+                double top_height =
+                    timeTableController.topHeight.value; //원래는 44
+                double time_height =
+                    timeTableController.timeHeight.value; //원래는 60
+                return Container(
+                  height: top_height + time_height * (verAmount - 1),
+                  // height: 44 + 60.0 * (verAmount - 1),
+                  child: Stack(children: [
+                    Obx(() {
+                      // temp 이거 뺴면 오류남(야매)
+                      bool temp = timeTableController.dataAvailable.value;
+                      return TimeTableBin(
+                          timeTableController: timeTableController,
+                          width: size.width - 30,
+                          top_height: top_height,
+                          time_height: time_height,
+                          dayAmount: dayAmount,
+                          verAmount: verAmount);
+                    }),
+                    Obx(() {
+                      // temp 이거 뺴면 오류남(야매)
+                      bool temp = timeTableController.dataAvailable.value;
+                      return TimeTableContent(
+                          timeTableController: timeTableController,
+                          width: size.width - 30,
+                          top_height: top_height,
+                          time_height: time_height,
+                          dayAmount: dayAmount,
+                          verAmount: verAmount);
+                    })
+                  ]),
+                );
+              })
             ],
           ),
         );

@@ -25,396 +25,344 @@ class MainPageScroll extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final PageController outsidePageController = PageController();
-    return Stack(children: [
-      // Container(
-      //   height: size.height,
-      //   decoration: BoxDecoration(
-      //       gradient: LinearGradient(
-      //           begin: Alignment.topCenter,
-      //           // Alignment(0.5, 0),
-      //           end: Alignment.bottomCenter,
-      //           // Alignment(0.5, 1),
-      //           stops: [
-      //         0.1,
-      //         0.2,
-      //         0.5
-      //       ],
-      //           colors: [
-      //         // Colors.lightBlue[200],
-      //         // Colors.lightBlue[50],
-      //         // const Color(0xfff6f6f6),
-      //         const Color(0xff1a4678),
-      //         const Color(0xba1a4678),
-      //         const Color(0xfff6f6f6),
-      //       ])),
-      // ),
-      Scaffold(
+    return Scaffold(
+      // backgroundColor: Colors.transparent,
+      appBar: AppBar(
         // backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor:
-              // Colors.transparent,
-              const Color(0xff1a4678),
-          // Colors.lightBlue[100],
-          // const Color(0xfff6f6f6),
-          elevation: 0,
-          toolbarHeight: 9 + 24.0,
-          automaticallyImplyLeading: false,
-          titleSpacing: 0,
-          title: Container(
-            padding: const EdgeInsets.only(top: 9, left: 15, right: 15),
-            margin: const EdgeInsets.only(bottom: 12.25),
-            width: size.width,
-            // decoration: BoxDecoration(
-            //     gradient: LinearGradient(
-            //         begin: Alignment.topCenter,
-            //         // Alignment(0.5, 0),
-            //         end: Alignment.bottomCenter,
-            //         // Alignment(0.5, 1),
-            //         stops: [
-            //       0.01,
-            //       0.1,
-            //       0.3
-            //     ],
-            //         colors: [
-            //       // Colors.lightBlue[100],
-            //       // Colors.lightBlue[50],
-            //       // const Color(0xfff6f6f6),
-            //       const Color(0xff1a4678),
-            //       const Color(0xff1a4678),
-            //       const Color(0xff1a4678),
-            //     ])),
-            child: Row(
-              children: [
-                Container(
-                  child: Text(
-                    "POLAR STAR",
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400),
-                  ),
+        // Colors.pink,
+        // Colors.lightBlue[100],
+        // const Color(0xfff6f6f6),
+        elevation: 0,
+        toolbarHeight: 50,
+        automaticallyImplyLeading: false,
+        titleSpacing: 0,
+        title: Container(
+          padding: const EdgeInsets.only(
+              top: 9 + 8.5, left: 15, right: 15, bottom: 12.25),
+          // margin: const EdgeInsets.only(bottom: 12.25),
+          width: size.width,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  // Alignment(0.5, 0),
+                  end: Alignment.bottomCenter,
+                  // Alignment(0.5, 1),
+                  stops: [
+                0.0,
+                1.0,
+              ],
+                  colors: [
+                // Colors.lightBlue[100],
+                // Colors.lightBlue[50],
+                // const Color(0xfff6f6f6),
+                const Color(0xff1a4678),
+                const Color(0xff275180),
+              ])),
+          child: Row(
+            children: [
+              Container(
+                child: Text(
+                  "POLAR STAR",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400),
                 ),
-                Spacer(),
-                Ink(
+              ),
+              Spacer(),
+              Container(
+                child: Ink(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: InkWell(
                     onTap: () {
-                      Session().getX('/logout');
-                      Session.cookies = {};
-                      Session.headers['Cookie'] = '';
-                      box.remove('pw');
-                      box.remove('isloggined');
-                      box.remove('token');
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/login', (Route<dynamic> route) => false);
-                      Get.offAllNamed('/login');
+                      Get.toNamed(Routes.MAIN_PAGE_SEARCH);
                     },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Icon(
-                        Icons.logout,
-                        color: Colors.white,
-                      ),
+                    child: Icon(
+                      Icons.search,
+                      color: Colors.white,
                     ),
-                  ),
-                ),
-                Container(
-                  child: Ink(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: InkWell(
-                      onTap: () {
-                        Get.toNamed(Routes.MAIN_PAGE_SEARCH);
-                      },
-                      child: Icon(
-                        Icons.search,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        bottomNavigationBar:
-            CustomBottomNavigationBar(mainController: mainController),
-        body: Obx(() {
-          if (!mainController.dataAvailalbe) {
-            return Center(child: CircularProgressIndicator());
-          } else {
-            return Container(
-              height: size.height,
-              // decoration: BoxDecoration(color: Colors.transparent),
-              // decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
-              // decoration: BoxDecoration(
-              //     gradient: LinearGradient(
-              //         begin: Alignment.topCenter,
-              //         // Alignment(0.5, 0),
-              //         end: Alignment.bottomCenter,
-              //         // Alignment(0.5, 1),
-              //         stops: [
-              //       0.1,
-              //       0.2,
-              //       0.3
-              //     ],
-              //         colors: [
-              //       Colors.lightBlue[100],
-              //       Colors.lightBlue[50],
-              //       const Color(0xfff6f6f6),
-              //       // const Color(0xff1a4678),
-              //       // const Color(0xba1a4678),
-              //       // const Color(0xfff6f6f6),
-              //     ])),
-              child: SingleChildScrollView(
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          // Alignment(0.5, 0),
-                          end: Alignment.bottomCenter,
-                          // Alignment(0.5, 1),
-                          stops: [
-                        0.01,
-                        0.1,
-                        0.3
-                      ],
-                          colors: [
-                        // Colors.lightBlue[100],
-                        // Colors.lightBlue[50],
-                        // const Color(0xfff6f6f6),
-                        const Color(0xff1a4678),
-                        const Color(0xba1a4678),
-                        const Color(0xfff6f6f6),
-                      ])),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // 정보제공
-                      // ToDo: 서버에서 정보 제공해주면 수정해야함
-                      Container(
-                        margin: const EdgeInsets.only(top: 25, bottom: 18),
-                        height: 150,
-                        child: PageView.builder(
-                          scrollDirection: Axis.horizontal,
-                          physics: PageScrollPhysics(),
-                          controller: outsidePageController,
-                          itemCount: 5,
-                          itemBuilder: (context, index) {
-                            return OutsidePreview();
-                          },
-                        ),
-                      ),
-                      Center(
-                        child: SmoothPageIndicator(
-                          controller: outsidePageController,
-                          count: 5,
-                          effect: ExpandingDotsEffect(
-                              dotWidth: 8.5,
-                              dotHeight: 8.5,
-                              expansionFactor: 2,
-                              dotColor: const Color(0xffbacde3),
-                              activeDotColor: const Color(0xff1a4678)),
-                        ),
-                      ),
-
-                      //핫게
-                      Container(
-                        // padding: const EdgeInsets.all(18),
-                        margin: const EdgeInsets.fromLTRB(18, 17.5, 14, 14),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Hotboard",
-                                style: const TextStyle(
-                                    color: const Color(0xff333333),
-                                    fontWeight: FontWeight.w600,
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 18.0),
-                                textAlign: TextAlign.center),
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed("/board/hot/page/1");
-                              },
-                              child: Text("View more",
-                                  style: const TextStyle(
-                                      color: const Color(0xff1a4678),
-                                      fontWeight: FontWeight.w700,
-                                      // fontFamily: "PingFangSC",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 12.0),
-                                  textAlign: TextAlign.center),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: size.width,
-                        // height: 372 + 5.0,
-                        child: Container(
-                          margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: HotBoardMain(
-                              size: size, mainController: mainController),
-                        ),
-                      ),
-
-                      // 게시판
-                      Container(
-                        margin: const EdgeInsets.only(
-                            left: 15, right: 15, top: 18.5),
-                        child: Container(
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 24 + 13.0,
-                                child: BoardPreviewItem_top(),
-                                padding: const EdgeInsets.only(bottom: 13),
-                              ),
-                              mainController.followingCommunity.length > 0
-                                  ? Container(
-                                      height: (81 + 10.0) *
-                                          mainController
-                                              .followingCommunity.length,
-                                      child: ListView.builder(
-                                          itemCount: mainController
-                                              .followingCommunity.length,
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            String target_community_id =
-                                                mainController
-                                                    .followingCommunity[index];
-                                            Rx<BoardInfo> boardInfo;
-
-                                            for (var item
-                                                in mainController.boardInfo) {
-                                              if ("${item.value.COMMUNITY_ID}" ==
-                                                  target_community_id) {
-                                                boardInfo = item;
-                                                break;
-                                              }
-                                            }
-
-                                            return Container(
-                                              height: 81,
-                                              margin: const EdgeInsets.only(
-                                                  bottom: 10.0),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20))),
-                                              child: BoardPreviewItem_board(
-                                                boardInfo: boardInfo,
-                                                size: size,
-                                                fromList: false,
-                                              ),
-                                            );
-                                          }),
-                                    )
-                                  : Container(
-                                      height: 150,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
-                                          color: const Color(0xffffffff)),
-                                      child: Center(
-                                        child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                    bottom: 10),
-                                                child: Ink(
-                                                  width: 40,
-                                                  height: 40,
-                                                  child: InkWell(
-                                                    onTap: () async {
-                                                      Get.toNamed(
-                                                          "/board/boardList");
-                                                    },
-                                                    child: Image.asset(
-                                                        "assets/images/941.png"),
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                "Follow communites",
-                                                style: textStyle,
-                                              ),
-                                            ]),
-                                      ),
-                                    ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      //강의정보
-                      Container(
-                        //리스트 뷰에서 bottom 13 마진 줌
-                        margin: const EdgeInsets.only(
-                            left: 15, right: 15, top: 18.5),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              child: ClassItem_TOP(),
-                            ),
-                            Container(
-                                margin: const EdgeInsets.only(top: 12),
-                                // height: 163.5,
-                                child: mainController.classList.length > 0
-                                    ? ClassItem_Content(
-                                        mainController: mainController)
-                                    : Container(
-                                        height: 150,
-                                        child: Center(
-                                          child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  margin: const EdgeInsets.only(
-                                                      bottom: 10),
-                                                  child: Ink(
-                                                    width: 40,
-                                                    height: 40,
-                                                    child: InkWell(
-                                                      onTap: () async {
-                                                        Get.toNamed(Routes
-                                                            .TIMETABLE_ADDCLASS_MAIN);
-                                                      },
-                                                      child: Image.asset(
-                                                          "assets/images/941.png"),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "Add classes",
-                                                  style: textStyle,
-                                                ),
-                                              ]),
-                                        ),
-                                      ),
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)),
-                                    color: const Color(0xffffffff)))
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      )
-                    ],
                   ),
                 ),
               ),
-            );
-          }
-        }),
+              Ink(
+                child: InkWell(
+                  onTap: () {
+                    Session().getX('/logout');
+                    Session.cookies = {};
+                    Session.headers['Cookie'] = '';
+                    box.remove('pw');
+                    box.remove('isloggined');
+                    box.remove('token');
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/login', (Route<dynamic> route) => false);
+                    Get.offAllNamed('/login');
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-    ]);
+      bottomNavigationBar:
+          CustomBottomNavigationBar(mainController: mainController),
+      body: Obx(() {
+        if (!mainController.dataAvailalbe) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return SingleChildScrollView(
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      // Alignment(0.5, 0),
+                      end: Alignment.bottomCenter,
+                      // Alignment(0.5, 1),
+                      stops: [
+                    0.0,
+                    0.05,
+                    0.1
+                  ],
+                      colors: [
+                    // Colors.lightBlue[100],
+                    // Colors.lightBlue[50],
+                    // const Color(0xfff6f6f6),
+                    // const Color(0xff1a4678),
+                    const Color(0xff275180),
+                    const Color(0xba1a4678),
+                    const Color(0xfff6f6f6),
+                  ])),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 정보제공
+                  // ToDo: 서버에서 정보 제공해주면 수정해야함
+                  Container(
+                    margin: const EdgeInsets.only(top: 25, bottom: 18),
+                    height: 180,
+                    child: PageView.builder(
+                      scrollDirection: Axis.horizontal,
+                      physics: PageScrollPhysics(),
+                      controller: outsidePageController,
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return OutsidePreview();
+                      },
+                    ),
+                  ),
+                  Center(
+                    child: SmoothPageIndicator(
+                      controller: outsidePageController,
+                      count: 5,
+                      effect: ExpandingDotsEffect(
+                          dotWidth: 8.5,
+                          dotHeight: 8.5,
+                          expansionFactor: 2,
+                          dotColor: const Color(0xffbacde3),
+                          activeDotColor: const Color(0xff1a4678)),
+                    ),
+                  ),
+
+                  //핫게
+                  Container(
+                    // padding: const EdgeInsets.all(18),
+                    margin: const EdgeInsets.fromLTRB(18, 17.5, 14, 14),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Hotboard",
+                            style: const TextStyle(
+                                color: const Color(0xff333333),
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 18.0),
+                            textAlign: TextAlign.center),
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed("/board/hot/page/1");
+                          },
+                          child: Text("View more",
+                              style: const TextStyle(
+                                  color: const Color(0xff1a4678),
+                                  fontWeight: FontWeight.w700,
+                                  // fontFamily: "PingFangSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 12.0),
+                              textAlign: TextAlign.center),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: size.width,
+                    // height: 372 + 5.0,
+                    child: Container(
+                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: HotBoardMain(
+                          size: size, mainController: mainController),
+                    ),
+                  ),
+
+                  // 게시판
+                  Container(
+                    margin:
+                        const EdgeInsets.only(left: 15, right: 15, top: 18.5),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 24 + 13.0,
+                            child: BoardPreviewItem_top(),
+                            padding: const EdgeInsets.only(bottom: 13),
+                          ),
+                          mainController.followingCommunity.length > 0
+                              ? Container(
+                                  height: (81 + 10.0) *
+                                      mainController.followingCommunity.length,
+                                  child: ListView.builder(
+                                      itemCount: mainController
+                                          .followingCommunity.length,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        String target_community_id =
+                                            mainController
+                                                .followingCommunity[index];
+                                        Rx<BoardInfo> boardInfo;
+
+                                        for (var item
+                                            in mainController.boardInfo) {
+                                          if ("${item.value.COMMUNITY_ID}" ==
+                                              target_community_id) {
+                                            boardInfo = item;
+                                            break;
+                                          }
+                                        }
+
+                                        return Container(
+                                          height: 81,
+                                          margin: const EdgeInsets.only(
+                                              bottom: 10.0),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20))),
+                                          child: BoardPreviewItem_board(
+                                            boardInfo: boardInfo,
+                                            size: size,
+                                            fromList: false,
+                                          ),
+                                        );
+                                      }),
+                                )
+                              : Container(
+                                  height: 150,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                      color: const Color(0xffffffff)),
+                                  child: Center(
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 10),
+                                            child: Ink(
+                                              width: 40,
+                                              height: 40,
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  Get.toNamed(
+                                                      "/board/boardList");
+                                                },
+                                                child: Image.asset(
+                                                    "assets/images/941.png"),
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            "Follow communites",
+                                            style: textStyle,
+                                          ),
+                                        ]),
+                                  ),
+                                ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  //강의정보
+                  Container(
+                    //리스트 뷰에서 bottom 13 마진 줌
+                    margin:
+                        const EdgeInsets.only(left: 15, right: 15, top: 18.5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          child: ClassItem_TOP(),
+                        ),
+                        Container(
+                            margin: const EdgeInsets.only(top: 12),
+                            // height: 163.5,
+                            child: mainController.classList.length > 0
+                                ? ClassItem_Content(
+                                    mainController: mainController)
+                                : Container(
+                                    height: 150,
+                                    child: Center(
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 10),
+                                              child: Ink(
+                                                width: 40,
+                                                height: 40,
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    Get.toNamed(Routes
+                                                        .TIMETABLE_ADDCLASS_MAIN);
+                                                  },
+                                                  child: Image.asset(
+                                                      "assets/images/941.png"),
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              "Add classes",
+                                              style: textStyle,
+                                            ),
+                                          ]),
+                                    ),
+                                  ),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                                color: const Color(0xffffffff)))
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  )
+                ],
+              ),
+            ),
+          );
+        }
+      }),
+    );
   }
 }
 

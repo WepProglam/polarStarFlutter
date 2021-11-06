@@ -117,6 +117,45 @@ class TopIcon extends StatelessWidget {
         ),
         Spacer(),
         Container(
+          width: 100,
+          height: 100,
+          child: InkWell(
+            onDoubleTap: () {
+              timeTableController.logoHidden.value =
+                  !timeTableController.logoHidden.value;
+              print("asdfasdfasdfsadf");
+            },
+          ),
+        ),
+        Obx(() {
+          return timeTableController.logoHidden.value
+              ? Container()
+              : Container(
+                  padding:
+                      const EdgeInsets.only(top: 9, bottom: 1.5, right: 13.3),
+                  child: // 패스 940
+                      InkWell(
+                    onTap: () {
+                      if (timeTableController.topHeight.value == 30.0) {
+                        timeTableController.topHeight.value = 44.0;
+                        timeTableController.timeHeight.value = 60.0;
+                      } else {
+                        timeTableController.topHeight.value = 30.0;
+                        timeTableController.timeHeight.value = 40.0;
+                      }
+                    },
+                    child: Container(
+                      width: 15.3,
+                      height: 17.5,
+                      child: Image.asset(
+                        "assets/images/logo.png",
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
+                  ),
+                );
+        }),
+        Container(
           margin: const EdgeInsets.only(top: 9, bottom: 1.5, right: 13.3),
           child: // 패스 940
               InkWell(

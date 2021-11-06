@@ -165,18 +165,25 @@ class TimetableAddClassMain extends StatelessWidget {
                       RxBool isExpandedHor = timeTableController.isExpandedHor;
                       int dayAmount = isExpandedHor.value ? 7 : 5;
                       int verAmount = timeTableController.verAmount.value;
+
+                      double time_height = timeTableController.timeHeight.value;
+                      double top_height = timeTableController.topHeight.value;
                       print("veramount : $verAmount");
 
                       return Container(
-                        height: 44 + 60.0 * (verAmount - 1) + 30,
+                        height: top_height + time_height * (verAmount - 1) + 30,
                         margin: const EdgeInsets.symmetric(horizontal: 15),
                         child: Stack(children: [
                           TimeTableBin(
+                              time_height: time_height,
+                              top_height: top_height,
                               timeTableController: timeTableController,
                               width: size.width - 30,
                               dayAmount: dayAmount,
                               verAmount: verAmount),
                           TimeTableContent(
+                              time_height: time_height,
+                              top_height: top_height,
                               timeTableController: timeTableController,
                               width: size.width - 30,
                               dayAmount: dayAmount,

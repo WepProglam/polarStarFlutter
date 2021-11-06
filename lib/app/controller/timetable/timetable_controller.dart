@@ -19,6 +19,8 @@ class TimeTableController extends GetxController {
       ScrollController(initialScrollOffset: 0.0);
   bool visitedBin = false;
 
+  RxBool logoHidden = false.obs;
+
   RxBool isExpandedHor = false.obs;
   RxInt limitStartTime = 9.obs;
   RxInt limitEndTime = 17.obs;
@@ -27,6 +29,9 @@ class TimeTableController extends GetxController {
 
   RxBool isHidden = false.obs;
   RxBool inTimeTableMainPage = true.obs;
+
+  RxDouble topHeight = 44.0.obs;
+  RxDouble timeHeight = 60.0.obs;
 
   // 학기별 시간표 간략 정보 리스트
   RxMap<String, RxList<Rx<TimeTableModel>>> otherTable =
@@ -90,6 +95,7 @@ class TimeTableController extends GetxController {
     int limitTempStart = 9;
     int limitTempEnd = 18;
     for (var item in selectTable.value.CLASSES) {
+      print(item.CLASS_NAME);
       for (var detail in item.CLASS_TIME) {
         int day_index = getIndexFromDay(detail.day);
         DateTime start = detail.start_time;

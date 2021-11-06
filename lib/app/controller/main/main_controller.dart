@@ -32,6 +32,32 @@ class MainController extends GetxController {
   RxInt mainPageIndex = 0.obs;
   RxList<String> followingCommunity = <String>[].obs;
 
+  List<Color> classColorList = [
+    Color(0xff1a785c),
+    Color(0xff983280),
+    Color(0xffcfa01f),
+    Color(0xff78431a),
+    Color(0xff781a59),
+    Color(0xff1a4678),
+    Color(0xff66259f),
+    Color(0xff9e3d3d),
+    Color(0xff2f3c94),
+    Color(0xff409282)
+  ];
+
+  List<String> classIconList = [
+    "assets/images/class_1.png",
+    "assets/images/class_2.png",
+    "assets/images/class_3.png",
+    "assets/images/class_4.png",
+    "assets/images/class_5.png",
+    "assets/images/class_6.png",
+    "assets/images/class_7.png",
+    "assets/images/class_8.png",
+    "assets/images/class_9.png",
+    "assets/images/class_10.png",
+  ];
+
   // var animationController = AnimationController().obs;
   var pageController = PageController().obs;
 
@@ -62,6 +88,10 @@ class MainController extends GetxController {
     likeList.value = value["likeList"];
     scrapList.value = value["scrapList"];
     classList.value = value["classList"];
+
+    for (MainClassModel model in classList) {
+      print("${model.CLASS_NAME}: ${model.CLASS_ID}");
+    }
 
     for (BoardInfo item in value["boardInfo"]) {
       boardListInfo.add(item);

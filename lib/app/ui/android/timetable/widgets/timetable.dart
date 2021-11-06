@@ -11,6 +11,8 @@ class TimeTableBin extends StatelessWidget {
       {Key key,
       @required this.timeTableController,
       @required this.width,
+      @required this.top_height,
+      @required this.time_height,
       @required this.dayAmount,
       @required this.verAmount})
       : super(key: key);
@@ -19,6 +21,8 @@ class TimeTableBin extends StatelessWidget {
   final double width;
   final int dayAmount;
   final int verAmount;
+  final double top_height;
+  final double time_height;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,7 @@ class TimeTableBin extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             if (index == 0) {
               return Container(
-                height: 44,
+                height: top_height,
                 decoration: BoxDecoration(
                     color: const Color(0xfff6f6f6),
                     border: Border(
@@ -43,7 +47,7 @@ class TimeTableBin extends StatelessWidget {
               );
             } else {
               return Container(
-                height: 60,
+                height: time_height,
                 child: ListView.builder(
                     itemCount: dayAmount + 1,
                     scrollDirection: Axis.horizontal,
@@ -85,6 +89,8 @@ class TimeTableAddClass extends StatelessWidget {
       @required this.width,
       @required this.dayAmount,
       @required this.verAmount,
+      @required this.time_height,
+      @required this.top_height,
       @required this.show})
       : super(key: key);
 
@@ -94,13 +100,15 @@ class TimeTableAddClass extends StatelessWidget {
   final int verAmount;
   final bool show;
   final TimeTableController timeTableController;
+  final double time_height;
+  final double top_height;
 
   @override
   Widget build(BuildContext context) {
     return show && new_class.value.day != null
         ? Container(
             // width: 10,
-            margin: EdgeInsets.only(top: 44, left: width / 12),
+            margin: EdgeInsets.only(top: top_height, left: width / 12),
             child: Container(
               child: Obx(() {
                 int last_end_time =
@@ -119,12 +127,14 @@ class TimeTableAddClass extends StatelessWidget {
                   opacity: 0.5,
                   child: Container(
                     width: (width * 11 / 12) / dayAmount,
-                    height: (end_time - start_time) * 1.0,
+                    height: (end_time - start_time) * (time_height / 60),
                     decoration: contentTableBoxDecoration(Colors.black),
                     margin: EdgeInsets.only(
-                        top: ((start_time - last_end_time) * 1.0) < 0
+                        top: ((start_time - last_end_time) *
+                                    (time_height / 60)) <
+                                0
                             ? 0
-                            : (start_time - last_end_time) * 1.0,
+                            : (start_time - last_end_time) * (time_height / 60),
                         left: getIndexFromDay(new_class.value.day) *
                             (width * 11 / 12) /
                             dayAmount),
@@ -141,6 +151,8 @@ class TimeTableContent extends StatelessWidget {
       {Key key,
       @required this.timeTableController,
       @required this.width,
+      @required this.top_height,
+      @required this.time_height,
       @required this.dayAmount,
       @required this.verAmount})
       : super(key: key);
@@ -149,12 +161,14 @@ class TimeTableContent extends StatelessWidget {
   final double width;
   final int dayAmount;
   final int verAmount;
+  final double top_height;
+  final double time_height;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width * 11 / 12,
-      margin: EdgeInsets.only(top: 44, left: width / 12),
+      margin: EdgeInsets.only(top: top_height, left: width / 12),
       child: Obx(() {
         //지우지마 오류나 시부레
         print(timeTableController.inTimeTableMainPage.value);
@@ -163,47 +177,58 @@ class TimeTableContent extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              int last_end_time = 60 * timeTableController.limitStartTime.value;
-              int add_pos_startTime =
-                  (timeTableController.limitEndTime.value + 1) * 60;
-              return Container(
-                  width: (width * 11 / 12) / dayAmount,
-                  child: Stack(
-                    children: [
-                      for (var item in timeTableController.showTimeTable[index])
-                        Positioned(
-                          top: (item["start_time"] - last_end_time) * 1.0 + 1,
-                          width: ((width - 4) * 11 / 12) / dayAmount,
-                          child: Container(
-                            child: TimeTableItem(
-                              classItem: item,
-                              classItemModel: item["classInfo"],
-                              curEndTime: last_end_time,
-                              timeTableController: timeTableController,
+              double last_end_time =
+                  60.0 * timeTableController.limitStartTime.value;
+              double add_pos_startTime =
+                  (timeTableController.limitEndTime.value + 1) * 60.0;
+              print("adsfasdfasdfa");
+              return Obx(() {
+                return Container(
+                    width: (width * 11 / 12) / dayAmount,
+                    child: Stack(
+                      children: [
+                        for (var item
+                            in timeTableController.showTimeTable[index])
+                          Positioned(
+                            top: (item["start_time"] - last_end_time) *
+                                    (time_height / 60) +
+                                1,
+                            width: ((width - 4) * 11 / 12) / dayAmount,
+                            child: Container(
+                              child: TimeTableItem(
+                                classItem: item,
+                                time_height: time_height,
+                                classItemModel: item["classInfo"],
+                                curEndTime: last_end_time,
+                                timeTableController: timeTableController,
+                              ),
                             ),
                           ),
-                        ),
-                      //목요일 밑에 add 버튼
-                      if (index == 3 &&
-                          timeTableController.inTimeTableMainPage.value)
-                        Positioned(
-                          top: (add_pos_startTime - last_end_time) * 1.0 + 1,
-                          width: ((width - 4) * 11 / 12) / dayAmount,
-                          child: InkWell(
-                            onTap: () {
-                              Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
-                            },
-                            child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 20),
-                                height: 60, // 20 + 20 + 20
-                                width: 60, // 20 + 20 + 20
-                                child: Image.asset(
-                                    "assets/images/timetable_add.png")),
-                          ),
-                        )
-                    ],
-                  ));
+                        //목요일 밑에 add 버튼
+                        if (index == 3 &&
+                            timeTableController.inTimeTableMainPage.value)
+                          Positioned(
+                            top: (add_pos_startTime - last_end_time) *
+                                    (time_height / 60) +
+                                1,
+                            width: ((width - 4) * 11 / 12) / dayAmount,
+                            child: InkWell(
+                              onTap: () {
+                                Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
+                              },
+                              child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: time_height / 3,
+                                      horizontal: 20),
+                                  height: time_height, // 20 + 20 + 20
+                                  width: 60, // 20 + 20 + 20
+                                  child: Image.asset(
+                                      "assets/images/timetable_add.png")),
+                            ),
+                          )
+                      ],
+                    ));
+              });
             });
       }),
     );
@@ -216,11 +241,13 @@ class TimeTableItem extends StatelessWidget {
       @required this.classItem,
       @required this.curEndTime,
       @required this.classItemModel,
+      @required this.time_height,
       @required this.timeTableController})
       : super(key: key);
 
   final Map classItem;
-  final int curEndTime;
+  final double curEndTime;
+  final double time_height;
   final TimeTableClassModel classItemModel;
   final TimeTableController timeTableController;
 
@@ -356,11 +383,20 @@ class TimeTableItem extends StatelessWidget {
                                           classItemModel.CLASS_NAME);
                                   switch (statusCode) {
                                     case 200:
+                                      for (TimeTableClassModel model
+                                          in timeTableController
+                                              .selectTable.value.CLASSES) {
+                                        print(
+                                            "${model.CLASS_NAME} => ${classItemModel.CLASS_NAME} : ${model.CLASS_NAME == classItemModel.CLASS_NAME}");
+                                      }
+
                                       timeTableController.selectTable
                                           .update((val) {
                                         val.CLASSES.removeWhere((element) =>
-                                            element.CLASS_NAME ==
-                                            classItemModel.CLASS_NAME);
+                                            (element.CLASS_NAME ==
+                                                classItemModel.CLASS_NAME) &&
+                                            (element.CLASS_ID ==
+                                                classItemModel.CLASS_ID));
                                       });
 
                                       timeTableController.initShowTimeTable();
@@ -397,7 +433,10 @@ class TimeTableItem extends StatelessWidget {
           // margin: const EdgeInsets.only(top: 1),
           margin: const EdgeInsets.symmetric(horizontal: 2),
 
-          height: (classItem["end_time"] - classItem["start_time"]) * 1.0 - 1,
+          height: (classItem["end_time"] - classItem["start_time"]) *
+                  time_height /
+                  60 -
+              1,
           decoration: contentTableBoxDecoration(classItem["color"]),
           // margin: EdgeInsets.only(
           //     top: (classItem["start_time"] - curEndTime) * 1.0),
