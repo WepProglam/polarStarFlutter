@@ -84,16 +84,15 @@ class TopIcon extends StatelessWidget {
                 children: [
                   Container(
                     height: 28,
-                    child: FittedBox(
-                      child: Text("${selectedModel.value.NAME}",
-                          style: const TextStyle(
-                              color: const Color(0xff333333),
-                              fontWeight: FontWeight.w700,
-                              fontFamily: "PingFangSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 21.0),
-                          textAlign: TextAlign.left),
-                    ),
+                    child: Text("${selectedModel.value.NAME}",
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            color: const Color(0xff333333),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 21.0),
+                        textAlign: TextAlign.left),
                   ),
                   Container(
                     height: 28,
@@ -745,18 +744,15 @@ class SubjectList extends StatelessWidget {
                               Container(
                                 margin: const EdgeInsets.only(
                                     top: 9.5, bottom: 11.5),
-                                height: 23,
                                 child: // Your subject
-                                    FittedBox(
-                                  child: Text(
-                                      "${model.value.CLASSES[i].CLASS_NAME}",
-                                      style: const TextStyle(
-                                          color: const Color(0xff333333),
-                                          fontWeight: FontWeight.w600,
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 16.0),
-                                      textAlign: TextAlign.left),
-                                ),
+                                    Text("${model.value.CLASSES[i].CLASS_NAME}",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            color: const Color(0xff333333),
+                                            fontWeight: FontWeight.w600,
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 14),
+                                        textAlign: TextAlign.left),
                               ),
                               FittedBox(
                                 child: SubjectPreviewList(

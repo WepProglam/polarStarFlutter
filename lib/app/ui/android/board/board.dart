@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/search/search_controller.dart';
+import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/search/search_board.dart';
 import 'package:polarstar_flutter/app/ui/android/search/widgets/search_bar.dart';

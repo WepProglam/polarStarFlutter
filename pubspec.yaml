@@ -157,13 +157,27 @@ flutter:
     - assets/images/671.png
     - assets/images/homepage_selected.png
     - assets/images/mypage_selected.png
-    - assets/images/outside_selected.png
+    - assets/images/information_selected.png
+    - assets/images/information.png
     - assets/images/timetable_selected.png
+    - assets/images/timetable.png
     - assets/images/person.png
     - assets/images/timetable_hidden.png
     - assets/images/bottom_alarm.png
     - assets/images/bottom_alarm_selected.png
     - assets/images/timetable_add.png
+    - assets/images/687.png
+    - assets/images/688.png
+    - assets/images/675.png
+    - assets/images/674.png
+    - assets/images/673.png
+    - assets/images/672.png
+    - assets/images/678.png
+    - assets/images/681.png
+    - assets/images/726.png
+    - assets/images/725.png
+    - assets/images/733.png
+    - assets/images/main_card_temp.png
     - assets/fonts/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

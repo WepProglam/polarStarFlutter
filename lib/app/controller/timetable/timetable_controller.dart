@@ -196,10 +196,14 @@ class TimeTableController extends GetxController {
       switch (jsonResponse["statusCode"]) {
         case 200:
           otherTable["${YEAR}년 ${SEMESTER}학기"] = jsonResponse["otherTable"];
-
           //디폴트인 순서대로 정렬
           otherTable["${YEAR}년 ${SEMESTER}학기"]
               .sort((a, b) => b.value.IS_DEFAULT.compareTo(a.value.IS_DEFAULT));
+          print("asdfadsfasdgggggggggggf");
+          for (Rx<TimeTableModel> model in jsonResponse["otherTable"]) {
+            await getTimeTable(model.value.TIMETABLE_ID);
+          }
+          print(jsonResponse["otherTable"]);
 
           selectedTimeTableId.value =
               jsonResponse["defaultTable"].value.TIMETABLE_ID;

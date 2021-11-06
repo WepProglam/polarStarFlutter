@@ -27,8 +27,10 @@ class PostPreview extends StatelessWidget {
           Get.toNamed('/board/${item.COMMUNITY_ID}/read/${item.BOARD_ID}');
         },
         child: Ink(
-          color: Color(0xffffffff),
-          padding: EdgeInsets.fromLTRB(27, 19.5, 27, 10),
+          decoration: BoxDecoration(
+              color: Color(0xffffffff),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          padding: const EdgeInsets.fromLTRB(27, 19.5, 27, 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

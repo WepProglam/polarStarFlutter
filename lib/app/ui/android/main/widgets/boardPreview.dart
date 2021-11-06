@@ -178,8 +178,7 @@ class BoardPreviewItem_top extends StatelessWidget {
         child: Text("Board",
             style: const TextStyle(
                 color: const Color(0xff333333),
-                fontWeight: FontWeight.w500,
-                fontFamily: "PingFangSC",
+                fontWeight: FontWeight.w600,
                 fontStyle: FontStyle.normal,
                 fontSize: 18.0),
             textAlign: TextAlign.center),

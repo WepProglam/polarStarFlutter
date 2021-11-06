@@ -20,6 +20,7 @@ class MainController extends GetxController {
   RxList<HotBoard> hotBoard = <HotBoard>[].obs;
   RxInt hotBoardIndex = 0.obs;
   RxInt followAmount = 0.obs;
+  Rx<Color> statusBarColor = Colors.white.obs;
 
   RxList<BoardInfo> boardListInfo = <BoardInfo>[].obs;
 
