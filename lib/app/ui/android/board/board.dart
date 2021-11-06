@@ -4,6 +4,7 @@ import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/search/search_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
+import 'package:polarstar_flutter/app/ui/android/search/search_board.dart';
 import 'package:polarstar_flutter/app/ui/android/search/widgets/search_bar.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/app_bar.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/board_name.dart';
@@ -38,31 +39,55 @@ class Board extends StatelessWidget {
                 ),
               ),
               titleSpacing: 0,
-              title: Container(
-                height: 40,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                        communityBoardName(controller.COMMUNITY_ID.value) +
-                            "게시판",
-                        style: const TextStyle(
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
-                        textAlign: TextAlign.left),
-                    Text("Sungkyunkwan University",
-                        style: const TextStyle(
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.normal,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 11.0),
-                        textAlign: TextAlign.left),
-                  ],
-                ),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    height: 40,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            communityBoardName(controller.COMMUNITY_ID.value) +
+                                "게시판",
+                            style: const TextStyle(
+                                color: const Color(0xff333333),
+                                fontWeight: FontWeight.bold,
+                                // fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 16.0),
+                            textAlign: TextAlign.left),
+                        Text("Sungkyunkwan University",
+                            style: const TextStyle(
+                                color: const Color(0xff999999),
+                                fontWeight: FontWeight.w400,
+                                // fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 11.0),
+                            textAlign: TextAlign.left),
+                      ],
+                    ),
+                  ),
+
+                  // Search Button
+                  /*
+                   * 게시판 명이 사라지면서 검색창이 나오는걸 원하는거임?
+                   * 지금처럼 페이지가 따로 있으면 그냥 이렇게 페이지 여는게 더 낫지않나?
+                   */
+                  Padding(
+                    padding: const EdgeInsets.only(right: 15.0),
+                    child: InkWell(
+                      onTap: () {
+                        Get.toNamed("/searchBoard");
+                      },
+                      child: Image.asset(
+                        'assets/images/671.png',
+                        width: 14.3,
+                        height: 14.3,
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
             body: RefreshIndicator(
@@ -71,13 +96,11 @@ class Board extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      /**
-                       * Todo: 밑에 컨테이너 40 하드코딩 바꾸기 
-                       */
-                      Container(
-                        height: 40,
+                      // ToDo: 쓸데없는 빈칸 삭제
+                      /* Container(
+                        height: 0,
                         width: Get.mediaQuery.size.width,
-                      ),
+                      ), */
                       // 게시글 프리뷰 리스트
                       Expanded(
                         child: Obx(() {
@@ -99,9 +122,10 @@ class Board extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SearchBar(
+                  // ToDo: Search Bar 제거
+                  /* SearchBar(
                       // controller: searchController,
-                      ),
+                      ), */
                   Positioned(
                       bottom: 151.5,
                       right: 0,
