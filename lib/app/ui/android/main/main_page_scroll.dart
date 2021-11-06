@@ -258,8 +258,8 @@ class MainPageScroll extends StatelessWidget {
 
                       // 게시판
                       Container(
-                        margin:
-                            const EdgeInsets.only(left: 15, right: 15, top: 13),
+                        margin: const EdgeInsets.only(
+                            left: 15, right: 15, top: 18.5),
                         child: Container(
                           child: Column(
                             children: [
@@ -352,8 +352,8 @@ class MainPageScroll extends StatelessWidget {
                       //강의정보
                       Container(
                         //리스트 뷰에서 bottom 13 마진 줌
-                        margin:
-                            const EdgeInsets.only(left: 15, right: 15, top: 17),
+                        margin: const EdgeInsets.only(
+                            left: 15, right: 15, top: 18.5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
