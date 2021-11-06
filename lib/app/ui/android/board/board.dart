@@ -168,6 +168,13 @@ class Board extends StatelessWidget {
                             width: 39,
                             height: 39,
                             margin: const EdgeInsets.fromLTRB(6, 4, 27, 4),
+                            child: Center(
+                              child: Container(
+                                  width: 17,
+                                  height: 17,
+                                  child: Image.asset(
+                                      "assets/images/write_pencil.png")),
+                            ),
                             decoration: BoxDecoration(
                                 color: const Color(0xff1a4678),
                                 shape: BoxShape.circle),

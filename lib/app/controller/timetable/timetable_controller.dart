@@ -19,7 +19,7 @@ class TimeTableController extends GetxController {
       ScrollController(initialScrollOffset: 0.0);
   bool visitedBin = false;
 
-  RxBool logoHidden = false.obs;
+  RxBool logoHidden = true.obs;
 
   RxBool isExpandedHor = false.obs;
   RxInt limitStartTime = 9.obs;
