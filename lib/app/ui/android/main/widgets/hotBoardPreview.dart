@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
+import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 import 'package:swipedetector/swipedetector.dart';
 
@@ -410,7 +411,7 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
             Container(
                 height: 15,
                 child: // 2019.10.23  22:34:24
-                    Text("${model.TIME_CREATED}",
+                    Text("${timeParsing(model.TIME_CREATED, null)}",
                         style: const TextStyle(
                             color: const Color(0xff999999),
                             fontWeight: FontWeight.w400,

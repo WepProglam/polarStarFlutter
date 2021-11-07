@@ -33,12 +33,12 @@ class MainPageScroll extends StatelessWidget {
         // Colors.lightBlue[100],
         // const Color(0xfff6f6f6),
         elevation: 0,
-        toolbarHeight: 50,
+        toolbarHeight: 9 + 24 + 24.5 / 2,
         automaticallyImplyLeading: false,
         titleSpacing: 0,
         title: Container(
           padding: const EdgeInsets.only(
-              top: 9 + 8.5, left: 15, right: 15, bottom: 12.25),
+              top: 9, left: 21, right: 15, bottom: 24.5 / 2),
           // margin: const EdgeInsets.only(bottom: 12.25),
           width: size.width,
           decoration: BoxDecoration(
@@ -58,55 +58,58 @@ class MainPageScroll extends StatelessWidget {
                 const Color(0xff1a4678),
                 const Color(0xff275180),
               ])),
-          child: Row(
-            children: [
-              Container(
-                child: Text(
-                  "POLAR STAR",
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400),
+          child: Container(
+            height: 24,
+            child: Row(
+              children: [
+                Container(
+                  child: Text(
+                    "POLAR STAR",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400),
+                  ),
                 ),
-              ),
-              Spacer(),
-              Container(
-                child: Ink(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                Spacer(),
+                Container(
+                  child: Ink(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: InkWell(
+                      onTap: () {
+                        Get.toNamed(Routes.MAIN_PAGE_SEARCH);
+                      },
+                      child: Icon(
+                        Icons.search,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                Ink(
                   child: InkWell(
                     onTap: () {
-                      Get.toNamed(Routes.MAIN_PAGE_SEARCH);
+                      Session().getX('/logout');
+                      Session.cookies = {};
+                      Session.headers['Cookie'] = '';
+                      box.remove('pw');
+                      box.remove('isloggined');
+                      box.remove('token');
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/login', (Route<dynamic> route) => false);
+                      Get.offAllNamed('/login');
                     },
-                    child: Icon(
-                      Icons.search,
-                      color: Colors.white,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Ink(
-                child: InkWell(
-                  onTap: () {
-                    Session().getX('/logout');
-                    Session.cookies = {};
-                    Session.headers['Cookie'] = '';
-                    box.remove('pw');
-                    box.remove('isloggined');
-                    box.remove('token');
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/login', (Route<dynamic> route) => false);
-                    Get.offAllNamed('/login');
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Icon(
-                      Icons.logout,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -144,7 +147,7 @@ class MainPageScroll extends StatelessWidget {
                   // 정보제공
                   // ToDo: 서버에서 정보 제공해주면 수정해야함
                   Container(
-                    margin: const EdgeInsets.only(top: 25, bottom: 18),
+                    margin: const EdgeInsets.only(top: 24.5 / 2, bottom: 18),
                     height: 180,
                     child: PageView.builder(
                       scrollDirection: Axis.horizontal,
