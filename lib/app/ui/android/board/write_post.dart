@@ -40,7 +40,7 @@ class WritePost extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            toolbarHeight: 30,
+            toolbarHeight: 50 + 17.5,
             backgroundColor: Color(0xffffffff),
             foregroundColor: Color(0xff333333),
             elevation: 0,
@@ -331,7 +331,7 @@ class WritePost extends StatelessWidget {
                                     onPressed: () {
                                       Get.back();
                                     },
-                                    child: Text("네")),
+                                    child: Text("아니오")),
                               ]);
                           //수정
                         },
