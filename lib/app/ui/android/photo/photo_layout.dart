@@ -49,6 +49,7 @@ class PhotoLayout extends StatelessWidget {
                 imageBuilder: (context, imageProvider) => Ink(
                       child: InkWell(
                         onTap: () {
+                          print(index);
                           Get.to(SeePhoto(photo: model.PHOTO, index: index));
                         },
                         child: Container(
