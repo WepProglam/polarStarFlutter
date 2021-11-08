@@ -19,7 +19,7 @@ class Class extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Color(0xffffffff),
           elevation: 0,
-          toolbarHeight: 33,
+          toolbarHeight: 50,
           automaticallyImplyLeading: false,
           titleSpacing: 0,
           title: Row(
@@ -62,7 +62,7 @@ class Class extends StatelessWidget {
                           style: const TextStyle(
                               color: const Color(0xff333333),
                               fontWeight: FontWeight.w700,
-                              fontFamily: "PingFangSC",
+                              // fontFamily: "PingFangSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 18.0),
                           textAlign: TextAlign.left)),
