@@ -25,7 +25,7 @@ class ClassView extends StatelessWidget {
     final reviewTextController = TextEditingController();
     final examInfoTextController = TextEditingController();
     final testStrategyController = TextEditingController();
-
+    final pageController = PageController();
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[200],
@@ -121,10 +121,17 @@ class ClassView extends StatelessWidget {
                         return SliverList(
                           delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
-                            return ClassViewReview(
-                              classReviewModel:
-                                  classViewController.classReviewList[index],
-                              index: index,
+                            return GestureDetector(
+                              onHorizontalDragEnd: (dragEnd) {
+                                if (dragEnd.primaryVelocity < 0) {
+                                  classViewController.typeIndex(1);
+                                }
+                              },
+                              child: ClassViewReview(
+                                classReviewModel:
+                                    classViewController.classReviewList[index],
+                                index: index,
+                              ),
                             );
                           },
                               childCount:
@@ -135,12 +142,19 @@ class ClassView extends StatelessWidget {
                           return SliverList(
                             delegate: SliverChildBuilderDelegate(
                                 (BuildContext context, int index) {
-                              return ClassExamInfo(
-                                classExamModel:
-                                    classViewController.classExamList[index],
-                                classInfoModel:
-                                    classViewController.classInfo.value,
-                                index: index,
+                              return GestureDetector(
+                                onHorizontalDragEnd: (dragEnd) {
+                                  if (dragEnd.primaryVelocity > 0) {
+                                    classViewController.typeIndex(0);
+                                  }
+                                },
+                                child: ClassExamInfo(
+                                  classExamModel:
+                                      classViewController.classExamList[index],
+                                  classInfoModel:
+                                      classViewController.classInfo.value,
+                                  index: index,
+                                ),
                               );
                             },
                                 childCount:
@@ -148,8 +162,15 @@ class ClassView extends StatelessWidget {
                           );
                         } else {
                           return SliverToBoxAdapter(
-                              child: Center(
-                            child: CircularProgressIndicator(),
+                              child: GestureDetector(
+                            onHorizontalDragEnd: (dragEnd) {
+                              if (dragEnd.primaryVelocity > 0) {
+                                classViewController.typeIndex(0);
+                              }
+                            },
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
                           ));
                         }
                       }
@@ -772,21 +793,27 @@ class IndexButton extends SliverPersistentHeaderDelegate {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              // commenr, exam info button
               GestureDetector(
                 onTap: () {
                   classViewController.typeIndex(0);
                 },
-                child: Obx(
-                  () => Text(
-                    "Comment",
-                    textScaleFactor: 1.2,
-                    style: TextStyle(
-                        color: classViewController.typeIndex.value == 0
-                            ? Colors.blue[900]
-                            : Colors.black,
-                        fontWeight: classViewController.typeIndex.value == 0
-                            ? FontWeight.bold
-                            : FontWeight.normal),
+                child: Container(
+                  width: Get.mediaQuery.size.width / 2,
+                  child: Center(
+                    child: Obx(
+                      () => Text(
+                        "Comment",
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            color: classViewController.typeIndex.value == 0
+                                ? Color(0xff1a4678)
+                                : Colors.black,
+                            fontWeight: classViewController.typeIndex.value == 0
+                                ? FontWeight.bold
+                                : FontWeight.normal),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -799,17 +826,22 @@ class IndexButton extends SliverPersistentHeaderDelegate {
                         .getExamInfo(int.parse(Get.parameters["CLASS_ID"]));
                   }
                 },
-                child: Obx(
-                  () => Text(
-                    "Exam Information",
-                    textScaleFactor: 1.2,
-                    style: TextStyle(
-                        color: classViewController.typeIndex.value == 1
-                            ? Colors.blue[900]
-                            : Colors.black,
-                        fontWeight: classViewController.typeIndex.value == 1
-                            ? FontWeight.bold
-                            : FontWeight.normal),
+                child: Container(
+                  width: Get.mediaQuery.size.width / 2,
+                  child: Center(
+                    child: Obx(
+                      () => Text(
+                        "Exam Information",
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            color: classViewController.typeIndex.value == 1
+                                ? Color(0xff1a4678)
+                                : Colors.black,
+                            fontWeight: classViewController.typeIndex.value == 1
+                                ? FontWeight.bold
+                                : FontWeight.normal),
+                      ),
+                    ),
                   ),
                 ),
               )
