@@ -18,7 +18,7 @@ class CoursePreview extends StatelessWidget {
     final reviewTextController = TextEditingController();
 
     return Container(
-      margin: EdgeInsets.fromLTRB(15, 0, 0, 13.5),
+      padding: EdgeInsets.fromLTRB(15, 0, 0, 13.5),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: Colors.white
           // boxShadow: [
@@ -59,14 +59,18 @@ class CoursePreview extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Introduction to alg...
-                        Text("${classModel.CLASS_NAME}",
-                            style: const TextStyle(
-                                color: const Color(0xff333333),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0),
-                            textAlign: TextAlign.left),
+                        Container(
+                          width: 300,
+                          child: Text("${classModel.CLASS_NAME}",
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: const Color(0xff333333),
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: "PingFangSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16.0),
+                              textAlign: TextAlign.left),
+                        ),
 
                         Container(
                             margin: const EdgeInsets.only(top: 7.0),

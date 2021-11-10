@@ -24,18 +24,7 @@ class DatabaseHelper {
       ${COMMUNITY_DB_HELPER.COLUMN_isFollowed} VARCHAR(50),
       ${COMMUNITY_DB_HELPER.COLUMN_RECENT_TITLE} VARCHAR(50)
     );
-  '''
-  ];
-
-  final migrations = [
-    //   '''
-    //   CREATE TABLE ${COMMUNITY_DB_HELPER.table} (
-    //     ${COMMUNITY_DB_HELPER.COLUMN_COMMUNITY_ID} INTEGER PRIMARY KEY,
-    //     ${COMMUNITY_DB_HELPER.COLUMN_COMMUNITY_NAME} VARCHAR(50) NOT NULL,
-    //     ${COMMUNITY_DB_HELPER.COLUMN_isFollowed} VARCHAR(50),
-    //     ${COMMUNITY_DB_HELPER.COLUMN_RECENT_TITLE} VARCHAR(50)
-    //   );
-    // ''',
+  ''',
     '''
     ALTER TABLE INFO RENAME TO ${COMMUNITY_DB_HELPER.table} 
   ''',
@@ -52,6 +41,17 @@ class DatabaseHelper {
       ${MAIL_DB_HELPER.COLUMN_LOOKUP_DATE} DATETIME(6)
     );
   '''
+  ];
+
+  final migrations = [
+    //   '''
+    //   CREATE TABLE ${COMMUNITY_DB_HELPER.table} (
+    //     ${COMMUNITY_DB_HELPER.COLUMN_COMMUNITY_ID} INTEGER PRIMARY KEY,
+    //     ${COMMUNITY_DB_HELPER.COLUMN_COMMUNITY_NAME} VARCHAR(50) NOT NULL,
+    //     ${COMMUNITY_DB_HELPER.COLUMN_isFollowed} VARCHAR(50),
+    //     ${COMMUNITY_DB_HELPER.COLUMN_RECENT_TITLE} VARCHAR(50)
+    //   );
+    // ''',
   ];
 
   static Database _database;

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.polarstar.polarstar_flutter">
+    package="com.polarstar.polarStar">
    <application
-        android:label="polarstar_flutter"
+        android:label="Polar Star"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

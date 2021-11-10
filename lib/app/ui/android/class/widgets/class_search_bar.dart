@@ -31,6 +31,9 @@ class ClassSearchBar extends StatelessWidget {
                     fontStyle: FontStyle.normal,
                     fontSize: 14.0),
                 textAlign: TextAlign.left,
+                onEditingComplete: () {
+                  Get.toNamed("/class/search?search=${searchText.text}");
+                },
                 decoration: InputDecoration(
                     isDense: true,
                     border: InputBorder.none,
