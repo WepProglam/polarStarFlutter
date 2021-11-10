@@ -99,8 +99,8 @@ class MainController extends GetxController {
     }
 
     box.write("boardInfo", boardListInfo);
-    box.write("likeList", likeList.value);
-    box.write("scrapList", scrapList.value);
+    box.write("likeList", likeList);
+    box.write("scrapList", scrapList);
     _dataAvailable.value = true;
   }
 

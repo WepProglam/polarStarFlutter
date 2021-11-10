@@ -11,7 +11,7 @@ import 'package:sqflite_migration/sqflite_migration.dart';
 
 class DatabaseHelper {
   static final _databaseName = "info.db";
-  static final _databaseVersion = 4;
+  static final _databaseVersion = 2;
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -24,9 +24,6 @@ class DatabaseHelper {
       ${COMMUNITY_DB_HELPER.COLUMN_isFollowed} VARCHAR(50),
       ${COMMUNITY_DB_HELPER.COLUMN_RECENT_TITLE} VARCHAR(50)
     );
-  ''',
-    '''
-    ALTER TABLE INFO RENAME TO ${COMMUNITY_DB_HELPER.table} 
   ''',
     '''
     CREATE TABLE ${NOTI_DB_HELPER.table} (
@@ -44,14 +41,9 @@ class DatabaseHelper {
   ];
 
   final migrations = [
-    //   '''
-    //   CREATE TABLE ${COMMUNITY_DB_HELPER.table} (
-    //     ${COMMUNITY_DB_HELPER.COLUMN_COMMUNITY_ID} INTEGER PRIMARY KEY,
-    //     ${COMMUNITY_DB_HELPER.COLUMN_COMMUNITY_NAME} VARCHAR(50) NOT NULL,
-    //     ${COMMUNITY_DB_HELPER.COLUMN_isFollowed} VARCHAR(50),
-    //     ${COMMUNITY_DB_HELPER.COLUMN_RECENT_TITLE} VARCHAR(50)
-    //   );
-    // ''',
+    '''
+    ALTER TABLE INFO RENAME TO ${COMMUNITY_DB_HELPER.table} 
+  ''',
   ];
 
   static Database _database;

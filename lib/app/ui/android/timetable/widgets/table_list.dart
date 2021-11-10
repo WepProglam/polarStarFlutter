@@ -141,7 +141,7 @@ class TopIcon extends StatelessWidget {
                         timeTableController.timeHeight.value = 60.0;
                       } else {
                         timeTableController.topHeight.value = 30.0;
-                        timeTableController.timeHeight.value = 40.0;
+                        timeTableController.timeHeight.value = 50.0;
                       }
                     },
                     child: Container(

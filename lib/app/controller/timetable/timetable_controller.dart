@@ -30,8 +30,11 @@ class TimeTableController extends GetxController {
   RxBool isHidden = false.obs;
   RxBool inTimeTableMainPage = true.obs;
 
-  RxDouble topHeight = 44.0.obs;
-  RxDouble timeHeight = 60.0.obs;
+  // RxDouble topHeight = 44.0.obs;
+  // RxDouble timeHeight = 60.0.obs;
+
+  RxDouble topHeight = 30.0.obs;
+  RxDouble timeHeight = 50.0.obs;
 
   // 학기별 시간표 간략 정보 리스트
   RxMap<String, RxList<Rx<TimeTableModel>>> otherTable =
