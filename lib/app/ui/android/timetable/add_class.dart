@@ -52,7 +52,7 @@ class TimetableAddClass extends StatelessWidget {
             children: [
               Container(
                 height: 32,
-                margin: const EdgeInsets.only(left: 15, right: 15),
+                margin: const EdgeInsets.only(left: 15, right: 15, top: 10),
                 child: Row(
                   children: [
                     Padding(

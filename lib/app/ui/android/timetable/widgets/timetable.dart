@@ -441,16 +441,23 @@ class TimeTableItem extends StatelessWidget {
           // margin: EdgeInsets.only(
           //     top: (classItem["start_time"] - curEndTime) * 1.0),
           child: Center(
-            child: Text(
-              "${classItemModel.CLASS_NAME}",
-              maxLines: 2,
-              style: const TextStyle(
-                  color: const Color(0xffffffff),
-                  fontWeight: FontWeight.w500,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14.0),
-              textAlign: TextAlign.center,
-            ),
+            child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+              return Container(
+                width: constraints.maxWidth,
+                child: Text(
+                  "${classItemModel.CLASS_NAME}",
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      color: const Color(0xffffffff),
+                      fontWeight: FontWeight.w500,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }),
           ),
         ),
       ),

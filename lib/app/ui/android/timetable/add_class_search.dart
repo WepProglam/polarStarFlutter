@@ -55,7 +55,7 @@ class TimetableAddClassMain extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           bottomSheet: // 사각형 612
               Container(
-            height: 473.5,
+            height: 400,
             decoration: BoxDecoration(
                 border: Border.all(color: const Color(0xff707070), width: 1),
                 color: const Color(0xffffffff)),
@@ -64,7 +64,8 @@ class TimetableAddClassMain extends StatelessWidget {
                 timeTableController: timeTableController),
           ),
           body: Container(
-            height: size.height - 473.5,
+            margin: const EdgeInsets.only(top: 10),
+            height: size.height - 400 - 10,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -115,30 +116,6 @@ class TimetableAddClassMain extends StatelessWidget {
                                   child: InkWell(
                                     onTap: () {
                                       Get.toNamed("/timetable/addClass/direct");
-                                      // bool checkClasses =
-                                      //     controller
-                                      //         .checkClassValidate();
-                                      // TimeTableClassModel postData =
-                                      //     controller
-                                      //         .TOTAL_CLASS.value;
-                                      // if (postData.PROFESSOR == null ||
-                                      //     postData.PROFESSOR.isEmpty) {
-                                      //   Get.snackbar("교강사명을 입력하세요", "교강사명을 입력하세요",
-                                      //       snackPosition: SnackPosition.BOTTOM);
-                                      // } else if (postData.CLASS_NAME == null ||
-                                      //     postData.CLASS_NAME.isEmpty) {
-                                      //   Get.snackbar("강의명을 입력하세요", "강의명을 입력하세요",
-                                      //       snackPosition: SnackPosition.BOTTOM);
-                                      // } else if (!checkClasses) {
-                                      //   Get.snackbar(
-                                      //       "시간이 중복되었습니다.", "시간이 중복되었습니다.",
-                                      //       snackPosition: SnackPosition.BOTTOM);
-                                      // } else {
-                                      //   timeTableAddClassController.addClass(
-                                      //       timeTableController
-                                      //           .selectedTimeTableId.value);
-                                      //   Get.back();
-                                      // }
                                     },
                                     child: Text("직접 추가",
                                         style: const TextStyle(
@@ -194,6 +171,8 @@ class TimetableAddClassMain extends StatelessWidget {
                               child: TimeTableAddClass(
                                   timeTableController: timeTableController,
                                   new_class: item,
+                                  top_height: top_height,
+                                  time_height: time_height,
                                   width: size.width - 30,
                                   show: controller.selectedIndex == -1
                                       ? false

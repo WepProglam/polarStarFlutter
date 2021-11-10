@@ -12,6 +12,7 @@ class Class extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ClassController controller = Get.find();
+
     final Size size = MediaQuery.of(context).size;
     final searchText = TextEditingController();
     return SafeArea(

@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+import 'dart:developer';
+
 class ClassModel {
   int CLASS_ID, HEAD_COUNT;
   String CLASS_NUMBER,
@@ -35,7 +37,8 @@ class ClassModel {
     this.CLASS_NUMBER = json["CLASS_NUMBER"];
     this.CLASS_NAME = json["CLASS_NAME"];
     this.PROFESSOR = json["PROFESSOR"];
-    this.CREDIT = double.parse("${json["CREDIT"]}");
+    this.CREDIT =
+        json["CREDIT"] == null ? null : double.parse("${json["CREDIT"]}");
     this.CLASS_SECTOR_1 = json["CLASS_SECTOR_1"];
     this.CLASS_SECTOR_TOTAL = json["CLASS_SECTOR_TOTAL"];
     this.COLLEGE_NAME = json["COLLEGE_NAME"];
