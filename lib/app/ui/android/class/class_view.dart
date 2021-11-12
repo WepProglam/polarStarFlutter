@@ -122,11 +122,12 @@ class ClassView extends StatelessWidget {
                           delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
                             return GestureDetector(
-                              onHorizontalDragEnd: (dragEnd) {
+                              // *SWAPPING remove
+                              /* onHorizontalDragEnd: (dragEnd) {
                                 if (dragEnd.primaryVelocity < 0) {
                                   classViewController.typeIndex(1);
                                 }
-                              },
+                              }, */
                               child: ClassViewReview(
                                 classReviewModel:
                                     classViewController.classReviewList[index],
@@ -143,11 +144,12 @@ class ClassView extends StatelessWidget {
                             delegate: SliverChildBuilderDelegate(
                                 (BuildContext context, int index) {
                               return GestureDetector(
-                                onHorizontalDragEnd: (dragEnd) {
+                                // *SWAPPING remove
+                                /* onHorizontalDragEnd: (dragEnd) {
                                   if (dragEnd.primaryVelocity > 0) {
                                     classViewController.typeIndex(0);
                                   }
-                                },
+                                }, */
                                 child: ClassExamInfo(
                                   classExamModel:
                                       classViewController.classExamList[index],
