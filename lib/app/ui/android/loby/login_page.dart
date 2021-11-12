@@ -157,7 +157,7 @@ class LoginInputs extends GetView<LoginController> {
                                 hintStyle: const TextStyle(
                                     color: const Color(0xff999999),
                                     fontWeight: FontWeight.w400,
-                                    fontFamily: "PingFangSC",
+                                    // fontFamily: "PingFangSC",
                                     fontStyle: FontStyle.normal,
                                     fontSize: 14.0),
                                 hintText: "Enter the PW"),

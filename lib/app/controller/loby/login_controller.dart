@@ -41,9 +41,9 @@ class LoginController extends GetxController {
           await box.write('pw', pw);
           await box.write('token', data["token"]);
         } else {
-          box.remove('id');
-          box.remove('pw');
-          box.remove('token');
+          await box.remove('id');
+          await box.remove('pw');
+          await box.remove('token');
           await box.write('isAutoLogin', false);
         }
 

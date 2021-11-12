@@ -88,16 +88,21 @@ class MainPageScroll extends StatelessWidget {
                 ),
                 Ink(
                   child: InkWell(
-                    onTap: () {
-                      Session().getX('/logout');
+                    onTap: () async {
+                      await box.erase();
+                      await box.remove('id');
+                      await box.remove('pw');
+                      await box.remove('token');
+                      await box.write('isAutoLogin', false);
+
                       Session.cookies = {};
                       Session.headers['Cookie'] = '';
-                      box.remove('pw');
-                      box.remove('isloggined');
-                      box.remove('token');
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, '/login', (Route<dynamic> route) => false);
-                      Get.offAllNamed('/login');
+
+                      await Session().getX('/logout');
+
+                      // Navigator.pushNamedAndRemoveUntil(
+                      //     context, '/login', (Route<dynamic> route) => false);
+                      await Get.offAllNamed('/login');
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 4),

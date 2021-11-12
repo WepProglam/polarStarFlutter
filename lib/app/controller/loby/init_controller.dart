@@ -39,7 +39,7 @@ class InitController extends GetxController {
         box.hasData('id') &&
         box.hasData('pw') &&
         box.hasData('token')) {
-      if (box.read('isAutoLogin')) {
+      if (box.read('isAutoLogin') == true) {
         var res =
             await autoLogin(box.read('id'), box.read('pw'), box.read('token'));
 
