@@ -335,6 +335,8 @@ class WriteComment extends StatelessWidget {
                       height: 94.5,
                       child: TextField(
                         maxLines: 6,
+                        keyboardType: TextInputType.multiline,
+                        expands: false,
                         controller: reviewTextController,
                         style: TextStyle(
                             color: const Color(0xff333333),
