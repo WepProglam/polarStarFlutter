@@ -16,26 +16,28 @@ class ClassSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     final ClassSearchController controller = Get.find();
 
-    return Scaffold(
-      appBar: AppBars().classBasicAppBar(),
-      body: RefreshIndicator(
-        onRefresh: controller.refreshPage,
-        child: Obx(() {
-          if (controller.classSearchListAvailable.value) {
-            return ListView.builder(
-                itemCount: controller.classSearchList.length,
-                controller: controller.scrollController,
-                itemBuilder: (BuildContext context, int index) {
-                  return CoursePreview(
-                    classModel: controller.classSearchList[index],
-                  );
-                });
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        }),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBars().classBasicAppBar(),
+        body: RefreshIndicator(
+          onRefresh: controller.refreshPage,
+          child: Obx(() {
+            if (controller.classSearchListAvailable.value) {
+              return ListView.builder(
+                  itemCount: controller.classSearchList.length,
+                  controller: controller.scrollController,
+                  itemBuilder: (BuildContext context, int index) {
+                    return CoursePreview(
+                      classModel: controller.classSearchList[index],
+                    );
+                  });
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
+        ),
       ),
     );
   }

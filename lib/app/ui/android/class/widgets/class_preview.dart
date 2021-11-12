@@ -60,7 +60,8 @@ class CoursePreview extends StatelessWidget {
                       children: [
                         // Introduction to alg...
                         Container(
-                          // width: Get.mediaQuery.size.width - 52,
+                          width: Get.mediaQuery.size.width - 165,
+                          // padding: EdgeInsets.only(right: 83),
                           child: Text("${classModel.CLASS_NAME}",
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
