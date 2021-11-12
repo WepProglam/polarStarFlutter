@@ -9,7 +9,7 @@ import 'package:polarstar_flutter/app/ui/android/functions/board_name.dart';
 
 class Post extends StatelessWidget {
   final mailWriteController = TextEditingController();
-  final BOTTOM_SHEET_HEIGHT = 60;
+  final BOTTOM_SHEET_HEIGHT = 50;
   final commentWriteController = TextEditingController();
   final PostController c = Get.find();
 
