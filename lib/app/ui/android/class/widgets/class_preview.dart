@@ -60,13 +60,13 @@ class CoursePreview extends StatelessWidget {
                       children: [
                         // Introduction to alg...
                         Container(
-                          width: 300,
+                          // width: Get.mediaQuery.size.width - 52,
                           child: Text("${classModel.CLASS_NAME}",
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                   color: const Color(0xff333333),
                                   fontWeight: FontWeight.w700,
-                                  fontFamily: "PingFangSC",
+                                  // fontFamily: "PingFangSC",
                                   fontStyle: FontStyle.normal,
                                   fontSize: 16.0),
                               textAlign: TextAlign.left),
@@ -114,21 +114,18 @@ class CoursePreview extends StatelessWidget {
                       });
                 },
                 child: Container(
-                  // width: 61.5,
+                  width: 61.5,
                   height: 25.5,
-                  margin: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+                  margin: const EdgeInsets.only(right: 15),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(26)),
                       color: const Color(0xff1a4678)),
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(7.5, 4, 7, 5.5),
-                    // width: 47,
-                    // height: 16,
+                  child: Center(
                     child: Text("Evaluate",
                         style: const TextStyle(
                             color: const Color(0xffffffff),
                             fontWeight: FontWeight.w700,
-                            fontFamily: "PingFangSC",
+                            // fontFamily: "PingFangSC",
                             fontStyle: FontStyle.normal,
                             fontSize: 12.0),
                         textAlign: TextAlign.center),
