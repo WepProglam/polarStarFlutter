@@ -13,6 +13,13 @@ class SignUpApiClient {
     return {"statusCode": response.statusCode};
   }
 
+  Future<Map> IDTestApi(data) async {
+    var response = await Session().postX('/signup/IDTest', data);
+    print(data);
+
+    return {"statusCode": response.statusCode};
+  }
+
   Future<Map> emailAuthVerifyApi(data) async {
     var response = await Session().postX('/signup/emailAuthVerify', data);
     print(data);

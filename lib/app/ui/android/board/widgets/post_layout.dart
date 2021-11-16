@@ -334,8 +334,8 @@ class PostLayout extends StatelessWidget {
                             MaterialStateProperty.all<Color>(Colors.black)),
                     onPressed: () {
                       if (isScrapped()) {
-                        // ToDo: Scrap 취소
-                        // c.totalSend(urlTemp, what, index)
+                        c.scrap_cancel(
+                            '/scrap/${item.COMMUNITY_ID}/id/${item.BOARD_ID}');
                       } else {
                         c.totalSend(
                             '/scrap/${item.COMMUNITY_ID}/id/${item.BOARD_ID}',

@@ -141,23 +141,8 @@ class Board extends StatelessWidget {
                       right: 0,
                       child: GestureDetector(
                         onTap: () {
-                          Get.defaultDialog(
-                              title: "게시글 작성",
-                              middleText: "게시글을 작성하시겠습니까?",
-                              actions: [
-                                TextButton(
-                                    onPressed: () async {
-                                      Get.back();
-                                      Get.toNamed(
-                                          '/board/${Get.parameters["COMMUNITY_ID"]}');
-                                    },
-                                    child: Text("네")),
-                                TextButton(
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                    child: Text("아니요"))
-                              ]);
+                          Get.toNamed(
+                              '/board/${Get.parameters["COMMUNITY_ID"]}');
                         },
                         child: Container(
                           width: 72,

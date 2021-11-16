@@ -25,12 +25,31 @@ class SignUpController extends GetxController {
     switch (response["statusCode"]) {
       case 200:
         print("회원가입 완료");
-        Get.snackbar("회원가입 성공", "회원가입 성공");
+
+        Get.back();
+        await Get.snackbar("회원가입 성공", "회원가입 성공");
 
         break;
       default:
         print("회원가입 실패");
         Get.snackbar("회원가입 실패", "회원가입 실패");
+    }
+  }
+
+  Future IDTest(String id) async {
+    Map<String, String> data = {"id": id};
+
+    final response = await repository.IDTest(data);
+
+    switch (response["statusCode"]) {
+      case 200:
+        print("ID not duplicate");
+        Get.snackbar("ID not duplicate", "ID not duplicate");
+
+        break;
+      default:
+        print("ID duplicate");
+        Get.snackbar("ID duplicate", "ID duplicate");
     }
   }
 

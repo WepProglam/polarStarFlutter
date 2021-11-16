@@ -226,6 +226,44 @@ class PostController extends GetxController {
     ]);
   }
 
+  void scrap_cancel(String urlTemp) {
+    String url = "/board" + urlTemp;
+    Get.defaultDialog(title: '스크랩 취소', middleText: "스크랩 취소 하시겠습니까?", actions: [
+      TextButton(
+          onPressed: () async {
+            Get.back();
+
+            Session().deleteX(url).then((value) {
+              switch (value.statusCode) {
+                case 200:
+                  Get.snackbar("스크랩 취소 성공", "스크랩 취소 성공",
+                      snackPosition: SnackPosition.BOTTOM);
+                  // if (what == "좋아요") {
+                  //   sortedList[index].LIKES++;
+                  // } else if (what == "스크랩") {
+                  //   sortedList[index].SCRAPS++;
+                  // }
+                  // _dataAvailable(false);
+                  _dataAvailable.refresh();
+                  getPostData();
+                  break;
+                case 403:
+                  Get.snackbar('이미 스크랩 취소한 게시글입니다', '이미 스크랩 취소한 게시글입니다',
+                      snackPosition: SnackPosition.BOTTOM);
+                  break;
+                default:
+              }
+            });
+          },
+          child: Text("네")),
+      TextButton(
+          onPressed: () {
+            Get.back();
+          },
+          child: Text("아니요"))
+    ]);
+  }
+
   Future<int> getArrestType() async {
     var response = await Get.defaultDialog(
         title: "신고 사유 선택",

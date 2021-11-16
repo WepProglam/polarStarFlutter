@@ -8,7 +8,7 @@
 
 String checkEmpty(String value) {
   if (value.isEmpty) {
-    return "빈칸입니다 ㅅl ㅂr 정신차리세요";
+    return "Please fill the blank";
   } else {
     return null;
   }

@@ -61,10 +61,10 @@ class SignUpInputs extends StatelessWidget {
     final idController = TextEditingController();
     final pwController = TextEditingController();
     final pwConfirmController = TextEditingController();
-    final emailController = TextEditingController();
+    //final emailController = TextEditingController();
     final nicknameController = TextEditingController();
     final studentIDController = TextEditingController();
-    final emailCodeController = TextEditingController();
+    //final emailCodeController = TextEditingController();
 
     final _formKey = GlobalKey<FormState>();
 
@@ -97,7 +97,9 @@ class SignUpInputs extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 7.0),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () async {
+                            signUpController.IDTest(idController.text);
+                          },
                           child: Ink(
                             height: 40,
                             decoration: BoxDecoration(
@@ -161,98 +163,98 @@ class SignUpInputs extends StatelessWidget {
                   },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.5),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: SignUpTextForm(
-                        textEditingController: emailController,
-                        hint: "Please enter the email",
-                        funcValidator: (value) {
-                          return checkEmpty(value);
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 7.0),
-                        child: InkWell(
-                          onTap: () async {
-                            signUpController
-                                .emailAuthRequest(emailController.text);
-                          },
-                          child: Ink(
-                            height: 40,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xff1a4678)),
-                            child: Center(
-                              child: Text(
-                                "Get Code",
-                                style: const TextStyle(
-                                    color: const Color(0xffffffff),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "PingFangSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 16.0),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.5),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: SignUpTextForm(
-                        textEditingController: emailCodeController,
-                        hint: "Please enter code",
-                        funcValidator: (value) {
-                          return checkEmpty(value);
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 7.0),
-                        child: InkWell(
-                          onTap: () async {
-                            signUpController.emailAuthVerify(
-                                emailController.text, emailCodeController.text);
-                          },
-                          child: Ink(
-                            height: 40,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xff1a4678)),
-                            child: Center(
-                              child: Text(
-                                "Verify Code",
-                                style: const TextStyle(
-                                    color: const Color(0xffffffff),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "PingFangSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 16.0),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(vertical: 8.5),
+              //   child: Row(
+              //     children: [
+              //       Expanded(
+              //         flex: 5,
+              //         child: SignUpTextForm(
+              //           textEditingController: emailController,
+              //           hint: "Please enter the email",
+              //           funcValidator: (value) {
+              //             return checkEmpty(value);
+              //           },
+              //         ),
+              //       ),
+              //       Expanded(
+              //         flex: 2,
+              //         child: Padding(
+              //           padding: const EdgeInsets.only(left: 7.0),
+              //           child: InkWell(
+              //             onTap: () async {
+              //               signUpController
+              //                   .emailAuthRequest(emailController.text);
+              //             },
+              //             child: Ink(
+              //               height: 40,
+              //               decoration: BoxDecoration(
+              //                   borderRadius: BorderRadius.circular(10),
+              //                   color: const Color(0xff1a4678)),
+              //               child: Center(
+              //                 child: Text(
+              //                   "Get Code",
+              //                   style: const TextStyle(
+              //                       color: const Color(0xffffffff),
+              //                       fontWeight: FontWeight.w400,
+              //                       fontFamily: "PingFangSC",
+              //                       fontStyle: FontStyle.normal,
+              //                       fontSize: 16.0),
+              //                 ),
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(vertical: 8.5),
+              //   child: Row(
+              //     children: [
+              //       Expanded(
+              //         flex: 5,
+              //         child: SignUpTextForm(
+              //           textEditingController: emailCodeController,
+              //           hint: "Please enter code",
+              //           funcValidator: (value) {
+              //             return checkEmpty(value);
+              //           },
+              //         ),
+              //       ),
+              //       Expanded(
+              //         flex: 2,
+              //         child: Padding(
+              //           padding: const EdgeInsets.only(left: 7.0),
+              //           child: InkWell(
+              //             onTap: () async {
+              //               signUpController.emailAuthVerify(
+              //                   emailController.text, emailCodeController.text);
+              //             },
+              //             child: Ink(
+              //               height: 40,
+              //               decoration: BoxDecoration(
+              //                   borderRadius: BorderRadius.circular(10),
+              //                   color: const Color(0xff1a4678)),
+              //               child: Center(
+              //                 child: Text(
+              //                   "Verify Code",
+              //                   style: const TextStyle(
+              //                       color: const Color(0xffffffff),
+              //                       fontWeight: FontWeight.w400,
+              //                       fontFamily: "PingFangSC",
+              //                       fontStyle: FontStyle.normal,
+              //                       fontSize: 16.0),
+              //                 ),
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.only(top: 64, bottom: 48),
                 child: InkWell(

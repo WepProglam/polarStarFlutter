@@ -14,6 +14,11 @@ class SignUpRepository {
     return response;
   }
 
+  IDTest(data) async {
+    final response = await apiClient.IDTestApi(data);
+    return response;
+  }
+
   emailAuthRequest(data) async {
     final response = await apiClient.emailAuthRequestApi(data);
     return response;
