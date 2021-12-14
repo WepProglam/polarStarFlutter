@@ -12,6 +12,7 @@ import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/services.dart';
 import 'app/controller/loby/init_controller.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class MyBehavior extends ScrollBehavior {
   @override
@@ -28,6 +29,15 @@ void main() async {
 
   InitController initController = await Get.put(
       InitController(repository: LoginRepository(apiClient: LoginApiClient())));
+
+  String FcmToken;
+  FirebaseMessaging.instance
+      .getToken(
+          vapidKey:
+              'BGpdLRsMJKvFDD9odfPk92uBg-JbQbyoiZdah0XlUyrjG4SDgUsE1iC_kdRgt4Kn0CO7K3RTswPZt61NNuO0XoA')
+      .then((_) {
+    FcmToken = _;
+  });
 
   // while (!initController.dataAvailable.value) {
   //   print(initController.dataAvailable.value);
