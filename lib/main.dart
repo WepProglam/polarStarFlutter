@@ -25,6 +25,7 @@ void main() async {
   await GetStorage.init();
 
   await Firebase.initializeApp();
+
   InitController initController = await Get.put(
       InitController(repository: LoginRepository(apiClient: LoginApiClient())));
 

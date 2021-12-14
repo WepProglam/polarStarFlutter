@@ -14,41 +14,43 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        titleSpacing: 0,
-        backgroundColor: Color(0xffffffff),
-        elevation: 0,
-        title: Row(
-          children: [
-            Container(
-              width: 9.4,
-              height: 16.7,
-              margin: EdgeInsets.only(left: 15, right: 14.6),
-              child: InkWell(
-                onTap: () {
-                  Get.back();
-                },
-                child: Image.asset(
-                  "assets/images/978.png",
-                  fit: BoxFit.fitHeight,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          titleSpacing: 0,
+          backgroundColor: Color(0xffffffff),
+          elevation: 0,
+          title: Row(
+            children: [
+              Container(
+                width: 9.4,
+                height: 16.7,
+                margin: EdgeInsets.only(left: 15, right: 14.6),
+                child: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Image.asset(
+                    "assets/images/978.png",
+                    fit: BoxFit.fitHeight,
+                  ),
                 ),
               ),
-            ),
-            Text(
-              'Sign Up',
-              style: const TextStyle(
-                  color: const Color(0xff333333),
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "PingFangSC",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 21.0),
-            ),
-          ],
+              Text(
+                'Sign Up',
+                style: const TextStyle(
+                    color: const Color(0xff333333),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "PingFangSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 21.0),
+              ),
+            ],
+          ),
         ),
+        body: SignUpInputs(),
       ),
-      body: SignUpInputs(),
     );
   }
 }
