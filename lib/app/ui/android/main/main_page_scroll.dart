@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
+import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
+import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
@@ -15,6 +18,8 @@ import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:flutter/services.dart';
+
+import '../../../../main.dart';
 
 class MainPageScroll extends StatelessWidget {
   final box = GetStorage();
@@ -89,11 +94,15 @@ class MainPageScroll extends StatelessWidget {
                 Ink(
                   child: InkWell(
                     onTap: () async {
+                      print("adfadsfdfsdfasf");
                       await box.erase();
                       await box.remove('id');
                       await box.remove('pw');
                       await box.remove('token');
                       await box.write('isAutoLogin', false);
+
+                      await box.save();
+                      print(box.read('id'));
 
                       Session.cookies = {};
                       Session.headers['Cookie'] = '';
@@ -118,6 +127,12 @@ class MainPageScroll extends StatelessWidget {
           ),
         ),
       ),
+      // ! 알림 로직 & 재로그인 구현 후 삭제
+      floatingActionButton: FloatingActionButton(onPressed: () async {
+        InitController initController = await Get.put(InitController(
+            repository: LoginRepository(apiClient: LoginApiClient())));
+        await checkFcmToken(initController);
+      }),
       bottomNavigationBar:
           CustomBottomNavigationBar(mainController: mainController),
       body: Obx(() {

@@ -34,36 +34,40 @@ class Session extends GetConnect {
     print('relogin...');
     user_id = box.read("id");
     user_pw = box.read("pw");
-    print('id: $user_id\npw: $user_pw');
+    if (user_id == null || user_pw == null) {
+      return;
+    } else {
+      print('id: $user_id\npw: $user_pw');
 
-    Map<String, String> data = {
-      'id': user_id,
-      'pw': user_pw,
-    };
-    await getX('/login').then((value) {
-      switch (value.statusCode) {
-        case 200: // 정상
-          Session.salt = updateCookie(value, 'salt');
-          // data['pw'] = crypto_login(user_id, user_pw);
-          postX('/login', data).then((val) {
-            switch (val.statusCode) {
-              case 200:
-                Session.session = updateCookie(val, 'connect.sid');
-                Get.back();
-                // Get.reloadAll();
-                Get.snackbar('다시 로그인 됐습니다.', '다시 로그인 됐습니다');
-                return val;
-                break;
-              default:
-                return val;
-            }
-          });
-          break;
-        case 401:
-          break;
-        default:
-      }
-    });
+      Map<String, String> data = {
+        'id': user_id,
+        'pw': user_pw,
+      };
+      await getX('/login').then((value) {
+        switch (value.statusCode) {
+          case 200: // 정상
+            Session.salt = updateCookie(value, 'salt');
+            // data['pw'] = crypto_login(user_id, user_pw);
+            postX('/login', data).then((val) {
+              switch (val.statusCode) {
+                case 200:
+                  Session.session = updateCookie(val, 'connect.sid');
+                  Get.back();
+                  // Get.reloadAll();
+                  Get.snackbar('다시 로그인 됐습니다.', '다시 로그인 됐습니다');
+                  return val;
+                  break;
+                default:
+                  return val;
+              }
+            });
+            break;
+          case 401:
+            break;
+          default:
+        }
+      });
+    }
   }
 
   Future<http.Response> getX(String url) =>

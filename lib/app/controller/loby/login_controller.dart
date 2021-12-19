@@ -28,10 +28,18 @@ class LoginController extends GetxController {
       'pw': user_pw,
     };
 
+    print(data);
+
     final response = await repository.login(data);
 
     switch (response["statusCode"]) {
       case 200:
+        // * 이미 박스에 데이터 있을 때
+        if (box.hasData('id') || box.hasData('pw')) {
+          await box.remove('id');
+          await box.remove('pw');
+          print("없어짐");
+        }
         Get.snackbar("로그인 성공", "로그인 성공");
 
         if (isAutoLogin.value) {
