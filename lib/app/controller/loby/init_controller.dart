@@ -82,8 +82,18 @@ class InitController extends GetxController {
     return false;
   }
 
+  // void iOS_Permission() {
+  //   _firebaseMessaging.requestNotificationPermissions(
+  //       IosNotificationSettings(sound: true, badge: true, alert: true));
+  //   _firebaseMessaging.onIosSettingsRegistered
+  //       .listen((IosNotificationSettings settings) {
+  //     print("Settings registered: $settings");
+  //   });
+  // }
+
   @override
   void onInit() async {
     super.onInit();
+    // firebaseCloudMessaging_Listeners();
   }
 }

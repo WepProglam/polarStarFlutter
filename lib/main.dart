@@ -14,6 +14,8 @@ import 'package:flutter/services.dart';
 import 'app/controller/loby/init_controller.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+InitController initController;
+
 class MyBehavior extends ScrollBehavior {
   @override
   Widget buildViewportChrome(
@@ -30,12 +32,31 @@ void checkFcmToken(InitController initController) async {
   return;
 }
 
+// ignore: non_constant_identifier_names
+void onforegroundMessage() {
+  // if (Platform.isIOS) iOS_Permission();
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    Get.snackbar(
+        "${message.notification.title}", "${message.notification.body}",
+        snackPosition: SnackPosition.TOP);
+  });
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print("Handling a background message: ${message.messageId}");
+  print("Handling a background message: ${message.data}");
+}
+
 void main() async {
   await GetStorage.init();
 
   await Firebase.initializeApp();
 
-  InitController initController = await Get.put(
+  initController = await Get.put(
       InitController(repository: LoginRepository(apiClient: LoginApiClient())));
 
   bool isLogined = await initController.checkLogin();
@@ -45,6 +66,11 @@ void main() async {
 
   // fcm token check
   await checkFcmToken(initController);
+
+  // * FCM background
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // * FCM foreground
+  onforegroundMessage();
 
   await runApp(GetMaterialApp(
     theme: ThemeData(),
