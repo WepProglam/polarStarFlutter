@@ -143,7 +143,7 @@ class LoginInputs extends GetView<LoginController> {
                               FocusScope.of(context).unfocus();
                               if (_formKey.currentState.validate()) {
                                 await controller.login(loginIdContoller.text,
-                                    loginPwContoller.text, "1123123123");
+                                    loginPwContoller.text);
                                 // await userLogin(notiController.tokenFCM.value);
                               }
                             },
@@ -230,8 +230,8 @@ class LoginInputs extends GetView<LoginController> {
                 onTap: () async {
                   print(_formKey.currentState.validate());
                   if (_formKey.currentState.validate()) {
-                    await controller.login(loginIdContoller.text,
-                        loginPwContoller.text, "1123123123");
+                    await controller.login(
+                        loginIdContoller.text, loginPwContoller.text);
                     // await userLogin(notiController.tokenFCM.value);
                   }
                 },

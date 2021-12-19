@@ -13,4 +13,8 @@ class LoginRepository {
     final response = await apiClient.postLogin(data);
     return response;
   }
+
+  Future<int> tokenRefresh(data) async {
+    return await apiClient.tokenRefresh(data);
+  }
 }

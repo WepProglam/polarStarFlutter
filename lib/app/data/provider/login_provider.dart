@@ -11,6 +11,11 @@ class LoginApiClient {
     Session.session = Session().updateCookie(response, 'connect.sid');
     return {"statusCode": response.statusCode};
   }
+
+  Future<int> tokenRefresh(data) async {
+    var response = await Session().postX("/login/fcmToken", data);
+    return response.statusCode;
+  }
 }
 
 

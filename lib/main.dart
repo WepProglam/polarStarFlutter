@@ -22,6 +22,14 @@ class MyBehavior extends ScrollBehavior {
   }
 }
 
+void checkFcmToken(InitController initController) async {
+  String tempFcmToken = await initController.checkFcmToken();
+  if (initController.needRefreshToken(tempFcmToken)) {
+    await initController.tokenRefresh(tempFcmToken);
+  }
+  return;
+}
+
 void main() async {
   await GetStorage.init();
 
@@ -30,19 +38,8 @@ void main() async {
   InitController initController = await Get.put(
       InitController(repository: LoginRepository(apiClient: LoginApiClient())));
 
-  String FcmToken;
-  FirebaseMessaging.instance
-      .getToken(
-          vapidKey:
-              'BGpdLRsMJKvFDD9odfPk92uBg-JbQbyoiZdah0XlUyrjG4SDgUsE1iC_kdRgt4Kn0CO7K3RTswPZt61NNuO0XoA')
-      .then((_) {
-    FcmToken = _;
-  });
-
-  // while (!initController.dataAvailable.value) {
-  //   print(initController.dataAvailable.value);
-  //   print("waiting..");
-  // }
+  // fcm token check
+  await checkFcmToken(initController);
 
   bool isLogined = await initController.checkLogin();
 

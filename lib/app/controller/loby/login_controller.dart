@@ -19,14 +19,13 @@ class LoginController extends GetxController {
 
   var loginModel = LoginModel().obs;
 
-  Future login(String id, String pw, String token) async {
+  Future login(String id, String pw) async {
     String user_id = id;
     String user_pw = pw;
 
     Map<String, String> data = {
       'id': user_id,
       'pw': user_pw,
-      'token': token,
     };
 
     final response = await repository.login(data);
@@ -39,11 +38,9 @@ class LoginController extends GetxController {
           await box.write('isAutoLogin', true);
           await box.write('id', id);
           await box.write('pw', pw);
-          await box.write('token', data["token"]);
         } else {
           await box.remove('id');
           await box.remove('pw');
-          await box.remove('token');
           await box.write('isAutoLogin', false);
         }
 

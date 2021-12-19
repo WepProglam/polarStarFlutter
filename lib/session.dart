@@ -33,14 +33,15 @@ class Session extends GetConnect {
     Session.headers['Cookie'] = '';
 
     print('relogin...');
+    user_id = box.read("id");
+    user_pw = box.read("pw");
     print('id: $user_id\npw: $user_pw');
 
     Map<String, String> data = {
       'id': user_id,
       'pw': user_pw,
-      // 'token': notiController.tokenFCM.value,
     };
-    getX('/login').then((value) {
+    await getX('/login').then((value) {
       switch (value.statusCode) {
         case 200: // 정상
           Session.salt = updateCookie(value, 'salt');
