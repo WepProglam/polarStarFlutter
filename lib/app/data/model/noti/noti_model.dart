@@ -3,6 +3,7 @@ class NotiModel {
   int NOTI_ID, NOTI_TYPE;
   DateTime TIME_CREATED;
   bool isReaded;
+  int COMMUNITY_ID, BOARD_ID;
 
   NotiModel({URL, CONTENT, TIME_CREATED, isReaded, TITLE, NOTI_TYPE});
 
@@ -14,6 +15,12 @@ class NotiModel {
     this.NOTI_ID = json["NOTI_ID"];
     this.NOTI_TYPE = json["NOTI_TYPE"];
     this.isReaded = false;
+    this.COMMUNITY_ID = null;
+    this.BOARD_ID = null;
+    if (this.NOTI_TYPE == 0) {
+      this.COMMUNITY_ID = int.parse(json["URL"].split("/")[1]);
+      this.BOARD_ID = int.parse(json["URL"].split("/")[3]);
+    }
   }
 }
 

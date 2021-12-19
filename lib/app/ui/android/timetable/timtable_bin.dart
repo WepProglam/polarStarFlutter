@@ -21,8 +21,8 @@ class TimeTableBin extends StatelessWidget {
                 Container(
                   color: Colors.white,
                   padding: const EdgeInsets.only(
-                      top: 1.5, left: 15, right: 15, bottom: 12.5),
-                  height: 28 + 12.5 + 1.5,
+                      top: 10, left: 15, right: 15, bottom: 12.5),
+                  height: 28 + 12.5 + 10,
                   child: Container(
                     child: Row(
                       children: [

@@ -11,6 +11,7 @@ import 'package:polarstar_flutter/app/routes/app_pages.dart';
 // import 'app/ui/theme/app_theme.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/services.dart';
+import 'package:polarstar_flutter/firebase/firebase_config.dart';
 import 'app/controller/loby/init_controller.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -32,7 +33,7 @@ void checkFcmToken(InitController initController) async {
   return;
 }
 
-// ignore: non_constant_identifier_names
+// TODO: 스낵바 모양
 void onforegroundMessage() {
   // if (Platform.isIOS) iOS_Permission();
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -42,10 +43,20 @@ void onforegroundMessage() {
   });
 }
 
+// TODO: 백그라운드에서 알림 스낵바 & 클릭했을때 이동 & 플랫폼 옵션 (app key, api key)
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseConfig.platformOptions);
+  String noti_type = message.data["type"];
+  String url = message.data["url"];
+
+  // if (noti_type == "댓글") {
+  //   String temp = url.split("board/")[1];
+  //   int community_id = int.parse(temp.split("/read/")[0]);
+  //   int board_id = int.parse(temp.split("/read/")[1]);
+  //   Get.toNamed("/board/$community_id/read/$board_id");
+  // }
 
   print("Handling a background message: ${message.messageId}");
   print("Handling a background message: ${message.data}");

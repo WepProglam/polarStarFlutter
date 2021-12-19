@@ -32,6 +32,8 @@ class NotiNotiBox extends StatelessWidget {
               ),
             ]);
           } else {
+            String COMMUNITY_ID;
+            String BOARD_ID;
             return ListView.builder(
                 itemCount: notiController.noties.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -41,8 +43,8 @@ class NotiNotiBox extends StatelessWidget {
                       child: InkWell(
                         onTap: () async {
                           if (model.value.NOTI_TYPE == 0) {
-                            String COMMUNITY_ID = model.value.URL.split("/")[1];
-                            String BOARD_ID = model.value.URL.split("/")[3];
+                            COMMUNITY_ID = model.value.URL.split("/")[1];
+                            BOARD_ID = model.value.URL.split("/")[3];
                             Get.toNamed(
                                 "/board/${COMMUNITY_ID}/read/${BOARD_ID}");
                           } else {
@@ -102,8 +104,9 @@ class NotiNotiBox extends StatelessWidget {
                                                       top: 1.5),
                                                   child: Text(
                                                       //게시판일 경우
+
                                                       model.value.NOTI_TYPE == 0
-                                                          ? "${communityBoardName(int.parse(model.value.TITLE))}"
+                                                          ? "${communityBoardName(model.value.COMMUNITY_ID)}"
                                                           : "${model.value.TITLE}",
                                                       style: const TextStyle(
                                                           color: const Color(

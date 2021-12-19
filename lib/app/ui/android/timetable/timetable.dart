@@ -95,7 +95,9 @@ class Timetable extends StatelessWidget {
                 Obx(() {
                   bool isHidden = timeTableController.isHidden.value;
                   if (isHidden) {
-                    return Container();
+                    return Container(
+                      height: 40,
+                    );
                   }
                   return (timeTableController.selectTable.value.CLASSES ==
                               null ||

@@ -158,78 +158,78 @@ class Profile extends StatelessWidget {
                             child: Container(
                                 child: Column(
                           children: [
-                            Container(
-                                height: 54.6,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: const Color(0xffdedede),
-                                            width: 1))),
-                                child: Stack(children: [
-                                  Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Container(
-                                          margin: EdgeInsets.only(left: 15),
-                                          child: Text("Name",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff333333),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "PingFangSC",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 16.0),
-                                              textAlign: TextAlign.left))),
-                                  Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Container(
-                                          margin: EdgeInsets.only(right: 18),
-                                          child: Text("Li Ming",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff666666),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "PingFangSC",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 16.0),
-                                              textAlign: TextAlign.left)))
-                                ])),
-                            Container(
-                                height: 54.6,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: const Color(0xffdedede),
-                                            width: 1))),
-                                child: Stack(children: [
-                                  Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Container(
-                                          margin: EdgeInsets.only(left: 15),
-                                          child: Text("University",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff333333),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "PingFangSC",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 16.0),
-                                              textAlign: TextAlign.left))),
-                                  Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Container(
-                                          margin: EdgeInsets.only(right: 18),
-                                          child: Text("Li Ming",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff666666),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "PingFangSC",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 16.0),
-                                              textAlign: TextAlign.left)))
-                                ])),
+                            // Container(
+                            //     height: 54.6,
+                            //     width: MediaQuery.of(context).size.width,
+                            //     decoration: BoxDecoration(
+                            //         border: Border(
+                            //             bottom: BorderSide(
+                            //                 color: const Color(0xffdedede),
+                            //                 width: 1))),
+                            //     child: Stack(children: [
+                            //       Align(
+                            //           alignment: Alignment.centerLeft,
+                            //           child: Container(
+                            //               margin: EdgeInsets.only(left: 15),
+                            //               child: Text("Name",
+                            //                   style: const TextStyle(
+                            //                       color:
+                            //                           const Color(0xff333333),
+                            //                       fontWeight: FontWeight.w400,
+                            //                       fontFamily: "PingFangSC",
+                            //                       fontStyle: FontStyle.normal,
+                            //                       fontSize: 16.0),
+                            //                   textAlign: TextAlign.left))),
+                            //       Align(
+                            //           alignment: Alignment.centerRight,
+                            //           child: Container(
+                            //               margin: EdgeInsets.only(right: 18),
+                            //               child: Text("Li Ming",
+                            //                   style: const TextStyle(
+                            //                       color:
+                            //                           const Color(0xff666666),
+                            //                       fontWeight: FontWeight.w400,
+                            //                       fontFamily: "PingFangSC",
+                            //                       fontStyle: FontStyle.normal,
+                            //                       fontSize: 16.0),
+                            //                   textAlign: TextAlign.left)))
+                            //     ])),
+                            // Container(
+                            //     height: 54.6,
+                            //     width: MediaQuery.of(context).size.width,
+                            //     decoration: BoxDecoration(
+                            //         border: Border(
+                            //             bottom: BorderSide(
+                            //                 color: const Color(0xffdedede),
+                            //                 width: 1))),
+                            //     child: Stack(children: [
+                            //       Align(
+                            //           alignment: Alignment.centerLeft,
+                            //           child: Container(
+                            //               margin: EdgeInsets.only(left: 15),
+                            //               child: Text("University",
+                            //                   style: const TextStyle(
+                            //                       color:
+                            //                           const Color(0xff333333),
+                            //                       fontWeight: FontWeight.w400,
+                            //                       fontFamily: "PingFangSC",
+                            //                       fontStyle: FontStyle.normal,
+                            //                       fontSize: 16.0),
+                            //                   textAlign: TextAlign.left))),
+                            //       Align(
+                            //           alignment: Alignment.centerRight,
+                            //           child: Container(
+                            //               margin: EdgeInsets.only(right: 18),
+                            //               child: Text("Li Ming",
+                            //                   style: const TextStyle(
+                            //                       color:
+                            //                           const Color(0xff666666),
+                            //                       fontWeight: FontWeight.w400,
+                            //                       fontFamily: "PingFangSC",
+                            //                       fontStyle: FontStyle.normal,
+                            //                       fontSize: 16.0),
+                            //                   textAlign: TextAlign.left)))
+                            //     ])),
                             Container(
                                 height: 54.6,
                                 width: MediaQuery.of(context).size.width,
@@ -360,43 +360,43 @@ class Profile extends StatelessWidget {
                                 onTap: () async {
                                   NicknameDialog(context, myPageController);
                                 }),
-                            Container(
-                                height: 54.6,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: const Color(0xffdedede),
-                                            width: 1))),
-                                child: Stack(children: [
-                                  Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Container(
-                                          margin: EdgeInsets.only(left: 15),
-                                          child: Text("STUDENT ID",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff333333),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "PingFangSC",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 16.0),
-                                              textAlign: TextAlign.left))),
-                                  Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Container(
-                                          margin: EdgeInsets.only(right: 18),
-                                          child: Text(
-                                              "${myPageController.myProfile.value.PROFILE_SCHOOL}",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff666666),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "PingFangSC",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 16.0),
-                                              textAlign: TextAlign.left))),
-                                ]))
+                            // Container(
+                            //     height: 54.6,
+                            //     width: MediaQuery.of(context).size.width,
+                            //     decoration: BoxDecoration(
+                            //         border: Border(
+                            //             bottom: BorderSide(
+                            //                 color: const Color(0xffdedede),
+                            //                 width: 1))),
+                            //     child: Stack(children: [
+                            //       Align(
+                            //           alignment: Alignment.centerLeft,
+                            //           child: Container(
+                            //               margin: EdgeInsets.only(left: 15),
+                            //               child: Text("STUDENT ID",
+                            //                   style: const TextStyle(
+                            //                       color:
+                            //                           const Color(0xff333333),
+                            //                       fontWeight: FontWeight.w400,
+                            //                       fontFamily: "PingFangSC",
+                            //                       fontStyle: FontStyle.normal,
+                            //                       fontSize: 16.0),
+                            //                   textAlign: TextAlign.left))),
+                            //       Align(
+                            //           alignment: Alignment.centerRight,
+                            //           child: Container(
+                            //               margin: EdgeInsets.only(right: 18),
+                            //               child: Text(
+                            //                   "${myPageController.myProfile.value.PROFILE_SCHOOL}",
+                            //                   style: const TextStyle(
+                            //                       color:
+                            //                           const Color(0xff666666),
+                            //                       fontWeight: FontWeight.w400,
+                            //                       fontFamily: "PingFangSC",
+                            //                       fontStyle: FontStyle.normal,
+                            //                       fontSize: 16.0),
+                            //                   textAlign: TextAlign.left))),
+                            //     ]))
                           ],
                         )))
                       ]);
