@@ -38,13 +38,13 @@ void main() async {
   InitController initController = await Get.put(
       InitController(repository: LoginRepository(apiClient: LoginApiClient())));
 
-  // fcm token check
-  await checkFcmToken(initController);
-
   bool isLogined = await initController.checkLogin();
 
   print(isLogined);
   print("start");
+
+  // fcm token check
+  await checkFcmToken(initController);
 
   await runApp(GetMaterialApp(
     theme: ThemeData(),

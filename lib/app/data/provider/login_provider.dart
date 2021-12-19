@@ -14,6 +14,7 @@ class LoginApiClient {
 
   Future<int> tokenRefresh(data) async {
     var response = await Session().postX("/login/fcmToken", data);
+    print("scakk");
     return response.statusCode;
   }
 }

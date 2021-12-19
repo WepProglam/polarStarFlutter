@@ -27,12 +27,15 @@ class InitController extends GetxController {
 
   Future<void> tokenRefresh(String FcmToken) async {
     Map<String, String> data = {"FcmToken": FcmToken};
+    print(data);
     final int response = await repository.tokenRefresh(data);
     switch (response) {
       case 200:
         break;
       default:
     }
+
+    print("fcm return : ${response}");
     return;
   }
 

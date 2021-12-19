@@ -15,6 +15,7 @@ class LoginRepository {
   }
 
   Future<int> tokenRefresh(data) async {
-    return await apiClient.tokenRefresh(data);
+    final int rc = await apiClient.tokenRefresh(data);
+    return rc;
   }
 }
