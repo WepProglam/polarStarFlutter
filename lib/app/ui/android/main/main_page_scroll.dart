@@ -30,22 +30,16 @@ class MainPageScroll extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final PageController outsidePageController = PageController();
-    changeStatusBarColor(Color(0xfff6f6f6));
+    changeStatusBarColor(Color(0xfff6f6f6), Brightness.dark);
     return Scaffold(
-      // backgroundColor: Colors.transparent,
       appBar: AppBar(
-        // backgroundColor: Colors.transparent,
-        // Colors.pink,
-        // Colors.lightBlue[100],
-        // const Color(0xfff6f6f6),
         elevation: 0,
-        toolbarHeight: 9 + 24 + 24.5 / 2 - 1,
+        toolbarHeight: 45.3,
         automaticallyImplyLeading: false,
         titleSpacing: 0,
         title: Container(
           padding: const EdgeInsets.only(
               top: 9, left: 21, right: 15, bottom: 24.5 / 2),
-          // margin: const EdgeInsets.only(bottom: 12.25),
           width: size.width,
           decoration: BoxDecoration(
             // gradient: LinearGradient(

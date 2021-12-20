@@ -87,7 +87,7 @@ void main() async {
   //     statusBarColor: const Color(0xfff6f6f6),
   //     statusBarBrightness: Brightness.light));
 
-  changeStatusBarColor(Color(0xfff6f6f6));
+  changeStatusBarColor(Color(0xfff6f6f6), Brightness.light);
 
   await runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want
@@ -104,7 +104,7 @@ void main() async {
   ));
 }
 
-void changeStatusBarColor(Color color) {
+void changeStatusBarColor(Color color, Brightness brighteness) {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: color, statusBarBrightness: Brightness.light));
+      statusBarColor: color, statusBarBrightness: brighteness));
 }

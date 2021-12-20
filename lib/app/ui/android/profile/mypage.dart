@@ -15,7 +15,7 @@ class Mypage extends StatelessWidget {
   final MainController mainController = Get.find();
   @override
   Widget build(BuildContext context) {
-    changeStatusBarColor(Color(0xff1a4678));
+    changeStatusBarColor(Color(0xff1a4678), Brightness.dark);
     return SafeArea(
       child: Scaffold(
           backgroundColor: const Color(0xfff2f2f2),
@@ -30,10 +30,12 @@ class Mypage extends StatelessWidget {
                     Container(
                         height: 294,
                         width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('assets/images/279.png'),
-                                fit: BoxFit.none)),
+                        // decoration: BoxDecoration(
+                        //     image: DecorationImage(
+                        //         image: AssetImage('assets/images/279.png'),
+                        //         fit: BoxFit.none)),
+                        // ! 왜 이걸 이미지를?
+                        color: const Color(0xff1a4678),
                         child:
                             MyPageProfile(myPageController: myPageController)),
                     Container(
