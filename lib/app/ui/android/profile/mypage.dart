@@ -8,12 +8,14 @@ import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/data/model/profile/mypage_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
+import 'package:polarstar_flutter/main.dart';
 
 class Mypage extends StatelessWidget {
   final MyPageController myPageController = Get.find();
   final MainController mainController = Get.find();
   @override
   Widget build(BuildContext context) {
+    changeStatusBarColor(Color(0xff1a4678));
     return SafeArea(
       child: Scaffold(
           backgroundColor: const Color(0xfff2f2f2),

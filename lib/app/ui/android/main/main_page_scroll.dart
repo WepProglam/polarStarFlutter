@@ -30,6 +30,7 @@ class MainPageScroll extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final PageController outsidePageController = PageController();
+    changeStatusBarColor(Color(0xfff6f6f6));
     return Scaffold(
       // backgroundColor: Colors.transparent,
       appBar: AppBar(
@@ -38,7 +39,7 @@ class MainPageScroll extends StatelessWidget {
         // Colors.lightBlue[100],
         // const Color(0xfff6f6f6),
         elevation: 0,
-        toolbarHeight: 9 + 24 + 24.5 / 2,
+        toolbarHeight: 9 + 24 + 24.5 / 2 - 1,
         automaticallyImplyLeading: false,
         titleSpacing: 0,
         title: Container(
@@ -47,22 +48,26 @@ class MainPageScroll extends StatelessWidget {
           // margin: const EdgeInsets.only(bottom: 12.25),
           width: size.width,
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  // Alignment(0.5, 0),
-                  end: Alignment.bottomCenter,
-                  // Alignment(0.5, 1),
-                  stops: [
-                0.0,
-                1.0,
-              ],
-                  colors: [
-                // Colors.lightBlue[100],
-                // Colors.lightBlue[50],
-                // const Color(0xfff6f6f6),
-                const Color(0xff1a4678),
-                const Color(0xff275180),
-              ])),
+            // gradient: LinearGradient(
+            //   begin: Alignment.topCenter,
+            //   // Alignment(0.5, 0),
+            //   end: Alignment.bottomCenter,
+            //   // Alignment(0.5, 1),
+            //   stops: [
+            //     0.0,
+            //     1.0,
+            //   ],
+            //   colors: [
+            //     // Colors.lightBlue[100],
+            //     // Colors.lightBlue[50],
+            //     // const Color(0xfff6f6f6),
+            //     const Color(0xff1a4678),
+            //     const Color(0xff275180),
+            //   ],
+            // ),
+            color: const Color(0xfff6f6f6),
+            // color: const Color(0xffffffff),
+          ),
           child: Container(
             height: 24,
             child: Row(
@@ -71,9 +76,11 @@ class MainPageScroll extends StatelessWidget {
                   child: Text(
                     "POLAR STAR",
                     style: TextStyle(
+                        // fontSize: 25,
                         fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400),
+                        // color: Colors.white,
+                        color: const Color(0xff1a4678),
+                        fontWeight: FontWeight.w900),
                   ),
                 ),
                 Spacer(),
@@ -86,7 +93,8 @@ class MainPageScroll extends StatelessWidget {
                       },
                       child: Icon(
                         Icons.search,
-                        color: Colors.white,
+                        color: const Color(0xff1a4678),
+                        // color: Colors.white,
                       ),
                     ),
                   ),
@@ -117,7 +125,8 @@ class MainPageScroll extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: Icon(
                         Icons.logout,
-                        color: Colors.white,
+                        color: const Color(0xff1a4678),
+                        // color: Colors.white,
                       ),
                     ),
                   ),
@@ -142,25 +151,28 @@ class MainPageScroll extends StatelessWidget {
           return SingleChildScrollView(
             child: Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      // Alignment(0.5, 0),
-                      end: Alignment.bottomCenter,
-                      // Alignment(0.5, 1),
-                      stops: [
-                    0.0,
-                    0.05,
-                    0.1
-                  ],
-                      colors: [
-                    // Colors.lightBlue[100],
-                    // Colors.lightBlue[50],
-                    // const Color(0xfff6f6f6),
-                    // const Color(0xff1a4678),
-                    const Color(0xff275180),
-                    const Color(0xba1a4678),
-                    const Color(0xfff6f6f6),
-                  ])),
+                // gradient: LinearGradient(
+                //     begin: Alignment.topCenter,
+                //     // Alignment(0.5, 0),
+                //     end: Alignment.bottomCenter,
+                //     // Alignment(0.5, 1),
+                //     stops: [
+                //       0.0,
+                //       0.05,
+                //       0.1
+                //     ],
+                //     colors: [
+                //       // Colors.lightBlue[100],
+                //       // Colors.lightBlue[50],
+                //       // const Color(0xfff6f6f6),
+                //       // const Color(0xff1a4678),
+                //       const Color(0xff275180),
+                //       const Color(0xba1a4678),
+                //       const Color(0xfff6f6f6),
+                //     ]),
+                // color: const Color(0xffffffff)
+                color: const Color(0xfff6f6f6),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

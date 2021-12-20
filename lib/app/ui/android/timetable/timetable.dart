@@ -10,6 +10,7 @@ import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.d
 import 'package:flutter/services.dart';
 
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/main.dart';
 
 class Timetable extends StatelessWidget {
   Timetable({Key key}) : super(key: key);
@@ -18,7 +19,7 @@ class Timetable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
+    changeStatusBarColor(Colors.white);
     return Scaffold(
         bottomNavigationBar:
             CustomBottomNavigationBar(mainController: mainController),

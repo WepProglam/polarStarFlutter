@@ -83,7 +83,14 @@ void main() async {
   // * FCM foreground
   onforegroundMessage();
 
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //     statusBarColor: const Color(0xfff6f6f6),
+  //     statusBarBrightness: Brightness.light));
+
+  changeStatusBarColor(Color(0xfff6f6f6));
+
   await runApp(GetMaterialApp(
+    themeMode: ThemeMode.light, // Change it as you want
     theme: ThemeData(),
     scrollBehavior: MyBehavior(),
     debugShowCheckedModeBanner: false,
@@ -95,4 +102,9 @@ void main() async {
     locale: Locale('pt', 'BR'),
     // translationsKeys: AppTranslation.translations,
   ));
+}
+
+void changeStatusBarColor(Color color) {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: color, statusBarBrightness: Brightness.light));
 }

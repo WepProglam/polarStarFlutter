@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
+import 'package:polarstar_flutter/main.dart';
 
 class NotiAppBar extends StatelessWidget {
   const NotiAppBar(
@@ -12,9 +14,13 @@ class NotiAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    changeStatusBarColor(Colors.white);
     return AppBar(
       toolbarHeight: 55,
-      backgroundColor: const Color(0xff194678),
+      // backgroundColor: const Color(0xff194678),
+      // backgroundColor: const Color(0xfff6f6f6),
+      backgroundColor: const Color(0xffffffff),
+
       elevation: 0,
       titleSpacing: 0,
       title: Container(
@@ -39,7 +45,8 @@ class NotiAppBar extends StatelessWidget {
                           margin: const EdgeInsets.only(bottom: 4),
                           child: Text("알림",
                               style: TextStyle(
-                                  color: const Color(0xffffffff),
+                                  color: const Color(0xff194678),
+                                  // color: const Color(0xffffffff),
                                   fontWeight: pageViewIndex == 0
                                       ? FontWeight.w700
                                       : FontWeight.w400,
@@ -78,7 +85,8 @@ class NotiAppBar extends StatelessWidget {
                             child: Text(
                               "쪽지",
                               style: TextStyle(
-                                  color: const Color(0xffffffff),
+                                  color: const Color(0xff194678),
+                                  // color: const Color(0xffffffff),
                                   fontWeight: pageViewIndex == 0
                                       ? FontWeight.w400
                                       : FontWeight.w700,
@@ -113,11 +121,15 @@ class NotiTopLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //     statusBarColor: Colors.black, statusBarBrightness: Brightness.light));
     return Container(
         width: 55,
         height: 3,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            color: const Color(0xffffffff)));
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          // color: const Color(0xffffffff),
+          color: const Color(0xff194678),
+        ));
   }
 }

@@ -52,7 +52,8 @@ class NotiMailBox extends StatelessWidget {
                         },
                         child: Container(
                           color: !model.value.isReaded && !model.value.MY_SELF
-                              ? Colors.lightBlue[50]
+                              ? Colors.white
+                              // Colors.lightBlue[50]
                               : Color(0xfff6f6f6),
                           height: 56 + 10.0,
                           // margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),

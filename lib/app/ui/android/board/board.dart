@@ -20,7 +20,8 @@ class Board extends StatelessWidget {
             backgroundColor: Color(0xfff6f6f6),
             appBar: AppBar(
               toolbarHeight: 55 + 10.0,
-              backgroundColor: Color(0xffffffff),
+              backgroundColor: const Color(0xfff6f6f6),
+              // backgroundColor: const Color(0xffffffff),
               foregroundColor: Color(0xff333333),
               elevation: 0,
               automaticallyImplyLeading: false,

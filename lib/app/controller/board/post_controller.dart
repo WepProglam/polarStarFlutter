@@ -104,11 +104,12 @@ class PostController extends GetxController {
               case 200:
                 Get.snackbar("삭제 성공", "삭제 성공",
                     snackPosition: SnackPosition.BOTTOM);
-
+                // Todo: main api 호출 후 refresh 해야 함
+                // * offNamedUntil로 하면 현재 사용하고 있던 컨트롤러랑 새로 만들어진 컨트롤러랑 달라서 충돌 나는듯?
                 if (tag == "bid") {
-                  // Get.offNamed("/board/$COMMUNITY_ID/page/1");
-                  Get.offNamedUntil('/main', (route) => false);
-                  Get.toNamed("/board/$COMMUNITY_ID/page/1");
+                  while (Get.currentRoute != "/board/$COMMUNITY_ID/page/1") {
+                    Get.back();
+                  }
                 } else {
                   // await getPostData();
                   await refreshPost();

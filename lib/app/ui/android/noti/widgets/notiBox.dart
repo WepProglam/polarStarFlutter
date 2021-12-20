@@ -68,7 +68,8 @@ class NotiNotiBox extends StatelessWidget {
                           // margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                           color: model.value.isReaded
                               ? Color(0xfff6f6f6)
-                              : Colors.lightBlue[50],
+                              : Colors.white,
+                          // Colors.lightBlue[50],
                           child: Container(
                             child: Column(
                               children: [
