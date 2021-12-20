@@ -10,6 +10,9 @@ import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_mail_dialog.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 
+final double PostIconSize = 20;
+final double CommentIconSize = 15;
+
 class PostLayout extends StatelessWidget {
   final PostController c = Get.find();
   final MailController mailController = Get.find();
@@ -163,8 +166,8 @@ class PostLayout extends StatelessWidget {
                                     ]);
                               },
                               child: Ink(
-                                width: 16,
-                                height: 16,
+                                width: PostIconSize,
+                                height: PostIconSize,
                                 child: Image.asset('assets/images/934.png'),
                               ),
                             ),
@@ -176,8 +179,8 @@ class PostLayout extends StatelessWidget {
                                   item.COMMUNITY_ID, item.UNIQUE_ID, "bid");
                             },
                             child: Ink(
-                              width: 16,
-                              height: 16,
+                              width: PostIconSize,
+                              height: PostIconSize,
                               child: Image.asset('assets/images/15_4.png'),
                             ),
                           ),
@@ -197,8 +200,8 @@ class PostLayout extends StatelessWidget {
                                     index);
                               },
                               child: Ink(
-                                  width: 16,
-                                  height: 16,
+                                  width: PostIconSize,
+                                  height: PostIconSize,
                                   child: FittedBox(
                                       fit: BoxFit.fitHeight,
                                       child:
@@ -212,8 +215,8 @@ class PostLayout extends StatelessWidget {
                                   mailWriteController, mailController);
                             },
                             child: Ink(
-                                width: 16,
-                                height: 16,
+                                width: PostIconSize,
+                                height: PostIconSize,
                                 child: FittedBox(
                                     fit: BoxFit.fitHeight,
                                     child: Icon(Icons.mail_outlined))),
@@ -286,8 +289,8 @@ class PostLayout extends StatelessWidget {
                       }
                     },
                     icon: Container(
-                      width: 16,
-                      height: 16,
+                      width: PostIconSize,
+                      height: PostIconSize,
                       child: (isLiked()
                           ? Image.asset(
                               'assets/images/like_red.png',
@@ -304,7 +307,7 @@ class PostLayout extends StatelessWidget {
                             fontWeight: FontWeight.w700,
                             fontFamily: "PingFangSC",
                             fontStyle: FontStyle.normal,
-                            fontSize: 12.0),
+                            fontSize: 16.0),
                         textAlign: TextAlign.left),
                   ),
                   // 게시글 댓글 수 버튼
@@ -314,8 +317,8 @@ class PostLayout extends StatelessWidget {
                             MaterialStateProperty.all<Color>(Colors.black)),
                     onPressed: null,
                     icon: Container(
-                      width: 16,
-                      height: 16,
+                      width: PostIconSize,
+                      height: PostIconSize,
                       child: Image.asset('assets/images/comment.png'),
                     ),
                     label: Text("${c.sortedList.length - 1}",
@@ -324,7 +327,7 @@ class PostLayout extends StatelessWidget {
                             fontWeight: FontWeight.w700,
                             fontFamily: "PingFangSC",
                             fontStyle: FontStyle.normal,
-                            fontSize: 12.0),
+                            fontSize: 16.0),
                         textAlign: TextAlign.left),
                   ),
                   // 게시글 스크랩 수 버튼
@@ -344,8 +347,8 @@ class PostLayout extends StatelessWidget {
                       }
                     },
                     icon: Container(
-                      width: 16,
-                      height: 16,
+                      width: PostIconSize,
+                      height: PostIconSize,
                       child: (isScrapped()
                           ? Image.asset("assets/images/849.png")
                           : Image.asset('assets/images/star.png')),
@@ -356,7 +359,7 @@ class PostLayout extends StatelessWidget {
                             fontWeight: FontWeight.w700,
                             fontFamily: "PingFangSC",
                             fontStyle: FontStyle.normal,
-                            fontSize: 12.0),
+                            fontSize: 16.0),
                         textAlign: TextAlign.left),
                   ),
                 ],
@@ -448,8 +451,8 @@ class PostLayout extends StatelessWidget {
                                   }
                                 },
                                 child: Container(
-                                  width: 11,
-                                  height: 11,
+                                  width: CommentIconSize,
+                                  height: CommentIconSize,
                                   child: Obx(() => FittedBox(
                                         fit: BoxFit.fitHeight,
                                         child: c.autoFocusTextForm.value &&
@@ -470,8 +473,8 @@ class PostLayout extends StatelessWidget {
                                       item.COMMUNITY_ID, item.UNIQUE_ID, "cid");
                                 },
                                 child: Container(
-                                  width: 11,
-                                  height: 11,
+                                  width: CommentIconSize,
+                                  height: CommentIconSize,
                                   margin: EdgeInsets.symmetric(horizontal: 9.2),
                                   child: Image.asset('assets/images/320.png'),
                                 )),
@@ -484,8 +487,8 @@ class PostLayout extends StatelessWidget {
                                   c.autoFocusTextForm(false);
                                 },
                                 child: Container(
-                                  width: 10.6,
-                                  height: 10.6,
+                                  width: CommentIconSize,
+                                  height: CommentIconSize,
                                   child: FittedBox(
                                     fit: BoxFit.fitHeight,
                                     child: Obx(
@@ -515,8 +518,8 @@ class PostLayout extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Container(
-                                    width: 10.6,
-                                    height: 10.6,
+                                    width: CommentIconSize,
+                                    height: CommentIconSize,
                                     child: Image.asset(
                                       'assets/images/good.png',
                                       fit: BoxFit.fitHeight,
@@ -531,7 +534,7 @@ class PostLayout extends StatelessWidget {
                                             fontWeight: FontWeight.w400,
                                             fontFamily: "PingFangSC",
                                             fontStyle: FontStyle.normal,
-                                            fontSize: 10.0),
+                                            fontSize: 14),
                                         textAlign: TextAlign.center),
                                   ),
                                 ],
@@ -548,8 +551,8 @@ class PostLayout extends StatelessWidget {
                                     index);
                               },
                               child: Container(
-                                width: 11,
-                                height: 11,
+                                width: CommentIconSize,
+                                height: CommentIconSize,
                                 child: FittedBox(
                                   fit: BoxFit.fitHeight,
                                   child: Icon(
@@ -570,8 +573,8 @@ class PostLayout extends StatelessWidget {
                                       mailController);
                                 },
                                 child: Container(
-                                    width: 11,
-                                    height: 11,
+                                    width: CommentIconSize,
+                                    height: CommentIconSize,
                                     margin:
                                         EdgeInsets.symmetric(horizontal: 9.2),
                                     child: FittedBox(
@@ -586,8 +589,8 @@ class PostLayout extends StatelessWidget {
                                   c.autoFocusTextForm(false);
                                 },
                                 child: Container(
-                                  width: 10.6,
-                                  height: 10.6,
+                                  width: CommentIconSize,
+                                  height: CommentIconSize,
                                   child: FittedBox(
                                     fit: BoxFit.fitHeight,
                                     child: Obx(
