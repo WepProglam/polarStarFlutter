@@ -32,8 +32,9 @@ class Session extends GetConnect {
     Session.headers['Cookie'] = '';
 
     print('relogin...');
-    user_id = box.read("id");
-    user_pw = box.read("pw");
+    user_id = GetStorage().read("id");
+    user_pw = GetStorage().read("pw");
+    print(user_id);
     if (user_id == null || user_pw == null) {
       return;
     } else {

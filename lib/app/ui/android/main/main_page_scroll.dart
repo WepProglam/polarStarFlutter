@@ -100,11 +100,11 @@ class MainPageScroll extends StatelessWidget {
                       await box.erase();
                       await box.remove('id');
                       await box.remove('pw');
-                      await box.remove('token');
-                      await box.write('isAutoLogin', false);
+                      await box.remove('isAutoLogin');
+                      // await box.write('isAutoLogin', false);
 
                       await box.save();
-                      print(box.read('id'));
+                      print("id = " + box.read('id').toString());
 
                       Session.cookies = {};
                       Session.headers['Cookie'] = '';
@@ -132,6 +132,11 @@ class MainPageScroll extends StatelessWidget {
       ),
       // ! 알림 로직 & 재로그인 구현 후 삭제
       floatingActionButton: FloatingActionButton(onPressed: () async {
+        // if (!box.hasData("PS")) {
+        //   box.write("PS", 0);
+        // }
+        // print(box.read("PS"));
+        // box.write("PS", box.read("PS") + 1);
         InitController initController = await Get.put(InitController(
             repository: LoginRepository(apiClient: LoginApiClient())));
         await checkFcmToken(initController);

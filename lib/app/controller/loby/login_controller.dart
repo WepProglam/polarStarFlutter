@@ -52,6 +52,8 @@ class LoginController extends GetxController {
           await box.write('isAutoLogin', false);
         }
 
+        print(box.read("id"));
+
         // Get.offAndToNamed('/main');
         Get.offAllNamed('/main');
         break;

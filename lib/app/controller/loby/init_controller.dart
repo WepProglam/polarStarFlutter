@@ -22,7 +22,9 @@ class InitController extends GetxController {
 
   bool needRefreshToken(String curFcmToken) {
     String oldFcmToken = box.read("FcmToken");
-    return !(oldFcmToken == curFcmToken);
+    print(curFcmToken);
+    print(oldFcmToken);
+    return (oldFcmToken != curFcmToken);
   }
 
   Future<void> tokenRefresh(String FcmToken) async {
@@ -34,12 +36,13 @@ class InitController extends GetxController {
         break;
       default:
     }
+    box.write("FcmToken", FcmToken);
 
     print("fcm return : ${response}");
     return;
   }
 
-  Future autoLogin(String id, String pw, String token) async {
+  Future autoLogin(String id, String pw) async {
     String user_id = id;
     String user_pw = pw;
 
@@ -62,21 +65,15 @@ class InitController extends GetxController {
   }
 
   Future<bool> checkLogin() async {
-    if (box.hasData('isAutoLogin') &&
-        box.hasData('id') &&
-        box.hasData('pw') &&
-        box.hasData('token')) {
-      if (box.read('isAutoLogin') == true) {
-        var res =
-            await autoLogin(box.read('id'), box.read('pw'), box.read('token'));
+    if (box.hasData('isAutoLogin') && box.hasData('id') && box.hasData('pw')) {
+      var res = await autoLogin(box.read('id'), box.read('pw'));
 
-        switch (res["statusCode"]) {
-          case 200:
-            return true;
-            break;
-          default:
-            return false;
-        }
+      switch (res["statusCode"]) {
+        case 200:
+          return true;
+          break;
+        default:
+          return false;
       }
     }
     return false;
