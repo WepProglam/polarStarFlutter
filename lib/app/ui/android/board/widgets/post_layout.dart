@@ -147,23 +147,10 @@ class PostLayout extends StatelessWidget {
                             child: InkWell(
                               onTap: () {
                                 // 게시글 수정
-                                Get.defaultDialog(
-                                    title: "게시글 수정",
-                                    middleText: "수정하시겠습니까?",
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () async {
-                                            Get.offAndToNamed(
-                                                '/board/${item.COMMUNITY_ID}/bid/${item.BOARD_ID}',
-                                                arguments: item);
-                                          },
-                                          child: Text("네")),
-                                      TextButton(
-                                          onPressed: () {
-                                            Get.back();
-                                          },
-                                          child: Text("아니요"))
-                                    ]);
+
+                                Get.offAndToNamed(
+                                    '/board/${item.COMMUNITY_ID}/bid/${item.BOARD_ID}',
+                                    arguments: item);
                               },
                               child: Ink(
                                 width: PostIconSize,
@@ -545,10 +532,13 @@ class PostLayout extends StatelessWidget {
                             InkWell(
                               onTap: () async {
                                 var ARREST_TYPE = await c.getArrestType();
-                                await c.totalSend(
-                                    '/arrest/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}?ARREST_TYPE=$ARREST_TYPE',
-                                    '신고',
-                                    index);
+                                print(ARREST_TYPE);
+                                if (ARREST_TYPE != null) {
+                                  await c.totalSend(
+                                      '/arrest/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}?ARREST_TYPE=$ARREST_TYPE',
+                                      '신고',
+                                      index);
+                                }
                               },
                               child: Container(
                                 width: CommentIconSize,

@@ -32,6 +32,12 @@ class SearchBar extends StatelessWidget {
           children: [
             TextFormField(
               controller: searchText,
+              onEditingComplete: () async {
+                String text = searchText.text.trim();
+                controller.searchText(text);
+                await controller.getSearchBoard(text);
+                FocusScope.of(context).unfocus();
+              },
               textAlign: TextAlign.start,
               decoration: InputDecoration(
                 border: OutlineInputBorder(

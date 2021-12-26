@@ -53,9 +53,7 @@ class Board extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                              communityBoardName(
-                                      controller.COMMUNITY_ID.value) +
-                                  "게시판",
+                              communityBoardName(controller.COMMUNITY_ID.value),
                               style: const TextStyle(
                                   color: const Color(0xff333333),
                                   fontWeight: FontWeight.w700,

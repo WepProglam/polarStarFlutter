@@ -18,6 +18,7 @@ class BottomKeyboard extends StatelessWidget {
 
     return Container(
       // height: BOTTOM_SHEET_HEIGHT.toDouble(),
+      margin: EdgeInsets.only(top: 15, bottom: 15),
       decoration: BoxDecoration(
           color: Color(0xffececec),
           border: Border.all(color: const Color(0xffd9d9d9)),
@@ -25,6 +26,7 @@ class BottomKeyboard extends StatelessWidget {
       child: Stack(
         children: [
           TextFormField(
+            autofocus: false,
             controller: commentWriteController,
             // autofocus: c.autoFocusTextForm.value,
             // scrollPadding: const EdgeInsets.all(),
