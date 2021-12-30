@@ -137,9 +137,12 @@ class MainPageScroll extends StatelessWidget {
         // }
         // print(box.read("PS"));
         // box.write("PS", box.read("PS") + 1);
-        InitController initController = await Get.put(InitController(
-            repository: LoginRepository(apiClient: LoginApiClient())));
-        await checkFcmToken(initController);
+
+        await mainController.refreshLikeList();
+
+        // InitController initController = await Get.put(InitController(
+        //     repository: LoginRepository(apiClient: LoginApiClient())));
+        // await checkFcmToken(initController);
       }),
       bottomNavigationBar:
           CustomBottomNavigationBar(mainController: mainController),

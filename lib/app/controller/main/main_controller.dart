@@ -3,6 +3,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:meta/meta.dart';
+import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/data/provider/sqflite/database_helper.dart';
 import 'package:polarstar_flutter/app/data/provider/sqflite/src/db_community.dart';
@@ -27,6 +28,8 @@ class MainController extends GetxController {
   RxList<LikeListModel> likeList = <LikeListModel>[].obs;
   RxList<ScrapListModel> scrapList = <ScrapListModel>[].obs;
   RxList<MainClassModel> classList = <MainClassModel>[].obs;
+
+  RxBool isLikeScrapUpdate = false.obs;
 
   RxBool _dataAvailable = false.obs;
   RxInt mainPageIndex = 0.obs;
@@ -129,6 +132,20 @@ class MainController extends GetxController {
     // await _dbHelper.dropTable();
   }
 
+  Future<void> refreshLikeList() async {
+    List<LikeListModel> value = await repository.refreshLikeList();
+    likeList.value = value;
+    print("refresh like");
+    return;
+  }
+
+  Future<void> refreshScrapList() async {
+    List<ScrapListModel> value = await repository.refreshScrapList();
+    scrapList.value = value;
+    print("refresh scrap");
+    return;
+  }
+
   void swipeLeftHotBoard() {
     hotBoardIndex.value = (hotBoardIndex.value + 1) % (hotBoard.length);
   }
@@ -136,6 +153,32 @@ class MainController extends GetxController {
   void swipeRightHotBoard() {
     hotBoardIndex.value =
         (hotBoard.length - (hotBoardIndex.value - 1)) % (hotBoard.length);
+  }
+
+  bool isScrapped(Post c) {
+    for (int i = 0; i < scrapList.length; i++) {
+      final bool bidSame = (scrapList[i].UNIQUE_ID == c.BOARD_ID);
+      final bool cidSame = (scrapList[i].COMMUNITY_ID == c.COMMUNITY_ID);
+      if (cidSame && bidSame) {
+        return true;
+      }
+    }
+    print("false");
+
+    return false;
+  }
+
+  bool isLiked(Post c) {
+    for (int i = 0; i < likeList.length; i++) {
+      final bool bidSame = (likeList[i].UNIQUE_ID == c.BOARD_ID);
+      final bool cidSame = (likeList[i].COMMUNITY_ID == c.COMMUNITY_ID);
+      if (cidSame && bidSame) {
+        return true;
+      }
+    }
+    print("false");
+
+    return false;
   }
 
   @override

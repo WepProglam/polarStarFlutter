@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/data/provider/board/board_provider.dart';
@@ -12,6 +13,7 @@ import 'package:polarstar_flutter/session.dart';
 class PostController extends GetxController {
   final PostRepository repository;
   final box = GetStorage();
+  final MainController mainController = Get.find();
 
   PostController(
       {@required this.repository,
@@ -31,7 +33,7 @@ class PostController extends GetxController {
   var anonymousCheck = true.obs;
   Rx<bool> mailAnonymous = true.obs;
   RxList postContent = [].obs;
-  RxList<Post> sortedList = <Post>[].obs;
+  RxList<Rx<Post>> sortedList = <Rx<Post>>[].obs;
   RxMap postBody = {}.obs;
 
   var isCcomment = false.obs;
@@ -48,7 +50,10 @@ class PostController extends GetxController {
 
   Future<void> refreshPost() async {
     // _dataAvailable.value = false;
+    await mainController.refreshLikeList();
+    await mainController.refreshScrapList();
     await getPostData();
+    return;
   }
 
   Future<void> getPostData() async {
@@ -157,7 +162,7 @@ class PostController extends GetxController {
   void sortPCCC(List<Post> itemList) {
     sortedList.clear();
 
-    sortedList.add(itemList[0]);
+    sortedList.add(itemList[0].obs);
 
     int itemLength = itemList.length;
 
@@ -172,21 +177,21 @@ class PostController extends GetxController {
       }
 
       //댓글 집어 넣기
-      sortedList.add(itemList[i]);
+      sortedList.add(itemList[i].obs);
 
       for (int k = 1; k < itemList.length; k++) {
         //itemlist를 돌면서 댓글을 부모로 가지는 대댓글 찾아서
         if (itemList[k].PARENT_ID == unsortedItem.UNIQUE_ID) {
           //sortedList에 집어넣음(순서대로)
-          sortedList.add(itemList[k]);
+          sortedList.add(itemList[k].obs);
         }
       }
     }
   }
 
-  void totalSend(String urlTemp, String what, int index) {
+  Future<void> totalSend(String urlTemp, String what, int index) async {
     String url = "/board" + urlTemp;
-    Get.defaultDialog(title: what, middleText: "$what 하시겠습니까?", actions: [
+    await Get.defaultDialog(title: what, middleText: "$what 하시겠습니까?", actions: [
       TextButton(
           onPressed: () async {
             if (what == '신고') {
@@ -225,44 +230,56 @@ class PostController extends GetxController {
           },
           child: Text("아니요"))
     ]);
+
+    // * refresh
+    await refreshPost();
+    print("refresh complete!");
+
+    return;
   }
 
-  void scrap_cancel(String urlTemp) {
+  Future<void> scrap_cancel(String urlTemp) async {
     String url = "/board" + urlTemp;
-    Get.defaultDialog(title: '스크랩 취소', middleText: "스크랩 취소 하시겠습니까?", actions: [
-      TextButton(
-          onPressed: () async {
-            Get.back();
+    await Get.defaultDialog(
+        title: '스크랩 취소',
+        middleText: "스크랩 취소 하시겠습니까?",
+        actions: [
+          TextButton(
+              onPressed: () async {
+                Get.back();
 
-            Session().deleteX(url).then((value) {
-              switch (value.statusCode) {
-                case 200:
-                  Get.snackbar("스크랩 취소 성공", "스크랩 취소 성공",
-                      snackPosition: SnackPosition.BOTTOM);
-                  // if (what == "좋아요") {
-                  //   sortedList[index].LIKES++;
-                  // } else if (what == "스크랩") {
-                  //   sortedList[index].SCRAPS++;
-                  // }
-                  // _dataAvailable(false);
-                  _dataAvailable.refresh();
-                  getPostData();
-                  break;
-                case 403:
-                  Get.snackbar('이미 스크랩 취소한 게시글입니다', '이미 스크랩 취소한 게시글입니다',
-                      snackPosition: SnackPosition.BOTTOM);
-                  break;
-                default:
-              }
-            });
-          },
-          child: Text("네")),
-      TextButton(
-          onPressed: () {
-            Get.back();
-          },
-          child: Text("아니요"))
-    ]);
+                Session().deleteX(url).then((value) {
+                  switch (value.statusCode) {
+                    case 200:
+                      Get.snackbar("스크랩 취소 성공", "스크랩 취소 성공",
+                          snackPosition: SnackPosition.BOTTOM);
+                      // if (what == "좋아요") {
+                      //   sortedList[index].LIKES++;
+                      // } else if (what == "스크랩") {
+                      //   sortedList[index].SCRAPS++;
+                      // }
+                      // _dataAvailable(false);
+                      _dataAvailable.refresh();
+                      getPostData();
+                      break;
+                    case 403:
+                      Get.snackbar('이미 스크랩 취소한 게시글입니다', '이미 스크랩 취소한 게시글입니다',
+                          snackPosition: SnackPosition.BOTTOM);
+                      break;
+                    default:
+                  }
+                });
+              },
+              child: Text("네")),
+          TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text("아니요"))
+        ]);
+
+    await refreshPost();
+    return;
   }
 
   Future<int> getArrestType() async {

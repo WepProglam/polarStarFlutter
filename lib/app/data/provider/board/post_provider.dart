@@ -1,12 +1,17 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 
 import 'package:polarstar_flutter/session.dart';
 
 class PostApiClient {
+  MainController mainController = Get.find();
+
   Future<Map<String, dynamic>> getPostData(
       int COMMUNITY_ID, int BOARD_ID) async {
+    print("시발");
     var response = await Session().getX("/board/$COMMUNITY_ID/read/$BOARD_ID");
     if (response.statusCode != 200) {
       return {"status": response.statusCode, "listBoard": []};
@@ -14,8 +19,14 @@ class PostApiClient {
 
     Iterable jsonReponse = jsonDecode(response.body);
 
-    List<Post> listPost =
+    List<Post> tempListPost =
         jsonReponse.map((model) => Post.fromJson(model)).toList();
+
+    List<Post> listPost = tempListPost.map((e) {
+      e.isScraped = mainController.isScrapped(e);
+      e.isLiked = mainController.isLiked(e);
+      return e;
+    }).toList();
 
     return {"statusCode": response.statusCode, "listPost": listPost};
   }
