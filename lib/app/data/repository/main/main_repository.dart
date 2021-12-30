@@ -20,4 +20,14 @@ class MainRepository {
         await apiClient.createCommunity(COMMUNITY_NAME, COMMUNITY_DESCRIPTION);
     return status;
   }
+
+  Future<List<LikeListModel>> refreshLikeList() async {
+    var response = await apiClient.refreshLikeList();
+    return response.map((e) => LikeListModel.fromJson(e)).toList();
+  }
+
+  Future<List<ScrapListModel>> refreshScrapList() async {
+    var response = await apiClient.refreshScrapList();
+    return response.map((e) => ScrapListModel.fromJson(e)).toList();
+  }
 }

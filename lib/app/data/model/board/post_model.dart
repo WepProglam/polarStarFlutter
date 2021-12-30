@@ -20,6 +20,8 @@ class Post {
   String PROFILE_PHOTO;
 
   bool MYSELF;
+  bool isScraped;
+  bool isLiked;
 
   Post(
       {DEPTH,
@@ -60,5 +62,7 @@ class Post {
     this.PROFILE_PHOTO = json["PROFILE_PHOTO"];
     this.MYSELF = json["MYSELF"];
     this.BOARD_ID = json["BOARD_ID"];
+    this.isScraped = false;
+    this.isLiked = false;
   }
 }

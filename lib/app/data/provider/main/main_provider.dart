@@ -43,6 +43,18 @@ class MainApiClient {
     };
   }
 
+  Future<List<dynamic>> refreshLikeList() async {
+    final response = await Session().getX('/main/refresh/like');
+    final jsonResponse = jsonDecode(response.body);
+    return jsonResponse;
+  }
+
+  Future<List<dynamic>> refreshScrapList() async {
+    final response = await Session().getX('/main/refresh/scrap');
+    final jsonResponse = jsonDecode(response.body);
+    return jsonResponse;
+  }
+
   Future<Map<String, dynamic>> createCommunity(
       String COMMUNITY_NAME, String COMMUNITY_DESCRIPTION) async {
     var response = await Session().postX('/board', {

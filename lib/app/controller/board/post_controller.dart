@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/data/provider/board/board_provider.dart';
@@ -12,6 +13,7 @@ import 'package:polarstar_flutter/session.dart';
 class PostController extends GetxController {
   final PostRepository repository;
   final box = GetStorage();
+  final MainController mainController = Get.find();
 
   PostController(
       {@required this.repository,
@@ -31,7 +33,7 @@ class PostController extends GetxController {
   var anonymousCheck = true.obs;
   Rx<bool> mailAnonymous = true.obs;
   RxList postContent = [].obs;
-  RxList<Post> sortedList = <Post>[].obs;
+  RxList<Rx<Post>> sortedList = <Rx<Post>>[].obs;
   RxMap postBody = {}.obs;
 
   var isCcomment = false.obs;
@@ -48,7 +50,10 @@ class PostController extends GetxController {
 
   Future<void> refreshPost() async {
     // _dataAvailable.value = false;
+    await mainController.refreshLikeList();
+    await mainController.refreshScrapList();
     await getPostData();
+    return;
   }
 
   Future<void> getPostData() async {
@@ -157,7 +162,7 @@ class PostController extends GetxController {
   void sortPCCC(List<Post> itemList) {
     sortedList.clear();
 
-    sortedList.add(itemList[0]);
+    sortedList.add(itemList[0].obs);
 
     int itemLength = itemList.length;
 
@@ -172,19 +177,19 @@ class PostController extends GetxController {
       }
 
       //댓글 집어 넣기
-      sortedList.add(itemList[i]);
+      sortedList.add(itemList[i].obs);
 
       for (int k = 1; k < itemList.length; k++) {
         //itemlist를 돌면서 댓글을 부모로 가지는 대댓글 찾아서
         if (itemList[k].PARENT_ID == unsortedItem.UNIQUE_ID) {
           //sortedList에 집어넣음(순서대로)
-          sortedList.add(itemList[k]);
+          sortedList.add(itemList[k].obs);
         }
       }
     }
   }
 
-  void totalSend(String urlTemp, String what, int index) {
+  Future<void> totalSend(String urlTemp, String what, int index) async {
     String url = "/board" + urlTemp;
 
     Session().getX(url).then((value) {
@@ -210,7 +215,7 @@ class PostController extends GetxController {
     });
   }
 
-  void scrap_cancel(String urlTemp) {
+  Future<void> scrap_cancel(String urlTemp) async {
     String url = "/board" + urlTemp;
 
     Session().deleteX(url).then((value) {

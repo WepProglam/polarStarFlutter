@@ -3,10 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
+import 'package:polarstar_flutter/app/data/model/main_model.dart';
+import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_mail_dialog.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 
@@ -17,15 +20,16 @@ class PostLayout extends StatelessWidget {
   final PostController c = Get.find();
   final MailController mailController = Get.find();
   final mailWriteController = TextEditingController();
+  final MainController mainController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     // List<Widget> finalPost = [];
 
     // c.sortedList.forEach((Post item) {
-    //   finalPost.addAll(item.DEPTH == 0
+    //   finalPost.addAll(item.value.DEPTH == 0
     //       ? returningPost(item)
-    //       : item.DEPTH == 1
+    //       : item.value.DEPTH == 1
     //           ? returningComment(item)
     //           : returningCC(item));
     // });
@@ -41,12 +45,20 @@ class PostLayout extends StatelessWidget {
                 child: ListView.builder(
                     itemCount: c.sortedList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      if (c.sortedList[index].DEPTH == 0) {
-                        return returningPost(c.sortedList[index], index);
-                      } else if (c.sortedList[index].DEPTH == 1) {
-                        return returningComment(c.sortedList[index], index);
+                      if (c.sortedList[index].value.DEPTH == 0) {
+                        return PostWidget(
+                          c: c,
+                          mailWriteController: mailWriteController,
+                          mailController: mailController,
+                          item: c.sortedList[index],
+                          index: index,
+                          mainController: mainController,
+                        );
+                      } else if (c.sortedList[index].value.DEPTH == 1) {
+                        return returningComment(
+                            c.sortedList[index].value, index);
                       } else {
-                        return returningCC(c.sortedList[index], index);
+                        return returningCC(c.sortedList[index].value, index);
                       }
                     }),
               )
@@ -58,304 +70,6 @@ class PostLayout extends StatelessWidget {
               // ),
               ),
         ));
-  }
-
-  Widget returningPost(Post item, int index) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(0, 8, 0, 18.5),
-      decoration: BoxDecoration(
-          color: Color(0xffffffff),
-          boxShadow: [
-            BoxShadow(
-                color: const Color(0x1c000000),
-                offset: Offset(0, 6),
-                blurRadius: 14,
-                spreadRadius: 0)
-          ],
-          borderRadius: BorderRadius.circular(20)),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 9),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
-            margin: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 프로필 사진
-                Container(
-                  height: 39,
-                  width: 39,
-                  margin: const EdgeInsets.only(right: 11.8),
-                  child: CachedNetworkImage(
-                    imageUrl: '${item.PROFILE_PHOTO}',
-                    imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: imageProvider, fit: BoxFit.cover))),
-                  ),
-                ),
-                //닉네임, 작성 시간
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(item.PROFILE_NICKNAME,
-                        style: const TextStyle(
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 15.0),
-                        textAlign: TextAlign.left),
-                    Text(
-                        item.TIME_CREATED
-                            .substring(2, 19)
-                            .replaceAll('-', '/')
-                            .replaceAll('T', ' '),
-                        style: const TextStyle(
-                            color: const Color(0xff999999),
-                            fontWeight: FontWeight.normal,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 11.0),
-                        textAlign: TextAlign.left),
-                  ],
-                ),
-                Spacer(),
-                // 게시글 좋아요 버튼
-                // Padding(
-                //   padding: const EdgeInsets.all(0.0),
-                //   child: InkWell(
-                //     onTap: () {
-                //       if (item.MYSELF) {
-                //       } else {
-                //         c.totalSend(
-                //             '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
-                //             '좋아요',
-                //             index);
-                //       }
-                //     },
-                //     child: item.MYSELF ? Container() : Icon(Icons.thumb_up),
-                //   ),
-                // ),
-
-                item.MYSELF
-                    ? Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 9.2),
-                            child: InkWell(
-                              onTap: () {
-                                // 게시글 수정
-
-                                Get.offAndToNamed(
-                                    '/board/${item.COMMUNITY_ID}/bid/${item.BOARD_ID}',
-                                    arguments: item);
-                              },
-                              child: Ink(
-                                width: PostIconSize,
-                                height: PostIconSize,
-                                child: Image.asset('assets/images/934.png'),
-                              ),
-                            ),
-                          ),
-                          // 게시글 삭제
-                          InkWell(
-                            onTap: () async {
-                              await c.deleteResource(
-                                  item.COMMUNITY_ID, item.UNIQUE_ID, "bid");
-                            },
-                            child: Ink(
-                              width: PostIconSize,
-                              height: PostIconSize,
-                              child: Image.asset('assets/images/15_4.png'),
-                            ),
-                          ),
-                        ],
-                      )
-                    : Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // 게시글 신고
-                          Padding(
-                            padding: const EdgeInsets.only(right: 9.2),
-                            child: InkWell(
-                              onTap: () async {
-                                c.totalSend(
-                                    '/arrest/${item.COMMUNITY_ID}/id/${item.BOARD_ID}?ARREST_TYPE=',
-                                    '신고',
-                                    index);
-                              },
-                              child: Ink(
-                                  width: PostIconSize,
-                                  height: PostIconSize,
-                                  child: FittedBox(
-                                      fit: BoxFit.fitHeight,
-                                      child:
-                                          Icon(Icons.report_problem_outlined))),
-                            ),
-                          ),
-                          // 쪽지
-                          InkWell(
-                            onTap: () async {
-                              await sendMail(item.UNIQUE_ID, item.COMMUNITY_ID,
-                                  mailWriteController, mailController);
-                            },
-                            child: Ink(
-                                width: PostIconSize,
-                                height: PostIconSize,
-                                child: FittedBox(
-                                    fit: BoxFit.fitHeight,
-                                    child: Icon(Icons.mail_outlined))),
-                          ),
-                        ],
-                      ),
-              ],
-            ),
-          ),
-          // 제목
-          Container(
-            margin:
-                const EdgeInsets.fromLTRB(11.5, 46.6 - 39, 11.5, 72.7 - 57.6),
-            child: Text("${item.TITLE}",
-                style: const TextStyle(
-                    color: const Color(0xff333333),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "PingFangSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 16.0),
-                textAlign: TextAlign.left),
-          ),
-          // 내용
-          Container(
-            margin: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 119 - 104.1),
-            child: Text("${item.CONTENT}",
-                style: const TextStyle(
-                    color: const Color(0xff333333),
-                    fontWeight: FontWeight.normal,
-                    fontFamily: "PingFangSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 14.0),
-                textAlign: TextAlign.left),
-          ),
-          //사진
-          (item.PHOTO != [] && item.PHOTO != null && item.PHOTO.isNotEmpty)
-              ? Padding(
-                  padding: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 0),
-                  child: PhotoLayout(model: item),
-                )
-              : Container(),
-          // 좋아요, 댓글, 스크랩 수
-          Container(
-            margin: EdgeInsets.only(top: 16),
-            decoration: BoxDecoration(
-                border: BorderDirectional(
-                    top: BorderSide(
-                        width: 0.5, color: const Color(0xfff0f0f0)))),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // 게시글 좋아요 수 버튼
-                  TextButton.icon(
-                    style: ButtonStyle(
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
-                    ),
-                    onPressed: () {
-                      if (item.MYSELF) {
-                        Get.snackbar("게시글 좋아요", "내가 쓴 게시글에는 할 수 없습니다.",
-                            snackPosition: SnackPosition.BOTTOM);
-                      } else if (isLiked()) {
-                      } else {
-                        c.totalSend(
-                            '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
-                            '좋아요',
-                            index);
-                      }
-                    },
-                    icon: Container(
-                      width: PostIconSize,
-                      height: PostIconSize,
-                      child: (isLiked()
-                          ? Image.asset(
-                              'assets/images/like_red.png',
-                              fit: BoxFit.fitHeight,
-                            )
-                          : Image.asset(
-                              'assets/images/good.png',
-                              fit: BoxFit.fitHeight,
-                            )),
-                    ),
-                    label: Text(item.LIKES.toString(),
-                        style: const TextStyle(
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.w700,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
-                        textAlign: TextAlign.left),
-                  ),
-                  // 게시글 댓글 수 버튼
-                  TextButton.icon(
-                    style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all<Color>(Colors.black)),
-                    onPressed: null,
-                    icon: Container(
-                      width: PostIconSize,
-                      height: PostIconSize,
-                      child: Image.asset('assets/images/comment.png'),
-                    ),
-                    label: Text("${c.sortedList.length - 1}",
-                        style: const TextStyle(
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.w700,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
-                        textAlign: TextAlign.left),
-                  ),
-                  // 게시글 스크랩 수 버튼
-                  TextButton.icon(
-                    style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all<Color>(Colors.black)),
-                    onPressed: () {
-                      if (isScrapped()) {
-                        c.scrap_cancel(
-                            '/scrap/${item.COMMUNITY_ID}/id/${item.BOARD_ID}');
-                      } else {
-                        c.totalSend(
-                            '/scrap/${item.COMMUNITY_ID}/id/${item.BOARD_ID}',
-                            '스크랩',
-                            index);
-                      }
-                    },
-                    icon: Container(
-                      width: PostIconSize,
-                      height: PostIconSize,
-                      child: (isScrapped()
-                          ? Image.asset("assets/images/849.png")
-                          : Image.asset('assets/images/star.png')),
-                    ),
-                    label: Text(item.SCRAPS.toString(),
-                        style: const TextStyle(
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.w700,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
-                        textAlign: TextAlign.left),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ]),
-      ),
-    );
   }
 
   Widget returningComment(Post item, int index) {
@@ -835,32 +549,384 @@ class PostLayout extends StatelessWidget {
   }
 }
 
-bool isLiked() {
-  final MainController mainController = Get.find();
-  final PostController c = Get.find();
+class PostWidget extends StatelessWidget {
+  const PostWidget(
+      {Key key,
+      @required this.c,
+      @required this.mailWriteController,
+      @required this.mailController,
+      @required this.item,
+      @required this.index,
+      @required this.mainController})
+      : super(key: key);
 
-  for (int i = 0; i < mainController.likeList.length; i++) {
-    if (mainController.likeList[i].UNIQUE_ID == c.BOARD_ID) {
-      if (mainController.likeList[i].COMMUNITY_ID == c.COMMUNITY_ID) {
-        return true;
-      }
-    }
+  final PostController c;
+  final TextEditingController mailWriteController;
+  final MailController mailController;
+  final Rx<Post> item;
+  final int index;
+  final MainController mainController;
+
+  @override
+  Widget build(BuildContext context) {
+    print("rebuild");
+    return Container(
+      margin: const EdgeInsets.fromLTRB(0, 8, 0, 18.5),
+      decoration: BoxDecoration(
+          color: Color(0xffffffff),
+          boxShadow: [
+            BoxShadow(
+                color: const Color(0x1c000000),
+                offset: Offset(0, 6),
+                blurRadius: 14,
+                spreadRadius: 0)
+          ],
+          borderRadius: BorderRadius.circular(20)),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 9),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Container(
+            margin: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 프로필 사진
+                Container(
+                  height: 39,
+                  width: 39,
+                  margin: const EdgeInsets.only(right: 11.8),
+                  child: CachedNetworkImage(
+                    imageUrl: '${item.value.PROFILE_PHOTO}',
+                    imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: imageProvider, fit: BoxFit.cover))),
+                  ),
+                ),
+                //닉네임, 작성 시간
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(item.value.PROFILE_NICKNAME,
+                        style: const TextStyle(
+                            color: const Color(0xff333333),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 15.0),
+                        textAlign: TextAlign.left),
+                    Text(
+                        item.value.TIME_CREATED
+                            .substring(2, 19)
+                            .replaceAll('-', '/')
+                            .replaceAll('T', ' '),
+                        style: const TextStyle(
+                            color: const Color(0xff999999),
+                            fontWeight: FontWeight.normal,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 11.0),
+                        textAlign: TextAlign.left),
+                  ],
+                ),
+                Spacer(),
+
+                item.value.MYSELF
+                    ? Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 9.2),
+                            child: InkWell(
+                              onTap: () {
+                                // 게시글 수정
+                                Get.defaultDialog(
+                                    title: "게시글 수정",
+                                    middleText: "수정하시겠습니까?",
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () async {
+                                            Get.offAndToNamed(
+                                                '/board/${item.value.COMMUNITY_ID}/bid/${item.value.BOARD_ID}',
+                                                arguments: item);
+                                          },
+                                          child: Text("네")),
+                                      TextButton(
+                                          onPressed: () {
+                                            Get.back();
+                                          },
+                                          child: Text("아니요"))
+                                    ]);
+                              },
+                              child: Ink(
+                                width: PostIconSize,
+                                height: PostIconSize,
+                                child: Image.asset('assets/images/934.png'),
+                              ),
+                            ),
+                          ),
+                          // 게시글 삭제
+                          InkWell(
+                            onTap: () async {
+                              await c.deleteResource(item.value.COMMUNITY_ID,
+                                  item.value.UNIQUE_ID, "bid");
+                            },
+                            child: Ink(
+                              width: PostIconSize,
+                              height: PostIconSize,
+                              child: Image.asset('assets/images/15_4.png'),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // 게시글 신고
+                          Padding(
+                            padding: const EdgeInsets.only(right: 9.2),
+                            child: InkWell(
+                              onTap: () async {
+                                await c.totalSend(
+                                    '/arrest/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}?ARREST_TYPE=',
+                                    '신고',
+                                    index);
+                              },
+                              child: Ink(
+                                  width: PostIconSize,
+                                  height: PostIconSize,
+                                  child: FittedBox(
+                                      fit: BoxFit.fitHeight,
+                                      child:
+                                          Icon(Icons.report_problem_outlined))),
+                            ),
+                          ),
+                          // 쪽지
+                          InkWell(
+                            onTap: () async {
+                              await sendMail(
+                                  item.value.UNIQUE_ID,
+                                  item.value.COMMUNITY_ID,
+                                  mailWriteController,
+                                  mailController);
+                            },
+                            child: Ink(
+                                width: PostIconSize,
+                                height: PostIconSize,
+                                child: FittedBox(
+                                    fit: BoxFit.fitHeight,
+                                    child: Icon(Icons.mail_outlined))),
+                          ),
+                        ],
+                      ),
+              ],
+            ),
+          ),
+          // 제목
+          Container(
+            margin:
+                const EdgeInsets.fromLTRB(11.5, 46.6 - 39, 11.5, 72.7 - 57.6),
+            child: Text("${item.value.TITLE}",
+                style: const TextStyle(
+                    color: const Color(0xff333333),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "PingFangSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 16.0),
+                textAlign: TextAlign.left),
+          ),
+          // 내용
+          Container(
+            margin: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 119 - 104.1),
+            child: Text("${item.value.CONTENT}",
+                style: const TextStyle(
+                    color: const Color(0xff333333),
+                    fontWeight: FontWeight.normal,
+                    fontFamily: "PingFangSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
+                textAlign: TextAlign.left),
+          ),
+          //사진
+          (item.value.PHOTO != [] &&
+                  item.value.PHOTO != null &&
+                  item.value.PHOTO.isNotEmpty)
+              ? Padding(
+                  padding: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 0),
+                  child: PhotoLayout(model: item.value),
+                )
+              : Container(),
+          // 좋아요, 댓글, 스크랩 수
+          Container(
+            margin: EdgeInsets.only(top: 16),
+            decoration: BoxDecoration(
+                border: BorderDirectional(
+                    top: BorderSide(
+                        width: 0.5, color: const Color(0xfff0f0f0)))),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // 게시글 좋아요 수 버튼
+                  TextButton.icon(
+                    style: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.black),
+                    ),
+                    onPressed: () async {
+                      if (item.value.MYSELF) {
+                        Get.snackbar("게시글 좋아요", "내가 쓴 게시글에는 할 수 없습니다.",
+                            snackPosition: SnackPosition.BOTTOM);
+                      } else if (mainController.isLiked(item.value)) {
+                      } else {
+                        await c.totalSend(
+                            '/like/${item.value.COMMUNITY_ID}/id/${item.value.UNIQUE_ID}',
+                            '좋아요',
+                            index);
+
+                        //  await mainController.refreshLikeList();
+                      }
+                    },
+                    icon: Obx(() {
+                      return Container(
+                        width: PostIconSize,
+                        height: PostIconSize,
+                        child: (mainController.isLiked(item.value)
+                            ? Image.asset(
+                                'assets/images/like_red.png',
+                                fit: BoxFit.fitHeight,
+                              )
+                            : Image.asset(
+                                'assets/images/good.png',
+                                fit: BoxFit.fitHeight,
+                              )),
+                      );
+                    }),
+                    label: Text(item.value.LIKES.toString(),
+                        style: const TextStyle(
+                            color: const Color(0xff333333),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 16.0),
+                        textAlign: TextAlign.left),
+                  ),
+                  // 게시글 댓글 수 버튼
+                  TextButton.icon(
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Colors.black)),
+                    onPressed: null,
+                    icon: Container(
+                      width: PostIconSize,
+                      height: PostIconSize,
+                      child: Image.asset('assets/images/comment.png'),
+                    ),
+                    label: Text("${c.sortedList.length - 1}",
+                        style: const TextStyle(
+                            color: const Color(0xff333333),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 16.0),
+                        textAlign: TextAlign.left),
+                  ),
+                  // 게시글 스크랩 수 버튼
+                  TextButton.icon(
+                    style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Colors.black)),
+                    onPressed: () async {
+                      if (mainController.isScrapped(item.value)) {
+                        await c.scrap_cancel(
+                            '/scrap/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}');
+                        // List<ScrapListModel> temp =
+                        //     mainController.scrapList.value;
+
+                        // temp.removeWhere((element) =>
+                        //     element.COMMUNITY_ID == c.COMMUNITY_ID &&
+                        //     element.UNIQUE_ID == c.BOARD_ID);
+
+                        // mainController.scrapList.value = temp;
+                      } else {
+                        await c.totalSend(
+                            '/scrap/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}',
+                            '스크랩',
+                            index);
+                        // item.update((val) {
+                        //   val.isScraped = true;
+                        // });
+                      }
+                    },
+                    icon: Obx(() {
+                      return Container(
+                        width: PostIconSize,
+                        height: PostIconSize,
+                        child: mainController.isScrapped(item.value)
+                            ? Image.asset('assets/images/849.png')
+                            : Image.asset('assets/images/star.png'),
+                      );
+                    }),
+                    label: Text(item.value.SCRAPS.toString(),
+                        style: const TextStyle(
+                            color: const Color(0xff333333),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "PingFangSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 16.0),
+                        textAlign: TextAlign.left),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ]),
+      ),
+    );
   }
-
-  return false;
 }
 
-bool isScrapped() {
-  final MainController mainController = Get.find();
-  final PostController c = Get.find();
+// bool isLiked() {
+//   final MainController mainController = Get.find();
+//   final PostController c = Get.find();
 
-  for (int i = 0; i < mainController.scrapList.length; i++) {
-    if (mainController.scrapList[i].UNIQUE_ID == c.BOARD_ID) {
-      if (mainController.scrapList[i].COMMUNITY_ID == c.COMMUNITY_ID) {
-        return true;
-      }
-    }
-  }
+//   for (int i = 0; i < mainController.likeList.length; i++) {
+//     if (mainController.likeList[i].UNIQUE_ID == c.BOARD_ID) {
+//       if (mainController.likeList[i].COMMUNITY_ID == c.COMMUNITY_ID) {
+//         return true;
+//       }
+//     }
+//   }
 
-  return false;
-}
+//   return false;
+// }
+
+// bool isScrapped(Post item) {
+//   // // final MainController mainController = Get.find();
+//   // mainController.refreshScrapList();
+//   // // final PostController c = Get.find();
+
+//   // print("다시 검사");
+//   // print("${c.BOARD_ID}  :  ${c.COMMUNITY_ID}");
+//   // print("asdfdafa legnth: ${mainController.scrapList.length}");
+//   // final box = GetStorage();
+//   // var sd = box.read("scrap");
+//   // print("asdfdafa legnth: ${sd.length}");
+
+//   // for (int i = 0; i < mainController.scrapList.length; i++) {
+//   //   final bool bidSame = (mainController.scrapList[i].UNIQUE_ID == c.BOARD_ID);
+//   //   final bool cidSame =
+//   //       (mainController.scrapList[i].COMMUNITY_ID == c.COMMUNITY_ID);
+//   //   print(
+//   //       "${mainController.scrapList[i].UNIQUE_ID}  :  ${mainController.scrapList[i].COMMUNITY_ID}");
+//   //   if (cidSame && bidSame) {
+//   //     return true;
+//   //   }
+//   // }
+//   // print("false");
+
+//   // return false;
+//   print(item.isScraped);
+//   return item.isScraped;
+// }
