@@ -131,14 +131,20 @@ class HotBoardMain extends StatelessWidget {
                           margin: const EdgeInsets.only(top: 9),
                           child: Ink(
                             child: InkWell(
-                              onTap: () {
-                                Get.toNamed(
-                                    "/board/${mainController.hotBoard[mainController.hotBoardIndex.value].value.COMMUNITY_ID}/read/${mainController.hotBoard[mainController.hotBoardIndex.value].value.BOARD_ID}");
-                              },
-                              child: HotBoardPreview(
+                                /**
+                               * * type 0 : 메인 -> 핫
+                               * * type 1 : 마이 -> 게시글
+                               * * type 2 : 게시판 -> 게시글
+                               */
+                                onTap: () {
+                                  Get.toNamed(
+                                      "/board/${mainController.hotBoard[mainController.hotBoardIndex.value].value.COMMUNITY_ID}/read/${mainController.hotBoard[mainController.hotBoardIndex.value].value.BOARD_ID}",
+                                      arguments: {"type": 0});
+                                },
+                                child: HotBoardPreview(
                                   model: mainController.hotBoard[index],
-                                  size: size),
-                            ),
+                                  size: size,
+                                )),
                           ),
                         );
                       }),
@@ -167,30 +173,32 @@ class HotBoardPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          margin: const EdgeInsets.only(left: 11, right: 11),
-          padding: const EdgeInsets.only(bottom: 15.2 / 2),
-          height: 78 / 2 + 15.2 / 2,
-          child: HotBoardPreviewItem_Top(model: model.value, size: size),
-        ),
-        Container(
-          // height: 195,
-          margin: const EdgeInsets.only(left: 11, right: 11),
-          child: HotBoardItem_content(model: model.value, size: size),
-        ),
-        Container(
-            height: 0.5,
-            margin: const EdgeInsets.only(top: 15.5),
-            decoration: BoxDecoration(color: const Color(0xfff0f0f0))),
-        Container(
-          height: 44,
-          child: HotBoardItem_bottomLine(model: model.value),
-        )
-      ],
-    );
+    return Obx(() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(left: 11, right: 11),
+            padding: const EdgeInsets.only(bottom: 15.2 / 2),
+            height: 78 / 2 + 15.2 / 2,
+            child: HotBoardPreviewItem_Top(model: model.value, size: size),
+          ),
+          Container(
+            // height: 195,
+            margin: const EdgeInsets.only(left: 11, right: 11),
+            child: HotBoardItem_content(model: model.value, size: size),
+          ),
+          Container(
+              height: 0.5,
+              margin: const EdgeInsets.only(top: 15.5),
+              decoration: BoxDecoration(color: const Color(0xfff0f0f0))),
+          Container(
+            height: 44,
+            child: HotBoardItem_bottomLine(model: model.value),
+          )
+        ],
+      );
+    });
   }
 }
 

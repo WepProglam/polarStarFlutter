@@ -25,52 +25,53 @@ class BoardInfo {
   }
 }
 
-class HotBoard {
-  String TITLE;
-  String CONTENT;
-  int COMMUNITY_ID;
-  String COMMUNITY_NAME;
-  int UNNAMED;
-  int LIKES;
-  int SCRAPS;
-  int COMMENTS;
-  String TIME_CREATED;
-  int BOARD_ID;
-  String PROFILE_NICKNAME;
-  String PROFILE_PHOTO;
-  List<dynamic> PHOTO;
+// ! Post로 통일
+// class HotBoard {
+//   String TITLE;
+//   String CONTENT;
+//   int COMMUNITY_ID;
+//   String COMMUNITY_NAME;
+//   int UNNAMED;
+//   int LIKES;
+//   int SCRAPS;
+//   int COMMENTS;
+//   String TIME_CREATED;
+//   int BOARD_ID;
+//   String PROFILE_NICKNAME;
+//   String PROFILE_PHOTO;
+//   List<dynamic> PHOTO;
 
-  HotBoard(
-      {TITLE,
-      CONTENT,
-      COMMUNITY_ID,
-      COMMUNITY_NAME,
-      UNNAMED,
-      LIKES,
-      SCRAPS,
-      COMMENTS,
-      TIME_CREATED,
-      BOARD_ID,
-      PROFILE_NICKNAME,
-      PROFILE_PHOTO,
-      PHOTO});
+//   HotBoard(
+//       {TITLE,
+//       CONTENT,
+//       COMMUNITY_ID,
+//       COMMUNITY_NAME,
+//       UNNAMED,
+//       LIKES,
+//       SCRAPS,
+//       COMMENTS,
+//       TIME_CREATED,
+//       BOARD_ID,
+//       PROFILE_NICKNAME,
+//       PROFILE_PHOTO,
+//       PHOTO});
 
-  HotBoard.fromJson(Map<String, dynamic> json) {
-    this.TITLE = json["TITLE"];
-    this.CONTENT = json["CONTENT"];
-    this.COMMUNITY_ID = json["COMMUNITY_ID"];
-    this.COMMUNITY_NAME = json["COMMUNITY_NAME"];
-    this.UNNAMED = json["UNNAMED"];
-    this.LIKES = json["LIKES"];
-    this.SCRAPS = json["SCRAPS"];
-    this.COMMENTS = json["COMMENTS"];
-    this.TIME_CREATED = json["TIME_CREATED"];
-    this.BOARD_ID = json["BOARD_ID"];
-    this.PROFILE_NICKNAME = json["PROFILE_NICKNAME"];
-    this.PROFILE_PHOTO = json["PROFILE_PHOTO"];
-    this.PHOTO = json["PHOTO"];
-  }
-}
+//   HotBoard.fromJson(Map<String, dynamic> json) {
+//     this.TITLE = json["TITLE"];
+//     this.CONTENT = json["CONTENT"];
+//     this.COMMUNITY_ID = json["COMMUNITY_ID"];
+//     this.COMMUNITY_NAME = json["COMMUNITY_NAME"];
+//     this.UNNAMED = json["UNNAMED"];
+//     this.LIKES = json["LIKES"];
+//     this.SCRAPS = json["SCRAPS"];
+//     this.COMMENTS = json["COMMENTS"];
+//     this.TIME_CREATED = json["TIME_CREATED"];
+//     this.BOARD_ID = json["BOARD_ID"];
+//     this.PROFILE_NICKNAME = json["PROFILE_NICKNAME"];
+//     this.PROFILE_PHOTO = json["PROFILE_PHOTO"];
+//     this.PHOTO = json["PHOTO"];
+//   }
+// }
 
 class LikeListModel {
   int COMMUNITY_ID, UNIQUE_ID;

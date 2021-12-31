@@ -11,8 +11,6 @@ import 'package:polarstar_flutter/app/bindings/mail/mailBox_binding.dart';
 import 'package:polarstar_flutter/app/bindings/mail/mailHistory_binding.dart';
 import 'package:polarstar_flutter/app/bindings/main/main_binding.dart';
 import 'package:polarstar_flutter/app/bindings/main/main_search_binding.dart';
-import 'package:polarstar_flutter/app/bindings/outside/outside_binding.dart';
-import 'package:polarstar_flutter/app/bindings/outside/post_binding.dart';
 import 'package:polarstar_flutter/app/bindings/profile/mypage_binding.dart';
 import 'package:polarstar_flutter/app/bindings/loby/sign_up_binding.dart';
 import 'package:polarstar_flutter/app/bindings/class/class_binding.dart';
@@ -35,8 +33,6 @@ import 'package:polarstar_flutter/app/ui/android/loby/find_password.dart';
 import 'package:polarstar_flutter/app/ui/android/main/board_list.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page_search.dart';
 import 'package:polarstar_flutter/app/ui/android/noti/noti.dart';
-import 'package:polarstar_flutter/app/ui/android/outside/outside_board.dart';
-import 'package:polarstar_flutter/app/ui/android/outside/outside_post.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/profile.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/setting.dart';
@@ -77,7 +73,7 @@ class AppPages {
     GetPage(
       name: Routes.MAIN_PAGE,
       page: () => MainPage(),
-      bindings: [MainBinding(), OutSideBinding(), TimetableBinding()],
+      bindings: [MainBinding(), TimetableBinding()],
     ),
     GetPage(
         name: Routes.MAIN_PAGE_SEARCH,
@@ -127,16 +123,16 @@ class AppPages {
       binding: MyPageBinding(),
     ),
     GetPage(name: Routes.SETTING, page: () => Setting()),
-    GetPage(
-      name: Routes.OUTSIDE,
-      page: () => OutSide(),
-      binding: OutSideBinding(),
-    ),
+    // GetPage(
+    //   name: Routes.OUTSIDE,
+    //   page: () => OutSide(),
+    //   binding: OutSideBinding(),
+    // ),
     GetPage(name: Routes.SEARCH, page: () => Search()),
-    GetPage(
-        name: Routes.OUTSIDE_POST,
-        page: () => OutSidePost(),
-        binding: OutSidePostBinding()),
+    // GetPage(
+    //     name: Routes.OUTSIDE_POST,
+    //     page: () => OutSidePost(),
+    //     binding: OutSidePostBinding()),
     GetPage(
         name: Routes.MAILHISTORY,
         page: () => MailHistory(),

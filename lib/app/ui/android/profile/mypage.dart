@@ -108,6 +108,12 @@ class Mypage extends StatelessWidget {
                                                         5), //자체 패딩 10 + 5 = 15
                                                 child: PostPreview(
                                                   item: userPost[index][i],
+                                                  /**
+                                                   * * type 0 : 메인 -> 핫
+                                                   * * type 1 : 마이 -> 게시글
+                                                   * * type 2 : 게시판 -> 게시글
+                                                   */
+                                                  type: 1,
                                                 ),
                                               );
                                             }),

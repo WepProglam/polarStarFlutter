@@ -8,8 +8,10 @@ import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_mail_dialog.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
@@ -25,16 +27,6 @@ class PostLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // List<Widget> finalPost = [];
-
-    // c.sortedList.forEach((Post item) {
-    //   finalPost.addAll(item.value.DEPTH == 0
-    //       ? returningPost(item)
-    //       : item.value.DEPTH == 1
-    //           ? returningComment(item)
-    //           : returningCC(item));
-    // });
-
     return Obx(() => Padding(
           padding: EdgeInsets.only(
               bottom: 60.0 + ((c.bottomTextLine.value - 1) * 21)),
@@ -42,7 +34,10 @@ class PostLayout extends StatelessWidget {
               height: Get.mediaQuery.size.height,
               margin: const EdgeInsets.symmetric(horizontal: 15),
               child: RefreshIndicator(
-                onRefresh: MainUpdateModule.updatePost,
+                onRefresh: () async {
+                  print(Get.arguments);
+                  await MainUpdateModule.updatePost(type: c.callType);
+                },
                 child: ListView.builder(
                     itemCount: c.sortedList.length,
                     itemBuilder: (BuildContext context, int index) {

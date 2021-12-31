@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
+import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/data/provider/sqflite/database_helper.dart';
@@ -204,13 +205,42 @@ class MainController extends GetxController {
 }
 
 class MainUpdateModule {
-  static Future<void> updatePost() async {
-    final BoardController boardController = Get.find();
+  static Future<void> updatePost({int type = 2}) async {
     final PostController postController = Get.find();
-    final MainController mainController = Get.find();
-
     await postController.refreshPost();
     Post item = postController.sortedList[0].value;
+
+    if (type == 0) {
+      await updatePostMainPage(item);
+    } else if (type == 1) {
+      await updatePostMyPage(item);
+    } else if (type == 2) {
+      await updatePostBoard(item);
+    }
+  }
+
+  static Future<void> updatePostMyPage(Post item) async {
+    final MyPageController mypageController = Get.find();
+    final MainController mainController = Get.find();
+
+    // Todo: 마이 페이지 업데이트
+
+    return;
+  }
+
+  static Future<void> updatePostMainPage(Post item) async {
+    final MainController mainController = Get.find();
+
+    // * 메인 핫보드 업데이트
+    Rx<Post> hotBoard = findSame(item, mainController.hotBoard);
+    changeTargetPost(hotBoard, item);
+
+    return;
+  }
+
+  static Future<void> updatePostBoard(Post item) async {
+    final BoardController boardController = Get.find();
+    final MainController mainController = Get.find();
 
     // * 게시판 페이지 업데이트
     Rx<Post> board = findSame(item, boardController.postBody);
@@ -220,7 +250,7 @@ class MainUpdateModule {
     Rx<Post> hotBoard = findSame(item, mainController.hotBoard);
     changeTargetPost(hotBoard, item);
 
-    // Todo: 마이페이지 업데이트
+    return;
   }
 
   static Future<void> updateHotMain() async {

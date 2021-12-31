@@ -11,8 +11,9 @@ import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 
 // 게시글 프리뷰 위젯
 class PostPreview extends StatelessWidget {
-  PostPreview({Key key, @required this.item}) : super(key: key);
+  PostPreview({Key key, @required this.item, this.type}) : super(key: key);
   final Rx<Post> item;
+  int type;
   final MainController mainController = Get.find();
 
   String boardName(int COMMUNITY_ID) {
@@ -21,13 +22,15 @@ class PostPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    type = type == null ? 2 : type;
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: InkWell(
         onTap: () {
           print(item);
           Get.toNamed(
-              '/board/${item.value.COMMUNITY_ID}/read/${item.value.BOARD_ID}');
+              '/board/${item.value.COMMUNITY_ID}/read/${item.value.BOARD_ID}',
+              arguments: {"type": type});
         },
         child: Ink(
           decoration: BoxDecoration(

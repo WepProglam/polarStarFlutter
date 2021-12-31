@@ -28,6 +28,7 @@ class PostController extends GetxController {
 
   int COMMUNITY_ID;
   int BOARD_ID;
+  int callType = 2;
 
   // Post
   var anonymousCheck = true.obs;
@@ -119,7 +120,7 @@ class PostController extends GetxController {
                   }
                 } else {
                   // await getPostData();
-                  await MainUpdateModule.updatePost();
+                  await MainUpdateModule.updatePost(type: callType);
                 }
 
                 break;
@@ -141,7 +142,7 @@ class PostController extends GetxController {
     final status = await repository.postComment(url, data);
     switch (status) {
       case 200:
-        await MainUpdateModule.updatePost();
+        await MainUpdateModule.updatePost(type: callType);
         break;
 
       default:
@@ -153,7 +154,7 @@ class PostController extends GetxController {
     final status = await repository.putComment(url, data);
     switch (status) {
       case 200:
-        await MainUpdateModule.updatePost();
+        await MainUpdateModule.updatePost(type: callType);
         break;
 
       default:
@@ -194,14 +195,14 @@ class PostController extends GetxController {
   // * public
   Future<int> totalSend(String urlTemp, String what, int index) async {
     int statusCode = await _totalSend(urlTemp, what, index);
-    await MainUpdateModule.updatePost();
+    await MainUpdateModule.updatePost(type: callType);
     return statusCode;
   }
 
   // * public
   Future<int> scrap_cancel(String urlTemp) async {
     int statusCode = await _scrap_cancel(urlTemp);
-    await MainUpdateModule.updatePost();
+    await MainUpdateModule.updatePost(type: callType);
     return statusCode;
   }
 

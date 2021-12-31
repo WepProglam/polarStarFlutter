@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
+import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 
 import 'package:polarstar_flutter/session.dart';
 
@@ -13,8 +15,8 @@ class SearchApiClient {
     }
     Iterable jsonResponse = jsonDecode(response.body);
 
-    List<Board> listBoard =
-        jsonResponse.map((model) => Board.fromJson(model)).toList();
+    List<Rx<Post>> listBoard =
+        jsonResponse.map((model) => Post.fromJson(model).obs).toList();
 
     return {"status": response.statusCode, "listBoard": listBoard};
   }
