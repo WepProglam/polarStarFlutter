@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 
 import 'package:polarstar_flutter/session.dart';
@@ -21,8 +23,8 @@ class MainApiClient {
     List<BoardInfo> listBoardInfo =
         boardInfo.map((model) => BoardInfo.fromJson(model)).toList();
 
-    List<HotBoard> listHotBoard =
-        hotBoard.map((model) => HotBoard.fromJson(model)).toList();
+    List<Rx<Post>> listHotBoard =
+        hotBoard.map((model) => Post.fromJson(model).obs).toList();
 
     List<LikeListModel> listLikeList =
         likeList.map((e) => LikeListModel.fromJson(e)).toList();

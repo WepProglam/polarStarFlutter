@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
@@ -132,7 +133,7 @@ class HotBoardMain extends StatelessWidget {
                             child: InkWell(
                               onTap: () {
                                 Get.toNamed(
-                                    "/board/${mainController.hotBoard[mainController.hotBoardIndex.value].COMMUNITY_ID}/read/${mainController.hotBoard[mainController.hotBoardIndex.value].BOARD_ID}");
+                                    "/board/${mainController.hotBoard[mainController.hotBoardIndex.value].value.COMMUNITY_ID}/read/${mainController.hotBoard[mainController.hotBoardIndex.value].value.BOARD_ID}");
                               },
                               child: HotBoardPreview(
                                   model: mainController.hotBoard[index],
@@ -161,7 +162,7 @@ class HotBoardPreview extends StatelessWidget {
     @required this.size,
   }) : super(key: key);
 
-  final HotBoard model;
+  final Rx<Post> model;
   final Size size;
 
   @override
@@ -173,12 +174,12 @@ class HotBoardPreview extends StatelessWidget {
           margin: const EdgeInsets.only(left: 11, right: 11),
           padding: const EdgeInsets.only(bottom: 15.2 / 2),
           height: 78 / 2 + 15.2 / 2,
-          child: HotBoardPreviewItem_Top(model: model, size: size),
+          child: HotBoardPreviewItem_Top(model: model.value, size: size),
         ),
         Container(
           // height: 195,
           margin: const EdgeInsets.only(left: 11, right: 11),
-          child: HotBoardItem_content(model: model, size: size),
+          child: HotBoardItem_content(model: model.value, size: size),
         ),
         Container(
             height: 0.5,
@@ -186,7 +187,7 @@ class HotBoardPreview extends StatelessWidget {
             decoration: BoxDecoration(color: const Color(0xfff0f0f0))),
         Container(
           height: 44,
-          child: HotBoardItem_bottomLine(model: model),
+          child: HotBoardItem_bottomLine(model: model.value),
         )
       ],
     );
@@ -194,10 +195,10 @@ class HotBoardPreview extends StatelessWidget {
 }
 
 class HotBoardItem_bottomLine extends StatelessWidget {
-  const HotBoardItem_bottomLine({Key key, @required this.model})
-      : super(key: key);
+  HotBoardItem_bottomLine({Key key, @required this.model}) : super(key: key);
 
-  final HotBoard model;
+  final Post model;
+  final MainController mainController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +209,7 @@ class HotBoardItem_bottomLine extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             HotBoardPreviewItem_bottom(
-                image_url: (isLiked(model)
+                image_url: (mainController.isLiked(model)
                     ? "assets/images/like_red.png"
                     : "assets/images/good.png"),
                 amount: "${model.LIKES}"),
@@ -216,7 +217,7 @@ class HotBoardItem_bottomLine extends StatelessWidget {
                 image_url: "assets/images/comment.png",
                 amount: "${model.COMMENTS}"),
             HotBoardPreviewItem_bottom(
-                image_url: (isScrapped(model)
+                image_url: (mainController.isScrapped(model)
                     ? "assets/images/849.png"
                     : "assets/images/star.png"),
                 amount: "${model.SCRAPS}"),
@@ -238,7 +239,7 @@ class HotBoardItem_content extends StatelessWidget {
     @required this.size,
   }) : super(key: key);
 
-  final HotBoard model;
+  final Post model;
   final Size size;
 
   @override
@@ -323,7 +324,7 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
     @required this.size,
   }) : super(key: key);
 
-  final HotBoard model;
+  final Post model;
   final Size size;
 
   @override
@@ -425,32 +426,4 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
       )
     ]);
   }
-}
-
-bool isLiked(HotBoard model) {
-  final MainController mainController = Get.find();
-
-  for (int i = 0; i < mainController.likeList.length; i++) {
-    if (mainController.likeList[i].UNIQUE_ID == model.BOARD_ID) {
-      if (mainController.likeList[i].COMMUNITY_ID == model.COMMUNITY_ID) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-}
-
-bool isScrapped(HotBoard model) {
-  final MainController mainController = Get.find();
-
-  for (int i = 0; i < mainController.scrapList.length; i++) {
-    if (mainController.scrapList[i].UNIQUE_ID == model.BOARD_ID) {
-      if (mainController.scrapList[i].COMMUNITY_ID == model.COMMUNITY_ID) {
-        return true;
-      }
-    }
-  }
-
-  return false;
 }

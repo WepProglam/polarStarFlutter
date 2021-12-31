@@ -44,25 +44,29 @@ class Post {
       MYSELF});
 
   Post.fromJson(Map<String, dynamic> json) {
-    this.DEPTH = json["DEPTH"];
-    this.TITLE = json["TITLE"];
-    this.CONTENT = json["CONTENT"];
-    this.UNNAMED = json["UNNAMED"];
-    this.TIME_CREATED = json["TIME_CREATED"];
-    this.TIME_UPDATED = json["TIME_UPDATED"];
-    this.LIKES = json["LIKES"];
-    this.SCRAPS = json["SCRAPS"];
-    this.PARENT_ID = json["PARENT_ID"];
-    this.PHOTO = json["PHOTO"];
-    this.IS_UPDATED = json["IS_UPDATED"];
-    this.UNIQUE_ID = json["UNIQUE_ID"];
-    this.COMMUNITY_ID = json["COMMUNITY_ID"];
-    this.COMMENTS = json["COMMENTS"];
-    this.PROFILE_NICKNAME = json["PROFILE_NICKNAME"];
-    this.PROFILE_PHOTO = json["PROFILE_PHOTO"];
-    this.MYSELF = json["MYSELF"];
-    this.BOARD_ID = json["BOARD_ID"];
+    this.DEPTH = nullCheck(json["DEPTH"]);
+    this.TITLE = nullCheck(json["TITLE"]);
+    this.CONTENT = nullCheck(json["CONTENT"]);
+    this.UNNAMED = nullCheck(json["UNNAMED"]);
+    this.TIME_CREATED = nullCheck(json["TIME_CREATED"]);
+    this.TIME_UPDATED = nullCheck(json["TIME_UPDATED"]);
+    this.LIKES = nullCheck(json["LIKES"]);
+    this.SCRAPS = nullCheck(json["SCRAPS"]);
+    this.PARENT_ID = nullCheck(json["PARENT_ID"]);
+    this.PHOTO = nullCheck(json["PHOTO"]);
+    this.IS_UPDATED = nullCheck(json["IS_UPDATED"]);
+    this.UNIQUE_ID = nullCheck(json["UNIQUE_ID"]);
+    this.COMMUNITY_ID = nullCheck(json["COMMUNITY_ID"]);
+    this.COMMENTS = nullCheck(json["COMMENTS"]);
+    this.PROFILE_NICKNAME = nullCheck(json["PROFILE_NICKNAME"]);
+    this.PROFILE_PHOTO = nullCheck(json["PROFILE_PHOTO"]);
+    this.MYSELF = nullCheck(json["MYSELF"]);
+    this.BOARD_ID = nullCheck(json["BOARD_ID"]);
     this.isScraped = false;
     this.isLiked = false;
+  }
+
+  dynamic nullCheck(dynamic a) {
+    return a == null ? null : a;
   }
 }

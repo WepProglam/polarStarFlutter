@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
+import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 
 import 'package:polarstar_flutter/session.dart';
 
@@ -8,13 +10,13 @@ class BoardApiClient {
     var response = await Session().getX("/board/$COMMUNITY_ID/page/$page");
 
     if (response.statusCode != 200) {
-      return {"status": response.statusCode, "listBoard": <Board>[]};
+      return {"status": response.statusCode, "listBoard": <Rx<Post>>[]};
     }
 
     Iterable jsonResponse = jsonDecode(response.body);
 
-    List<Board> listBoard =
-        jsonResponse.map((model) => Board.fromJson(model)).toList();
+    List<Rx<Post>> listBoard =
+        jsonResponse.map((model) => Post.fromJson(model).obs).toList();
 
     return {"status": response.statusCode, "listBoard": listBoard};
   }
@@ -28,8 +30,8 @@ class BoardApiClient {
 
     Iterable jsonResponse = jsonDecode(response.body);
 
-    List<Board> listBoard =
-        jsonResponse.map((model) => Board.fromJson(model)).toList();
+    List<Rx<Post>> listBoard =
+        jsonResponse.map((model) => Post.fromJson(model).obs).toList();
 
     return {"status": response.statusCode, "listBoard": listBoard};
   }
@@ -44,8 +46,8 @@ class BoardApiClient {
 
     Iterable jsonResponse = jsonDecode(response.body);
 
-    List<Board> listBoard =
-        jsonResponse.map((model) => Board.fromJson(model)).toList();
+    List<Rx<Post>> listBoard =
+        jsonResponse.map((model) => Post.fromJson(model).obs).toList();
 
     return {"status": response.statusCode, "listBoard": listBoard};
   }
@@ -61,8 +63,8 @@ class BoardApiClient {
 
     Iterable jsonResponse = jsonDecode(response.body);
 
-    List<Board> listBoard =
-        jsonResponse.map((model) => Board.fromJson(model)).toList();
+    List<Rx<Post>> listBoard =
+        jsonResponse.map((model) => Post.fromJson(model).obs).toList();
 
     return {"status": response.statusCode, "listBoard": listBoard};
   }

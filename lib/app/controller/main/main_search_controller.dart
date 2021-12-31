@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
+import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/repository/main/main_search_repository.dart';
 import 'package:polarstar_flutter/session.dart';
 
@@ -26,8 +27,8 @@ class MainSearchController extends GetxController {
   RxString searchText = "".obs;
   RxInt searchType = 0.obs;
 
-  RxList<RxList<Board>> searchData =
-      [<Board>[].obs, <Board>[].obs, <Board>[].obs].obs;
+  RxList<RxList<Rx<Post>>> searchData =
+      [<Rx<Post>>[].obs, <Rx<Post>>[].obs, <Rx<Post>>[].obs].obs;
 
   RxList<bool> didfetched = [false, false, false].obs;
   RxList<RxBool> hasData = [false.obs, false.obs, false.obs].obs;
@@ -36,7 +37,7 @@ class MainSearchController extends GetxController {
       : assert(repository != null);
 
   void clearAll() {
-    searchData.value = [<Board>[].obs, <Board>[].obs, <Board>[].obs];
+    searchData.value = [<Rx<Post>>[].obs, <Rx<Post>>[].obs, <Rx<Post>>[].obs];
     didfetched.value = [false, false, false];
   }
 
@@ -59,7 +60,7 @@ class MainSearchController extends GetxController {
     Iterable searchList = jsonDecode(response.body);
 
     searchData[searchType.value].value =
-        searchList.map((e) => Board.fromJson(e)).toList();
+        searchList.map((e) => Post.fromJson(e).obs).toList();
     hasData[searchType.value].value = true;
     didfetched[searchType.value] = true;
   }

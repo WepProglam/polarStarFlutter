@@ -4,14 +4,16 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
+import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/board_name.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 
 // 게시글 프리뷰 위젯
 class PostPreview extends StatelessWidget {
-  const PostPreview({Key key, @required this.item}) : super(key: key);
-  final Board item;
+  PostPreview({Key key, @required this.item}) : super(key: key);
+  final Rx<Post> item;
+  final MainController mainController = Get.find();
 
   String boardName(int COMMUNITY_ID) {
     return communityBoardName(COMMUNITY_ID);
@@ -24,7 +26,8 @@ class PostPreview extends StatelessWidget {
       child: InkWell(
         onTap: () {
           print(item);
-          Get.toNamed('/board/${item.COMMUNITY_ID}/read/${item.BOARD_ID}');
+          Get.toNamed(
+              '/board/${item.value.COMMUNITY_ID}/read/${item.value.BOARD_ID}');
         },
         child: Ink(
           decoration: BoxDecoration(
@@ -46,7 +49,7 @@ class PostPreview extends StatelessWidget {
                         height: 39,
                         margin: EdgeInsets.only(right: 11.8),
                         child: CachedNetworkImage(
-                          imageUrl: '${item.PROFILE_PHOTO}',
+                          imageUrl: '${item.value.PROFILE_PHOTO}',
                           imageBuilder: (context, imageProvider) => Container(
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
@@ -59,7 +62,7 @@ class PostPreview extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // nickname
-                        Text(item.PROFILE_NICKNAME,
+                        Text(item.value.PROFILE_NICKNAME,
                             style: const TextStyle(
                                 color: const Color(0xff333333),
                                 fontWeight: FontWeight.bold,
@@ -69,7 +72,9 @@ class PostPreview extends StatelessWidget {
                             textAlign: TextAlign.left),
 
                         // time
-                        Text(timeParsing(item.TIME_CREATED, item.TIME_UPDATED),
+                        Text(
+                            timeParsing(item.value.TIME_CREATED,
+                                item.value.TIME_UPDATED),
                             style: const TextStyle(
                                 color: const Color(0xff999999),
                                 fontWeight: FontWeight.normal,
@@ -114,7 +119,7 @@ class PostPreview extends StatelessWidget {
               ),
 
               // 제목, 내용
-              Text(item.TITLE,
+              Text(item.value.TITLE,
                   style: const TextStyle(
                       color: const Color(0xff333333),
                       fontWeight: FontWeight.bold,
@@ -122,7 +127,7 @@ class PostPreview extends StatelessWidget {
                       fontStyle: FontStyle.normal,
                       fontSize: 16.0),
                   textAlign: TextAlign.left),
-              Text(item.CONTENT,
+              Text(item.value.CONTENT,
                   maxLines: 2,
                   style: const TextStyle(
                       color: const Color(0xff333333),
@@ -135,136 +140,111 @@ class PostPreview extends StatelessWidget {
               // Photo
               Container(
                   margin: EdgeInsets.only(top: 13.1 - 5.6, bottom: 17.8 - 5.6),
-                  child: item.PHOTO == null || item.PHOTO.length == 0
-                      ? Container()
-                      : Container(
-                          height: 120,
-                          child: PhotoLayout(
-                            model: item,
-                          ),
-                        )),
+                  child:
+                      item.value.PHOTO == null || item.value.PHOTO.length == 0
+                          ? Container()
+                          : Container(
+                              height: 120,
+                              child: PhotoLayout(
+                                model: item.value,
+                              ),
+                            )),
 
               //좋아요, 댓글, 스크랩 수
-              Row(
-                children: [
-                  Container(
-                    height: 16,
-                    margin: EdgeInsets.only(right: 20),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 10.6,
-                          height: 10.6,
-                          margin: const EdgeInsets.only(right: 6.4),
-                          child: (isLiked(item)
-                              ? Image.asset(
-                                  "assets/images/like_red.png",
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.asset(
-                                  "assets/images/invalid_name.png",
-                                  fit: BoxFit.cover,
-                                )),
-                        ),
-                        Text(item.LIKES.toString(),
-                            style: const TextStyle(
-                                color: const Color(0xff333333),
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 12.0),
-                            textAlign: TextAlign.left)
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 16,
-                    margin: EdgeInsets.only(right: 20),
-                    child: Row(
-                      children: [
-                        Container(
+              Obx(() {
+                return Row(
+                  children: [
+                    Container(
+                      height: 16,
+                      margin: EdgeInsets.only(right: 20),
+                      child: Row(
+                        children: [
+                          Container(
                             width: 10.6,
                             height: 10.6,
                             margin: const EdgeInsets.only(right: 6.4),
-                            child: Icon(
-                              Icons.comment_outlined,
-                              size: 10.6,
-                            )),
-                        Text(item.COMMENTS.toString(),
-                            style: const TextStyle(
-                                color: const Color(0xff333333),
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 12.0),
-                            textAlign: TextAlign.left)
-                      ],
+                            child: (mainController.isLiked(item.value)
+                                ? Image.asset(
+                                    "assets/images/like_red.png",
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    "assets/images/invalid_name.png",
+                                    fit: BoxFit.cover,
+                                  )),
+                          ),
+                          Text(item.value.LIKES.toString(),
+                              style: const TextStyle(
+                                  color: const Color(0xff333333),
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "PingFangSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 12.0),
+                              textAlign: TextAlign.left)
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 16,
-                    margin: EdgeInsets.only(right: 20),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 10.6,
-                          height: 10.6,
-                          margin: const EdgeInsets.only(right: 6.4),
-                          child: (isScrapped(item)
-                              ? Image.asset(
-                                  "assets/images/849.png",
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.asset(
-                                  "assets/images/scrap_none.png",
-                                  fit: BoxFit.cover,
-                                )),
-                        ),
-                        Text(item.SCRAPS.toString(),
-                            style: const TextStyle(
-                                color: const Color(0xff333333),
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 12.0),
-                            textAlign: TextAlign.left)
-                      ],
+                    Container(
+                      height: 16,
+                      margin: EdgeInsets.only(right: 20),
+                      child: Row(
+                        children: [
+                          Container(
+                              width: 10.6,
+                              height: 10.6,
+                              margin: const EdgeInsets.only(right: 6.4),
+                              child: Icon(
+                                Icons.comment_outlined,
+                                size: 10.6,
+                              )),
+                          Text(item.value.COMMENTS.toString(),
+                              style: const TextStyle(
+                                  color: const Color(0xff333333),
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "PingFangSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 12.0),
+                              textAlign: TextAlign.left)
+                        ],
+                      ),
                     ),
-                  )
-                ],
-              ),
+                    Container(
+                      height: 16,
+                      margin: EdgeInsets.only(right: 20),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 10.6,
+                            height: 10.6,
+                            margin: const EdgeInsets.only(right: 6.4),
+                            child: (mainController.isScrapped(item.value)
+                                ? Image.asset(
+                                    "assets/images/849.png",
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    "assets/images/scrap_none.png",
+                                    fit: BoxFit.cover,
+                                  )),
+                          ),
+                          Text(item.value.SCRAPS.toString(),
+                              style: const TextStyle(
+                                  color: const Color(0xff333333),
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "PingFangSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 12.0),
+                              textAlign: TextAlign.left)
+                        ],
+                      ),
+                    )
+                  ],
+                );
+              }),
             ],
           ),
         ),
       ),
     );
   }
-}
-
-bool isLiked(Board item) {
-  final MainController mainController = Get.find();
-
-  for (int i = 0; i < mainController.likeList.length; i++) {
-    if (mainController.likeList[i].UNIQUE_ID == item.BOARD_ID) {
-      if (mainController.likeList[i].COMMUNITY_ID == item.COMMUNITY_ID) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-}
-
-bool isScrapped(Board item) {
-  final MainController mainController = Get.find();
-
-  for (int i = 0; i < mainController.scrapList.length; i++) {
-    if (mainController.scrapList[i].UNIQUE_ID == item.BOARD_ID) {
-      if (mainController.scrapList[i].COMMUNITY_ID == item.COMMUNITY_ID) {
-        return true;
-      }
-    }
-  }
-
-  return false;
 }

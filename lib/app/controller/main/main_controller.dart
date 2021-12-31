@@ -3,6 +3,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:meta/meta.dart';
+import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
+import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/data/provider/sqflite/database_helper.dart';
@@ -18,7 +20,7 @@ class MainController extends GetxController {
   MainController({@required this.repository}) : assert(repository != null);
 
   RxList<Rx<BoardInfo>> boardInfo = <Rx<BoardInfo>>[].obs;
-  RxList<HotBoard> hotBoard = <HotBoard>[].obs;
+  RxList<Rx<Post>> hotBoard = <Rx<Post>>[].obs;
   RxInt hotBoardIndex = 0.obs;
   RxInt followAmount = 0.obs;
   Rx<Color> statusBarColor = Colors.white.obs;
@@ -199,4 +201,59 @@ class MainController extends GetxController {
   }
 
   bool get dataAvailalbe => _dataAvailable.value;
+}
+
+class MainUpdateModule {
+  static Future<void> updatePost() async {
+    final BoardController boardController = Get.find();
+    final PostController postController = Get.find();
+    final MainController mainController = Get.find();
+
+    await postController.refreshPost();
+    Post item = postController.sortedList[0].value;
+
+    // * 게시판 페이지 업데이트
+    Rx<Post> board = findSame(item, boardController.postBody);
+    changeTargetPost(board, item);
+
+    // * 메인 핫보드 업데이트
+    Rx<Post> hotBoard = findSame(item, mainController.hotBoard);
+    changeTargetPost(hotBoard, item);
+
+    // Todo: 마이페이지 업데이트
+  }
+
+  static Future<void> updateHotMain() async {
+    final BoardController boardController = Get.find();
+    await boardController.refreshHotPage();
+    return;
+  }
+
+  static Future<void> updateBoard() async {
+    final BoardController boardController = Get.find();
+    await boardController.refreshPage();
+    return;
+  }
+
+  static void changeTargetPost(Rx<Post> target, Post item) {
+    if (target != null) {
+      target.update((val) {
+        val.COMMENTS = item.COMMENTS;
+        val.LIKES = item.LIKES;
+        val.SCRAPS = item.SCRAPS;
+      });
+    }
+    return;
+  }
+
+  // * private
+  static Rx<Post> findSame(Post item, RxList<Rx<Post>> postList) {
+    for (Rx<Post> a in postList) {
+      if (a.value.BOARD_ID == item.BOARD_ID &&
+          a.value.COMMUNITY_ID == item.COMMUNITY_ID) {
+        return a;
+      }
+    }
+    return null;
+  }
 }

@@ -48,15 +48,15 @@ class PostController extends GetxController {
     await getPostData();
   }
 
-  Future<void> refreshPost() async {
+  Future<int> refreshPost() async {
     // _dataAvailable.value = false;
     await mainController.refreshLikeList();
     await mainController.refreshScrapList();
-    await getPostData();
-    return;
+    int status_code = await getPostData();
+    return status_code;
   }
 
-  Future<void> getPostData() async {
+  Future<int> getPostData() async {
     // _dataAvailable.value = false;
     final Map<String, dynamic> response =
         await repository.getPostData(this.COMMUNITY_ID, this.BOARD_ID);
@@ -71,14 +71,16 @@ class PostController extends GetxController {
         break;
       case 200:
         sortPCCC(response["listPost"]);
+
         _dataAvailable.value = true;
-        return;
+        break;
       default:
         await Get.defaultDialog(
             content: Text("삭제된 게시글입니다."), title: "유효하지 않은 접근");
         Get.back();
         isDeleted.value = true;
     }
+    return status;
   }
 
   // void deletePost(int COMMUNITY_ID, int BOARD_ID) async {
@@ -117,7 +119,7 @@ class PostController extends GetxController {
                   }
                 } else {
                   // await getPostData();
-                  await refreshPost();
+                  await MainUpdateModule.updatePost();
                 }
 
                 break;
@@ -139,7 +141,7 @@ class PostController extends GetxController {
     final status = await repository.postComment(url, data);
     switch (status) {
       case 200:
-        await getPostData();
+        await MainUpdateModule.updatePost();
         break;
 
       default:
@@ -151,7 +153,7 @@ class PostController extends GetxController {
     final status = await repository.putComment(url, data);
     switch (status) {
       case 200:
-        await getPostData();
+        await MainUpdateModule.updatePost();
         break;
 
       default:
@@ -189,20 +191,84 @@ class PostController extends GetxController {
     }
   }
 
-  Future<void> totalSend(String urlTemp, String what, int index) async {
-    String url = "/board" + urlTemp;
+  // * public
+  Future<int> totalSend(String urlTemp, String what, int index) async {
+    int statusCode = await _totalSend(urlTemp, what, index);
+    await MainUpdateModule.updatePost();
+    return statusCode;
+  }
 
-    Session().getX(url).then((value) {
+  // * public
+  Future<int> scrap_cancel(String urlTemp) async {
+    int statusCode = await _scrap_cancel(urlTemp);
+    await MainUpdateModule.updatePost();
+    return statusCode;
+  }
+
+  // // * public
+  // void increaseLike(Post item, int status_code) {
+  //   if (status_code != 200) {
+  //     return;
+  //   }
+  //   Rx<Post> board = _findSame(item);
+  //   if (board == null) {
+  //     return;
+  //   }
+  //   board.update((val) {
+  //     val.LIKES += 1;
+  //   });
+  //   return;
+  // }
+
+  // // * public
+  // void increaseScrap(Post item, int status_code) {
+  //   if (status_code != 200) {
+  //     return;
+  //   }
+  //   Rx<Post> board = _findSame(item);
+  //   if (board == null) {
+  //     return;
+  //   }
+  //   board.update((val) {
+  //     val.SCRAPS += 1;
+  //   });
+  //   return;
+  // }
+
+  // // * public
+  // void decreaseScrap(Post item, int status_code) {
+  //   if (status_code != 200) {
+  //     return;
+  //   }
+  //   Rx<Post> board = _findSame(item);
+  //   if (board == null) {
+  //     return;
+  //   }
+  //   board.update((val) {
+  //     val.SCRAPS -= 1;
+  //   });
+  //   return;
+  // }
+
+  // // * private
+  // Rx<Post> _findSame(Post item) {
+  //   for (Rx<Post> a in boardController.postBody) {
+  //     if (a.value.BOARD_ID == item.BOARD_ID &&
+  //         a.value.COMMUNITY_ID == item.COMMUNITY_ID) {
+  //       return a;
+  //     }
+  //   }
+  //   return null;
+  // }
+
+  // * private
+  Future<int> _totalSend(String urlTemp, String what, int index) async {
+    String url = "/board" + urlTemp;
+    int status_code = 400;
+    await Session().getX(url).then((value) {
+      status_code = value.statusCode;
       switch (value.statusCode) {
         case 200:
-          Get.snackbar("$what 성공", "$what 성공",
-              snackPosition: SnackPosition.BOTTOM);
-          // if (what == "좋아요") {
-          //   sortedList[index].LIKES++;
-          // } else if (what == "스크랩") {
-          //   sortedList[index].SCRAPS++;
-          // }
-          // _dataAvailable(false);
           _dataAvailable.refresh();
           getPostData();
           break;
@@ -211,24 +277,20 @@ class PostController extends GetxController {
               snackPosition: SnackPosition.BOTTOM);
           break;
         default:
+          break;
       }
     });
+    return status_code;
   }
 
-  Future<void> scrap_cancel(String urlTemp) async {
+  // * private
+  Future<int> _scrap_cancel(String urlTemp) async {
     String url = "/board" + urlTemp;
-
+    int status_code = 400;
     Session().deleteX(url).then((value) {
+      status_code = value.statusCode;
       switch (value.statusCode) {
         case 200:
-          Get.snackbar("스크랩 취소 성공", "스크랩 취소 성공",
-              snackPosition: SnackPosition.BOTTOM);
-          // if (what == "좋아요") {
-          //   sortedList[index].LIKES++;
-          // } else if (what == "스크랩") {
-          //   sortedList[index].SCRAPS++;
-          // }
-          // _dataAvailable(false);
           _dataAvailable.refresh();
           getPostData();
           break;
@@ -236,9 +298,12 @@ class PostController extends GetxController {
           Get.snackbar('이미 스크랩 취소한 게시글입니다', '이미 스크랩 취소한 게시글입니다',
               snackPosition: SnackPosition.BOTTOM);
           break;
+
         default:
+          break;
       }
     });
+    return status_code;
   }
 
   Future<int> getArrestType() async {

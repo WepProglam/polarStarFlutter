@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 
 class BottomKeyboard extends StatelessWidget {
   const BottomKeyboard({
@@ -234,7 +235,7 @@ class BottomKeyboard extends StatelessWidget {
                       }
 
                       commentWriteController.clear();
-                      await c.refreshPost();
+                      await MainUpdateModule.updatePost();
                     },
                     child: Ink(
                         width: 18,

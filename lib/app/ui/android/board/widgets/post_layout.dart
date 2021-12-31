@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
@@ -41,7 +42,7 @@ class PostLayout extends StatelessWidget {
               height: Get.mediaQuery.size.height,
               margin: const EdgeInsets.symmetric(horizontal: 15),
               child: RefreshIndicator(
-                onRefresh: c.refreshPost,
+                onRefresh: MainUpdateModule.updatePost,
                 child: ListView.builder(
                     itemCount: c.sortedList.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -780,12 +781,12 @@ class PostWidget extends StatelessWidget {
                             snackPosition: SnackPosition.BOTTOM);
                       } else if (mainController.isLiked(item.value)) {
                       } else {
-                        await c.totalSend(
+                        int status_code = await c.totalSend(
                             '/like/${item.value.COMMUNITY_ID}/id/${item.value.UNIQUE_ID}',
                             '좋아요',
                             index);
-
-                        //  await mainController.refreshLikeList();
+                        // // * 뒤로가기 했을 때 게시글 리스트에서도 숫자 반영
+                        // c.increaseLike(item.value, status_code);
                       }
                     },
                     icon: Obx(() {
@@ -839,24 +840,17 @@ class PostWidget extends StatelessWidget {
                             MaterialStateProperty.all<Color>(Colors.black)),
                     onPressed: () async {
                       if (mainController.isScrapped(item.value)) {
-                        await c.scrap_cancel(
+                        int status_code = await c.scrap_cancel(
                             '/scrap/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}');
-                        // List<ScrapListModel> temp =
-                        //     mainController.scrapList.value;
-
-                        // temp.removeWhere((element) =>
-                        //     element.COMMUNITY_ID == c.COMMUNITY_ID &&
-                        //     element.UNIQUE_ID == c.BOARD_ID);
-
-                        // mainController.scrapList.value = temp;
+                        // // * 뒤로가기 했을 때 게시글 리스트에서도 숫자 반영
+                        // c.decreaseScrap(item.value, status_code);
                       } else {
-                        await c.totalSend(
+                        int status_code = await c.totalSend(
                             '/scrap/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}',
                             '스크랩',
                             index);
-                        // item.update((val) {
-                        //   val.isScraped = true;
-                        // });
+                        // // * 뒤로가기 했을 때 게시글 리스트에서도 숫자 반영
+                        // c.increaseScrap(item.value, status_code);
                       }
                     },
                     icon: Obx(() {

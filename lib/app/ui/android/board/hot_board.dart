@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/search/search_controller.dart';
 import 'package:polarstar_flutter/app/ui/android/board/board.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
@@ -65,7 +66,7 @@ class HotBoard extends StatelessWidget {
               if (controller.dataAvailablePostPreview.value) {
                 return RefreshIndicator(
                   onRefresh: () async {
-                    await controller.refreshHotPage();
+                    await MainUpdateModule.updateHotMain();
                   },
                   child: ListView.builder(
                       controller: controller.scrollController.value,

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
+import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/profile/mypage_model.dart';
 import 'package:polarstar_flutter/app/data/repository/profile/mypage_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
@@ -19,9 +20,9 @@ class MyPageController extends GetxController {
   MyPageController({@required this.repository}) : assert(repository != null);
 
   Rx<MyProfileModel> myProfile = new MyProfileModel().obs;
-  RxList<Board> myBoardWrite = <Board>[].obs;
-  RxList<Board> myBoardLike = <Board>[].obs;
-  RxList<Board> myBoardScrap = <Board>[].obs;
+  RxList<Rx<Post>> myBoardWrite = <Rx<Post>>[].obs;
+  RxList<Rx<Post>> myBoardLike = <Rx<Post>>[].obs;
+  RxList<Rx<Post>> myBoardScrap = <Rx<Post>>[].obs;
   Rx<int> profilePostIndex = 0.obs;
   Rx<String> imagePath = ''.obs;
   RxList<AssetEntity> photoAssets = <AssetEntity>[].obs;

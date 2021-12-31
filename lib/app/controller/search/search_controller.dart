@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
+import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/repository/search/search_repository.dart';
 
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class SearchController extends GetxController {
   Rx<int> boardIndex = 0.obs;
 
   RxBool dataAvailablePostPreview = false.obs;
-  RxList<Board> postBody = <Board>[].obs;
+  RxList<Rx<Post>> postBody = <Rx<Post>>[].obs;
   RxString searchText = "".obs;
 
   var scrollController = ScrollController().obs;
@@ -44,7 +45,7 @@ class SearchController extends GetxController {
 
     switch (status) {
       case 200:
-        final List<Board> listBoard = response["listBoard"];
+        final List<Rx<Post>> listBoard = response["listBoard"];
 
         postBody.clear();
 

@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
+import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/profile/mypage_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
@@ -53,7 +54,7 @@ class Mypage extends StatelessWidget {
                         myPageController.dataAvailableMypageLike,
                       ];
 
-                      List<RxList<Board>> userPost = [
+                      List<RxList<Rx<Post>>> userPost = [
                         myPageController.myBoardWrite,
                         myPageController.myBoardScrap,
                         myPageController.myBoardLike,
