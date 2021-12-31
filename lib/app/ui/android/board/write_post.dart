@@ -11,7 +11,7 @@ import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 class WritePost extends StatelessWidget {
   final WritePostController c = Get.find();
 
-  final Post item = Get.arguments;
+  final Rx<Post> item = Get.arguments;
 
   final TextEditingController photoName = TextEditingController();
 
@@ -33,9 +33,9 @@ class WritePost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController title =
-        TextEditingController(text: item == null ? "" : item.TITLE);
+        TextEditingController(text: item == null ? "" : item.value.TITLE);
     final TextEditingController content =
-        TextEditingController(text: item == null ? "" : item.CONTENT);
+        TextEditingController(text: item == null ? "" : item.value.CONTENT);
 
     return SafeArea(
       child: Scaffold(
