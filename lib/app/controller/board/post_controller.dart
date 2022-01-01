@@ -270,8 +270,6 @@ class PostController extends GetxController {
       status_code = value.statusCode;
       switch (value.statusCode) {
         case 200:
-          _dataAvailable.refresh();
-          getPostData();
           break;
         case 403:
           Get.snackbar('이미 $what 한 게시글입니다', '이미 $what 한 게시글입니다',
@@ -292,8 +290,6 @@ class PostController extends GetxController {
       status_code = value.statusCode;
       switch (value.statusCode) {
         case 200:
-          _dataAvailable.refresh();
-          getPostData();
           break;
         case 403:
           Get.snackbar('이미 스크랩 취소한 게시글입니다', '이미 스크랩 취소한 게시글입니다',

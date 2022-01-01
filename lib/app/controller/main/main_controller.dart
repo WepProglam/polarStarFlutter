@@ -217,6 +217,7 @@ class MainUpdateModule {
     } else if (type == 2) {
       await updatePostBoard(item);
     }
+    return;
   }
 
   static Future<void> updatePostMyPage(Post item) async {

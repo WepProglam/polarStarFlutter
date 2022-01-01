@@ -108,3 +108,73 @@ void changeStatusBarColor(Color color, Brightness brighteness) {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: color, statusBarBrightness: brighteness));
 }
+
+class AssetImageBin {
+  static Image scrap_clicked = null;
+  static Image scrap_none = null;
+  static Image like_clicked = null;
+  static Image like_none = null;
+  static Image comment = null;
+
+  static Image get scrapClickedIcon {
+    if (scrap_clicked == null) {
+      String url = getImageLocation("scrap_clicked");
+      scrap_clicked = Image.asset(url);
+    }
+    return scrap_clicked;
+  }
+
+  static Image get scrapNoneIcon {
+    if (scrap_none == null) {
+      String url = getImageLocation("scrap_none");
+      scrap_none = Image.asset(url);
+    }
+    return scrap_none;
+  }
+
+  static Image get likeClickedIcon {
+    if (like_clicked == null) {
+      String url = getImageLocation("like_clicked");
+      like_clicked = Image.asset(url);
+    }
+    return like_clicked;
+  }
+
+  static Image get likeNoneIcon {
+    if (like_none == null) {
+      String url = getImageLocation("like_none");
+      like_none = Image.asset(url);
+    }
+    return like_none;
+  }
+
+  static Image get commentIcon {
+    if (comment == null) {
+      String url = getImageLocation("comment");
+      comment = Image.asset(url);
+    }
+    return comment;
+  }
+
+  static String getImageLocation(String name) {
+    String url = null;
+    if (name == "scrap_clicked") {
+      // * 스크랩 O
+      url = 'assets/images/849.png';
+    } else if (name == "scrap_none") {
+      // * 스크랩 X
+      url = 'assets/images/star.png';
+    } else if (name == "like_clicked") {
+      // * 좋아요 O
+      url = 'assets/images/like_red.png';
+    } else if (name == "like_none") {
+      // * 좋아요 X
+      url = 'assets/images/good.png';
+    } else if (name == "comment") {
+      // * 댓글
+      url = 'assets/images/comment.png';
+    }
+
+    return url;
+  }
+}

@@ -15,6 +15,7 @@ import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_mail_dialog.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
+import 'package:polarstar_flutter/main.dart';
 
 final double PostIconSize = 20;
 final double CommentIconSize = 15;
@@ -784,21 +785,19 @@ class PostWidget extends StatelessWidget {
                         // c.increaseLike(item.value, status_code);
                       }
                     },
-                    icon: Obx(() {
-                      return Container(
-                        width: PostIconSize,
-                        height: PostIconSize,
-                        child: (mainController.isLiked(item.value)
-                            ? Image.asset(
-                                'assets/images/like_red.png',
-                                fit: BoxFit.fitHeight,
-                              )
-                            : Image.asset(
-                                'assets/images/good.png',
-                                fit: BoxFit.fitHeight,
-                              )),
-                      );
-                    }),
+                    icon: Container(
+                      width: PostIconSize,
+                      height: PostIconSize,
+                      child: (mainController.isLiked(item.value)
+                          ? Image.asset(
+                              'assets/images/like_red.png',
+                              fit: BoxFit.fitHeight,
+                            )
+                          : Image.asset(
+                              'assets/images/good.png',
+                              fit: BoxFit.fitHeight,
+                            )),
+                    ),
                     label: Text(item.value.LIKES.toString(),
                         style: const TextStyle(
                             color: const Color(0xff333333),
@@ -848,15 +847,13 @@ class PostWidget extends StatelessWidget {
                         // c.increaseScrap(item.value, status_code);
                       }
                     },
-                    icon: Obx(() {
-                      return Container(
-                        width: PostIconSize,
-                        height: PostIconSize,
-                        child: mainController.isScrapped(item.value)
-                            ? Image.asset('assets/images/849.png')
-                            : Image.asset('assets/images/star.png'),
-                      );
-                    }),
+                    icon: Container(
+                      width: PostIconSize,
+                      height: PostIconSize,
+                      child: mainController.isScrapped(item.value)
+                          ? AssetImageBin.scrapClickedIcon
+                          : AssetImageBin.scrapNoneIcon,
+                    ),
                     label: Text(item.value.SCRAPS.toString(),
                         style: const TextStyle(
                             color: const Color(0xff333333),
