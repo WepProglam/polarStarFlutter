@@ -224,7 +224,18 @@ class MainUpdateModule {
     final MyPageController mypageController = Get.find();
     final MainController mainController = Get.find();
 
-    // Todo: 마이 페이지 업데이트
+    // * 메인 핫보드 업데이트
+    Rx<Post> hotBoard = findSame(item, mainController.hotBoard);
+    changeTargetPost(hotBoard, item);
+
+    // * 마이 페이지 업데이트
+    Rx<Post> myWrite = findSame(item, mypageController.myBoardWrite);
+    Rx<Post> myScrap = findSame(item, mypageController.myBoardScrap);
+    Rx<Post> myLike = findSame(item, mypageController.myBoardLike);
+
+    changeTargetPost(myWrite, item);
+    changeTargetPost(myScrap, item);
+    changeTargetPost(myLike, item);
 
     return;
   }

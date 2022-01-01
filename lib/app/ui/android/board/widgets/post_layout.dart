@@ -789,14 +789,8 @@ class PostWidget extends StatelessWidget {
                       width: PostIconSize,
                       height: PostIconSize,
                       child: (mainController.isLiked(item.value)
-                          ? Image.asset(
-                              'assets/images/like_red.png',
-                              fit: BoxFit.fitHeight,
-                            )
-                          : Image.asset(
-                              'assets/images/good.png',
-                              fit: BoxFit.fitHeight,
-                            )),
+                          ? AssetImageBin.likeClickedIcon
+                          : AssetImageBin.likeNoneIcon),
                     ),
                     label: Text(item.value.LIKES.toString(),
                         style: const TextStyle(
