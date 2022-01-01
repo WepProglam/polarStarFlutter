@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
+import 'package:polarstar_flutter/app/controller/loby/login_controller.dart';
 import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -22,7 +23,6 @@ import 'package:flutter/services.dart';
 import '../../../../main.dart';
 
 class MainPageScroll extends StatelessWidget {
-  final box = GetStorage();
   final MainController mainController = Get.find();
   final TextEditingController searchText = TextEditingController();
 
@@ -96,20 +96,8 @@ class MainPageScroll extends StatelessWidget {
                 Ink(
                   child: InkWell(
                     onTap: () async {
-                      print("adfadsfdfsdfasf");
-                      await box.erase();
-                      await box.remove('id');
-                      await box.remove('pw');
-                      await box.remove('isAutoLogin');
-                      // await box.write('isAutoLogin', false);
-
-                      await box.save();
-                      print("id = " + box.read('id').toString());
-
-                      Session.cookies = {};
-                      Session.headers['Cookie'] = '';
-
-                      await Session().getX('/logout');
+                      LoginController loginController = Get.find();
+                      loginController.logout();
 
                       // Navigator.pushNamedAndRemoveUntil(
                       //     context, '/login', (Route<dynamic> route) => false);
@@ -130,20 +118,20 @@ class MainPageScroll extends StatelessWidget {
           ),
         ),
       ),
-      // ! 알림 로직 & 재로그인 구현 후 삭제
-      floatingActionButton: FloatingActionButton(onPressed: () async {
-        // if (!box.hasData("PS")) {
-        //   box.write("PS", 0);
-        // }
-        // print(box.read("PS"));
-        // box.write("PS", box.read("PS") + 1);
+      // // ! 알림 로직 & 재로그인 구현 후 삭제
+      // floatingActionButton: FloatingActionButton(onPressed: () async {
+      //   // if (!box.hasData("PS")) {
+      //   //   box.write("PS", 0);
+      //   // }
+      //   // print(box.read("PS"));
+      //   // box.write("PS", box.read("PS") + 1);
 
-        await mainController.refreshLikeList();
+      //   await mainController.refreshLikeList();
 
-        // InitController initController = await Get.put(InitController(
-        //     repository: LoginRepository(apiClient: LoginApiClient())));
-        // await checkFcmToken(initController);
-      }),
+      //   // InitController initController = await Get.put(InitController(
+      //   //     repository: LoginRepository(apiClient: LoginApiClient())));
+      //   // await checkFcmToken(initController);
+      // }),
       bottomNavigationBar:
           CustomBottomNavigationBar(mainController: mainController),
       body: Obx(() {

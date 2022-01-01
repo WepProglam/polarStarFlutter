@@ -5,6 +5,7 @@ import 'package:polarstar_flutter/app/data/model/login_model.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:polarstar_flutter/main.dart';
 
 class InitController extends GetxController {
   final LoginRepository repository;
@@ -65,8 +66,11 @@ class InitController extends GetxController {
   }
 
   Future<bool> checkLogin() async {
+    print(box.read("id"));
     if (box.hasData('isAutoLogin') && box.hasData('id') && box.hasData('pw')) {
       var res = await autoLogin(box.read('id'), box.read('pw'));
+      print(box.read('id'));
+      print("login!!");
 
       switch (res["statusCode"]) {
         case 200:
@@ -76,17 +80,12 @@ class InitController extends GetxController {
           return false;
       }
     }
+    print("no login");
+    print(box.hasData('isAutoLogin'));
+    print(box.hasData('id'));
+    print(box.hasData('pw'));
     return false;
   }
-
-  // void iOS_Permission() {
-  //   _firebaseMessaging.requestNotificationPermissions(
-  //       IosNotificationSettings(sound: true, badge: true, alert: true));
-  //   _firebaseMessaging.onIosSettingsRegistered
-  //       .listen((IosNotificationSettings settings) {
-  //     print("Settings registered: $settings");
-  //   });
-  // }
 
   @override
   void onInit() async {

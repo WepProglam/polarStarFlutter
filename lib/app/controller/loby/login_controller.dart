@@ -6,18 +6,36 @@ import 'package:polarstar_flutter/app/data/model/login_model.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/crypt.dart';
+import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
 
 class LoginController extends GetxController {
   final LoginRepository repository;
   final box = GetStorage();
-
   LoginController({@required this.repository}) : assert(repository != null);
 
   var isAutoLogin = true.obs;
   var isObscured = true.obs;
 
   var loginModel = LoginModel().obs;
+
+  Future<void> logout() async {
+    await box.erase();
+    await box.remove('id');
+    await box.remove('pw');
+    await box.remove('isAutoLogin');
+    // await box.write('isAutoLogin', false);
+
+    // await box.save();
+    print("id = " + box.read('id').toString());
+
+    Session.cookies = {};
+    Session.headers['Cookie'] = '';
+
+    await Session().getX('/logout');
+
+    return;
+  }
 
   Future login(String id, String pw) async {
     String user_id = id;
@@ -29,6 +47,7 @@ class LoginController extends GetxController {
     };
 
     print(data);
+    print("auto login : ${isAutoLogin.value}");
 
     final response = await repository.login(data);
 
@@ -46,10 +65,16 @@ class LoginController extends GetxController {
           await box.write('isAutoLogin', true);
           await box.write('id', id);
           await box.write('pw', pw);
+          await box.save();
+          print("checkcheck");
+          print(box.hasData('isAutoLogin') &&
+              box.hasData('id') &&
+              box.hasData('pw'));
         } else {
           await box.remove('id');
           await box.remove('pw');
           await box.write('isAutoLogin', false);
+          await box.save();
         }
 
         print(box.read("id"));

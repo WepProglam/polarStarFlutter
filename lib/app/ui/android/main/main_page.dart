@@ -28,9 +28,23 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime pre_backpress = DateTime.now();
     return WillPopScope(
       onWillPop: () async {
-        return false;
+        final timegap = DateTime.now().difference(pre_backpress);
+        final cantExit = timegap >= Duration(seconds: 2);
+        pre_backpress = DateTime.now();
+        if (cantExit) {
+          final snack = SnackBar(
+            content: Text('종료하시려면 뒤로가기를 한번 더 눌러주세요'),
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.black,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snack);
+          return false;
+        } else {
+          return true;
+        }
       },
       child: SafeArea(
         child: Obx(() {

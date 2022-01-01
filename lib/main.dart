@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,8 +9,11 @@ import 'package:polarstar_flutter/app/bindings/main/main_binding.dart';
 import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
+import 'package:polarstar_flutter/session.dart';
 // import 'package:polarstar_flutter/app/translations/app_translations.dart';
 // import 'app/ui/theme/app_theme.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:http/http.dart' as http;
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:polarstar_flutter/firebase/firebase_config.dart';
@@ -63,6 +68,21 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
+  IO.Socket socket;
+  // http.get(Uri.parse('http://10.0.2.2:52324'));
+  try {
+    socket = IO.io('http://10.0.2.2:52324', <String, dynamic>{
+      'transports': ['websocket'],
+    });
+
+    socket.emit("joinRoom", ["asdf", "asdfasdf"]);
+    socket.on("sendMessage", (res) {
+      print(res);
+    });
+  } catch (e) {
+    print(e);
+  }
+
   await GetStorage.init();
 
   await Firebase.initializeApp();
@@ -75,13 +95,15 @@ void main() async {
   print(isLogined);
   print("start");
 
-  // fcm token check
-  await checkFcmToken(initController);
+  socket.connect();
 
-  // * FCM background
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  // * FCM foreground
-  onforegroundMessage();
+  // // fcm token check
+  // await checkFcmToken(initController);
+
+  // // * FCM background
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // // * FCM foreground
+  // onforegroundMessage();
 
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
   //     statusBarColor: const Color(0xfff6f6f6),

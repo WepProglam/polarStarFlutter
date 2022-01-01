@@ -9,7 +9,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/crypt.dart';
 
 class Session extends GetConnect {
-  final box = GetStorage();
   // final notiController = Get.put(NotiController());
   // final loginController = LoginController();
   static Map<String, String> headers = {
@@ -76,6 +75,9 @@ class Session extends GetConnect {
         switch (value.statusCode) {
           case 401: // login error
             // Get.toNamed("/login");
+            // if (url != '/logout') {
+            //   reLogin();
+            // }
             reLogin();
             return value;
             break;
