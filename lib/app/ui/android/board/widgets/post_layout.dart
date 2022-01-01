@@ -52,10 +52,19 @@ class PostLayout extends StatelessWidget {
                           mainController: mainController,
                         );
                       } else if (c.sortedList[index].value.DEPTH == 1) {
-                        return returningComment(
-                            c.sortedList[index].value, index);
+                        return CommentWidget(
+                            c: c,
+                            mailWriteController: mailWriteController,
+                            mailController: mailController,
+                            item: c.sortedList[index].value,
+                            index: index);
                       } else {
-                        return returningCC(c.sortedList[index].value, index);
+                        return CCWidget(
+                            c: c,
+                            mailWriteController: mailWriteController,
+                            mailController: mailController,
+                            item: c.sortedList[index].value,
+                            index: index);
                       }
                     }),
               )
@@ -68,8 +77,256 @@ class PostLayout extends StatelessWidget {
               ),
         ));
   }
+}
 
-  Widget returningComment(Post item, int index) {
+class CCWidget extends StatelessWidget {
+  const CCWidget({
+    Key key,
+    @required this.c,
+    @required this.mailWriteController,
+    @required this.mailController,
+    @required this.item,
+    @required this.index,
+  }) : super(key: key);
+
+  final PostController c;
+  final TextEditingController mailWriteController;
+  final MailController mailController;
+  final Post item;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Color(0xfff6f6f6),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(25.3, 9.7, 12.2, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(bottom: 9.2),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 프사
+                  Container(
+                    height: 39,
+                    width: 39,
+                    margin: const EdgeInsets.only(right: 11.8),
+                    child: CachedNetworkImage(
+                      imageUrl: '${item.PROFILE_PHOTO}',
+                      imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover))),
+                    ),
+                  ),
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(item.PROFILE_NICKNAME,
+                          style: const TextStyle(
+                              color: const Color(0xff333333),
+                              fontWeight: FontWeight.w700,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 15.0),
+                          textAlign: TextAlign.left),
+                      // 댓글 작성 시간
+                      Text(
+                          item.TIME_CREATED
+                              .substring(2, 19)
+                              .replaceAll('-', '/')
+                              .replaceAll('T', ' '),
+                          style: const TextStyle(
+                              color: const Color(0xff999999),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 11.0),
+                          textAlign: TextAlign.left),
+                    ],
+                  ),
+                  Spacer(),
+
+                  // 버튼들
+                  item.MYSELF
+                      ? Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // 수정 버튼
+                            InkWell(
+                                onTap: () async {
+                                  String putUrl =
+                                      '/board/${item.COMMUNITY_ID}/ccid/${item.UNIQUE_ID}';
+                                  if (c.autoFocusTextForm.value &&
+                                      c.putUrl.value == putUrl) {
+                                    c.autoFocusTextForm.value = false;
+                                    c.putUrl.value = putUrl;
+                                  } else {
+                                    c.autoFocusTextForm.value = true;
+                                    c.putUrl.value = putUrl;
+                                  }
+                                },
+                                child: Container(
+                                  width: 11,
+                                  height: 11,
+                                  child: Obx(() => FittedBox(
+                                        fit: BoxFit.fitHeight,
+                                        child: c.autoFocusTextForm.value &&
+                                                c.putUrl.value ==
+                                                    '/board/${item.COMMUNITY_ID}/ccid/${item.UNIQUE_ID}'
+                                            ? Image.asset(
+                                                'assets/images/comment.png',
+                                              )
+                                            : Icon(
+                                                Icons.edit_outlined,
+                                              ),
+                                      )),
+                                )),
+
+                            // 삭제 버튼
+                            InkWell(
+                                onTap: () async {
+                                  await c.deleteResource(item.COMMUNITY_ID,
+                                      item.UNIQUE_ID, "ccid");
+                                },
+                                child: Container(
+                                  width: 11,
+                                  height: 11,
+                                  margin: EdgeInsets.only(left: 9.2),
+                                  child: Image.asset('assets/images/320.png'),
+                                )),
+                          ],
+                        )
+                      : Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // 좋아요 버튼
+                            InkWell(
+                              onTap: () async {
+                                await c.totalSend(
+                                    '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
+                                    '좋아요',
+                                    index);
+                              },
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 10.6,
+                                    height: 10.6,
+                                    child: Image.asset(
+                                      'assets/images/good.png',
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 5, right: 9.9),
+                                    child: Text(item.LIKES.toString(),
+                                        style: const TextStyle(
+                                            color: const Color(0xff333333),
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: "PingFangSC",
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 10.0),
+                                        textAlign: TextAlign.center),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // 신고 버튼
+                            InkWell(
+                              onTap: () async {
+                                var ARREST_TYPE = await c.getArrestType();
+                                await c.totalSend(
+                                    '/arrest/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}?ARREST_TYPE=$ARREST_TYPE',
+                                    '신고',
+                                    index);
+                              },
+                              child: Container(
+                                width: 11,
+                                height: 11,
+                                child: FittedBox(
+                                  fit: BoxFit.fitHeight,
+                                  child: Icon(
+                                    Icons.report_problem_outlined,
+                                    // 댓글 신고
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            // 쪽지 버튼
+                            InkWell(
+                                onTap: () async {
+                                  await sendMail(
+                                      item.UNIQUE_ID,
+                                      item.COMMUNITY_ID,
+                                      mailWriteController,
+                                      mailController);
+                                },
+                                child: Container(
+                                    width: 11,
+                                    height: 11,
+                                    margin: EdgeInsets.only(left: 9.2),
+                                    child: FittedBox(
+                                        fit: BoxFit.fitHeight,
+                                        child: Icon(Icons.mail_outlined)))),
+                          ],
+                        ),
+                ],
+              ),
+            ),
+
+            // 대댓 내용
+            Padding(
+              padding: const EdgeInsets.only(left: 74.8 - 25.3, bottom: 9.7),
+              child: Text(item.CONTENT,
+                  style: const TextStyle(
+                      color: const Color(0xff333333),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "PingFangSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                  textAlign: TextAlign.left),
+            ),
+
+            Container(
+              width: Get.mediaQuery.size.width - (74.8 - 25.3) - 30,
+              height: 0.5,
+              margin: const EdgeInsets.only(left: 74.8 - 25.3),
+              decoration: BoxDecoration(color: const Color(0xffdedede)),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CommentWidget extends StatelessWidget {
+  const CommentWidget({
+    Key key,
+    @required this.c,
+    @required this.mailWriteController,
+    @required this.mailController,
+    @required this.item,
+    @required this.index,
+  }) : super(key: key);
+
+  final PostController c;
+  final TextEditingController mailWriteController;
+  final MailController mailController;
+  final Post item;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
     // String where = "outside";
     String cidUrl = '/board/${item.COMMUNITY_ID}/cid/${item.UNIQUE_ID}';
 
@@ -325,218 +582,6 @@ class PostLayout extends StatelessWidget {
             Container(
               width: Get.mediaQuery.size.width - 30,
               height: 0.5,
-              decoration: BoxDecoration(color: const Color(0xffdedede)),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget returningCC(Post item, int index) {
-    return Container(
-      color: Color(0xfff6f6f6),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(25.3, 9.7, 12.2, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(bottom: 9.2),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 프사
-                  Container(
-                    height: 39,
-                    width: 39,
-                    margin: const EdgeInsets.only(right: 11.8),
-                    child: CachedNetworkImage(
-                      imageUrl: '${item.PROFILE_PHOTO}',
-                      imageBuilder: (context, imageProvider) => Container(
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: imageProvider, fit: BoxFit.cover))),
-                    ),
-                  ),
-
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(item.PROFILE_NICKNAME,
-                          style: const TextStyle(
-                              color: const Color(0xff333333),
-                              fontWeight: FontWeight.w700,
-                              fontFamily: "PingFangSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 15.0),
-                          textAlign: TextAlign.left),
-                      // 댓글 작성 시간
-                      Text(
-                          item.TIME_CREATED
-                              .substring(2, 19)
-                              .replaceAll('-', '/')
-                              .replaceAll('T', ' '),
-                          style: const TextStyle(
-                              color: const Color(0xff999999),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "PingFangSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 11.0),
-                          textAlign: TextAlign.left),
-                    ],
-                  ),
-                  Spacer(),
-
-                  // 버튼들
-                  item.MYSELF
-                      ? Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            // 수정 버튼
-                            InkWell(
-                                onTap: () async {
-                                  String putUrl =
-                                      '/board/${item.COMMUNITY_ID}/ccid/${item.UNIQUE_ID}';
-                                  if (c.autoFocusTextForm.value &&
-                                      c.putUrl.value == putUrl) {
-                                    c.autoFocusTextForm.value = false;
-                                    c.putUrl.value = putUrl;
-                                  } else {
-                                    c.autoFocusTextForm.value = true;
-                                    c.putUrl.value = putUrl;
-                                  }
-                                },
-                                child: Container(
-                                  width: 11,
-                                  height: 11,
-                                  child: Obx(() => FittedBox(
-                                        fit: BoxFit.fitHeight,
-                                        child: c.autoFocusTextForm.value &&
-                                                c.putUrl.value ==
-                                                    '/board/${item.COMMUNITY_ID}/ccid/${item.UNIQUE_ID}'
-                                            ? Image.asset(
-                                                'assets/images/comment.png',
-                                              )
-                                            : Icon(
-                                                Icons.edit_outlined,
-                                              ),
-                                      )),
-                                )),
-
-                            // 삭제 버튼
-                            InkWell(
-                                onTap: () async {
-                                  await c.deleteResource(item.COMMUNITY_ID,
-                                      item.UNIQUE_ID, "ccid");
-                                },
-                                child: Container(
-                                  width: 11,
-                                  height: 11,
-                                  margin: EdgeInsets.only(left: 9.2),
-                                  child: Image.asset('assets/images/320.png'),
-                                )),
-                          ],
-                        )
-                      : Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            // 좋아요 버튼
-                            InkWell(
-                              onTap: () async {
-                                await c.totalSend(
-                                    '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
-                                    '좋아요',
-                                    index);
-                              },
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 10.6,
-                                    height: 10.6,
-                                    child: Image.asset(
-                                      'assets/images/good.png',
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 5, right: 9.9),
-                                    child: Text(item.LIKES.toString(),
-                                        style: const TextStyle(
-                                            color: const Color(0xff333333),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: "PingFangSC",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 10.0),
-                                        textAlign: TextAlign.center),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            // 신고 버튼
-                            InkWell(
-                              onTap: () async {
-                                var ARREST_TYPE = await c.getArrestType();
-                                await c.totalSend(
-                                    '/arrest/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}?ARREST_TYPE=$ARREST_TYPE',
-                                    '신고',
-                                    index);
-                              },
-                              child: Container(
-                                width: 11,
-                                height: 11,
-                                child: FittedBox(
-                                  fit: BoxFit.fitHeight,
-                                  child: Icon(
-                                    Icons.report_problem_outlined,
-                                    // 댓글 신고
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            // 쪽지 버튼
-                            InkWell(
-                                onTap: () async {
-                                  await sendMail(
-                                      item.UNIQUE_ID,
-                                      item.COMMUNITY_ID,
-                                      mailWriteController,
-                                      mailController);
-                                },
-                                child: Container(
-                                    width: 11,
-                                    height: 11,
-                                    margin: EdgeInsets.only(left: 9.2),
-                                    child: FittedBox(
-                                        fit: BoxFit.fitHeight,
-                                        child: Icon(Icons.mail_outlined)))),
-                          ],
-                        ),
-                ],
-              ),
-            ),
-
-            // 대댓 내용
-            Padding(
-              padding: const EdgeInsets.only(left: 74.8 - 25.3, bottom: 9.7),
-              child: Text(item.CONTENT,
-                  style: const TextStyle(
-                      color: const Color(0xff333333),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "PingFangSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                  textAlign: TextAlign.left),
-            ),
-
-            Container(
-              width: Get.mediaQuery.size.width - (74.8 - 25.3) - 30,
-              height: 0.5,
-              margin: const EdgeInsets.only(left: 74.8 - 25.3),
               decoration: BoxDecoration(color: const Color(0xffdedede)),
             )
           ],

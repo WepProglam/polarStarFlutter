@@ -91,32 +91,32 @@ class PostPreview extends StatelessWidget {
                     Spacer(),
 
                     // 좋아요, 즐겨찾기
-                    Ink(
-                      width: 11,
-                      height: 11,
-                      child: InkWell(
-                        onTap: () {},
-                        child: Image.asset(
-                          "assets/images/invalid_name.png",
-                          fit: BoxFit.fitWidth,
-                        ),
-                      ),
-                    ),
+                    // Ink(
+                    //   width: 11,
+                    //   height: 11,
+                    //   child: InkWell(
+                    //     onTap: () {},
+                    //     child: Image.asset(
+                    //       "assets/images/invalid_name.png",
+                    //       fit: BoxFit.fitWidth,
+                    //     ),
+                    //   ),
+                    // ),
 
-                    Padding(
-                      padding: const EdgeInsets.only(left: 13.7),
-                      child: Ink(
-                        width: 11,
-                        height: 11,
-                        child: InkWell(
-                          onTap: () {},
-                          child: Image.asset(
-                            "assets/images/scrap_none.png",
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(left: 13.7),
+                    //   child: Ink(
+                    //     width: 11,
+                    //     height: 11,
+                    //     child: InkWell(
+                    //       onTap: () {},
+                    //       child: Image.asset(
+                    //         "assets/images/scrap_none.png",
+                    //         fit: BoxFit.fitWidth,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
