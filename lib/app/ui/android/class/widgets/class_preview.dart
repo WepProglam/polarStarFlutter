@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/class/write_comment_controller.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
@@ -103,18 +104,19 @@ class CoursePreview extends StatelessWidget {
                   // Get.toNamed('/class/view/${classModel.CLASS_ID}');
 
                   showModalBottomSheet(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: const Radius.circular(30),
-                              topRight: const Radius.circular(30))),
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (BuildContext context) {
-                        return WriteComment(
-                            // classViewController: classViewController,
-                            reviewTextController: reviewTextController,
-                            CLASS_ID: classModel.CLASS_ID);
-                      });
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: const Radius.circular(30),
+                                  topRight: const Radius.circular(30))),
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return WriteComment(
+                                // classViewController: classViewController,
+                                reviewTextController: reviewTextController,
+                                CLASS_ID: classModel.CLASS_ID);
+                          })
+                      .whenComplete(() => Get.delete<WriteCommentController>());
                 },
                 child: Container(
                   width: 61.5,

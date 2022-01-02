@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
+import 'package:polarstar_flutter/app/controller/class/write_comment_controller.dart';
 
 class ClassViewController extends GetxController {
   final ClassRepository repository;
@@ -206,5 +207,11 @@ class ClassViewController extends GetxController {
   void onInit() async {
     await getClassView(int.parse(Get.parameters["CLASS_ID"]));
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    Get.delete<WriteCommentController>();
+    super.onClose();
   }
 }

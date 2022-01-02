@@ -10,8 +10,5 @@ class ClassBinding implements Bindings {
   void dependencies() {
     Get.put(ClassController(
         repository: ClassRepository(apiClient: ClassApiClient())));
-
-    Get.put(WriteCommentController(
-        repository: ClassRepository(apiClient: ClassApiClient())));
   }
 }

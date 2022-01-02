@@ -23,9 +23,10 @@ class WriteComment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WriteCommentController writeCommentController = Get.find();
+    final writeCommentController = Get.put(WriteCommentController(
+        repository: ClassRepository(apiClient: ClassApiClient())));
 
-    print(CLASS_ID);
+    // print(CLASS_ID);
 
     return SingleChildScrollView(
       child: Padding(
