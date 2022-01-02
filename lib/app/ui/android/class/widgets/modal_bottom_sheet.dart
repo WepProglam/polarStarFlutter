@@ -726,6 +726,44 @@ class WriteExamInfo extends StatelessWidget {
                     textAlign: TextAlign.left,
                   ),
 
+                  Obx(() {
+                    if (classViewController.exampleList.isEmpty) {
+                      return Container();
+                    } else {
+                      List<Widget> exampleWidget = [];
+                      for (var exampleStr in classViewController.exampleList) {
+                        exampleWidget.add(Container(
+                          margin: EdgeInsets.symmetric(vertical: 4.0),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                            width: 1,
+                          )),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  exampleStr,
+                                  softWrap: true,
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  classViewController.exampleList
+                                      .remove(exampleStr);
+                                },
+                                child: Icon(Icons.delete),
+                              )
+                            ],
+                          ),
+                        ));
+                      }
+                      return Container(
+                          width: Get.mediaQuery.size.width,
+                          child: Column(children: exampleWidget));
+                    }
+                  }),
+
                   // 텍스트 작성칸
                   Container(
                       height: 94.5,
@@ -742,11 +780,17 @@ class WriteExamInfo extends StatelessWidget {
                             fontSize: 14.0),
                         decoration: const InputDecoration(
                           hintText:
-                              "Please enter some examples,\nIf you enter, new text field will be created",
+                              "Please enter some examples.\n\nIf you enter in the keyboard,\nnew text field will be created",
                           filled: true,
                           fillColor: Color(0xfff3f3f3),
                           border: InputBorder.none,
                         ),
+                        onEditingComplete: () {
+                          classViewController.exampleList
+                              .add(examInfoTextController.text);
+                          examInfoTextController.clear();
+                          print(classViewController.exampleList);
+                        },
                       )),
 
                   // 제출 버튼

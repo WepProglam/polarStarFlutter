@@ -36,6 +36,8 @@ class ClassViewController extends GetxController {
   final classReviewList = <ClassReviewModel>[].obs;
   final classExamList = [].obs;
 
+  final RxList<String> exampleList = <String>[].obs;
+
   Future<void> refreshPage() async {
     // classViewAvailable(false);
     // classExamAvailable(false);
