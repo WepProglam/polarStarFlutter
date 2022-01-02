@@ -7,6 +7,7 @@ import 'package:polarstar_flutter/app/data/provider/class/class_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
 import 'package:polarstar_flutter/app/controller/class/class_view_controller.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/modal_bottom_sheet.dart';
+import 'package:polarstar_flutter/app/ui/android/class/functions/rating.dart';
 
 // class 메인 페이지에서 사용(My Last Courses)
 class CoursePreview extends StatelessWidget {
@@ -92,6 +93,7 @@ class CoursePreview extends StatelessWidget {
               ),
             ),
           ),
+
           // 평가 버튼
           Positioned.fill(
             child: Align(
