@@ -284,7 +284,7 @@ class ClassViewInfo extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: classInfoModel.AVG_RATE != null
                                   ? rate_star(classInfoModel.AVG_RATE, 14.6)
-                                  : rate_star("5.0", 14.6),
+                                  : rate_star("0.0", 14.6),
                             ),
                           ),
                           Padding(
@@ -292,7 +292,7 @@ class ClassViewInfo extends StatelessWidget {
                             child: Text(
                               classInfoModel.AVG_RATE != null
                                   ? classInfoModel.AVG_RATE
-                                  : "5.0",
+                                  : "평가 X",
                               style: const TextStyle(
                                   color: const Color(0xff333333),
                                   fontWeight: FontWeight.normal,
@@ -376,7 +376,7 @@ class ClassViewInfo extends StatelessWidget {
                                 classInfoModel.AVG_RATE_GROUP_STUDY != null
                                     ? rate_heart(
                                         classInfoModel.AVG_RATE_GROUP_STUDY, 24)
-                                    : rate_heart("5.0", 24),
+                                    : rate_heart("0.0", 24),
                           ),
                         ),
                       ),
@@ -410,7 +410,7 @@ class ClassViewInfo extends StatelessWidget {
                             children: classInfoModel.AVG_RATE_ASSIGNMENT != null
                                 ? rate_heart(
                                     classInfoModel.AVG_RATE_ASSIGNMENT, 24)
-                                : rate_heart("5.0", 24),
+                                : rate_heart("0.0", 24),
                           ),
                         ),
                       ),
@@ -444,7 +444,7 @@ class ClassViewInfo extends StatelessWidget {
                             children: classInfoModel.AVG_RATE_EXAM_STUDY != null
                                 ? rate_heart(
                                     classInfoModel.AVG_RATE_EXAM_STUDY, 24)
-                                : rate_heart("5.0", 24),
+                                : rate_heart("0.0", 24),
                           ),
                         ),
                       ),
@@ -479,7 +479,7 @@ class ClassViewInfo extends StatelessWidget {
                                 classInfoModel.AVG_RATE_GRADE_RATIO != null
                                     ? rate_heart(
                                         classInfoModel.AVG_RATE_GRADE_RATIO, 24)
-                                    : rate_heart("5.0", 24),
+                                    : rate_heart("0.0", 24),
                           ),
                         ),
                       ),

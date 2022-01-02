@@ -67,7 +67,8 @@ class ClassRecentReviewModel {
     this.CLASS_YEAR = json["CLASS_YEAR"];
     this.CLASS_SEMESTER = json["CLASS_SEMESTER"];
     this.RATE = json["RATE"];
-    this.CONTENT = json["CONTENT"];
+    this.CONTENT =
+        (json["CONTENT"] as String).replaceAll('\\n', '\n').replaceAll('"', '');
     this.PROFESSOR = json["PROFESSOR"];
     this.CLASS_NAME = json["CLASS_NAME"];
   }

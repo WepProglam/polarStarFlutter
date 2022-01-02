@@ -165,7 +165,7 @@ class CommentPreview extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 12, top: 10.5),
                   child: // Ideological and moral
-                      Text("${classReviewModel.CLASS_NAME}",
+                      Text(classReviewModel.CLASS_NAME,
                           style: const TextStyle(
                               color: const Color(0xff333333),
                               fontWeight: FontWeight.w700,
@@ -230,7 +230,7 @@ class CommentPreview extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(7.5, 9.5, 7.5, 8.5),
                 child: SizedBox(
                   width: size.width - 28 - 27.5,
-                  child: Text("${classReviewModel.CONTENT}",
+                  child: Text(classReviewModel.CONTENT,
                       style: const TextStyle(
                           color: const Color(0xff707070),
                           fontWeight: FontWeight.w400,
