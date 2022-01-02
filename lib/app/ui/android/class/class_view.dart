@@ -122,7 +122,7 @@ class ClassView extends StatelessWidget {
                           delegate: SliverChildBuilderDelegate(
                               (BuildContext context, int index) {
                             return GestureDetector(
-                              // *SWAPPING remove
+                              //* SWAPPING remove
                               /* onHorizontalDragEnd: (dragEnd) {
                                 if (dragEnd.primaryVelocity < 0) {
                                   classViewController.typeIndex(1);
@@ -553,6 +553,7 @@ class ClassViewReview extends StatelessWidget {
 
             Container(
                 margin: EdgeInsets.only(top: 11, bottom: 13),
+                width: Get.mediaQuery.size.width,
                 decoration: BoxDecoration(
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(10)),
@@ -560,7 +561,7 @@ class ClassViewReview extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
                   child: Text(
                     classReviewModel.CONTENT,
-                    maxLines: 2,
+                    // maxLines: 2,
                     style: TextStyle(
                         color: const Color(0xff707070),
                         fontWeight: FontWeight.normal,

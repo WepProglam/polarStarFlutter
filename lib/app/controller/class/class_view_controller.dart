@@ -39,8 +39,8 @@ class ClassViewController extends GetxController {
   Future<void> refreshPage() async {
     // classViewAvailable(false);
     // classExamAvailable(false);
-    await getClassView(int.parse(Get.parameters["classid"]));
-    await getExamInfo(int.parse(Get.parameters["classid"]));
+    await getClassView(int.parse(Get.parameters["CLASS_ID"]));
+    await getExamInfo(int.parse(Get.parameters["CLASS_ID"]));
   }
 
   Future getClassView(int CLASS_ID) async {

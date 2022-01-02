@@ -104,7 +104,8 @@ class ClassReviewModel {
     this.CLASS_YEAR = json["CLASS_YEAR"];
     this.CLASS_SEMESTER = json["CLASS_SEMESTER"];
     this.TIME_CREATED = json["TIME_CREATED"];
-    this.CONTENT = json["CONTENT"];
+    this.CONTENT =
+        (json["CONTENT"] as String).replaceAll('\\n', '\n').replaceAll('"', '');
     this.RATE = json["RATE"];
     this.RATE_ASSIGNMENT = json["RATE_ASSIGNMENT"];
     this.RATE_GROUP_STUDY = json["RATE_GROUP_STUDY"];

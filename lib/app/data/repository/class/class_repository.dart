@@ -60,7 +60,6 @@ class ClassRepository {
     } else {
       Map responseBody = json.decode(response.body);
 
-      print(responseBody);
       ClassInfoModel classInfo =
           ClassInfoModel.fromJson(responseBody["classInfo"]);
       Iterable classReviewList = responseBody["classReview"];
