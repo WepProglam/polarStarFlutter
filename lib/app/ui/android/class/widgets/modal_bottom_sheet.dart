@@ -126,8 +126,8 @@ class WriteComment extends StatelessWidget {
                                 i + 1 <=
                                         writeCommentController
                                             .teamProjectRate.value
-                                    ? 'assets/images/897.png'
-                                    : 'assets/images/898.png',
+                                    ? 'assets/images/733.png'
+                                    : 'assets/images/687.png',
                                 fit: BoxFit.fitHeight,
                               ),
                             ),
@@ -163,8 +163,8 @@ class WriteComment extends StatelessWidget {
                                 i + 1 <=
                                         writeCommentController
                                             .assignmentRate.value
-                                    ? 'assets/images/897.png'
-                                    : 'assets/images/898.png',
+                                    ? 'assets/images/733.png'
+                                    : 'assets/images/687.png',
                                 fit: BoxFit.fitHeight,
                               ),
                             ),
@@ -199,8 +199,8 @@ class WriteComment extends StatelessWidget {
                               // 하트로 바꿔야 되는데 이미지가 없음
                               child: Image.asset(
                                 i + 1 <= writeCommentController.examRate.value
-                                    ? 'assets/images/897.png'
-                                    : 'assets/images/898.png',
+                                    ? 'assets/images/733.png'
+                                    : 'assets/images/687.png',
                                 fit: BoxFit.fitHeight,
                               ),
                             ),
@@ -234,8 +234,8 @@ class WriteComment extends StatelessWidget {
                               // 하트로 바꿔야 되는데 이미지가 없음
                               child: Image.asset(
                                 i + 1 <= writeCommentController.gradeRate.value
-                                    ? 'assets/images/897.png'
-                                    : 'assets/images/898.png',
+                                    ? 'assets/images/733.png'
+                                    : 'assets/images/687.png',
                                 fit: BoxFit.fitHeight,
                               ),
                             ),
