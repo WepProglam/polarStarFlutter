@@ -14,7 +14,10 @@ import 'package:polarstar_flutter/session.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:http/http.dart' as http;
 
-class MyPageController extends GetxController {
+import 'package:flutter/material.dart';
+
+class MyPageController extends GetxController
+    with SingleGetTickerProviderMixin {
   final MyPageRepository repository;
 
   MyPageController({@required this.repository}) : assert(repository != null);
@@ -26,6 +29,8 @@ class MyPageController extends GetxController {
   Rx<int> profilePostIndex = 0.obs;
   Rx<String> imagePath = ''.obs;
   RxList<AssetEntity> photoAssets = <AssetEntity>[].obs;
+
+  TabController tabController;
 
   final PageController pageController =
       PageController(initialPage: 0, viewportFraction: 1.0, keepPage: true);
@@ -101,6 +106,8 @@ class MyPageController extends GetxController {
 
   @override
   void onInit() async {
+    tabController = TabController(vsync: this, length: 3);
+
     super.onInit();
     await getMineWrite();
     getMineLike();
