@@ -789,7 +789,7 @@ class WriteExamInfo extends StatelessWidget {
                           classViewController.exampleList
                               .add(examInfoTextController.text);
                           examInfoTextController.clear();
-                          print(classViewController.exampleList);
+                          // print(classViewController.exampleList);
                         },
                       )),
 
@@ -813,7 +813,8 @@ class WriteExamInfo extends StatelessWidget {
                             "type": classViewController
                                 .examList[classViewController.examIndex.value],
                             "strategy": testStrategyController.text,
-                            "example": [examInfoTextController.text].toString(),
+                            "example":
+                                classViewController.exampleList.toString(),
                             "year": classViewController.writeExamInfoYear.value
                                 .toString(),
                             "semester": classViewController
