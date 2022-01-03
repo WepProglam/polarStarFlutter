@@ -70,18 +70,20 @@ class PhotoLayout extends StatelessWidget {
           top: 20,
           child: // Rectangle 53
               Container(
-                  width: width / 8.5,
-                  height: width / 13,
+                  // width: width / 8.5,
+                  width: 39,
+                  height: 19,
+                  // height: width / 13,
                   child: // 1/5
                       Center(
                     child: Obx(() {
                       return Text("${pc.index.value + 1}/${model.PHOTO.length}",
                           style: const TextStyle(
                               color: const Color(0xffffffff),
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w400,
                               fontFamily: "Roboto",
                               fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
+                              fontSize: 12.0),
                           textAlign: TextAlign.left);
                     }),
                   ),

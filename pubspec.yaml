@@ -207,6 +207,17 @@ flutter:
     - assets/images/icn_reply_star_selected.png
     - assets/images/icn_reply_comment_normal.png
 
+    - assets/images/icn_home_normal.png
+    - assets/images/icn_home_selected.png
+    - assets/images/icn_calendar_normal.png
+    - assets/images/icn_calendar_selected.png
+    - assets/images/icn_check_normal.png
+    - assets/images/icn_check_selected.png
+    - assets/images/icn_alarm_normal.png
+    - assets/images/icn_alarm_selected.png
+    - assets/images/icn_profile_normal.png
+    - assets/images/icn_profile_selected.png
+
     - assets/images/icn_send_white.png
     - assets/images/back_icon.png
     - assets/fonts/

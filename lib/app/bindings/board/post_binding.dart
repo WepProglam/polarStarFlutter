@@ -23,7 +23,7 @@ class PostBinding implements Bindings {
         repository: PostRepository(apiClient: PostApiClient()));
 
     ps.callType = 2;
-    if (Get.arguments.containsKey("type")) {
+    if (Get.arguments != null && Get.arguments.containsKey("type")) {
       ps.callType = Get.arguments["type"];
     }
 

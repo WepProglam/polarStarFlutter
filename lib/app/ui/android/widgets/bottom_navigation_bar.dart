@@ -19,76 +19,85 @@ class CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Container(
-        height: 65,
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-              color: const Color(0x1c000000),
-              offset: Offset(0, -3),
-              blurRadius: 6,
-              spreadRadius: 0)
-        ], color: const Color(0xffffffff)),
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-              icon: Container(
-                  width: 20,
-                  height: 20,
-                  margin: const EdgeInsets.only(top: 15),
-                  child: mainController.mainPageIndex.value == 0
-                      ? Image.asset("assets/images/homepage_selected.png")
-                      : Image.asset("assets/images/500.png")),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                  width: 20,
-                  margin: const EdgeInsets.only(top: 15),
-                  height: 20,
-                  child: mainController.mainPageIndex.value == 1
-                      ? Image.asset("assets/images/timetable_selected.png")
-                      : Image.asset("assets/images/timetable.png")),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                  width: 20,
-                  height: 20,
-                  margin: const EdgeInsets.only(top: 15),
-                  child: mainController.mainPageIndex.value == 2
-                      ? Image.asset("assets/images/information_selected.png")
-                      : Image.asset("assets/images/information.png")),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                  width: 20,
-                  height: 20,
-                  margin: const EdgeInsets.only(top: 15),
-                  child: mainController.mainPageIndex.value == 3
-                      ? Image.asset("assets/images/bottom_alarm_selected.png")
-                      : Image.asset("assets/images/bottom_alarm.png")),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                  width: 20,
-                  height: 20,
-                  margin: const EdgeInsets.only(top: 15),
-                  child: mainController.mainPageIndex.value == 4
-                      ? Image.asset("assets/images/mypage_selected.png")
-                      : Image.asset("assets/images/689.png")),
-              label: '',
-            ),
-          ],
-          unselectedItemColor: const Color(0xffbbc7d4),
-          currentIndex: mainController.mainPageIndex.value,
-          selectedItemColor: const Color(0xff1a4678),
-          onTap: (index) async {
-            mainController.mainPageIndex.value = index;
-            myPageController.profilePostIndex.value = 0;
-            notiController.pageViewIndex.value = 0;
-          },
+        height: 56 + 1.0,
+        // decoration: BoxDecoration(boxShadow: [
+        //   BoxShadow(
+        //       color: const Color(0x1c000000),
+        //       offset: Offset(0, -3),
+        //       blurRadius: 6,
+        //       spreadRadius: 0)
+        // ], color: const Color(0xff571df0)),
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(40),
+          ),
+          child: BottomNavigationBar(
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            selectedFontSize: 0,
+            backgroundColor: const Color(0xff571df0),
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(
+                icon: Container(
+                    width: 24,
+                    height: 24,
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    child: mainController.mainPageIndex.value == 0
+                        ? Image.asset("assets/images/icn_home_selected.png")
+                        : Image.asset("assets/images/icn_home_normal.png")),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon: Container(
+                    width: 24,
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    height: 24,
+                    child: mainController.mainPageIndex.value == 1
+                        ? Image.asset("assets/images/icn_calendar_selected.png")
+                        : Image.asset("assets/images/icn_calendar_normal.png")),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon: Container(
+                    width: 24,
+                    height: 24,
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    child: mainController.mainPageIndex.value == 2
+                        ? Image.asset("assets/images/icn_check_selected.png")
+                        : Image.asset("assets/images/icn_check_normal.png")),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon: Container(
+                    width: 24,
+                    height: 24,
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    child: mainController.mainPageIndex.value == 3
+                        ? Image.asset("assets/images/icn_alarm_selected.png")
+                        : Image.asset("assets/images/icn_alarm_normal.png")),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon: Container(
+                    width: 24,
+                    height: 24,
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    child: mainController.mainPageIndex.value == 4
+                        ? Image.asset("assets/images/icn_profile_selected.png")
+                        : Image.asset("assets/images/icn_profile_normal.png")),
+                label: '',
+              ),
+            ],
+            unselectedItemColor: const Color(0xffbbc7d4),
+            currentIndex: mainController.mainPageIndex.value,
+            selectedItemColor: const Color(0xff1a4678),
+            onTap: (index) async {
+              mainController.mainPageIndex.value = index;
+              myPageController.profilePostIndex.value = 0;
+              notiController.pageViewIndex.value = 0;
+            },
+          ),
         ),
       );
     });
