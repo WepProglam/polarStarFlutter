@@ -95,3 +95,38 @@ void writeCCFunc(Post item, PostController c, String cidUrl) async {
   c.makeCcommentUrl(item.COMMUNITY_ID, item.UNIQUE_ID);
   c.autoFocusTextForm(false);
 }
+
+// * 대댓글 수정
+void updateCCFunc(PostController c, Post item) {
+  String putUrl = '/board/${item.COMMUNITY_ID}/ccid/${item.UNIQUE_ID}';
+  if (c.autoFocusTextForm.value && c.putUrl.value == putUrl) {
+    c.autoFocusTextForm.value = false;
+    c.putUrl.value = putUrl;
+  } else {
+    c.autoFocusTextForm.value = true;
+    c.putUrl.value = putUrl;
+  }
+}
+
+// * 대댓글 삭제
+Future<void> deleteCCFunc(Post item, PostController c) async {
+  await c.deleteResource(item.COMMUNITY_ID, item.UNIQUE_ID, "ccid");
+}
+
+// * 대댓글 신고
+Future<void> arrestCCFunc(PostController c, Post item, int index) async {
+  var ARREST_TYPE = await c.getArrestType();
+  await c.totalSend(
+      '/arrest/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}?ARREST_TYPE=$ARREST_TYPE',
+      '신고',
+      index);
+}
+
+// * 대댓글 쪽지 보내기
+Future<void> sendMailCCFunc(
+    Post item,
+    TextEditingController mailWriteController,
+    MailController mailController) async {
+  await sendMail(
+      item.UNIQUE_ID, item.COMMUNITY_ID, mailWriteController, mailController);
+}

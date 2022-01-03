@@ -31,16 +31,29 @@ class Post extends StatelessWidget {
                 Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 16.5),
-                    child: Text(
-                        communityBoardName(c.COMMUNITY_ID) == null
-                            ? ""
-                            : '${communityBoardName(c.COMMUNITY_ID)}',
-                        style: const TextStyle(
-                            color: const Color(0xffffffff),
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "NotoSansTC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
+                    child: RichText(
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: "成均馆大学",
+                              style: const TextStyle(
+                                  color: const Color(0xffffffff),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansTC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14.0),
+                            )
+                          ],
+                          text: communityBoardName(c.COMMUNITY_ID) == null
+                              ? ""
+                              : '${communityBoardName(c.COMMUNITY_ID)} / ',
+                          style: const TextStyle(
+                              color: const Color(0xffffffff),
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "NotoSansTC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0),
+                        ),
                         textAlign: TextAlign.left),
                   ),
                 ),

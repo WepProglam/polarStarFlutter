@@ -216,7 +216,7 @@ class PostTop extends StatelessWidget {
               Text(item.value.PROFILE_NICKNAME,
                   style: const TextStyle(
                       color: const Color(0xff2f2f2f),
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
                       fontSize: 14.0),
@@ -331,7 +331,7 @@ class CommnetTop extends StatelessWidget {
               child: Text("${item.PROFILE_NICKNAME}",
                   style: const TextStyle(
                       color: const Color(0xff2f2f2f),
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                       fontFamily: "NotoSansTC",
                       fontStyle: FontStyle.normal,
                       fontSize: 12.0),
@@ -387,13 +387,106 @@ class CommnetTop extends StatelessWidget {
         Spacer(),
 
         // * 좋아요, 댓글, 신고, etc
-        CommnetTopIcons(
-            c: c,
-            item: item,
-            index: index,
-            cidUrl: cidUrl,
-            mailWriteController: mailWriteController,
-            mailController: mailController),
+        cidUrl != null
+            ? CommnetTopIcons(
+                c: c,
+                item: item,
+                index: index,
+                cidUrl: cidUrl,
+                mailWriteController: mailWriteController,
+                mailController: mailController)
+            : CCTopIcons(
+                c: c,
+                item: item,
+                index: index,
+                mailWriteController: mailWriteController,
+                mailController: mailController),
+      ],
+    );
+  }
+}
+
+class CCTopIcons extends StatelessWidget {
+  const CCTopIcons({
+    Key key,
+    @required this.c,
+    @required this.item,
+    @required this.index,
+    @required this.mailWriteController,
+    @required this.mailController,
+  }) : super(key: key);
+
+  final PostController c;
+  final Post item;
+  final int index;
+  final TextEditingController mailWriteController;
+  final MailController mailController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // * 좋아요 버튼
+        InkWell(
+          onTap: () async {
+            await c.totalSend('/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
+                '좋아요', index);
+          },
+          child: Container(
+              width: CommentIconSize,
+              height: CommentIconSize,
+              child: AssetImageBin.like_none),
+        ),
+
+        // * 메뉴
+        Container(
+          margin: const EdgeInsets.only(left: 12),
+          child: PopupMenuButton(
+              child: Container(
+                width: CommentIconSize,
+                height: CommentIconSize,
+                child: Image.asset("assets/images/icn_more.png"),
+              ),
+              onSelected: (value) async {
+                if (value == "댓글 수정") {
+                  // TODO 댓글 작성 -> 댓글 수정으로 변경
+                  await updateCCFunc(c, item);
+                } else if (value == "댓글 삭제") {
+                  await deleteCCFunc(item, c);
+                } else if (value == "댓글 신고") {
+                  await arrestCCFunc(c, item, index);
+                } else if (value == "쪽지 보내기") {
+                  await sendMailCCFunc(
+                      item, mailWriteController, mailController);
+                }
+              },
+              itemBuilder: (context) {
+                if (item.MYSELF) {
+                  return [
+                    PopupMenuItem(
+                      child: Text("댓글 수정"),
+                      value: "댓글 수정",
+                    ),
+                    PopupMenuItem(
+                      child: Text("댓글 삭제"),
+                      value: "댓글 삭제",
+                    ),
+                  ];
+                } else {
+                  return [
+                    PopupMenuItem(
+                      child: Text("댓글 신고"),
+                      value: "댓글 신고",
+                    ),
+                    PopupMenuItem(
+                      child: Text("쪽지 보내기"),
+                      value: "쪽지 보내기",
+                    ),
+                  ];
+                }
+              }),
+        ),
       ],
     );
   }
