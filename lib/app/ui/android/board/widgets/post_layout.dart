@@ -36,41 +36,42 @@ class PostLayout extends StatelessWidget {
           child: Container(
               // height: Get.mediaQuery.size.height,
               // margin: const EdgeInsets.symmetric(horizontal: 15),
+              margin: const EdgeInsets.only(top: 14),
               child: RefreshIndicator(
-            onRefresh: () async {
-              print(Get.arguments);
-              await MainUpdateModule.updatePost(type: c.callType);
-            },
-            child: ListView.builder(
-                physics: AlwaysScrollableScrollPhysics(),
-                itemCount: c.sortedList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  if (c.sortedList[index].value.DEPTH == 0) {
-                    return PostWidget(
-                      c: c,
-                      mailWriteController: mailWriteController,
-                      mailController: mailController,
-                      item: c.sortedList[index],
-                      index: index,
-                      mainController: mainController,
-                    );
-                  } else if (c.sortedList[index].value.DEPTH == 1) {
-                    return CommentWidget(
-                        c: c,
-                        mailWriteController: mailWriteController,
-                        mailController: mailController,
-                        item: c.sortedList[index].value,
-                        index: index);
-                  } else {
-                    return CCWidget(
-                        c: c,
-                        mailWriteController: mailWriteController,
-                        mailController: mailController,
-                        item: c.sortedList[index].value,
-                        index: index);
-                  }
-                }),
-          )
+                onRefresh: () async {
+                  print(Get.arguments);
+                  await MainUpdateModule.updatePost(type: c.callType);
+                },
+                child: ListView.builder(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    itemCount: c.sortedList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (c.sortedList[index].value.DEPTH == 0) {
+                        return PostWidget(
+                          c: c,
+                          mailWriteController: mailWriteController,
+                          mailController: mailController,
+                          item: c.sortedList[index],
+                          index: index,
+                          mainController: mainController,
+                        );
+                      } else if (c.sortedList[index].value.DEPTH == 1) {
+                        return CommentWidget(
+                            c: c,
+                            mailWriteController: mailWriteController,
+                            mailController: mailController,
+                            item: c.sortedList[index].value,
+                            index: index);
+                      } else {
+                        return CCWidget(
+                            c: c,
+                            mailWriteController: mailWriteController,
+                            mailController: mailController,
+                            item: c.sortedList[index].value,
+                            index: index);
+                      }
+                    }),
+              )
               // SingleChildScrollView(
               //   child: Column(
               //     crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,7 +230,7 @@ class PostWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(20, 14, 20, 14),
+      margin: const EdgeInsets.fromLTRB(20, 0, 20, 14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(8)),
         border: Border.all(color: const Color(0xffeaeaea), width: 1),

@@ -23,7 +23,7 @@ class PhotoLayout extends StatelessWidget {
     return Stack(children: [
       Container(
         width: width,
-        height: width,
+        height: width * 0.8,
         margin: EdgeInsets.only(top: 10),
         child: PageView.builder(
             scrollDirection: Axis.horizontal,
@@ -53,7 +53,7 @@ class PhotoLayout extends StatelessWidget {
                             child: Container(
                               // margin: EdgeInsets.only(right: 4.2),
                               width: width,
-                              height: width,
+                              height: width * 0.8,
 
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
