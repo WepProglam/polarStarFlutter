@@ -162,8 +162,8 @@ class PostBody extends StatelessWidget {
         (item.value.PHOTO != [] &&
                 item.value.PHOTO != null &&
                 item.value.PHOTO.isNotEmpty)
-            ? Padding(
-                padding: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 0),
+            ? Container(
+                // padding: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 0),
                 child: PhotoLayout(model: item.value),
               )
             : Container(),
