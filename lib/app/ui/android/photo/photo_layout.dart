@@ -50,7 +50,8 @@ class PhotoLayout extends StatelessWidget {
                       child: InkWell(
                         onTap: () {
                           print(index);
-                          Get.to(SeePhoto(photo: model.PHOTO, index: index));
+                          Get.to(
+                              () => SeePhoto(photo: model.PHOTO, index: index));
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: 4.2),

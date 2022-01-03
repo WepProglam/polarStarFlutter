@@ -16,7 +16,8 @@ class SeePhoto extends StatefulWidget {
 class _SeePhotoState extends State<SeePhoto> {
   @override
   Widget build(BuildContext context) {
-    final PageController controller = PageController(initialPage: widget.index);
+    final PageController controller =
+        PageController(initialPage: widget.index, viewportFraction: 1.0);
 
     final Size size = MediaQuery.of(context).size;
     print(widget.index);
@@ -36,12 +37,13 @@ class _SeePhotoState extends State<SeePhoto> {
                   return InteractiveViewer(
                     maxScale: 4,
                     minScale: 1,
-                    panEnabled: false,
-                    boundaryMargin: EdgeInsets.all(80),
+                    // constrained: false,
+                    // boundaryMargin: EdgeInsets.all(0),
                     child: Container(
                         width: size.width,
                         child: CachedNetworkImage(
                             imageUrl: "${widget.photo[index]}",
+                            fit: BoxFit.fitWidth,
                             fadeInDuration: Duration(milliseconds: 0),
                             progressIndicatorBuilder:
                                 (context, url, downloadProgress) => Container(
