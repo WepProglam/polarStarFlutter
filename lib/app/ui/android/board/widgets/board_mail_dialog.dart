@@ -10,7 +10,7 @@ void sendMail(int UNIQUE_ID, int COMMUNITY_ID,
       actions: [
         TextButton(
             onPressed: () async {
-              Get.defaultDialog(
+              await Get.defaultDialog(
                 title: "쪽지 보내기",
                 barrierDismissible: true,
                 content: Column(
@@ -66,7 +66,10 @@ void sendMail(int UNIQUE_ID, int COMMUNITY_ID,
                         child: Text("발송"))
                   ],
                 ),
-              );
+              ).then((value) {
+                Get.back();
+                Get.back();
+              });
             },
             child: Text("네")),
         TextButton(

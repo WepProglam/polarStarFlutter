@@ -284,3 +284,228 @@ class PostTop extends StatelessWidget {
     );
   }
 }
+
+class CommnetTop extends StatelessWidget {
+  const CommnetTop({
+    Key key,
+    @required this.item,
+    @required this.c,
+    @required this.index,
+    @required this.cidUrl,
+    @required this.mailWriteController,
+    @required this.mailController,
+  }) : super(key: key);
+
+  final Post item;
+  final PostController c;
+  final int index;
+  final String cidUrl;
+  final TextEditingController mailWriteController;
+  final MailController mailController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // * 프사
+        Container(
+          height: 30,
+          width: 30,
+          margin: const EdgeInsets.only(right: 8),
+          child: CachedNetworkImage(
+            imageUrl: '${item.PROFILE_PHOTO}',
+            imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: imageProvider, fit: BoxFit.cover))),
+          ),
+        ),
+
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // * 닉네임
+            Container(
+              child: Text("${item.PROFILE_NICKNAME}",
+                  style: const TextStyle(
+                      color: const Color(0xff2f2f2f),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "NotoSansTC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 12.0),
+                  textAlign: TextAlign.left),
+            ),
+
+            // * 댓글 작성 시간, 좋아요 수
+            Container(
+              margin: const EdgeInsets.only(top: 2),
+              child: Row(children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 1),
+                  child: Text(
+                      "${item.TIME_CREATED}"
+                          .substring(2, 19)
+                          .replaceAll('-', '.')
+                          .replaceAll('T', ' '),
+                      style: const TextStyle(
+                          color: const Color(0xff6f6e6e),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 12.0),
+                      textAlign: TextAlign.left),
+                ),
+                item.LIKES == 0
+                    ? Container()
+                    : Row(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(left: 8),
+                            child: Image.asset(
+                                "assets/images/icn_reply_like_color.png"),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(left: 4),
+                            child: // 99
+                                Text("${item.LIKES}",
+                                    style: const TextStyle(
+                                        color: const Color(0xff571df0),
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "Roboto",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 12.0),
+                                    textAlign: TextAlign.left),
+                          )
+                        ],
+                      )
+              ]),
+            ),
+          ],
+        ),
+        Spacer(),
+
+        // * 좋아요, 댓글, 신고, etc
+        CommnetTopIcons(
+            c: c,
+            item: item,
+            index: index,
+            cidUrl: cidUrl,
+            mailWriteController: mailWriteController,
+            mailController: mailController),
+      ],
+    );
+  }
+}
+
+class CommnetTopIcons extends StatelessWidget {
+  const CommnetTopIcons({
+    Key key,
+    @required this.c,
+    @required this.item,
+    @required this.index,
+    @required this.cidUrl,
+    @required this.mailWriteController,
+    @required this.mailController,
+  }) : super(key: key);
+
+  final PostController c;
+  final Post item;
+  final int index;
+  final String cidUrl;
+  final TextEditingController mailWriteController;
+  final MailController mailController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // * 좋아요 버튼
+        InkWell(
+          onTap: () async {
+            await c.totalSend('/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
+                '좋아요', index);
+          },
+          child: Container(
+              width: CommentIconSize,
+              height: CommentIconSize,
+              child: AssetImageBin.like_none),
+        ),
+
+        // * 댓글
+        Container(
+          margin: const EdgeInsets.only(left: 12),
+          child: InkWell(
+              onTap: () {
+                // TODO 댓글 작성 -> 대댓글 작성으로 변경
+                writeCCFunc(item, c, cidUrl);
+              },
+              child: Container(
+                width: CommentIconSize,
+                height: CommentIconSize,
+                child: FittedBox(
+                  fit: BoxFit.fitHeight,
+                  child: Obx(() =>
+                      c.isCcomment.value && c.ccommentUrl.value == cidUrl
+                          ? Image.asset(
+                              'assets/images/icn_reply_comment_normal.png')
+                          : Image.asset(
+                              'assets/images/icn_reply_comment_normal.png')),
+                ),
+              )),
+        ),
+
+        // * 메뉴
+        Container(
+          margin: const EdgeInsets.only(left: 12),
+          child: PopupMenuButton(
+              child: Container(
+                width: CommentIconSize,
+                height: CommentIconSize,
+                child: Image.asset("assets/images/icn_more.png"),
+              ),
+              onSelected: (value) async {
+                if (value == "댓글 수정") {
+                  // TODO 댓글 작성 -> 댓글 수정으로 변경
+                  await updateCommentFunc(c, cidUrl);
+                } else if (value == "댓글 삭제") {
+                  await deleteCommentFunc(item, c);
+                } else if (value == "댓글 신고") {
+                  await arrestCommentFunc(c, item, index);
+                } else if (value == "쪽지 보내기") {
+                  await sendMailCommentFunc(
+                      item, mailWriteController, mailController);
+                }
+              },
+              itemBuilder: (context) {
+                if (item.MYSELF) {
+                  return [
+                    PopupMenuItem(
+                      child: Text("댓글 수정"),
+                      value: "댓글 수정",
+                    ),
+                    PopupMenuItem(
+                      child: Text("댓글 삭제"),
+                      value: "댓글 삭제",
+                    ),
+                  ];
+                } else {
+                  return [
+                    PopupMenuItem(
+                      child: Text("댓글 신고"),
+                      value: "댓글 신고",
+                    ),
+                    PopupMenuItem(
+                      child: Text("쪽지 보내기"),
+                      value: "쪽지 보내기",
+                    ),
+                  ];
+                }
+              }),
+        ),
+      ],
+    );
+  }
+}

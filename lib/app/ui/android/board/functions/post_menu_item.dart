@@ -52,3 +52,46 @@ Future<void> sendMailPostFunc(
   await sendMail(item.value.UNIQUE_ID, item.value.COMMUNITY_ID,
       mailWriteController, mailController);
 }
+
+// * 댓글 수정
+void updateCommentFunc(PostController c, String cidUrl) {
+  if (c.autoFocusTextForm.value) {
+    c.autoFocusTextForm(false);
+  } else {
+    c.putUrl.value = cidUrl;
+    c.autoFocusTextForm(true);
+  }
+}
+
+// * 댓글 삭제
+Future<void> deleteCommentFunc(Post item, PostController c) async {
+  await c.deleteResource(item.COMMUNITY_ID, item.UNIQUE_ID, "cid");
+}
+
+// * 댓글 신고
+Future<void> arrestCommentFunc(PostController c, Post item, int index) async {
+  var ARREST_TYPE = await c.getArrestType();
+  print(ARREST_TYPE);
+  if (ARREST_TYPE != null) {
+    await c.totalSend(
+        '/arrest/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}?ARREST_TYPE=$ARREST_TYPE',
+        '신고',
+        index);
+  }
+}
+
+// * 댓글 쪽지 보내기
+Future<void> sendMailCommentFunc(
+    Post item,
+    TextEditingController mailWriteController,
+    MailController mailController) async {
+  await sendMail(
+      item.UNIQUE_ID, item.COMMUNITY_ID, mailWriteController, mailController);
+}
+
+// * 대댓 작성
+void writeCCFunc(Post item, PostController c, String cidUrl) async {
+  c.changeCcomment(cidUrl);
+  c.makeCcommentUrl(item.COMMUNITY_ID, item.UNIQUE_ID);
+  c.autoFocusTextForm(false);
+}

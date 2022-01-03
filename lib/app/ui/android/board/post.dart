@@ -9,7 +9,7 @@ import 'package:polarstar_flutter/app/ui/android/functions/board_name.dart';
 
 class Post extends StatelessWidget {
   final mailWriteController = TextEditingController();
-  final BOTTOM_SHEET_HEIGHT = 50;
+  final BOTTOM_SHEET_HEIGHT = 60;
   final commentWriteController = TextEditingController();
   final PostController c = Get.find();
 
@@ -22,6 +22,7 @@ class Post extends StatelessWidget {
             toolbarHeight: 56,
 
             backgroundColor: Get.theme.primaryColor,
+            titleSpacing: 0,
             // elevation: 0,
             automaticallyImplyLeading: false,
 
