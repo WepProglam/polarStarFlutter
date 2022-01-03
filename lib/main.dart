@@ -109,11 +109,11 @@ void main() async {
   //     statusBarColor: const Color(0xfff6f6f6),
   //     statusBarBrightness: Brightness.light));
 
-  changeStatusBarColor(Color(0xfff6f6f6), Brightness.light);
+  changeStatusBarColor(const Color(0xff571df0), Brightness.light);
 
   await runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want
-    theme: ThemeData(),
+    theme: ThemeData(primaryColor: const Color(0xff571df0)),
     scrollBehavior: MyBehavior(),
     debugShowCheckedModeBanner: false,
     initialBinding: isLogined ? MainBinding() : LoginBinding(),
@@ -180,21 +180,25 @@ class AssetImageBin {
 
   static String getImageLocation(String name) {
     String url = null;
+    // * 스크랩 O
     if (name == "scrap_clicked") {
-      // * 스크랩 O
-      url = 'assets/images/849.png';
-    } else if (name == "scrap_none") {
-      // * 스크랩 X
-      url = 'assets/images/star.png';
-    } else if (name == "like_clicked") {
-      // * 좋아요 O
-      url = 'assets/images/like_red.png';
-    } else if (name == "like_none") {
-      // * 좋아요 X
-      url = 'assets/images/good.png';
-    } else if (name == "comment") {
-      // * 댓글
-      url = 'assets/images/comment.png';
+      url = 'assets/images/icn_star_selected.png';
+    }
+    // * 스크랩 X
+    else if (name == "scrap_none") {
+      url = 'assets/images/icn_star_normal.png';
+    }
+    // * 좋아요 O
+    else if (name == "like_clicked") {
+      url = 'assets/images/icn_like_selected.png';
+    }
+    // * 좋아요 X
+    else if (name == "like_none") {
+      url = 'assets/images/icn_like_normal.png';
+    }
+    // * 댓글
+    else if (name == "comment") {
+      url = 'assets/images/icn_comment_normal.png';
     }
 
     return url;

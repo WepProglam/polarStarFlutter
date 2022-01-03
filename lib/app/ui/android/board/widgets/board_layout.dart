@@ -69,7 +69,7 @@ class PostPreview extends StatelessWidget {
                             style: const TextStyle(
                                 color: const Color(0xff333333),
                                 fontWeight: FontWeight.bold,
-                                fontFamily: "PingFangSC",
+                                // fontFamily: "PingFangSC",
                                 fontStyle: FontStyle.normal,
                                 fontSize: 15.0),
                             textAlign: TextAlign.left),
@@ -81,7 +81,7 @@ class PostPreview extends StatelessWidget {
                             style: const TextStyle(
                                 color: const Color(0xff999999),
                                 fontWeight: FontWeight.normal,
-                                fontFamily: "PingFangSC",
+                                // fontFamily: "PingFangSC",
                                 fontStyle: FontStyle.normal,
                                 fontSize: 11.0),
                             textAlign: TextAlign.left),
@@ -126,7 +126,7 @@ class PostPreview extends StatelessWidget {
                   style: const TextStyle(
                       color: const Color(0xff333333),
                       fontWeight: FontWeight.bold,
-                      fontFamily: "PingFangSC",
+                      // fontFamily: "PingFangSC",
                       fontStyle: FontStyle.normal,
                       fontSize: 16.0),
                   textAlign: TextAlign.left),
@@ -135,7 +135,7 @@ class PostPreview extends StatelessWidget {
                   style: const TextStyle(
                       color: const Color(0xff333333),
                       fontWeight: FontWeight.normal,
-                      fontFamily: "PingFangSC",
+                      // fontFamily: "PingFangSC",
                       fontStyle: FontStyle.normal,
                       fontSize: 14.0),
                   textAlign: TextAlign.left),
@@ -180,7 +180,7 @@ class PostPreview extends StatelessWidget {
                               style: const TextStyle(
                                   color: const Color(0xff333333),
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: "PingFangSC",
+                                  // fontFamily: "PingFangSC",
                                   fontStyle: FontStyle.normal,
                                   fontSize: 12.0),
                               textAlign: TextAlign.left)
@@ -204,7 +204,7 @@ class PostPreview extends StatelessWidget {
                               style: const TextStyle(
                                   color: const Color(0xff333333),
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: "PingFangSC",
+                                  // fontFamily: "PingFangSC",
                                   fontStyle: FontStyle.normal,
                                   fontSize: 12.0),
                               textAlign: TextAlign.left)
@@ -234,7 +234,7 @@ class PostPreview extends StatelessWidget {
                               style: const TextStyle(
                                   color: const Color(0xff333333),
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: "PingFangSC",
+                                  // fontFamily: "PingFangSC",
                                   fontStyle: FontStyle.normal,
                                   fontSize: 12.0),
                               textAlign: TextAlign.left)

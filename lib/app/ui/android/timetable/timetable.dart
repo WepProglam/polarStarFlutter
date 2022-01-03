@@ -19,7 +19,7 @@ class Timetable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    changeStatusBarColor(Colors.white, Brightness.dark);
+    // changeStatusBarColor(Colors.white, Brightness.dark);
     return Scaffold(
         bottomNavigationBar:
             CustomBottomNavigationBar(mainController: mainController),

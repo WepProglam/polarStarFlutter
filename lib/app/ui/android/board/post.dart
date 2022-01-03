@@ -19,38 +19,52 @@ class Post extends StatelessWidget {
       child: Scaffold(
           backgroundColor: Color(0xffffffff),
           appBar: AppBar(
-            toolbarHeight: 50,
-            backgroundColor: Color(0xffffffff),
-            foregroundColor: Color(0xff333333),
-            elevation: 0,
+            toolbarHeight: 56,
+
+            backgroundColor: Get.theme.primaryColor,
+            // elevation: 0,
             automaticallyImplyLeading: false,
-            leadingWidth: 15 + 14.6 + 9.4,
-            leading: InkWell(
-              onTap: () {
-                Get.back();
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15, right: 14.6),
-                child: Ink(
-                  child: Image.asset(
-                    'assets/images/848.png',
-                    fit: BoxFit.fitWidth,
+
+            title: Stack(
+              children: [
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 16.5),
+                    child: Text(
+                        communityBoardName(c.COMMUNITY_ID) == null
+                            ? ""
+                            : '${communityBoardName(c.COMMUNITY_ID)}',
+                        style: const TextStyle(
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansTC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 16.0),
+                        textAlign: TextAlign.left),
                   ),
                 ),
-              ),
+                Positioned(
+                  // left: 20,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 20),
+                    child: Ink(
+                      child: InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Image.asset(
+                          'assets/images/back_icon.png',
+                          // fit: BoxFit.fitWidth,
+                          width: 24,
+                          height: 24,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            titleSpacing: 0,
-            title: Text(
-                communityBoardName(c.COMMUNITY_ID) == null
-                    ? ""
-                    : '${communityBoardName(c.COMMUNITY_ID)}',
-                style: const TextStyle(
-                    color: const Color(0xff333333),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "PingFangSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 21.0),
-                textAlign: TextAlign.left),
           ),
           body: Obx(() {
             if (!c.dataAvailable) {

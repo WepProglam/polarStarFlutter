@@ -65,7 +65,7 @@ class WritePost extends StatelessWidget {
                 style: const TextStyle(
                     color: const Color(0xff333333),
                     fontWeight: FontWeight.w700,
-                    fontFamily: "PingFangSC",
+                    // fontFamily: "PingFangSC",
                     fontStyle: FontStyle.normal,
                     fontSize: 21.0),
                 textAlign: TextAlign.left),
@@ -141,7 +141,7 @@ class WritePost extends StatelessWidget {
                         style: const TextStyle(
                             color: const Color(0xff333333),
                             fontWeight: FontWeight.normal,
-                            fontFamily: "PingFangSC",
+                            // fontFamily: "PingFangSC",
                             fontStyle: FontStyle.normal,
                             fontSize: 16.0),
                         decoration: InputDecoration(
@@ -151,7 +151,7 @@ class WritePost extends StatelessWidget {
                           hintStyle: const TextStyle(
                               color: const Color(0xff999999),
                               fontWeight: FontWeight.w400,
-                              fontFamily: "PingFangSC",
+                              // fontFamily: "PingFangSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 14.0),
                           hintText: 'Please enter the title',
@@ -178,7 +178,7 @@ class WritePost extends StatelessWidget {
                       style: const TextStyle(
                           color: const Color(0xff333333),
                           fontWeight: FontWeight.normal,
-                          fontFamily: "PingFangSC",
+                          // fontFamily: "PingFangSC",
                           fontStyle: FontStyle.normal,
                           fontSize: 16.0),
                       decoration: InputDecoration(
@@ -188,7 +188,7 @@ class WritePost extends StatelessWidget {
                         hintStyle: const TextStyle(
                             color: const Color(0xff999999),
                             fontWeight: FontWeight.w400,
-                            fontFamily: "PingFangSC",
+                            // fontFamily: "PingFangSC",
                             fontStyle: FontStyle.normal,
                             fontSize: 14.0),
                         hintText: 'Please enter the content',
@@ -354,7 +354,7 @@ class WritePost extends StatelessWidget {
                                 style: const TextStyle(
                                     color: const Color(0xffffffff),
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: "PingFangSC",
+                                    // fontFamily: "PingFangSC",
                                     fontStyle: FontStyle.normal,
                                     fontSize: 18.0),
                                 textAlign: TextAlign.center),

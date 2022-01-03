@@ -255,7 +255,6 @@ class ClassViewInfo extends StatelessWidget {
                         style: const TextStyle(
                             color: const Color(0xff333333),
                             fontWeight: FontWeight.w700,
-                            fontFamily: "PingFangSC",
                             fontStyle: FontStyle.normal,
                             fontSize: 18.0),
                         textAlign: TextAlign.left,
@@ -268,7 +267,6 @@ class ClassViewInfo extends StatelessWidget {
                           style: const TextStyle(
                               color: const Color(0xff333333),
                               fontWeight: FontWeight.normal,
-                              fontFamily: "PingFangSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 16.0),
                           textAlign: TextAlign.left,
@@ -296,7 +294,6 @@ class ClassViewInfo extends StatelessWidget {
                               style: const TextStyle(
                                   color: const Color(0xff333333),
                                   fontWeight: FontWeight.normal,
-                                  fontFamily: "PingFangSC",
                                   fontStyle: FontStyle.normal,
                                   fontSize: 16.0),
                               textAlign: TextAlign.left,
@@ -327,7 +324,6 @@ class ClassViewInfo extends StatelessWidget {
                           style: TextStyle(
                               color: const Color(0xff666666),
                               fontWeight: FontWeight.normal,
-                              fontFamily: "PingFangSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 16.0),
                           textAlign: TextAlign.left,
@@ -339,7 +335,6 @@ class ClassViewInfo extends StatelessWidget {
                           style: TextStyle(
                               color: const Color(0xff333333),
                               fontWeight: FontWeight.bold,
-                              fontFamily: "PingFangSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 16.0),
                           textAlign: TextAlign.left,
@@ -359,7 +354,6 @@ class ClassViewInfo extends StatelessWidget {
                           style: TextStyle(
                               color: const Color(0xff666666),
                               fontWeight: FontWeight.normal,
-                              fontFamily: "PingFangSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 16.0),
                           textAlign: TextAlign.left,
@@ -394,7 +388,6 @@ class ClassViewInfo extends StatelessWidget {
                           style: TextStyle(
                               color: const Color(0xff666666),
                               fontWeight: FontWeight.normal,
-                              fontFamily: "PingFangSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 16.0),
                           textAlign: TextAlign.left,
@@ -428,7 +421,6 @@ class ClassViewInfo extends StatelessWidget {
                           style: TextStyle(
                               color: const Color(0xff666666),
                               fontWeight: FontWeight.normal,
-                              fontFamily: "PingFangSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 16.0),
                           textAlign: TextAlign.left,
@@ -462,7 +454,6 @@ class ClassViewInfo extends StatelessWidget {
                           style: TextStyle(
                               color: const Color(0xff666666),
                               fontWeight: FontWeight.normal,
-                              fontFamily: "PingFangSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 16.0),
                           textAlign: TextAlign.left,
@@ -546,7 +537,6 @@ class ClassViewReview extends StatelessWidget {
               style: TextStyle(
                   color: const Color(0xff333333),
                   fontWeight: FontWeight.normal,
-                  fontFamily: "PingFangSC",
                   fontStyle: FontStyle.normal,
                   fontSize: 16.0),
             ),
@@ -565,7 +555,6 @@ class ClassViewReview extends StatelessWidget {
                     style: TextStyle(
                         color: const Color(0xff707070),
                         fontWeight: FontWeight.normal,
-                        fontFamily: "PingFangSC",
                         fontStyle: FontStyle.normal,
                         fontSize: 14.0),
                   ),
@@ -772,7 +761,6 @@ class ClassExamInfo extends StatelessWidget {
                       style: TextStyle(
                           color: const Color(0xff333333),
                           fontWeight: FontWeight.bold,
-                          fontFamily: "PingFangSC",
                           fontStyle: FontStyle.normal,
                           fontSize: 16.0)))))
     ]);

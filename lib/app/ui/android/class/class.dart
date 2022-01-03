@@ -97,7 +97,6 @@ class Class extends StatelessWidget {
                       style: const TextStyle(
                           color: const Color(0xff333333),
                           fontWeight: FontWeight.w700,
-                          fontFamily: "PingFangSC",
                           fontStyle: FontStyle.normal,
                           fontSize: 18.0),
                       textAlign: TextAlign.left),

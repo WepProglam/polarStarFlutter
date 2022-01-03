@@ -195,6 +195,20 @@ flutter:
     - assets/images/logo.png
     - assets/images/write_pencil.png
     - assets/images/board_bell.png
+    - assets/images/icn_comment_normal.png
+    - assets/images/icn_like_normal.png
+    - assets/images/icn_like_selected.png
+    - assets/images/icn_star_normal.png
+    - assets/images/icn_star_selected.png
+
+    - assets/images/icn_more.png
+    - assets/images/icn_reply_like_color.png
+    - assets/images/icn_reply_like_selected.png
+    - assets/images/icn_reply_star_selected.png
+    - assets/images/icn_reply_comment_normal.png
+
+    - assets/images/icn_send_white.png
+    - assets/images/back_icon.png
     - assets/fonts/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

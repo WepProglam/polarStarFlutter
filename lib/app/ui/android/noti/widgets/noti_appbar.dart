@@ -14,7 +14,7 @@ class NotiAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    changeStatusBarColor(Colors.white, Brightness.dark);
+    // changeStatusBarColor(Colors.white, Brightness.dark);
     return AppBar(
       toolbarHeight: 55,
       // backgroundColor: const Color(0xff194678),

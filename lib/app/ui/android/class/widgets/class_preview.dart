@@ -82,7 +82,6 @@ class CoursePreview extends StatelessWidget {
                                     style: const TextStyle(
                                         color: const Color(0xff999999),
                                         fontWeight: FontWeight.w400,
-                                        fontFamily: "PingFangSC",
                                         fontStyle: FontStyle.normal,
                                         fontSize: 14.0),
                                     textAlign: TextAlign.left)),
@@ -169,7 +168,6 @@ class CommentPreview extends StatelessWidget {
                           style: const TextStyle(
                               color: const Color(0xff333333),
                               fontWeight: FontWeight.w700,
-                              fontFamily: "PingFangSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 16.0),
                           textAlign: TextAlign.center),
@@ -204,7 +202,6 @@ class CommentPreview extends StatelessWidget {
                       style: const TextStyle(
                           color: const Color(0xff333333),
                           fontWeight: FontWeight.w400,
-                          fontFamily: "PingFangSC",
                           fontStyle: FontStyle.normal,
                           fontSize: 14.0),
                       textAlign: TextAlign.left),
@@ -216,7 +213,6 @@ class CommentPreview extends StatelessWidget {
                     style: const TextStyle(
                         color: const Color(0xff333333),
                         fontWeight: FontWeight.w400,
-                        fontFamily: "PingFangSC",
                         fontStyle: FontStyle.normal,
                         fontSize: 14.0),
                     textAlign: TextAlign.left)),
@@ -234,7 +230,6 @@ class CommentPreview extends StatelessWidget {
                       style: const TextStyle(
                           color: const Color(0xff707070),
                           fontWeight: FontWeight.w400,
-                          fontFamily: "PingFangSC",
                           fontStyle: FontStyle.normal,
                           fontSize: 14.0),
                       textAlign: TextAlign.left),

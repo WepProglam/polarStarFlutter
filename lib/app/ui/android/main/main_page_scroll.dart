@@ -30,7 +30,7 @@ class MainPageScroll extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final PageController outsidePageController = PageController();
-    changeStatusBarColor(Color(0xfff6f6f6), Brightness.dark);
+    // changeStatusBarColor(Color(0xfff6f6f6), Brightness.dark);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,

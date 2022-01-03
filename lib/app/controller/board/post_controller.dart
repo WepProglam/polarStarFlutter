@@ -206,62 +206,6 @@ class PostController extends GetxController {
     return statusCode;
   }
 
-  // // * public
-  // void increaseLike(Post item, int status_code) {
-  //   if (status_code != 200) {
-  //     return;
-  //   }
-  //   Rx<Post> board = _findSame(item);
-  //   if (board == null) {
-  //     return;
-  //   }
-  //   board.update((val) {
-  //     val.LIKES += 1;
-  //   });
-  //   return;
-  // }
-
-  // // * public
-  // void increaseScrap(Post item, int status_code) {
-  //   if (status_code != 200) {
-  //     return;
-  //   }
-  //   Rx<Post> board = _findSame(item);
-  //   if (board == null) {
-  //     return;
-  //   }
-  //   board.update((val) {
-  //     val.SCRAPS += 1;
-  //   });
-  //   return;
-  // }
-
-  // // * public
-  // void decreaseScrap(Post item, int status_code) {
-  //   if (status_code != 200) {
-  //     return;
-  //   }
-  //   Rx<Post> board = _findSame(item);
-  //   if (board == null) {
-  //     return;
-  //   }
-  //   board.update((val) {
-  //     val.SCRAPS -= 1;
-  //   });
-  //   return;
-  // }
-
-  // // * private
-  // Rx<Post> _findSame(Post item) {
-  //   for (Rx<Post> a in boardController.postBody) {
-  //     if (a.value.BOARD_ID == item.BOARD_ID &&
-  //         a.value.COMMUNITY_ID == item.COMMUNITY_ID) {
-  //       return a;
-  //     }
-  //   }
-  //   return null;
-  // }
-
   // * private
   Future<int> _totalSend(String urlTemp, String what, int index) async {
     String url = "/board" + urlTemp;

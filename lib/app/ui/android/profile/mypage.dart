@@ -16,7 +16,7 @@ class Mypage extends StatelessWidget {
   final MainController mainController = Get.find();
   @override
   Widget build(BuildContext context) {
-    changeStatusBarColor(Color(0xff1a4678), Brightness.dark);
+    // changeStatusBarColor(Color(0xff1a4678), Brightness.dark);
     return SafeArea(
       child: Scaffold(
           backgroundColor: const Color(0xfff2f2f2),
