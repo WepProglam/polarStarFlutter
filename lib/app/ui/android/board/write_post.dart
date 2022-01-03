@@ -302,7 +302,7 @@ class WritePost extends StatelessWidget {
                                   unnamed: (c.anonymousCheck.value) ? '1' : '0')
                               .toJson();
 
-                          Get.defaultDialog(
+                          await Get.defaultDialog(
                               title: "게시글 작성",
                               middleText: "게시글을 작성하시겠습니까?",
                               actions: [
@@ -322,6 +322,7 @@ class WritePost extends StatelessWidget {
                                           print("이미지 포스트");
                                           await c.postPostImage(data);
                                         } else {
+                                          print("글 포스트");
                                           await c.postPostNoImage(data);
                                         }
                                       }

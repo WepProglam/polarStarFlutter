@@ -82,7 +82,7 @@ class BottomKeyboard extends StatelessWidget {
              */
 
               style: const TextStyle(
-                  color: const Color(0xffcecece),
+                  color: Colors.black,
                   fontWeight: FontWeight.w500,
                   fontFamily: "NotoSansTC",
                   fontStyle: FontStyle.normal,

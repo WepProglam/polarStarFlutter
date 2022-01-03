@@ -152,10 +152,8 @@ class Session extends GetConnect {
   //     headers: headers);
 
   http.MultipartRequest multipartReq(String type, String url) {
-    http.MultipartRequest request = http.MultipartRequest(
-        type,
-        Uri.parse(
-            'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000$url'));
+    http.MultipartRequest request =
+        http.MultipartRequest(type, Uri.parse('$_basicUrl$url'));
 
     request.headers['User-Agent'] = headers['User-Agent'];
     request.headers['polar'] = headers['polar'];
@@ -165,8 +163,7 @@ class Session extends GetConnect {
   }
 
   GetSocket socketX(String url) {
-    return socket(
-        'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000$url');
+    return socket('$_basicUrl$url');
   }
 
   String updateCookie(http.Response response, String str) {

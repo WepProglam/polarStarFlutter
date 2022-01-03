@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:polarstar_flutter/app/controller/loby/login_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
@@ -22,224 +23,253 @@ class Mypage extends StatelessWidget {
           backgroundColor: const Color(0xfff2f2f2),
           bottomNavigationBar:
               CustomBottomNavigationBar(mainController: mainController),
-          body: Obx(
-            () {
-              if (myPageController.dataAvailableMypage) {
-                return NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    return [MyPageProfile(myPageController: myPageController)];
+          body: Stack(children: [
+            Obx(
+              () {
+                if (myPageController.dataAvailableMypage) {
+                  return NestedScrollView(
+                    headerSliverBuilder: (context, innerBoxIsScrolled) {
+                      return [
+                        MyPageProfile(myPageController: myPageController)
+                      ];
+                    },
+                    body: TabBarView(
+                        controller: myPageController.tabController,
+                        children: [
+                          RefreshIndicator(
+                            onRefresh: () => myPageController.getMineWrite(),
+                            child: Obx(() {
+                              if (myPageController.myBoardWrite.length == 0) {
+                                return Center(
+                                  child: Text("아직 정보가 없습니다."),
+                                );
+                              } else {
+                                return ListView.builder(
+                                    cacheExtent: 10,
+                                    itemCount:
+                                        myPageController.myBoardWrite.length,
+                                    itemBuilder: (BuildContext context, int i) {
+                                      return Container(
+                                        margin: const EdgeInsets.only(
+                                            bottom: 5), //자체 패딩 10 + 5 = 15
+                                        child: PostPreview(
+                                          item:
+                                              myPageController.myBoardWrite[i],
+                                          /*
+                                           * type 0 : 메인 -> 핫
+                                           * type 1 : 마이 -> 게시글
+                                           * type 2 : 게시판 -> 게시글
+                                           */
+                                          type: 1,
+                                        ),
+                                      );
+                                    });
+                              }
+                            }),
+                          ),
+                          RefreshIndicator(
+                            onRefresh: () => myPageController.getMineWrite(),
+                            child: Obx(() {
+                              if (myPageController.myBoardScrap.length == 0) {
+                                return Center(
+                                  child: Text("아직 정보가 없습니다."),
+                                );
+                              } else {
+                                return ListView.builder(
+                                    cacheExtent: 10,
+                                    itemCount:
+                                        myPageController.myBoardScrap.length,
+                                    itemBuilder: (BuildContext context, int i) {
+                                      return Container(
+                                        margin: const EdgeInsets.only(
+                                            bottom: 5), //자체 패딩 10 + 5 = 15
+                                        child: PostPreview(
+                                          item:
+                                              myPageController.myBoardScrap[i],
+                                          /*
+                                           * type 0 : 메인 -> 핫
+                                           * type 1 : 마이 -> 게시글
+                                           * type 2 : 게시판 -> 게시글
+                                           */
+                                          type: 1,
+                                        ),
+                                      );
+                                    });
+                              }
+                            }),
+                          ),
+                          RefreshIndicator(
+                            onRefresh: () => myPageController.getMineWrite(),
+                            child: Obx(() {
+                              if (myPageController.myBoardLike.length == 0) {
+                                return Center(
+                                  child: Text("아직 정보가 없습니다."),
+                                );
+                              } else {
+                                return ListView.builder(
+                                    cacheExtent: 10,
+                                    itemCount:
+                                        myPageController.myBoardLike.length,
+                                    itemBuilder: (BuildContext context, int i) {
+                                      return Container(
+                                        margin: const EdgeInsets.only(
+                                            bottom: 5), //자체 패딩 10 + 5 = 15
+                                        child: PostPreview(
+                                          item: myPageController.myBoardLike[i],
+                                          /*
+                                           * type 0 : 메인 -> 핫
+                                           * type 1 : 마이 -> 게시글
+                                           * type 2 : 게시판 -> 게시글
+                                           */
+                                          type: 1,
+                                        ),
+                                      );
+                                    });
+                              }
+                            }),
+                          )
+                        ]),
+                  );
+
+                  // ! Non-Sliver Code
+                  // Column(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     Container(
+                  //         height: 294,
+                  //         width: MediaQuery.of(context).size.width,
+                  //         // decoration: BoxDecoration(
+                  //         //     image: DecorationImage(
+                  //         //         image: AssetImage('assets/images/279.png'),
+                  //         //         fit: BoxFit.none)),
+                  //         // ! 왜 이걸 이미지를?
+                  //         color: const Color(0xff1a4678),
+                  //         child:
+                  //             MyPageProfile(myPageController: myPageController)),
+                  //     Container(
+                  //         width: MediaQuery.of(context).size.width,
+                  //         height: 61.5,
+                  //         // margin: const EdgeInsets.only(bottom: 10),
+                  //         decoration:
+                  //             BoxDecoration(color: const Color(0xffffffff)),
+                  //         child: MyPageProfilePostIndex(
+                  //             myPageController: myPageController)),
+
+                  //     //* Posted, Scraped, Liked 표시하는 부분
+                  //     Expanded(child: Obx(() {
+                  //       List<bool> dataAvailable = [
+                  //         myPageController.dataAvailableMypageWrite,
+                  //         myPageController.dataAvailableMypageScrap,
+                  //         myPageController.dataAvailableMypageLike,
+                  //       ];
+
+                  //       List<RxList<Rx<Post>>> userPost = [
+                  //         myPageController.myBoardWrite,
+                  //         myPageController.myBoardScrap,
+                  //         myPageController.myBoardLike,
+                  //       ];
+
+                  //       return PageView.builder(
+                  //           allowImplicitScrolling: true,
+                  //           controller: myPageController.pageController,
+                  //           onPageChanged: (value) {
+                  //             myPageController.profilePostIndex.value = value;
+                  //           },
+                  //           itemCount: 3,
+                  //           itemBuilder: (BuildContext context, int index) {
+                  //             print(index);
+                  //             return RefreshIndicator(
+                  //               onRefresh: () async {
+                  //                 switch (index) {
+                  //                   case 0:
+                  //                     myPageController.getMineWrite();
+                  //                     break;
+                  //                   case 1:
+                  //                     myPageController.getMineScrap();
+                  //                     break;
+                  //                   case 2:
+                  //                     myPageController.getMineLike();
+                  //                     break;
+                  //                   default:
+                  //                 }
+
+                  //                 return true;
+                  //               },
+                  //               child: Obx(
+                  //                 () {
+                  //                   if (dataAvailable[myPageController
+                  //                       .profilePostIndex.value]) {
+                  //                     if (userPost[index].length == 0) {
+                  //                       return Center(
+                  //                         child: Text("아직 정보가 없습니다."),
+                  //                       );
+                  //                     } else {
+                  //                       return Container(
+                  //                         margin: const EdgeInsets.only(top: 10),
+                  //                         child: ListView.builder(
+                  //                             cacheExtent: 10,
+                  //                             itemCount: userPost[index].length,
+                  //                             itemBuilder:
+                  //                                 (BuildContext context, int i) {
+                  //                               return Container(
+                  //                                 margin: const EdgeInsets.only(
+                  //                                     bottom:
+                  //                                         5), //자체 패딩 10 + 5 = 15
+                  //                                 child: PostPreview(
+                  //                                   item: userPost[index][i],
+                  //                                   /**
+                  //                                    * * type 0 : 메인 -> 핫
+                  //                                    * * type 1 : 마이 -> 게시글
+                  //                                    * * type 2 : 게시판 -> 게시글
+                  //                                    */
+                  //                                   type: 1,
+                  //                                 ),
+                  //                               );
+                  //                             }),
+                  //                       );
+                  //                     }
+                  //                   } else {
+                  //                     return Center(
+                  //                       child: Text("아직 정보가 없습니다."),
+                  //                     );
+                  //                   }
+                  //                 },
+                  //               ),
+                  //             );
+                  //           });
+                  //     }))
+                  //   ],
+                  // );
+
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
+            ),
+            Positioned(
+              right: 16,
+              top: 20,
+              child: Ink(
+                child: InkWell(
+                  onTap: () async {
+                    LoginController loginController = Get.find();
+                    loginController.logout();
+
+                    await Get.offAllNamed('/login');
                   },
-                  body: TabBarView(
-                      controller: myPageController.tabController,
-                      children: [
-                        RefreshIndicator(
-                          onRefresh: () => myPageController.getMineWrite(),
-                          child: Obx(() {
-                            if (myPageController.myBoardWrite.length == 0) {
-                              return Center(
-                                child: Text("아직 정보가 없습니다."),
-                              );
-                            } else {
-                              return ListView.builder(
-                                  cacheExtent: 10,
-                                  itemCount:
-                                      myPageController.myBoardWrite.length,
-                                  itemBuilder: (BuildContext context, int i) {
-                                    return Container(
-                                      margin: const EdgeInsets.only(
-                                          bottom: 5), //자체 패딩 10 + 5 = 15
-                                      child: PostPreview(
-                                        item: myPageController.myBoardWrite[i],
-                                        /*
-                                         * type 0 : 메인 -> 핫
-                                         * type 1 : 마이 -> 게시글
-                                         * type 2 : 게시판 -> 게시글
-                                         */
-                                        type: 1,
-                                      ),
-                                    );
-                                  });
-                            }
-                          }),
-                        ),
-                        RefreshIndicator(
-                          onRefresh: () => myPageController.getMineWrite(),
-                          child: Obx(() {
-                            if (myPageController.myBoardScrap.length == 0) {
-                              return Center(
-                                child: Text("아직 정보가 없습니다."),
-                              );
-                            } else {
-                              return ListView.builder(
-                                  cacheExtent: 10,
-                                  itemCount:
-                                      myPageController.myBoardScrap.length,
-                                  itemBuilder: (BuildContext context, int i) {
-                                    return Container(
-                                      margin: const EdgeInsets.only(
-                                          bottom: 5), //자체 패딩 10 + 5 = 15
-                                      child: PostPreview(
-                                        item: myPageController.myBoardScrap[i],
-                                        /*
-                                         * type 0 : 메인 -> 핫
-                                         * type 1 : 마이 -> 게시글
-                                         * type 2 : 게시판 -> 게시글
-                                         */
-                                        type: 1,
-                                      ),
-                                    );
-                                  });
-                            }
-                          }),
-                        ),
-                        RefreshIndicator(
-                          onRefresh: () => myPageController.getMineWrite(),
-                          child: Obx(() {
-                            if (myPageController.myBoardLike.length == 0) {
-                              return Center(
-                                child: Text("아직 정보가 없습니다."),
-                              );
-                            } else {
-                              return ListView.builder(
-                                  cacheExtent: 10,
-                                  itemCount:
-                                      myPageController.myBoardLike.length,
-                                  itemBuilder: (BuildContext context, int i) {
-                                    return Container(
-                                      margin: const EdgeInsets.only(
-                                          bottom: 5), //자체 패딩 10 + 5 = 15
-                                      child: PostPreview(
-                                        item: myPageController.myBoardLike[i],
-                                        /*
-                                         * type 0 : 메인 -> 핫
-                                         * type 1 : 마이 -> 게시글
-                                         * type 2 : 게시판 -> 게시글
-                                         */
-                                        type: 1,
-                                      ),
-                                    );
-                                  });
-                            }
-                          }),
-                        )
-                      ]),
-                );
-
-                // ! Non-Sliver Code
-                // Column(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     Container(
-                //         height: 294,
-                //         width: MediaQuery.of(context).size.width,
-                //         // decoration: BoxDecoration(
-                //         //     image: DecorationImage(
-                //         //         image: AssetImage('assets/images/279.png'),
-                //         //         fit: BoxFit.none)),
-                //         // ! 왜 이걸 이미지를?
-                //         color: const Color(0xff1a4678),
-                //         child:
-                //             MyPageProfile(myPageController: myPageController)),
-                //     Container(
-                //         width: MediaQuery.of(context).size.width,
-                //         height: 61.5,
-                //         // margin: const EdgeInsets.only(bottom: 10),
-                //         decoration:
-                //             BoxDecoration(color: const Color(0xffffffff)),
-                //         child: MyPageProfilePostIndex(
-                //             myPageController: myPageController)),
-
-                //     //* Posted, Scraped, Liked 표시하는 부분
-                //     Expanded(child: Obx(() {
-                //       List<bool> dataAvailable = [
-                //         myPageController.dataAvailableMypageWrite,
-                //         myPageController.dataAvailableMypageScrap,
-                //         myPageController.dataAvailableMypageLike,
-                //       ];
-
-                //       List<RxList<Rx<Post>>> userPost = [
-                //         myPageController.myBoardWrite,
-                //         myPageController.myBoardScrap,
-                //         myPageController.myBoardLike,
-                //       ];
-
-                //       return PageView.builder(
-                //           allowImplicitScrolling: true,
-                //           controller: myPageController.pageController,
-                //           onPageChanged: (value) {
-                //             myPageController.profilePostIndex.value = value;
-                //           },
-                //           itemCount: 3,
-                //           itemBuilder: (BuildContext context, int index) {
-                //             print(index);
-                //             return RefreshIndicator(
-                //               onRefresh: () async {
-                //                 switch (index) {
-                //                   case 0:
-                //                     myPageController.getMineWrite();
-                //                     break;
-                //                   case 1:
-                //                     myPageController.getMineScrap();
-                //                     break;
-                //                   case 2:
-                //                     myPageController.getMineLike();
-                //                     break;
-                //                   default:
-                //                 }
-
-                //                 return true;
-                //               },
-                //               child: Obx(
-                //                 () {
-                //                   if (dataAvailable[myPageController
-                //                       .profilePostIndex.value]) {
-                //                     if (userPost[index].length == 0) {
-                //                       return Center(
-                //                         child: Text("아직 정보가 없습니다."),
-                //                       );
-                //                     } else {
-                //                       return Container(
-                //                         margin: const EdgeInsets.only(top: 10),
-                //                         child: ListView.builder(
-                //                             cacheExtent: 10,
-                //                             itemCount: userPost[index].length,
-                //                             itemBuilder:
-                //                                 (BuildContext context, int i) {
-                //                               return Container(
-                //                                 margin: const EdgeInsets.only(
-                //                                     bottom:
-                //                                         5), //자체 패딩 10 + 5 = 15
-                //                                 child: PostPreview(
-                //                                   item: userPost[index][i],
-                //                                   /**
-                //                                    * * type 0 : 메인 -> 핫
-                //                                    * * type 1 : 마이 -> 게시글
-                //                                    * * type 2 : 게시판 -> 게시글
-                //                                    */
-                //                                   type: 1,
-                //                                 ),
-                //                               );
-                //                             }),
-                //                       );
-                //                     }
-                //                   } else {
-                //                     return Center(
-                //                       child: Text("아직 정보가 없습니다."),
-                //                     );
-                //                   }
-                //                 },
-                //               ),
-                //             );
-                //           });
-                //     }))
-                //   ],
-                // );
-
-              } else {
-                return CircularProgressIndicator();
-              }
-            },
-          )),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: Icon(
+                      Icons.logout,
+                      color: const Color(0xffffffff),
+                      size: 24,
+                      // color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ])),
     );
   }
 }

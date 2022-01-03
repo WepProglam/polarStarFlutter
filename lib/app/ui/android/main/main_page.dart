@@ -16,9 +16,6 @@ class MainPage extends StatelessWidget {
     MainPageScroll(),
     Timetable(),
     Timetable(),
-    // OutSide(
-    //   from: "main",
-    // ),
     Noti(),
     Mypage()
   ];

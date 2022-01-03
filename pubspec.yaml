@@ -222,6 +222,7 @@ flutter:
     - assets/images/icn_detail.png
     - assets/images/back_icon.png
     - assets/images/img_main_illust.png
+    - assets/images/icn_search.png
     - assets/fonts/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

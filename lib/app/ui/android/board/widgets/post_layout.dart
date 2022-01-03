@@ -125,7 +125,7 @@ class CCWidget extends StatelessWidget {
                   mailController: mailController),
             ),
 
-            // 대댓 내용
+            // * 대댓 내용
             Padding(
               padding: const EdgeInsets.only(left: 0.0, bottom: 11),
               child: Text(item.CONTENT,

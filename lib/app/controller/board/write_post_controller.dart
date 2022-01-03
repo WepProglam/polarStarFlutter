@@ -37,8 +37,7 @@ class WritePostController extends GetxController {
   void onInit() async {
     super.onInit();
     if (photo != null) {
-      image.value = XFile(
-          "'http://ec2-3-37-156-121.ap-northeast-2.compute.amazonaws.com:3000$photo");
+      image.value = XFile("http://13.209.5.161:3000$photo");
     }
     ever(anonymousCheck, (_) {
       print("익명 변경");
