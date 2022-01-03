@@ -6,6 +6,7 @@ import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
+import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 import 'package:swipedetector/swipedetector.dart';
 
@@ -24,140 +25,88 @@ class HotBoardMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Container(
-        //   height: 24,
-        //   margin: const EdgeInsets.symmetric(horizontal: 15),
-        //   child: Row(children: [
-        //     Container(
-        //       child: Text("HotBoard",
-        //           style: const TextStyle(
-        //               color: const Color(0xff333333),
-        //               fontWeight: FontWeight.w900,
-        //               fontStyle: FontStyle.normal,
-        //               fontSize: 18.0),
-        //           textAlign: TextAlign.center),
-        //     ),
-        //     Spacer(),
-        //     Ink(
-        //       child: InkWell(
-        //         onTap: () {
-        //           Get.toNamed("/board/hot/page/1");
-        //         },
-        //         child: Container(
-        //           margin: const EdgeInsets.only(top: 5, bottom: 3),
-        //           child: // View more
-        //               Text("View more",
-        //                   style: const TextStyle(
-        //                       color: const Color(0xff1a4678),
-        //                       fontWeight: FontWeight.w700,
-        //                       fontFamily: "PingFangSC",
-        //                       fontStyle: FontStyle.normal,
-        //                       fontSize: 12.0),
-        //                   textAlign: TextAlign.center),
-        //         ),
-        //       ),
-        //     ),
-        //   ]),
-        // ),
-
-        Container(
-          // margin: const EdgeInsets.only(top: 14),
-          height: 317 + 15.5 - 4.1 + 4.6 - 100 + 74,
-          child: Stack(
-            children: [
-              // background animation indicator
-              /* Container(
-                margin: const EdgeInsets.symmetric(horizontal: 62.5),
-                child: Opacity(
-                  opacity: 0.3,
-                  // opacity: 0.15000000149011612,
-                  child: Container(
-                      height: 22 + 310.0,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          // color: const Color(0xff1a4678)
-                          color: Colors.white)),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 10.5, left: 33, right: 33),
-                child: Opacity(
-                  opacity: 0.3,
-                  // opacity: 0.15000000149011612,
-                  child: Container(
-                      height: 11.5 + 310,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Colors.white
-                          // color: const Color(0xff1a4678)
-
-                          )),
-                ),
-              ), */
-
-              // Container(
-              //   margin: const EdgeInsets.only(top: 22, left: 15, right: 15),
-              //   child: Opacity(
-              //     opacity: 0.15000000149011612,
-              //     child: Container(
-              //         height: 310,
-              //         decoration: BoxDecoration(
-              //             borderRadius: BorderRadius.all(Radius.circular(20)),
-              //             color: const Color(0xff1a4678))),
-              //   ),
-              // ),
-
-              // 핫게
-              PageView.builder(
-                allowImplicitScrolling: true,
-                controller: mainController.pageController.value,
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                onPageChanged: (int index) =>
-                    mainController.hotBoardIndex.value = index,
-                pageSnapping: true,
-                itemCount: mainController.hotBoard.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                      margin:
-                          const EdgeInsets.only(top: 0, left: 15, right: 15),
-                      child: Obx(() {
-                        return Container(
-                          width: size.width - 15 * 2,
-                          height: 301.6,
-                          margin: const EdgeInsets.only(top: 9),
-                          child: Ink(
-                            child: InkWell(
-                                /**
-                               * * type 0 : 메인 -> 핫
-                               * * type 1 : 마이 -> 게시글
-                               * * type 2 : 게시판 -> 게시글
-                               */
-                                onTap: () {
-                                  Get.toNamed(
-                                      "/board/${mainController.hotBoard[mainController.hotBoardIndex.value].value.COMMUNITY_ID}/read/${mainController.hotBoard[mainController.hotBoardIndex.value].value.BOARD_ID}",
-                                      arguments: {"type": 0});
-                                },
-                                child: HotBoardPreview(
-                                  model: mainController.hotBoard[index],
-                                  size: size,
-                                )),
-                          ),
-                        );
-                      }),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: const Color(0xffffffff)));
-                },
-              )
-            ],
+    List<Ink> hotList = [];
+    for (var index = 0; index < mainController.hotBoard.length; index++) {
+      hotList.add(Ink(
+        child: InkWell(
+          //                  * * type 0 : 메인 -> 핫
+          //                  * * type 1 : 마이 -> 게시글
+          //                  * * type 2 : 게시판 -> 게시글
+          //                  */
+          onTap: () {
+            Get.toNamed(
+                "/board/${mainController.hotBoard[index].value.COMMUNITY_ID}/read/${mainController.hotBoard[index].value.BOARD_ID}",
+                arguments: {"type": 0});
+          },
+          child: PostWidget(
+            c: null,
+            mailWriteController: null,
+            mailController: null,
+            item: mainController.hotBoard[index],
+            index: index,
+            mainController: mainController,
           ),
-        )
-      ],
+        ),
+      ));
+    }
+
+    return Column(
+      children: hotList,
     );
+
+    // Container(
+    //   child: ListView.builder(
+    //     shrinkWrap: true,
+    //     // allowImplicitScrolling: true,
+    //     controller: mainController.pageController.value,
+    //     scrollDirection: Axis.vertical,
+    //     physics: BouncingScrollPhysics(),
+    //     // onPageChanged: (int index) =>
+    //     //     mainController.hotBoardIndex.value = index,
+    //     // pageSnapping: true,
+    //     itemCount: mainController.hotBoard.length,
+    //     itemBuilder: (BuildContext context, int index) {
+    //       return Container(
+    //           margin: const EdgeInsets.only(top: 0, left: 0, right: 0),
+    //           child: Obx(() {
+    //             return Container(
+    //               // width: size.width - 15 * 2,
+    //               // height: 301.6,
+    //               margin: const EdgeInsets.only(top: 9),
+    //               child: Ink(
+    //                 child: InkWell(
+    //                   /**
+    //                  * * type 0 : 메인 -> 핫
+    //                  * * type 1 : 마이 -> 게시글
+    //                  * * type 2 : 게시판 -> 게시글
+    //                  */
+    //                   onTap: () {
+    //                     Get.toNamed(
+    //                         "/board/${mainController.hotBoard[mainController.hotBoardIndex.value].value.COMMUNITY_ID}/read/${mainController.hotBoard[mainController.hotBoardIndex.value].value.BOARD_ID}",
+    //                         arguments: {"type": 0});
+    //                   },
+    //                   child: PostWidget(
+    //                     c: null,
+    //                     mailWriteController: null,
+    //                     mailController: null,
+    //                     item: mainController.hotBoard[index],
+    //                     index: index,
+    //                     mainController: mainController,
+    //                   ),
+    //                   // HotBoardPreview(
+    //                   //   model: mainController.hotBoard[index],
+    //                   //   size: size,
+    //                   // ),
+    //                 ),
+    //               ),
+    //             );
+    //           }),
+    //           decoration: BoxDecoration(
+    //               borderRadius: BorderRadius.all(Radius.circular(20)),
+    //               color: const Color(0xffffffff)));
+    //     },
+    //   ),
+    // );
   }
 }
 

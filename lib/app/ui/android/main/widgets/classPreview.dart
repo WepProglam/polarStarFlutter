@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
+import 'package:polarstar_flutter/app/ui/android/main/main_page_scroll.dart';
 
 class ClassItem_Content extends StatelessWidget {
   const ClassItem_Content({
@@ -49,36 +50,24 @@ class ClassItem_TOP extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(children: [
       Container(
-        height: 24,
-        child: Text("This Semester Courses",
-            style: const TextStyle(
-                color: const Color(0xff333333),
-                fontWeight: FontWeight.w500,
-                fontFamily: "PingFangSC",
-                fontStyle: FontStyle.normal,
-                fontSize: 18.0),
-            textAlign: TextAlign.left),
+        // height: 24,
+        child: // 我选的课程
+            Text("我选的课程",
+                style: const TextStyle(
+                    color: const Color(0xff2f2f2f),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "NotoSansTC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 18.0),
+                textAlign: TextAlign.left),
       ),
       Spacer(),
-      Container(
-        height: 16,
-        margin: const EdgeInsets.only(top: 4.5, bottom: 3.5),
-        child: Ink(
-          child: InkWell(
-            onTap: () {
-              Get.toNamed("/class");
-            },
-            child: Text("View more",
-                style: const TextStyle(
-                    color: const Color(0xff1a4678),
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "PingFangSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 12.0),
-                textAlign: TextAlign.center),
-          ),
-        ),
-      )
+      InkWell(
+        child: SeeMore(),
+        onTap: () {
+          Get.toNamed("/class");
+        },
+      ),
     ]);
   }
 }

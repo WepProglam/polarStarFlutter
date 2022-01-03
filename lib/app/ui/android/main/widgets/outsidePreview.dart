@@ -7,17 +7,36 @@ class OutsidePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-
-        // Container(
-        //     width: Get.size.width - 30,
-        //     height: 150,
-        //     child: Image.asset("assets/images/main_card_temp.png"));
-        // Todo: container위에 사진 포개기(포개면 자꾸 사진이 작게 나옴)
-        Container(
-      width: Get.mediaQuery.size.width - 30,
-      margin: const EdgeInsets.symmetric(horizontal: 15),
-      height: 182.5,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      height: 100,
+      child: Container(
+        margin: const EdgeInsets.only(left: 14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // 首尔地区包括
+            Text("首尔地区包括",
+                style: const TextStyle(
+                    color: const Color(0xffffffff),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "NotoSansTC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
+                textAlign: TextAlign.left),
+            // 成均馆大学，汉阳大学，高丽大学
+            Text("成均馆大学，汉阳大学，高丽大学",
+                style: const TextStyle(
+                    color: const Color(0xff9b75ff),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "NotoSansTC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 12.0),
+                textAlign: TextAlign.left)
+          ],
+        ),
+      ),
       // child: Container(
       //   margin: const EdgeInsets.only(top: 6),
       //   child: Image.asset(
@@ -36,17 +55,15 @@ class OutsidePreview extends StatelessWidget {
       //   ),
       // ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         boxShadow: [
           BoxShadow(
-              // color: const Color(0xff426690),
               color: const Color(0xffffffff),
               offset: Offset(0, 9),
               blurRadius: 0,
               spreadRadius: 0)
         ],
-        // color: const Color(0xff1a4678),
-        color: const Color(0xffffffff),
+        color: Get.theme.primaryColor,
       ),
     );
   }

@@ -78,7 +78,7 @@ class PostBottom extends StatelessWidget {
             height: PostIconSize,
             child: AssetImageBin.commentIcon,
           ),
-          label: Text("${c.sortedList.length - 1}",
+          label: Text("${item.value.COMMENTS}",
               style: const TextStyle(
                   color: const Color(0xff6f6e6e),
                   fontWeight: FontWeight.w500,

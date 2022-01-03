@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/check_follow.dart';
+import 'package:polarstar_flutter/app/ui/android/main/main_page_scroll.dart';
 
 class BoardPreviewItem_board extends StatelessWidget {
   BoardPreviewItem_board(
@@ -26,7 +27,7 @@ class BoardPreviewItem_board extends StatelessWidget {
           },
           child: Container(
               child: Container(
-                height: 45,
+                height: 80,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -175,34 +176,23 @@ class BoardPreviewItem_top extends StatelessWidget {
     return Row(children: [
       Container(
         height: 24,
-        child: Text("Board",
-            style: const TextStyle(
-                color: const Color(0xff333333),
-                fontWeight: FontWeight.w600,
-                fontStyle: FontStyle.normal,
-                fontSize: 18.0),
-            textAlign: TextAlign.center),
+        child: // 公告事項
+            Text("公告事項",
+                style: const TextStyle(
+                    color: const Color(0xff2f2f2f),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "NotoSansTC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 18.0),
+                textAlign: TextAlign.left),
       ),
       Spacer(),
-      Container(
-          height: 16,
-          child: // View more
-              Ink(
-            child: InkWell(
-              onTap: () {
-                Get.toNamed("board/boardList");
-              },
-              child: Text("View more",
-                  style: const TextStyle(
-                      color: const Color(0xff1a4678),
-                      fontWeight: FontWeight.w700,
-                      fontFamily: "PingFangSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
-                  textAlign: TextAlign.center),
-            ),
-          ),
-          margin: const EdgeInsets.only(top: 5, bottom: 3)),
+      InkWell(
+        onTap: () {
+          Get.toNamed("board/boardList");
+        },
+        child: SeeMore(),
+      ),
     ]);
   }
 }

@@ -5,6 +5,7 @@ import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/loby/login_controller.dart';
 import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
+import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
@@ -30,53 +31,29 @@ class MainPageScroll extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final PageController outsidePageController = PageController();
-    // changeStatusBarColor(Color(0xfff6f6f6), Brightness.dark);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        toolbarHeight: 45.3,
+        toolbarHeight: 56,
         automaticallyImplyLeading: false,
         titleSpacing: 0,
         title: Container(
-          padding: const EdgeInsets.only(
-              top: 9, left: 21, right: 15, bottom: 24.5 / 2),
           width: size.width,
-          decoration: BoxDecoration(
-            // gradient: LinearGradient(
-            //   begin: Alignment.topCenter,
-            //   // Alignment(0.5, 0),
-            //   end: Alignment.bottomCenter,
-            //   // Alignment(0.5, 1),
-            //   stops: [
-            //     0.0,
-            //     1.0,
-            //   ],
-            //   colors: [
-            //     // Colors.lightBlue[100],
-            //     // Colors.lightBlue[50],
-            //     // const Color(0xfff6f6f6),
-            //     const Color(0xff1a4678),
-            //     const Color(0xff275180),
-            //   ],
-            // ),
-            color: const Color(0xfff6f6f6),
-            // color: const Color(0xffffffff),
-          ),
           child: Container(
             height: 24,
             child: Row(
               children: [
                 Container(
-                  child: Text(
-                    "POLAR STAR",
-                    style: TextStyle(
-                        // fontSize: 25,
-                        fontSize: 18,
-                        // color: Colors.white,
-                        color: const Color(0xff1a4678),
-                        fontWeight: FontWeight.w900),
-                  ),
-                ),
+                    margin: const EdgeInsets.only(left: 20),
+                    child: // 폴라스타
+                        Text("폴라스타",
+                            style: const TextStyle(
+                                color: const Color(0xffffffff),
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "NotoSansKR",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 16.0),
+                            textAlign: TextAlign.center)),
                 Spacer(),
                 Container(
                   child: Ink(
@@ -87,8 +64,8 @@ class MainPageScroll extends StatelessWidget {
                       },
                       child: Icon(
                         Icons.search,
-                        color: const Color(0xff1a4678),
-                        // color: Colors.white,
+                        color: const Color(0xffffffff),
+                        size: 24,
                       ),
                     ),
                   ),
@@ -99,15 +76,14 @@ class MainPageScroll extends StatelessWidget {
                       LoginController loginController = Get.find();
                       loginController.logout();
 
-                      // Navigator.pushNamedAndRemoveUntil(
-                      //     context, '/login', (Route<dynamic> route) => false);
                       await Get.offAllNamed('/login');
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       child: Icon(
                         Icons.logout,
-                        color: const Color(0xff1a4678),
+                        color: const Color(0xffffffff),
+                        size: 24,
                         // color: Colors.white,
                       ),
                     ),
@@ -118,20 +94,6 @@ class MainPageScroll extends StatelessWidget {
           ),
         ),
       ),
-      // // ! 알림 로직 & 재로그인 구현 후 삭제
-      // floatingActionButton: FloatingActionButton(onPressed: () async {
-      //   // if (!box.hasData("PS")) {
-      //   //   box.write("PS", 0);
-      //   // }
-      //   // print(box.read("PS"));
-      //   // box.write("PS", box.read("PS") + 1);
-
-      //   await mainController.refreshLikeList();
-
-      //   // InitController initController = await Get.put(InitController(
-      //   //     repository: LoginRepository(apiClient: LoginApiClient())));
-      //   // await checkFcmToken(initController);
-      // }),
       bottomNavigationBar:
           CustomBottomNavigationBar(mainController: mainController),
       body: Obx(() {
@@ -141,252 +103,409 @@ class MainPageScroll extends StatelessWidget {
           return SingleChildScrollView(
             child: Container(
               decoration: BoxDecoration(
-                // gradient: LinearGradient(
-                //     begin: Alignment.topCenter,
-                //     // Alignment(0.5, 0),
-                //     end: Alignment.bottomCenter,
-                //     // Alignment(0.5, 1),
-                //     stops: [
-                //       0.0,
-                //       0.05,
-                //       0.1
-                //     ],
-                //     colors: [
-                //       // Colors.lightBlue[100],
-                //       // Colors.lightBlue[50],
-                //       // const Color(0xfff6f6f6),
-                //       // const Color(0xff1a4678),
-                //       const Color(0xff275180),
-                //       const Color(0xba1a4678),
-                //       const Color(0xfff6f6f6),
-                //     ]),
-                // color: const Color(0xffffffff)
-                color: const Color(0xfff6f6f6),
+                color: Get.theme.primaryColor,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 정보제공
-                  // ToDo: 서버에서 정보 제공해주면 수정해야함
-                  Container(
-                    margin: const EdgeInsets.only(top: 24.5 / 2, bottom: 18),
-                    height: 180,
-                    child: PageView.builder(
-                      scrollDirection: Axis.horizontal,
-                      physics: PageScrollPhysics(),
-                      controller: outsidePageController,
-                      itemCount: 5,
-                      itemBuilder: (context, index) {
-                        return OutsidePreview();
-                      },
-                    ),
-                  ),
-                  Center(
-                    child: SmoothPageIndicator(
-                      controller: outsidePageController,
-                      count: 5,
-                      effect: ExpandingDotsEffect(
-                          dotWidth: 8.5,
-                          dotHeight: 8.5,
-                          expansionFactor: 2,
-                          dotColor: const Color(0xffbacde3),
-                          activeDotColor: const Color(0xff1a4678)),
-                    ),
-                  ),
-
-                  //핫게
-                  Container(
-                    // padding: const EdgeInsets.all(18),
-                    margin: const EdgeInsets.fromLTRB(18, 17.5, 14, 14),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Hotboard",
-                            style: const TextStyle(
-                                color: const Color(0xff333333),
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 18.0),
-                            textAlign: TextAlign.center),
-                        GestureDetector(
-                          onTap: () {
-                            Get.toNamed("/board/hot/page/1");
-                          },
-                          child: Text("View more",
+              child: Stack(children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin:
+                          const EdgeInsets.only(top: 20, left: 20, right: 20),
+                      child: Column(
+                        children: [
+                          Text("新建立 韩国大学联合交流区",
                               style: const TextStyle(
-                                  color: const Color(0xff1a4678),
-                                  fontWeight: FontWeight.w700,
-                                  // fontFamily: "PingFangSC",
+                                  color: const Color(0xffffffff),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansTC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16.0),
+                              textAlign: TextAlign.center),
+                          Text("成均馆大学，汉阳大学，高丽大学",
+                              style: const TextStyle(
+                                  color: const Color(0xff9b75ff),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansTC",
                                   fontStyle: FontStyle.normal,
                                   fontSize: 12.0),
                               textAlign: TextAlign.center),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: size.width,
-                    // height: 372 + 5.0,
-                    child: Container(
-                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      child: HotBoardMain(
-                          size: size, mainController: mainController),
-                    ),
-                  ),
-
-                  // 게시판
-                  Container(
-                    margin:
-                        const EdgeInsets.only(left: 15, right: 15, top: 18.5),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 24 + 13.0,
-                            child: BoardPreviewItem_top(),
-                            padding: const EdgeInsets.only(bottom: 13),
-                          ),
-                          mainController.followingCommunity.length > 0
-                              ? Container(
-                                  height: (81 + 10.0) *
-                                      mainController.followingCommunity.length,
-                                  child: ListView.builder(
-                                      itemCount: mainController
-                                          .followingCommunity.length,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        String target_community_id =
-                                            mainController
-                                                .followingCommunity[index];
-                                        Rx<BoardInfo> boardInfo;
-
-                                        for (var item
-                                            in mainController.boardInfo) {
-                                          if ("${item.value.COMMUNITY_ID}" ==
-                                              target_community_id) {
-                                            boardInfo = item;
-                                            break;
-                                          }
-                                        }
-
-                                        return Container(
-                                          height: 81,
-                                          margin: const EdgeInsets.only(
-                                              bottom: 10.0),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(20))),
-                                          child: BoardPreviewItem_board(
-                                            boardInfo: boardInfo,
-                                            size: size,
-                                            fromList: false,
-                                          ),
-                                        );
-                                      }),
-                                )
-                              : Container(
-                                  height: 150,
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                      color: const Color(0xffffffff)),
-                                  child: Center(
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 10),
-                                            child: Ink(
-                                              width: 40,
-                                              height: 40,
-                                              child: InkWell(
-                                                onTap: () async {
-                                                  Get.toNamed(
-                                                      "/board/boardList");
-                                                },
-                                                child: Image.asset(
-                                                    "assets/images/941.png"),
-                                              ),
-                                            ),
-                                          ),
-                                          Text(
-                                            "Follow communites",
-                                            style: textStyle,
-                                          ),
-                                        ]),
-                                  ),
-                                ),
                         ],
                       ),
                     ),
-                  ),
-                  //강의정보
-                  Container(
-                    //리스트 뷰에서 bottom 13 마진 줌
-                    margin:
-                        const EdgeInsets.only(left: 15, right: 15, top: 18.5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: ClassItem_TOP(),
-                        ),
-                        Container(
-                            margin: const EdgeInsets.only(top: 12),
-                            // height: 163.5,
-                            child: mainController.classList.length > 0
-                                ? ClassItem_Content(
-                                    mainController: mainController)
-                                : Container(
-                                    height: 150,
-                                    child: Center(
-                                      child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  bottom: 10),
-                                              child: Ink(
-                                                width: 40,
-                                                height: 40,
-                                                child: InkWell(
-                                                  onTap: () async {
-                                                    Get.toNamed(Routes
-                                                        .TIMETABLE_ADDCLASS_MAIN);
-                                                  },
-                                                  child: Image.asset(
-                                                      "assets/images/941.png"),
-                                                ),
-                                              ),
-                                            ),
-                                            Text(
-                                              "Add classes",
-                                              style: textStyle,
-                                            ),
-                                          ]),
-                                    ),
-                                  ),
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
-                                color: const Color(0xffffffff)))
-                      ],
+                    Container(
+                      margin:
+                          const EdgeInsets.only(top: 14, left: 20, right: 20),
+                      child: Container(
+                          height: 48,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              color: const Color(0xffffffff))),
                     ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  )
-                ],
-              ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 129),
+                      decoration: BoxDecoration(
+                          color: const Color(0xffffffff),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(40),
+                              topRight: Radius.circular(40))),
+                      child: Column(
+                        children: [
+                          // * 정보제공
+                          Container(
+                            margin: const EdgeInsets.only(top: 48, bottom: 12),
+                            height: 100,
+                            child: PageView.builder(
+                              scrollDirection: Axis.horizontal,
+                              physics: PageScrollPhysics(),
+                              controller: outsidePageController,
+                              itemCount: 5,
+                              itemBuilder: (context, index) {
+                                return OutsidePreview();
+                              },
+                            ),
+                          ),
+                          Center(
+                            child: SmoothPageIndicator(
+                              controller: outsidePageController,
+                              count: 5,
+                              effect: ExpandingDotsEffect(
+                                  dotWidth: 6,
+                                  dotHeight: 6,
+                                  expansionFactor: 2,
+                                  dotColor: const Color(0xffcecece),
+                                  activeDotColor: const Color(0xff571df0)),
+                            ),
+                          ),
+
+                          //핫게
+                          Container(
+                            // padding: const EdgeInsets.all(18),
+                            margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // 热榜
+                                Text("热榜",
+                                    style: const TextStyle(
+                                        color: const Color(0xff2f2f2f),
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "NotoSansTC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 18.0),
+                                    textAlign: TextAlign.left),
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed("/board/hot/page/1");
+                                  },
+                                  child: SeeMore(),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: size.width,
+                            child: Container(
+                              margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              child: HotBoardMain(
+                                  size: size, mainController: mainController),
+                            ),
+                          ),
+
+                          // 게시판
+                          Container(
+                            margin: const EdgeInsets.only(
+                                left: 20, right: 20, top: 20),
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    child: BoardPreviewItem_top(),
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                  ),
+                                  mainController.followingCommunity.length > 0
+                                      ? Container(
+                                          height: (80 + 10.0) *
+                                              mainController
+                                                  .followingCommunity.length,
+                                          child: ListView.builder(
+                                              itemCount: mainController
+                                                  .followingCommunity.length,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                String target_community_id =
+                                                    mainController
+                                                            .followingCommunity[
+                                                        index];
+                                                Rx<BoardInfo> boardInfo;
+
+                                                for (var item in mainController
+                                                    .boardInfo) {
+                                                  if ("${item.value.COMMUNITY_ID}" ==
+                                                      target_community_id) {
+                                                    boardInfo = item;
+                                                    break;
+                                                  }
+                                                }
+
+                                                return Container(
+                                                    height: 80,
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            bottom: 10.0),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius
+                                                                    .circular(
+                                                                        8)),
+                                                        border: Border.all(
+                                                            color: const Color(
+                                                                0xffeaeaea),
+                                                            width: 1),
+                                                        color: const Color(
+                                                            0xffffffff)),
+                                                    child: Container(
+                                                      margin: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 14),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Row(children: [
+                                                            Text(
+                                                                "${boardInfo.value.COMMUNITY_NAME}",
+                                                                style: const TextStyle(
+                                                                    color: const Color(
+                                                                        0xff2f2f2f),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontFamily:
+                                                                        "NotoSansKR",
+                                                                    fontStyle:
+                                                                        FontStyle
+                                                                            .normal,
+                                                                    fontSize:
+                                                                        14.0),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left),
+                                                            NewIcon()
+                                                          ]),
+                                                          Text(
+                                                              "${boardInfo.value.RECENT_TITLE}",
+                                                              style: const TextStyle(
+                                                                  color: const Color(
+                                                                      0xff6f6e6e),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  fontFamily:
+                                                                      "NotoSansTC",
+                                                                  fontStyle:
+                                                                      FontStyle
+                                                                          .normal,
+                                                                  fontSize:
+                                                                      12.0),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left)
+                                                        ],
+                                                      ),
+                                                    )
+                                                    // BoardPreviewItem_board(
+                                                    //   boardInfo: boardInfo,
+                                                    //   size: size,
+                                                    //   fromList: false,
+                                                    // ),
+                                                    );
+                                              }),
+                                        )
+                                      : Container(
+                                          height: 150,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20)),
+                                              color: const Color(0xffffffff)),
+                                          child: Center(
+                                            child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            bottom: 10),
+                                                    child: Ink(
+                                                      width: 40,
+                                                      height: 40,
+                                                      child: InkWell(
+                                                        onTap: () async {
+                                                          Get.toNamed(
+                                                              "/board/boardList");
+                                                        },
+                                                        child: Image.asset(
+                                                            "assets/images/941.png"),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    "Follow communites",
+                                                    style: textStyle,
+                                                  ),
+                                                ]),
+                                          ),
+                                        ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          //강의정보
+                          Container(
+                            //리스트 뷰에서 bottom 13 마진 줌
+                            margin: const EdgeInsets.only(
+                                left: 20, right: 20, top: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: ClassItem_TOP(),
+                                ),
+                                Container(
+                                    margin: const EdgeInsets.only(top: 12),
+                                    // height: 163.5,
+                                    child: mainController.classList.length > 0
+                                        ? ClassItem_Content(
+                                            mainController: mainController)
+                                        : Container(
+                                            height: 150,
+                                            child: Center(
+                                              child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              bottom: 10),
+                                                      child: Ink(
+                                                        width: 40,
+                                                        height: 40,
+                                                        child: InkWell(
+                                                          onTap: () async {
+                                                            Get.toNamed(Routes
+                                                                .TIMETABLE_ADDCLASS_MAIN);
+                                                          },
+                                                          child: Image.asset(
+                                                              "assets/images/941.png"),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "Add classes",
+                                                      style: textStyle,
+                                                    ),
+                                                  ]),
+                                            ),
+                                          ),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
+                                        color: const Color(0xffffffff)))
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    )
+                  ],
+                ),
+                Positioned(
+                    right: 20,
+                    top: 142,
+                    child: Image.asset(
+                      "assets/images/img_main_illust.png",
+                      width: Get.mediaQuery.size.width * 0.75555,
+                      // height: 137,/
+                    ))
+              ]),
             ),
           );
         }
       }),
+    );
+  }
+}
+
+class NewIcon extends StatelessWidget {
+  const NewIcon({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: 38,
+        height: 18,
+        child: // New
+            Center(
+          child: Text("New",
+              style: const TextStyle(
+                  color: const Color(0xffffffff),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "Roboto",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 10.0),
+              textAlign: TextAlign.left),
+        ),
+        margin: const EdgeInsets.only(left: 8),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            color: const Color(0xff571df0)));
+  }
+}
+
+class SeeMore extends StatelessWidget {
+  const SeeMore({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        // 更多
+        Text("更多",
+            style: const TextStyle(
+                color: const Color(0xff571df0),
+                fontWeight: FontWeight.w400,
+                fontFamily: "NotoSansTC",
+                fontStyle: FontStyle.normal,
+                fontSize: 12.0),
+            textAlign: TextAlign.left),
+        // icn/detail
+        Container(
+          width: 16,
+          height: 16,
+          child: Image.asset(
+            "assets/images/icn_detail.png",
+            fit: BoxFit.contain,
+          ),
+        )
+      ],
     );
   }
 }

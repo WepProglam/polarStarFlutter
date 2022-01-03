@@ -39,7 +39,6 @@ class PostLayout extends StatelessWidget {
               margin: const EdgeInsets.only(top: 14),
               child: RefreshIndicator(
                 onRefresh: () async {
-                  print(Get.arguments);
                   await MainUpdateModule.updatePost(type: c.callType);
                 },
                 child: ListView.builder(
