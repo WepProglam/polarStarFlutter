@@ -132,6 +132,18 @@ class MainPageScroll extends StatelessWidget {
                                 width:
                                     Get.mediaQuery.size.width - 20 * 2 - 6 - 68,
                                 child: TextFormField(
+                                  onEditingComplete: () async {
+                                    String text = searchText.text;
+                                    searchText.clear();
+                                    searchFocusNode.unfocus();
+
+                                    await Get.toNamed(Routes.MAIN_PAGE_SEARCH,
+                                            arguments: {"search": text})
+                                        .then((value) async {
+                                      await MainUpdateModule.updateMainPage(
+                                          mainController);
+                                    });
+                                  },
                                   focusNode: searchFocusNode,
                                   autofocus: false,
                                   minLines: 1,
@@ -262,6 +274,8 @@ class MainPageScroll extends StatelessWidget {
                                       textAlign: TextAlign.left),
                                   InkWell(
                                     onTap: () async {
+                                      searchText.clear();
+                                      searchFocusNode.unfocus();
                                       await Get.toNamed("/board/hot/page/1")
                                           .then((value) async {
                                         await MainUpdateModule.updateMainPage(
@@ -278,7 +292,11 @@ class MainPageScroll extends StatelessWidget {
                               child: Container(
                                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: HotBoardMain(
-                                    size: size, mainController: mainController),
+                                  size: size,
+                                  mainController: mainController,
+                                  searchFocusNode: searchFocusNode,
+                                  searchText: searchText,
+                                ),
                               ),
                             ),
 
@@ -325,6 +343,8 @@ class MainPageScroll extends StatelessWidget {
 
                                                   return InkWell(
                                                     onTap: () async {
+                                                      searchText.clear();
+                                                      searchFocusNode.unfocus();
                                                       await Get.toNamed(
                                                         "/board/${boardInfo.value.COMMUNITY_ID}/page/${1}",
                                                       ).then((value) async {
@@ -434,6 +454,9 @@ class MainPageScroll extends StatelessWidget {
                                                         height: 40,
                                                         child: InkWell(
                                                           onTap: () async {
+                                                            searchText.clear();
+                                                            searchFocusNode
+                                                                .unfocus();
                                                             await Get.toNamed(
                                                                     "/board/boardList")
                                                                 .then(
@@ -492,6 +515,10 @@ class MainPageScroll extends StatelessWidget {
                                                           height: 40,
                                                           child: InkWell(
                                                             onTap: () async {
+                                                              searchText
+                                                                  .clear();
+                                                              searchFocusNode
+                                                                  .unfocus();
                                                               await Get.toNamed(
                                                                       Routes
                                                                           .TIMETABLE_ADDCLASS_MAIN)

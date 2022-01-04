@@ -11,14 +11,18 @@ import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 import 'package:swipedetector/swipedetector.dart';
 
 class HotBoardMain extends StatelessWidget {
-  HotBoardMain({
-    Key key,
-    @required this.size,
-    @required this.mainController,
-  }) : super(key: key);
+  HotBoardMain(
+      {Key key,
+      @required this.size,
+      @required this.mainController,
+      this.searchText,
+      this.searchFocusNode})
+      : super(key: key);
 
   final Size size;
   final MainController mainController;
+  final searchText;
+  final searchFocusNode;
   final controller = PageController(
     initialPage: 0,
   );
@@ -34,6 +38,8 @@ class HotBoardMain extends StatelessWidget {
           //                  * * type 2 : 게시판 -> 게시글
           //                  */
           onTap: () async {
+            searchText.clear();
+            searchFocusNode.unfocus();
             await Get.toNamed(
                 "/board/${mainController.hotBoard[index].value.COMMUNITY_ID}/read/${mainController.hotBoard[index].value.BOARD_ID}",
                 arguments: {"type": 0}).then((value) async {
