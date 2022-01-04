@@ -30,6 +30,9 @@ class TimeTableAppBar extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: (92 + 24.0)),
                 child: Obx(() {
+                  if (!timeTableController.isReady.value) {
+                    return Container();
+                  }
                   return Text(
                       "${timeTableController.selectTable.value.YEAR}년 ${timeTableController.selectTable.value.SEMESTER}학기",
                       style: const TextStyle(

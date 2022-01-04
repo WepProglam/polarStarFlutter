@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:polarstar_flutter/app/controller/class/class_controller.dart';
 import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
+import 'package:polarstar_flutter/app/data/provider/class/class_provider.dart';
 import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
 import 'package:polarstar_flutter/app/data/provider/mail/mail_provider.dart';
 import 'package:polarstar_flutter/app/data/provider/main/main_provider.dart';
 import 'package:polarstar_flutter/app/data/provider/noti/noti_provider.dart';
 import 'package:polarstar_flutter/app/data/provider/profile/mypage_provider.dart';
 import 'package:polarstar_flutter/app/data/provider/timetable/timetable_provider.dart';
+import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/mail/mail_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/noti/noti_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/profile/mypage_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_repository.dart';
+import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page_scroll.dart';
 import 'package:polarstar_flutter/app/ui/android/noti/noti.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
@@ -74,8 +78,8 @@ class MainPage extends StatelessWidget {
             putController<TimeTableController>();
             return Timetable();
           } else if (index == 2) {
-            putController<TimeTableController>();
-            return Timetable();
+            putController<ClassController>();
+            return Class();
           } else if (index == 3) {
             putController<MainController>();
             putController<NotiController>();
@@ -121,6 +125,10 @@ void putController<T>() {
   } else if (T == InitController) {
     Get.put(InitController(
         repository: LoginRepository(apiClient: LoginApiClient())));
+    return;
+  } else if (T == ClassController) {
+    Get.put(ClassController(
+        repository: ClassRepository(apiClient: ClassApiClient())));
     return;
   }
 }
