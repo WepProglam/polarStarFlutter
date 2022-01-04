@@ -55,7 +55,7 @@ class TimetableAddClassMain extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           bottomSheet: // 사각형 612
               Container(
-            height: 400,
+            height: 473,
             decoration: BoxDecoration(
                 border: Border.all(color: const Color(0xff707070), width: 1),
                 color: const Color(0xffffffff)),
@@ -65,7 +65,7 @@ class TimetableAddClassMain extends StatelessWidget {
           ),
           body: Container(
             margin: const EdgeInsets.only(top: 10),
-            height: size.height - 400 - 10,
+            height: size.height - 473 - 37,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -148,21 +148,20 @@ class TimetableAddClassMain extends StatelessWidget {
                       print("veramount : $verAmount");
 
                       return Container(
-                        height: top_height + time_height * (verAmount - 1) + 30,
-                        margin: const EdgeInsets.symmetric(horizontal: 15),
+                        height: top_height + time_height * (verAmount - 1),
                         child: Stack(children: [
                           TimeTableBin(
                               time_height: time_height,
                               top_height: top_height,
                               timeTableController: timeTableController,
-                              width: size.width - 30,
+                              width: size.width,
                               dayAmount: dayAmount,
                               verAmount: verAmount),
                           TimeTableContent(
                               time_height: time_height,
                               top_height: top_height,
                               timeTableController: timeTableController,
-                              width: size.width - 30,
+                              width: size.width,
                               dayAmount: dayAmount,
                               verAmount: verAmount),
                           //선택한 애들 띄우기
@@ -173,7 +172,7 @@ class TimetableAddClassMain extends StatelessWidget {
                                   new_class: item,
                                   top_height: top_height,
                                   time_height: time_height,
-                                  width: size.width - 30,
+                                  width: size.width,
                                   show: controller.selectedIndex == -1
                                       ? false
                                       : true,

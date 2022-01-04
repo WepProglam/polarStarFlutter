@@ -20,12 +20,13 @@ class TimeTableController extends GetxController {
   bool visitedBin = false;
 
   RxBool logoHidden = true.obs;
+  RxBool isReady = false.obs;
 
   RxBool isExpandedHor = false.obs;
   RxInt limitStartTime = 9.obs;
   RxInt limitEndTime = 17.obs;
 
-  RxInt verAmount = 11.obs;
+  RxInt verAmount = 9.obs;
 
   RxBool isHidden = false.obs;
   RxBool inTimeTableMainPage = true.obs;
@@ -34,7 +35,7 @@ class TimeTableController extends GetxController {
   // RxDouble timeHeight = 60.0.obs;
 
   RxDouble topHeight = 30.0.obs;
-  RxDouble timeHeight = 50.0.obs;
+  RxDouble timeHeight = 55.0.obs;
 
   // 학기별 시간표 간략 정보 리스트
   RxMap<String, RxList<Rx<TimeTableModel>>> otherTable =
@@ -86,11 +87,15 @@ class TimeTableController extends GetxController {
   // RxString createTimeTableSemester ="".obs;
 
   final List<Color> colorList = [
-    const Color(0xff1a4678),
-    const Color(0xff3478c5),
-    const Color(0xff1b74d9),
-    const Color(0xff7ba5ef),
-    const Color(0xffa3bede),
+    const Color(0xff571df0),
+    const Color(0xff895dfd),
+    const Color(0xffffd423),
+    const Color(0xff9ee85e),
+    const Color(0xff637af5),
+    const Color(0xff9b9bf9),
+    const Color(0xffff7097),
+    const Color(0xfff9cadb),
+    const Color(0xffc13eff),
   ];
 
   void makeShowTimeTable() {
@@ -348,7 +353,7 @@ class TimeTableController extends GetxController {
   }
 
   void setVerAmount() {
-    verAmount.value = limitEndTime.value - limitStartTime.value + 2 + 1;
+    verAmount.value = limitEndTime.value - limitStartTime.value + 1;
   }
 
   void handleAddButtonTrue() {
@@ -403,8 +408,10 @@ class TimeTableController extends GetxController {
 
       print(selectTable.value.SEMESTER);
     });
+    isReady.value = true;
   }
 
   String get yearSem =>
       "${selectTable.value.YEAR}년 ${selectTable.value.SEMESTER}학기";
+  // bool get isReady => _isReady.value;
 }

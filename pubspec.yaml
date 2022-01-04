@@ -227,6 +227,7 @@ flutter:
     - assets/images/icn_setting.png
     - assets/images/segmentation_1.png
     - assets/images/icn_plus.png
+    - assets/images/menu.png
     # - assets/fonts/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

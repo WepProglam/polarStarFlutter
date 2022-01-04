@@ -157,20 +157,19 @@ class TimetableAddClass extends StatelessWidget {
 
                       return Container(
                         height: top_height + time_height * (verAmount - 1),
-                        margin: const EdgeInsets.symmetric(horizontal: 15),
                         child: Stack(children: [
                           TimeTableBin(
                               timeTableController: timeTableController,
                               time_height: time_height,
                               top_height: top_height,
-                              width: size.width - 30,
+                              width: size.width,
                               dayAmount: dayAmount,
                               verAmount: verAmount),
                           TimeTableContent(
                               timeTableController: timeTableController,
                               time_height: time_height,
                               top_height: top_height,
-                              width: size.width - 30,
+                              width: size.width,
                               dayAmount: dayAmount,
                               verAmount: verAmount),
                           //선택한 애들 띄우기
@@ -181,7 +180,7 @@ class TimetableAddClass extends StatelessWidget {
                                   new_class: item,
                                   time_height: time_height,
                                   top_height: top_height,
-                                  width: size.width - 30,
+                                  width: size.width,
                                   timeTableController: timeTableController,
                                   dayAmount: dayAmount,
                                   show: true,

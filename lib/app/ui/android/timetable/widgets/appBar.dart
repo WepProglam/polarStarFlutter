@@ -3,16 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
+import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
 
 class TimeTableAppBar extends StatelessWidget {
-  const TimeTableAppBar({
-    Key key,
-    @required this.timeTableController,
-  }) : super(key: key);
+  TimeTableAppBar({Key key, @required this.timeTableController})
+      : super(key: key);
 
   final TimeTableController timeTableController;
-
+  final courseNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -29,46 +29,79 @@ class TimeTableAppBar extends StatelessWidget {
             Center(
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: (92 + 24.0)),
-                child: Text("时间表1",
-                    style: const TextStyle(
-                        color: const Color(0xffffffff),
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "NotoSansTC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 16.0),
-                    textAlign: TextAlign.left),
+                child: Obx(() {
+                  return Text(
+                      "${timeTableController.selectTable.value.YEAR}년 ${timeTableController.selectTable.value.SEMESTER}학기",
+                      style: const TextStyle(
+                          color: const Color(0xffffffff),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "NotoSansTC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16.0),
+                      textAlign: TextAlign.left);
+                }),
               ),
             ),
+            // Positioned(
+            //   left: 20,
+            //   child: Ink(
+            //     child: InkWell(
+            //       onTap: () {
+            //         Get.back();
+            //       },
+            //       child: Image.asset(
+            //         "assets/images/back_icon.png",
+            //         width: 24,
+            //         height: 24,
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Positioned(
               left: 20,
-              child: Image.asset(
-                "assets/images/back_icon.png",
-                width: 24,
-                height: 24,
+              child: Ink(
+                child: InkWell(
+                  onTap: () {
+                    Get.toNamed("/timetable/bin");
+                  },
+                  child: Image.asset(
+                    "assets/images/menu.png",
+                    width: 24,
+                    height: 24,
+                  ),
+                ),
               ),
             ),
             Positioned(
               right: 20,
-              child: Image.asset(
-                "assets/images/icn_plus.png",
-                width: 24,
-                height: 24,
+              child: Ink(
+                child: InkWell(
+                  onTap: () {
+                    Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
+                  },
+                  child: Image.asset(
+                    "assets/images/icn_plus.png",
+                    width: 24,
+                    height: 24,
+                  ),
+                ),
               ),
             ),
+
             Positioned(
               right: 52,
-              child: Image.asset(
-                "assets/images/segmentation_1.png",
-                width: 24,
-                height: 24,
-              ),
-            ),
-            Positioned(
-              right: 92,
-              child: Image.asset(
-                "assets/images/icn_setting.png",
-                width: 24,
-                height: 24,
+              child: Ink(
+                child: InkWell(
+                  onTap: () {
+                    showSetting(context, courseNameController,
+                        timeTableController.selectTable);
+                  },
+                  child: Image.asset(
+                    "assets/images/icn_setting.png",
+                    width: 24,
+                    height: 24,
+                  ),
+                ),
               ),
             ),
             // Container(

@@ -45,7 +45,7 @@ class MainPage extends StatelessWidget {
     putController<InitController>();
     InitController initController = Get.find();
 
-    DateTime pre_backpress = DateTime.now();
+    DateTime pre_backpress = DateTime.now().add(const Duration(seconds: 1));
     return WillPopScope(
       onWillPop: () async {
         final timegap = DateTime.now().difference(pre_backpress);

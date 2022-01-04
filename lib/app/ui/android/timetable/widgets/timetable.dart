@@ -35,6 +35,7 @@ class TimeTableBin extends StatelessWidget {
           itemCount: verAmount,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
+            print(index);
             if (index == 0) {
               return Container(
                 height: top_height,
@@ -59,12 +60,12 @@ class TimeTableBin extends StatelessWidget {
                           child: Center(
                             child: Text("${startTime - 1 + index}",
                                 style: const TextStyle(
-                                    color: const Color(0xff333333),
+                                    color: const Color(0xff2f2f2f),
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: "PingFangSC",
+                                    fontFamily: "Roboto",
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                textAlign: TextAlign.left),
+                                    fontSize: 12.0),
+                                textAlign: TextAlign.center),
                           ),
                         );
                       } else {
@@ -181,7 +182,6 @@ class TimeTableContent extends StatelessWidget {
                   60.0 * timeTableController.limitStartTime.value;
               double add_pos_startTime =
                   (timeTableController.limitEndTime.value + 1) * 60.0;
-              print("adsfasdfasdfa");
               return Obx(() {
                 return Container(
                     width: (width * 11 / 12) / dayAmount,
@@ -204,28 +204,29 @@ class TimeTableContent extends StatelessWidget {
                               ),
                             ),
                           ),
-                        //목요일 밑에 add 버튼
-                        if (index == 3 &&
-                            timeTableController.inTimeTableMainPage.value)
-                          Positioned(
-                            top: (add_pos_startTime - last_end_time) *
-                                    (time_height / 60) +
-                                1,
-                            width: ((width - 4) * 11 / 12) / dayAmount,
-                            child: InkWell(
-                              onTap: () {
-                                Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
-                              },
-                              child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: time_height / 3,
-                                      horizontal: 20),
-                                  height: time_height, // 20 + 20 + 20
-                                  width: 60, // 20 + 20 + 20
-                                  child: Image.asset(
-                                      "assets/images/timetable_add.png")),
-                            ),
-                          )
+                        // ! 기존 add 버튼을 상단 우측 아이콘으로 이동
+                        // //목요일 밑에 add 버튼
+                        // if (index == 3 &&
+                        //     timeTableController.inTimeTableMainPage.value)
+                        //   Positioned(
+                        //     top: (add_pos_startTime - last_end_time) *
+                        //             (time_height / 60) +
+                        //         1,
+                        //     width: ((width - 4) * 11 / 12) / dayAmount,
+                        //     child: InkWell(
+                        //       onTap: () {
+                        //         Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
+                        //       },
+                        //       child: Container(
+                        //           padding: EdgeInsets.symmetric(
+                        //               vertical: time_height / 3,
+                        //               horizontal: 20),
+                        //           height: time_height, // 20 + 20 + 20
+                        //           width: 60, // 20 + 20 + 20
+                        //           child: Image.asset(
+                        //               "assets/images/timetable_add.png")),
+                        //     ),
+                        //   )
                       ],
                     ));
               });
@@ -431,7 +432,7 @@ class TimeTableItem extends StatelessWidget {
         },
         child: Container(
           // margin: const EdgeInsets.only(top: 1),
-          margin: const EdgeInsets.symmetric(horizontal: 2),
+          margin: const EdgeInsets.symmetric(horizontal: 1),
 
           height: (classItem["end_time"] - classItem["start_time"]) *
                   time_height /
@@ -444,18 +445,32 @@ class TimeTableItem extends StatelessWidget {
             child: LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
               return Container(
-                width: constraints.maxWidth,
-                child: Text(
-                  "${classItemModel.CLASS_NAME}",
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      color: const Color(0xffffffff),
-                      fontWeight: FontWeight.w500,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                  textAlign: TextAlign.center,
-                ),
+                width: constraints.maxWidth - 10,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${classItemModel.CLASS_NAME}",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Roboto",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 10.0),
+                        textAlign: TextAlign.center,
+                      ),
+                      // 이연희
+                      Text("이연희 ",
+                          style: const TextStyle(
+                              color: const Color(0xfffff8dd),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 10.0),
+                          textAlign: TextAlign.center)
+                    ]),
               );
             }),
           ),
@@ -499,11 +514,12 @@ class TimeTableDays extends StatelessWidget {
                       child: Text(
                         "${days[i - 1]}",
                         style: const TextStyle(
-                            color: const Color(0xff333333),
+                            color: const Color(0xff2f2f2f),
                             fontWeight: FontWeight.w700,
-                            fontFamily: "PingFangSC",
+                            fontFamily: "Roboto",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
+                            fontSize: 12.0),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   );
