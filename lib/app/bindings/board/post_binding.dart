@@ -1,6 +1,7 @@
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
+import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/data/provider/board/board_provider.dart';
 
 import 'package:polarstar_flutter/app/data/provider/board/post_provider.dart';
@@ -11,6 +12,7 @@ import 'package:polarstar_flutter/app/data/repository/board/post_repository.dart
 
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/data/repository/mail/mail_repository.dart';
+import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
 
 class PostBinding implements Bindings {
   @override
@@ -29,7 +31,7 @@ class PostBinding implements Bindings {
 
     Get.put(ps);
 
-    Get.put(
-        MailController(repository: MailRepository(apiClient: MailApiClient())));
+    putController<NotiController>();
+    putController<MailController>();
   }
 }

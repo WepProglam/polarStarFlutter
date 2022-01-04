@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
+import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
+import 'package:polarstar_flutter/app/data/provider/mail/mail_provider.dart';
 import 'package:polarstar_flutter/app/data/provider/main/main_provider.dart';
 import 'package:polarstar_flutter/app/data/provider/noti/noti_provider.dart';
 import 'package:polarstar_flutter/app/data/provider/profile/mypage_provider.dart';
 import 'package:polarstar_flutter/app/data/provider/timetable/timetable_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
+import 'package:polarstar_flutter/app/data/repository/mail/mail_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/noti/noti_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/profile/mypage_repository.dart';
@@ -36,32 +39,6 @@ class MainPage extends StatelessWidget {
   // ];
 
   final TextEditingController searchText = TextEditingController();
-
-  void putController<T>() {
-    if (Get.isRegistered<T>()) {
-      return;
-    }
-    if (T == MainController) {
-      Get.put(MainController(
-          repository: MainRepository(apiClient: MainApiClient())));
-      return;
-    } else if (T == TimeTableController) {
-      Get.put(TimeTableController(
-          repository: TimeTableRepository(apiClient: TimetableApiClient())));
-      return;
-    } else if (T == NotiController) {
-      Get.put(NotiController(
-          repository: NotiRepository(apiClient: NotiApiClient())));
-      return;
-    } else if (T == MyPageController) {
-      Get.put(MyPageController(
-          repository: MyPageRepository(apiClient: MyPageApiClient())));
-    } else if (T == InitController) {
-      Get.put(InitController(
-          repository: LoginRepository(apiClient: LoginApiClient())));
-      return;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,5 +92,35 @@ class MainPage extends StatelessWidget {
         bottomNavigationBar: CustomBottomNavigationBar(),
       )),
     );
+  }
+}
+
+void putController<T>() {
+  if (Get.isRegistered<T>()) {
+    return;
+  }
+  if (T == MainController) {
+    Get.put(
+        MainController(repository: MainRepository(apiClient: MainApiClient())));
+    return;
+  } else if (T == TimeTableController) {
+    Get.put(TimeTableController(
+        repository: TimeTableRepository(apiClient: TimetableApiClient())));
+    return;
+  } else if (T == NotiController) {
+    Get.put(
+        NotiController(repository: NotiRepository(apiClient: NotiApiClient())));
+    return;
+  } else if (T == MailController) {
+    Get.put(
+        MailController(repository: MailRepository(apiClient: MailApiClient())));
+    return;
+  } else if (T == MyPageController) {
+    Get.put(MyPageController(
+        repository: MyPageRepository(apiClient: MyPageApiClient())));
+  } else if (T == InitController) {
+    Get.put(InitController(
+        repository: LoginRepository(apiClient: LoginApiClient())));
+    return;
   }
 }
