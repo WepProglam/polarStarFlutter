@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
@@ -8,12 +9,13 @@ import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart'
 class CustomBottomNavigationBar extends StatelessWidget {
   CustomBottomNavigationBar({
     Key key,
-    @required this.mainController,
   }) : super(key: key);
 
-  final MainController mainController;
-  final MyPageController myPageController = Get.find();
-  final NotiController notiController = Get.find();
+  // final MainController mainController;
+  final InitController initController = Get.find();
+
+  // final MyPageController myPageController = Get.find();
+  // final NotiController notiController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     width: 24,
                     height: 24,
                     margin: const EdgeInsets.symmetric(vertical: 16),
-                    child: mainController.mainPageIndex.value == 0
+                    child: initController.mainPageIndex.value == 0
                         ? Image.asset("assets/images/icn_home_selected.png")
                         : Image.asset("assets/images/icn_home_normal.png")),
                 label: '',
@@ -53,7 +55,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     width: 24,
                     margin: const EdgeInsets.symmetric(vertical: 16),
                     height: 24,
-                    child: mainController.mainPageIndex.value == 1
+                    child: initController.mainPageIndex.value == 1
                         ? Image.asset("assets/images/icn_calendar_selected.png")
                         : Image.asset("assets/images/icn_calendar_normal.png")),
                 label: '',
@@ -63,7 +65,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     width: 24,
                     height: 24,
                     margin: const EdgeInsets.symmetric(vertical: 16),
-                    child: mainController.mainPageIndex.value == 2
+                    child: initController.mainPageIndex.value == 2
                         ? Image.asset("assets/images/icn_check_selected.png")
                         : Image.asset("assets/images/icn_check_normal.png")),
                 label: '',
@@ -73,7 +75,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     width: 24,
                     height: 24,
                     margin: const EdgeInsets.symmetric(vertical: 16),
-                    child: mainController.mainPageIndex.value == 3
+                    child: initController.mainPageIndex.value == 3
                         ? Image.asset("assets/images/icn_alarm_selected.png")
                         : Image.asset("assets/images/icn_alarm_normal.png")),
                 label: '',
@@ -83,19 +85,19 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     width: 24,
                     height: 24,
                     margin: const EdgeInsets.symmetric(vertical: 16),
-                    child: mainController.mainPageIndex.value == 4
+                    child: initController.mainPageIndex.value == 4
                         ? Image.asset("assets/images/icn_profile_selected.png")
                         : Image.asset("assets/images/icn_profile_normal.png")),
                 label: '',
               ),
             ],
             unselectedItemColor: const Color(0xffbbc7d4),
-            currentIndex: mainController.mainPageIndex.value,
+            currentIndex: initController.mainPageIndex.value,
             selectedItemColor: const Color(0xff1a4678),
             onTap: (index) async {
-              mainController.mainPageIndex.value = index;
-              myPageController.profilePostIndex.value = 0;
-              notiController.pageViewIndex.value = 0;
+              initController.mainPageIndex.value = index;
+              // myPageController.profilePostIndex.value = 0;
+              // notiController.pageViewIndex.value = 0;
             },
           ),
         ),

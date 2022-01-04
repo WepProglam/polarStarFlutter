@@ -21,8 +21,8 @@ class Timetable extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     // changeStatusBarColor(Colors.white, Brightness.dark);
     return Scaffold(
-        bottomNavigationBar:
-            CustomBottomNavigationBar(mainController: mainController),
+        // bottomNavigationBar:
+        //     CustomBottomNavigationBar(mainController: mainController),
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(57.75 + 10),
             child: TimeTableAppBar(

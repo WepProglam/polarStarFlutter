@@ -79,8 +79,8 @@ class LikeListModel {
   LikeListModel({COMMUNITY_ID, UNIQUE_ID});
 
   LikeListModel.fromJson(Map<String, dynamic> json) {
-    this.COMMUNITY_ID = json["COMMUNITY_ID"];
-    this.UNIQUE_ID = json["UNIQUE_ID"];
+    this.COMMUNITY_ID = nullCheck(json["COMMUNITY_ID"]);
+    this.UNIQUE_ID = nullCheck(json["UNIQUE_ID"]);
   }
 }
 
@@ -124,3 +124,7 @@ class MainClassModel {
 //     };
 //   }
 // }
+
+dynamic nullCheck(dynamic a) {
+  return a == null ? null : a;
+}

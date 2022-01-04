@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
+import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
+import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
+import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
+import 'package:polarstar_flutter/app/data/provider/main/main_provider.dart';
+import 'package:polarstar_flutter/app/data/provider/noti/noti_provider.dart';
+import 'package:polarstar_flutter/app/data/provider/profile/mypage_provider.dart';
+import 'package:polarstar_flutter/app/data/provider/timetable/timetable_provider.dart';
+import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
+import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
+import 'package:polarstar_flutter/app/data/repository/noti/noti_repository.dart';
+import 'package:polarstar_flutter/app/data/repository/profile/mypage_repository.dart';
+import 'package:polarstar_flutter/app/data/repository/timetable/timetable_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page_scroll.dart';
 import 'package:polarstar_flutter/app/ui/android/noti/noti.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
@@ -12,19 +26,48 @@ import 'package:flutter/services.dart';
 
 class MainPage extends StatelessWidget {
   final box = GetStorage();
-  final List<Widget> mainPageWidget = [
-    MainPageScroll(),
-    Timetable(),
-    Timetable(),
-    Noti(),
-    Mypage()
-  ];
+  // ! 시작할때 모든 컨트롤러 다 불러와야해서 변경 -> 바텀 네비게이션 누를때마다 생성하는걸로
+  // final List<Widget> mainPageWidget = [
+  //   MainPageScroll(),
+  //   Timetable(),
+  //   Timetable(),
+  //   Noti(),
+  //   Mypage()
+  // ];
 
-  final MainController mainController = Get.find();
   final TextEditingController searchText = TextEditingController();
+
+  void putController<T>() {
+    if (Get.isRegistered<T>()) {
+      return;
+    }
+    if (T == MainController) {
+      Get.put(MainController(
+          repository: MainRepository(apiClient: MainApiClient())));
+      return;
+    } else if (T == TimeTableController) {
+      Get.put(TimeTableController(
+          repository: TimeTableRepository(apiClient: TimetableApiClient())));
+      return;
+    } else if (T == NotiController) {
+      Get.put(NotiController(
+          repository: NotiRepository(apiClient: NotiApiClient())));
+      return;
+    } else if (T == MyPageController) {
+      Get.put(MyPageController(
+          repository: MyPageRepository(apiClient: MyPageApiClient())));
+    } else if (T == InitController) {
+      Get.put(InitController(
+          repository: LoginRepository(apiClient: LoginApiClient())));
+      return;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    putController<InitController>();
+    InitController initController = Get.find();
+
     DateTime pre_backpress = DateTime.now();
     return WillPopScope(
       onWillPop: () async {
@@ -44,10 +87,33 @@ class MainPage extends StatelessWidget {
         }
       },
       child: SafeArea(
-        child: Obx(() {
-          return mainPageWidget[mainController.mainPageIndex.value];
+          child: Scaffold(
+        body: Obx(() {
+          int index = initController.mainPageIndex.value;
+          if (index == 0) {
+            putController<MainController>();
+            return MainPageScroll();
+          } else if (index == 1) {
+            putController<TimeTableController>();
+            return Timetable();
+          } else if (index == 2) {
+            putController<TimeTableController>();
+            return Timetable();
+          } else if (index == 3) {
+            putController<MainController>();
+            putController<NotiController>();
+            return Noti();
+          } else if (index == 4) {
+            putController<MyPageController>();
+            putController<MainController>();
+            return Mypage();
+          } else {
+            putController<MainController>();
+            return MainPageScroll();
+          }
         }),
-      ),
+        bottomNavigationBar: CustomBottomNavigationBar(),
+      )),
     );
   }
 }

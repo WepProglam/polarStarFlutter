@@ -8,6 +8,8 @@ import 'package:polarstar_flutter/app/data/repository/main/main_search_repositor
 class MainSearchBinding implements Bindings {
   @override
   void dependencies() {
+    // Get.put(MainSearchController(
+    //     repository: MainSearchRepository(apiClient: MainSearchApiClient())));
     Get.lazyPut<MainSearchController>(() => MainSearchController(
         repository: MainSearchRepository(apiClient: MainSearchApiClient())));
   }

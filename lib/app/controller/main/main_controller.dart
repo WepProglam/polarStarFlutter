@@ -87,17 +87,17 @@ class MainController extends GetxController {
     boardListInfo.clear();
     boardInfo.clear();
 
-    print(value);
-    print("=------------------------------------------------");
+    // print(value);
+    // print("=------------------------------------------------");
 
     hotBoard.value = value["hotBoard"];
     likeList.value = value["likeList"];
     scrapList.value = value["scrapList"];
     classList.value = value["classList"];
 
-    for (MainClassModel model in classList) {
-      print("${model.CLASS_NAME}: ${model.CLASS_ID}");
-    }
+    // for (MainClassModel model in classList) {
+    //   print("${model.CLASS_NAME}: ${model.CLASS_ID}");
+    // }
 
     for (BoardInfo item in value["boardInfo"]) {
       boardListInfo.add(item);
@@ -217,6 +217,11 @@ class MainUpdateModule {
     } else if (type == 2) {
       await updatePostBoard(item);
     }
+    return;
+  }
+
+  static Future<void> updateMainPage(MainController mc) async {
+    await mc.getBoardInfo();
     return;
   }
 

@@ -1,16 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/loby/login_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
-import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
-import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
-import 'package:polarstar_flutter/app/data/model/profile/mypage_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
-import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
-import 'package:polarstar_flutter/main.dart';
 
 class Mypage extends StatelessWidget {
   final MyPageController myPageController = Get.find();
@@ -21,8 +15,8 @@ class Mypage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
           backgroundColor: const Color(0xfff2f2f2),
-          bottomNavigationBar:
-              CustomBottomNavigationBar(mainController: mainController),
+          // bottomNavigationBar:
+          //     CustomBottomNavigationBar(mainController: mainController),
           body: Stack(children: [
             Obx(
               () {

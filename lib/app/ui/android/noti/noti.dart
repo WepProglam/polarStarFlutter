@@ -27,9 +27,9 @@ class Noti extends StatelessWidget {
               return NotiAppBar(
                   pageViewIndex: pageViewIndex, notiController: notiController);
             })),
-        bottomNavigationBar: CustomBottomNavigationBar(
-          mainController: mainController,
-        ),
+        // bottomNavigationBar: CustomBottomNavigationBar(
+        //   mainController: mainController,
+        // ),
         backgroundColor: const Color(0xfff6f6f6),
         body: PageView.builder(
             itemCount: 2,

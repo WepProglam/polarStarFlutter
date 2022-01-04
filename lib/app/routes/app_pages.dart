@@ -73,7 +73,7 @@ class AppPages {
     GetPage(
       name: Routes.MAIN_PAGE,
       page: () => MainPage(),
-      bindings: [MainBinding(), TimetableBinding()],
+      // bindings: [MainBinding(), TimetableBinding()],
     ),
     GetPage(
         name: Routes.MAIN_PAGE_SEARCH,

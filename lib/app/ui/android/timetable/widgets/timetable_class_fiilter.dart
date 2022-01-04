@@ -25,34 +25,33 @@ class TimetableClassFilter extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-          bottomNavigationBar:
-              CustomBottomNavigationBar(mainController: mainController),
+          // bottomNavigationBar:
+          //     CustomBottomNavigationBar(mainController: mainController),
           body: Obx(() {
-            return ListView.builder(
-                itemCount: controller.college_name_list.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Ink(
-                    height: 50,
-                    child: InkWell(
-                      onTap: () async {
-                        int INDEX_COLLEGE_NAME = controller
-                            .college_name_list[index].INDEX_COLLEGE_NAME;
+        return ListView.builder(
+            itemCount: controller.college_name_list.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Ink(
+                height: 50,
+                child: InkWell(
+                  onTap: () async {
+                    int INDEX_COLLEGE_NAME =
+                        controller.college_name_list[index].INDEX_COLLEGE_NAME;
 
-                        controller.INDEX_COLLEGE_NAME.value =
-                            INDEX_COLLEGE_NAME;
+                    controller.INDEX_COLLEGE_NAME.value = INDEX_COLLEGE_NAME;
 
-                        await controller.getMajorInfo();
+                    await controller.getMajorInfo();
 
-                        Get.toNamed(Routes.TIMETABLE_ADDCLASS_FILTER_MAJOR);
-                      },
-                      child: Center(
-                        child: Text(
-                            "${controller.college_name_list[index].COLLEGE_NAME}"),
-                      ),
-                    ),
-                  );
-                });
-          })),
+                    Get.toNamed(Routes.TIMETABLE_ADDCLASS_FILTER_MAJOR);
+                  },
+                  child: Center(
+                    child: Text(
+                        "${controller.college_name_list[index].COLLEGE_NAME}"),
+                  ),
+                ),
+              );
+            });
+      })),
     );
   }
 }
@@ -67,39 +66,39 @@ class TimetableClassMajor extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-          bottomNavigationBar:
-              CustomBottomNavigationBar(mainController: mainController),
+          // bottomNavigationBar:
+          //     CustomBottomNavigationBar(mainController: mainController),
           body: Obx(() {
-            return ListView.builder(
-                itemCount: controller.college_major_list.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Ink(
-                    height: 50,
-                    child: InkWell(
-                      onTap: () async {
-                        controller.INDEX_COLLEGE_MAJOR.value = controller
-                            .college_major_list[index].INDEX_COLLEGE_MAJOR;
-                        controller.college_major.value =
-                            controller.college_major_list[index].NAME;
+        return ListView.builder(
+            itemCount: controller.college_major_list.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Ink(
+                height: 50,
+                child: InkWell(
+                  onTap: () async {
+                    controller.INDEX_COLLEGE_MAJOR.value = controller
+                        .college_major_list[index].INDEX_COLLEGE_MAJOR;
+                    controller.college_major.value =
+                        controller.college_major_list[index].NAME;
 
-                        String text = controller.search_name.value.trim();
-                        //통합 검색 X
-                        if (text.isEmpty) {
-                          await controller.getFilteredClass();
-                        } else {
-                          await controller.getFilterAndSearch(0);
-                        }
-                        FocusScope.of(context).unfocus();
-                        Get.back();
-                        Get.back();
-                      },
-                      child: Center(
-                          child: Text(
-                              "${controller.college_major_list[index].NAME}")),
-                    ),
-                  );
-                });
-          })),
+                    String text = controller.search_name.value.trim();
+                    //통합 검색 X
+                    if (text.isEmpty) {
+                      await controller.getFilteredClass();
+                    } else {
+                      await controller.getFilterAndSearch(0);
+                    }
+                    FocusScope.of(context).unfocus();
+                    Get.back();
+                    Get.back();
+                  },
+                  child: Center(
+                      child:
+                          Text("${controller.college_major_list[index].NAME}")),
+                ),
+              );
+            });
+      })),
     );
   }
 }
@@ -115,8 +114,8 @@ class TimetableClassSearch extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return SafeArea(
         child: Scaffold(
-            bottomNavigationBar:
-                CustomBottomNavigationBar(mainController: mainController),
+            // bottomNavigationBar:
+            //     CustomBottomNavigationBar(mainController: mainController),
             appBar: AppBar(
               backgroundColor: const Color(0xfff6f6f6),
               elevation: 0,

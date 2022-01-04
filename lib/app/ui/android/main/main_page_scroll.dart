@@ -83,8 +83,6 @@ class MainPageScroll extends StatelessWidget {
             ),
           ),
         ),
-        bottomNavigationBar:
-            CustomBottomNavigationBar(mainController: mainController),
         body: Obx(() {
           if (!mainController.dataAvailalbe) {
             return Center(child: CircularProgressIndicator());
@@ -166,9 +164,19 @@ class MainPageScroll extends StatelessWidget {
                               ),
                               // Rectangle 12
                               InkWell(
-                                onTap: () {
-                                  Get.toNamed(Routes.MAIN_PAGE_SEARCH);
-                                  print("${searchText.text}");
+                                onTap: () async {
+                                  String text = searchText.text;
+                                  searchText.clear();
+                                  searchFocusNode.unfocus();
+
+                                  await Get.toNamed(Routes.MAIN_PAGE_SEARCH,
+                                          arguments: {"search": text})
+                                      .then((value) async {
+                                    await MainUpdateModule.updateMainPage(
+                                        mainController);
+                                  });
+
+                                  print(text);
                                 },
                                 child: Container(
                                     width: 68,
@@ -235,7 +243,7 @@ class MainPageScroll extends StatelessWidget {
                               ),
                             ),
 
-                            //핫게
+                            //* 핫게
                             Container(
                               // padding: const EdgeInsets.all(18),
                               margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
@@ -253,8 +261,12 @@ class MainPageScroll extends StatelessWidget {
                                           fontSize: 18.0),
                                       textAlign: TextAlign.left),
                                   InkWell(
-                                    onTap: () {
-                                      Get.toNamed("/board/hot/page/1");
+                                    onTap: () async {
+                                      await Get.toNamed("/board/hot/page/1")
+                                          .then((value) async {
+                                        await MainUpdateModule.updateMainPage(
+                                            mainController);
+                                      });
                                     },
                                     child: SeeMore(),
                                   ),
@@ -312,10 +324,14 @@ class MainPageScroll extends StatelessWidget {
                                                   }
 
                                                   return InkWell(
-                                                    onTap: () {
-                                                      Get.toNamed(
+                                                    onTap: () async {
+                                                      await Get.toNamed(
                                                         "/board/${boardInfo.value.COMMUNITY_ID}/page/${1}",
-                                                      );
+                                                      ).then((value) async {
+                                                        await MainUpdateModule
+                                                            .updateMainPage(
+                                                                mainController);
+                                                      });
                                                     },
                                                     child: Container(
                                                         height: 80,
@@ -418,8 +434,14 @@ class MainPageScroll extends StatelessWidget {
                                                         height: 40,
                                                         child: InkWell(
                                                           onTap: () async {
-                                                            Get.toNamed(
-                                                                "/board/boardList");
+                                                            await Get.toNamed(
+                                                                    "/board/boardList")
+                                                                .then(
+                                                                    (value) async {
+                                                              await MainUpdateModule
+                                                                  .updateMainPage(
+                                                                      mainController);
+                                                            });
                                                           },
                                                           child: Image.asset(
                                                               "assets/images/941.png"),
@@ -470,8 +492,15 @@ class MainPageScroll extends StatelessWidget {
                                                           height: 40,
                                                           child: InkWell(
                                                             onTap: () async {
-                                                              Get.toNamed(Routes
-                                                                  .TIMETABLE_ADDCLASS_MAIN);
+                                                              await Get.toNamed(
+                                                                      Routes
+                                                                          .TIMETABLE_ADDCLASS_MAIN)
+                                                                  .then(
+                                                                      (value) async {
+                                                                await MainUpdateModule
+                                                                    .updateMainPage(
+                                                                        mainController);
+                                                              });
                                                             },
                                                             child: Image.asset(
                                                                 "assets/images/941.png"),

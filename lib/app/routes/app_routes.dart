@@ -6,7 +6,7 @@ abstract class Routes {
   static const SIGNUP = '/signUp';
   static const FINDPW = "/findPw";
   static const MAIN_PAGE = '/main';
-  static const MAIN_PAGE_SEARCH = '/main/search';
+  static const MAIN_PAGE_SEARCH = "/main/search";
   static const POST = "/board/:COMMUNITY_ID/read/:BOARD_ID";
   static const OUTSIDE_POST = "/outside/:COMMUNITY_ID/read/:BOARD_ID";
   static const NOTI = "/noti";

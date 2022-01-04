@@ -666,6 +666,11 @@ class TableList extends StatelessWidget {
     return Container(
       child: Obx(
         () {
+          if (timeTableController
+                  .otherTable["${timeTableController.yearSem}"] ==
+              null) {
+            return Container();
+          }
           return ListView.builder(
               itemCount: timeTableController
                   .otherTable["${timeTableController.yearSem}"].length,

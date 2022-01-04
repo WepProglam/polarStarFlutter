@@ -33,10 +33,12 @@ class HotBoardMain extends StatelessWidget {
           //                  * * type 1 : 마이 -> 게시글
           //                  * * type 2 : 게시판 -> 게시글
           //                  */
-          onTap: () {
-            Get.toNamed(
+          onTap: () async {
+            await Get.toNamed(
                 "/board/${mainController.hotBoard[index].value.COMMUNITY_ID}/read/${mainController.hotBoard[index].value.BOARD_ID}",
-                arguments: {"type": 0});
+                arguments: {"type": 0}).then((value) async {
+              await MainUpdateModule.updateMainPage(mainController);
+            });
           },
           child: PostWidget(
             c: null,

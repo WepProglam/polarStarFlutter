@@ -13,6 +13,8 @@ class InitController extends GetxController {
 
   InitController({@required this.repository}) : assert(repository != null);
 
+  RxInt mainPageIndex = 0.obs;
+
   Future<String> checkFcmToken() async {
     String FcmToken;
     await FirebaseMessaging.instance.getToken().then((token) {

@@ -207,22 +207,22 @@ class PostTop extends StatelessWidget {
                         image: imageProvider, fit: BoxFit.cover))),
           ),
         ),
-        //닉네임, 작성 시간
+        // * 닉네임, 작성 시간
         Container(
           margin: const EdgeInsets.only(top: 4, bottom: 4),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(item.value.PROFILE_NICKNAME,
-                  style: const TextStyle(
+              Text("${item.value.PROFILE_NICKNAME}",
+                  style: TextStyle(
                       color: const Color(0xff2f2f2f),
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w500,
                       fontFamily: "Roboto",
                       fontStyle: FontStyle.normal,
                       fontSize: 14.0),
                   textAlign: TextAlign.left),
               Text(
-                  item.value.TIME_CREATED
+                  "${item.value.TIME_CREATED}"
                       .substring(2, 19)
                       .replaceAll('-', '.')
                       .replaceAll('T', ' '),
@@ -331,7 +331,7 @@ class CommnetTop extends StatelessWidget {
               child: Text("${item.PROFILE_NICKNAME}",
                   style: const TextStyle(
                       color: const Color(0xff2f2f2f),
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w500,
                       fontFamily: "NotoSansTC",
                       fontStyle: FontStyle.normal,
                       fontSize: 12.0),

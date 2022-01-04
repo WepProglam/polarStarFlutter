@@ -74,7 +74,6 @@ class MainSearchController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-
     ever(searchType, (_) async {
       List<bool> tempBool = [false, false, false];
       tempBool[searchType.value] = true;
@@ -97,6 +96,16 @@ class MainSearchController extends GetxController {
         await searchApi();
       }
     });
+
+    // * 검색 바로 하기
+    if (Get.arguments != null && Get.arguments.containsKey("search")) {
+      String text = Get.arguments["search"];
+      if (text.trim().length >= 2) {
+        searchText.value = text;
+        searchType.value = 0;
+        await searchApi();
+      }
+    }
   }
 
   @override
