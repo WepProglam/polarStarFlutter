@@ -30,6 +30,7 @@ import 'package:polarstar_flutter/app/ui/android/timetable/timetable.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/app_bar.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/services.dart';
+import 'package:polarstar_flutter/main.dart';
 
 class MainPage extends StatelessWidget {
   final box = GetStorage();
@@ -48,8 +49,10 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     putController<InitController>();
     InitController initController = Get.find();
+    putController<MainController>();
+    MainController mainController = Get.find();
 
-    DateTime pre_backpress = DateTime.now().add(const Duration(seconds: 1));
+    DateTime pre_backpress = DateTime.now().add(const Duration(seconds: -2));
     return WillPopScope(
       onWillPop: () async {
         final timegap = DateTime.now().difference(pre_backpress);
@@ -67,34 +70,53 @@ class MainPage extends StatelessWidget {
           return true;
         }
       },
-      child: SafeArea(
-          child: Scaffold(
-        body: Obx(() {
-          int index = initController.mainPageIndex.value;
-          if (index == 0) {
-            putController<MainController>();
-            return MainPageScroll();
-          } else if (index == 1) {
-            putController<TimeTableController>();
-            return Timetable();
-          } else if (index == 2) {
-            putController<ClassController>();
-            return Class();
-          } else if (index == 3) {
-            putController<MainController>();
-            putController<NotiController>();
-            return Noti();
-          } else if (index == 4) {
-            putController<MyPageController>();
-            putController<MainController>();
-            return Mypage();
-          } else {
-            putController<MainController>();
-            return MainPageScroll();
-          }
-        }),
-        bottomNavigationBar: CustomBottomNavigationBar(),
-      )),
+      child: SafeArea(child: Obx(() {
+        int index = initController.mainPageIndex.value;
+        if (!mainController.initDataAvailable.value) {
+          changeStatusBarColor(const Color(0xffffffff), Brightness.light);
+          return Scaffold(
+            body: Container(
+              color: Colors.white,
+              child: Center(
+                child: Image.asset(
+                  "assets/images/logo.png",
+                  width: 100,
+                  height: 100,
+                ),
+              ),
+            ),
+          );
+        }
+        changeStatusBarColor(const Color(0xff571df0), Brightness.light);
+
+        return Scaffold(
+          body: Builder(builder: (BuildContext context) {
+            print(index);
+            if (index == 0) {
+              putController<MainController>();
+              return MainPageScroll();
+            } else if (index == 1) {
+              putController<TimeTableController>();
+              return Timetable();
+            } else if (index == 2) {
+              putController<ClassController>();
+              return Class();
+            } else if (index == 3) {
+              putController<MainController>();
+              putController<NotiController>();
+              return Noti();
+            } else if (index == 4) {
+              putController<MyPageController>();
+              putController<MainController>();
+              return Mypage();
+            } else {
+              putController<MainController>();
+              return MainPageScroll();
+            }
+          }),
+          bottomNavigationBar: CustomBottomNavigationBar(),
+        );
+      })),
     );
   }
 }

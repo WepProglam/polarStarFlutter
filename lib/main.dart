@@ -109,8 +109,6 @@ void main() async {
   //     statusBarColor: const Color(0xfff6f6f6),
   //     statusBarBrightness: Brightness.light));
 
-  changeStatusBarColor(const Color(0xff571df0), Brightness.light);
-
   await runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want
     theme: ThemeData(primaryColor: const Color(0xff571df0)),

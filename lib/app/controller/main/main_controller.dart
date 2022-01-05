@@ -187,12 +187,9 @@ class MainController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-    print("getFollowingCommunity");
     await getFollowingCommunity();
-
-    // pageController.value.addListener(() {});
-
     await getBoardInfo();
+    initDataAvailable.value = true;
   }
 
   @override
@@ -200,6 +197,8 @@ class MainController extends GetxController {
     super.onClose();
     _dataAvailable.value = false;
   }
+
+  RxBool initDataAvailable = false.obs;
 
   bool get dataAvailalbe => _dataAvailable.value;
 }
