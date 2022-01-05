@@ -152,13 +152,26 @@ class Board extends StatelessWidget {
                                 controller: controller.scrollController.value,
                                 itemCount: controller.postBody.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return PostWidget(
-                                    c: null,
-                                    mailWriteController: null,
-                                    mailController: null,
-                                    item: controller.postBody[index],
-                                    index: index,
-                                    mainController: mainController,
+                                  return Ink(
+                                    child: InkWell(
+                                      onTap: () async {
+                                        await Get.toNamed(
+                                            "/board/${controller.postBody[index].value.COMMUNITY_ID}/read/${controller.postBody[index].value.BOARD_ID}",
+                                            arguments: {
+                                              "type": 2
+                                            }).then((value) async {
+                                          await MainUpdateModule.updateBoard();
+                                        });
+                                      },
+                                      child: PostWidget(
+                                        c: null,
+                                        mailWriteController: null,
+                                        mailController: null,
+                                        item: controller.postBody[index],
+                                        index: index,
+                                        mainController: mainController,
+                                      ),
+                                    ),
                                   );
                                 });
                           } else if (controller.httpStatus != 200) {
