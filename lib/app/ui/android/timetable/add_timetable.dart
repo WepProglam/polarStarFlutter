@@ -16,6 +16,15 @@ class TimeTableAdd extends StatelessWidget {
     timeTableController.addTimeTableYearSem.value =
         timeTableController.addTimeTableYearSemList.last;
 
+    timeTableController.createYear.value =
+        timeTableController.addTimeTableYearSemList.last.split("년 ")[0];
+    timeTableController.createSemester.value = setCreateNormal(
+        timeTableController.addTimeTableYearSemList.last.split("년 ")[1])[1];
+    ;
+
+    print(timeTableController.createYear.value);
+    print(timeTableController.createSemester.value);
+
     return SafeArea(
         child: GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -250,7 +259,7 @@ List<dynamic> setCreateNormal(String selectSemester) {
 
   List<String> normalSemester = ["1학기", "여름학기", "2학기", "겨울학기"];
 
-  int sem = 0;
+  int sem = 1;
   for (var item in normalSemester) {
     if (item == selectSemester) {
       isNormal = true;

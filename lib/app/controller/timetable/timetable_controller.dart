@@ -77,6 +77,10 @@ class TimeTableController extends GetxController {
   List<String> addTimeTableYearSemList = [
     "2021년 2학기",
     "2021년 겨울학기",
+    "2022년 1학기",
+    // "2022년 여름학기",
+    // "2022년 2학기",
+    // "2022년 겨울학기",
   ];
 
   RxString createYear = "".obs;
@@ -316,7 +320,13 @@ class TimeTableController extends GetxController {
     switch (status["statusCode"]) {
       case 200:
         Get.snackbar("디폴트 변경 성공", "디폴트 변경 성공");
-        defaultTableList["${year}년 ${semester}학기"].value = selectTable.value;
+        // if (!defaultTableList.containsKey("${year}년 ${semester}학기")) {
+        //   defaultTableList["${year}년 ${semester}학기"] = selectTable;
+        // } else {
+        //   defaultTableList["${year}년 ${semester}학기"].value = selectTable.value;
+        // }
+
+        defaultTableList["${year}년 ${semester}학기"] = selectTable;
 
         //topbar에 나오는 애들 변경
         for (var item in selectYearSemester) {

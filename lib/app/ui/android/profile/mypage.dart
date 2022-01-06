@@ -34,9 +34,12 @@ class Mypage extends StatelessWidget {
                             onRefresh: () => myPageController.getMineWrite(),
                             child: Obx(() {
                               if (myPageController.myBoardWrite.length == 0) {
-                                return Center(
-                                  child: Text("아직 정보가 없습니다."),
-                                );
+                                return Stack(children: [
+                                  ListView(),
+                                  Center(
+                                    child: Text("아직 정보가 없습니다."),
+                                  ),
+                                ]);
                               } else {
                                 return ListView.builder(
                                     cacheExtent: 10,
@@ -65,9 +68,12 @@ class Mypage extends StatelessWidget {
                             onRefresh: () => myPageController.getMineWrite(),
                             child: Obx(() {
                               if (myPageController.myBoardScrap.length == 0) {
-                                return Center(
-                                  child: Text("아직 정보가 없습니다."),
-                                );
+                                return Stack(children: [
+                                  ListView(),
+                                  Center(
+                                    child: Text("아직 정보가 없습니다."),
+                                  ),
+                                ]);
                               } else {
                                 return ListView.builder(
                                     cacheExtent: 10,
@@ -96,9 +102,12 @@ class Mypage extends StatelessWidget {
                             onRefresh: () => myPageController.getMineWrite(),
                             child: Obx(() {
                               if (myPageController.myBoardLike.length == 0) {
-                                return Center(
-                                  child: Text("아직 정보가 없습니다."),
-                                );
+                                return Stack(children: [
+                                  ListView(),
+                                  Center(
+                                    child: Text("아직 정보가 없습니다."),
+                                  ),
+                                ]);
                               } else {
                                 return ListView.builder(
                                     cacheExtent: 10,

@@ -468,6 +468,7 @@ void showSetting(
                       imagePath: "320.png",
                       title: "Delete",
                       onTap: () async {
+                        Get.back();
                         String yearSem = timeTableController.yearSem;
 
                         print(yearSem);
@@ -509,8 +510,6 @@ void showSetting(
                         timeTableController.selectedTimeTableId.value =
                             timeTableController.defaultTableList["${yearSem}"]
                                 .value.TIMETABLE_ID;
-
-                        Get.back();
 
                         print("Delete");
                       },
