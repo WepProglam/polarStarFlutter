@@ -112,36 +112,39 @@ class HotBoard extends StatelessWidget {
                   onRefresh: () async {
                     await MainUpdateModule.updateHotMain();
                   },
-                  child: ListView.builder(
-                      controller: controller.scrollController.value,
-                      itemCount: controller.postBody.length,
-                      physics: AlwaysScrollableScrollPhysics(),
-                      cacheExtent: 100,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Ink(
-                          child: InkWell(
-                            onTap: () async {
-                              await Get.toNamed(
-                                  "/board/${controller.postBody[index].value.COMMUNITY_ID}/read/${controller.postBody[index].value.BOARD_ID}",
-                                  arguments: {"type": 0}).then((value) async {
-                                await MainUpdateModule.updateHotMain();
-                              });
-                            },
-                            child: PostWidget(
-                              c: null,
-                              mailWriteController: null,
-                              mailController: null,
-                              item: controller.postBody[index],
-                              index: index,
-                              mainController: mainController,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 16),
+                    child: ListView.builder(
+                        controller: controller.scrollController.value,
+                        itemCount: controller.postBody.length,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        cacheExtent: 100,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Ink(
+                            child: InkWell(
+                              onTap: () async {
+                                await Get.toNamed(
+                                    "/board/${controller.postBody[index].value.COMMUNITY_ID}/read/${controller.postBody[index].value.BOARD_ID}",
+                                    arguments: {"type": 0}).then((value) async {
+                                  await MainUpdateModule.updateHotMain();
+                                });
+                              },
+                              child: PostWidget(
+                                c: null,
+                                mailWriteController: null,
+                                mailController: null,
+                                item: controller.postBody[index],
+                                index: index,
+                                mainController: mainController,
+                              ),
                             ),
-                          ),
-                        );
+                          );
 
-                        // PostPreview(
-                        //   item: controller.postBody[index],
-                        // );
-                      }),
+                          // PostPreview(
+                          //   item: controller.postBody[index],
+                          // );
+                        }),
+                  ),
                 );
               } else if (controller.httpStatus == 404) {
                 return Container(
