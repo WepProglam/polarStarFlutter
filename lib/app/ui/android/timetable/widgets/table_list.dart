@@ -674,7 +674,7 @@ class TableList extends StatelessWidget {
                                       ? Color(0xffffffff)
                                       : Color(0xff2f2f2f),
                                   fontWeight: FontWeight.w400,
-                                  fontFamily: "NotoSansTC",
+                                  fontFamily: "NotoSansSC",
                                   fontStyle: FontStyle.normal,
                                   fontSize: 14.0),
                               textAlign: TextAlign.center),
@@ -745,7 +745,7 @@ class SubjectList extends StatelessWidget {
                                     style: const TextStyle(
                                         color: const Color(0xff000000),
                                         fontWeight: FontWeight.w400,
-                                        fontFamily: "NotoSansTC",
+                                        fontFamily: "NotoSansSC",
                                         fontStyle: FontStyle.normal,
                                         fontSize: 14.0),
                                     textAlign: TextAlign.center),
@@ -757,7 +757,7 @@ class SubjectList extends StatelessWidget {
                                         style: const TextStyle(
                                             color: const Color(0xff6f6e6e),
                                             fontWeight: FontWeight.w400,
-                                            fontFamily: "NotoSansTC",
+                                            fontFamily: "NotoSansSC",
                                             fontStyle: FontStyle.normal,
                                             fontSize: 12.0),
                                         textAlign: TextAlign.center),
@@ -810,7 +810,7 @@ class SubjectPreviewList extends StatelessWidget {
               style: const TextStyle(
                   color: const Color(0xff2f2f2f),
                   fontWeight: FontWeight.w400,
-                  fontFamily: "NotoSansTC",
+                  fontFamily: "NotoSansSC",
                   fontStyle: FontStyle.normal,
                   fontSize: 12.0),
               textAlign: TextAlign.left)

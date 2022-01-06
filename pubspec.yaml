@@ -247,12 +247,12 @@ flutter:
 
   # 폰트 개같아서 지움(디자인 회사에서 안드로이드 디폴트 폰트 써래)
   fonts:
-    - family: PingFangSC
-      fonts:
-        - asset: assets/fonts/PingFang SC Bold.ttf
-          weight: 700
-        - asset: assets/fonts/PingFang SC Regular.ttf
-          weight: 400
+    # - family: PingFangSC
+    #   fonts:
+    #     - asset: assets/fonts/PingFang SC Bold.ttf
+    #       weight: 700
+    #     - asset: assets/fonts/PingFang SC Regular.ttf
+    #       weight: 400
     
     - family: Roboto
       fonts:
@@ -263,11 +263,11 @@ flutter:
         - asset: assets/fonts/Roboto-Bold.ttf
           weight: 700
     
-    - family: NotoSansTC
+    - family: NotoSansSC
       fonts:
-        - asset: assets/fonts/NotoSansTC-Regular.otf
+        - asset: assets/fonts/NotoSansSC-Regular.otf
           weight: 400
-        - asset: assets/fonts/NotoSansTC-Medium.otf
+        - asset: assets/fonts/NotoSansSC-Medium.otf
           weight: 500
     
     - family: NotoSansKR

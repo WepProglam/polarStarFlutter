@@ -84,7 +84,7 @@ class BottomKeyboard extends StatelessWidget {
               style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w500,
-                  fontFamily: "NotoSansTC",
+                  fontFamily: "NotoSansSC",
                   fontStyle: FontStyle.normal,
                   fontSize: 14.0),
 
@@ -139,7 +139,7 @@ class BottomKeyboard extends StatelessWidget {
                                 style: const TextStyle(
                                     color: const Color(0xff571df0),
                                     fontWeight: FontWeight.w400,
-                                    fontFamily: "NotoSansTC",
+                                    fontFamily: "NotoSansSC",
                                     fontStyle: FontStyle.normal,
                                     fontSize: 12.0),
                                 textAlign: TextAlign.center),

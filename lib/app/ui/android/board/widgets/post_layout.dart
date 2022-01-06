@@ -132,7 +132,7 @@ class CCWidget extends StatelessWidget {
                   style: const TextStyle(
                       color: const Color(0xff242424),
                       fontWeight: FontWeight.w400,
-                      fontFamily: "NotoSansTC",
+                      fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
                       fontSize: 12.0),
                   textAlign: TextAlign.justify),
@@ -196,7 +196,7 @@ class CommentWidget extends StatelessWidget {
                   style: const TextStyle(
                       color: const Color(0xff242424),
                       fontWeight: FontWeight.w400,
-                      fontFamily: "NotoSansTC",
+                      fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
                       fontSize: 12.0),
                   textAlign: TextAlign.justify),

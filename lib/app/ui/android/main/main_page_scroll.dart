@@ -107,7 +107,7 @@ class MainPageScroll extends StatelessWidget {
                                 style: const TextStyle(
                                     color: const Color(0xffffffff),
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansTC",
+                                    fontFamily: "NotoSansSC",
                                     fontStyle: FontStyle.normal,
                                     fontSize: 16.0),
                                 textAlign: TextAlign.center),
@@ -115,7 +115,7 @@ class MainPageScroll extends StatelessWidget {
                                 style: const TextStyle(
                                     color: const Color(0xff9b75ff),
                                     fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansTC",
+                                    fontFamily: "NotoSansSC",
                                     fontStyle: FontStyle.normal,
                                     fontSize: 12.0),
                                 textAlign: TextAlign.center),
@@ -152,7 +152,7 @@ class MainPageScroll extends StatelessWidget {
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w500,
-                                      fontFamily: "NotoSansTC",
+                                      fontFamily: "NotoSansSC",
                                       fontStyle: FontStyle.normal,
                                       fontSize: 14.0),
                                   textAlign: TextAlign.left,
@@ -162,7 +162,7 @@ class MainPageScroll extends StatelessWidget {
                                     hintStyle: const TextStyle(
                                         color: const Color(0xffcecece),
                                         fontWeight: FontWeight.w500,
-                                        fontFamily: "NotoSansTC",
+                                        fontFamily: "NotoSansSC",
                                         fontStyle: FontStyle.normal,
                                         fontSize: 14.0),
                                     border: InputBorder.none,
@@ -202,7 +202,7 @@ class MainPageScroll extends StatelessWidget {
                                                   color:
                                                       const Color(0xffffffff),
                                                   fontWeight: FontWeight.w500,
-                                                  fontFamily: "NotoSansTC",
+                                                  fontFamily: "NotoSansSC",
                                                   fontStyle: FontStyle.normal,
                                                   fontSize: 14.0),
                                               textAlign: TextAlign.left),
@@ -268,7 +268,7 @@ class MainPageScroll extends StatelessWidget {
                                       style: const TextStyle(
                                           color: const Color(0xff2f2f2f),
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: "NotoSansTC",
+                                          fontFamily: "NotoSansSC",
                                           fontStyle: FontStyle.normal,
                                           fontSize: 18.0),
                                       textAlign: TextAlign.left),
@@ -413,7 +413,7 @@ class MainPageScroll extends StatelessWidget {
                                                                           FontWeight
                                                                               .w400,
                                                                       fontFamily:
-                                                                          "NotoSansTC",
+                                                                          "NotoSansSC",
                                                                       fontStyle:
                                                                           FontStyle
                                                                               .normal,
@@ -616,7 +616,7 @@ class SeeMore extends StatelessWidget {
             style: const TextStyle(
                 color: const Color(0xff571df0),
                 fontWeight: FontWeight.w400,
-                fontFamily: "NotoSansTC",
+                fontFamily: "NotoSansSC",
                 fontStyle: FontStyle.normal,
                 fontSize: 12.0),
             textAlign: TextAlign.left),

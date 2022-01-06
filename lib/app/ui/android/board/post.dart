@@ -39,7 +39,7 @@ class Post extends StatelessWidget {
                               style: const TextStyle(
                                   color: const Color(0xffffffff),
                                   fontWeight: FontWeight.w500,
-                                  fontFamily: "NotoSansTC",
+                                  fontFamily: "NotoSansSC",
                                   fontStyle: FontStyle.normal,
                                   fontSize: 14.0),
                             )
@@ -50,7 +50,7 @@ class Post extends StatelessWidget {
                           style: const TextStyle(
                               color: const Color(0xffffffff),
                               fontWeight: FontWeight.w500,
-                              fontFamily: "NotoSansTC",
+                              fontFamily: "NotoSansSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 16.0),
                         ),

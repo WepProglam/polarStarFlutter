@@ -21,7 +21,7 @@ class OutsidePreview extends StatelessWidget {
                 style: const TextStyle(
                     color: const Color(0xffffffff),
                     fontWeight: FontWeight.w500,
-                    fontFamily: "NotoSansTC",
+                    fontFamily: "NotoSansSC",
                     fontStyle: FontStyle.normal,
                     fontSize: 14.0),
                 textAlign: TextAlign.left),
@@ -30,7 +30,7 @@ class OutsidePreview extends StatelessWidget {
                 style: const TextStyle(
                     color: const Color(0xff9b75ff),
                     fontWeight: FontWeight.w400,
-                    fontFamily: "NotoSansTC",
+                    fontFamily: "NotoSansSC",
                     fontStyle: FontStyle.normal,
                     fontSize: 12.0),
                 textAlign: TextAlign.left)

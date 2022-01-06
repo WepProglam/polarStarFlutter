@@ -56,7 +56,7 @@ class ClassItem_TOP extends StatelessWidget {
                 style: const TextStyle(
                     color: const Color(0xff2f2f2f),
                     fontWeight: FontWeight.w500,
-                    fontFamily: "NotoSansTC",
+                    fontFamily: "NotoSansSC",
                     fontStyle: FontStyle.normal,
                     fontSize: 18.0),
                 textAlign: TextAlign.left),
