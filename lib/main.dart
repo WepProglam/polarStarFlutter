@@ -67,21 +67,51 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.data}");
 }
 
-void main() async {
-  IO.Socket socket;
-  // http.get(Uri.parse('http://10.0.2.2:52324'));
-  try {
-    socket = IO.io('http://10.0.2.2:52324', <String, dynamic>{
-      'transports': ['websocket'],
-    });
+Future<void> socketting() async {
+  IO.Socket socket = await IO.io('http://13.209.5.161:3000', <String, dynamic>{
+    'transports': ['websocket'],
+    'autoConnect': false,
+  });
 
-    socket.emit("joinRoom", ["asdf", "asdfasdf"]);
-    socket.on("sendMessage", (res) {
-      print(res);
-    });
-  } catch (e) {
-    print(e);
-  }
+  socket.onConnect((_) {
+    print('connect');
+    socket.emit("joinRoom", [1, "asdfd"]);
+  });
+
+  socket.onConnectError((data) => print(data));
+
+  socket.on("viewRecentMessage", (data) => print(data));
+  socket.on("newMessage", (data) {
+    Get.snackbar("${data["USERNAME"]}", "${data["CONTENT"]}");
+    print(data);
+  });
+  socket.on('event', (data) => print(data));
+  socket.onDisconnect((_) => print('disconnect'));
+  socket.on('fromServer', (_) => print(_));
+
+  socket.connect();
+}
+
+void main() async {
+  // Socket.connect("http://13.209.5.161", 3000).then((Socket sock) {
+  //   print("adfsdfsadf");
+  // });
+
+  // socket.connect();
+  // IO.Socket socket;
+  // // http.get(Uri.parse('http://10.0.2.2:52324'));
+  // try {
+  //   socket = IO.io('http://10.0.2.2:52324', <String, dynamic>{
+  //     'transports': ['websocket'],
+  //   });
+
+  //   socket.emit("joinRoom", ["asdf", "asdfasdf"]);
+  //   socket.on("sendMessage", (res) {
+  //     print(res);
+  //   });
+  // } catch (e) {
+  //   print(e);
+  // }
 
   await GetStorage.init();
 
@@ -95,7 +125,7 @@ void main() async {
   print(isLogined);
   print("start");
 
-  socket.connect();
+  // socket.connect();
 
   // // fcm token check
   // await checkFcmToken(initController);
@@ -108,6 +138,8 @@ void main() async {
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
   //     statusBarColor: const Color(0xfff6f6f6),
   //     statusBarBrightness: Brightness.light));
+
+  socketting();
 
   await runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want

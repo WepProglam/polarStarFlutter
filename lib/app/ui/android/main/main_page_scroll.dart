@@ -31,6 +31,7 @@ class MainPageScroll extends StatelessWidget {
   final FocusNode searchFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
+    print("시발");
     final Size size = MediaQuery.of(context).size;
     final PageController outsidePageController = PageController();
     return GestureDetector(
