@@ -74,7 +74,7 @@ class TimeTableAdd extends StatelessWidget {
                                     timeTableController.createSemester.value,
                                     timeTableController.createName.value);
 
-                                Get.snackbar("complete", "complete");
+                                // Get.snackbar("complete", "complete");
                               },
                               child: Container(
                                 height: 28,

@@ -42,41 +42,6 @@ class Timetable extends StatelessWidget {
                           timeTableController: timeTableController,
                           size: size,
                           scrollable: false)),
-                  // Container(
-                  //   margin: const EdgeInsets.only(
-                  //       top: 20, left: 15.3, right: 15.3, bottom: 10.3),
-                  //   child: Row(
-                  //     children: [
-                  //       // 선 43
-                  //       Container(
-                  //           height: 0.5,
-                  //           width: Get.size.width / 2 - 9.8 - 15.3 - 20,
-                  //           margin: const EdgeInsets.only(
-                  //               top: 6.5, bottom: 6.5, right: 9.8),
-                  //           decoration:
-                  //               BoxDecoration(color: const Color(0xffdedede))),
-
-                  //       Ink(
-                  //           width: 40,
-                  //           child: InkWell(
-                  //             onTap: () {
-                  //               timeTableController.isHidden.value =
-                  //                   !timeTableController.isHidden.value;
-                  //             },
-                  //             child: Image.asset(
-                  //                 "assets/images/timetable_hidden.png"),
-                  //           )),
-
-                  //       Container(
-                  //           height: 0.5,
-                  //           width: Get.size.width / 2 - 9.8 - 15.3 - 20,
-                  //           margin: const EdgeInsets.only(
-                  //               top: 6.5, bottom: 6.5, left: 9.8),
-                  //           decoration:
-                  //               BoxDecoration(color: const Color(0xffdedede)))
-                  //     ],
-                  //   ),
-                  // ),
                   Obx(() {
                     bool isHidden = timeTableController.isHidden.value;
                     if (isHidden) {

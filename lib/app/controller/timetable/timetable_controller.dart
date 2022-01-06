@@ -177,18 +177,30 @@ class TimeTableController extends GetxController {
     switch (response.statusCode) {
       case 200:
         var rs = jsonDecode(response.body);
-        otherTable["${year}년 ${semester}학기"].add(TimeTableModel.fromJson({
-          "YEAR": int.parse(year),
-          "SEMESTER": int.parse(semester),
-          "NAME": name,
-          "IS_DEFAULT": 0,
-          "TIMETABLE_ID": rs["TIMETABLE_ID"]
-        }).obs);
+        if (!otherTable.containsKey("${year}년 ${semester}학기")) {
+          otherTable["${year}년 ${semester}학기"] = [
+            TimeTableModel.fromJson({
+              "YEAR": int.parse(year),
+              "SEMESTER": int.parse(semester),
+              "NAME": name,
+              "IS_DEFAULT": 1,
+              "TIMETABLE_ID": rs["TIMETABLE_ID"]
+            }).obs
+          ].obs;
+        } else {
+          otherTable["${year}년 ${semester}학기"].add(TimeTableModel.fromJson({
+            "YEAR": int.parse(year),
+            "SEMESTER": int.parse(semester),
+            "NAME": name,
+            "IS_DEFAULT": 0,
+            "TIMETABLE_ID": rs["TIMETABLE_ID"]
+          }).obs);
+        }
+
         print(otherTable["${year}년 ${semester}학기"].last.value.TIMETABLE_ID);
         Get.snackbar("시간표 생성 성공", "시간표 생성 성공");
         selectedTimeTableId.value = rs["TIMETABLE_ID"];
-        // Get.offNamedUntil(page, (route) => false);
-        // Get.offNamed("/timetable/bin");
+
         Get.offAndToNamed("/timetable/addClass");
         break;
       default:
