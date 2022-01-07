@@ -46,40 +46,9 @@ class Noti extends StatelessWidget {
                   ),
                 ),
               ),
-              // Positioned(
-              //   // left: 20,
-              //   child: Container(
-              //     padding:
-              //         const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-              //     child: Ink(
-              //       child: InkWell(
-              //         onTap: () {
-              //           Get.back();
-              //         },
-              //         child: Image.asset(
-              //           'assets/images/back_icon.png',
-              //           // fit: BoxFit.fitWidth,
-              //           width: 24,
-              //           height: 24,
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
-
-        // PreferredSize(
-        //     preferredSize: Size.fromHeight(56),
-        //     child: Obx(() {
-        //       int pageViewIndex = notiController.pageViewIndex.value;
-        //       return NotiAppBar(
-        //           pageViewIndex: pageViewIndex, notiController: notiController);
-        //     })),
-        // bottomNavigationBar: CustomBottomNavigationBar(
-        //   mainController: mainController,
-        // ),
         backgroundColor: const Color(0xffffffff),
         body: Column(
           children: [
@@ -90,10 +59,16 @@ class Noti extends StatelessWidget {
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () async {
-                  await notiController.getNoties();
+                  if (notiController.pageViewIndex.value == 0) {
+                    await notiController.getNoties();
+                  } else {
+                    await notiController.getMailBox();
+                  }
                 },
                 child: Obx(() {
-                  if (notiController.noties.length == 0) {
+                  RxBool isNotiPage =
+                      (notiController.pageViewIndex.value == 0).obs;
+                  if (isNotiPage.value && notiController.noties.length == 0) {
                     return Stack(children: [
                       ListView(),
                       Center(
@@ -108,130 +83,199 @@ class Noti extends StatelessWidget {
                         ),
                       ),
                     ]);
+                  } else if (!isNotiPage.value &&
+                      notiController.mailBox.length == 0) {
+                    return Stack(children: [
+                      ListView(),
+                      Center(
+                        child: Text(
+                          "아직 쪽지가 없습니다.",
+                          style: const TextStyle(
+                              color: const Color(0xff6f6e6e),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansKR",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                        ),
+                      ),
+                    ]);
                   }
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: notiController.noties.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        Rx<NotiModel> model = notiController.noties[index];
-                        return // Rectangle 2
-                            Ink(
-                          child: InkWell(
-                            onTap: () async {
-                              String COMMUNITY_ID;
-                              String BOARD_ID;
-                              if (model.value.NOTI_TYPE == 0) {
-                                COMMUNITY_ID = model.value.URL.split("/")[1];
-                                BOARD_ID = model.value.URL.split("/")[3];
-                                Get.toNamed(
-                                    "/board/${COMMUNITY_ID}/read/${BOARD_ID}");
-                              } else {
-                                Get.toNamed("/board/32/read/20");
-                              }
-                              if (!model.value.isReaded) {
-                                model.update((val) {
-                                  val.isReaded = true;
-                                });
-                                notiController.setReadNotied(
-                                    SaveNotiModel.fromJson({
-                                  "NOTI_ID": model.value.NOTI_ID,
-                                  "LOOKUP_DATE": "${DateTime.now()}"
-                                }));
-                              }
-                            },
-                            child: Container(
-                                height: 108,
-                                child: Container(
-                                  margin: const EdgeInsets.only(left: 14),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 20),
-                                        child: Row(children: [
-                                          Text(
-                                              model.value.NOTI_TYPE == 0
-                                                  ? "${communityBoardName(model.value.COMMUNITY_ID)}"
-                                                  : "${model.value.TITLE}",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff2f2f2f),
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: "NotoSansSC",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 14.0),
-                                              textAlign: TextAlign.left),
-                                          // Rectangle 7
-                                          Container(
-                                              width: 38,
-                                              height: 18,
-                                              child: Center(
-                                                child: // New
-                                                    Text("New",
-                                                        style: const TextStyle(
-                                                            color: const Color(
-                                                                0xffffffff),
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontFamily:
-                                                                "Roboto",
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontSize: 10.0),
-                                                        textAlign:
-                                                            TextAlign.left),
-                                              ),
+                  return PageView.builder(
+                      itemCount: 2,
+                      controller: notiController.pageController,
+                      onPageChanged: (index) {
+                        notiController.pageViewIndex.value = index;
+                      },
+                      itemBuilder: (BuildContext context, int i) {
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: isNotiPage.value
+                                ? notiController.noties.length
+                                : notiController.mailBox.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              RxString title = isNotiPage.value
+                                  ? (notiController
+                                              .noties[index].value.NOTI_TYPE ==
+                                          0
+                                      ? "${communityBoardName(notiController.noties[index].value.COMMUNITY_ID)}"
+                                          .obs
+                                      : "${notiController.noties[index].value.TITLE}"
+                                          .obs)
+                                  : notiController.mailBox[index].value
+                                      .PROFILE_NICKNAME.obs;
+
+                              RxString content = isNotiPage.value
+                                  ? "${notiController.noties[index].value.CONTENT}"
+                                      .obs
+                                  : "${notiController.mailBox[index].value.CONTENT}"
+                                      .obs;
+
+                              RxString dateTime = isNotiPage.value
+                                  ? "${prettyDate(notiController.noties[index].value.TIME_CREATED)}"
+                                      .obs
+                                  : "${prettyDate(notiController.mailBox[index].value.TIME_CREATED)}"
+                                      .obs;
+                              return // Rectangle 2
+                                  Ink(
+                                child: InkWell(
+                                  onTap: () async {
+                                    // * Noti Page
+                                    if (isNotiPage.value) {
+                                      checkNoti(notiController, index);
+                                    }
+                                    // * Mail Page
+                                    else {
+                                      checkMail(notiController, index);
+                                    }
+                                  },
+                                  child: Container(
+                                      height: 108,
+                                      child: Container(
+                                        margin: const EdgeInsets.only(left: 14),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
                                               margin: const EdgeInsets.only(
-                                                  top: 1.5,
-                                                  bottom: 1.5,
-                                                  left: 8),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(15)),
-                                                  color:
-                                                      const Color(0xff571df0)))
-                                        ]),
+                                                  top: 20),
+                                              child: Obx(() {
+                                                RxBool isReaded =
+                                                    isNotiPage.value
+                                                        ? notiController
+                                                            .noties[index]
+                                                            .value
+                                                            .isReaded
+                                                            .obs
+                                                        : notiController
+                                                            .mailBox[index]
+                                                            .value
+                                                            .isReaded
+                                                            .obs;
+                                                return Row(children: [
+                                                  Text("${title.value}",
+                                                      maxLines: 1,
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xff2f2f2f),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontFamily:
+                                                              "NotoSansSC",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 14.0),
+                                                      textAlign:
+                                                          TextAlign.left),
+                                                  // Rectangle 7
+                                                  isReaded.value
+                                                      ? Container()
+                                                      : Container(
+                                                          width: 38,
+                                                          height: 18,
+                                                          child: Center(
+                                                            child: // New
+                                                                Text("New",
+                                                                    style: const TextStyle(
+                                                                        color: const Color(
+                                                                            0xffffffff),
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500,
+                                                                        fontFamily:
+                                                                            "Roboto",
+                                                                        fontStyle:
+                                                                            FontStyle
+                                                                                .normal,
+                                                                        fontSize:
+                                                                            10.0),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .left),
+                                                          ),
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 1.5,
+                                                                  bottom: 1.5,
+                                                                  left: 8),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          15)),
+                                                              color: const Color(
+                                                                  0xff571df0)))
+                                                ]);
+                                              }),
+                                            ),
+                                            // 恭喜你上热棒了：大家这次期末考的怎么样啊？
+                                            Container(
+                                              margin:
+                                                  const EdgeInsets.only(top: 2),
+                                              child: Text("${content.value}",
+                                                  maxLines: 1,
+                                                  style: const TextStyle(
+                                                      color: const Color(
+                                                          0xff6f6e6e),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontFamily: "NotoSansSC",
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontSize: 12.0),
+                                                  textAlign: TextAlign.left),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  top: 14),
+                                              child: Text("${dateTime.value}",
+                                                  style: const TextStyle(
+                                                      color: const Color(
+                                                          0xff6f6e6e),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontFamily: "Roboto",
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontSize: 12.0),
+                                                  textAlign: TextAlign.left),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                      // 恭喜你上热棒了：大家这次期末考的怎么样啊？
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 2),
-                                        child: Text("${model.value.CONTENT}",
-                                            style: const TextStyle(
-                                                color: const Color(0xff6f6e6e),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "NotoSansSC",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 12.0),
-                                            textAlign: TextAlign.left),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.only(top: 14),
-                                        child: Text(
-                                            "${prettyDate(model.value.TIME_CREATED)}",
-                                            style: const TextStyle(
-                                                color: const Color(0xff6f6e6e),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "Roboto",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 12.0),
-                                            textAlign: TextAlign.left),
-                                      )
-                                    ],
-                                  ),
+                                      margin: const EdgeInsets.only(
+                                          bottom: 10, left: 20, right: 20),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8)),
+                                          border: Border.all(
+                                              color: const Color(0xffeaeaea),
+                                              width: 1),
+                                          color: const Color(0xffffffff))),
                                 ),
-                                margin: const EdgeInsets.only(
-                                    bottom: 10, left: 20, right: 20),
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8)),
-                                    border: Border.all(
-                                        color: const Color(0xffeaeaea),
-                                        width: 1),
-                                    color: const Color(0xffffffff))),
-                          ),
-                        );
+                              );
+                            });
                       });
                 }),
               ),
@@ -275,15 +319,16 @@ class NotiMailSelect extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 14),
+              // margin: const EdgeInsets.symmetric(vertical: 14),
+              padding: const EdgeInsets.all(14),
               child: Ink(
                 child: InkWell(
                   onTap: () {
-                    notiController.pageViewIndex.value = 1;
+                    notiController.pageViewIndex.value = 0;
                   },
                   child: Text("消息",
                       style: TextStyle(
-                          color: notiController.pageViewIndex.value == 0
+                          color: notiController.pageViewIndex.value == 1
                               ? Color(0xffffffff)
                               : Color(0xff9b75ff),
                           fontWeight: FontWeight.w500,
@@ -299,17 +344,17 @@ class NotiMailSelect extends StatelessWidget {
                 height: 16,
                 decoration: BoxDecoration(color: const Color(0xff535353))),
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 14),
+              padding: const EdgeInsets.all(14),
               child:
                   // 私信
                   Ink(
                 child: InkWell(
                   onTap: () {
-                    notiController.pageViewIndex.value = 0;
+                    notiController.pageViewIndex.value = 1;
                   },
                   child: Text("私信",
                       style: TextStyle(
-                          color: notiController.pageViewIndex.value == 0
+                          color: notiController.pageViewIndex.value == 1
                               ? Color(0xff9b75ff)
                               : Color(0xffffffff),
                           fontWeight: FontWeight.w500,
@@ -324,5 +369,40 @@ class NotiMailSelect extends StatelessWidget {
         );
       }),
     );
+  }
+}
+
+void checkNoti(NotiController notiController, int index) {
+  String COMMUNITY_ID;
+  String BOARD_ID;
+  if (notiController.noties[index].value.NOTI_TYPE == 0) {
+    COMMUNITY_ID = notiController.noties[index].value.URL.split("/")[1];
+    BOARD_ID = notiController.noties[index].value.URL.split("/")[3];
+    Get.toNamed("/board/${COMMUNITY_ID}/read/${BOARD_ID}");
+  } else {
+    Get.toNamed("/board/32/read/20");
+  }
+  if (!notiController.noties[index].value.isReaded) {
+    notiController.noties[index].update((val) {
+      val.isReaded = true;
+    });
+    notiController.setReadNotied(SaveNotiModel.fromJson({
+      "NOTI_ID": notiController.noties[index].value.NOTI_ID,
+      "LOOKUP_DATE": "${DateTime.now()}"
+    }));
+  }
+}
+
+void checkMail(NotiController notiController, int index) {
+  Get.toNamed("/mail/${notiController.mailBox[index].value.MAIL_BOX_ID}");
+  if (!notiController.mailBox[index].value.isReaded) {
+    notiController.mailBox[index].update((val) {
+      val.isReaded = true;
+    });
+    notiController.setReadMails(SaveMailBoxModel.fromJson({
+      "MAIL_BOX_ID": notiController.mailBox[index].value.MAIL_BOX_ID,
+      "MAIL_ID": notiController.mailBox[index].value.MAIL_ID,
+      "LOOKUP_DATE": "${DateTime.now()}"
+    }));
   }
 }
