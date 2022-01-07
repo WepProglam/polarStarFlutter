@@ -175,7 +175,10 @@ class Class extends StatelessWidget {
                                     },
                                     child: Container(
                                         margin: const EdgeInsets.only(
-                                            top: 10, left: 20, right: 20),
+                                            top: 10,
+                                            left: 20,
+                                            right: 20,
+                                            bottom: 20),
                                         height: 67,
                                         child: Center(
                                           child: Text(

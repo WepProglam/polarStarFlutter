@@ -37,7 +37,7 @@ var inputDecoration = (hint) => InputDecoration(
 const textStyle = const TextStyle(
     color: Colors.black,
     fontWeight: FontWeight.w400,
-    fontFamily: "PingFangSC",
+    fontFamily: "Roboto",
     fontStyle: FontStyle.normal,
     fontSize: 14.0);
 

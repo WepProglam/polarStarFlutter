@@ -42,7 +42,8 @@ class MainApiClient {
       "hotBoard": listHotBoard,
       "likeList": listLikeList,
       "scrapList": listScrapList,
-      "classList": listClassList
+      "classList": listClassList,
+      "year_sem": jsonResponse["YEAR_SEM"]
     };
   }
 

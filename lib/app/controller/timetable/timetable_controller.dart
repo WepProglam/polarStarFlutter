@@ -246,6 +246,9 @@ class TimeTableController extends GetxController {
 
           dataAvailable(true);
           break;
+        case 404:
+          Get.snackbar("없는 시간표", "없는 시간표");
+          break;
         default:
           dataAvailable(false);
           printError(info: "Data Fetch ERROR!!");
@@ -394,7 +397,6 @@ class TimeTableController extends GetxController {
     if (selectYearSemester.length > 0) {
       await getSemesterTimeTable("${selectYearSemester[0].value.YEAR}",
           "${selectYearSemester[0].value.SEMESTER}");
-      print("fffffffffffffffffffffffffffffffffffffff");
       refactoringTime();
     }
 

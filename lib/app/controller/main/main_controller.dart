@@ -99,6 +99,9 @@ class MainController extends GetxController {
     scrapList.value = value["scrapList"];
     classList.value = value["classList"];
 
+    box.write("year_sem", value["year_sem"]);
+
+    // print(value["year_sem"]["TIMETABLE_YEAR_FROM_DATE"]);
     // for (MainClassModel model in classList) {
     //   print("${model.CLASS_NAME}: ${model.CLASS_ID}");
     // }
