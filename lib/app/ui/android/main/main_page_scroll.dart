@@ -126,98 +126,10 @@ class MainPageScroll extends StatelessWidget {
                       Container(
                         margin:
                             const EdgeInsets.only(top: 14, left: 20, right: 20),
-                        child: Container(
-                            height: 48,
-                            child: Row(children: [
-                              Container(
-                                width:
-                                    Get.mediaQuery.size.width - 20 * 2 - 6 - 68,
-                                child: TextFormField(
-                                  onEditingComplete: () async {
-                                    String text = searchText.text;
-                                    searchText.clear();
-                                    searchFocusNode.unfocus();
-
-                                    await Get.toNamed(Routes.MAIN_PAGE_SEARCH,
-                                            arguments: {"search": text})
-                                        .then((value) async {
-                                      await MainUpdateModule.updateMainPage(
-                                          mainController);
-                                    });
-                                  },
-                                  focusNode: searchFocusNode,
-                                  autofocus: false,
-                                  minLines: 1,
-                                  maxLines: 1,
-                                  controller: searchText,
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: "NotoSansSC",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 14.0),
-                                  textAlign: TextAlign.left,
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    hintText: "新建立 韩国大学联合交流区",
-                                    hintStyle: const TextStyle(
-                                        color: const Color(0xffcecece),
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: "NotoSansSC",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 14.0),
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.only(
-                                        left: 20,
-                                        right: 0,
-                                        top: 14,
-                                        bottom: 14),
-                                  ),
-                                ),
-                              ),
-                              // Rectangle 12
-                              InkWell(
-                                onTap: () async {
-                                  String text = searchText.text;
-                                  searchText.clear();
-                                  searchFocusNode.unfocus();
-
-                                  await Get.toNamed(Routes.MAIN_PAGE_SEARCH,
-                                          arguments: {"search": text})
-                                      .then((value) async {
-                                    await MainUpdateModule.updateMainPage(
-                                        mainController);
-                                  });
-
-                                  print(text);
-                                },
-                                child: Container(
-                                    width: 68,
-                                    height: 36,
-                                    margin: const EdgeInsets.only(
-                                        right: 6, top: 6, bottom: 6),
-                                    child: Center(
-                                      child: // 搜索
-                                          Text("搜索",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xffffffff),
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: "NotoSansSC",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 14.0),
-                                              textAlign: TextAlign.left),
-                                    ),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(30)),
-                                        color: const Color(0xff2f2f2f))),
-                              ),
-                            ]),
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                                color: const Color(0xffffffff))),
+                        child: NormalSearchBar(
+                            searchText: searchText,
+                            searchFocusNode: searchFocusNode,
+                            mainController: mainController),
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 129),
@@ -279,8 +191,7 @@ class MainPageScroll extends StatelessWidget {
                                       searchFocusNode.unfocus();
                                       await Get.toNamed("/board/hot/page/1")
                                           .then((value) async {
-                                        await MainUpdateModule.updateMainPage(
-                                            mainController);
+                                        await MainUpdateModule.updateMainPage();
                                       });
                                     },
                                     child: SeeMore(),
@@ -350,8 +261,7 @@ class MainPageScroll extends StatelessWidget {
                                                         "/board/${boardInfo.value.COMMUNITY_ID}/page/${1}",
                                                       ).then((value) async {
                                                         await MainUpdateModule
-                                                            .updateMainPage(
-                                                                mainController);
+                                                            .updateMainPage();
                                                       });
                                                     },
                                                     child: Container(
@@ -463,8 +373,7 @@ class MainPageScroll extends StatelessWidget {
                                                                 .then(
                                                                     (value) async {
                                                               await MainUpdateModule
-                                                                  .updateMainPage(
-                                                                      mainController);
+                                                                  .updateMainPage();
                                                             });
                                                           },
                                                           child: Image.asset(
@@ -526,8 +435,7 @@ class MainPageScroll extends StatelessWidget {
                                                                   .then(
                                                                       (value) async {
                                                                 await MainUpdateModule
-                                                                    .updateMainPage(
-                                                                        mainController);
+                                                                    .updateMainPage();
                                                               });
                                                             },
                                                             child: Image.asset(
@@ -572,6 +480,103 @@ class MainPageScroll extends StatelessWidget {
         }),
       ),
     );
+  }
+}
+
+class NormalSearchBar extends StatelessWidget {
+  const NormalSearchBar({
+    Key key,
+    @required this.searchText,
+    @required this.searchFocusNode,
+    @required this.mainController,
+  }) : super(key: key);
+
+  final TextEditingController searchText;
+  final FocusNode searchFocusNode;
+  final MainController mainController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 48,
+        child: Row(children: [
+          Container(
+            width: Get.mediaQuery.size.width - 20 * 2 - 6 - 68,
+            child: TextFormField(
+              onEditingComplete: () async {
+                String text = searchText.text;
+                searchText.clear();
+                searchFocusNode.unfocus();
+
+                await Get.toNamed(Routes.MAIN_PAGE_SEARCH,
+                    arguments: {"search": text}).then((value) async {
+                  await MainUpdateModule.updateMainPage();
+                });
+              },
+              focusNode: searchFocusNode,
+              autofocus: false,
+              minLines: 1,
+              maxLines: 1,
+              controller: searchText,
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "NotoSansSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
+              textAlign: TextAlign.left,
+              decoration: InputDecoration(
+                isDense: true,
+                hintText: "新建立 韩国大学联合交流区",
+                hintStyle: const TextStyle(
+                    color: const Color(0xffcecece),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "NotoSansSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
+                border: InputBorder.none,
+                contentPadding:
+                    EdgeInsets.only(left: 20, right: 0, top: 14, bottom: 14),
+              ),
+            ),
+          ),
+          // Rectangle 12
+          InkWell(
+            onTap: () async {
+              String text = searchText.text;
+              searchText.clear();
+              searchFocusNode.unfocus();
+
+              await Get.toNamed(Routes.MAIN_PAGE_SEARCH,
+                  arguments: {"search": text}).then((value) async {
+                await MainUpdateModule.updateMainPage();
+              });
+
+              print(text);
+            },
+            child: Container(
+                width: 68,
+                height: 36,
+                margin: const EdgeInsets.only(right: 6, top: 6, bottom: 6),
+                child: Center(
+                  child: // 搜索
+                      Text("搜索",
+                          style: const TextStyle(
+                              color: const Color(0xffffffff),
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                          textAlign: TextAlign.left),
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: const Color(0xff2f2f2f))),
+          ),
+        ]),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(30)),
+            color: const Color(0xffffffff)));
   }
 }
 

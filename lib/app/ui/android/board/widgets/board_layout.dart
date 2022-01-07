@@ -25,227 +25,217 @@ class PostPreview extends StatelessWidget {
     type = type == null ? 2 : type;
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
-      child: InkWell(
-        onTap: () {
-          print(item);
-          Get.toNamed(
-              '/board/${item.value.COMMUNITY_ID}/read/${item.value.BOARD_ID}',
-              arguments: {"type": type});
-        },
-        child: Ink(
-          decoration: BoxDecoration(
-              color: Color(0xffffffff),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          padding: const EdgeInsets.fromLTRB(27, 19.5, 27, 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 프로필 이미지 & 닉네임 & 작성 시간
-              Container(
-                height: 39,
-                margin: EdgeInsets.only(bottom: 7.6),
-                child: Row(
-                  children: [
-                    // profile image
-                    Container(
-                        width: 39,
-                        height: 39,
-                        margin: EdgeInsets.only(right: 11.8),
-                        child: CachedNetworkImage(
-                          imageUrl: '${item.value.PROFILE_PHOTO}',
-                          imageBuilder: (context, imageProvider) => Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover))),
-                        )),
+      child: Ink(
+        decoration: BoxDecoration(
+            color: Color(0xffffffff),
+            borderRadius: BorderRadius.all(Radius.circular(20))),
+        padding: const EdgeInsets.fromLTRB(27, 19.5, 27, 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 프로필 이미지 & 닉네임 & 작성 시간
+            Container(
+              height: 39,
+              margin: EdgeInsets.only(bottom: 7.6),
+              child: Row(
+                children: [
+                  // profile image
+                  Container(
+                      width: 39,
+                      height: 39,
+                      margin: EdgeInsets.only(right: 11.8),
+                      child: CachedNetworkImage(
+                        imageUrl: '${item.value.PROFILE_PHOTO}',
+                        imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover))),
+                      )),
 
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // nickname
+                      Text(item.value.PROFILE_NICKNAME,
+                          style: const TextStyle(
+                              color: const Color(0xff333333),
+                              fontWeight: FontWeight.bold,
+                              // fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 15.0),
+                          textAlign: TextAlign.left),
+
+                      // time
+                      Text(
+                          timeParsing(
+                              item.value.TIME_CREATED, item.value.TIME_UPDATED),
+                          style: const TextStyle(
+                              color: const Color(0xff999999),
+                              fontWeight: FontWeight.normal,
+                              // fontFamily: "PingFangSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 11.0),
+                          textAlign: TextAlign.left),
+                    ],
+                  ),
+
+                  Spacer(),
+
+                  // 좋아요, 즐겨찾기
+                  // Ink(
+                  //   width: 11,
+                  //   height: 11,
+                  //   child: InkWell(
+                  //     onTap: () {},
+                  //     child: Image.asset(
+                  //       "assets/images/invalid_name.png",
+                  //       fit: BoxFit.fitWidth,
+                  //     ),
+                  //   ),
+                  // ),
+
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 13.7),
+                  //   child: Ink(
+                  //     width: 11,
+                  //     height: 11,
+                  //     child: InkWell(
+                  //       onTap: () {},
+                  //       child: Image.asset(
+                  //         "assets/images/scrap_none.png",
+                  //         fit: BoxFit.fitWidth,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
+
+            // 제목, 내용
+            Text(item.value.TITLE,
+                style: const TextStyle(
+                    color: const Color(0xff333333),
+                    fontWeight: FontWeight.bold,
+                    // fontFamily: "PingFangSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 16.0),
+                textAlign: TextAlign.left),
+            Text(item.value.CONTENT,
+                maxLines: 2,
+                style: const TextStyle(
+                    color: const Color(0xff333333),
+                    fontWeight: FontWeight.normal,
+                    // fontFamily: "PingFangSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
+                textAlign: TextAlign.left),
+
+            // Photo
+            Container(
+                margin: EdgeInsets.only(top: 13.1 - 5.6, bottom: 17.8 - 5.6),
+                child: item.value.PHOTO == null || item.value.PHOTO.length == 0
+                    ? Container()
+                    : Container(
+                        height: 120,
+                        child: PhotoLayout(
+                          model: item.value,
+                        ),
+                      )),
+
+            //좋아요, 댓글, 스크랩 수
+            Obx(() {
+              return Row(
+                children: [
+                  Container(
+                    height: 16,
+                    margin: EdgeInsets.only(right: 20),
+                    child: Row(
                       children: [
-                        // nickname
-                        Text(item.value.PROFILE_NICKNAME,
+                        Container(
+                          width: 10.6,
+                          height: 10.6,
+                          margin: const EdgeInsets.only(right: 6.4),
+                          child: (mainController.isLiked(item.value)
+                              ? Image.asset(
+                                  "assets/images/like_red.png",
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  "assets/images/invalid_name.png",
+                                  fit: BoxFit.cover,
+                                )),
+                        ),
+                        Text(item.value.LIKES.toString(),
                             style: const TextStyle(
                                 color: const Color(0xff333333),
                                 fontWeight: FontWeight.bold,
                                 // fontFamily: "PingFangSC",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 15.0),
-                            textAlign: TextAlign.left),
-
-                        // time
-                        Text(
-                            timeParsing(item.value.TIME_CREATED,
-                                item.value.TIME_UPDATED),
-                            style: const TextStyle(
-                                color: const Color(0xff999999),
-                                fontWeight: FontWeight.normal,
-                                // fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 11.0),
-                            textAlign: TextAlign.left),
+                                fontSize: 12.0),
+                            textAlign: TextAlign.left)
                       ],
                     ),
-
-                    Spacer(),
-
-                    // 좋아요, 즐겨찾기
-                    // Ink(
-                    //   width: 11,
-                    //   height: 11,
-                    //   child: InkWell(
-                    //     onTap: () {},
-                    //     child: Image.asset(
-                    //       "assets/images/invalid_name.png",
-                    //       fit: BoxFit.fitWidth,
-                    //     ),
-                    //   ),
-                    // ),
-
-                    // Padding(
-                    //   padding: const EdgeInsets.only(left: 13.7),
-                    //   child: Ink(
-                    //     width: 11,
-                    //     height: 11,
-                    //     child: InkWell(
-                    //       onTap: () {},
-                    //       child: Image.asset(
-                    //         "assets/images/scrap_none.png",
-                    //         fit: BoxFit.fitWidth,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
-              ),
-
-              // 제목, 내용
-              Text(item.value.TITLE,
-                  style: const TextStyle(
-                      color: const Color(0xff333333),
-                      fontWeight: FontWeight.bold,
-                      // fontFamily: "PingFangSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 16.0),
-                  textAlign: TextAlign.left),
-              Text(item.value.CONTENT,
-                  maxLines: 2,
-                  style: const TextStyle(
-                      color: const Color(0xff333333),
-                      fontWeight: FontWeight.normal,
-                      // fontFamily: "PingFangSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                  textAlign: TextAlign.left),
-
-              // Photo
-              Container(
-                  margin: EdgeInsets.only(top: 13.1 - 5.6, bottom: 17.8 - 5.6),
-                  child:
-                      item.value.PHOTO == null || item.value.PHOTO.length == 0
-                          ? Container()
-                          : Container(
-                              height: 120,
-                              child: PhotoLayout(
-                                model: item.value,
-                              ),
+                  ),
+                  Container(
+                    height: 16,
+                    margin: EdgeInsets.only(right: 20),
+                    child: Row(
+                      children: [
+                        Container(
+                            width: 10.6,
+                            height: 10.6,
+                            margin: const EdgeInsets.only(right: 6.4),
+                            child: Icon(
+                              Icons.comment_outlined,
+                              size: 10.6,
                             )),
-
-              //좋아요, 댓글, 스크랩 수
-              Obx(() {
-                return Row(
-                  children: [
-                    Container(
-                      height: 16,
-                      margin: EdgeInsets.only(right: 20),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 10.6,
-                            height: 10.6,
-                            margin: const EdgeInsets.only(right: 6.4),
-                            child: (mainController.isLiked(item.value)
-                                ? Image.asset(
-                                    "assets/images/like_red.png",
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.asset(
-                                    "assets/images/invalid_name.png",
-                                    fit: BoxFit.cover,
-                                  )),
-                          ),
-                          Text(item.value.LIKES.toString(),
-                              style: const TextStyle(
-                                  color: const Color(0xff333333),
-                                  fontWeight: FontWeight.bold,
-                                  // fontFamily: "PingFangSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 12.0),
-                              textAlign: TextAlign.left)
-                        ],
-                      ),
+                        Text(item.value.COMMENTS.toString(),
+                            style: const TextStyle(
+                                color: const Color(0xff333333),
+                                fontWeight: FontWeight.bold,
+                                // fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.0),
+                            textAlign: TextAlign.left)
+                      ],
                     ),
-                    Container(
-                      height: 16,
-                      margin: EdgeInsets.only(right: 20),
-                      child: Row(
-                        children: [
-                          Container(
-                              width: 10.6,
-                              height: 10.6,
-                              margin: const EdgeInsets.only(right: 6.4),
-                              child: Icon(
-                                Icons.comment_outlined,
-                                size: 10.6,
-                              )),
-                          Text(item.value.COMMENTS.toString(),
-                              style: const TextStyle(
-                                  color: const Color(0xff333333),
-                                  fontWeight: FontWeight.bold,
-                                  // fontFamily: "PingFangSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 12.0),
-                              textAlign: TextAlign.left)
-                        ],
-                      ),
+                  ),
+                  Container(
+                    height: 16,
+                    margin: EdgeInsets.only(right: 20),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 10.6,
+                          height: 10.6,
+                          margin: const EdgeInsets.only(right: 6.4),
+                          child: (mainController.isScrapped(item.value)
+                              ? Image.asset(
+                                  "assets/images/849.png",
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  "assets/images/scrap_none.png",
+                                  fit: BoxFit.cover,
+                                )),
+                        ),
+                        Text(item.value.SCRAPS.toString(),
+                            style: const TextStyle(
+                                color: const Color(0xff333333),
+                                fontWeight: FontWeight.bold,
+                                // fontFamily: "PingFangSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.0),
+                            textAlign: TextAlign.left)
+                      ],
                     ),
-                    Container(
-                      height: 16,
-                      margin: EdgeInsets.only(right: 20),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 10.6,
-                            height: 10.6,
-                            margin: const EdgeInsets.only(right: 6.4),
-                            child: (mainController.isScrapped(item.value)
-                                ? Image.asset(
-                                    "assets/images/849.png",
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.asset(
-                                    "assets/images/scrap_none.png",
-                                    fit: BoxFit.cover,
-                                  )),
-                          ),
-                          Text(item.value.SCRAPS.toString(),
-                              style: const TextStyle(
-                                  color: const Color(0xff333333),
-                                  fontWeight: FontWeight.bold,
-                                  // fontFamily: "PingFangSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 12.0),
-                              textAlign: TextAlign.left)
-                        ],
-                      ),
-                    )
-                  ],
-                );
-              }),
-            ],
-          ),
+                  )
+                ],
+              );
+            }),
+          ],
         ),
       ),
     );

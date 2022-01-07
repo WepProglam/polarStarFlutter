@@ -30,23 +30,19 @@ class Noti extends StatelessWidget {
           // elevation: 0,
           automaticallyImplyLeading: false,
 
-          title: Stack(
-            children: [
-              Center(
-                child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 16.5),
-                  child: Text(
-                    "成均馆大学",
-                    style: const TextStyle(
-                        color: const Color(0xffffffff),
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "NotoSansSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14.0),
-                  ),
-                ),
+          title: Center(
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 16.5),
+              child: Text(
+                "成均馆大学",
+                style: const TextStyle(
+                    color: const Color(0xffffffff),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "NotoSansSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
               ),
-            ],
+            ),
           ),
         ),
         backgroundColor: const Color(0xffffffff),
@@ -59,11 +55,8 @@ class Noti extends StatelessWidget {
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () async {
-                  if (notiController.pageViewIndex.value == 0) {
-                    await notiController.getNoties();
-                  } else {
-                    await notiController.getMailBox();
-                  }
+                  await MainUpdateModule.updateNotiPage(
+                      notiController.pageViewIndex.value);
                 },
                 child: Obx(() {
                   RxBool isNotiPage =

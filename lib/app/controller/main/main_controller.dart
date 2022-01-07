@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
+import 'package:polarstar_flutter/app/controller/class/class_controller.dart';
+import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
@@ -12,6 +14,7 @@ import 'package:polarstar_flutter/app/data/provider/sqflite/database_helper.dart
 import 'package:polarstar_flutter/app/data/provider/sqflite/src/db_community.dart';
 import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
+import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
 
 class MainController extends GetxController {
   final MainRepository repository;
@@ -207,20 +210,53 @@ class MainUpdateModule {
   static Future<void> updatePost({int type = 2}) async {
     final PostController postController = Get.find();
     await postController.refreshPost();
-    Post item = postController.sortedList[0].value;
+    // Post item = postController.sortedList[0].value;
 
-    if (type == 0) {
-      await updatePostMainPage(item);
-    } else if (type == 1) {
-      await updatePostMyPage(item);
-    } else if (type == 2) {
-      await updatePostBoard(item);
+    // if (type == 0) {
+    //   await updatePostMainPage(item);
+    // } else if (type == 1) {
+    //   await updatePostMyPage(item);
+    // } else if (type == 2) {
+    //   await updatePostBoard(item);
+    // }
+    return;
+  }
+
+  static Future<void> updateClassPage() async {
+    putController<ClassController>();
+    ClassController cc = Get.find();
+    await cc.refreshPage();
+    return;
+  }
+
+  static Future<void> updateMyPage(int index) async {
+    putController<MyPageController>();
+    MyPageController mc = Get.find();
+    if (index == 0) {
+      await mc.getMineWrite();
+    } else if (index == 1) {
+      await mc.getMineScrap();
+    } else {
+      await mc.getMineLike();
     }
     return;
   }
 
-  static Future<void> updateMainPage(MainController mc) async {
+  static Future<void> updateMainPage() async {
+    putController<MainController>();
+    MainController mc = Get.find();
     await mc.getBoardInfo();
+    return;
+  }
+
+  static Future<void> updateNotiPage(int index) async {
+    putController<NotiController>();
+    NotiController nc = Get.find();
+    if (index == 0) {
+      await nc.getNoties();
+    } else {
+      await nc.getMailBox();
+    }
     return;
   }
 

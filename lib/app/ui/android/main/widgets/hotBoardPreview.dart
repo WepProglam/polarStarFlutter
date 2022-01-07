@@ -43,7 +43,7 @@ class HotBoardMain extends StatelessWidget {
             await Get.toNamed(
                 "/board/${mainController.hotBoard[index].value.COMMUNITY_ID}/read/${mainController.hotBoard[index].value.BOARD_ID}",
                 arguments: {"type": 0}).then((value) async {
-              await MainUpdateModule.updateMainPage(mainController);
+              await MainUpdateModule.updateMainPage();
             });
           },
           child: PostWidget(

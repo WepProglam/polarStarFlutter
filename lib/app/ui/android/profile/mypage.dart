@@ -31,7 +31,7 @@ class Mypage extends StatelessWidget {
                         controller: myPageController.tabController,
                         children: [
                           RefreshIndicator(
-                            onRefresh: () => myPageController.getMineWrite(),
+                            onRefresh: () => MainUpdateModule.updateMyPage(0),
                             child: Obx(() {
                               if (myPageController.myBoardWrite.length == 0) {
                                 return Stack(children: [
@@ -46,18 +46,23 @@ class Mypage extends StatelessWidget {
                                     itemCount:
                                         myPageController.myBoardWrite.length,
                                     itemBuilder: (BuildContext context, int i) {
-                                      return Container(
-                                        margin: const EdgeInsets.only(
-                                            bottom: 5), //자체 패딩 10 + 5 = 15
-                                        child: PostPreview(
-                                          item:
-                                              myPageController.myBoardWrite[i],
-                                          /*
-                                           * type 0 : 메인 -> 핫
-                                           * type 1 : 마이 -> 게시글
-                                           * type 2 : 게시판 -> 게시글
-                                           */
-                                          type: 1,
+                                      return Ink(
+                                        child: InkWell(
+                                          onTap: () {
+                                            Get.toNamed(
+                                              '/board/${myPageController.myBoardWrite[i].value.COMMUNITY_ID}/read/${myPageController.myBoardWrite[i].value.BOARD_ID}',
+                                            ).then((value) {
+                                              MainUpdateModule.updateMyPage(0);
+                                            });
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 5), //자체 패딩 10 + 5 = 15
+                                            child: PostPreview(
+                                              item: myPageController
+                                                  .myBoardWrite[i],
+                                            ),
+                                          ),
                                         ),
                                       );
                                     });
@@ -65,7 +70,7 @@ class Mypage extends StatelessWidget {
                             }),
                           ),
                           RefreshIndicator(
-                            onRefresh: () => myPageController.getMineWrite(),
+                            onRefresh: () => MainUpdateModule.updateMyPage(1),
                             child: Obx(() {
                               if (myPageController.myBoardScrap.length == 0) {
                                 return Stack(children: [
@@ -80,18 +85,23 @@ class Mypage extends StatelessWidget {
                                     itemCount:
                                         myPageController.myBoardScrap.length,
                                     itemBuilder: (BuildContext context, int i) {
-                                      return Container(
-                                        margin: const EdgeInsets.only(
-                                            bottom: 5), //자체 패딩 10 + 5 = 15
-                                        child: PostPreview(
-                                          item:
-                                              myPageController.myBoardScrap[i],
-                                          /*
-                                           * type 0 : 메인 -> 핫
-                                           * type 1 : 마이 -> 게시글
-                                           * type 2 : 게시판 -> 게시글
-                                           */
-                                          type: 1,
+                                      return Ink(
+                                        child: InkWell(
+                                          onTap: () {
+                                            Get.toNamed(
+                                              '/board/${myPageController.myBoardScrap[i].value.COMMUNITY_ID}/read/${myPageController.myBoardScrap[i].value.BOARD_ID}',
+                                            ).then((value) {
+                                              MainUpdateModule.updateMyPage(1);
+                                            });
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 5), //자체 패딩 10 + 5 = 15
+                                            child: PostPreview(
+                                              item: myPageController
+                                                  .myBoardScrap[i],
+                                            ),
+                                          ),
                                         ),
                                       );
                                     });
@@ -99,7 +109,7 @@ class Mypage extends StatelessWidget {
                             }),
                           ),
                           RefreshIndicator(
-                            onRefresh: () => myPageController.getMineWrite(),
+                            onRefresh: () => MainUpdateModule.updateMyPage(2),
                             child: Obx(() {
                               if (myPageController.myBoardLike.length == 0) {
                                 return Stack(children: [
@@ -114,17 +124,23 @@ class Mypage extends StatelessWidget {
                                     itemCount:
                                         myPageController.myBoardLike.length,
                                     itemBuilder: (BuildContext context, int i) {
-                                      return Container(
-                                        margin: const EdgeInsets.only(
-                                            bottom: 5), //자체 패딩 10 + 5 = 15
-                                        child: PostPreview(
-                                          item: myPageController.myBoardLike[i],
-                                          /*
-                                           * type 0 : 메인 -> 핫
-                                           * type 1 : 마이 -> 게시글
-                                           * type 2 : 게시판 -> 게시글
-                                           */
-                                          type: 1,
+                                      return Ink(
+                                        child: InkWell(
+                                          onTap: () {
+                                            Get.toNamed(
+                                              '/board/${myPageController.myBoardLike[i].value.COMMUNITY_ID}/read/${myPageController.myBoardLike[i].value.BOARD_ID}',
+                                            ).then((value) {
+                                              MainUpdateModule.updateMyPage(2);
+                                            });
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 5), //자체 패딩 10 + 5 = 15
+                                            child: PostPreview(
+                                              item: myPageController
+                                                  .myBoardLike[i],
+                                            ),
+                                          ),
                                         ),
                                       );
                                     });

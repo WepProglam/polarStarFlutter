@@ -14,6 +14,8 @@ class ClassController extends GetxController {
   final classList = <ClassModel>[].obs;
   final reviewList = <ClassRecentReviewModel>[].obs;
 
+  RxBool dataAvailbale = false.obs;
+
   Future<void> refreshPage() async {
     await getClassList();
   }
@@ -37,5 +39,6 @@ class ClassController extends GetxController {
   void onInit() async {
     await getClassList();
     super.onInit();
+    dataAvailbale.value = true;
   }
 }

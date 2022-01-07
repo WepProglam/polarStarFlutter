@@ -1,9 +1,9 @@
 class MailBoxModel {
   String PROFILE_NICKNAME, PROFILE_PHOTO;
   int MAIL_BOX_ID, MAIL_ID;
+  DateTime TIME_CREATED;
   String CONTENT;
   bool isReaded, MY_SELF;
-  DateTime TIME_CREATED;
 
   MailBoxModel(
       {this.MAIL_BOX_ID,
