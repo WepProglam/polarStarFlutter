@@ -42,7 +42,7 @@ class MainPageScroll extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          toolbarHeight: 56.3,
+          toolbarHeight: 56,
           automaticallyImplyLeading: false,
           titleSpacing: 0,
           title: Container(

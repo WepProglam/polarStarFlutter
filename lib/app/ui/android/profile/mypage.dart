@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/loby/login_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
+import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
+import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
 
 class Mypage extends StatelessWidget {
   final MyPageController myPageController = Get.find();
@@ -14,7 +16,9 @@ class Mypage extends StatelessWidget {
     // changeStatusBarColor(Color(0xff1a4678), Brightness.dark);
     return SafeArea(
       child: Scaffold(
-          backgroundColor: const Color(0xfff2f2f2),
+          backgroundColor: const Color(0xffffffff),
+
+          // backgroundColor: const Color(0xfff2f2f2),
           // bottomNavigationBar:
           //     CustomBottomNavigationBar(mainController: mainController),
           body: Stack(children: [
@@ -27,127 +31,28 @@ class Mypage extends StatelessWidget {
                         MyPageProfile(myPageController: myPageController)
                       ];
                     },
-                    body: TabBarView(
-                        controller: myPageController.tabController,
-                        children: [
-                          RefreshIndicator(
-                            onRefresh: () => MainUpdateModule.updateMyPage(0),
-                            child: Obx(() {
-                              if (myPageController.myBoardWrite.length == 0) {
-                                return Stack(children: [
-                                  ListView(),
-                                  Center(
-                                    child: Text("아직 정보가 없습니다."),
-                                  ),
-                                ]);
-                              } else {
-                                return ListView.builder(
-                                    cacheExtent: 10,
-                                    itemCount:
-                                        myPageController.myBoardWrite.length,
-                                    itemBuilder: (BuildContext context, int i) {
-                                      return Ink(
-                                        child: InkWell(
-                                          onTap: () {
-                                            Get.toNamed(
-                                              '/board/${myPageController.myBoardWrite[i].value.COMMUNITY_ID}/read/${myPageController.myBoardWrite[i].value.BOARD_ID}',
-                                            ).then((value) {
-                                              MainUpdateModule.updateMyPage(0);
-                                            });
-                                          },
-                                          child: Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 5), //자체 패딩 10 + 5 = 15
-                                            child: PostPreview(
-                                              item: myPageController
-                                                  .myBoardWrite[i],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    });
-                              }
-                            }),
-                          ),
-                          RefreshIndicator(
-                            onRefresh: () => MainUpdateModule.updateMyPage(1),
-                            child: Obx(() {
-                              if (myPageController.myBoardScrap.length == 0) {
-                                return Stack(children: [
-                                  ListView(),
-                                  Center(
-                                    child: Text("아직 정보가 없습니다."),
-                                  ),
-                                ]);
-                              } else {
-                                return ListView.builder(
-                                    cacheExtent: 10,
-                                    itemCount:
-                                        myPageController.myBoardScrap.length,
-                                    itemBuilder: (BuildContext context, int i) {
-                                      return Ink(
-                                        child: InkWell(
-                                          onTap: () {
-                                            Get.toNamed(
-                                              '/board/${myPageController.myBoardScrap[i].value.COMMUNITY_ID}/read/${myPageController.myBoardScrap[i].value.BOARD_ID}',
-                                            ).then((value) {
-                                              MainUpdateModule.updateMyPage(1);
-                                            });
-                                          },
-                                          child: Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 5), //자체 패딩 10 + 5 = 15
-                                            child: PostPreview(
-                                              item: myPageController
-                                                  .myBoardScrap[i],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    });
-                              }
-                            }),
-                          ),
-                          RefreshIndicator(
-                            onRefresh: () => MainUpdateModule.updateMyPage(2),
-                            child: Obx(() {
-                              if (myPageController.myBoardLike.length == 0) {
-                                return Stack(children: [
-                                  ListView(),
-                                  Center(
-                                    child: Text("아직 정보가 없습니다."),
-                                  ),
-                                ]);
-                              } else {
-                                return ListView.builder(
-                                    cacheExtent: 10,
-                                    itemCount:
-                                        myPageController.myBoardLike.length,
-                                    itemBuilder: (BuildContext context, int i) {
-                                      return Ink(
-                                        child: InkWell(
-                                          onTap: () {
-                                            Get.toNamed(
-                                              '/board/${myPageController.myBoardLike[i].value.COMMUNITY_ID}/read/${myPageController.myBoardLike[i].value.BOARD_ID}',
-                                            ).then((value) {
-                                              MainUpdateModule.updateMyPage(2);
-                                            });
-                                          },
-                                          child: Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 5), //자체 패딩 10 + 5 = 15
-                                            child: PostPreview(
-                                              item: myPageController
-                                                  .myBoardLike[i],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    });
-                              }
-                            }),
-                          )
-                        ]),
+                    body: Container(
+                      margin: const EdgeInsets.only(top: 14),
+                      child: TabBarView(
+                          controller: myPageController.tabController,
+                          children: [
+                            MyPagePostList(
+                                mainController: mainController,
+                                myPageController: myPageController,
+                                index: 0,
+                                postList: myPageController.myBoardWrite),
+                            MyPagePostList(
+                                mainController: mainController,
+                                myPageController: myPageController,
+                                index: 1,
+                                postList: myPageController.myBoardScrap),
+                            MyPagePostList(
+                                mainController: mainController,
+                                myPageController: myPageController,
+                                index: 2,
+                                postList: myPageController.myBoardLike),
+                          ]),
+                    ),
                   );
 
                   // ! Non-Sliver Code
@@ -293,6 +198,67 @@ class Mypage extends StatelessWidget {
   }
 }
 
+class MyPagePostList extends StatelessWidget {
+  const MyPagePostList(
+      {Key key,
+      @required this.myPageController,
+      @required this.mainController,
+      @required this.index,
+      @required this.postList})
+      : super(key: key);
+
+  final MyPageController myPageController;
+  final MainController mainController;
+  final int index;
+  final RxList<Rx<Post>> postList;
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () => MainUpdateModule.updateMyPage(index),
+      child: Obx(() {
+        if (postList.length == 0) {
+          return Stack(children: [
+            ListView(),
+            Center(
+              child: Text("아직 정보가 없습니다."),
+            ),
+          ]);
+        } else {
+          return ListView.builder(
+              cacheExtent: 10,
+              itemCount: postList.length,
+              itemBuilder: (BuildContext context, int i) {
+                return Ink(
+                  child: InkWell(
+                    onTap: () {
+                      Get.toNamed(
+                        '/board/${postList[i].value.COMMUNITY_ID}/read/${postList[i].value.BOARD_ID}',
+                      ).then((value) {
+                        MainUpdateModule.updateMyPage(index);
+                      });
+                    },
+                    child: Container(
+                      margin:
+                          const EdgeInsets.only(bottom: 5), //자체 패딩 10 + 5 = 15
+                      child: PostWidget(
+                        c: null,
+                        mailWriteController: null,
+                        mailController: null,
+                        index: index,
+                        mainController: mainController,
+                        item: postList[i],
+                      ),
+                    ),
+                  ),
+                );
+              });
+        }
+      }),
+    );
+  }
+}
+
 class MyPageProfile extends StatelessWidget {
   const MyPageProfile({
     Key key,
@@ -307,38 +273,43 @@ class MyPageProfile extends StatelessWidget {
       pinned: true,
       floating: true,
       snap: false,
-      expandedHeight: 370,
-      backgroundColor: Color(0xff1a4678),
+      expandedHeight: 56 + 254.0,
+      backgroundColor: const Color(0xff571df0),
       bottom: TabBar(
+          labelStyle: const TextStyle(
+              color: const Color(0xff9b75ff),
+              fontWeight: FontWeight.w400,
+              fontFamily: "NotoSansSC",
+              fontStyle: FontStyle.normal,
+              fontSize: 14.0),
           indicatorColor: Colors.white,
           tabs: <Tab>[
             Tab(
-              text: "Posted",
+              text: "发帖",
             ),
             Tab(
-              text: "Scraped",
+              text: "赞过",
             ),
             Tab(
-              text: "Liked",
+              text: "收藏",
             )
           ],
           controller: myPageController.tabController),
       flexibleSpace: FlexibleSpaceBar(
-        // title: Text('${myPageController.myProfile.value.PROFILE_NICKNAME}'),
         background: Obx(() {
           return Container(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Container(
-                  width: 87,
-                  height: 87,
-                  margin: EdgeInsets.only(top: 22.5),
+                  width: 80,
+                  height: 80,
+                  margin: EdgeInsets.only(top: 20),
                   child: CachedNetworkImage(
                       imageUrl:
                           '${myPageController.myProfile.value.PROFILE_PHOTO}',
+                      width: 80,
+                      height: 80,
                       placeholder: (context, url) => Container(
-                            width: 87,
-                            height: 87,
                             decoration: BoxDecoration(
                               color: const Color(0xff194678),
                               shape: BoxShape.circle,
@@ -354,32 +325,30 @@ class MyPageProfile extends StatelessWidget {
                         return Icon(Icons.error);
                       })),
               Container(
-                  height: 28,
-                  margin: EdgeInsets.only(top: 6),
+                  margin: EdgeInsets.only(top: 10),
                   child: Text(
                       '${myPageController.myProfile.value.PROFILE_NICKNAME}',
                       style: const TextStyle(
                           color: const Color(0xffffffff),
-                          fontWeight: FontWeight.w700,
-                          fontFamily: "PingFangSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 21.0),
-                      textAlign: TextAlign.left)),
-              Container(
-                  margin: EdgeInsets.only(top: 3.5),
-                  height: 18.5,
-                  child: Text(
-                      "${myPageController.myProfile.value.PROFILE_MESSAGE}，${myPageController.myProfile.value.PROFILE_SCHOOL}",
-                      style: const TextStyle(
-                          color: const Color(0xffffffff),
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "PingFangSC",
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "Roboto",
                           fontStyle: FontStyle.normal,
                           fontSize: 14.0),
                       textAlign: TextAlign.left)),
               Container(
-                  height: 31,
-                  margin: EdgeInsets.only(top: 29.5, bottom: 30),
+                  margin: EdgeInsets.only(top: 2),
+                  child: Text(
+                      "${myPageController.myProfile.value.PROFILE_MESSAGE}，${myPageController.myProfile.value.PROFILE_SCHOOL}",
+                      style: const TextStyle(
+                          color: const Color(0xff9b75ff),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 12.0),
+                      textAlign: TextAlign.left)),
+              Container(
+                  height: 30,
+                  margin: EdgeInsets.only(top: 14, bottom: 20),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -388,71 +357,50 @@ class MyPageProfile extends StatelessWidget {
                               await Get.toNamed('/myPage/profile');
                             },
                             child: Container(
-                                height: 31,
-                                width: 98,
+                                height: 30,
+                                width: 90,
                                 decoration: BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(31)),
+                                        BorderRadius.all(Radius.circular(30)),
                                     border: Border.all(
                                         color: const Color(0xffffffff),
-                                        width: 2)),
-                                child: Row(children: [
-                                  Container(
-                                      margin: EdgeInsets.only(left: 17.2),
-                                      width: 11.8406982421875,
-                                      height: 13.6337890625,
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  "assets/images/931.png")))),
-                                  Container(
-                                      margin: EdgeInsets.only(left: 9),
-                                      child: Text("Profile",
-                                          style: const TextStyle(
-                                              color: const Color(0xffffffff),
-                                              fontWeight: FontWeight.w400,
-                                              fontFamily: "PingFangSC",
-                                              fontStyle: FontStyle.normal,
-                                              fontSize: 14.0),
-                                          textAlign: TextAlign.left))
-                                ]))),
+                                        width: 1),
+                                    color: const Color(0xff571df0)),
+                                child: Center(
+                                  child: Text("个人资料",
+                                      style: const TextStyle(
+                                          color: const Color(0xffffffff),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "NotoSansSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 14.0),
+                                      textAlign: TextAlign.left),
+                                ))),
                         InkWell(
                             onTap: () async {
                               // await Get.toNamed('/mail');
                             },
                             child: Container(
-                                height: 31,
-                                width: 98,
-                                margin: EdgeInsets.only(left: 46.5),
+                                height: 30,
+                                width: 90,
+                                margin: EdgeInsets.only(left: 8),
                                 decoration: BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(31)),
+                                        BorderRadius.all(Radius.circular(30)),
                                     border: Border.all(
                                         color: const Color(0xffffffff),
-                                        width: 2)),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                          margin: EdgeInsets.only(left: 17.2),
-                                          width: 11.8406982421875,
-                                          height: 13.6337890625,
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: AssetImage(
-                                                      "assets/images/601.png")))),
-                                      Container(
-                                          margin: EdgeInsets.only(left: 9),
-                                          child: Text("Setting",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xffffffff),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "PingFangSC",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 14.0),
-                                              textAlign: TextAlign.left))
-                                    ])))
+                                        width: 1),
+                                    color: const Color(0xff571df0)),
+                                child: Center(
+                                  child: Text("设置",
+                                      style: const TextStyle(
+                                          color: const Color(0xffffffff),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "NotoSansSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 14.0),
+                                      textAlign: TextAlign.left),
+                                )))
                       ]))
             ]),
           );
