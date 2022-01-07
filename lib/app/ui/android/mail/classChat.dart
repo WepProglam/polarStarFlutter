@@ -95,41 +95,42 @@ class ClassChatHistory extends StatelessWidget {
                 padding: EdgeInsets.only(top: 10, bottom: 97),
                 itemBuilder: (context, index) {
                   bool MY_SELF = controller.chatHistory[index].MY_SELF;
+                  print(MY_SELF);
                   return Container(
                       padding: (MY_SELF
                           // mailController.mailHistory[index].FROM_ME == 0
-                          ? EdgeInsets.only(left: 15, bottom: 33.5)
-                          : EdgeInsets.only(right: 15, bottom: 26.5)),
+                          ? EdgeInsets.only(right: 15, bottom: 26.5)
+                          : EdgeInsets.only(left: 15, bottom: 33.5)),
                       child: Align(
                         alignment: (MY_SELF
                             // mailController.mailHistory[index].FROM_ME == 0
-                            ? Alignment.topLeft
-                            : Alignment.topRight),
+                            ? Alignment.topRight
+                            : Alignment.topLeft),
                         child:
                             // Text("${controller.chatHistory[index].CONTENT}"),
                             // child:
                             (MY_SELF
-                                ? Row(children: [
-                                    MAIL_PROFILE_ITEM(
-                                      model: controller.chatHistory[index],
-                                      FROM_ME: MY_SELF,
-                                    ),
-                                    MAIL_CONTENT_ITEM(
-                                      // mailController: mailController,
-                                      model: controller.chatHistory[index],
-                                    )
-                                  ])
-                                : Row(
+                                ? Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                        MAIL_CONTENT_ITEM(
-                                          model: controller.chatHistory[index],
-                                        ),
                                         MAIL_PROFILE_ITEM(
                                           model: controller.chatHistory[index],
                                           FROM_ME: MY_SELF,
                                         ),
-                                      ])),
+                                        MAIL_CONTENT_ITEM(
+                                          // mailController: mailController,
+                                          model: controller.chatHistory[index],
+                                        )
+                                      ])
+                                : Row(children: [
+                                    MAIL_CONTENT_ITEM(
+                                      model: controller.chatHistory[index],
+                                    ),
+                                    MAIL_PROFILE_ITEM(
+                                      model: controller.chatHistory[index],
+                                      FROM_ME: MY_SELF,
+                                    ),
+                                  ])),
                       ));
                 },
               );
