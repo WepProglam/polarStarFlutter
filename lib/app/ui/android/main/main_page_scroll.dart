@@ -399,7 +399,7 @@ class MainPageScroll extends StatelessWidget {
                             Container(
                               //리스트 뷰에서 bottom 13 마진 줌
                               margin: const EdgeInsets.only(
-                                  left: 20, right: 20, top: 20, bottom: 20),
+                                  left: 20, right: 20, top: 20, bottom: 10),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -407,11 +407,32 @@ class MainPageScroll extends StatelessWidget {
                                     child: ClassItem_TOP(),
                                   ),
                                   Container(
-                                      margin: const EdgeInsets.only(top: 12),
-                                      // height: 163.5,
+                                      margin: const EdgeInsets.only(top: 10),
                                       child: mainController.classList.length > 0
-                                          ? ClassItem_Content(
-                                              mainController: mainController)
+                                          ? ListView.builder(
+                                              itemCount: mainController
+                                                  .classList.length,
+                                              shrinkWrap: true,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return Ink(
+                                                  child: InkWell(
+                                                    onTap: () async {
+                                                      searchFocusNode.unfocus();
+                                                      await Get.toNamed(
+                                                              '/class/view/${mainController.classList[index].CLASS_ID}')
+                                                          .then((value) async {
+                                                        await MainUpdateModule
+                                                            .updateMainPage();
+                                                      });
+                                                    },
+                                                    child: ClassItem(
+                                                        model: mainController
+                                                            .classList[index]),
+                                                  ),
+                                                );
+                                              })
                                           : Container(
                                               height: 150,
                                               child: Center(

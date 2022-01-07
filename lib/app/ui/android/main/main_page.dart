@@ -72,6 +72,7 @@ class MainPage extends StatelessWidget {
       },
       child: SafeArea(child: Obx(() {
         int index = initController.mainPageIndex.value;
+        print(index);
         if (!mainController.initDataAvailable.value) {
           changeStatusBarColor(const Color(0xffffffff), Brightness.light);
           return Scaffold(

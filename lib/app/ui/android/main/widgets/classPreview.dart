@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page_scroll.dart';
+import 'package:polarstar_flutter/main.dart';
 
 class ClassItem_Content extends StatelessWidget {
   const ClassItem_Content({
@@ -43,30 +45,31 @@ class ClassItem_Content extends StatelessWidget {
 }
 
 class ClassItem_TOP extends StatelessWidget {
-  const ClassItem_TOP({
+  ClassItem_TOP({
     Key key,
   }) : super(key: key);
+  final InitController initController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Row(children: [
       Container(
-        // height: 24,
-        child: // 我选的课程
-            Text("我选的课程",
-                style: const TextStyle(
-                    color: const Color(0xff2f2f2f),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "NotoSansSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 18.0),
-                textAlign: TextAlign.left),
-      ),
+          // height: 24,
+          child: // 我选的课程
+              // 公告事項
+              Text("我选的课程",
+                  style: const TextStyle(
+                      color: const Color(0xff2f2f2f),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 18.0),
+                  textAlign: TextAlign.left)),
       Spacer(),
       InkWell(
         child: SeeMore(),
         onTap: () {
-          Get.toNamed("/class");
+          initController.mainPageIndex.value = 2;
         },
       ),
     ]);

@@ -20,8 +20,6 @@ import 'package:polarstar_flutter/firebase/firebase_config.dart';
 import 'app/controller/loby/init_controller.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-InitController initController;
-
 class MyBehavior extends ScrollBehavior {
   @override
   Widget buildViewportChrome(
@@ -116,6 +114,7 @@ void main() async {
   await GetStorage.init();
 
   await Firebase.initializeApp();
+  InitController initController;
 
   initController = await Get.put(
       InitController(repository: LoginRepository(apiClient: LoginApiClient())));

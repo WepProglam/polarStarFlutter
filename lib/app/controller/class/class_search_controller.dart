@@ -46,7 +46,7 @@ class ClassSearchController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    searchText.value = Get.parameters["search"];
+    searchText.value = Get.arguments["search"];
 
     await getClassSearchList();
     scrollController.addListener(() async {

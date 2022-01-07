@@ -15,25 +15,25 @@ import 'package:polarstar_flutter/app/ui/android/class/widgets/class_search_bar.
 import 'package:polarstar_flutter/app/ui/android/main/main_page_scroll.dart';
 
 class Class extends StatelessWidget {
-  const Class({Key key}) : super(key: key);
-
+  Class({Key key}) : super(key: key);
+  final ScrollController classScrollController =
+      ScrollController(initialScrollOffset: 0.0);
+  final FocusNode searchFocusNode = FocusNode();
+  final ClassController controller = Get.find();
+  final searchText = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final ClassController controller = Get.find();
-
-    final Size size = MediaQuery.of(context).size;
-    final searchText = TextEditingController();
-    return SafeArea(
+    return GestureDetector(
+      onTap: () {
+        searchFocusNode.unfocus();
+      },
       child: Scaffold(
         backgroundColor: const Color(0xfff8f6fe),
         appBar: AppBar(
           toolbarHeight: 56,
-
           backgroundColor: Get.theme.primaryColor,
           titleSpacing: 0,
-          // elevation: 0,
           automaticallyImplyLeading: false,
-
           title: Stack(children: [
             Center(
               child: Container(
@@ -52,7 +52,15 @@ class Class extends StatelessWidget {
             Positioned(
                 top: 16,
                 right: 20,
-                child: Image.asset("assets/images/icn_search.png"),
+                child: Ink(
+                    child: InkWell(
+                        onTap: () async {
+                          await classScrollController.animateTo(0.0,
+                              duration: Duration(milliseconds: 100),
+                              curve: Curves.fastOutSlowIn);
+                          searchFocusNode.requestFocus();
+                        },
+                        child: Image.asset("assets/images/icn_search.png"))),
                 width: 24,
                 height: 24)
           ]),
@@ -100,10 +108,14 @@ class Class extends StatelessWidget {
             }
             return Container(
               // color: const Color(0xffffffff),
-              margin: const EdgeInsets.only(top: 20),
               child: SingleChildScrollView(
+                controller: classScrollController,
                 child: Column(
                   children: [
+                    Container(
+                      color: Colors.white,
+                      height: 20,
+                    ),
                     Container(
                       color: Colors.white,
                       child: Column(
@@ -112,7 +124,7 @@ class Class extends StatelessWidget {
                             margin: const EdgeInsets.symmetric(horizontal: 20),
                             child: ClassSearchBar(
                               searchText: searchText,
-                              searchFocusNode: null,
+                              searchFocusNode: searchFocusNode,
                             ),
                           ),
                           Container(
@@ -152,6 +164,8 @@ class Class extends StatelessWidget {
                               Ink(
                                   child: InkWell(
                                     onTap: () async {
+                                      searchFocusNode.unfocus();
+
                                       await Get.toNamed(
                                               Routes.TIMETABLE_ADDCLASS_MAIN)
                                           .then((value) async {
@@ -198,6 +212,7 @@ class Class extends StatelessWidget {
                                             return Ink(
                                               child: InkWell(
                                                 onTap: () async {
+                                                  searchFocusNode.unfocus();
                                                   await Get.toNamed(
                                                           '/class/view/${controller.classList[index].CLASS_ID}')
                                                       .then((value) async {
@@ -435,22 +450,33 @@ class ClassItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // 한국문화와언어
-                  Text("${model.CLASS_NAME}",
-                      style: const TextStyle(
-                          color: const Color(0xff2f2f2f),
-                          fontWeight: FontWeight.w500,
-                          fontFamily: "NotoSansKR",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14.0),
-                      textAlign: TextAlign.left), // 오광근
-                  Text("${model.PROFESSOR}",
-                      style: const TextStyle(
-                          color: const Color(0xff6f6e6e),
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "NotoSansKR",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 12.0),
-                      textAlign: TextAlign.left)
+                  Container(
+                    width: Get.mediaQuery.size.width - 74 - 110,
+                    // padding: const EdgeInsets.only(right: 80),
+                    child: Text("${model.CLASS_NAME}",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: const TextStyle(
+                            color: const Color(0xff2f2f2f),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansKR",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
+                  ), // 오광근
+                  Container(
+                    width: Get.mediaQuery.size.width - 74 - 110,
+                    child: Text("${model.PROFESSOR}",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: const TextStyle(
+                            color: const Color(0xff6f6e6e),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansKR",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 12.0),
+                        textAlign: TextAlign.left),
+                  )
                 ],
               ),
             ),
@@ -508,10 +534,8 @@ class ClassSearchBar extends StatelessWidget {
                 searchText.clear();
                 searchFocusNode.unfocus();
 
-                // await Get.toNamed(Routes.MAIN_PAGE_SEARCH,
-                //     arguments: {"search": text}).then((value) async {
-                //   await MainUpdateModule.updateMainPage(mainController);
-                // });
+                await Get.toNamed(Routes.CLASSSEARCH,
+                    arguments: {"search": text}).then((value) async {});
               },
               focusNode: searchFocusNode,
               autofocus: false,
@@ -547,10 +571,8 @@ class ClassSearchBar extends StatelessWidget {
               searchText.clear();
               searchFocusNode.unfocus();
 
-              // await Get.toNamed(Routes.MAIN_PAGE_SEARCH,
-              //     arguments: {"search": text}).then((value) async {
-              //   await MainUpdateModule.updateMainPage(mainController);
-              // });
+              await Get.toNamed(Routes.CLASSSEARCH, arguments: {"search": text})
+                  .then((value) async {});
 
               print(text);
             },
