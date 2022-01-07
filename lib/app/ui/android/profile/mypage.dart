@@ -298,6 +298,9 @@ class MyPageProfile extends StatelessWidget {
       flexibleSpace: FlexibleSpaceBar(
         background: Obx(() {
           return Container(
+            decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.only(bottomRight: Radius.circular(20))),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Container(
