@@ -99,114 +99,124 @@ class Class extends StatelessWidget {
               );
             }
             return Container(
-              color: const Color(0xffffffff),
+              // color: const Color(0xffffffff),
               margin: const EdgeInsets.only(top: 20),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      child: ClassSearchBar(
-                        searchText: searchText,
-                        searchFocusNode: null,
-                      ),
-                    ),
-                    Container(
-                      margin:
-                          const EdgeInsets.only(top: 20, left: 20, right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      color: Colors.white,
+                      child: Column(
                         children: [
                           Container(
-                            child: Text("我选的课程",
-                                style: const TextStyle(
-                                    color: const Color(0xff2f2f2f),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 18.0),
-                                textAlign: TextAlign.left),
+                            margin: const EdgeInsets.symmetric(horizontal: 20),
+                            child: ClassSearchBar(
+                              searchText: searchText,
+                              searchFocusNode: null,
+                            ),
                           ),
-                          Spacer(),
-                          // ! 서버에서 포인트 받아야함
                           Container(
-                            margin: const EdgeInsets.only(top: 6),
-                            child: Text("积分 100Point",
-                                style: const TextStyle(
-                                    color: const Color(0xff571df0),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                textAlign: TextAlign.left),
-                          )
-                        ],
-                      ),
-                    ),
-                    controller.classList.length == 0
-                        ? // Rectangle 2
-                        Ink(
-                            child: InkWell(
-                              onTap: () async {
-                                await Get.toNamed(
-                                        Routes.TIMETABLE_ADDCLASS_MAIN)
-                                    .then((value) async {
-                                  await MainUpdateModule.updateClassPage();
-                                });
-                              },
-                              child: Container(
-                                  margin: const EdgeInsets.only(
-                                      top: 10, left: 20, right: 20),
-                                  height: 67,
-                                  child: Center(
-                                    child: Text(
-                                      "수업 추가하러 가기",
+                            margin: const EdgeInsets.only(
+                                top: 20, left: 20, right: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: Text("我选的课程",
                                       style: const TextStyle(
                                           color: const Color(0xff2f2f2f),
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: "NotoSansKR",
+                                          fontFamily: "NotoSansSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 18.0),
+                                      textAlign: TextAlign.left),
+                                ),
+                                Spacer(),
+                                // ! 서버에서 포인트 받아야함
+                                Container(
+                                  margin: const EdgeInsets.only(top: 6),
+                                  child: Text("积分 100Point",
+                                      style: const TextStyle(
+                                          color: const Color(0xff571df0),
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "NotoSansSC",
                                           fontStyle: FontStyle.normal,
                                           fontSize: 14.0),
-                                    ),
-                                  ),
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(8)),
-                                      border: Border.all(
-                                          color: const Color(0xffeaeaea),
-                                          width: 1),
-                                      color: const Color(0xffffffff))),
+                                      textAlign: TextAlign.left),
+                                )
+                              ],
                             ),
-                          )
-                        : Container(
-                            margin: const EdgeInsets.only(
-                                top: 10, left: 20, right: 20),
-                            child: // Rectangle 2
-                                ListView.builder(
-                                    itemCount: controller.classList.length,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Ink(
-                                        child: InkWell(
-                                          onTap: () async {
-                                            await Get.toNamed(
-                                                    '/class/view/${controller.classList[index].CLASS_ID}')
-                                                .then((value) async {
-                                              await MainUpdateModule
-                                                  .updateClassPage();
-                                            });
-                                          },
-                                          child: ClassItem(
-                                              model:
-                                                  controller.classList[index]),
-                                        ),
-                                      );
-                                    }),
                           ),
+                          controller.classList.length == 0
+                              ? // Rectangle 2
+                              Ink(
+                                  child: InkWell(
+                                    onTap: () async {
+                                      await Get.toNamed(
+                                              Routes.TIMETABLE_ADDCLASS_MAIN)
+                                          .then((value) async {
+                                        await MainUpdateModule
+                                            .updateClassPage();
+                                      });
+                                    },
+                                    child: Container(
+                                        margin: const EdgeInsets.only(
+                                            top: 10, left: 20, right: 20),
+                                        height: 67,
+                                        child: Center(
+                                          child: Text(
+                                            "수업 추가하러 가기",
+                                            style: const TextStyle(
+                                                color: const Color(0xff2f2f2f),
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: "NotoSansKR",
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 14.0),
+                                          ),
+                                        ),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8)),
+                                            border: Border.all(
+                                                color: const Color(0xffeaeaea),
+                                                width: 1),
+                                            color: const Color(0xffffffff))),
+                                  ),
+                                )
+                              : Container(
+                                  margin: const EdgeInsets.only(
+                                      top: 10, left: 20, right: 20, bottom: 10),
+                                  child: // Rectangle 2
+                                      ListView.builder(
+                                          itemCount:
+                                              controller.classList.length,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return Ink(
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  await Get.toNamed(
+                                                          '/class/view/${controller.classList[index].CLASS_ID}')
+                                                      .then((value) async {
+                                                    await MainUpdateModule
+                                                        .updateClassPage();
+                                                  });
+                                                },
+                                                child: ClassItem(
+                                                    model: controller
+                                                        .classList[index]),
+                                              ),
+                                            );
+                                          }),
+                                ),
+                        ],
+                      ),
+                    ),
                     Container(
-                      margin: const EdgeInsets.only(top: 10, bottom: 10),
+                      margin: const EdgeInsets.only(bottom: 10),
                       color: const Color(0xfff8f6fe),
                       child: Column(
                         children: [
