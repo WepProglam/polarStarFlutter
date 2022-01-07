@@ -51,7 +51,7 @@ class ClassChatController extends GetxController {
   }
 
   void sendMessage(String text) {
-    socket.emit("sendMessage", text);
+    socket.emit("sendMessage", {"content": text});
   }
 
   Future<IO.Socket> socketting(String roomID) async {
@@ -73,22 +73,15 @@ class ClassChatController extends GetxController {
     });
 
     socket.onConnectError((data) => print(data));
-    // socket.on(event, (data) => null)
     socket.on("viewRecentMessage", (data) {
-      // ClassChatModel.fromJson(data);
-      // chatHistory.value = data;
       print(data);
       Iterable cc = data;
-
       chatHistory.value = cc.map((e) => ClassChatModel.fromJson(e)).toList();
     });
 
     socket.on("newMessage", (data) {
       ClassChatModel chat = ClassChatModel.fromJson(data);
       chatHistory.add(chat);
-      // // print(chat.CLASS_ID);
-
-      // Get.snackbar("${data["USERNAME"]}", "${data["CONTENT"]}");
     });
     socket.on('event', (data) => print(data));
     socket.onDisconnect((_) => print('disconnect'));
@@ -99,11 +92,16 @@ class ClassChatController extends GetxController {
 
   @override
   void onInit() async {
-    // await getClassList();
     roomID.value = Get.arguments["roomID"];
     await registerSocket();
     super.onInit();
     dataAvailble.value = true;
-    // dataAvailbale.value = true;
+  }
+
+  @override
+  void onClose() async {
+    print("disconnecting...");
+    await socket.disconnect();
+    print("disconnect 완료");
   }
 }

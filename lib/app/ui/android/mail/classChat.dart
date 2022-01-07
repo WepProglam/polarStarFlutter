@@ -173,6 +173,7 @@ class ClassChatHistory extends StatelessWidget {
                               // await mailController.sendMailIn(
                               //     commentWriteController.text,
                               //     mailController.scrollController);
+                              print(commentWriteController.text);
                               controller
                                   .sendMessage(commentWriteController.text);
                               commentWriteController.clear();
@@ -211,6 +212,8 @@ class ClassChatHistory extends StatelessWidget {
                             // await mailController.sendMailIn(
                             //     commentWriteController.text,
                             //     mailController.scrollController);
+                            print(commentWriteController.text);
+
                             controller.sendMessage(commentWriteController.text);
 
                             commentWriteController.clear();
@@ -231,24 +234,36 @@ class MAIL_PROFILE_ITEM extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 41.5,
-        height: 41.5,
+        // width: 41.5,
+        // height: 41.5,
         margin:
             FROM_ME ? EdgeInsets.only(left: 14) : EdgeInsets.only(right: 14),
-        child: CachedNetworkImage(
-            imageUrl: '${model.PHOTO}',
-            imageBuilder: (context, imageProvider) => Container(
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: imageProvider, fit: BoxFit.fill))),
-            fadeInDuration: Duration(milliseconds: 0),
-            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                Image(image: AssetImage('assets/images/spinner.gif')),
-            errorWidget: (context, url, error) {
-              print(error);
-              return Icon(Icons.error);
-            }));
+        child: Column(children: [
+          // CachedNetworkImage(
+          //     imageUrl: '${model.PHOTO}',
+          //     imageBuilder: (context, imageProvider) => Container(
+          //         decoration: BoxDecoration(
+          //             shape: BoxShape.circle,
+          //             image: DecorationImage(
+          //                 image: imageProvider, fit: BoxFit.fill))),
+          //     fadeInDuration: Duration(milliseconds: 0),
+          //     progressIndicatorBuilder: (context, url, downloadProgress) =>
+          //         Image(image: AssetImage('assets/images/spinner.gif')),
+          //     errorWidget: (context, url, error) {
+          //       print(error);
+          //       return Icon(Icons.error);
+          //     }),
+          Center(
+            child: Text(
+              "${model.USERNAME}",
+            ),
+          ),
+          Center(
+            child: Text(
+              "${model.TIME_CREATED}",
+            ),
+          )
+        ]));
   }
 }
 
