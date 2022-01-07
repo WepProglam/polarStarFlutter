@@ -229,6 +229,7 @@ class MyPagePostList extends StatelessWidget {
               cacheExtent: 10,
               itemCount: postList.length,
               itemBuilder: (BuildContext context, int i) {
+                postList[i].value.MYSELF = true;
                 return Ink(
                   child: InkWell(
                     onTap: () {
