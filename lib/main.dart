@@ -65,31 +65,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.data}");
 }
 
-Future<void> socketting() async {
-  IO.Socket socket = await IO.io('http://13.209.5.161:3000', <String, dynamic>{
-    'transports': ['websocket'],
-    'autoConnect': false,
-  });
-
-  socket.onConnect((_) {
-    print('connect');
-    socket.emit("joinRoom", [1, "asdfd"]);
-  });
-
-  socket.onConnectError((data) => print(data));
-
-  socket.on("viewRecentMessage", (data) => print(data));
-  socket.on("newMessage", (data) {
-    Get.snackbar("${data["USERNAME"]}", "${data["CONTENT"]}");
-    print(data);
-  });
-  socket.on('event', (data) => print(data));
-  socket.onDisconnect((_) => print('disconnect'));
-  socket.on('fromServer', (_) => print(_));
-
-  socket.connect();
-}
-
 void main() async {
   // Socket.connect("http://13.209.5.161", 3000).then((Socket sock) {
   //   print("adfsdfsadf");
@@ -137,8 +112,6 @@ void main() async {
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
   //     statusBarColor: const Color(0xfff6f6f6),
   //     statusBarBrightness: Brightness.light));
-
-  socketting();
 
   await runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want

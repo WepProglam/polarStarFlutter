@@ -30,6 +30,7 @@ abstract class Routes {
 
   static const CLASS = '/class';
   static const CLASSSEARCH = '/class/search';
+  static const CLASSCHAT = '/class/chat';
   static const CLASSVIEW = '/class/view/:CLASS_ID';
 
   static const TIMETABLE = '/timetable';

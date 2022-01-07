@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/bindings/class/class_chat_binding.dart';
 
 import 'package:polarstar_flutter/app/bindings/loby/init_binding.dart';
 import 'package:polarstar_flutter/app/bindings/board/board_binding.dart';
@@ -25,6 +26,7 @@ import 'package:polarstar_flutter/app/ui/android/board/board.dart';
 import 'package:polarstar_flutter/app/ui/android/board/hot_board.dart';
 import 'package:polarstar_flutter/app/ui/android/board/post.dart';
 import 'package:polarstar_flutter/app/ui/android/board/write_post.dart';
+import 'package:polarstar_flutter/app/ui/android/mail/classChat.dart';
 import 'package:polarstar_flutter/app/ui/android/mail/mailHistory.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
 import 'package:polarstar_flutter/app/ui/android/loby/login_page.dart';
@@ -142,6 +144,10 @@ class AppPages {
       page: () => Class(),
       binding: ClassBinding(),
     ),
+    GetPage(
+        name: Routes.CLASSCHAT,
+        page: () => ClassChatHistory(),
+        binding: ClassChatBinding()),
     GetPage(
       name: Routes.CLASSSEARCH,
       page: () => ClassSearch(),

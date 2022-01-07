@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
+import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class TopIcon extends StatelessWidget {
   final TimeTableController timeTableController;
@@ -698,6 +701,8 @@ class SubjectList extends StatelessWidget {
   final Rx<SelectedTimeTableModel> model;
   @override
   Widget build(BuildContext context) {
+    final box = GetStorage();
+
     return Obx(() {
       int total_length =
           model.value.CLASSES == null ? 0 : model.value.CLASSES.length + 0;
@@ -732,50 +737,85 @@ class SubjectList extends StatelessWidget {
                         width: 180,
                         height: 144,
                         margin: const EdgeInsets.only(right: 8),
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 20, top: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Text(
-                                    "${model.value.CLASSES[i].CLASS_NAME}",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                        color: const Color(0xff000000),
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: "NotoSansSC",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 14.0),
-                                    textAlign: TextAlign.center),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 8),
-                                child: // 이연희
-                                    Text("${model.value.CLASSES[i].PROFESSOR}",
+                        child: Ink(
+                          child: InkWell(
+                            onTap: () async {
+                              // box.remove("classSocket");
+                              if (box.hasData("classSocket")) {
+                                List<dynamic> classSocketList =
+                                    box.read("classSocket");
+                                bool isExist = false;
+                                for (var item in classSocketList) {
+                                  if ("${item}" ==
+                                      "${model.value.CLASSES[i].CLASS_ID}") {
+                                    isExist = true;
+                                  }
+                                }
+                                if (!isExist) {
+                                  classSocketList.add(
+                                      "${model.value.CLASSES[i].CLASS_ID}");
+                                  box.write("classSocket", classSocketList);
+                                }
+                              } else {
+                                box.write("classSocket",
+                                    ["${model.value.CLASSES[i].CLASS_ID}"]);
+                              }
+
+                              Get.toNamed(Routes.CLASSCHAT, arguments: {
+                                "roomID": "${model.value.CLASSES[i].CLASS_ID}"
+                              });
+
+                              // IO.Socket socket = await socketting(
+                              //     "${model.value.CLASSES[i].CLASS_ID}");
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 20, top: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: Text(
+                                        "${model.value.CLASSES[i].CLASS_NAME}",
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                            color: const Color(0xff6f6e6e),
+                                            color: const Color(0xff000000),
                                             fontWeight: FontWeight.w400,
                                             fontFamily: "NotoSansSC",
                                             fontStyle: FontStyle.normal,
-                                            fontSize: 12.0),
+                                            fontSize: 14.0),
                                         textAlign: TextAlign.center),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(bottom: 8),
+                                    child: // 이연희
+                                        Text(
+                                            "${model.value.CLASSES[i].PROFESSOR}",
+                                            style: const TextStyle(
+                                                color: const Color(0xff6f6e6e),
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "NotoSansSC",
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 12.0),
+                                            textAlign: TextAlign.center),
+                                  ),
+                                  FittedBox(
+                                    child: SubjectPreviewList(
+                                        text:
+                                            "- ${model.value.CLASSES[i].CLASS_NUMBER}"),
+                                  ),
+                                  FittedBox(
+                                    child: SubjectPreviewList(
+                                        text:
+                                            "- ${model.value.CLASSES[i].CREDIT}"),
+                                  ),
+                                  FittedBox(
+                                    child: SubjectPreviewList(
+                                        text:
+                                            "- ${model.value.CLASSES[i].PROFESSOR}"),
+                                  ),
+                                ],
                               ),
-                              FittedBox(
-                                child: SubjectPreviewList(
-                                    text:
-                                        "- ${model.value.CLASSES[i].CLASS_NUMBER}"),
-                              ),
-                              FittedBox(
-                                child: SubjectPreviewList(
-                                    text: "- ${model.value.CLASSES[i].CREDIT}"),
-                              ),
-                              FittedBox(
-                                child: SubjectPreviewList(
-                                    text:
-                                        "- ${model.value.CLASSES[i].PROFESSOR}"),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                         decoration: BoxDecoration(
