@@ -7,6 +7,7 @@ import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
+import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
@@ -453,14 +454,37 @@ class MainPageScroll extends StatelessWidget {
                                                                   .clear();
                                                               searchFocusNode
                                                                   .unfocus();
-                                                              await Get.toNamed(
-                                                                      Routes
-                                                                          .TIMETABLE_ADDCLASS_MAIN)
-                                                                  .then(
-                                                                      (value) async {
-                                                                await MainUpdateModule
-                                                                    .updateMainPage();
-                                                              });
+                                                              putController<
+                                                                  TimeTableController>();
+                                                              final box =
+                                                                  GetStorage();
+                                                              TimeTableController
+                                                                  tc =
+                                                                  Get.find();
+                                                              int stc = await tc
+                                                                  .getSemesterTimeTable(
+                                                                "${box.read("year_sem")["TIMETABLE_YEAR_FROM_DATE"]}",
+                                                                "${box.read("year_sem")["TIMETABLE_SEMESTER_FROM_DATE"]}",
+                                                              );
+                                                              if (stc == 200) {
+                                                                await Get.toNamed(
+                                                                        Routes
+                                                                            .TIMETABLE_ADDCLASS_MAIN)
+                                                                    .then(
+                                                                        (value) async {
+                                                                  await MainUpdateModule
+                                                                      .updateMainPage();
+                                                                });
+                                                              } else {
+                                                                await Get.toNamed(
+                                                                        Routes
+                                                                            .TIMETABLE_ADDTIMETABLE)
+                                                                    .then(
+                                                                        (value) async {
+                                                                  await MainUpdateModule
+                                                                      .updateMainPage();
+                                                                });
+                                                              }
                                                             },
                                                             child: Image.asset(
                                                                 "assets/images/941.png"),

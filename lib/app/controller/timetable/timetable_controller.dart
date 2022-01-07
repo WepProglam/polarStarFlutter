@@ -216,7 +216,8 @@ class TimeTableController extends GetxController {
     await getSemesterTimeTable("2021", "3");
   }
 
-  Future getSemesterTimeTable(String YEAR, String SEMESTER) async {
+  Future<int> getSemesterTimeTable(String YEAR, String SEMESTER) async {
+    int status_code = 404;
     if (need_download_semester(YEAR, SEMESTER)) {
       // dataAvailable(false);
 
@@ -245,15 +246,22 @@ class TimeTableController extends GetxController {
           selectTable.value = jsonResponse["defaultTable"].value;
 
           dataAvailable(true);
+          status_code = 200;
           break;
         case 404:
           Get.snackbar("없는 시간표", "없는 시간표");
+          status_code = 404;
+
           break;
         default:
           dataAvailable(false);
           printError(info: "Data Fetch ERROR!!");
+          status_code = 404;
+          break;
       }
     }
+    return status_code;
+
     // else {
     //   print("${YEAR}년 ${SEMESTER}학기");
     //   // selectTable.value = defaultTableList["${YEAR}년 ${SEMESTER}학기"].value;
