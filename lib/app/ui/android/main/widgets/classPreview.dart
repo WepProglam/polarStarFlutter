@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page_scroll.dart';
@@ -80,7 +81,7 @@ class ClassPreview_Main extends StatelessWidget {
       @required this.mainController})
       : super(key: key);
 
-  final MainClassModel model;
+  final ClassModel model;
   final int index;
   final MainController mainController;
 

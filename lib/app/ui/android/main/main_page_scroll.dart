@@ -6,6 +6,7 @@ import 'package:polarstar_flutter/app/controller/loby/login_controller.dart';
 import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
+import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
@@ -392,6 +393,8 @@ class MainPageScroll extends StatelessWidget {
                                 ),
                               ),
                             ),
+
+                            // ClassItem(model: mainController.classList[0]),
                             //강의정보
                             Container(
                               //리스트 뷰에서 bottom 13 마진 줌

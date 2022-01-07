@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
+import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 
 import 'package:polarstar_flutter/session.dart';
@@ -32,8 +33,8 @@ class MainApiClient {
     List<ScrapListModel> listScrapList =
         scrapList.map((e) => ScrapListModel.fromJson(e)).toList();
 
-    List<MainClassModel> listClassList =
-        classList.map((e) => MainClassModel.fromJson(e)).toList();
+    List<ClassModel> listClassList =
+        classList.map((e) => ClassModel.fromJson(e)).toList();
 
     return {
       "statusCode": getResponse.statusCode,

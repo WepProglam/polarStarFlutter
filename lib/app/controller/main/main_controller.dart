@@ -9,6 +9,7 @@ import 'package:polarstar_flutter/app/controller/class/class_controller.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
+import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/data/provider/sqflite/database_helper.dart';
 import 'package:polarstar_flutter/app/data/provider/sqflite/src/db_community.dart';
@@ -33,7 +34,7 @@ class MainController extends GetxController {
 
   RxList<LikeListModel> likeList = <LikeListModel>[].obs;
   RxList<ScrapListModel> scrapList = <ScrapListModel>[].obs;
-  RxList<MainClassModel> classList = <MainClassModel>[].obs;
+  RxList<ClassModel> classList = <ClassModel>[].obs;
 
   RxBool isLikeScrapUpdate = false.obs;
 
