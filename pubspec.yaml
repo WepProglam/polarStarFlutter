@@ -231,6 +231,11 @@ flutter:
     - assets/images/menu.png
     - assets/images/icn_pen.png
     - assets/images/icn_book.png
+
+    # ClassView
+    - assets/images/icn_back_white.png
+    - assets/images/icn_star_normal_white.png
+    - assets/images/icn_star_selected_fill.png
     # - assets/fonts/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

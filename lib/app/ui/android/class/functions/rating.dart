@@ -8,8 +8,8 @@ List<Widget> rate_star(String AVG_RATE, double size) {
       height: size,
       child: Image.asset(
         i + 1 <= double.parse(AVG_RATE)
-            ? 'assets/images/897.png'
-            : 'assets/images/898.png',
+            ? 'assets/images/icn_star_selected_fill.png'
+            : 'assets/images/icn_star_normal_white.png',
         fit: BoxFit.fitHeight,
       ),
     ));

@@ -4,22 +4,27 @@ import 'package:get/get.dart';
 // 다른 모양 AppBar도 만들면됨
 class AppBars {
   AppBar classBasicAppBar() {
+    const mainColor = 0xff371ac7;
+
     return AppBar(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      elevation: 0,
+      backgroundColor: const Color(mainColor),
+      foregroundColor: Colors.white,
+      automaticallyImplyLeading: false,
       leading: InkWell(
-        child: Icon(Icons.arrow_back_ios_new, color: Colors.black),
-        onTap: () {
-          Get.back();
-        },
+        child: Image.asset("assets/images/icn_back_white.png"),
+        onTap: () => Get.back(),
       ),
-      leadingWidth: 35,
+      elevation: 0,
       titleSpacing: 0,
-      title: Text(
-        "Course Evaluation",
-        style: TextStyle(color: Colors.black),
-      ),
+      centerTitle: true,
+      title: Text("课程评价",
+          style: const TextStyle(
+              color: const Color(0xffffffff),
+              fontWeight: FontWeight.w500,
+              fontFamily: "NotoSansTC",
+              fontStyle: FontStyle.normal,
+              fontSize: 14.0),
+          textAlign: TextAlign.left),
     );
   }
 }

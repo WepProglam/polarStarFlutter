@@ -16,6 +16,15 @@ import 'package:polarstar_flutter/app/ui/android/class/functions/semester.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/modal_bottom_sheet.dart';
 
+// Colors
+const mainColor = 0xff371ac7;
+const backgroundColor = 0xfff5f6ff;
+const classInfoColor = 0xff2f2f2f;
+const categoryColor = 0xff2f2f2f;
+
+// Sizes
+const starSize = 12.0;
+
 class ClassView extends StatelessWidget {
   const ClassView({Key key}) : super(key: key);
 
@@ -26,6 +35,7 @@ class ClassView extends StatelessWidget {
     final examInfoTextController = TextEditingController();
     final testStrategyController = TextEditingController();
     final pageController = PageController();
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[200],
@@ -144,7 +154,7 @@ class ClassView extends StatelessWidget {
                             delegate: SliverChildBuilderDelegate(
                                 (BuildContext context, int index) {
                               return GestureDetector(
-                                // *SWAPPING remove
+                                //* SWAPPING remove
                                 /* onHorizontalDragEnd: (dragEnd) {
                                   if (dragEnd.primaryVelocity > 0) {
                                     classViewController.typeIndex(0);
@@ -206,105 +216,68 @@ class ClassViewInfo extends StatelessWidget {
     // final ClassViewController classViewController = Get.find();
     return Container(
       decoration: BoxDecoration(color: Colors.white),
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         children: [
           Container(
-            height: 107,
-            width: 375,
-            margin: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 22.5),
+            height: 97,
+            width: 320,
+            margin: EdgeInsets.fromLTRB(0.0, 14.0, 0.0, 14.0),
+            padding: EdgeInsets.all(20.0),
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                    offset: Offset(0, 5),
-                    color: Colors.grey.withOpacity(0.5),
-                    blurRadius: 10,
-                    spreadRadius: 1),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // 책 이미지
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 16.5, 15, 16),
-                  child: Container(
-                      width: 74.5,
-                      height: 74.5,
-                      child: Container(
-                        margin:
-                            const EdgeInsets.fromLTRB(19.5, 20.7, 19.4, 20.6),
-                        child: Image.asset(
-                          "assets/images/568.png",
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: const Color(0xff1a785c))),
-                ),
-                // 과목명 등
-                Container(
-                  margin: EdgeInsets.only(top: 12.5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                border: Border.all(color: const Color(0xffeaeaea), width: 1),
+                color: const Color(classInfoColor)),
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("${classInfoModel.CLASS_NAME}",
+                      style: const TextStyle(
+                          color: const Color(0xffffffff),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "NotoSansKR",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14.0),
+                      textAlign: TextAlign.left),
+                  Text("${classInfoModel.PROFESSOR}",
+                      style: const TextStyle(
+                          color: const Color(0xff6f6e6e),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "NotoSansKR",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 12.0),
+                      textAlign: TextAlign.left),
+                  Row(
                     children: [
-                      Text(
-                        "${classInfoModel.CLASS_NAME}",
-                        style: const TextStyle(
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.w700,
-                            fontStyle: FontStyle.normal,
-                            fontSize: 18.0),
-                        textAlign: TextAlign.left,
-                        maxLines: 1,
+                      Container(
+                        width: 68.0,
+                        height: 12.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: classInfoModel.AVG_RATE != null
+                              ? rate_star(classInfoModel.AVG_RATE, 12.0)
+                              : rate_star("0.0", 12.0),
+                        ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 6, bottom: 6),
+                        padding: const EdgeInsets.only(left: 4.0),
                         child: Text(
-                          "${classInfoModel.PROFESSOR}",
-                          style: const TextStyle(
-                              color: const Color(0xff333333),
-                              fontWeight: FontWeight.normal,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 16.0),
-                          textAlign: TextAlign.left,
-                          maxLines: 1,
-                        ),
+                            classInfoModel.AVG_RATE != null
+                                ? "(${classInfoModel.AVG_RATE})"
+                                : "평가 X",
+                            style: const TextStyle(
+                                color: const Color(0xffffffff),
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "Roboto",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.0),
+                            textAlign: TextAlign.left),
                       ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 94.4,
-                            height: 14.6,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: classInfoModel.AVG_RATE != null
-                                  ? rate_star(classInfoModel.AVG_RATE, 14.6)
-                                  : rate_star("0.0", 14.6),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.6),
-                            child: Text(
-                              classInfoModel.AVG_RATE != null
-                                  ? classInfoModel.AVG_RATE
-                                  : "평가 X",
-                              style: const TextStyle(
-                                  color: const Color(0xff333333),
-                                  fontWeight: FontWeight.normal,
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 16.0),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      )
                     ],
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
 
@@ -317,28 +290,25 @@ class ClassViewInfo extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10.5),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: Text(
-                          "구분",
-                          style: TextStyle(
-                              color: const Color(0xff666666),
-                              fontWeight: FontWeight.normal,
+                      Text("作业量",
+                          style: const TextStyle(
+                              color: const Color(categoryColor),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansTC",
                               fontStyle: FontStyle.normal,
-                              fontSize: 16.0),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          "${classInfoModel.CLASS_SECTOR_1}",
-                          style: TextStyle(
-                              color: const Color(0xff333333),
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.normal,
-                              fontSize: 16.0),
-                          textAlign: TextAlign.left,
-                        ),
+                              fontSize: 14.0),
+                          textAlign: TextAlign.left),
+                      Text(
+                        "${classInfoModel.CLASS_SECTOR_1}",
+                        style: TextStyle(
+                            color: const Color(0xff333333),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "NotoSansTC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left,
                       )
                     ],
                   ),
@@ -347,31 +317,25 @@ class ClassViewInfo extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10.5),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: Text(
-                          "팀플량",
-                          style: TextStyle(
-                              color: const Color(0xff666666),
-                              fontWeight: FontWeight.normal,
+                      Text("小组作业量",
+                          style: const TextStyle(
+                              color: const Color(categoryColor),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansTC",
                               fontStyle: FontStyle.normal,
-                              fontSize: 16.0),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          width: 154,
-                          height: 24,
-                          margin: EdgeInsets.only(right: 11),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children:
-                                classInfoModel.AVG_RATE_GROUP_STUDY != null
-                                    ? rate_heart(
-                                        classInfoModel.AVG_RATE_GROUP_STUDY, 24)
-                                    : rate_heart("0.0", 24),
-                          ),
+                              fontSize: 14.0),
+                          textAlign: TextAlign.left),
+                      Container(
+                        width: 68,
+                        height: 20,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: classInfoModel.AVG_RATE_GROUP_STUDY != null
+                              ? rate_heart(
+                                  classInfoModel.AVG_RATE_GROUP_STUDY, starSize)
+                              : rate_heart("0.0", starSize),
                         ),
                       ),
                     ],
@@ -381,30 +345,25 @@ class ClassViewInfo extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10.5),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: Text(
-                          "과제량",
-                          style: TextStyle(
-                              color: const Color(0xff666666),
-                              fontWeight: FontWeight.normal,
+                      Text("考试难度",
+                          style: const TextStyle(
+                              color: const Color(categoryColor),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansTC",
                               fontStyle: FontStyle.normal,
-                              fontSize: 16.0),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          width: 154,
-                          height: 24,
-                          margin: EdgeInsets.only(right: 11),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: classInfoModel.AVG_RATE_ASSIGNMENT != null
-                                ? rate_heart(
-                                    classInfoModel.AVG_RATE_ASSIGNMENT, 24)
-                                : rate_heart("0.0", 24),
-                          ),
+                              fontSize: 14.0),
+                          textAlign: TextAlign.left),
+                      Container(
+                        width: 68,
+                        height: 20,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: classInfoModel.AVG_RATE_ASSIGNMENT != null
+                              ? rate_heart(
+                                  classInfoModel.AVG_RATE_ASSIGNMENT, starSize)
+                              : rate_heart("0.0", starSize),
                         ),
                       ),
                     ],
@@ -414,30 +373,25 @@ class ClassViewInfo extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10.5),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: Text(
-                          "시험 공부량",
-                          style: TextStyle(
-                              color: const Color(0xff666666),
-                              fontWeight: FontWeight.normal,
+                      Text("授课方式",
+                          style: const TextStyle(
+                              color: const Color(categoryColor),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansTC",
                               fontStyle: FontStyle.normal,
-                              fontSize: 16.0),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          width: 154,
-                          height: 24,
-                          margin: EdgeInsets.only(right: 11),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: classInfoModel.AVG_RATE_EXAM_STUDY != null
-                                ? rate_heart(
-                                    classInfoModel.AVG_RATE_EXAM_STUDY, 24)
-                                : rate_heart("0.0", 24),
-                          ),
+                              fontSize: 14.0),
+                          textAlign: TextAlign.left),
+                      Container(
+                        width: 68,
+                        height: 20,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: classInfoModel.AVG_RATE_EXAM_STUDY != null
+                              ? rate_heart(
+                                  classInfoModel.AVG_RATE_EXAM_STUDY, starSize)
+                              : rate_heart("0.0", starSize),
                         ),
                       ),
                     ],
@@ -447,31 +401,25 @@ class ClassViewInfo extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: Text(
-                          "학점 비율",
-                          style: TextStyle(
-                              color: const Color(0xff666666),
-                              fontWeight: FontWeight.normal,
+                      Text("出勤",
+                          style: const TextStyle(
+                              color: const Color(0xff2f2f2f),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansTC",
                               fontStyle: FontStyle.normal,
-                              fontSize: 16.0),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          width: 154,
-                          height: 24,
-                          margin: EdgeInsets.only(right: 11),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children:
-                                classInfoModel.AVG_RATE_GRADE_RATIO != null
-                                    ? rate_heart(
-                                        classInfoModel.AVG_RATE_GRADE_RATIO, 24)
-                                    : rate_heart("0.0", 24),
-                          ),
+                              fontSize: 14.0),
+                          textAlign: TextAlign.left),
+                      Container(
+                        width: 68,
+                        height: 20,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: classInfoModel.AVG_RATE_GRADE_RATIO != null
+                              ? rate_heart(
+                                  classInfoModel.AVG_RATE_GRADE_RATIO, starSize)
+                              : rate_heart("0.0", starSize),
                         ),
                       ),
                     ],
