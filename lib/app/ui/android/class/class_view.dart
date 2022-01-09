@@ -15,6 +15,7 @@ import 'package:polarstar_flutter/app/ui/android/class/functions/semester.dart';
 
 import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/modal_bottom_sheet.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 // Colors
 const mainColor = 0xff371ac7;
@@ -38,10 +39,10 @@ class ClassView extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: const Color(0xfff5f6ff),
         appBar: AppBars().classBasicAppBar(),
         bottomSheet: Ink(
-          color: Colors.blue[900],
+          color: const Color(mainColor),
           child: InkWell(
             onTap: () {
               if (classViewController.typeIndex.value == 0) {
@@ -108,92 +109,221 @@ class ClassView extends StatelessWidget {
           ),
         ),
         body: RefreshIndicator(
+          notificationPredicate: (notification) {
+            return notification.depth == 2;
+          },
           onRefresh: classViewController.refreshPage,
           child: Obx(() {
             if (classViewController.classViewAvailable.value) {
-              return SafeArea(
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    SliverToBoxAdapter(
-                      child: ClassViewInfo(
-                          classInfoModel: classViewController.classInfo.value),
-                    ),
-                    SliverPersistentHeader(
-                        pinned: true, delegate: IndexButton()),
-                    SliverToBoxAdapter(
-                      child: Container(
-                        width: Get.mediaQuery.size.width,
-                        height: 10,
-                      ),
-                    ),
-                    Obx(() {
-                      if (classViewController.typeIndex == 0) {
-                        return SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                            return GestureDetector(
-                              //* SWAPPING remove
-                              /* onHorizontalDragEnd: (dragEnd) {
-                                if (dragEnd.primaryVelocity < 0) {
-                                  classViewController.typeIndex(1);
-                                }
-                              }, */
-                              child: ClassViewReview(
+              return NestedScrollView(
+                  headerSliverBuilder: (context, innerBoxIsScrolled) {
+                    return [
+                      SliverAppBar(
+                        automaticallyImplyLeading: false,
+                        pinned: true,
+                        floating: true,
+                        snap: false,
+                        forceElevated: false,
+                        elevation: 0,
+                        expandedHeight: 350,
+                        flexibleSpace: FlexibleSpaceBar(
+                          collapseMode: CollapseMode.pin,
+                          background: ClassViewInfo(
+                              classInfoModel:
+                                  classViewController.classInfo.value),
+                        ),
+                        backgroundColor: const Color(0xfff5f6ff),
+                        bottom: MenuTabBar(
+                          classViewController: classViewController,
+                          tabBar: TabBar(
+                            controller: classViewController.tabController,
+                            labelColor: const Color(0xffffffff),
+                            unselectedLabelColor: const Color(0xff2f2f2f),
+                            labelStyle: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14.0),
+                            indicator:
+                                BoxDecoration(color: const Color(mainColor)),
+                            tabs: <Tab>[
+                              Tab(
+                                text: "在校生交流区",
+                              ),
+                              Tab(
+                                text: "考试攻略",
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ];
+                  },
+                  body: Container(
+                    child: TabBarView(
+                        controller: classViewController.tabController,
+                        children: [
+                          ListView.separated(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                              return ClassViewReview(
                                 classReviewModel:
                                     classViewController.classReviewList[index],
                                 index: index,
-                              ),
-                            );
-                          },
-                              childCount:
-                                  classViewController.classReviewList.length),
-                        );
-                      } else {
-                        if (classViewController.classExamAvailable.value) {
-                          return SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                                (BuildContext context, int index) {
-                              return GestureDetector(
-                                //* SWAPPING remove
-                                /* onHorizontalDragEnd: (dragEnd) {
-                                  if (dragEnd.primaryVelocity > 0) {
-                                    classViewController.typeIndex(0);
-                                  }
-                                }, */
-                                child: ClassExamInfo(
-                                  classExamModel:
-                                      classViewController.classExamList[index],
-                                  classInfoModel:
-                                      classViewController.classInfo.value,
-                                  index: index,
-                                ),
                               );
                             },
-                                childCount:
-                                    classViewController.classExamList.length),
-                          );
-                        } else {
-                          return SliverToBoxAdapter(
-                              child: GestureDetector(
-                            onHorizontalDragEnd: (dragEnd) {
-                              if (dragEnd.primaryVelocity > 0) {
-                                classViewController.typeIndex(0);
-                              }
+                            itemCount:
+                                classViewController.classReviewList.length,
+                            separatorBuilder: (context, index) {
+                              return Container(
+                                  width: 292,
+                                  height: 1,
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xffeaeaea)));
                             },
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          ));
-                        }
-                      }
-                    }),
-                    SliverToBoxAdapter(
-                        child: SizedBox(
-                      height: 50,
-                    )),
-                  ],
-                ),
-              );
+                          ),
+                          Obx(() {
+                            if (classViewController.classExamAvailable.value) {
+                              return ListView.separated(
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return ClassExamInfo(
+                                      classExamModel: classViewController
+                                          .classExamList[index],
+                                      classInfoModel:
+                                          classViewController.classInfo.value,
+                                      index: index,
+                                    );
+                                  },
+                                  itemCount:
+                                      classViewController.classExamList.length,
+                                  separatorBuilder: (context, index) {
+                                    return Container(
+                                        width: 292,
+                                        height: 1,
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xffeaeaea)));
+                                  });
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          })
+                        ]),
+                  ));
+
+              // CustomScrollView(
+              //   slivers: <Widget>[
+              //     // 강의 정부
+              //     SliverToBoxAdapter(
+              //       child: ClassViewInfo(
+              //           classInfoModel: classViewController.classInfo.value),
+              //     ),
+              //     // Comment, Exam Info Tabbar
+              //     SliverPersistentHeader(
+              //         pinned: true, floating: true, delegate: MenuTabBar()),
+              //     SliverFillRemaining(
+              //       child: TabBarView(
+              //           controller: classViewController.tabController,
+              //           children: <Widget>[
+              //             ListView.separated(
+              //                 physics: NeverScrollableScrollPhysics(),
+              //                 itemBuilder: (context, index) {
+              //                   return ClassViewReview(
+              //                     classReviewModel: classViewController
+              //                         .classReviewList[index],
+              //                     index: index,
+              //                   );
+              //                 },
+              //                 separatorBuilder: (context, index) {
+              //                   return Container(
+              //                       width: 292,
+              //                       height: 1,
+              //                       decoration: BoxDecoration(
+              //                           color: const Color(0xffeaeaea)));
+              //                 },
+              //                 itemCount:
+              //                     classViewController.classReviewList.length),
+              //             Text("gd")
+              //           ]),
+              //     ),
+              //     // SliverPersistentHeader(
+              //     //     pinned: true, delegate: IndexButton()),
+              //     // SliverToBoxAdapter(
+              //     //   child: Container(
+              //     //     width: Get.mediaQuery.size.width,
+              //     //     height: 10,
+              //     //   ),
+              //     // ),
+              //     // Obx(() {
+              //     //   if (classViewController.typeIndex == 0) {
+              //     //     return SliverList(
+              //     //       delegate: SliverChildBuilderDelegate(
+              //     //           (BuildContext context, int index) {
+              //     //         return GestureDetector(
+              //     //           //* SWAPPING remove
+              //     //           /* onHorizontalDragEnd: (dragEnd) {
+              //     //             if (dragEnd.primaryVelocity < 0) {
+              //     //               classViewController.typeIndex(1);
+              //     //             }
+              //     //           }, */
+              //     //           child: ClassViewReview(
+              //     //             classReviewModel: classViewController
+              //     //                 .classReviewList[index],
+              //     //             index: index,
+              //     //           ),
+              //     //         );
+              //     //       },
+              //     //           childCount:
+              //     //               classViewController.classReviewList.length),
+              //     //     );
+              //     //   } else {
+              //     //     if (classViewController.classExamAvailable.value) {
+              //     //       return SliverList(
+              //     //         delegate: SliverChildBuilderDelegate(
+              //     //             (BuildContext context, int index) {
+              //     //           return GestureDetector(
+              //     //             //* SWAPPING remove
+              //     //             /* onHorizontalDragEnd: (dragEnd) {
+              //     //               if (dragEnd.primaryVelocity > 0) {
+              //     //                 classViewController.typeIndex(0);
+              //     //               }
+              //     //             }, */
+              //     //             child: ClassExamInfo(
+              //     //               classExamModel: classViewController
+              //     //                   .classExamList[index],
+              //     //               classInfoModel:
+              //     //                   classViewController.classInfo.value,
+              //     //               index: index,
+              //     //             ),
+              //     //           );
+              //     //         },
+              //     //             childCount:
+              //     //                 classViewController.classExamList.length),
+              //     //       );
+              //     //     } else {
+              //     //       return SliverToBoxAdapter(
+              //     //           child: GestureDetector(
+              //     //         onHorizontalDragEnd: (dragEnd) {
+              //     //           if (dragEnd.primaryVelocity > 0) {
+              //     //             classViewController.typeIndex(0);
+              //     //           }
+              //     //         },
+              //     //         child: Center(
+              //     //           child: CircularProgressIndicator(),
+              //     //         ),
+              //     //       ));
+              //     //     }
+              //     //   }
+              //     // }),
+              //     // SliverToBoxAdapter(
+              //     //     child: SizedBox(
+              //     //   height: 50,
+              //     // )),
+              //   ],
+              // );
+
             } else {
               return Center(
                 child: CircularProgressIndicator(),
@@ -446,7 +576,7 @@ class ClassViewReview extends StatelessWidget {
     final ClassViewController classViewController = Get.find();
 
     return Container(
-      margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
+      margin: EdgeInsets.only(left: 20, right: 20),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(10)),
       child: Padding(
@@ -456,13 +586,13 @@ class ClassViewReview extends StatelessWidget {
           children: [
             // 별점 & 좋아요
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                    width: 94.4,
+                    width: 68,
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: rate_star(classReviewModel.RATE, 14.6))),
-                Spacer(),
+                        children: rate_star(classReviewModel.RATE, 12))),
                 TextButton.icon(
                     style: ButtonStyle(
                         foregroundColor: MaterialStateProperty.all(Colors.red),
@@ -474,20 +604,21 @@ class ClassViewReview extends StatelessWidget {
                           classReviewModel.CLASS_COMMENT_ID,
                           index);
                     },
-                    icon: Icon(Icons.thumb_up, size: 20),
+                    icon: Icon(Icons.thumb_up, size: 12),
                     label: Text(classReviewModel.LIKES.toString()))
               ],
             ),
 
             // 수강 학기: 데이터 안 날라옴
             Text(
-              "${semester(classReviewModel.CLASS_SEMESTER)} Semester Of ${classReviewModel.CLASS_YEAR}",
-              style: TextStyle(
-                  color: const Color(0xff333333),
-                  fontWeight: FontWeight.normal,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 16.0),
-            ),
+                "${semester(classReviewModel.CLASS_SEMESTER)} Semester Of ${classReviewModel.CLASS_YEAR}",
+                style: const TextStyle(
+                    color: const Color(0xff9b9b9b),
+                    fontWeight: FontWeight.w300,
+                    fontFamily: "NotoSansSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 10.0),
+                textAlign: TextAlign.left),
 
             Container(
                 margin: EdgeInsets.only(top: 11, bottom: 13),
@@ -712,6 +843,87 @@ class ClassExamInfo extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                           fontSize: 16.0)))))
     ]);
+  }
+}
+
+class MenuTabBar extends Container implements PreferredSizeWidget {
+  MenuTabBar({this.classViewController, this.tabBar});
+
+  final ClassViewController classViewController;
+  final TabBar tabBar;
+
+  @override
+  Size get preferredSize => tabBar.preferredSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 320,
+      height: 44,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          color: const Color(0xffffffff)),
+      child: tabBar,
+    );
+  }
+}
+
+// class MenuTabBar extends SliverPersistentHeaderDelegate {
+//   final height = 76.0;
+//   final ClassViewController classViewController = Get.find();
+
+//   @override
+//   Widget build(
+//       BuildContext context, double shrinkOffset, bool overlapsContent) {
+//     return Container(
+//       margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+//       width: 320.0,
+//       height: 44.0,
+//       decoration: BoxDecoration(
+//           borderRadius: BorderRadius.all(Radius.circular(8)),
+//           color: const Color(0xffffffff)),
+//       child: TabBar(
+//         controller: classViewController.tabController,
+//         labelColor: const Color(0xffffffff),
+//         unselectedLabelColor: const Color(0xff2f2f2f),
+//         labelStyle: const TextStyle(
+//             fontWeight: FontWeight.w500,
+//             fontFamily: "NotoSansSC",
+//             fontStyle: FontStyle.normal,
+//             fontSize: 14.0),
+//         indicator: BoxDecoration(color: const Color(mainColor)),
+//         tabs: <Tab>[
+//           Tab(
+//             text: "在校生交流区",
+//           ),
+//           Tab(
+//             text: "考试攻略",
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   @override
+//   // TODO: implement maxExtent
+//   double get maxExtent => height;
+
+//   @override
+//   // TODO: implement minExtent
+//   double get minExtent => height;
+
+//   @override
+//   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+//     // TODO: implement shouldRebuild
+//     return false;
+//   }
+// }
+
+class IndiDeco extends Decoration {
+  @override
+  BoxPainter createBoxPainter([VoidCallback onChanged]) {
+    // TODO: implement createBoxPainter
+    throw UnimplementedError();
   }
 }
 

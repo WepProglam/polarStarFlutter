@@ -7,7 +7,8 @@ import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
 import 'package:polarstar_flutter/app/controller/class/write_comment_controller.dart';
 
-class ClassViewController extends GetxController {
+class ClassViewController extends GetxController
+    with SingleGetTickerProviderMixin {
   final ClassRepository repository;
   ClassViewController({@required this.repository});
 
@@ -31,6 +32,7 @@ class ClassViewController extends GetxController {
   final classViewAvailable = false.obs;
   final classExamAvailable = false.obs;
 
+  TabController tabController;
   final typeIndex = 0.obs;
 
   final classInfo = ClassInfoModel().obs;
@@ -205,7 +207,9 @@ class ClassViewController extends GetxController {
 
   @override
   void onInit() async {
-    await getClassView(int.parse(Get.parameters["CLASS_ID"]));
+    getClassView(int.parse(Get.parameters["CLASS_ID"]));
+    getExamInfo(int.parse(Get.parameters["CLASS_ID"]));
+    tabController = await TabController(vsync: this, length: 2);
     super.onInit();
   }
 

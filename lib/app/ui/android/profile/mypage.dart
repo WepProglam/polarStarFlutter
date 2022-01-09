@@ -278,7 +278,7 @@ class MyPageProfile extends StatelessWidget {
       snap: false,
       expandedHeight: 56 + 254.0,
       backgroundColor: const Color(mainColor),
-      bottom: menuTabBar(
+      bottom: MenuTabBar(
         myPageController: myPageController,
         tabBar: TabBar(
             labelStyle: const TextStyle(
@@ -419,8 +419,8 @@ class MyPageProfile extends StatelessWidget {
   }
 }
 
-class menuTabBar extends Container implements PreferredSizeWidget {
-  menuTabBar({this.myPageController, this.tabBar});
+class MenuTabBar extends Container implements PreferredSizeWidget {
+  MenuTabBar({this.myPageController, this.tabBar});
 
   final MyPageController myPageController;
   final TabBar tabBar;
