@@ -8,6 +8,8 @@ import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
 
+const mainColor = 0xff371ac7;
+
 class Mypage extends StatelessWidget {
   final MyPageController myPageController = Get.find();
   final MainController mainController = Get.find();
@@ -275,27 +277,30 @@ class MyPageProfile extends StatelessWidget {
       floating: true,
       snap: false,
       expandedHeight: 56 + 254.0,
-      backgroundColor: const Color(0xff571df0),
-      bottom: TabBar(
-          labelStyle: const TextStyle(
-              color: const Color(0xff9b75ff),
-              fontWeight: FontWeight.w400,
-              fontFamily: "NotoSansSC",
-              fontStyle: FontStyle.normal,
-              fontSize: 14.0),
-          indicatorColor: Colors.white,
-          tabs: <Tab>[
-            Tab(
-              text: "发帖",
-            ),
-            Tab(
-              text: "赞过",
-            ),
-            Tab(
-              text: "收藏",
-            )
-          ],
-          controller: myPageController.tabController),
+      backgroundColor: const Color(mainColor),
+      bottom: menuTabBar(
+        myPageController: myPageController,
+        tabBar: TabBar(
+            labelStyle: const TextStyle(
+                color: const Color(0xff9b75ff),
+                fontWeight: FontWeight.w400,
+                fontFamily: "NotoSansSC",
+                fontStyle: FontStyle.normal,
+                fontSize: 14.0),
+            indicatorColor: Colors.white,
+            tabs: <Tab>[
+              Tab(
+                text: "发帖",
+              ),
+              Tab(
+                text: "赞过",
+              ),
+              Tab(
+                text: "收藏",
+              )
+            ],
+            controller: myPageController.tabController),
+      ),
       flexibleSpace: FlexibleSpaceBar(
         background: Obx(() {
           return Container(
@@ -369,7 +374,7 @@ class MyPageProfile extends StatelessWidget {
                                     border: Border.all(
                                         color: const Color(0xffffffff),
                                         width: 1),
-                                    color: const Color(0xff571df0)),
+                                    color: const Color(mainColor)),
                                 child: Center(
                                   child: Text("个人资料",
                                       style: const TextStyle(
@@ -394,7 +399,7 @@ class MyPageProfile extends StatelessWidget {
                                     border: Border.all(
                                         color: const Color(0xffffffff),
                                         width: 1),
-                                    color: const Color(0xff571df0)),
+                                    color: const Color(mainColor)),
                                 child: Center(
                                   child: Text("设置",
                                       style: const TextStyle(
@@ -410,6 +415,24 @@ class MyPageProfile extends StatelessWidget {
           );
         }),
       ),
+    );
+  }
+}
+
+class menuTabBar extends Container implements PreferredSizeWidget {
+  menuTabBar({this.myPageController, this.tabBar});
+
+  final MyPageController myPageController;
+  final TabBar tabBar;
+
+  @override
+  Size get preferredSize => tabBar.preferredSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color(mainColor),
+      child: tabBar,
     );
   }
 }
