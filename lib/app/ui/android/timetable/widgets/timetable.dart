@@ -462,7 +462,9 @@ class TimeTableItem extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       // 이연희
-                      Text("이연희 ",
+                      Text("${classItemModel.PROFESSOR}",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                               color: const Color(0xfffff8dd),
                               fontWeight: FontWeight.w400,
