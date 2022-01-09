@@ -40,40 +40,42 @@ class ClassChatController extends GetxController {
   //   }
   // }
 
-  IO.Socket soc = null;
+  // IO.Socket soc = null;
   RxString roomID = "".obs;
   RxBool dataAvailble = false.obs;
   RxList<ClassChatModel> chatHistory = <ClassChatModel>[].obs;
 
   Future<void> registerSocket() async {
-    soc = await socketting("${roomID.value}");
+    await socketting("${roomID.value}");
   }
 
   void sendMessage(String text) {
-    soc.emit("sendMessage", {"content": text});
+    classChatSocket.emit("sendMessage", {"content": text});
   }
 
-  Future<IO.Socket> socketting(String roomID) async {
-    IO.Socket socket = await IO.io(
-        'http://13.209.5.161:3000',
-        IO.OptionBuilder()
-            .setTransports(['websocket'])
-            .disableAutoConnect()
-            .setExtraHeaders({'cookie': Session.headers["Cookie"]})
-            .build());
+  Future<void> socketting(String roomID) async {
+    // IO.Socket socket = await IO.io(
+    //     'http://13.209.5.161:3000',
+    //     IO.OptionBuilder()
+    //         .setTransports(['websocket'])
+    //         .disableAutoConnect()
+    //         .setExtraHeaders({'cookie': Session.headers["Cookie"]})
+    //         .build());
 
-    socket.onConnect((_) {
-      socket.emit("joinRoom", [roomID, "fuckfuck"]);
-    });
+    // classChatSocket.onConnect((_) {
+    //   classChatSocket.emit("joinRoom", [roomID, "fuckfuck"]);
+    // });
 
-    socket.onConnectError((data) => print(data));
+    classChatSocket.emit("joinRoom", [roomID, "fuckfuck"]);
 
-    socket.on("viewRecentMessage", (data) {
+    classChatSocket.onConnectError((data) => print(data));
+
+    classChatSocket.on("viewRecentMessage", (data) {
       Iterable cc = data;
       chatHistory.value = cc.map((e) => ClassChatModel.fromJson(e)).toList();
     });
 
-    socket.on("newMessage", (data) {
+    classChatSocket.on("newMessage", (data) {
       print(data);
       ClassChatModel chat = ClassChatModel.fromJson(data);
       if ("${chat.CLASS_ID}" == roomID) {
@@ -82,11 +84,11 @@ class ClassChatController extends GetxController {
         Get.snackbar("왜 오냐 이건.. ㅅㅂ", "${chat.CLASS_ID}: ${chat.CONTENT}");
       }
     });
-    socket.on('event', (data) => print(data));
-    socket.onDisconnect((_) => print('disconnect!!!!'));
-    socket.on('fromServer', (_) => print(_));
+    classChatSocket.on('event', (data) => print(data));
+    classChatSocket.onDisconnect((_) => print('disconnect!!!!'));
+    classChatSocket.on('fromServer', (_) => print(_));
 
-    return socket;
+    // return socket;
   }
 
   @override
@@ -94,20 +96,19 @@ class ClassChatController extends GetxController {
     roomID.value = Get.arguments["roomID"];
     print(roomID.value);
     await registerSocket();
-    print(soc.connected);
+    print(classChatSocket.connected);
 
-    await soc.connect();
     super.onInit();
     dataAvailble.value = true;
   }
 
   @override
   void onClose() async {
-    print("disconnecting...");
-    await soc.emit("leaveRoom", roomID.value);
+    print("leaving...");
+    await classChatSocket.emit("leaveRoom", roomID.value);
 
-    await soc.disconnect();
-    print("disconnect 완료");
+    // await classChatSocket.disconnect();
+    // print("disconnect 완료");
     chatHistory.clear();
   }
 }

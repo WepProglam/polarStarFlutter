@@ -65,6 +65,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.data}");
 }
 
+IO.Socket classChatSocket;
+
 void main() async {
   // Socket.connect("http://13.209.5.161", 3000).then((Socket sock) {
   //   print("adfsdfsadf");
@@ -112,6 +114,12 @@ void main() async {
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
   //     statusBarColor: const Color(0xfff6f6f6),
   //     statusBarBrightness: Brightness.light));
+
+  classChatSocket = await IO.io(
+      'http://13.209.5.161:3000',
+      IO.OptionBuilder().setTransports(['websocket'])
+          // .disableAutoConnect()
+          .setExtraHeaders({'cookie': Session.headers["Cookie"]}).build());
 
   await runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want
