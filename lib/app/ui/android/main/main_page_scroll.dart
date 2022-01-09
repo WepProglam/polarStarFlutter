@@ -43,7 +43,8 @@ class MainPageScroll extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          toolbarHeight: 56,
+          // * + 0.5 안하면 앱에서 이상한 금이 생김
+          toolbarHeight: 56 + 0.5,
           automaticallyImplyLeading: false,
           titleSpacing: 0,
           title: Container(
