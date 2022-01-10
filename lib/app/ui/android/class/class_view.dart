@@ -15,6 +15,7 @@ import 'package:polarstar_flutter/app/ui/android/class/functions/semester.dart';
 
 import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/modal_bottom_sheet.dart';
+import 'package:polarstar_flutter/app/ui/android/timetable/widgets/timetable.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 // Colors
@@ -39,7 +40,7 @@ class ClassView extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xfff5f6ff),
+        backgroundColor: const Color(backgroundColor),
         appBar: AppBars().classBasicAppBar(),
         bottomSheet: Ink(
           color: const Color(mainColor),
@@ -132,7 +133,7 @@ class ClassView extends StatelessWidget {
                               classInfoModel:
                                   classViewController.classInfo.value),
                         ),
-                        backgroundColor: const Color(0xfff5f6ff),
+                        backgroundColor: const Color(backgroundColor),
                         bottom: MenuTabBar(
                           classViewController: classViewController,
                           tabBar: TabBar(
@@ -144,8 +145,9 @@ class ClassView extends StatelessWidget {
                                 fontFamily: "NotoSansSC",
                                 fontStyle: FontStyle.normal,
                                 fontSize: 14.0),
-                            indicator:
-                                BoxDecoration(color: const Color(mainColor)),
+                            indicator: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: const Color(mainColor)),
                             tabs: <Tab>[
                               Tab(
                                 text: "在校生交流区",
@@ -159,59 +161,91 @@ class ClassView extends StatelessWidget {
                       )
                     ];
                   },
-                  body: Container(
-                    child: TabBarView(
-                        controller: classViewController.tabController,
-                        children: [
-                          ListView.separated(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              return ClassViewReview(
-                                classReviewModel:
-                                    classViewController.classReviewList[index],
-                                index: index,
-                              );
-                            },
-                            itemCount:
-                                classViewController.classReviewList.length,
-                            separatorBuilder: (context, index) {
+                  body: TabBarView(
+                      controller: classViewController.tabController,
+                      children: [
+                        ListView.separated(
+                          itemBuilder: (BuildContext context, int index) {
+                            if (index == 0) {
                               return Container(
-                                  width: 292,
-                                  height: 1,
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xffeaeaea)));
-                            },
-                          ),
-                          Obx(() {
-                            if (classViewController.classExamAvailable.value) {
-                              return ListView.separated(
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return ClassExamInfo(
-                                      classExamModel: classViewController
-                                          .classExamList[index],
-                                      classInfoModel:
-                                          classViewController.classInfo.value,
-                                      index: index,
-                                    );
-                                  },
-                                  itemCount:
-                                      classViewController.classExamList.length,
-                                  separatorBuilder: (context, index) {
-                                    return Container(
-                                        width: 292,
-                                        height: 1,
-                                        decoration: BoxDecoration(
-                                            color: const Color(0xffeaeaea)));
-                                  });
+                                margin: EdgeInsets.symmetric(horizontal: 20.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(8))),
+                                child: ClassViewReview(
+                                  classReviewModel: classViewController
+                                      .classReviewList[index],
+                                  index: index,
+                                ),
+                              );
+                            } else if (index ==
+                                classViewController.classReviewList.length -
+                                    1) {
+                              return Container(
+                                margin: EdgeInsets.symmetric(horizontal: 20.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.vertical(
+                                        bottom: Radius.circular(8))),
+                                child: ClassViewReview(
+                                  classReviewModel: classViewController
+                                      .classReviewList[index],
+                                  index: index,
+                                ),
+                              );
                             } else {
-                              return Center(
-                                child: CircularProgressIndicator(),
+                              return Container(
+                                margin: EdgeInsets.symmetric(horizontal: 20.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                ),
+                                child: ClassViewReview(
+                                  classReviewModel: classViewController
+                                      .classReviewList[index],
+                                  index: index,
+                                ),
                               );
                             }
-                          })
-                        ]),
-                  ));
+                          },
+                          itemCount: classViewController.classReviewList.length,
+                          separatorBuilder: (context, index) {
+                            return Container(
+                                margin: EdgeInsets.symmetric(horizontal: 34.5),
+                                height: 1,
+                                decoration: BoxDecoration(
+                                    color: const Color(0xffeaeaea)));
+                          },
+                        ),
+                        Obx(() {
+                          if (classViewController.classExamAvailable.value) {
+                            return ListView.separated(
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ClassExamInfo(
+                                    classExamModel: classViewController
+                                        .classExamList[index],
+                                    classInfoModel:
+                                        classViewController.classInfo.value,
+                                    index: index,
+                                  );
+                                },
+                                itemCount:
+                                    classViewController.classExamList.length,
+                                separatorBuilder: (context, index) {
+                                  return Container(
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 34.5),
+                                      height: 1,
+                                      decoration: BoxDecoration(
+                                          color: const Color(0xffeaeaea)));
+                                });
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        })
+                      ]));
 
               // CustomScrollView(
               //   slivers: <Widget>[
@@ -345,21 +379,22 @@ class ClassViewInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     // final ClassViewController classViewController = Get.find();
     return Container(
+      height: 270,
       decoration: BoxDecoration(color: Colors.white),
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         children: [
           Container(
-            height: 97,
-            width: 320,
+            height: 100,
             margin: EdgeInsets.fromLTRB(0.0, 14.0, 0.0, 14.0),
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.fromLTRB(20.0, 23.0, 20.0, 20.0),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 border: Border.all(color: const Color(0xffeaeaea), width: 1),
                 color: const Color(classInfoColor)),
             child: Container(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("${classInfoModel.CLASS_NAME}",
@@ -412,151 +447,148 @@ class ClassViewInfo extends StatelessWidget {
           ),
 
           // 세부 내용
-          Container(
-            margin: EdgeInsets.only(left: 15, right: 15),
-            child: Column(
-              children: [
-                // SECTOR
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("作业量",
-                          style: const TextStyle(
-                              color: const Color(categoryColor),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "NotoSansTC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          textAlign: TextAlign.left),
-                      Text(
-                        "${classInfoModel.CLASS_SECTOR_1}",
-                        style: TextStyle(
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.bold,
+          Column(
+            children: [
+              // SECTOR
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 6.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("作业量",
+                        style: const TextStyle(
+                            color: const Color(categoryColor),
+                            fontWeight: FontWeight.w400,
                             fontFamily: "NotoSansTC",
                             fontStyle: FontStyle.normal,
                             fontSize: 14.0),
-                        textAlign: TextAlign.left,
-                      )
-                    ],
-                  ),
+                        textAlign: TextAlign.left),
+                    Text(
+                      "${classInfoModel.CLASS_SECTOR_1}",
+                      style: TextStyle(
+                          color: const Color(0xff333333),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "NotoSansTC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14.0),
+                      textAlign: TextAlign.left,
+                    )
+                  ],
                 ),
-                // Team Project
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("小组作业量",
-                          style: const TextStyle(
-                              color: const Color(categoryColor),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "NotoSansTC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          textAlign: TextAlign.left),
-                      Container(
-                        width: 68,
-                        height: 20,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: classInfoModel.AVG_RATE_GROUP_STUDY != null
-                              ? rate_heart(
-                                  classInfoModel.AVG_RATE_GROUP_STUDY, starSize)
-                              : rate_heart("0.0", starSize),
-                        ),
+              ),
+              // Team Project
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 6.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("小组作业量",
+                        style: const TextStyle(
+                            color: const Color(categoryColor),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansTC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
+                    Container(
+                      width: 68,
+                      height: 20,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: classInfoModel.AVG_RATE_GROUP_STUDY != null
+                            ? rate_heart(
+                                classInfoModel.AVG_RATE_GROUP_STUDY, starSize)
+                            : rate_heart("0.0", starSize),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                // 과제량
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("考试难度",
-                          style: const TextStyle(
-                              color: const Color(categoryColor),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "NotoSansTC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          textAlign: TextAlign.left),
-                      Container(
-                        width: 68,
-                        height: 20,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: classInfoModel.AVG_RATE_ASSIGNMENT != null
-                              ? rate_heart(
-                                  classInfoModel.AVG_RATE_ASSIGNMENT, starSize)
-                              : rate_heart("0.0", starSize),
-                        ),
+              ),
+              // 과제량
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 6.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("考试难度",
+                        style: const TextStyle(
+                            color: const Color(categoryColor),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansTC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
+                    Container(
+                      width: 68,
+                      height: 20,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: classInfoModel.AVG_RATE_ASSIGNMENT != null
+                            ? rate_heart(
+                                classInfoModel.AVG_RATE_ASSIGNMENT, starSize)
+                            : rate_heart("0.0", starSize),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                //시험공부량
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("授课方式",
-                          style: const TextStyle(
-                              color: const Color(categoryColor),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "NotoSansTC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          textAlign: TextAlign.left),
-                      Container(
-                        width: 68,
-                        height: 20,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: classInfoModel.AVG_RATE_EXAM_STUDY != null
-                              ? rate_heart(
-                                  classInfoModel.AVG_RATE_EXAM_STUDY, starSize)
-                              : rate_heart("0.0", starSize),
-                        ),
+              ),
+              //시험공부량
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 6.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("授课方式",
+                        style: const TextStyle(
+                            color: const Color(categoryColor),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansTC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
+                    Container(
+                      width: 68,
+                      height: 20,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: classInfoModel.AVG_RATE_EXAM_STUDY != null
+                            ? rate_heart(
+                                classInfoModel.AVG_RATE_EXAM_STUDY, starSize)
+                            : rate_heart("0.0", starSize),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                // 학점 비율
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("出勤",
-                          style: const TextStyle(
-                              color: const Color(0xff2f2f2f),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "NotoSansTC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          textAlign: TextAlign.left),
-                      Container(
-                        width: 68,
-                        height: 20,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: classInfoModel.AVG_RATE_GRADE_RATIO != null
-                              ? rate_heart(
-                                  classInfoModel.AVG_RATE_GRADE_RATIO, starSize)
-                              : rate_heart("0.0", starSize),
-                        ),
+              ),
+              // 학점 비율
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("出勤",
+                        style: const TextStyle(
+                            color: const Color(0xff2f2f2f),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansTC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
+                    Container(
+                      width: 68,
+                      height: 20,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: classInfoModel.AVG_RATE_GRADE_RATIO != null
+                            ? rate_heart(
+                                classInfoModel.AVG_RATE_GRADE_RATIO, starSize)
+                            : rate_heart("0.0", starSize),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           )
           // Sector
         ],
@@ -575,71 +607,66 @@ class ClassViewReview extends StatelessWidget {
   Widget build(BuildContext context) {
     final ClassViewController classViewController = Get.find();
 
-    return Container(
-      margin: EdgeInsets.only(left: 20, right: 20),
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 별점 & 좋아요
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                    width: 68,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: rate_star(classReviewModel.RATE, 12))),
-                TextButton.icon(
-                    style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all(Colors.red),
-                        overlayColor: MaterialStateProperty.all(
-                            Colors.red.withOpacity(0.6))),
-                    onPressed: () async {
-                      await classViewController.getCommentLike(
-                          classReviewModel.CLASS_ID,
-                          classReviewModel.CLASS_COMMENT_ID,
-                          index);
-                    },
-                    icon: Icon(Icons.thumb_up, size: 12),
-                    label: Text(classReviewModel.LIKES.toString()))
-              ],
-            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 별점 & 좋아요
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                  width: 68,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: rate_star(classReviewModel.RATE, 12))),
+              TextButton.icon(
+                  style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.red),
+                      overlayColor: MaterialStateProperty.all(
+                          Colors.red.withOpacity(0.6))),
+                  onPressed: () async {
+                    await classViewController.getCommentLike(
+                        classReviewModel.CLASS_ID,
+                        classReviewModel.CLASS_COMMENT_ID,
+                        index);
+                  },
+                  icon: Icon(Icons.thumb_up, size: 12),
+                  label: Text(classReviewModel.LIKES.toString()))
+            ],
+          ),
 
-            // 수강 학기: 데이터 안 날라옴
-            Text(
-                "${semester(classReviewModel.CLASS_SEMESTER)} Semester Of ${classReviewModel.CLASS_YEAR}",
-                style: const TextStyle(
-                    color: const Color(0xff9b9b9b),
-                    fontWeight: FontWeight.w300,
-                    fontFamily: "NotoSansSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 10.0),
-                textAlign: TextAlign.left),
+          // 수강 학기: 데이터 안 날라옴
+          Text(
+              "${semester(classReviewModel.CLASS_SEMESTER)} Semester Of ${classReviewModel.CLASS_YEAR}",
+              style: const TextStyle(
+                  color: const Color(0xff9b9b9b),
+                  fontWeight: FontWeight.w300,
+                  fontFamily: "NotoSansSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 10.0),
+              textAlign: TextAlign.left),
 
-            Container(
-                margin: EdgeInsets.only(top: 11, bottom: 13),
-                width: Get.mediaQuery.size.width,
-                decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
-                  child: Text(
-                    classReviewModel.CONTENT,
-                    // maxLines: 2,
-                    style: TextStyle(
-                        color: const Color(0xff707070),
-                        fontWeight: FontWeight.normal,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14.0),
-                  ),
-                ))
-          ],
-        ),
+          Container(
+              margin: EdgeInsets.only(top: 11, bottom: 13),
+              width: Get.mediaQuery.size.width,
+              decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
+                child: Text(
+                  classReviewModel.CONTENT,
+                  // maxLines: 2,
+                  style: TextStyle(
+                      color: const Color(0xff707070),
+                      fontWeight: FontWeight.normal,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                ),
+              ))
+        ],
       ),
     );
   }
@@ -858,12 +885,15 @@ class MenuTabBar extends Container implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 320,
-      height: 44,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          color: const Color(0xffffffff)),
-      child: tabBar,
+      color: const Color(backgroundColor),
+      child: Container(
+        margin: EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 20.0),
+        height: 44,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: const Color(0xffffffff)),
+        child: tabBar,
+      ),
     );
   }
 }
@@ -918,14 +948,6 @@ class MenuTabBar extends Container implements PreferredSizeWidget {
 //     return false;
 //   }
 // }
-
-class IndiDeco extends Decoration {
-  @override
-  BoxPainter createBoxPainter([VoidCallback onChanged]) {
-    // TODO: implement createBoxPainter
-    throw UnimplementedError();
-  }
-}
 
 class IndexButton extends SliverPersistentHeaderDelegate {
   final height = 50.0;
