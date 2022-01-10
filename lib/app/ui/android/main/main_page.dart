@@ -88,7 +88,7 @@ class MainPage extends StatelessWidget {
             ),
           );
         }
-        changeStatusBarColor(const Color(0xff571df0), Brightness.light);
+        changeStatusBarColor(const Color(0xff371ac7), Brightness.light);
 
         return Scaffold(
           body: Builder(builder: (BuildContext context) {

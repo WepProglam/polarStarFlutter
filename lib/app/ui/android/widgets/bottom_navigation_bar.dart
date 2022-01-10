@@ -30,14 +30,14 @@ class CustomBottomNavigationBar extends StatelessWidget {
         //       spreadRadius: 0)
         // ], color: const Color(0xff571df0)),
         child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(40),
-          ),
+          // borderRadius: BorderRadius.only(
+          //   topRight: Radius.circular(40),
+          // ),
           child: BottomNavigationBar(
             showSelectedLabels: false,
             showUnselectedLabels: false,
             selectedFontSize: 0,
-            backgroundColor: const Color(0xff571df0),
+            backgroundColor: const Color(0xff371ac7),
             type: BottomNavigationBarType.fixed,
             items: [
               BottomNavigationBarItem(
