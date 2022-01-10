@@ -880,15 +880,15 @@ class MenuTabBar extends Container implements PreferredSizeWidget {
   final TabBar tabBar;
 
   @override
-  Size get preferredSize => tabBar.preferredSize;
+  Size get preferredSize => Size(tabBar.preferredSize.width, 80.0);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: const Color(backgroundColor),
+      height: 80.0,
       child: Container(
         margin: EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 20.0),
-        height: 44,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8)),
             color: const Color(0xffffffff)),
