@@ -121,12 +121,12 @@ class ClassView extends StatelessWidget {
                     return [
                       SliverAppBar(
                         automaticallyImplyLeading: false,
-                        pinned: true,
-                        floating: true,
+                        pinned: false,
+                        floating: false,
                         snap: false,
                         forceElevated: false,
                         elevation: 0,
-                        expandedHeight: 350,
+                        expandedHeight: 272,
                         flexibleSpace: FlexibleSpaceBar(
                           collapseMode: CollapseMode.pin,
                           background: ClassViewInfo(
@@ -134,7 +134,10 @@ class ClassView extends StatelessWidget {
                                   classViewController.classInfo.value),
                         ),
                         backgroundColor: const Color(backgroundColor),
-                        bottom: MenuTabBar(
+                      ),
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: MenuTabBar(
                           classViewController: classViewController,
                           tabBar: TabBar(
                             controller: classViewController.tabController,
@@ -158,13 +161,14 @@ class ClassView extends StatelessWidget {
                             ],
                           ),
                         ),
-                      )
+                      ),
                     ];
                   },
                   body: TabBarView(
                       controller: classViewController.tabController,
                       children: [
                         ListView.separated(
+                          physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
                             if (index == 0) {
                               return Container(
@@ -220,6 +224,7 @@ class ClassView extends StatelessWidget {
                         Obx(() {
                           if (classViewController.classExamAvailable.value) {
                             return ListView.separated(
+                                physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (BuildContext context, int index) {
                                   return ClassExamInfo(
                                     classExamModel: classViewController
@@ -247,7 +252,7 @@ class ClassView extends StatelessWidget {
                         })
                       ]));
 
-              // CustomScrollView(
+              //     CustomScrollView(
               //   slivers: <Widget>[
               //     // 강의 정부
               //     SliverToBoxAdapter(
@@ -256,13 +261,39 @@ class ClassView extends StatelessWidget {
               //     ),
               //     // Comment, Exam Info Tabbar
               //     SliverPersistentHeader(
-              //         pinned: true, floating: true, delegate: MenuTabBar()),
+              //         pinned: true,
+              //         delegate: MenuTabBar(
+              //           classViewController: classViewController,
+              //           tabBar: TabBar(
+              //             controller: classViewController.tabController,
+              //             labelColor: const Color(0xffffffff),
+              //             unselectedLabelColor: const Color(0xff2f2f2f),
+              //             labelStyle: const TextStyle(
+              //                 fontWeight: FontWeight.w500,
+              //                 fontFamily: "NotoSansSC",
+              //                 fontStyle: FontStyle.normal,
+              //                 fontSize: 14.0),
+              //             indicator: BoxDecoration(
+              //                 borderRadius: BorderRadius.circular(8.0),
+              //                 color: const Color(mainColor)),
+              //             tabs: <Tab>[
+              //               Tab(
+              //                 text: "在校生交流区",
+              //               ),
+              //               Tab(
+              //                 text: "考试攻略",
+              //               ),
+              //             ],
+              //           ),
+              //         )),
+
               //     SliverFillRemaining(
+
               //       child: TabBarView(
               //           controller: classViewController.tabController,
               //           children: <Widget>[
               //             ListView.separated(
-              //                 physics: NeverScrollableScrollPhysics(),
+              //                 // physics: NeverScrollableScrollPhysics(),
               //                 itemBuilder: (context, index) {
               //                   return ClassViewReview(
               //                     classReviewModel: classViewController
@@ -279,11 +310,27 @@ class ClassView extends StatelessWidget {
               //                 },
               //                 itemCount:
               //                     classViewController.classReviewList.length),
-              //             Text("gd")
+              //             ListView.separated(
+              //                 // physics: NeverScrollableScrollPhysics(),
+              //                 itemBuilder: (context, index) {
+              //                   return ClassViewReview(
+              //                     classReviewModel: classViewController
+              //                         .classReviewList[index],
+              //                     index: index,
+              //                   );
+              //                 },
+              //                 separatorBuilder: (context, index) {
+              //                   return Container(
+              //                       width: 292,
+              //                       height: 1,
+              //                       decoration: BoxDecoration(
+              //                           color: const Color(0xffeaeaea)));
+              //                 },
+              //                 itemCount:
+              //                     classViewController.classReviewList.length),
               //           ]),
               //     ),
-              //     // SliverPersistentHeader(
-              //     //     pinned: true, delegate: IndexButton()),
+              //     // SliverPersistentHeader(pinned: true, delegate: IndexButton()),
               //     // SliverToBoxAdapter(
               //     //   child: Container(
               //     //     width: Get.mediaQuery.size.width,
@@ -303,8 +350,8 @@ class ClassView extends StatelessWidget {
               //     //             }
               //     //           }, */
               //     //           child: ClassViewReview(
-              //     //             classReviewModel: classViewController
-              //     //                 .classReviewList[index],
+              //     //             classReviewModel:
+              //     //                 classViewController.classReviewList[index],
               //     //             index: index,
               //     //           ),
               //     //         );
@@ -325,8 +372,8 @@ class ClassView extends StatelessWidget {
               //     //               }
               //     //             }, */
               //     //             child: ClassExamInfo(
-              //     //               classExamModel: classViewController
-              //     //                   .classExamList[index],
+              //     //               classExamModel:
+              //     //                   classViewController.classExamList[index],
               //     //               classInfoModel:
               //     //                   classViewController.classInfo.value,
               //     //               index: index,
@@ -357,7 +404,6 @@ class ClassView extends StatelessWidget {
               //     // )),
               //   ],
               // );
-
             } else {
               return Center(
                 child: CircularProgressIndicator(),
@@ -379,7 +425,6 @@ class ClassViewInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     // final ClassViewController classViewController = Get.find();
     return Container(
-      height: 270,
       decoration: BoxDecoration(color: Colors.white),
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
@@ -873,18 +918,19 @@ class ClassExamInfo extends StatelessWidget {
   }
 }
 
-class MenuTabBar extends Container implements PreferredSizeWidget {
+class MenuTabBar extends SliverPersistentHeaderDelegate {
   MenuTabBar({this.classViewController, this.tabBar});
 
   final ClassViewController classViewController;
   final TabBar tabBar;
 
-  @override
-  Size get preferredSize => Size(tabBar.preferredSize.width, 80.0);
+  // @override
+  // Size get preferredSize => Size(tabBar.preferredSize.width, 80.0);
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
+  Widget build(
+      BuildContext context, double shirinkOffset, bool overlapsContent) {
+    return new Container(
       color: const Color(backgroundColor),
       height: 80.0,
       child: Container(
@@ -895,6 +941,20 @@ class MenuTabBar extends Container implements PreferredSizeWidget {
         child: tabBar,
       ),
     );
+  }
+
+  @override
+  // TODO: implement maxExtent
+  double get maxExtent => 80.0;
+
+  @override
+  // TODO: implement minExtent
+  double get minExtent => 80.0;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    // TODO: implement shouldRebuild
+    return false;
   }
 }
 
