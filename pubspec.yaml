@@ -58,6 +58,7 @@ dependencies:
 
   sqflite_migration: ^0.3.0
 
+  web_socket_channel: ^2.1.0
 
   
 

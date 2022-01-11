@@ -39,262 +39,54 @@ class WritePost extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
+          backgroundColor: const Color(0xffffffff),
           appBar: AppBar(
-            toolbarHeight: 50 + 17.5,
-            backgroundColor: Color(0xffffffff),
-            foregroundColor: Color(0xff333333),
-            elevation: 0,
-            automaticallyImplyLeading: false,
-            leadingWidth: 15 + 14.6 + 9.4,
-            leading: InkWell(
-              onTap: () {
-                Get.back();
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15, right: 14.6),
-                child: Ink(
-                  child: Image.asset(
-                    'assets/images/848.png',
-                    fit: BoxFit.fitWidth,
-                  ),
-                ),
-              ),
-            ),
+            toolbarHeight: 56,
+
+            backgroundColor: Get.theme.primaryColor,
             titleSpacing: 0,
-            title: Text('Publish Posts',
-                style: const TextStyle(
-                    color: const Color(0xff333333),
-                    fontWeight: FontWeight.w700,
-                    // fontFamily: "PingFangSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 21.0),
-                textAlign: TextAlign.left),
-            // actions: [
-            //   Center(
-            //     child: Padding(
-            //       padding: const EdgeInsets.all(8.0),
-            //       child: InkWell(
-            //         onTap: () async {
-            //           Map<String, dynamic> data = WritePostModel(
-            //                   title: title.text,
-            //                   description: content.text,
-            //                   unnamed: (c.anonymousCheck.value) ? '1' : '0')
-            //               .toJson();
+            // elevation: 0,
+            automaticallyImplyLeading: false,
 
-            //           //수정
-            //           if (c.putOrPost == "put") {
-            //             if (c.photoAssets.length > 0) {
-            //               await c.putPostImage(data);
-            //             } else {
-            //               await c.putPostNoImage(data);
-            //             }
-            //           }
-            //           //작성
-            //           else {
-            //             if (c.photoAssets.length > 0) {
-            //               print("이미지 포스트");
-            //               await c.postPostImage(data);
-            //             } else {
-            //               await c.postPostNoImage(data);
-            //             }
-            //           }
-            //         },
-            //         child: Container(
-            //           margin: EdgeInsets.all(8),
-            //           child: c.putOrPost == "put"
-            //               ? Text(
-            //                   '수정',
-            //                   style: TextStyle(color: Colors.black),
-            //                 )
-            //               : Text(
-            //                   '작성',
-            //                   style: TextStyle(color: Colors.black),
-            //                 ),
-            //         ),
-            //       ),
-            //     ),
-            //   )
-            // ],
-          ),
-          body: Obx(() {
-            return SingleChildScrollView(
-              child: Padding(
-                padding:
-                    const EdgeInsets.only(left: 14.8, top: 21.0, right: 14.8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Text("Title",
-                    //     style: const TextStyle(
-                    //         color: const Color(0xff333333),
-                    //         fontWeight: FontWeight.w700,
-                    //         fontFamily: "PingFangSC",
-                    //         fontStyle: FontStyle.normal,
-                    //         fontSize: 16.0),
-                    //     textAlign: TextAlign.left),
-
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12.0, bottom: 12.3),
-                      child: TextFormField(
-                        controller: title,
-                        // textAlign: TextAlign.center,
+            title: Stack(
+              children: [
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 16.5),
+                    child: Text("新张贴物",
                         style: const TextStyle(
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.normal,
-                            // fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
-                        decoration: InputDecoration(
-                          isDense: true,
-                          border: InputBorder.none,
-                          // contentPadding: const EdgeInsets.only(bottom: 14),
-                          hintStyle: const TextStyle(
-                              color: const Color(0xff999999),
-                              fontWeight: FontWeight.w400,
-                              // fontFamily: "PingFangSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          hintText: 'Please enter the title',
-                        ),
-                      ),
-                    ),
-
-                    // Text("Content",
-                    //     style: const TextStyle(
-                    //         color: const Color(0xff333333),
-                    //         fontWeight: FontWeight.w700,
-                    //         fontFamily: "PingFangSC",
-                    //         fontStyle: FontStyle.normal,
-                    //         fontSize: 16.0),
-                    //     textAlign: TextAlign.left),
-
-                    TextFormField(
-                      controller: content,
-                      // textAlign: TextAlign.center,
-                      keyboardType: TextInputType.multiline,
-                      minLines: 1,
-                      maxLines: 10,
-
-                      style: const TextStyle(
-                          color: const Color(0xff333333),
-                          fontWeight: FontWeight.normal,
-                          // fontFamily: "PingFangSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 16.0),
-                      decoration: InputDecoration(
-                        isDense: true,
-                        border: InputBorder.none,
-                        // contentPadding: const EdgeInsets.only(bottom: 14),
-                        hintStyle: const TextStyle(
-                            color: const Color(0xff999999),
-                            fontWeight: FontWeight.w400,
-                            // fontFamily: "PingFangSC",
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
                             fontStyle: FontStyle.normal,
                             fontSize: 14.0),
-                        hintText: 'Please enter the content',
+                        textAlign: TextAlign.center),
+                  ),
+                ),
+                Positioned(
+                  // left: 20,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 20),
+                    child: Ink(
+                      child: InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Image.asset(
+                          'assets/images/back_icon.png',
+                          width: 24,
+                          height: 24,
+                        ),
                       ),
                     ),
-                    Row(
-                      children: [
-                        Spacer(),
-                        Container(
-                          height: 20,
-                          width: 20,
-                          child: Transform.scale(
-                            scale: 1,
-                            child: Checkbox(
-                              value: c.anonymousCheck.value,
-                              onChanged: (value) {
-                                c.anonymousCheck.value =
-                                    !c.anonymousCheck.value;
-                                print(c.anonymousCheck.value);
-                              },
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text(' 익명'),
-                        ),
-                      ],
-                    ),
-
-                    // Text(
-                    //   "PHOTO",
-                    //   style: TextStyle(
-                    //     fontSize: 20,
-                    //   ),
-                    // ),
-
-                    // 사진 영역
-                    Container(
-                      height: 110.0,
-                      margin: const EdgeInsets.only(top: 22.5, bottom: 125),
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.zero,
-                        itemCount: c.photoAssets.length + 1,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Center(
-                              child: SizedBox(
-                                width: 110.0,
-                                height: 110.0,
-                                child: index == 0
-                                    ? InkWell(
-                                        onTap: () async {
-                                          await getMultipleGallertImage(
-                                              context);
-                                        },
-                                        child: Stack(
-                                          children: [
-                                            Image.asset(
-                                              "assets/images/417.png",
-                                            ),
-                                            Center(
-                                                child: Icon(
-                                              Icons.add_outlined,
-                                              size: 25.1,
-                                              color: const Color(0xffa5a5a5),
-                                            ))
-                                          ],
-                                        ))
-                                    : Stack(children: [
-                                        Center(
-                                          child: Image(
-                                              width: 110,
-                                              height: 110,
-                                              fit: BoxFit.cover,
-                                              image: AssetEntityImageProvider(
-                                                  c.photoAssets[index - 1],
-                                                  isOriginal: true)),
-                                        ),
-                                        Positioned(
-                                          child: InkWell(
-                                              onTap: () {
-                                                String photoId =
-                                                    c.photoAssets[index - 1].id;
-                                                c.deleteTargetPhoto(photoId);
-                                              },
-                                              child: Icon(Icons.delete)),
-                                          top: 0,
-                                          right: 0,
-                                        ),
-                                      ]),
-                              ),
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return Container(width: 7.5);
-                        },
-                      ),
-                    ),
-
-                    Center(
-                      child: GestureDetector(
+                  ),
+                ),
+                Positioned(
+                    right: 20,
+                    top: 14,
+                    child: Ink(
+                      child: InkWell(
                         onTap: () async {
                           Map<String, dynamic> data = WritePostModel(
                                   title: title.text,
@@ -337,32 +129,311 @@ class WritePost extends StatelessWidget {
                           //수정
                         },
                         child: Container(
-                          width: 288,
-                          height: 49,
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: const Color(0x965f88b7),
-                                    offset: Offset(0, 13),
-                                    blurRadius: 30,
-                                    spreadRadius: 0)
-                              ],
-                              color: const Color(0xff1a4678)),
-                          child: Center(
-                            child: Text("Publish",
-                                style: const TextStyle(
-                                    color: const Color(0xffffffff),
-                                    fontWeight: FontWeight.w700,
-                                    // fontFamily: "PingFangSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 18.0),
-                                textAlign: TextAlign.center),
-                          ),
+                            width: 52,
+                            height: 28,
+                            child: Center(
+                              child: Text("张榜",
+                                  style: const TextStyle(
+                                      color: const Color(0xff371ac7),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "NotoSansSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  textAlign: TextAlign.right),
+                            ),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(14)),
+                                border: Border.all(
+                                    color: const Color(0xff8f90f8), width: 1),
+                                color: const Color(0xffffffff))),
+                      ),
+                    )),
+              ],
+            ),
+          ),
+          body: Obx(() {
+            return SingleChildScrollView(
+              child: Container(
+                color: const Color(0xffffffff),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Text("Title",
+                    //     style: const TextStyle(
+                    //         color: const Color(0xff333333),
+                    //         fontWeight: FontWeight.w700,
+                    //         fontFamily: "PingFangSC",
+                    //         fontStyle: FontStyle.normal,
+                    //         fontSize: 16.0),
+                    //     textAlign: TextAlign.left),
+
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 14, top: 24),
+                      child: TextFormField(
+                        controller: title,
+                        maxLines: 2,
+                        minLines: 1,
+
+                        // textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            color: const Color(0xff9b9b9b),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 16.0),
+                        decoration: InputDecoration(
+                          isDense: true,
+                          border: InputBorder.none,
+                          // contentPadding: const EdgeInsets.only(bottom: 14),
+                          hintStyle: const TextStyle(
+                              color: const Color(0xff9b9b9b),
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0),
+                          hintText: '请输入内容.',
                         ),
                       ),
                     ),
+
+                    // 선 3
+                    Container(
+                        // width: Get0,
+                        height: 1,
+                        decoration:
+                            BoxDecoration(color: const Color(0xffeaeaea))),
+
+                    // Text("Content",
+                    //     style: const TextStyle(
+                    //         color: const Color(0xff333333),
+                    //         fontWeight: FontWeight.w700,
+                    //         fontFamily: "PingFangSC",
+                    //         fontStyle: FontStyle.normal,
+                    //         fontSize: 16.0),
+                    //     textAlign: TextAlign.left),
+
+                    Container(
+                      margin: const EdgeInsets.only(top: 19),
+                      child: TextFormField(
+                        controller: content,
+                        // textAlign: TextAlign.center,
+                        keyboardType: TextInputType.multiline,
+                        minLines: 1,
+                        maxLines: 10,
+
+                        style: const TextStyle(
+                            color: const Color(0xff9b9b9b),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 16.0),
+                        decoration: InputDecoration(
+                          isDense: true,
+                          border: InputBorder.none,
+                          // contentPadding: const EdgeInsets.only(bottom: 14),
+                          hintStyle: const TextStyle(
+                              color: const Color(0xff9b9b9b),
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0),
+                          hintText: '附有照片',
+                        ),
+                      ),
+                    ),
+
+                    // 사진 영역
+                    Container(
+                      height: 120.0,
+                      margin: const EdgeInsets.only(top: 14),
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.zero,
+                        itemCount: c.photoAssets.length + 1,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            margin: const EdgeInsets.only(right: 10.0),
+                            child: Center(
+                              child: SizedBox(
+                                width: 100.0,
+                                height: 120.0,
+                                child: index == 0
+                                    ? InkWell(
+                                        onTap: () async {
+                                          await getMultipleGallertImage(
+                                              context);
+                                        },
+                                        child: Container(
+                                            width: 100,
+                                            height: 120,
+                                            child: Center(
+                                              child: Icon(
+                                                Icons
+                                                    .add_circle_outline_outlined,
+                                                color: const Color(0xffeaeaea),
+                                                size: 20,
+                                              ),
+                                            ),
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(8)),
+                                                border: Border.all(
+                                                    color:
+                                                        const Color(0xffeaeaea),
+                                                    width: 1),
+                                                color:
+                                                    const Color(0xffffffff))))
+                                    : Stack(children: [
+                                        Center(
+                                          child: Image(
+                                              width: 100,
+                                              height: 120,
+                                              fit: BoxFit.cover,
+                                              image: AssetEntityImageProvider(
+                                                  c.photoAssets[index - 1],
+                                                  isOriginal: true)),
+                                        ),
+                                        Positioned(
+                                          child: InkWell(
+                                              onTap: () {
+                                                String photoId =
+                                                    c.photoAssets[index - 1].id;
+                                                c.deleteTargetPhoto(photoId);
+                                              },
+                                              child: Icon(Icons.delete)),
+                                          top: 0,
+                                          right: 0,
+                                        ),
+                                      ]),
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return Container(width: 7.5);
+                        },
+                      ),
+                    ),
+
+                    // 선 6
+                    Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        height: 1,
+                        decoration:
+                            BoxDecoration(color: const Color(0xffeaeaea))),
+
+                    Container(
+                      margin: const EdgeInsets.only(top: 15.5),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text("匿名发布",
+                              style: const TextStyle(
+                                  color: const Color(0xff9b9b9b),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16.0),
+                              textAlign: TextAlign.left),
+                          Spacer(),
+                          Container(
+                            width: 52,
+                            height: 28,
+                            child: CupertinoSwitch(
+                              activeColor: Get.theme.primaryColor,
+                              value: c.anonymousCheck.value,
+                              onChanged: (bool value) {
+                                c.anonymousCheck.value =
+                                    !c.anonymousCheck.value;
+                                // setState(() {
+                                //   _lights = value;
+                                // });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Text(
+                    //   "PHOTO",
+                    //   style: TextStyle(
+                    //     fontSize: 20,
+                    //   ),
+                    // ),
+
+                    // Center(
+                    //   child: GestureDetector(
+                    //     onTap: () async {
+                    //       Map<String, dynamic> data = WritePostModel(
+                    //               title: title.text,
+                    //               description: content.text,
+                    //               unnamed: (c.anonymousCheck.value) ? '1' : '0')
+                    //           .toJson();
+
+                    //       await Get.defaultDialog(
+                    //           title: "게시글 작성",
+                    //           middleText: "게시글을 작성하시겠습니까?",
+                    //           actions: [
+                    //             TextButton(
+                    //                 onPressed: () async {
+                    //                   Get.back();
+                    //                   if (c.putOrPost == "put") {
+                    //                     if (c.photoAssets.length > 0) {
+                    //                       await c.putPostImage(data);
+                    //                     } else {
+                    //                       await c.putPostNoImage(data);
+                    //                     }
+                    //                   }
+                    //                   //작성
+                    //                   else {
+                    //                     if (c.photoAssets.length > 0) {
+                    //                       print("이미지 포스트");
+                    //                       await c.postPostImage(data);
+                    //                     } else {
+                    //                       print("글 포스트");
+                    //                       await c.postPostNoImage(data);
+                    //                     }
+                    //                   }
+                    //                 },
+                    //                 child: Text("네")),
+                    //             TextButton(
+                    //                 onPressed: () {
+                    //                   Get.back();
+                    //                 },
+                    //                 child: Text("아니오")),
+                    //           ]);
+                    //       //수정
+                    //     },
+                    //     child: Container(
+                    //       width: 288,
+                    //       height: 49,
+                    //       decoration: BoxDecoration(
+                    //           borderRadius:
+                    //               BorderRadius.all(Radius.circular(20)),
+                    //           boxShadow: [
+                    //             BoxShadow(
+                    //                 color: const Color(0x965f88b7),
+                    //                 offset: Offset(0, 13),
+                    //                 blurRadius: 30,
+                    //                 spreadRadius: 0)
+                    //           ],
+                    //           color: const Color(0xff1a4678)),
+                    //       child: Center(
+                    //         child: Text("Publish",
+                    //             style: const TextStyle(
+                    //                 color: const Color(0xffffffff),
+                    //                 fontWeight: FontWeight.w700,
+                    //                 // fontFamily: "PingFangSC",
+                    //                 fontStyle: FontStyle.normal,
+                    //                 fontSize: 18.0),
+                    //             textAlign: TextAlign.center),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
 
                     // Padding(
                     //   padding: const EdgeInsets.all(8.0),
