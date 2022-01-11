@@ -236,6 +236,20 @@ flutter:
     - assets/images/icn_back_white.png
     - assets/images/icn_star_normal_white.png
     - assets/images/icn_star_selected_fill.png
+
+    # Class Star
+    - assets/images/star_0.png
+    - assets/images/star_10.png
+    - assets/images/star_20.png
+    - assets/images/star_30.png
+    - assets/images/star_40.png
+    - assets/images/star_50.png
+    - assets/images/star_60.png
+    - assets/images/star_70.png
+    - assets/images/star_80.png
+    - assets/images/star_90.png
+    - assets/images/star_100.png
+
     # - assets/fonts/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
