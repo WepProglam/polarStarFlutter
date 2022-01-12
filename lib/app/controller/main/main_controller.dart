@@ -112,15 +112,25 @@ class MainController extends GetxController {
         selectedBoard.add(item);
       }
     }
+
+    sortBoard();
   }
 
   void sortBoard() {
     selectedBoard.sort((Rx<BoardInfo> a, Rx<BoardInfo> b) {
-      return a.value.isFollowed ? 0 : 1;
+      return a.value.isFollowed
+          ? 0
+          : a.value.COMMUNITY_ID > b.value.COMMUNITY_ID
+              ? 1
+              : 2;
     });
 
     boardInfo.sort((Rx<BoardInfo> a, Rx<BoardInfo> b) {
-      return a.value.isFollowed ? 0 : 1;
+      return a.value.isFollowed
+          ? 0
+          : a.value.COMMUNITY_ID > b.value.COMMUNITY_ID
+              ? 1
+              : 2;
     });
   }
 
@@ -282,15 +292,12 @@ class MainUpdateModule {
   static Future<void> updatePost({int type = 2}) async {
     final PostController postController = Get.find();
     await postController.refreshPost();
-    // Post item = postController.sortedList[0].value;
+    return;
+  }
 
-    // if (type == 0) {
-    //   await updatePostMainPage(item);
-    // } else if (type == 1) {
-    //   await updatePostMyPage(item);
-    // } else if (type == 2) {
-    //   await updatePostBoard(item);
-    // }
+  static Future<void> updateBoardListPage() async {
+    MainController mc = Get.find();
+    await mc.getBoardInfo();
     return;
   }
 

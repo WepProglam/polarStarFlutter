@@ -123,7 +123,9 @@ void main() async {
 
   await runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want
-    theme: ThemeData(primaryColor: const Color(0xff371ac7)),
+    theme: ThemeData(
+        buttonColor: const Color(0xff371ac7),
+        primaryColor: const Color(0xff371ac7)),
     scrollBehavior: MyBehavior(),
     debugShowCheckedModeBanner: false,
     initialBinding: isLogined ? MainBinding() : LoginBinding(),

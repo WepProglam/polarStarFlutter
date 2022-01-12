@@ -142,148 +142,162 @@ class BoardList extends StatelessWidget {
                                               child: Container(
                                                 margin: const EdgeInsets.only(
                                                     left: 14, right: 12),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              top: 20),
-                                                      child: Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Text(
-                                                              "${boardInfo.value.COMMUNITY_NAME}",
+                                                child: Ink(
+                                                  child: InkWell(
+                                                    onTap: () async {
+                                                      await Get.toNamed(
+                                                        "/board/${boardInfo.value.COMMUNITY_ID}/page/${1}",
+                                                      ).then((value) async {
+                                                        await MainUpdateModule
+                                                            .updateBoardListPage();
+                                                      });
+                                                    },
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 20),
+                                                          child: Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text(
+                                                                  "${boardInfo.value.COMMUNITY_NAME}",
+                                                                  style: const TextStyle(
+                                                                      color: const Color(
+                                                                          0xff2f2f2f),
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontFamily:
+                                                                          "NotoSansSC",
+                                                                      fontStyle:
+                                                                          FontStyle
+                                                                              .normal,
+                                                                      fontSize:
+                                                                          14.0),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left),
+                                                              Ink(
+                                                                child: InkWell(
+                                                                  onTap:
+                                                                      () async {
+                                                                    if (!checkFollow(
+                                                                        boardInfo
+                                                                            .value
+                                                                            .COMMUNITY_ID,
+                                                                        mainController
+                                                                            .boardInfo)) {
+                                                                      await mainController.setFollowingCommunity(
+                                                                          boardInfo
+                                                                              .value
+                                                                              .COMMUNITY_ID,
+                                                                          boardInfo
+                                                                              .value
+                                                                              .COMMUNITY_NAME,
+                                                                          boardInfo
+                                                                              .value
+                                                                              .RECENT_TITLE,
+                                                                          boardInfo
+                                                                              .value
+                                                                              .isFollowed);
+                                                                    } else {
+                                                                      await mainController.deleteFollowingCommunity(boardInfo
+                                                                          .value
+                                                                          .COMMUNITY_ID);
+                                                                    }
+                                                                    boardInfo
+                                                                        .update(
+                                                                            (val) {
+                                                                      val.isFollowed =
+                                                                          !val.isFollowed;
+                                                                    });
+
+                                                                    mainController
+                                                                        .sortBoard();
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .symmetric(
+                                                                      horizontal:
+                                                                          8,
+                                                                    ),
+                                                                    child: Image.asset(boardInfo
+                                                                            .value
+                                                                            .isFollowed
+                                                                        ? "assets/images/bookmark_followed.png"
+                                                                        : "assets/images/bookmark_none.png"),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Spacer(),
+                                                              // Rectangle 7
+                                                              Container(
+                                                                  width: 38,
+                                                                  height: 18,
+                                                                  child: Center(
+                                                                    child: // New
+                                                                        Text(
+                                                                            "New",
+                                                                            style: const TextStyle(
+                                                                                color: const Color(0xffffffff),
+                                                                                fontWeight: FontWeight.w500,
+                                                                                fontFamily: "Roboto",
+                                                                                fontStyle: FontStyle.normal,
+                                                                                fontSize: 10.0),
+                                                                            textAlign: TextAlign.left),
+                                                                  ),
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              20),
+                                                                      color: Get
+                                                                          .theme
+                                                                          .primaryColor))
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 2,
+                                                                  right: 20),
+                                                          child: Text(
+                                                              "${boardInfo.value.RECENT_TITLE}",
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
                                                               style: const TextStyle(
                                                                   color: const Color(
-                                                                      0xff2f2f2f),
+                                                                      0xff6f6e6e),
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .w500,
+                                                                          .w400,
                                                                   fontFamily:
                                                                       "NotoSansSC",
                                                                   fontStyle:
                                                                       FontStyle
                                                                           .normal,
                                                                   fontSize:
-                                                                      16.0),
+                                                                      12.0),
                                                               textAlign:
                                                                   TextAlign
                                                                       .left),
-                                                          Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                              left: 8,
-                                                            ),
-                                                            child: Ink(
-                                                              child: InkWell(
-                                                                onTap:
-                                                                    () async {
-                                                                  if (!checkFollow(
-                                                                      boardInfo
-                                                                          .value
-                                                                          .COMMUNITY_ID,
-                                                                      mainController
-                                                                          .boardInfo)) {
-                                                                    await mainController.setFollowingCommunity(
-                                                                        boardInfo
-                                                                            .value
-                                                                            .COMMUNITY_ID,
-                                                                        boardInfo
-                                                                            .value
-                                                                            .COMMUNITY_NAME,
-                                                                        boardInfo
-                                                                            .value
-                                                                            .RECENT_TITLE,
-                                                                        boardInfo
-                                                                            .value
-                                                                            .isFollowed);
-                                                                  } else {
-                                                                    await mainController.deleteFollowingCommunity(
-                                                                        boardInfo
-                                                                            .value
-                                                                            .COMMUNITY_ID);
-                                                                  }
-                                                                  boardInfo
-                                                                      .update(
-                                                                          (val) {
-                                                                    val.isFollowed =
-                                                                        !val.isFollowed;
-                                                                  });
-
-                                                                  mainController
-                                                                      .sortBoard();
-                                                                },
-                                                                child: Image.asset(boardInfo
-                                                                        .value
-                                                                        .isFollowed
-                                                                    ? "assets/images/bookmark_followed.png"
-                                                                    : "assets/images/bookmark_none.png"),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Spacer(),
-                                                          // Rectangle 7
-                                                          Container(
-                                                              width: 38,
-                                                              height: 18,
-                                                              child: Center(
-                                                                child: // New
-                                                                    Text("New",
-                                                                        style: const TextStyle(
-                                                                            color: const Color(
-                                                                                0xffffffff),
-                                                                            fontWeight: FontWeight
-                                                                                .w500,
-                                                                            fontFamily:
-                                                                                "Roboto",
-                                                                            fontStyle: FontStyle
-                                                                                .normal,
-                                                                            fontSize:
-                                                                                10.0),
-                                                                        textAlign:
-                                                                            TextAlign.left),
-                                                              ),
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20),
-                                                                  color: const Color(
-                                                                      0xff371ac7)))
-                                                        ],
-                                                      ),
+                                                        )
+                                                      ],
                                                     ),
-                                                    Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              top: 2,
-                                                              right: 20),
-                                                      child: Text(
-                                                          "${boardInfo.value.RECENT_TITLE}",
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: const TextStyle(
-                                                              color: const Color(
-                                                                  0xff6f6e6e),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontFamily:
-                                                                  "NotoSansSC",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: 14.0),
-                                                          textAlign:
-                                                              TextAlign.left),
-                                                    )
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
                                               decoration: BoxDecoration(
@@ -330,7 +344,7 @@ class BoardList extends StatelessWidget {
               ),
             );
           } else {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         }),
       ),
