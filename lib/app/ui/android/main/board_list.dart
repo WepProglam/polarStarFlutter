@@ -305,6 +305,8 @@ class BoardList extends StatelessWidget {
                                                       color: const Color(
                                                           0xffeaeaea),
                                                       width: 1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
                                                   boxShadow: [
                                                     BoxShadow(
                                                         color: const Color(
