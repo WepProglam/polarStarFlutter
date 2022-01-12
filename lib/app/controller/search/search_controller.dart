@@ -34,10 +34,20 @@ class SearchController extends GetxController {
 
   var scrollController = ScrollController().obs;
 
-  Future<void> getSearchBoard(String searchTextTemp) async {
-    searchText.value = searchTextTemp;
+  Future<void> getSearchBoard({String searchTextTemp}) async {
+    if (searchTextTemp != null) {
+      searchText.value = searchTextTemp;
+    }
 
-    dataAvailablePostPreview.value = false;
+    String checkText = searchText.value;
+    if (checkText.trim().length < 2) {
+      Get.snackbar("검색 오류", "두 글자 이상 입력해주세요",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.black,
+          colorText: Colors.white);
+      return;
+    }
+
     Map<String, dynamic> response = await repository.getSearchBoard(
         searchText.value, COMMUNITY_ID.value, from);
     final int status = response["status"];
@@ -76,7 +86,7 @@ class SearchController extends GetxController {
         if (curPage < boardBody['pageAmount']) {
           page(curPage + 1);
           print('scroll end');
-          getSearchBoard(searchText.value);
+          getSearchBoard(searchTextTemp: searchText.value);
         }
       }
     });

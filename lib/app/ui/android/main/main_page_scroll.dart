@@ -415,6 +415,8 @@ class MainPageScroll extends StatelessWidget {
                                               itemCount: mainController
                                                   .classList.length,
                                               shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {

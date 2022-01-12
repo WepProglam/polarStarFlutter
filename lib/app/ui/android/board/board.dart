@@ -4,6 +4,7 @@ import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/search/search_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/search/search_board.dart';
@@ -90,7 +91,7 @@ class Board extends StatelessWidget {
                       child: Ink(
                         child: InkWell(
                           onTap: () async {
-                            await Get.toNamed("/searchBoard")
+                            await Get.toNamed(Routes.SEARCH)
                                 .then((value) async {
                               await MainUpdateModule.updateBoard();
                             });

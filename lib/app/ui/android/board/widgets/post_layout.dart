@@ -211,9 +211,9 @@ class CommentWidget extends StatelessWidget {
 class PostWidget extends StatelessWidget {
   const PostWidget(
       {Key key,
-      @required this.c,
-      @required this.mailWriteController,
-      @required this.mailController,
+      this.c,
+      this.mailWriteController,
+      this.mailController,
       @required this.item,
       @required this.index,
       @required this.mainController})

@@ -14,30 +14,92 @@ class BoardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
+        backgroundColor: const Color(0xffffffff),
         appBar: AppBar(
-          backgroundColor: const Color(0xfff6f6f6),
           elevation: 0,
-          toolbarHeight: 37 + 13.0,
+          toolbarHeight: 56,
           automaticallyImplyLeading: false,
           titleSpacing: 0,
           title: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 15),
-            width: size.width - 15 * 2,
+            margin:
+                const EdgeInsets.only(left: 20, top: 12, bottom: 12, right: 20),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Spacer(),
-                InkWell(
-                  onTap: () async {
-                    await createNewCommunity(mainController);
-                  },
-                  child: Container(
-                      width: 16,
-                      height: 16,
-                      child: Image.asset("assets/images/941.png")),
-                )
+                Container(
+                    width: Get.mediaQuery.size.width - 20 - 62,
+                    margin: const EdgeInsets.only(right: 14),
+                    height: 32,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Image.asset(
+                            "assets/images/icn_search.png",
+                            width: 20,
+                            height: 20,
+                            color: const Color(0xffcecece),
+                          ),
+                        ),
+                        Container(
+                          width: Get.mediaQuery.size.width - 20 - 62 - 30 - 20,
+                          child: TextFormField(
+                            onChanged: (String text) {
+                              mainController.checkBoard(text);
+                              print(text);
+                            },
+                            // focusNode: searchFocusNode,
+                            autofocus: false,
+                            minLines: 1,
+                            maxLines: 1,
+                            // controller: searchText,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14.0),
+                            textAlign: TextAlign.left,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              hintText: "新建立 韩国大学联合交流区",
+                              hintStyle: const TextStyle(
+                                  color: const Color(0xffcecece),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14.0),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.only(
+                                  left: 0, right: 0, top: 0, bottom: 0),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        color: const Color(0xffffffff))),
+                Container(
+                  child: Ink(
+                    child: InkWell(
+                      onTap: () async {
+                        await createNewCommunity(mainController);
+                      },
+                      child: Text("取消",
+                          style: const TextStyle(
+                              color: const Color(0xfff5f6ff),
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                          textAlign: TextAlign.left),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -46,51 +108,218 @@ class BoardList extends StatelessWidget {
           if (mainController.dataAvailalbe) {
             return SingleChildScrollView(
               child: Container(
-                decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
+                margin: const EdgeInsets.only(top: 20, left: 20, right: 20),
                 child: Container(
                   child: Column(
                     children: [
-                      // // Hot
-                      // Container(child: hotBoard()),
-                      // // Recruit
-
                       // 게시판
                       Container(
-                        margin:
-                            const EdgeInsets.only(left: 15, right: 15, top: 8),
                         child: Container(
                           child: Column(
                             children: [
-                              Obx(() {
-                                return Container(
-                                  height: (81 + 10.0) *
-                                      mainController.boardInfo.length,
-                                  child: ListView.builder(
+                              Container(
+                                child: Obx(() {
+                                  return ListView.builder(
+                                      shrinkWrap: true,
                                       itemCount:
-                                          mainController.boardInfo.length,
+                                          mainController.selectedBoard.length,
                                       physics: NeverScrollableScrollPhysics(),
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         Rx<BoardInfo> boardInfo =
-                                            mainController.boardInfo[index];
+                                            mainController.selectedBoard[index];
 
-                                        return Container(
-                                          height: 81,
-                                          margin: const EdgeInsets.only(
-                                              bottom: 10.0),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(20))),
-                                          child: BoardPreviewItem_board(
-                                            boardInfo: boardInfo,
-                                            size: size,
-                                            fromList: true,
-                                          ),
-                                        );
-                                      }),
-                                );
-                              }),
+                                        if (!boardInfo.value.isChecked) {
+                                          return Container();
+                                        }
+
+                                        return // 패스 63
+                                            Obx(() {
+                                          return Container(
+                                              height: 77,
+                                              margin: const EdgeInsets.only(
+                                                  top: 10),
+                                              child: Container(
+                                                margin: const EdgeInsets.only(
+                                                    left: 14, right: 12),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              top: 20),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                              "${boardInfo.value.COMMUNITY_NAME}",
+                                                              style: const TextStyle(
+                                                                  color: const Color(
+                                                                      0xff2f2f2f),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontFamily:
+                                                                      "NotoSansSC",
+                                                                  fontStyle:
+                                                                      FontStyle
+                                                                          .normal,
+                                                                  fontSize:
+                                                                      16.0),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left),
+                                                          Container(
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                              left: 8,
+                                                            ),
+                                                            child: Ink(
+                                                              child: InkWell(
+                                                                onTap:
+                                                                    () async {
+                                                                  if (!checkFollow(
+                                                                      boardInfo
+                                                                          .value
+                                                                          .COMMUNITY_ID,
+                                                                      mainController
+                                                                          .boardInfo)) {
+                                                                    await mainController.setFollowingCommunity(
+                                                                        boardInfo
+                                                                            .value
+                                                                            .COMMUNITY_ID,
+                                                                        boardInfo
+                                                                            .value
+                                                                            .COMMUNITY_NAME,
+                                                                        boardInfo
+                                                                            .value
+                                                                            .RECENT_TITLE,
+                                                                        boardInfo
+                                                                            .value
+                                                                            .isFollowed);
+                                                                  } else {
+                                                                    await mainController.deleteFollowingCommunity(
+                                                                        boardInfo
+                                                                            .value
+                                                                            .COMMUNITY_ID);
+                                                                  }
+                                                                  boardInfo
+                                                                      .update(
+                                                                          (val) {
+                                                                    val.isFollowed =
+                                                                        !val.isFollowed;
+                                                                  });
+
+                                                                  mainController
+                                                                      .sortBoard();
+                                                                },
+                                                                child: Image.asset(boardInfo
+                                                                        .value
+                                                                        .isFollowed
+                                                                    ? "assets/images/bookmark_followed.png"
+                                                                    : "assets/images/bookmark_none.png"),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Spacer(),
+                                                          // Rectangle 7
+                                                          Container(
+                                                              width: 38,
+                                                              height: 18,
+                                                              child: Center(
+                                                                child: // New
+                                                                    Text("New",
+                                                                        style: const TextStyle(
+                                                                            color: const Color(
+                                                                                0xffffffff),
+                                                                            fontWeight: FontWeight
+                                                                                .w500,
+                                                                            fontFamily:
+                                                                                "Roboto",
+                                                                            fontStyle: FontStyle
+                                                                                .normal,
+                                                                            fontSize:
+                                                                                10.0),
+                                                                        textAlign:
+                                                                            TextAlign.left),
+                                                              ),
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
+                                                                  color: const Color(
+                                                                      0xff371ac7)))
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              top: 2,
+                                                              right: 20),
+                                                      child: Text(
+                                                          "${boardInfo.value.RECENT_TITLE}",
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: const TextStyle(
+                                                              color: const Color(
+                                                                  0xff6f6e6e),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontFamily:
+                                                                  "NotoSansSC",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: 14.0),
+                                                          textAlign:
+                                                              TextAlign.left),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: const Color(
+                                                          0xffeaeaea),
+                                                      width: 1),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: const Color(
+                                                            0x0f000000),
+                                                        offset: Offset(0, 3),
+                                                        blurRadius: 10,
+                                                        spreadRadius: 0)
+                                                  ],
+                                                  color:
+                                                      const Color(0xffffffff)));
+                                        });
+
+                                        // Container(
+                                        //   height: 81,
+                                        //   margin: const EdgeInsets.only(
+                                        //       bottom: 10.0),
+                                        //   decoration: BoxDecoration(
+                                        //       color: Colors.white,
+                                        //       borderRadius: BorderRadius.all(
+                                        //           Radius.circular(20))),
+                                        // child: BoardPreviewItem_board(
+                                        //     boardInfo: boardInfo,
+                                        //     size: size,
+                                        //     fromList: true,
+                                        //   ),
+                                        // );
+                                      });
+                                }),
+                              )
                             ],
                           ),
                         ),

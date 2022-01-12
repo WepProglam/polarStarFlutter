@@ -134,9 +134,6 @@ class MainPageSearch extends StatelessWidget {
                                   });
                                 },
                                 child: PostWidget(
-                                  c: null,
-                                  mailWriteController: null,
-                                  mailController: null,
                                   item: mc.searchData[mc.searchType.value]
                                       [index],
                                   index: index,

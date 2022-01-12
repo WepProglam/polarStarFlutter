@@ -232,6 +232,8 @@ flutter:
     - assets/images/menu.png
     - assets/images/icn_pen.png
     - assets/images/icn_book.png
+    - assets/images/bookmark_followed.png
+    - assets/images/bookmark_none.png
 
     # ClassView
     - assets/images/icn_back_white.png
