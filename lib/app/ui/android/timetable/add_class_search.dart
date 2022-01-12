@@ -137,7 +137,7 @@ class TimetableAddClassMain extends StatelessWidget {
                     double top_height = timeTableController.topHeight.value;
 
                     return Container(
-                      height: top_height + time_height * (verAmount - 1),
+                      height: top_height + time_height * (verAmount - 1) + 480,
                       child: Stack(children: [
                         TimeTableBin(
                             time_height: time_height,
@@ -229,10 +229,7 @@ class classSearchBottomSheet extends StatelessWidget {
                 },
                 child: Obx(() {
                   return Container(
-                      // height: index == controller.selectedIndex.value
-                      //     ? 101 + 30.0
-                      //     : 101,
-                      margin: const EdgeInsets.only(bottom: 12.5),
+                      padding: const EdgeInsets.only(bottom: 12.5),
                       color: index == controller.selectedIndex.value
                           ? Colors.lightBlue[50]
                           : Colors.white,
@@ -363,7 +360,7 @@ class classSearchBottomSheet extends StatelessWidget {
                                               Container(
                                                 decoration: BoxDecoration(
                                                     color:
-                                                        const Color(0xff1a4678),
+                                                        Get.theme.primaryColor,
                                                     borderRadius:
                                                         BorderRadius.all(
                                                             Radius.circular(
@@ -382,11 +379,16 @@ class classSearchBottomSheet extends StatelessWidget {
                                                     child: Center(
                                                       child: Text(
                                                         "등록",
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
+                                                            color: const Color(
+                                                                0xffffffff),
                                                             fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Colors.white),
+                                                                FontWeight.w500,
+                                                            fontFamily:
+                                                                "NotoSansKR",
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontSize: 10.0),
                                                       ),
                                                     ),
                                                   ),
