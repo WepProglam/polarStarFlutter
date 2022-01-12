@@ -9,6 +9,7 @@ import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_addclass_repository.dart';
 
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_repository.dart';
+import 'package:polarstar_flutter/app/ui/android/timetable/add_class_search.dart';
 import 'package:polarstar_flutter/session.dart';
 
 class TimeTableAddClassSearchController extends GetxController {
@@ -38,7 +39,7 @@ class TimeTableAddClassSearchController extends GetxController {
   RxInt INDEX_COLLEGE_MAJOR = (-1).obs;
 
   Future<void> addClass(int tid) async {
-    print(CLASS_SEARCH[selectedIndex.value].toJson());
+    // print(CLASS_SEARCH[selectedIndex.value].toJson());
     // TOTAL_CLASS.update((val) {
     //   val.CLASS_TIME = CLASS_LIST.map((element) => element.value).toList();
     // });
@@ -163,7 +164,6 @@ class TimeTableAddClassSearchController extends GetxController {
     Iterable majorList = jsonDecode(response.body);
     college_major_list.value =
         majorList.map((e) => CollegeMajorModel.fromJson(e)).toList();
-    // print(majorList);
   }
 
   @override

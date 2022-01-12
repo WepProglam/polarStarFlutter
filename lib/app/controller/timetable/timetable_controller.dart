@@ -202,13 +202,13 @@ class TimeTableController extends GetxController {
         }
 
         print(otherTable["${year}년 ${semester}학기"].last.value.TIMETABLE_ID);
-        Get.snackbar("시간표 생성 성공", "시간표 생성 성공");
+        // Get.snackbar("시간표 생성 성공", "시간표 생성 성공");
         selectedTimeTableId.value = rs["TIMETABLE_ID"];
 
-        Get.offAndToNamed("/timetable/addClass");
         break;
       default:
-        Get.snackbar("시발 정신 차려", "시발 정신 차려");
+        break;
+      // Get.snackbar("시발 정신 차려", "시발 정신 차려");
     }
   }
 

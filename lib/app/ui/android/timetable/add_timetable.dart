@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
 
 class TimeTableAdd extends StatelessWidget {
@@ -82,6 +84,9 @@ class TimeTableAdd extends StatelessWidget {
                                     timeTableController.createYear.value,
                                     timeTableController.createSemester.value,
                                     timeTableController.createName.value);
+
+                                Get.until((route) =>
+                                    Get.currentRoute == Routes.MAIN_PAGE);
 
                                 // Get.snackbar("complete", "complete");
                               },

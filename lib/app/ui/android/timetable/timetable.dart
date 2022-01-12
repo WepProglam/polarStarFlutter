@@ -20,74 +20,89 @@ class Timetable extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xffffffff),
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(56),
             child: TimeTableAppBar(
               timeTableController: timeTableController,
             )),
-        body: Obx(() {
-          if (!timeTableController.isReady.value) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return SingleChildScrollView(
-              controller: timeTableController.scrollController,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                      child: TimeTablePackage(
-                          timeTableController: timeTableController,
-                          size: size,
-                          scrollable: false)),
-                  Obx(() {
-                    bool isHidden = timeTableController.isHidden.value;
-                    if (isHidden) {
-                      return Container();
-                    }
-                    return Container(
-                      margin: const EdgeInsets.only(left: 25, top: 20),
-                      height: 42,
-                      //시간표 리스트
-                      child: Obx(() {
-                        return timeTableController.dataAvailable.value
-                            ? TableList(
-                                timeTableController: timeTableController,
-                              )
-                            : Container();
-                      }),
-                    );
+        body: TimeTableBody(
+            timeTableController: timeTableController, size: size));
+  }
+}
+
+class TimeTableBody extends StatelessWidget {
+  const TimeTableBody({
+    Key key,
+    @required this.timeTableController,
+    @required this.size,
+  }) : super(key: key);
+
+  final TimeTableController timeTableController;
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      if (!timeTableController.isReady.value) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      return SingleChildScrollView(
+          controller: timeTableController.scrollController,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                  child: TimeTablePackage(
+                      timeTableController: timeTableController,
+                      size: size,
+                      scrollable: false)),
+              Obx(() {
+                bool isHidden = timeTableController.isHidden.value;
+                if (isHidden) {
+                  return Container();
+                }
+                return Container(
+                  margin: const EdgeInsets.only(left: 25, top: 20),
+                  height: 42,
+                  //시간표 리스트
+                  child: Obx(() {
+                    return timeTableController.dataAvailable.value
+                        ? TableList(
+                            timeTableController: timeTableController,
+                          )
+                        : Container();
                   }),
-                  Obx(() {
-                    bool isHidden = timeTableController.isHidden.value;
-                    if (isHidden) {
-                      return Container(
-                        height: 40,
+                );
+              }),
+              Obx(() {
+                bool isHidden = timeTableController.isHidden.value;
+                if (isHidden) {
+                  return Container(
+                    height: 40,
+                  );
+                }
+                return (timeTableController.selectTable.value.CLASSES == null ||
+                        timeTableController.selectTable.value.CLASSES.length ==
+                            0)
+                    ? Container()
+                    : Container(
+                        margin: const EdgeInsets.only(
+                            left: 20, top: 14, bottom: 20),
+                        height: 144,
+                        //과목 리스트
+                        child:
+                            SubjectList(model: timeTableController.selectTable),
                       );
-                    }
-                    return (timeTableController.selectTable.value.CLASSES ==
-                                null ||
-                            timeTableController
-                                    .selectTable.value.CLASSES.length ==
-                                0)
-                        ? Container()
-                        : Container(
-                            margin: const EdgeInsets.only(
-                                left: 20, top: 14, bottom: 20),
-                            height: 144,
-                            //과목 리스트
-                            child: SubjectList(
-                                model: timeTableController.selectTable),
-                          );
-                  }),
-                  // Container(
-                  //   height: 86,
-                  // )
-                ],
-              ));
-        }));
+              }),
+              // Container(
+              //   height: 86,
+              // )
+            ],
+          ));
+    });
   }
 }
 
