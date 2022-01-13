@@ -230,9 +230,9 @@ class TimeTableController extends GetxController {
           //디폴트인 순서대로 정렬
           otherTable["${YEAR}년 ${SEMESTER}학기"]
               .sort((a, b) => b.value.IS_DEFAULT.compareTo(a.value.IS_DEFAULT));
-          print("asdfadsfasdgggggggggggf");
           for (Rx<TimeTableModel> model in jsonResponse["otherTable"]) {
-            await getTimeTable(model.value.TIMETABLE_ID);
+            getTimeTable(model.value.TIMETABLE_ID);
+            // await getTimeTable(model.value.TIMETABLE_ID);
           }
           print(jsonResponse["otherTable"]);
 
@@ -280,6 +280,8 @@ class TimeTableController extends GetxController {
 
     switch (jsonResponse["statusCode"]) {
       case 200:
+        print("getTimeTable");
+        print(jsonResponse["selectTable"].value);
         selectTableList.add(jsonResponse["selectTable"].value);
         dataAvailable(true);
         break;

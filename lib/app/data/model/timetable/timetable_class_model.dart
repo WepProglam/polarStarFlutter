@@ -54,7 +54,59 @@ class TimeTableClassModel {
 
     List<AddClassModel> tempClasses =
         tempClassJson.map((e) => AddClassModel.fromJson(e)).toList();
-    this.CLASS_TIME = tempClasses;
+
+    Map<String, List<AddClassModel>> unionClassMap = unionClasses(tempClasses);
+
+    List<AddClassModel> CLASS_TIME_UNION = [];
+    unionClassMap.forEach((key, value) {
+      for (AddClassModel item in value) {
+        CLASS_TIME_UNION.add(item);
+      }
+    });
+
+    this.CLASS_TIME = CLASS_TIME_UNION;
+
+    print("=======================================================");
+    print(unionClassMap);
+    for (var item in CLASS_TIME_UNION) {
+      print("${item.start_time}  ~ ${item.end_time}");
+    }
+    print(CLASS_TIME_UNION);
+    print("=======================================================");
+  }
+
+  Map<String, List<AddClassModel>> unionClasses(
+      List<AddClassModel> tempClasses) {
+    Map<String, List<AddClassModel>> tt = {};
+    for (var item in tempClasses) {
+      for (var item2 in tempClasses) {
+        if (item2.start_time == null || item2.end_time == null) {
+          continue;
+        }
+
+        if (!tt.containsKey(item2.day)) {
+          tt[item2.day] = [item2];
+        } else {
+          for (var i = 0; i < tt[item2.day].length; i++) {
+            AddClassModel classModel = tt[item2.day][i];
+
+            bool beforeClass =
+                classModel.start_time.difference(item2.end_time).inMinutes <=
+                    15;
+            bool afterClass =
+                classModel.end_time.difference(item2.start_time).inMinutes <=
+                    15;
+
+            if (beforeClass) {
+              tt[item2.day][i].end_time = item2.end_time;
+            } else if (afterClass) {
+              tt[item2.day][i].start_time = item2.start_time;
+            }
+          }
+        }
+      }
+    }
+    return tt;
   }
 
   Map<String, dynamic> toJson() {
