@@ -46,6 +46,8 @@ class TimetableAddClassMain extends StatelessWidget {
   final TimeTableController timeTableController = Get.find();
   final MainController mainController = Get.find();
   final TimeTableAddClassSearchController controller = Get.find();
+  final ScrollController scrollController =
+      ScrollController(initialScrollOffset: 0.0);
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -59,7 +61,7 @@ class TimetableAddClassMain extends StatelessWidget {
           decoration: BoxDecoration(
               border: Border.all(color: const Color(0xff707070), width: 1),
               color: const Color(0xffffffff)),
-          child: classSearchBottomSheet(),
+          child: classSearchBottomSheet(scrollController: scrollController),
         ),
         appBar: AppBar(
           elevation: 0,
@@ -126,6 +128,7 @@ class TimetableAddClassMain extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
+                  controller: scrollController,
                   // physics: NeverScrollableScrollPhysics(),
                   physics: AlwaysScrollableScrollPhysics(),
                   child: Obx(() {
@@ -182,11 +185,11 @@ class TimetableAddClassMain extends StatelessWidget {
 }
 
 class classSearchBottomSheet extends StatelessWidget {
-  classSearchBottomSheet({Key key}) : super(key: key);
+  classSearchBottomSheet({Key key, this.scrollController}) : super(key: key);
 
   final TimeTableAddClassSearchController controller = Get.find();
   final TimeTableController timeTableController = Get.find();
-
+  final ScrollController scrollController;
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -206,12 +209,14 @@ class classSearchBottomSheet extends StatelessWidget {
                     controller.selectedIndex.value = index;
                     controller.NewClass.value =
                         model.CLASS_TIME.map((e) => e.obs).toList();
+                    double ypos_average = 0.0;
                     for (var item in controller.NewClass) {
+                      print(item.value.start_time);
                       //끝 시간 맞추기
-                      if (item.value.end_time.hour >
+                      if (item.value.end_time.hour >=
                           timeTableController.limitEndTime.value) {
                         timeTableController.limitEndTime.value =
-                            item.value.end_time.hour;
+                            item.value.end_time.hour + 1;
                       }
 
                       //시작 시간 맞추기
@@ -221,10 +226,29 @@ class classSearchBottomSheet extends StatelessWidget {
                             item.value.start_time.hour;
                       }
 
+                      ypos_average += ((item.value.end_time.hour +
+                                  item.value.end_time.minute / 60.0) +
+                              (item.value.start_time.hour +
+                                  item.value.start_time.minute / 60.0)) /
+                          2;
+
                       if (item.value.day == "토" || item.value.day == "일") {
                         timeTableController.isExpandedHor.value = true;
                       }
                     }
+                    ypos_average /= controller.NewClass.length;
+
+                    double target_ypos = 10.0 +
+                        (ypos_average - 10) *
+                            timeTableController.topHeight.value;
+                    double current_ypos = scrollController.offset;
+
+                    // int seconds =
+                    //     (((current_ypos - target_ypos).abs() * 5000.0) / 1000)
+                    //         .round();
+                    scrollController.animateTo(target_ypos,
+                        duration: Duration(milliseconds: 1500),
+                        curve: Curves.fastOutSlowIn);
                   }
                 },
                 child: Obx(() {

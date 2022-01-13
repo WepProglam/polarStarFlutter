@@ -108,7 +108,7 @@ class BoardList extends StatelessWidget {
           if (mainController.dataAvailalbe) {
             return SingleChildScrollView(
               child: Container(
-                margin: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
                 child: Container(
                   child: Column(
                     children: [

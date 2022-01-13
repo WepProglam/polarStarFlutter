@@ -160,17 +160,8 @@ class WritePost extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Text("Title",
-                    //     style: const TextStyle(
-                    //         color: const Color(0xff333333),
-                    //         fontWeight: FontWeight.w700,
-                    //         fontFamily: "PingFangSC",
-                    //         fontStyle: FontStyle.normal,
-                    //         fontSize: 16.0),
-                    //     textAlign: TextAlign.left),
-
                     Container(
-                      margin: const EdgeInsets.only(bottom: 14, top: 24),
+                      margin: const EdgeInsets.only(bottom: 10, top: 24),
                       child: TextFormField(
                         controller: title,
                         maxLines: 2,
@@ -182,7 +173,7 @@ class WritePost extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             fontFamily: "NotoSansSC",
                             fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
+                            fontSize: 12.0),
                         decoration: InputDecoration(
                           isDense: true,
                           border: InputBorder.none,
@@ -192,7 +183,7 @@ class WritePost extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                               fontFamily: "NotoSansSC",
                               fontStyle: FontStyle.normal,
-                              fontSize: 16.0),
+                              fontSize: 12.0),
                           hintText: '请输入内容.',
                         ),
                       ),
@@ -215,7 +206,7 @@ class WritePost extends StatelessWidget {
                     //     textAlign: TextAlign.left),
 
                     Container(
-                      margin: const EdgeInsets.only(top: 19),
+                      margin: const EdgeInsets.only(top: 15),
                       child: TextFormField(
                         controller: content,
                         // textAlign: TextAlign.center,
@@ -228,7 +219,7 @@ class WritePost extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             fontFamily: "NotoSansSC",
                             fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
+                            fontSize: 12.0),
                         decoration: InputDecoration(
                           isDense: true,
                           border: InputBorder.none,
@@ -238,7 +229,7 @@ class WritePost extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                               fontFamily: "NotoSansSC",
                               fontStyle: FontStyle.normal,
-                              fontSize: 16.0),
+                              fontSize: 12.0),
                           hintText: '附有照片',
                         ),
                       ),
@@ -247,7 +238,7 @@ class WritePost extends StatelessWidget {
                     // 사진 영역
                     Container(
                       height: 120.0,
-                      margin: const EdgeInsets.only(top: 14),
+                      margin: const EdgeInsets.only(top: 10),
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.zero,
@@ -257,7 +248,7 @@ class WritePost extends StatelessWidget {
                             margin: const EdgeInsets.only(right: 10.0),
                             child: Center(
                               child: SizedBox(
-                                width: 100.0,
+                                width: 120.0,
                                 height: 120.0,
                                 child: index == 0
                                     ? InkWell(
@@ -266,7 +257,7 @@ class WritePost extends StatelessWidget {
                                               context);
                                         },
                                         child: Container(
-                                            width: 100,
+                                            width: 120,
                                             height: 120,
                                             child: Center(
                                               child: Icon(
@@ -288,7 +279,7 @@ class WritePost extends StatelessWidget {
                                     : Stack(children: [
                                         Center(
                                           child: Image(
-                                              width: 100,
+                                              width: 120,
                                               height: 120,
                                               fit: BoxFit.cover,
                                               image: AssetEntityImageProvider(
@@ -325,7 +316,7 @@ class WritePost extends StatelessWidget {
                             BoxDecoration(color: const Color(0xffeaeaea))),
 
                     Container(
-                      margin: const EdgeInsets.only(top: 15.5),
+                      margin: const EdgeInsets.only(top: 10),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -335,7 +326,7 @@ class WritePost extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                   fontFamily: "NotoSansSC",
                                   fontStyle: FontStyle.normal,
-                                  fontSize: 16.0),
+                                  fontSize: 12.0),
                               textAlign: TextAlign.left),
                           Spacer(),
                           Container(
