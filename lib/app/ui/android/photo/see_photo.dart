@@ -20,7 +20,6 @@ class _SeePhotoState extends State<SeePhoto> {
         PageController(initialPage: widget.index, viewportFraction: 1.0);
 
     final Size size = MediaQuery.of(context).size;
-    print(widget.index);
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -28,6 +27,7 @@ class _SeePhotoState extends State<SeePhoto> {
             PageView.builder(
                 itemCount: widget.photo.length,
                 controller: controller,
+                allowImplicitScrolling: true,
                 onPageChanged: (value) {
                   setState(() {
                     widget.index = value;
@@ -36,7 +36,7 @@ class _SeePhotoState extends State<SeePhoto> {
                 itemBuilder: (context, int index) {
                   return InteractiveViewer(
                     maxScale: 4,
-                    minScale: 1,
+                    minScale: 0.5,
                     // constrained: false,
                     // boundaryMargin: EdgeInsets.all(0),
                     child: Container(

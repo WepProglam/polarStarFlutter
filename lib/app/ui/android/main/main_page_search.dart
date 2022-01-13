@@ -23,24 +23,113 @@ class MainPageSearch extends StatelessWidget {
         TextEditingController(text: mc.searchText.value);
 
     final Size size = MediaQuery.of(context).size;
-    return Container(
-      height: size.height,
+    return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          backgroundColor: const Color(0xfff6f6f6),
-          elevation: 0,
-          toolbarHeight: 37 + 13.0,
-          automaticallyImplyLeading: false,
+          toolbarHeight: 56,
+          backgroundColor: Get.theme.primaryColor,
           titleSpacing: 0,
-          title: Container(
-            margin:
-                const EdgeInsets.only(left: 15, right: 15, top: 7, bottom: 5),
-            width: size.width - 15 * 2,
-            height: 32,
-            child: MainSearchBar(size: size, searchText: searchText, mc: mc),
-          ),
+          automaticallyImplyLeading: false,
+          title: Stack(children: [
+            Center(
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 18),
+                child: Text(
+                  "全部搜索",
+                  style: const TextStyle(
+                      color: const Color(0xffffffff),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                ),
+              ),
+            ),
+            Positioned(
+                top: 16,
+                left: 20,
+                child: Ink(
+                    child: InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Image.asset(
+                          'assets/images/back_icon.png',
+                        ))),
+                width: 24,
+                height: 24)
+          ]),
         ),
+
+        // * 검색창
+        // AppBar(
+        //   elevation: 0,
+        //   toolbarHeight: 56,
+        //   automaticallyImplyLeading: false,
+        //   titleSpacing: 0,
+        //   title: Container(
+        //     margin:
+        //         const EdgeInsets.only(left: 20, top: 12, bottom: 12, right: 20),
+        //     child: Row(children: [
+        //       Container(
+        //           decoration: BoxDecoration(
+        //               borderRadius: BorderRadius.all(Radius.circular(16)),
+        //               color: const Color(0xffffffff)),
+        //           width: Get.mediaQuery.size.width - 20 - 62,
+        //           margin: const EdgeInsets.only(right: 14),
+        //           height: 32,
+        //           child: Row(children: [
+        //             Ink(
+        //               child: InkWell(
+        //                 onTap: () async {
+        //                   String text = searchText.text.trim();
+        //                   mc.searchText(text);
+        //                   await mc.clearAll();
+        //                   await mc.searchApi();
+        //                   FocusScope.of(context).unfocus();
+        //                 },
+        //                 child: Container(
+        //                   padding: const EdgeInsets.symmetric(horizontal: 15),
+        //                   child: Image.asset(
+        //                     "assets/images/icn_search.png",
+        //                     width: 20,
+        //                     height: 20,
+        //                     color: const Color(0xffcecece),
+        //                   ),
+        //                 ),
+        //               ),
+        //             ),
+        //             Container(
+        //               width: Get.mediaQuery.size.width - 20 - 62 - 30 - 20,
+        //               child: MainSearchBar(
+        //                   size: size, searchText: searchText, mc: mc),
+        //             ),
+        //           ])),
+        //       Container(
+        //         child: Ink(
+        //           child: InkWell(
+        //             onTap: () async {
+        //               String text = searchText.text.trim();
+        //               mc.searchText(text);
+        //               await mc.clearAll();
+        //               await mc.searchApi();
+        //               FocusScope.of(context).unfocus();
+        //             },
+        //             child: Text("取消",
+        //                 style: const TextStyle(
+        //                     color: const Color(0xfff5f6ff),
+        //                     fontWeight: FontWeight.w500,
+        //                     fontFamily: "NotoSansSC",
+        //                     fontStyle: FontStyle.normal,
+        //                     fontSize: 14.0),
+        //                 textAlign: TextAlign.left),
+        //           ),
+        //         ),
+        //       ),
+        //     ]),
+        //   ),
+        // ),
         // bottomNavigationBar:
         //     CustomBottomNavigationBar(mainController: mainController),
         body: Container(
@@ -100,10 +189,11 @@ class MainPageSearch extends StatelessWidget {
               // }
               else {
                 return Container(
-                    height: size.height,
-                    decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
+                    margin: const EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(color: const Color(0xffffffff)),
                     child: ListView.builder(
                         controller: mc.scrollController.value,
+                        shrinkWrap: true,
                         itemCount: mc.searchData[mc.searchType.value].length,
                         itemBuilder: (BuildContext context, int index) {
                           print(mc.searchData[mc.searchType.value].length);
@@ -206,71 +296,37 @@ class MainSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        // width: size.width - 38.5 - 15 - 20 - 19.4 - 15,
-        // margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: 20,
-            ),
-            Expanded(
-              child: TextFormField(
-                controller: searchText,
-                onEditingComplete: () async {
-                  String text = searchText.text.trim();
-                  mc.searchText(text);
-                  await mc.clearAll();
-                  await mc.searchApi();
-                  FocusScope.of(context).unfocus();
-                },
-                maxLines: 1,
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: "PingFangSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 14.0),
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                    isDense: true,
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    hintText: ""),
-              ),
-            ),
-            // Spacer(),
-            // 패스 894
-            Container(
-              width: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8, 19.4, 7.7),
-              child: Container(
-                  width: 14.2841796875,
-                  height: 14.29736328125,
-                  child: InkWell(
-                    onTap: () async {
-                      String text = searchText.text.trim();
-                      mc.searchText(text);
-                      await mc.clearAll();
-                      await mc.searchApi();
-                      FocusScope.of(context).unfocus();
-                    },
-                    child: Image.asset(
-                      "assets/images/894.png",
-                      fit: BoxFit.fitHeight,
-                    ),
-                  )),
-            )
-          ],
-        ),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(30)),
-            color: const Color(0xffeeeeee)));
+    return TextFormField(
+      controller: searchText,
+      onEditingComplete: () async {
+        String text = searchText.text.trim();
+        mc.searchText(text);
+        await mc.clearAll();
+        await mc.searchApi();
+        FocusScope.of(context).unfocus();
+      },
+      autofocus: false,
+      minLines: 1,
+      maxLines: 1,
+      textAlign: TextAlign.left,
+      decoration: InputDecoration(
+        isDense: true,
+        hintText: "新建立 韩国大学联合交流区",
+        hintStyle: const TextStyle(
+            color: const Color(0xffcecece),
+            fontWeight: FontWeight.w500,
+            fontFamily: "NotoSansSC",
+            fontStyle: FontStyle.normal,
+            fontSize: 14.0),
+        border: InputBorder.none,
+        contentPadding: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+      ),
+      style: const TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NotoSansSC",
+          fontStyle: FontStyle.normal,
+          fontSize: 14.0),
+    );
   }
 }

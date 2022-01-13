@@ -28,6 +28,7 @@ class PhotoLayout extends StatelessWidget {
         child: PageView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: model.PHOTO.length,
+            allowImplicitScrolling: true,
             onPageChanged: (value) {
               pc.index.value = value;
             },
@@ -35,12 +36,12 @@ class PhotoLayout extends StatelessWidget {
               return Container(
                 child: CachedNetworkImage(
                     imageUrl: "${model.PHOTO[index]}",
-                    placeholder: (context, url) => Container(
-                          margin: EdgeInsets.only(right: 4.2),
-                          width: width,
-                          height: width,
-                          color: Colors.black38,
-                        ),
+                    // ! fade in 별로라서 뺌
+                    // placeholder: (context, url) => Container(
+                    //       width: width,
+                    //       height: width,
+                    //       color: Colors.white,
+                    //     ),
                     errorWidget: (context, url, error) {
                       return Icon(Icons.error);
                     },
