@@ -192,260 +192,276 @@ class classSearchBottomSheet extends StatelessWidget {
         searchClassSliverAppBar(controller: controller),
         Obx(() {
           return SliverList(
-            delegate:
-                SliverChildBuilderDelegate((BuildContext context, int index) {
-              if (controller.CLASS_SEARCH.length == 0) {
-                return Container();
-              }
-
-              TimeTableClassModel model = controller.CLASS_SEARCH[index];
-              return Ink(
-                  child: InkWell(
-                onTap: () {
-                  if (controller.selectedIndex.value == index) {
-                    controller.selectedIndex.value = -1;
-                  } else {
-                    controller.selectedIndex.value = index;
-                    controller.NewClass.value =
-                        model.CLASS_TIME.map((e) => e.obs).toList();
-                    double ypos_average =
-                        controller.NewClass[0].value.start_time.hour +
-                            controller.NewClass[0].value.start_time.minute / 60;
-
-                    for (var item in controller.NewClass) {
-                      print(item.value.start_time);
-                      //끝 시간 맞추기
-                      if (item.value.end_time.hour >=
-                          timeTableController.limitEndTime.value) {
-                        timeTableController.limitEndTime.value =
-                            item.value.end_time.hour + 1;
-                      }
-
-                      //시작 시간 맞추기
-                      if (item.value.start_time.hour <
-                          timeTableController.limitStartTime.value) {
-                        timeTableController.limitStartTime.value =
-                            item.value.start_time.hour;
-                      }
-
-                      if (ypos_average >
-                          (item.value.start_time.hour +
-                              item.value.start_time.minute / 60.0)) {
-                        ypos_average = (item.value.start_time.hour +
-                            item.value.start_time.minute / 60.0);
-                      }
-
-                      // ypos_average += ((item.value.end_time.hour +
-                      //             item.value.end_time.minute / 60.0) +
-                      //         (item.value.start_time.hour +
-                      //             item.value.start_time.minute / 60.0)) /
-                      //     2;
-
-                      if (item.value.day == "토" || item.value.day == "일") {
-                        timeTableController.isExpandedHor.value = true;
-                      }
-                    }
-                    // ypos_average /= controller.NewClass.length;
-
-                    double target_ypos = (ypos_average - 9) *
-                        timeTableController.timeHeight.value;
-                    print(target_ypos);
-
-                    double current_ypos = scrollController.offset;
-
-                    // int seconds =
-                    //     (((current_ypos - target_ypos).abs() * 5000.0) / 1000)
-                    //         .round();
-                    scrollController.animateTo(target_ypos,
-                        duration: Duration(milliseconds: 100),
-                        curve: Curves.fastOutSlowIn);
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                if (index == controller.CLASS_SEARCH.length) {
+                  if (controller.searchPage == controller.searchMaxPage.value) {
+                    return Container();
                   }
-                },
-                child: Obx(() {
-                  return Container(
-                      padding: const EdgeInsets.only(bottom: 12.5),
-                      color: index == controller.selectedIndex.value
-                          ? Colors.lightBlue[50]
-                          : Colors.white,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // 선 21
-                          Container(
-                              height: 1,
-                              decoration: BoxDecoration(
-                                  color: const Color(0xffeaeaea))),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 13.5),
-                                          child: Text("${model.CLASS_NAME}",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff000000),
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: "NotoSansKR",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 14.0),
-                                              textAlign: TextAlign.center),
-                                        ),
-                                        Spacer(),
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 17.5),
-                                          child: Row(
-                                            children: [
-                                              for (var i = 0; i < 5; i++)
-                                                Container(
-                                                  margin: const EdgeInsets.only(
-                                                      right: 2),
-                                                  height: 12,
-                                                  width: 12,
-                                                  child: Image.asset(
-                                                      "assets/images/star_100.png"),
-                                                )
-                                            ],
+                  return Center(
+                      child: CircularProgressIndicator(
+                    color: Get.theme.primaryColor,
+                  ));
+                }
+
+                TimeTableClassModel model = controller.CLASS_SEARCH[index];
+                return Ink(
+                    child: InkWell(
+                  onTap: () {
+                    if (controller.selectedIndex.value == index) {
+                      controller.selectedIndex.value = -1;
+                    } else {
+                      controller.selectedIndex.value = index;
+                      controller.NewClass.value =
+                          model.CLASS_TIME.map((e) => e.obs).toList();
+                      double ypos_average = controller
+                              .NewClass[0].value.start_time.hour +
+                          controller.NewClass[0].value.start_time.minute / 60;
+
+                      for (var item in controller.NewClass) {
+                        print(item.value.start_time);
+                        //끝 시간 맞추기
+                        if (item.value.end_time.hour >=
+                            timeTableController.limitEndTime.value) {
+                          timeTableController.limitEndTime.value =
+                              item.value.end_time.hour + 1;
+                        }
+
+                        //시작 시간 맞추기
+                        if (item.value.start_time.hour <
+                            timeTableController.limitStartTime.value) {
+                          timeTableController.limitStartTime.value =
+                              item.value.start_time.hour;
+                        }
+
+                        if (ypos_average >
+                            (item.value.start_time.hour +
+                                item.value.start_time.minute / 60.0)) {
+                          ypos_average = (item.value.start_time.hour +
+                              item.value.start_time.minute / 60.0);
+                        }
+
+                        // ypos_average += ((item.value.end_time.hour +
+                        //             item.value.end_time.minute / 60.0) +
+                        //         (item.value.start_time.hour +
+                        //             item.value.start_time.minute / 60.0)) /
+                        //     2;
+
+                        if (item.value.day == "토" || item.value.day == "일") {
+                          timeTableController.isExpandedHor.value = true;
+                        }
+                      }
+                      // ypos_average /= controller.NewClass.length;
+
+                      double target_ypos = (ypos_average - 9) *
+                          timeTableController.timeHeight.value;
+                      print(target_ypos);
+
+                      double current_ypos = scrollController.offset;
+
+                      // int seconds =
+                      //     (((current_ypos - target_ypos).abs() * 5000.0) / 1000)
+                      //         .round();
+                      scrollController.animateTo(target_ypos,
+                          duration: Duration(milliseconds: 100),
+                          curve: Curves.fastOutSlowIn);
+                    }
+                  },
+                  child: Obx(() {
+                    return Container(
+                        padding: const EdgeInsets.only(bottom: 12.5),
+                        color: index == controller.selectedIndex.value
+                            ? Colors.lightBlue[50]
+                            : Colors.white,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // 선 21
+                            Container(
+                                height: 1,
+                                decoration: BoxDecoration(
+                                    color: const Color(0xffeaeaea))),
+                            Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                top: 13.5),
+                                            child: Text("${model.CLASS_NAME}",
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                    color:
+                                                        const Color(0xff000000),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: "NotoSansKR",
+                                                    fontStyle: FontStyle.normal,
+                                                    fontSize: 14.0),
+                                                textAlign: TextAlign.center),
                                           ),
-                                        )
-                                      ]),
-                                  Container(
-                                      child: Row(children: [
-                                    Text("${model.PROFESSOR}",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            color: const Color(0xff9b9b9b),
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: "NotoSansKR",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 12.0),
-                                        textAlign: TextAlign.center),
-                                    Spacer(),
-                                    // 담은 82
-                                    Text("담은 82",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            color: const Color(0xff9b9b9b),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: "NotoSansKR",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 10.0),
-                                        textAlign: TextAlign.right)
-                                  ])),
-                                  Container(
-                                      child: Text(
-                                          "${classTimePretty(model.CLASS_TIME)}",
+                                          Spacer(),
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                top: 17.5),
+                                            child: Row(
+                                              children: [
+                                                for (var i = 0; i < 5; i++)
+                                                  Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            right: 2),
+                                                    height: 12,
+                                                    width: 12,
+                                                    child: Image.asset(
+                                                        "assets/images/star_100.png"),
+                                                  )
+                                              ],
+                                            ),
+                                          )
+                                        ]),
+                                    Container(
+                                        child: Row(children: [
+                                      Text("${model.PROFESSOR}",
                                           overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
+                                          style: const TextStyle(
+                                              color: const Color(0xff9b9b9b),
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: "NotoSansKR",
+                                              fontStyle: FontStyle.normal,
+                                              fontSize: 12.0),
+                                          textAlign: TextAlign.center),
+                                      Spacer(),
+                                      // 담은 82
+                                      Text("담은 82",
+                                          overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                               color: const Color(0xff9b9b9b),
                                               fontWeight: FontWeight.w400,
                                               fontFamily: "NotoSansKR",
                                               fontStyle: FontStyle.normal,
-                                              fontSize: 12.0),
-                                          textAlign: TextAlign.left)),
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                              model.CLASS_TIME.length == 0
-                                                  ? "null"
-                                                  : "${model.CLASS_TIME[0].class_room}",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff9b9b9b),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "NotoSansKR",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 12.0),
-                                              textAlign: TextAlign.center),
-                                        ),
-                                        Spacer(),
-                                        // 전공
-                                        Container(
-                                          margin: const EdgeInsets.only(top: 2),
-                                          child: Text(
-                                              // * 버림해서 (3.0 -> 3) 같은 값이면 버림
-                                              "${model.CLASS_SECTOR_TOTAL} ${model.CREDIT.floor() == model.CREDIT ? model.CREDIT.floor() : model.CREDIT}학점 ${model.CLASS_NUMBER}",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff9b9b9b),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "NotoSansKR",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 10.0),
-                                              textAlign: TextAlign.center),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  index == controller.selectedIndex.value
-                                      ? Container(
-                                          margin: const EdgeInsets.only(top: 7),
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
+                                              fontSize: 10.0),
+                                          textAlign: TextAlign.right)
+                                    ])),
+                                    Container(
+                                        child: Text(
+                                            "${classTimePretty(model.CLASS_TIME)}",
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            style: const TextStyle(
+                                                color: const Color(0xff9b9b9b),
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "NotoSansKR",
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 12.0),
+                                            textAlign: TextAlign.left)),
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            child: Text(
+                                                model.CLASS_TIME.length == 0
+                                                    ? "null"
+                                                    : "${model.CLASS_TIME[0].class_room}",
+                                                style: const TextStyle(
                                                     color:
-                                                        Get.theme.primaryColor,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                10))),
-                                                child: Ink(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          8, 2, 8, 2),
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      controller.addClass(
-                                                          timeTableController
-                                                              .selectedTimeTableId
-                                                              .value);
-                                                    },
-                                                    child: Center(
-                                                      child: Text(
-                                                        "등록",
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: const TextStyle(
-                                                            color: const Color(
-                                                                0xffffffff),
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontFamily:
-                                                                "NotoSansKR",
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontSize: 10.0),
+                                                        const Color(0xff9b9b9b),
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: "NotoSansKR",
+                                                    fontStyle: FontStyle.normal,
+                                                    fontSize: 12.0),
+                                                textAlign: TextAlign.center),
+                                          ),
+                                          Spacer(),
+                                          // 전공
+                                          Container(
+                                            margin:
+                                                const EdgeInsets.only(top: 2),
+                                            child: Text(
+                                                // * 버림해서 (3.0 -> 3) 같은 값이면 버림
+                                                "${model.CLASS_SECTOR_TOTAL} ${model.CREDIT.floor() == model.CREDIT ? model.CREDIT.floor() : model.CREDIT}학점 ${model.CLASS_NUMBER}",
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                    color:
+                                                        const Color(0xff9b9b9b),
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: "NotoSansKR",
+                                                    fontStyle: FontStyle.normal,
+                                                    fontSize: 10.0),
+                                                textAlign: TextAlign.center),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    index == controller.selectedIndex.value
+                                        ? Container(
+                                            margin:
+                                                const EdgeInsets.only(top: 7),
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Get
+                                                          .theme.primaryColor,
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10))),
+                                                  child: Ink(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(8, 2, 8, 2),
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        controller.addClass(
+                                                            timeTableController
+                                                                .selectedTimeTableId
+                                                                .value);
+                                                      },
+                                                      child: Center(
+                                                        child: Text(
+                                                          "등록",
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: const TextStyle(
+                                                              color: const Color(
+                                                                  0xffffffff),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontFamily:
+                                                                  "NotoSansKR",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: 10.0),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                      : Container(),
-                                ]),
-                          ),
-                        ],
-                      ));
-                }),
-              ));
-            }, childCount: controller.CLASS_SEARCH.length),
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                        : Container(),
+                                  ]),
+                            ),
+                          ],
+                        ));
+                  }),
+                ));
+              },
+              childCount:
+                  controller.searchPage == controller.searchMaxPage.value
+                      ? controller.CLASS_SEARCH.length
+                      : controller.CLASS_SEARCH.length + 1,
+            ),
           );
         }),
       ],

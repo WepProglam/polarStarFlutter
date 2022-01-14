@@ -26,7 +26,7 @@ class TimeTableAddClassSearchController extends GetxController {
   TextEditingController classSearchController = new TextEditingController();
 
   int searchPage = 0;
-  int searchMaxPage = 99999;
+  Rx<int> searchMaxPage = 99999.obs;
 
   RxBool isItBuild = false.obs;
   BuildContext context;
@@ -142,7 +142,7 @@ class TimeTableAddClassSearchController extends GetxController {
       return;
     }
 
-    if (page > searchMaxPage) {
+    if (page > searchMaxPage.value) {
       return;
     }
 
@@ -156,7 +156,7 @@ class TimeTableAddClassSearchController extends GetxController {
       CLASS_SEARCH.value = tempClasses;
     } else {
       if (tempClasses.length == 0) {
-        searchMaxPage = page;
+        searchMaxPage.value = page;
         print("find max");
       } else {
         CLASS_SEARCH.addAll(tempClasses);
@@ -181,7 +181,7 @@ class TimeTableAddClassSearchController extends GetxController {
       CLASS_SEARCH.value = tempClasses;
     } else {
       if (tempClasses.length == 0) {
-        searchMaxPage = page;
+        searchMaxPage.value = page;
         print("find max");
       } else {
         CLASS_SEARCH.addAll(tempClasses);
@@ -201,7 +201,7 @@ class TimeTableAddClassSearchController extends GetxController {
       CLASS_SEARCH.value = tempClasses;
     } else {
       if (tempClasses.length == 0) {
-        searchMaxPage = page;
+        searchMaxPage.value = page;
         print("find max");
       } else {
         CLASS_SEARCH.addAll(tempClasses);
@@ -219,7 +219,7 @@ class TimeTableAddClassSearchController extends GetxController {
 
   void initSeachPage() {
     searchPage = 0;
-    searchMaxPage = 99999;
+    searchMaxPage.value = 99999;
   }
 
   void initMajor() {
@@ -278,7 +278,7 @@ class TimeTableAddClassSearchController extends GetxController {
       if ((scrollController.value.position.pixels ==
                   scrollController.value.position.maxScrollExtent ||
               !scrollController.value.position.hasPixels) &&
-          (searchPage < searchMaxPage)) {
+          (searchPage < searchMaxPage.value)) {
         searchPage += 1;
         getClass(searchPage);
         print("end ($searchPage)");
