@@ -284,37 +284,10 @@ class TimeTableAddClassSearchController extends GetxController {
         print("end ($searchPage)");
       }
     });
-
-    // ever(scrollController.offset, callback)
-    // once(isItBuild, (_) {
-    //   print("sadfsadfadsf");
-    //   if (isItBuild.value) {
-    //     showBottomSheet();
-    //   }
-    // });
-    // initClass();
-    // dataAvailable.value = true;
-    // ever(CLASS_LIST, (_) {
-    //   for (var item in CLASS_LIST) {
-    //     print(item.value.day);
-    //     print(item.value.start_time);
-    //     print(item.value.end_time);
-    //   }
-    // });
-
-    // ever(selectIndex, (_) {
-    //   if (CLASS_LIST.length > selectIndex.value) {
-    //   } else {
-    //     initClass();
-    //   }
-    // });
   }
 
   @override
   void onClose() async {
-    //print("CURR ROUTE!! : ${Get.currentRoute}");
-    // Get.currentRoute == Routes.MAIN_PAGE
-    print("close!1");
     await timeTableController.refactoringTime();
     await timeTableController.handleAddButtonTrue();
   }
