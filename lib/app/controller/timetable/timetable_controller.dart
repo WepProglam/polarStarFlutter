@@ -123,8 +123,8 @@ class TimeTableController extends GetxController {
           limitTempStart = start.hour;
         }
 
-        if (limitTempEnd < end.hour) {
-          limitTempEnd = end.hour;
+        if (limitTempEnd <= end.hour) {
+          limitTempEnd = end.hour + 1;
         }
 
         showTimeTable[day_index].add({

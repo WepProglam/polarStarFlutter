@@ -57,7 +57,7 @@ class TimetableAddClassMain extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         bottomSheet: // 사각형 612
             Container(
-          height: 473,
+          height: Get.mediaQuery.size.height - (55.0 * 5 + 30) - 56 - 37,
           decoration: BoxDecoration(
               border: Border.all(color: const Color(0xff707070), width: 1),
               color: const Color(0xffffffff)),
@@ -123,60 +123,54 @@ class TimetableAddClassMain extends StatelessWidget {
         ),
         body: Container(
           margin: const EdgeInsets.only(top: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: scrollController,
-                  // physics: NeverScrollableScrollPhysics(),
-                  physics: AlwaysScrollableScrollPhysics(),
-                  child: Obx(() {
-                    RxBool isExpandedHor = timeTableController.isExpandedHor;
-                    int dayAmount = isExpandedHor.value ? 7 : 5;
-                    int verAmount = timeTableController.verAmount.value;
+          child: Container(
+            height: 55.0 * 5 + 30,
+            child: SingleChildScrollView(
+              controller: scrollController,
+              // physics: NeverScrollableScrollPhysics(),
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Obx(() {
+                RxBool isExpandedHor = timeTableController.isExpandedHor;
+                int dayAmount = isExpandedHor.value ? 7 : 5;
+                int verAmount = timeTableController.verAmount.value;
 
-                    double time_height = timeTableController.timeHeight.value;
-                    double top_height = timeTableController.topHeight.value;
+                double time_height = timeTableController.timeHeight.value;
+                double top_height = timeTableController.topHeight.value;
 
-                    return Container(
-                      height: top_height + time_height * (verAmount - 1) + 480,
-                      child: Stack(children: [
-                        TimeTableBin(
-                            time_height: time_height,
-                            top_height: top_height,
+                return Container(
+                  height: top_height + time_height * (verAmount - 1),
+                  child: Stack(children: [
+                    TimeTableBin(
+                        time_height: time_height,
+                        top_height: top_height,
+                        timeTableController: timeTableController,
+                        width: size.width,
+                        dayAmount: dayAmount,
+                        verAmount: verAmount),
+                    TimeTableContent(
+                        time_height: time_height,
+                        top_height: top_height,
+                        timeTableController: timeTableController,
+                        width: size.width,
+                        dayAmount: dayAmount,
+                        verAmount: verAmount),
+                    //선택한 애들 띄우기
+                    for (Rx<AddClassModel> item in controller.NewClass)
+                      Positioned(
+                        child: TimeTableAddClass(
                             timeTableController: timeTableController,
+                            new_class: item,
+                            top_height: top_height,
+                            time_height: time_height,
                             width: size.width,
+                            show: controller.selectedIndex == -1 ? false : true,
                             dayAmount: dayAmount,
                             verAmount: verAmount),
-                        TimeTableContent(
-                            time_height: time_height,
-                            top_height: top_height,
-                            timeTableController: timeTableController,
-                            width: size.width,
-                            dayAmount: dayAmount,
-                            verAmount: verAmount),
-                        //선택한 애들 띄우기
-                        for (Rx<AddClassModel> item in controller.NewClass)
-                          Positioned(
-                            child: TimeTableAddClass(
-                                timeTableController: timeTableController,
-                                new_class: item,
-                                top_height: top_height,
-                                time_height: time_height,
-                                width: size.width,
-                                show: controller.selectedIndex == -1
-                                    ? false
-                                    : true,
-                                dayAmount: dayAmount,
-                                verAmount: verAmount),
-                          )
-                      ]),
-                    );
-                  }),
-                ),
-              ),
-            ],
+                      )
+                  ]),
+                );
+              }),
+            ),
           ),
         ),
       ),
@@ -209,7 +203,10 @@ class classSearchBottomSheet extends StatelessWidget {
                     controller.selectedIndex.value = index;
                     controller.NewClass.value =
                         model.CLASS_TIME.map((e) => e.obs).toList();
-                    double ypos_average = 0.0;
+                    double ypos_average =
+                        controller.NewClass[0].value.start_time.hour +
+                            controller.NewClass[0].value.start_time.minute / 60;
+
                     for (var item in controller.NewClass) {
                       print(item.value.start_time);
                       //끝 시간 맞추기
@@ -226,28 +223,37 @@ class classSearchBottomSheet extends StatelessWidget {
                             item.value.start_time.hour;
                       }
 
-                      ypos_average += ((item.value.end_time.hour +
-                                  item.value.end_time.minute / 60.0) +
-                              (item.value.start_time.hour +
-                                  item.value.start_time.minute / 60.0)) /
-                          2;
+                      if (ypos_average >
+                          (item.value.start_time.hour +
+                              item.value.start_time.minute / 60.0)) {
+                        ypos_average = (item.value.start_time.hour +
+                            item.value.start_time.minute / 60.0);
+                      }
+
+                      // ypos_average += ((item.value.end_time.hour +
+                      //             item.value.end_time.minute / 60.0) +
+                      //         (item.value.start_time.hour +
+                      //             item.value.start_time.minute / 60.0)) /
+                      //     2;
 
                       if (item.value.day == "토" || item.value.day == "일") {
                         timeTableController.isExpandedHor.value = true;
                       }
                     }
-                    ypos_average /= controller.NewClass.length;
+                    // ypos_average /= controller.NewClass.length;
 
                     double target_ypos = 10.0 +
-                        (ypos_average - 10) *
-                            timeTableController.topHeight.value;
+                        (ypos_average - 9) *
+                            timeTableController.timeHeight.value;
+                    print(target_ypos);
+
                     double current_ypos = scrollController.offset;
 
                     // int seconds =
                     //     (((current_ypos - target_ypos).abs() * 5000.0) / 1000)
                     //         .round();
                     scrollController.animateTo(target_ypos,
-                        duration: Duration(milliseconds: 1500),
+                        duration: Duration(milliseconds: 100),
                         curve: Curves.fastOutSlowIn);
                   }
                 },
