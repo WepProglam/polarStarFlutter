@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -121,6 +123,9 @@ class MyPagePostList extends StatelessWidget {
                   : postList.length + 1,
               itemBuilder: (BuildContext context, int i) {
                 if (i >= postList.length) {
+                  Timer(Duration(seconds: 1), () {
+                    myPageController.setMaxPageEqualCurPage();
+                  });
                   return Center(
                     child: CircularProgressIndicator(
                       color: Get.theme.primaryColor,

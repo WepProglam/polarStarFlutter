@@ -53,7 +53,7 @@ class MyPageController extends GetxController
   final Rx<ScrollController> scrollController =
       ScrollController(initialScrollOffset: 0.0).obs;
 
-  //내가 쓴 글 목록 불러옴
+  //내 프로필
   Future<void> getMineProfile() async {
     final response = await repository.getMineProfile();
 
@@ -314,5 +314,23 @@ class MyPageController extends GetxController
         break;
     }
     return page;
+  }
+
+  void setMaxPageEqualCurPage() {
+    switch (tabController.index) {
+      case 0:
+        writeMaxPage.value = writePage.value;
+        break;
+      case 1:
+        scrapMaxPage.value = scrapPage.value;
+
+        break;
+      case 2:
+        likeMaxPage.value = likePage.value;
+
+        break;
+      default:
+        break;
+    }
   }
 }
