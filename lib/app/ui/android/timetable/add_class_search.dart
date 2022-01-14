@@ -57,7 +57,7 @@ class TimetableAddClassMain extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         bottomSheet: // 사각형 612
             Container(
-          height: Get.mediaQuery.size.height - (55.0 * 5 + 30) - 56 - 37,
+          height: Get.mediaQuery.size.height - (55.0 * 5 + 30) - 56 - 37 + 10,
           decoration: BoxDecoration(
               border: Border.all(color: const Color(0xff707070), width: 1),
               color: const Color(0xffffffff)),
@@ -122,7 +122,6 @@ class TimetableAddClassMain extends StatelessWidget {
           ),
         ),
         body: Container(
-          margin: const EdgeInsets.only(top: 10),
           child: Container(
             height: 55.0 * 5 + 30,
             child: SingleChildScrollView(
@@ -242,9 +241,8 @@ class classSearchBottomSheet extends StatelessWidget {
                     }
                     // ypos_average /= controller.NewClass.length;
 
-                    double target_ypos = 10.0 +
-                        (ypos_average - 9) *
-                            timeTableController.timeHeight.value;
+                    double target_ypos = (ypos_average - 9) *
+                        timeTableController.timeHeight.value;
                     print(target_ypos);
 
                     double current_ypos = scrollController.offset;
