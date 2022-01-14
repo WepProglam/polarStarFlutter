@@ -25,6 +25,9 @@ class TimeTableAddClassSearchController extends GetxController {
 
   TextEditingController classSearchController = new TextEditingController();
 
+  int searchPage = 0;
+  int searchMaxPage = 99999;
+
   RxBool isItBuild = false.obs;
   BuildContext context;
   RxBool dataAvailbale = false.obs;
@@ -37,6 +40,9 @@ class TimeTableAddClassSearchController extends GetxController {
 
   RxInt INDEX_COLLEGE_NAME = (-1).obs;
   RxInt INDEX_COLLEGE_MAJOR = (-1).obs;
+
+  final Rx<ScrollController> scrollController =
+      ScrollController(initialScrollOffset: 0.0).obs;
 
   Future<void> addClass(int tid) async {
     // print(CLASS_SEARCH[selectedIndex.value].toJson());
@@ -111,6 +117,12 @@ class TimeTableAddClassSearchController extends GetxController {
   }
 
   Future<void> getClassInfo() async {
+    // * initmodel이 있으면 initmodel 반환
+    // ? initmodel도 page별로 append할거면 코드 수정 필요
+    if (initModel.length != 0) {
+      CLASS_SEARCH.value = initModel;
+      return;
+    }
     var response = await Session().getX("/class/timetable");
     var json = jsonDecode(response.body);
     Iterable classList = json["CLASS"];
@@ -124,38 +136,77 @@ class TimeTableAddClassSearchController extends GetxController {
     dataAvailbale.value = true;
   }
 
-  Future<void> getFilteredClass() async {
+  Future<void> getFilteredClass(int page) async {
     if (INDEX_COLLEGE_NAME.value == -1 || INDEX_COLLEGE_MAJOR.value == -1) {
       CLASS_SEARCH.value = initModel;
       return;
     }
+
+    if (page > searchMaxPage) {
+      return;
+    }
+
     var response = await Session().getX(
-        "/class/timetable/filter/page/0?INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
+        "/class/timetable/filter/page/$page?INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
     Iterable class_list = jsonDecode(response.body);
-    // print(class_list);
-    CLASS_SEARCH.value =
+    print("${CLASS_SEARCH.length} page: $page");
+    List<TimeTableClassModel> tempClasses =
         class_list.map((e) => TimeTableClassModel.fromJson(e)).toList();
+    if (page == 0) {
+      CLASS_SEARCH.value = tempClasses;
+    } else {
+      if (tempClasses.length == 0) {
+        searchMaxPage = page;
+        print("find max");
+      } else {
+        CLASS_SEARCH.addAll(tempClasses);
+      }
+    }
+    print(CLASS_SEARCH.length);
   }
 
-  Future<void> getSearchedClass() async {
+  Future<void> getSearchedClass(int page) async {
     if (search_name.value.trim().isEmpty) {
       CLASS_SEARCH.value = initModel;
       return;
     }
     var response = await Session()
-        .getX("/class/search/page/0?search=${search_name.value}");
+        .getX("/class/search/page/$page?search=${search_name.value}");
 
     Iterable class_list = jsonDecode(response.body);
-    CLASS_SEARCH.value =
+
+    List<TimeTableClassModel> tempClasses =
         class_list.map((e) => TimeTableClassModel.fromJson(e)).toList();
+    if (page == 0) {
+      CLASS_SEARCH.value = tempClasses;
+    } else {
+      if (tempClasses.length == 0) {
+        searchMaxPage = page;
+        print("find max");
+      } else {
+        CLASS_SEARCH.addAll(tempClasses);
+      }
+    }
   }
 
   Future<void> getFilterAndSearch(int page) async {
     var response = await Session().getX(
-        "/class/search/page/${page}?search=${search_name.value}&INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
+        "/class/search/page/$page?search=${search_name.value}&INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
     Iterable class_list = jsonDecode(response.body);
-    CLASS_SEARCH.value =
+
+    List<TimeTableClassModel> tempClasses =
         class_list.map((e) => TimeTableClassModel.fromJson(e)).toList();
+
+    if (page == 0) {
+      CLASS_SEARCH.value = tempClasses;
+    } else {
+      if (tempClasses.length == 0) {
+        searchMaxPage = page;
+        print("find max");
+      } else {
+        CLASS_SEARCH.addAll(tempClasses);
+      }
+    }
   }
 
   Future<void> getMajorInfo() async {
@@ -166,10 +217,55 @@ class TimeTableAddClassSearchController extends GetxController {
         majorList.map((e) => CollegeMajorModel.fromJson(e)).toList();
   }
 
+  void initSeachPage() {
+    searchPage = 0;
+    searchMaxPage = 99999;
+  }
+
+  void initMajor() {
+    college_major.value = "";
+    INDEX_COLLEGE_NAME.value = -1;
+    INDEX_COLLEGE_MAJOR.value = -1;
+    scrollController.value.jumpTo(0.0);
+  }
+
+  void initSearchName() {
+    search_name.value = "";
+    scrollController.value.jumpTo(0.0);
+  }
+
   @override
   void onReady() async {
     super.onReady();
     timeTableController.refactoringTime();
+  }
+
+  Future<void> getClass(int page) async {
+    bool searchNameEmpty = search_name.value.isEmpty;
+    bool searchMajorEmpty =
+        (INDEX_COLLEGE_NAME.value == -1 || INDEX_COLLEGE_MAJOR.value == -1);
+    print(searchNameEmpty);
+    print(searchMajorEmpty);
+    // * getClass - 이것도 계속 로드?
+    if (searchNameEmpty && searchMajorEmpty) {
+      print("1");
+      getClassInfo();
+    }
+    // * getFilteredClass
+    else if (!searchNameEmpty && searchMajorEmpty) {
+      print("2");
+      getSearchedClass(page);
+    }
+    // * getSearchedClass
+    else if (searchNameEmpty && !searchMajorEmpty) {
+      print("3");
+      getFilteredClass(page);
+    }
+    // * getFilterAndSearch
+    else if (!searchNameEmpty && !searchMajorEmpty) {
+      print("4");
+      getFilterAndSearch(page);
+    }
   }
 
   @override
@@ -177,6 +273,19 @@ class TimeTableAddClassSearchController extends GetxController {
     super.onInit();
     await getClassInfo();
     await timeTableController.handleAddButtonFalse();
+
+    scrollController.value.addListener(() async {
+      if ((scrollController.value.position.pixels ==
+                  scrollController.value.position.maxScrollExtent ||
+              !scrollController.value.position.hasPixels) &&
+          (searchPage < searchMaxPage)) {
+        searchPage += 1;
+        getClass(searchPage);
+        print("end ($searchPage)");
+      }
+    });
+
+    // ever(scrollController.offset, callback)
     // once(isItBuild, (_) {
     //   print("sadfsadfadsf");
     //   if (isItBuild.value) {

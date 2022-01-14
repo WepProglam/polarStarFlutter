@@ -84,7 +84,7 @@ class TimetableClassMajor extends StatelessWidget {
                     String text = controller.search_name.value.trim();
                     //통합 검색 X
                     if (text.isEmpty) {
-                      await controller.getFilteredClass();
+                      await controller.getFilteredClass(0);
                     } else {
                       await controller.getFilterAndSearch(0);
                     }
@@ -166,7 +166,7 @@ class TimetableClassSearchBar extends StatelessWidget {
                   controller.search_name.value = text;
                   //통합 검색 X
                   if (text.isEmpty || controller.INDEX_COLLEGE_MAJOR == -1) {
-                    await controller.getSearchedClass();
+                    await controller.getSearchedClass(0);
                   } else {
                     await controller.getFilterAndSearch(0);
                   }
@@ -208,7 +208,7 @@ class TimetableClassSearchBar extends StatelessWidget {
                       //통합 검색 X
                       if (text.isEmpty ||
                           controller.INDEX_COLLEGE_MAJOR == -1) {
-                        await controller.getSearchedClass();
+                        await controller.getSearchedClass(0);
                       } else {
                         await controller.getFilterAndSearch(0);
                       }

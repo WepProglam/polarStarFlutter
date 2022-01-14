@@ -101,6 +101,7 @@ class TimetableAddClassMain extends StatelessWidget {
                           },
                           child: Center(
                             child: Text("直接输入",
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     color: const Color(0xff371ac7),
                                     fontWeight: FontWeight.w500,
@@ -186,12 +187,17 @@ class classSearchBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      controller: controller.scrollController.value,
       slivers: [
         searchClassSliverAppBar(controller: controller),
         Obx(() {
           return SliverList(
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
+              if (controller.CLASS_SEARCH.length == 0) {
+                return Container();
+              }
+
               TimeTableClassModel model = controller.CLASS_SEARCH[index];
               return Ink(
                   child: InkWell(
@@ -284,6 +290,7 @@ class classSearchBottomSheet extends StatelessWidget {
                                           margin:
                                               const EdgeInsets.only(top: 13.5),
                                           child: Text("${model.CLASS_NAME}",
+                                              overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
                                                   color:
                                                       const Color(0xff000000),
@@ -315,6 +322,7 @@ class classSearchBottomSheet extends StatelessWidget {
                                   Container(
                                       child: Row(children: [
                                     Text("${model.PROFESSOR}",
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                             color: const Color(0xff9b9b9b),
                                             fontWeight: FontWeight.w700,
@@ -325,6 +333,7 @@ class classSearchBottomSheet extends StatelessWidget {
                                     Spacer(),
                                     // 담은 82
                                     Text("담은 82",
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                             color: const Color(0xff9b9b9b),
                                             fontWeight: FontWeight.w400,
@@ -350,7 +359,9 @@ class classSearchBottomSheet extends StatelessWidget {
                                       children: [
                                         Container(
                                           child: Text(
-                                              "${model.CLASS_TIME[0].class_room}",
+                                              model.CLASS_TIME.length == 0
+                                                  ? "null"
+                                                  : "${model.CLASS_TIME[0].class_room}",
                                               style: const TextStyle(
                                                   color:
                                                       const Color(0xff9b9b9b),
@@ -407,6 +418,8 @@ class classSearchBottomSheet extends StatelessWidget {
                                                     child: Center(
                                                       child: Text(
                                                         "등록",
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: const TextStyle(
                                                             color: const Color(
                                                                 0xffffffff),
@@ -465,6 +478,11 @@ class searchClassSliverAppBar extends StatelessWidget {
                     child: // 전공/영역: 전체
                         InkWell(
                             onTap: () {
+                              // * 선택된 강의 취소 후 이동
+                              controller.selectedIndex.value = -1;
+                              // * page 값 초기화
+                              controller.initSeachPage();
+
                               Get.toNamed(
                                   Routes.TIMETABLE_ADDCLASS_FILTER_COLLEGE);
                             },
@@ -477,6 +495,7 @@ class searchClassSliverAppBar extends StatelessWidget {
                                     child: // 专业/领域: 整个
                                         Text(
                                             "专业/领域: ${controller.college_major.value.isEmpty ? "整个" : controller.college_major.value}",
+                                            overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
                                                 color: const Color(0xffffffff),
                                                 fontWeight: FontWeight.w500,
@@ -488,10 +507,11 @@ class searchClassSliverAppBar extends StatelessWidget {
                                   Ink(
                                     child: InkWell(
                                       onTap: () async {
-                                        controller.college_major.value = "";
-                                        controller.CLASS_SEARCH.clear();
-                                        controller.CLASS_SEARCH.value =
-                                            controller.initModel;
+                                        controller.initMajor();
+                                        // * page 값 초기화
+                                        controller.initSeachPage();
+                                        controller
+                                            .getClass(controller.searchPage);
                                       },
                                       child: Icon(
                                         Icons.delete,
@@ -517,6 +537,10 @@ class searchClassSliverAppBar extends StatelessWidget {
                     child: Ink(
                       child: InkWell(
                         onTap: () {
+                          // * 선택된 강의 취소 후 이동
+                          controller.selectedIndex.value = -1;
+                          // * page 값 초기화
+                          controller.initSeachPage();
                           Get.toNamed(Routes.TIMETABLE_ADDCLASS_SEARCH);
                         },
                         child: Row(
@@ -525,6 +549,7 @@ class searchClassSliverAppBar extends StatelessWidget {
                               Center(
                                 child: Text(
                                     "科目名: ${controller.search_name.isEmpty ? "无" : controller.search_name}",
+                                    overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                         color: const Color(0xffffffff),
                                         fontWeight: FontWeight.w500,
@@ -536,8 +561,10 @@ class searchClassSliverAppBar extends StatelessWidget {
                               Ink(
                                 child: InkWell(
                                   onTap: () async {
-                                    controller.search_name.value = "";
-                                    await controller.getFilteredClass();
+                                    controller.initSearchName();
+                                    // * page 값 초기화
+                                    controller.initSeachPage();
+                                    await controller.getFilteredClass(0);
                                   },
                                   child: Icon(
                                     Icons.delete,
@@ -991,6 +1018,7 @@ class SelectEndTime extends StatelessWidget {
         return Row(children: [
           Container(
             child: Text("${timeFormatter(newClass.value.end_time)}",
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                     color: const Color(0xff333333),
                     fontWeight: FontWeight.w400,
