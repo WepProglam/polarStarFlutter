@@ -82,12 +82,7 @@ class TimetableClassMajor extends StatelessWidget {
                         controller.college_major_list[index].NAME;
 
                     String text = controller.search_name.value.trim();
-                    //통합 검색 X
-                    if (text.isEmpty) {
-                      await controller.getFilteredClass(0);
-                    } else {
-                      await controller.getFilterAndSearch(0);
-                    }
+                    await controller.getClass(0);
                     FocusScope.of(context).unfocus();
                     Get.back();
                     Get.back();
@@ -150,13 +145,14 @@ class TimetableClassSearch extends StatelessWidget {
                                 onEditingComplete: () async {
                                   String text = searchText.text.trim();
                                   controller.search_name.value = text;
-                                  //통합 검색 X
-                                  if (text.isEmpty ||
-                                      controller.INDEX_COLLEGE_MAJOR == -1) {
-                                    await controller.getSearchedClass(0);
-                                  } else {
-                                    await controller.getFilterAndSearch(0);
-                                  }
+                                  await controller.getClass(0);
+                                  // //통합 검색 X
+                                  // if (text.isEmpty ||
+                                  //     controller.INDEX_COLLEGE_MAJOR == -1) {
+                                  //   await controller.getSearchedClass(0);
+                                  // } else {
+                                  //   await controller.getFilterAndSearch(0);
+                                  // }
                                   FocusScope.of(context).unfocus();
                                   Get.back();
                                 },
@@ -198,13 +194,14 @@ class TimetableClassSearch extends StatelessWidget {
                           onTap: () async {
                             String text = searchText.text.trim();
                             controller.search_name.value = text;
-                            //통합 검색 X
-                            if (text.isEmpty ||
-                                controller.INDEX_COLLEGE_MAJOR == -1) {
-                              await controller.getSearchedClass(0);
-                            } else {
-                              await controller.getFilterAndSearch(0);
-                            }
+                            await controller.getClass(0);
+                            // //통합 검색 X
+                            // if (text.isEmpty ||
+                            //     controller.INDEX_COLLEGE_MAJOR == -1) {
+                            //   await controller.getSearchedClass(0);
+                            // } else {
+                            //   await controller.getFilterAndSearch(0);
+                            // }
                             FocusScope.of(context).unfocus();
                             Get.back();
                           },

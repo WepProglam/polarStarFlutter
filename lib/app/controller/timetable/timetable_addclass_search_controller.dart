@@ -41,6 +41,9 @@ class TimeTableAddClassSearchController extends GetxController {
   RxInt INDEX_COLLEGE_NAME = (-1).obs;
   RxInt INDEX_COLLEGE_MAJOR = (-1).obs;
 
+  // 초기값 (실제로 받을 때 변경)
+  int MAX_CLASS_LIMIT = 30;
+
   final Rx<ScrollController> scrollController =
       ScrollController(initialScrollOffset: 0.0).obs;
 
@@ -133,6 +136,9 @@ class TimeTableAddClassSearchController extends GetxController {
 
     college_name_list.value =
         collegeList.map((e) => CollegeNameModel.fromJson(e)).toList();
+
+    MAX_CLASS_LIMIT = json["MAX_CLASS_LIMIT"];
+
     dataAvailbale.value = true;
   }
 
@@ -249,22 +255,29 @@ class TimeTableAddClassSearchController extends GetxController {
     // * getClass - 이것도 계속 로드?
     if (searchNameEmpty && searchMajorEmpty) {
       print("1");
-      getClassInfo();
+      await getClassInfo();
     }
     // * getFilteredClass
     else if (!searchNameEmpty && searchMajorEmpty) {
       print("2");
-      getSearchedClass(page);
+      await getSearchedClass(page);
     }
     // * getSearchedClass
     else if (searchNameEmpty && !searchMajorEmpty) {
       print("3");
-      getFilteredClass(page);
+      await getFilteredClass(page);
     }
     // * getFilterAndSearch
     else if (!searchNameEmpty && !searchMajorEmpty) {
       print("4");
-      getFilterAndSearch(page);
+      await getFilterAndSearch(page);
+    }
+
+    print("CLASS SEARCH :  ${CLASS_SEARCH.length}");
+    print("MAX : ${MAX_CLASS_LIMIT}");
+
+    if (CLASS_SEARCH.length < MAX_CLASS_LIMIT) {
+      searchMaxPage.value = page;
     }
   }
 
