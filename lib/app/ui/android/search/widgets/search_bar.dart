@@ -18,70 +18,93 @@ class SearchBar extends StatelessWidget {
         initPage: Get.parameters["page"] == null
             ? 1
             : int.parse(Get.parameters["page"]),
-        from: "outside"));
+        from: "board"));
     TextEditingController searchText = TextEditingController(
         text: controller.searchText.value == null
             ? ""
             : controller.searchText.value);
 
     return Container(
-      color: Color(0xffffffff),
-      child: Padding(
-        padding: const EdgeInsets.all(10.5),
-        child: Stack(
-          children: [
-            TextFormField(
-              controller: searchText,
-              onEditingComplete: () async {
-                String text = searchText.text.trim();
-                controller.searchText(text);
-                await controller.getSearchBoard(text);
-                FocusScope.of(context).unfocus();
-              },
-              textAlign: TextAlign.start,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    borderSide: BorderSide.none),
-                filled: true,
-                fillColor: Color(0xffeeeeee),
-                hintText: 'search',
-                isDense: true,
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 6, horizontal: 17),
-              ),
-              style: const TextStyle(
-                  color: const Color(0xff333333),
-                  fontWeight: FontWeight.normal,
-                  fontFamily: "PingFangSC",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14.0),
-            ),
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 19.4),
-                  child: InkWell(
-                    onTap: () async {
-                      await controller.getSearchBoard(searchText.text);
-                      searchText.clear();
-                      Get.toNamed("/searchBoard");
-                    },
-                    child: Ink(
-                      width: 14.3,
-                      height: 14.3,
-                      child: Image.asset(
-                        'assets/images/894.png',
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
-                  ),
+      margin: const EdgeInsets.only(left: 20, top: 12, bottom: 12, right: 20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+                color: const Color(0xffffffff)),
+            width: Get.mediaQuery.size.width - 20 - 62,
+            margin: const EdgeInsets.only(right: 14),
+            height: 32,
+            child:
+                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Image.asset(
+                  "assets/images/icn_search.png",
+                  width: 20,
+                  height: 20,
+                  color: const Color(0xffcecece),
                 ),
               ),
+              Container(
+                width: Get.mediaQuery.size.width - 20 - 62 - 30 - 20,
+                child: TextFormField(
+                  controller: searchText,
+                  onEditingComplete: () async {
+                    String text = searchText.text.trim();
+                    controller.searchText(text);
+                    await controller.getSearchBoard(searchTextTemp: text);
+                    FocusScope.of(context).unfocus();
+                  },
+                  autofocus: false,
+                  minLines: 1,
+                  maxLines: 1,
+                  textAlign: TextAlign.left,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    hintText: "新建立 韩国大学联合交流区",
+                    hintStyle: const TextStyle(
+                        color: const Color(0xffcecece),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0),
+                    border: InputBorder.none,
+                    contentPadding:
+                        EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+                  ),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                ),
+              ),
+            ]),
+          ),
+          Container(
+            child: Ink(
+              child: InkWell(
+                onTap: () async {
+                  String text = searchText.text.trim();
+                  controller.searchText(text);
+                  await controller.getSearchBoard(searchTextTemp: text);
+                  FocusScope.of(context).unfocus();
+                },
+                child: Text("取消",
+                    style: const TextStyle(
+                        color: const Color(0xfff5f6ff),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0),
+                    textAlign: TextAlign.left),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

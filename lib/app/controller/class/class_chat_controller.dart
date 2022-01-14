@@ -46,6 +46,8 @@ class ClassChatController extends GetxController {
   RxList<ClassChatModel> chatHistory = <ClassChatModel>[].obs;
 
   Future<void> registerSocket() async {
+    String currentSocketRoom = roomID.value;
+    print("socketting function start : roomID - ${currentSocketRoom}");
     await socketting("${roomID.value}");
   }
 
@@ -66,24 +68,33 @@ class ClassChatController extends GetxController {
     //   classChatSocket.emit("joinRoom", [roomID, "fuckfuck"]);
     // });
 
+    print(classChatSocket.id);
     classChatSocket.emit("joinRoom", [roomID, "fuckfuck"]);
 
     classChatSocket.onConnectError((data) => print(data));
 
     classChatSocket.on("viewRecentMessage", (data) {
+      print("viewRecentMessage called");
       Iterable cc = data;
       chatHistory.value = cc.map((e) => ClassChatModel.fromJson(e)).toList();
     });
 
     classChatSocket.on("newMessage", (data) {
-      print(data);
+      print("newMessage called");
       ClassChatModel chat = ClassChatModel.fromJson(data);
-      if ("${chat.CLASS_ID}" == roomID) {
+      print(chat.CLASS_ID);
+      print("roomID : ${roomID}");
+      if (chat.CLASS_ID == roomID) {
         chatHistory.add(chat);
       } else {
         Get.snackbar("왜 오냐 이건.. ㅅㅂ", "${chat.CLASS_ID}: ${chat.CONTENT}");
       }
     });
+
+    classChatSocket.on('leaveRoom', (_) {
+      print("leaveRoom called : roomID - ${roomID}");
+    });
+
     classChatSocket.on('event', (data) => print(data));
     classChatSocket.onDisconnect((_) => print('disconnect!!!!'));
     classChatSocket.on('fromServer', (_) => print(_));
@@ -94,9 +105,9 @@ class ClassChatController extends GetxController {
   @override
   void onInit() async {
     roomID.value = Get.arguments["roomID"];
-    print(roomID.value);
+    print("controller init : room ID = ${roomID.value}");
     await registerSocket();
-    print(classChatSocket.connected);
+    print("controller init : ${classChatSocket.connected}");
 
     super.onInit();
     dataAvailble.value = true;
@@ -104,7 +115,7 @@ class ClassChatController extends GetxController {
 
   @override
   void onClose() async {
-    print("leaving...");
+    print("contoller close : ${roomID.value}");
     await classChatSocket.emit("leaveRoom", roomID.value);
 
     // await classChatSocket.disconnect();

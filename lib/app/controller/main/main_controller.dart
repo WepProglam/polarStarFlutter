@@ -8,6 +8,7 @@ import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/controller/class/class_controller.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
+import 'package:polarstar_flutter/app/controller/search/search_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
@@ -25,6 +26,8 @@ class MainController extends GetxController {
   MainController({@required this.repository}) : assert(repository != null);
 
   RxList<Rx<BoardInfo>> boardInfo = <Rx<BoardInfo>>[].obs;
+  RxList<Rx<BoardInfo>> selectedBoard = <Rx<BoardInfo>>[].obs;
+
   RxList<Rx<Post>> hotBoard = <Rx<Post>>[].obs;
   RxInt hotBoardIndex = 0.obs;
   RxInt followAmount = 0.obs;
@@ -86,6 +89,51 @@ class MainController extends GetxController {
     print(status["status"]);
   }
 
+  void checkBoard(String text) {
+    for (Rx<BoardInfo> item in boardInfo) {
+      if (text == "") {
+        item.update((val) {
+          val.isChecked = true;
+        });
+      } else if (item.value.COMMUNITY_NAME.contains(text)) {
+        item.update((val) {
+          val.isChecked = true;
+        });
+      } else {
+        item.update((val) {
+          val.isChecked = false;
+        });
+      }
+    }
+
+    selectedBoard.clear();
+    for (Rx<BoardInfo> item in boardInfo) {
+      if (item.value.isChecked) {
+        selectedBoard.add(item);
+      }
+    }
+
+    sortBoard();
+  }
+
+  void sortBoard() {
+    selectedBoard.sort((Rx<BoardInfo> a, Rx<BoardInfo> b) {
+      return a.value.isFollowed
+          ? 0
+          : a.value.COMMUNITY_ID > b.value.COMMUNITY_ID
+              ? 1
+              : 2;
+    });
+
+    boardInfo.sort((Rx<BoardInfo> a, Rx<BoardInfo> b) {
+      return a.value.isFollowed
+          ? 0
+          : a.value.COMMUNITY_ID > b.value.COMMUNITY_ID
+              ? 1
+              : 2;
+    });
+  }
+
   Future<void> getBoardInfo() async {
     final value = await repository.getBoardInfo(followingCommunity);
     boardListInfo.clear();
@@ -109,6 +157,16 @@ class MainController extends GetxController {
     for (BoardInfo item in value["boardInfo"]) {
       boardListInfo.add(item);
       boardInfo.add(item.obs);
+    }
+
+    sortBoard();
+
+    // 선택된 보드에 넣기
+    selectedBoard.clear();
+    for (Rx<BoardInfo> item in boardInfo) {
+      if (item.value.isChecked) {
+        selectedBoard.add(item);
+      }
     }
 
     box.write("boardInfo", boardListInfo);
@@ -208,21 +266,44 @@ class MainController extends GetxController {
   RxBool initDataAvailable = false.obs;
 
   bool get dataAvailalbe => _dataAvailable.value;
+
+  // RxList<Rx<BoardInfo>> get getSelectedBoard {
+  //   selectedBoard.clear();
+  //   for (Rx<BoardInfo> item in boardInfo) {
+  //     if (item.value.isChecked) {
+  //       selectedBoard.add(item);
+  //     }
+  //   }
+  //   return selectedBoard;
+  // }
+
+  int get selectedBoardLength {
+    int i = 0;
+    for (Rx<BoardInfo> item in boardInfo) {
+      if (item.value.isChecked) {
+        i++;
+      }
+    }
+    return i;
+  }
 }
 
 class MainUpdateModule {
   static Future<void> updatePost({int type = 2}) async {
     final PostController postController = Get.find();
     await postController.refreshPost();
-    // Post item = postController.sortedList[0].value;
+    return;
+  }
 
-    // if (type == 0) {
-    //   await updatePostMainPage(item);
-    // } else if (type == 1) {
-    //   await updatePostMyPage(item);
-    // } else if (type == 2) {
-    //   await updatePostBoard(item);
-    // }
+  static Future<void> updateBoardListPage() async {
+    MainController mc = Get.find();
+    await mc.getBoardInfo();
+    return;
+  }
+
+  static Future<void> updateBoardSearchPage() async {
+    SearchController sc = Get.find();
+    await sc.getSearchBoard();
     return;
   }
 
@@ -261,51 +342,6 @@ class MainUpdateModule {
     } else {
       await nc.getMailBox();
     }
-    return;
-  }
-
-  static Future<void> updatePostMyPage(Post item) async {
-    final MyPageController mypageController = Get.find();
-    final MainController mainController = Get.find();
-
-    // * 메인 핫보드 업데이트
-    Rx<Post> hotBoard = findSame(item, mainController.hotBoard);
-    changeTargetPost(hotBoard, item);
-
-    // * 마이 페이지 업데이트
-    Rx<Post> myWrite = findSame(item, mypageController.myBoardWrite);
-    Rx<Post> myScrap = findSame(item, mypageController.myBoardScrap);
-    Rx<Post> myLike = findSame(item, mypageController.myBoardLike);
-
-    changeTargetPost(myWrite, item);
-    changeTargetPost(myScrap, item);
-    changeTargetPost(myLike, item);
-
-    return;
-  }
-
-  static Future<void> updatePostMainPage(Post item) async {
-    final MainController mainController = Get.find();
-
-    // * 메인 핫보드 업데이트
-    Rx<Post> hotBoard = findSame(item, mainController.hotBoard);
-    changeTargetPost(hotBoard, item);
-
-    return;
-  }
-
-  static Future<void> updatePostBoard(Post item) async {
-    final BoardController boardController = Get.find();
-    final MainController mainController = Get.find();
-
-    // * 게시판 페이지 업데이트
-    Rx<Post> board = findSame(item, boardController.postBody);
-    changeTargetPost(board, item);
-
-    // * 메인 핫보드 업데이트
-    Rx<Post> hotBoard = findSame(item, mainController.hotBoard);
-    changeTargetPost(hotBoard, item);
-
     return;
   }
 

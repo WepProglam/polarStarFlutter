@@ -82,12 +82,7 @@ class TimetableClassMajor extends StatelessWidget {
                         controller.college_major_list[index].NAME;
 
                     String text = controller.search_name.value.trim();
-                    //통합 검색 X
-                    if (text.isEmpty) {
-                      await controller.getFilteredClass();
-                    } else {
-                      await controller.getFilterAndSearch(0);
-                    }
+                    await controller.getClass(0);
                     FocusScope.of(context).unfocus();
                     Get.back();
                     Get.back();
@@ -111,120 +106,120 @@ class TimetableClassSearch extends StatelessWidget {
   final TimeTableAddClassSearchController controller = Get.find();
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return SafeArea(
         child: Scaffold(
-            // bottomNavigationBar:
-            //     CustomBottomNavigationBar(mainController: mainController),
             appBar: AppBar(
-              backgroundColor: const Color(0xfff6f6f6),
               elevation: 0,
-              toolbarHeight: 37 + 13.0,
+              toolbarHeight: 56,
               automaticallyImplyLeading: false,
               titleSpacing: 0,
               title: Container(
                 margin: const EdgeInsets.only(
-                    left: 15, right: 15, top: 7, bottom: 5),
-                width: size.width - 15 * 2,
-                height: 32,
-                child: TimetableClassSearchBar(
-                    size: size, searchText: searchText, controller: controller),
+                    left: 20, top: 12, bottom: 12, right: 20),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        width: Get.mediaQuery.size.width - 20 - 62,
+                        margin: const EdgeInsets.only(right: 14),
+                        height: 32,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Image.asset(
+                                "assets/images/icn_search.png",
+                                width: 20,
+                                height: 20,
+                                color: const Color(0xffcecece),
+                              ),
+                            ),
+                            Container(
+                              width:
+                                  Get.mediaQuery.size.width - 20 - 62 - 30 - 20,
+                              child: TextFormField(
+                                controller: searchText,
+
+                                onEditingComplete: () async {
+                                  String text = searchText.text.trim();
+                                  controller.search_name.value = text;
+                                  await controller.getClass(0);
+                                  // //통합 검색 X
+                                  // if (text.isEmpty ||
+                                  //     controller.INDEX_COLLEGE_MAJOR == -1) {
+                                  //   await controller.getSearchedClass(0);
+                                  // } else {
+                                  //   await controller.getFilterAndSearch(0);
+                                  // }
+                                  FocusScope.of(context).unfocus();
+                                  Get.back();
+                                },
+                                // focusNode: searchFocusNode,
+                                autofocus: false,
+                                minLines: 1,
+                                maxLines: 1,
+                                // controller: searchText,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "NotoSansSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                textAlign: TextAlign.left,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  hintText: "新建立 韩国大学联合交流区",
+                                  hintStyle: const TextStyle(
+                                      color: const Color(0xffcecece),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "NotoSansSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.only(
+                                      left: 0, right: 0, top: 0, bottom: 0),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                            color: const Color(0xffffffff))),
+                    Container(
+                      child: Ink(
+                        child: InkWell(
+                          onTap: () async {
+                            String text = searchText.text.trim();
+                            controller.search_name.value = text;
+                            await controller.getClass(0);
+                            // //통합 검색 X
+                            // if (text.isEmpty ||
+                            //     controller.INDEX_COLLEGE_MAJOR == -1) {
+                            //   await controller.getSearchedClass(0);
+                            // } else {
+                            //   await controller.getFilterAndSearch(0);
+                            // }
+                            FocusScope.of(context).unfocus();
+                            Get.back();
+                          },
+                          child: Text("取消",
+                              style: const TextStyle(
+                                  color: const Color(0xfff5f6ff),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14.0),
+                              textAlign: TextAlign.left),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             body: Container()));
-  }
-}
-
-class TimetableClassSearchBar extends StatelessWidget {
-  const TimetableClassSearchBar(
-      {Key key,
-      @required this.size,
-      @required this.searchText,
-      @required this.controller})
-      : super(key: key);
-
-  final Size size;
-  final TextEditingController searchText;
-  final TimeTableAddClassSearchController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        // width: size.width - 38.5 - 15 - 20 - 19.4 - 15,
-        // margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: 20,
-            ),
-            Expanded(
-              child: TextFormField(
-                controller: searchText,
-                onEditingComplete: () async {
-                  String text = searchText.text.trim();
-                  controller.search_name.value = text;
-                  //통합 검색 X
-                  if (text.isEmpty || controller.INDEX_COLLEGE_MAJOR == -1) {
-                    await controller.getSearchedClass();
-                  } else {
-                    await controller.getFilterAndSearch(0);
-                  }
-                  FocusScope.of(context).unfocus();
-                  Get.back();
-                },
-                maxLines: 1,
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: "PingFangSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 14.0),
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                    isDense: true,
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                    hintText: ""),
-              ),
-            ),
-            // Spacer(),
-            // 패스 894
-            Container(
-              width: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8, 19.4, 7.7),
-              child: Container(
-                  width: 14.2841796875,
-                  height: 14.29736328125,
-                  child: InkWell(
-                    onTap: () async {
-                      String text = searchText.text.trim();
-                      controller.search_name.value = text;
-                      //통합 검색 X
-                      if (text.isEmpty ||
-                          controller.INDEX_COLLEGE_MAJOR == -1) {
-                        await controller.getSearchedClass();
-                      } else {
-                        await controller.getFilterAndSearch(0);
-                      }
-                      FocusScope.of(context).unfocus();
-                      Get.back();
-                    },
-                    child: Image.asset(
-                      "assets/images/894.png",
-                      fit: BoxFit.fitHeight,
-                    ),
-                  )),
-            )
-          ],
-        ),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(30)),
-            color: const Color(0xffeeeeee)));
   }
 }

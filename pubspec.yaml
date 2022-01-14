@@ -58,6 +58,7 @@ dependencies:
 
   sqflite_migration: ^0.3.0
 
+  web_socket_channel: ^2.1.0
 
   
 
@@ -231,6 +232,8 @@ flutter:
     - assets/images/menu.png
     - assets/images/icn_pen.png
     - assets/images/icn_book.png
+    - assets/images/bookmark_followed.png
+    - assets/images/bookmark_none.png
 
     # ClassView
     - assets/images/icn_back_white.png
@@ -249,6 +252,15 @@ flutter:
     - assets/images/star_80.png
     - assets/images/star_90.png
     - assets/images/star_100.png
+
+
+    # Timetable
+    - assets/images/timetable_edit_name.png
+    - assets/images/timetable_visible_range.png
+    - assets/images/timetable_save_picture.png
+    - assets/images/timetable_share_links.png
+    - assets/images/timetable_delete.png
+    - assets/images/timetable_set_default.png
 
     # - assets/fonts/
   #   - images/a_dot_burr.jpeg

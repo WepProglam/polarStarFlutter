@@ -123,8 +123,8 @@ class TimeTableController extends GetxController {
           limitTempStart = start.hour;
         }
 
-        if (limitTempEnd < end.hour) {
-          limitTempEnd = end.hour;
+        if (limitTempEnd <= end.hour) {
+          limitTempEnd = end.hour + 1;
         }
 
         showTimeTable[day_index].add({
@@ -202,13 +202,13 @@ class TimeTableController extends GetxController {
         }
 
         print(otherTable["${year}년 ${semester}학기"].last.value.TIMETABLE_ID);
-        Get.snackbar("시간표 생성 성공", "시간표 생성 성공");
+        // Get.snackbar("시간표 생성 성공", "시간표 생성 성공");
         selectedTimeTableId.value = rs["TIMETABLE_ID"];
 
-        Get.offAndToNamed("/timetable/addClass");
         break;
       default:
-        Get.snackbar("시발 정신 차려", "시발 정신 차려");
+        break;
+      // Get.snackbar("시발 정신 차려", "시발 정신 차려");
     }
   }
 
@@ -230,9 +230,9 @@ class TimeTableController extends GetxController {
           //디폴트인 순서대로 정렬
           otherTable["${YEAR}년 ${SEMESTER}학기"]
               .sort((a, b) => b.value.IS_DEFAULT.compareTo(a.value.IS_DEFAULT));
-          print("asdfadsfasdgggggggggggf");
           for (Rx<TimeTableModel> model in jsonResponse["otherTable"]) {
-            await getTimeTable(model.value.TIMETABLE_ID);
+            getTimeTable(model.value.TIMETABLE_ID);
+            // await getTimeTable(model.value.TIMETABLE_ID);
           }
           print(jsonResponse["otherTable"]);
 
@@ -280,6 +280,8 @@ class TimeTableController extends GetxController {
 
     switch (jsonResponse["statusCode"]) {
       case 200:
+        print("getTimeTable");
+        print(jsonResponse["selectTable"].value);
         selectTableList.add(jsonResponse["selectTable"].value);
         dataAvailable(true);
         break;

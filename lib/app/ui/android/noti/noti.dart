@@ -53,232 +53,239 @@ class Noti extends StatelessWidget {
               height: 14,
             ),
             Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  print("adsfadfsdf");
-                  await MainUpdateModule.updateNotiPage(
-                      notiController.pageViewIndex.value);
-                },
-                child: Obx(() {
-                  RxBool isNotiPage =
-                      (notiController.pageViewIndex.value == 0).obs;
-                  if (isNotiPage.value && notiController.noties.length == 0) {
-                    return Stack(children: [
-                      ListView(),
-                      Center(
-                        child: Text(
-                          "아직 알림이 없습니다.",
-                          style: const TextStyle(
-                              color: const Color(0xff6f6e6e),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "NotoSansKR",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                        ),
-                      ),
-                    ]);
-                  } else if (!isNotiPage.value &&
-                      notiController.mailBox.length == 0) {
-                    return Stack(children: [
-                      ListView(),
-                      Center(
-                        child: Text(
-                          "아직 쪽지가 없습니다.",
-                          style: const TextStyle(
-                              color: const Color(0xff6f6e6e),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "NotoSansKR",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                        ),
-                      ),
-                    ]);
-                  }
-                  return PageView.builder(
-                      itemCount: 2,
-                      controller: notiController.pageController,
-                      onPageChanged: (index) {
-                        notiController.pageViewIndex.value = index;
-                      },
-                      itemBuilder: (BuildContext context, int i) {
+              child: Obx(() {
+                RxBool isNotiPage =
+                    (notiController.pageViewIndex.value == 0).obs;
+
+                return PageView.builder(
+                    itemCount: 2,
+                    controller: notiController.pageController,
+                    onPageChanged: (index) {
+                      notiController.pageViewIndex.value = index;
+                    },
+                    itemBuilder: (BuildContext context, int i) {
+                      if (isNotiPage.value &&
+                          notiController.noties.length == 0) {
                         return RefreshIndicator(
                           onRefresh: () async {
                             await MainUpdateModule.updateNotiPage(
                                 notiController.pageViewIndex.value);
                           },
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: isNotiPage.value
-                                  ? notiController.noties.length
-                                  : notiController.mailBox.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                RxString title = isNotiPage.value
-                                    ? (notiController.noties[index].value
-                                                .NOTI_TYPE ==
-                                            0
-                                        ? "${communityBoardName(notiController.noties[index].value.COMMUNITY_ID)}"
-                                            .obs
-                                        : "${notiController.noties[index].value.TITLE}"
-                                            .obs)
-                                    : notiController.mailBox[index].value
-                                        .PROFILE_NICKNAME.obs;
-
-                                RxString content = isNotiPage.value
-                                    ? "${notiController.noties[index].value.CONTENT}"
-                                        .obs
-                                    : "${notiController.mailBox[index].value.CONTENT}"
-                                        .obs;
-
-                                RxString dateTime = isNotiPage.value
-                                    ? "${prettyDate(notiController.noties[index].value.TIME_CREATED)}"
-                                        .obs
-                                    : "${prettyDate(notiController.mailBox[index].value.TIME_CREATED)}"
-                                        .obs;
-                                return // Rectangle 2
-                                    Ink(
-                                  child: InkWell(
-                                    onTap: () async {
-                                      // * Noti Page
-                                      if (isNotiPage.value) {
-                                        await checkNoti(notiController, index);
-                                      }
-                                      // * Mail Page
-                                      else {
-                                        await checkMail(notiController, index);
-                                      }
-                                    },
-                                    child: Container(
-                                        height: 108,
-                                        child: Container(
-                                          margin:
-                                              const EdgeInsets.only(left: 14),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                    top: 20),
-                                                child: Obx(() {
-                                                  RxBool isReaded =
-                                                      isNotiPage.value
-                                                          ? notiController
-                                                              .noties[index]
-                                                              .value
-                                                              .isReaded
-                                                              .obs
-                                                          : notiController
-                                                              .mailBox[index]
-                                                              .value
-                                                              .isReaded
-                                                              .obs;
-                                                  return Row(children: [
-                                                    Text("${title.value}",
-                                                        maxLines: 1,
-                                                        style: const TextStyle(
-                                                            color: const Color(
-                                                                0xff2f2f2f),
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontFamily:
-                                                                "NotoSansSC",
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontSize: 14.0),
-                                                        textAlign:
-                                                            TextAlign.left),
-                                                    // Rectangle 7
-                                                    isReaded.value
-                                                        ? Container()
-                                                        : Container(
-                                                            width: 38,
-                                                            height: 18,
-                                                            child: Center(
-                                                              child: // New
-                                                                  Text("New",
-                                                                      style: const TextStyle(
-                                                                          color: const Color(
-                                                                              0xffffffff),
-                                                                          fontWeight: FontWeight
-                                                                              .w500,
-                                                                          fontFamily:
-                                                                              "Roboto",
-                                                                          fontStyle: FontStyle
-                                                                              .normal,
-                                                                          fontSize:
-                                                                              10.0),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left),
-                                                            ),
-                                                            margin:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    top: 1.5,
-                                                                    bottom: 1.5,
-                                                                    left: 8),
-                                                            decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            15)),
-                                                                color: const Color(
-                                                                    0xff571df0)))
-                                                  ]);
-                                                }),
-                                              ),
-                                              // 恭喜你上热棒了：大家这次期末考的怎么样啊？
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                    top: 2),
-                                                child: Text("${content.value}",
-                                                    maxLines: 1,
-                                                    style: const TextStyle(
-                                                        color: const Color(
-                                                            0xff6f6e6e),
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontFamily:
-                                                            "NotoSansSC",
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontSize: 12.0),
-                                                    textAlign: TextAlign.left),
-                                              ),
-                                              Container(
-                                                margin: const EdgeInsets.only(
-                                                    top: 14),
-                                                child: Text("${dateTime.value}",
-                                                    style: const TextStyle(
-                                                        color: const Color(
-                                                            0xff6f6e6e),
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontFamily: "Roboto",
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontSize: 12.0),
-                                                    textAlign: TextAlign.left),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        margin: const EdgeInsets.only(
-                                            bottom: 10, left: 20, right: 20),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(8)),
-                                            border: Border.all(
-                                                color: const Color(0xffeaeaea),
-                                                width: 1),
-                                            color: const Color(0xffffffff))),
-                                  ),
-                                );
-                              }),
+                          child: Stack(children: [
+                            ListView(),
+                            Center(
+                              child: Text(
+                                "아직 알림이 없습니다.",
+                                style: const TextStyle(
+                                    color: const Color(0xff6f6e6e),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "NotoSansKR",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                              ),
+                            ),
+                          ]),
                         );
-                      });
-                }),
-              ),
+                      } else if (!isNotiPage.value &&
+                          notiController.mailBox.length == 0) {
+                        return RefreshIndicator(
+                          onRefresh: () async {
+                            await MainUpdateModule.updateNotiPage(
+                                notiController.pageViewIndex.value);
+                          },
+                          child: Stack(children: [
+                            ListView(),
+                            Center(
+                              child: Text(
+                                "아직 쪽지가 없습니다.",
+                                style: const TextStyle(
+                                    color: const Color(0xff6f6e6e),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "NotoSansKR",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                              ),
+                            ),
+                          ]),
+                        );
+                      }
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          await MainUpdateModule.updateNotiPage(
+                              notiController.pageViewIndex.value);
+                        },
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: isNotiPage.value
+                                ? notiController.noties.length
+                                : notiController.mailBox.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              RxString title = isNotiPage.value
+                                  ? (notiController
+                                              .noties[index].value.NOTI_TYPE ==
+                                          0
+                                      ? "${communityBoardName(notiController.noties[index].value.COMMUNITY_ID)}"
+                                          .obs
+                                      : "${notiController.noties[index].value.TITLE}"
+                                          .obs)
+                                  : notiController.mailBox[index].value
+                                      .PROFILE_NICKNAME.obs;
+
+                              RxString content = isNotiPage.value
+                                  ? "${notiController.noties[index].value.CONTENT}"
+                                      .obs
+                                  : "${notiController.mailBox[index].value.CONTENT}"
+                                      .obs;
+
+                              RxString dateTime = isNotiPage.value
+                                  ? "${prettyDate(notiController.noties[index].value.TIME_CREATED)}"
+                                      .obs
+                                  : "${prettyDate(notiController.mailBox[index].value.TIME_CREATED)}"
+                                      .obs;
+                              return // Rectangle 2
+                                  Ink(
+                                child: InkWell(
+                                  onTap: () async {
+                                    // * Noti Page
+                                    if (isNotiPage.value) {
+                                      await checkNoti(notiController, index);
+                                    }
+                                    // * Mail Page
+                                    else {
+                                      await checkMail(notiController, index);
+                                    }
+                                  },
+                                  child: Container(
+                                      height: 108,
+                                      child: Container(
+                                        margin: const EdgeInsets.only(left: 14),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  top: 20),
+                                              child: Obx(() {
+                                                RxBool isReaded =
+                                                    isNotiPage.value
+                                                        ? notiController
+                                                            .noties[index]
+                                                            .value
+                                                            .isReaded
+                                                            .obs
+                                                        : notiController
+                                                            .mailBox[index]
+                                                            .value
+                                                            .isReaded
+                                                            .obs;
+                                                return Row(children: [
+                                                  Text("${title.value}",
+                                                      maxLines: 1,
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xff2f2f2f),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontFamily:
+                                                              "NotoSansSC",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 14.0),
+                                                      textAlign:
+                                                          TextAlign.left),
+                                                  // Rectangle 7
+                                                  isReaded.value
+                                                      ? Container()
+                                                      : Container(
+                                                          width: 38,
+                                                          height: 18,
+                                                          child: Center(
+                                                            child: // New
+                                                                Text("New",
+                                                                    style: const TextStyle(
+                                                                        color: const Color(
+                                                                            0xffffffff),
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500,
+                                                                        fontFamily:
+                                                                            "Roboto",
+                                                                        fontStyle:
+                                                                            FontStyle
+                                                                                .normal,
+                                                                        fontSize:
+                                                                            10.0),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .left),
+                                                          ),
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 1.5,
+                                                                  bottom: 1.5,
+                                                                  left: 8),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          15)),
+                                                              color: const Color(
+                                                                  0xff571df0)))
+                                                ]);
+                                              }),
+                                            ),
+                                            // 恭喜你上热棒了：大家这次期末考的怎么样啊？
+                                            Container(
+                                              margin:
+                                                  const EdgeInsets.only(top: 2),
+                                              child: Text("${content.value}",
+                                                  maxLines: 1,
+                                                  style: const TextStyle(
+                                                      color: const Color(
+                                                          0xff6f6e6e),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontFamily: "NotoSansSC",
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontSize: 12.0),
+                                                  textAlign: TextAlign.left),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  top: 14),
+                                              child: Text("${dateTime.value}",
+                                                  style: const TextStyle(
+                                                      color: const Color(
+                                                          0xff6f6e6e),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontFamily: "Roboto",
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontSize: 12.0),
+                                                  textAlign: TextAlign.left),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      margin: const EdgeInsets.only(
+                                          bottom: 10, left: 20, right: 20),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8)),
+                                          border: Border.all(
+                                              color: const Color(0xffeaeaea),
+                                              width: 1),
+                                          color: const Color(0xffffffff))),
+                                ),
+                              );
+                            }),
+                      );
+                    });
+              }),
             ),
           ],
         ));

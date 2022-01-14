@@ -4,7 +4,7 @@ import 'package:string_validator/string_validator.dart';
 class BoardInfo {
   String COMMUNITY_NAME, RECENT_TITLE;
   int COMMUNITY_ID;
-  bool isFollowed;
+  bool isFollowed, isChecked;
 
   BoardInfo({COMMUNITY_NAME, COMMUNITY_ID, RECENT_TITLE, isFollowed});
 
@@ -13,6 +13,7 @@ class BoardInfo {
     this.COMMUNITY_ID = json['COMMUNITY_ID'];
     this.RECENT_TITLE = json["RECENT_TITLE"];
     this.isFollowed = toBoolean("${json["isFollowed"]}");
+    this.isChecked = true;
   }
 
   Map<String, dynamic> toJson() {

@@ -95,7 +95,7 @@ class ClassChatHistory extends StatelessWidget {
                 padding: EdgeInsets.only(top: 10, bottom: 97),
                 itemBuilder: (context, index) {
                   bool MY_SELF = controller.chatHistory[index].MY_SELF;
-                  print(MY_SELF);
+                  //print(MY_SELF);
                   return Container(
                       padding: (MY_SELF
                           // mailController.mailHistory[index].FROM_ME == 0

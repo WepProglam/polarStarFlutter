@@ -9,16 +9,20 @@ class MyPageRepository {
 
   MyPageRepository({@required this.apiClient}) : assert(apiClient != null);
 
-  Future<Map<String, dynamic>> getMineWrite() async {
-    return await apiClient.getMineWrite();
+  Future<Map<String, dynamic>> getMineProfile() async {
+    return await apiClient.getMineProfile();
   }
 
-  Future<Map<String, dynamic>> getMineLike() async {
-    return await apiClient.getMineLike();
+  Future<Map<String, dynamic>> getMineWrite(int page) async {
+    return await apiClient.getMineWrite(page);
   }
 
-  Future<Map<String, dynamic>> getMineScrap() async {
-    return await apiClient.getMineScrap();
+  Future<Map<String, dynamic>> getMineLike(int page) async {
+    return await apiClient.getMineLike(page);
+  }
+
+  Future<Map<String, dynamic>> getMineScrap(int page) async {
+    return await apiClient.getMineScrap(page);
   }
 
   Future<Map<String, dynamic>> uploadProfileImage(MultipartFile photo) async {

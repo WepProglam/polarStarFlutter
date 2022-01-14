@@ -34,13 +34,14 @@ class TimeTableBin extends StatelessWidget {
       child: ListView.builder(
           itemCount: verAmount,
           physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
             print(index);
             if (index == 0) {
               return Container(
                 height: top_height,
                 decoration: BoxDecoration(
-                    color: const Color(0xfff6f6f6),
+                    color: const Color(0xfff8f6fe),
                     border: Border(
                         bottom: BorderSide(
                             color: const Color(0xffdedede), width: 0.5))),
@@ -50,6 +51,7 @@ class TimeTableBin extends StatelessWidget {
               return Container(
                 height: time_height,
                 child: ListView.builder(
+                    shrinkWrap: true,
                     itemCount: dayAmount + 1,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int i) {
@@ -176,6 +178,7 @@ class TimeTableContent extends StatelessWidget {
         return ListView.builder(
             itemCount: dayAmount,
             scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               double last_end_time =
@@ -204,29 +207,6 @@ class TimeTableContent extends StatelessWidget {
                               ),
                             ),
                           ),
-                        // ! 기존 add 버튼을 상단 우측 아이콘으로 이동
-                        // //목요일 밑에 add 버튼
-                        // if (index == 3 &&
-                        //     timeTableController.inTimeTableMainPage.value)
-                        //   Positioned(
-                        //     top: (add_pos_startTime - last_end_time) *
-                        //             (time_height / 60) +
-                        //         1,
-                        //     width: ((width - 4) * 11 / 12) / dayAmount,
-                        //     child: InkWell(
-                        //       onTap: () {
-                        //         Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
-                        //       },
-                        //       child: Container(
-                        //           padding: EdgeInsets.symmetric(
-                        //               vertical: time_height / 3,
-                        //               horizontal: 20),
-                        //           height: time_height, // 20 + 20 + 20
-                        //           width: 60, // 20 + 20 + 20
-                        //           child: Image.asset(
-                        //               "assets/images/timetable_add.png")),
-                        //     ),
-                        //   )
                       ],
                     ));
               });
@@ -534,13 +514,13 @@ class TimeTableDays extends StatelessWidget {
 }
 
 const tableBoxDecoration = BoxDecoration(
-    color: const Color(0xfff6f6f6),
+    color: const Color(0xfff8f6fe),
     border: Border(
         bottom: BorderSide(color: Color(0xffdedede), width: 0.5),
         right: BorderSide(color: Color(0xffdedede), width: 0.5)));
 
 var contentTableBoxDecoration = (Color color) => BoxDecoration(
-    color: color, borderRadius: BorderRadius.all(Radius.circular(6)));
+    color: color, borderRadius: BorderRadius.all(Radius.circular(8)));
 
 const innerTableBoxDecoration = BoxDecoration(
     color: Colors.white,

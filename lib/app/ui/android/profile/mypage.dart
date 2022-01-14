@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/loby/login_controller.dart';
@@ -19,10 +22,6 @@ class Mypage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
           backgroundColor: const Color(0xffffffff),
-
-          // backgroundColor: const Color(0xfff2f2f2),
-          // bottomNavigationBar:
-          //     CustomBottomNavigationBar(mainController: mainController),
           body: Stack(children: [
             Obx(
               () {
@@ -56,117 +55,6 @@ class Mypage extends StatelessWidget {
                           ]),
                     ),
                   );
-
-                  // ! Non-Sliver Code
-                  // Column(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     Container(
-                  //         height: 294,
-                  //         width: MediaQuery.of(context).size.width,
-                  //         // decoration: BoxDecoration(
-                  //         //     image: DecorationImage(
-                  //         //         image: AssetImage('assets/images/279.png'),
-                  //         //         fit: BoxFit.none)),
-                  //         // ! 왜 이걸 이미지를?
-                  //         color: const Color(0xff1a4678),
-                  //         child:
-                  //             MyPageProfile(myPageController: myPageController)),
-                  //     Container(
-                  //         width: MediaQuery.of(context).size.width,
-                  //         height: 61.5,
-                  //         // margin: const EdgeInsets.only(bottom: 10),
-                  //         decoration:
-                  //             BoxDecoration(color: const Color(0xffffffff)),
-                  //         child: MyPageProfilePostIndex(
-                  //             myPageController: myPageController)),
-
-                  //     //* Posted, Scraped, Liked 표시하는 부분
-                  //     Expanded(child: Obx(() {
-                  //       List<bool> dataAvailable = [
-                  //         myPageController.dataAvailableMypageWrite,
-                  //         myPageController.dataAvailableMypageScrap,
-                  //         myPageController.dataAvailableMypageLike,
-                  //       ];
-
-                  //       List<RxList<Rx<Post>>> userPost = [
-                  //         myPageController.myBoardWrite,
-                  //         myPageController.myBoardScrap,
-                  //         myPageController.myBoardLike,
-                  //       ];
-
-                  //       return PageView.builder(
-                  //           allowImplicitScrolling: true,
-                  //           controller: myPageController.pageController,
-                  //           onPageChanged: (value) {
-                  //             myPageController.profilePostIndex.value = value;
-                  //           },
-                  //           itemCount: 3,
-                  //           itemBuilder: (BuildContext context, int index) {
-                  //             print(index);
-                  //             return RefreshIndicator(
-                  //               onRefresh: () async {
-                  //                 switch (index) {
-                  //                   case 0:
-                  //                     myPageController.getMineWrite();
-                  //                     break;
-                  //                   case 1:
-                  //                     myPageController.getMineScrap();
-                  //                     break;
-                  //                   case 2:
-                  //                     myPageController.getMineLike();
-                  //                     break;
-                  //                   default:
-                  //                 }
-
-                  //                 return true;
-                  //               },
-                  //               child: Obx(
-                  //                 () {
-                  //                   if (dataAvailable[myPageController
-                  //                       .profilePostIndex.value]) {
-                  //                     if (userPost[index].length == 0) {
-                  //                       return Center(
-                  //                         child: Text("아직 정보가 없습니다."),
-                  //                       );
-                  //                     } else {
-                  //                       return Container(
-                  //                         margin: const EdgeInsets.only(top: 10),
-                  //                         child: ListView.builder(
-                  //                             cacheExtent: 10,
-                  //                             itemCount: userPost[index].length,
-                  //                             itemBuilder:
-                  //                                 (BuildContext context, int i) {
-                  //                               return Container(
-                  //                                 margin: const EdgeInsets.only(
-                  //                                     bottom:
-                  //                                         5), //자체 패딩 10 + 5 = 15
-                  //                                 child: PostPreview(
-                  //                                   item: userPost[index][i],
-                  //                                   /**
-                  //                                    * * type 0 : 메인 -> 핫
-                  //                                    * * type 1 : 마이 -> 게시글
-                  //                                    * * type 2 : 게시판 -> 게시글
-                  //                                    */
-                  //                                   type: 1,
-                  //                                 ),
-                  //                               );
-                  //                             }),
-                  //                       );
-                  //                     }
-                  //                   } else {
-                  //                     return Center(
-                  //                       child: Text("아직 정보가 없습니다."),
-                  //                     );
-                  //                   }
-                  //                 },
-                  //               ),
-                  //             );
-                  //           });
-                  //     }))
-                  //   ],
-                  // );
-
                 } else {
                   return Center(child: CircularProgressIndicator());
                 }
@@ -229,9 +117,26 @@ class MyPagePostList extends StatelessWidget {
         } else {
           return ListView.builder(
               cacheExtent: 10,
-              itemCount: postList.length,
+              controller: myPageController.scrollController.value,
+              itemCount: myPageController.curPage == myPageController.MaxPage
+                  ? postList.length
+                  : postList.length + 1,
               itemBuilder: (BuildContext context, int i) {
+                if (i >= postList.length) {
+                  Timer(Duration(seconds: 1), () {
+                    myPageController.setMaxPageEqualCurPage();
+                  });
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Get.theme.primaryColor,
+                    ),
+                  );
+                }
+
                 postList[i].value.MYSELF = true;
+                print(i);
+                print(postList.length);
+                print(i >= postList.length);
                 return Ink(
                   child: InkWell(
                     onTap: () {
@@ -245,9 +150,6 @@ class MyPagePostList extends StatelessWidget {
                       margin:
                           const EdgeInsets.only(bottom: 5), //자체 패딩 10 + 5 = 15
                       child: PostWidget(
-                        c: null,
-                        mailWriteController: null,
-                        mailController: null,
                         index: index,
                         mainController: mainController,
                         item: postList[i],

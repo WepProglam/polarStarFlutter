@@ -26,6 +26,7 @@ class MainSearchController extends GetxController {
   RxInt curPage = 0.obs;
   RxString searchText = "".obs;
   RxInt searchType = 0.obs;
+  TextEditingController searchTextController = TextEditingController();
 
   RxList<RxList<Rx<Post>>> searchData =
       [<Rx<Post>>[].obs, <Rx<Post>>[].obs, <Rx<Post>>[].obs].obs;
@@ -86,6 +87,9 @@ class MainSearchController extends GetxController {
       // await pageController.animateToPage(searchType.value,
       //     duration: Duration(milliseconds: 500), curve: Curves.easeIn);
     });
+
+    // searchTextController = TextEditingController(text: searchText.value);
+    searchTextController.text = searchText.value;
 
     scrollController.value.addListener(() async {
       if (scrollController.value.position.pixels ==

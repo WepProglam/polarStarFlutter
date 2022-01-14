@@ -9,6 +9,7 @@ import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_addclass_repository.dart';
 
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_repository.dart';
+import 'package:polarstar_flutter/app/ui/android/timetable/add_class_search.dart';
 import 'package:polarstar_flutter/session.dart';
 
 class TimeTableAddClassSearchController extends GetxController {
@@ -24,6 +25,9 @@ class TimeTableAddClassSearchController extends GetxController {
 
   TextEditingController classSearchController = new TextEditingController();
 
+  int searchPage = 0;
+  Rx<int> searchMaxPage = 99999.obs;
+
   RxBool isItBuild = false.obs;
   BuildContext context;
   RxBool dataAvailbale = false.obs;
@@ -37,8 +41,14 @@ class TimeTableAddClassSearchController extends GetxController {
   RxInt INDEX_COLLEGE_NAME = (-1).obs;
   RxInt INDEX_COLLEGE_MAJOR = (-1).obs;
 
+  // 초기값 (실제로 받을 때 변경)
+  int MAX_CLASS_LIMIT = 30;
+
+  final Rx<ScrollController> scrollController =
+      ScrollController(initialScrollOffset: 0.0).obs;
+
   Future<void> addClass(int tid) async {
-    print(CLASS_SEARCH[selectedIndex.value].toJson());
+    // print(CLASS_SEARCH[selectedIndex.value].toJson());
     // TOTAL_CLASS.update((val) {
     //   val.CLASS_TIME = CLASS_LIST.map((element) => element.value).toList();
     // });
@@ -110,6 +120,12 @@ class TimeTableAddClassSearchController extends GetxController {
   }
 
   Future<void> getClassInfo() async {
+    // * initmodel이 있으면 initmodel 반환
+    // ? initmodel도 page별로 append할거면 코드 수정 필요
+    if (initModel.length != 0) {
+      CLASS_SEARCH.value = initModel;
+      return;
+    }
     var response = await Session().getX("/class/timetable");
     var json = jsonDecode(response.body);
     Iterable classList = json["CLASS"];
@@ -120,41 +136,83 @@ class TimeTableAddClassSearchController extends GetxController {
 
     college_name_list.value =
         collegeList.map((e) => CollegeNameModel.fromJson(e)).toList();
+
+    MAX_CLASS_LIMIT = json["MAX_CLASS_LIMIT"];
+
     dataAvailbale.value = true;
   }
 
-  Future<void> getFilteredClass() async {
+  Future<void> getFilteredClass(int page) async {
     if (INDEX_COLLEGE_NAME.value == -1 || INDEX_COLLEGE_MAJOR.value == -1) {
       CLASS_SEARCH.value = initModel;
       return;
     }
+
+    if (page > searchMaxPage.value) {
+      return;
+    }
+
     var response = await Session().getX(
-        "/class/timetable/filter/page/0?INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
+        "/class/timetable/filter/page/$page?INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
     Iterable class_list = jsonDecode(response.body);
-    // print(class_list);
-    CLASS_SEARCH.value =
+    print("${CLASS_SEARCH.length} page: $page");
+    List<TimeTableClassModel> tempClasses =
         class_list.map((e) => TimeTableClassModel.fromJson(e)).toList();
+    if (page == 0) {
+      CLASS_SEARCH.value = tempClasses;
+    } else {
+      if (tempClasses.length == 0) {
+        searchMaxPage.value = page;
+        print("find max");
+      } else {
+        CLASS_SEARCH.addAll(tempClasses);
+      }
+    }
+    print(CLASS_SEARCH.length);
   }
 
-  Future<void> getSearchedClass() async {
+  Future<void> getSearchedClass(int page) async {
     if (search_name.value.trim().isEmpty) {
       CLASS_SEARCH.value = initModel;
       return;
     }
     var response = await Session()
-        .getX("/class/search/page/0?search=${search_name.value}");
+        .getX("/class/search/page/$page?search=${search_name.value}");
 
     Iterable class_list = jsonDecode(response.body);
-    CLASS_SEARCH.value =
+
+    List<TimeTableClassModel> tempClasses =
         class_list.map((e) => TimeTableClassModel.fromJson(e)).toList();
+    if (page == 0) {
+      CLASS_SEARCH.value = tempClasses;
+    } else {
+      if (tempClasses.length == 0) {
+        searchMaxPage.value = page;
+        print("find max");
+      } else {
+        CLASS_SEARCH.addAll(tempClasses);
+      }
+    }
   }
 
   Future<void> getFilterAndSearch(int page) async {
     var response = await Session().getX(
-        "/class/search/page/${page}?search=${search_name.value}&INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
+        "/class/search/page/$page?search=${search_name.value}&INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
     Iterable class_list = jsonDecode(response.body);
-    CLASS_SEARCH.value =
+
+    List<TimeTableClassModel> tempClasses =
         class_list.map((e) => TimeTableClassModel.fromJson(e)).toList();
+
+    if (page == 0) {
+      CLASS_SEARCH.value = tempClasses;
+    } else {
+      if (tempClasses.length == 0) {
+        searchMaxPage.value = page;
+        print("find max");
+      } else {
+        CLASS_SEARCH.addAll(tempClasses);
+      }
+    }
   }
 
   Future<void> getMajorInfo() async {
@@ -163,7 +221,23 @@ class TimeTableAddClassSearchController extends GetxController {
     Iterable majorList = jsonDecode(response.body);
     college_major_list.value =
         majorList.map((e) => CollegeMajorModel.fromJson(e)).toList();
-    // print(majorList);
+  }
+
+  void initSeachPage() {
+    searchPage = 0;
+    searchMaxPage.value = 99999;
+  }
+
+  void initMajor() {
+    college_major.value = "";
+    INDEX_COLLEGE_NAME.value = -1;
+    INDEX_COLLEGE_MAJOR.value = -1;
+    scrollController.value.jumpTo(0.0);
+  }
+
+  void initSearchName() {
+    search_name.value = "";
+    scrollController.value.jumpTo(0.0);
   }
 
   @override
@@ -172,40 +246,61 @@ class TimeTableAddClassSearchController extends GetxController {
     timeTableController.refactoringTime();
   }
 
+  Future<void> getClass(int page) async {
+    bool searchNameEmpty = search_name.value.isEmpty;
+    bool searchMajorEmpty =
+        (INDEX_COLLEGE_NAME.value == -1 || INDEX_COLLEGE_MAJOR.value == -1);
+    print(searchNameEmpty);
+    print(searchMajorEmpty);
+    // * getClass - 이것도 계속 로드?
+    if (searchNameEmpty && searchMajorEmpty) {
+      print("1");
+      await getClassInfo();
+    }
+    // * getFilteredClass
+    else if (!searchNameEmpty && searchMajorEmpty) {
+      print("2");
+      await getSearchedClass(page);
+    }
+    // * getSearchedClass
+    else if (searchNameEmpty && !searchMajorEmpty) {
+      print("3");
+      await getFilteredClass(page);
+    }
+    // * getFilterAndSearch
+    else if (!searchNameEmpty && !searchMajorEmpty) {
+      print("4");
+      await getFilterAndSearch(page);
+    }
+
+    print("CLASS SEARCH :  ${CLASS_SEARCH.length}");
+    print("MAX : ${MAX_CLASS_LIMIT}");
+
+    if (CLASS_SEARCH.length < MAX_CLASS_LIMIT) {
+      searchMaxPage.value = page;
+    }
+  }
+
   @override
   void onInit() async {
     super.onInit();
     await getClassInfo();
     await timeTableController.handleAddButtonFalse();
-    // once(isItBuild, (_) {
-    //   print("sadfsadfadsf");
-    //   if (isItBuild.value) {
-    //     showBottomSheet();
-    //   }
-    // });
-    // initClass();
-    // dataAvailable.value = true;
-    // ever(CLASS_LIST, (_) {
-    //   for (var item in CLASS_LIST) {
-    //     print(item.value.day);
-    //     print(item.value.start_time);
-    //     print(item.value.end_time);
-    //   }
-    // });
 
-    // ever(selectIndex, (_) {
-    //   if (CLASS_LIST.length > selectIndex.value) {
-    //   } else {
-    //     initClass();
-    //   }
-    // });
+    scrollController.value.addListener(() async {
+      if ((scrollController.value.position.pixels ==
+                  scrollController.value.position.maxScrollExtent ||
+              !scrollController.value.position.hasPixels) &&
+          (searchPage < searchMaxPage.value)) {
+        searchPage += 1;
+        getClass(searchPage);
+        print("end ($searchPage)");
+      }
+    });
   }
 
   @override
   void onClose() async {
-    //print("CURR ROUTE!! : ${Get.currentRoute}");
-    // Get.currentRoute == Routes.MAIN_PAGE
-    print("close!1");
     await timeTableController.refactoringTime();
     await timeTableController.handleAddButtonTrue();
   }

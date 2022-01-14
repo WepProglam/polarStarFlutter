@@ -415,6 +415,8 @@ class MainPageScroll extends StatelessWidget {
                                               itemCount: mainController
                                                   .classList.length,
                                               shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
@@ -653,7 +655,7 @@ class NewIcon extends StatelessWidget {
         margin: const EdgeInsets.only(left: 8),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            color: const Color(0xff571df0)));
+            color: Get.theme.primaryColor));
   }
 }
 
@@ -669,7 +671,7 @@ class SeeMore extends StatelessWidget {
         // 更多
         Text("更多",
             style: const TextStyle(
-                color: const Color(0xff571df0),
+                color: const Color(0xff371ac7),
                 fontWeight: FontWeight.w400,
                 fontFamily: "NotoSansSC",
                 fontStyle: FontStyle.normal,
@@ -682,6 +684,7 @@ class SeeMore extends StatelessWidget {
           child: Image.asset(
             "assets/images/icn_detail.png",
             fit: BoxFit.contain,
+            color: const Color(0xff371ac7),
           ),
         )
       ],

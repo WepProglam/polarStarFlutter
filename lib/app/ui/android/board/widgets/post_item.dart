@@ -141,7 +141,7 @@ class PostBody extends StatelessWidget {
           child: Text("${item.value.TITLE}",
               style: const TextStyle(
                   color: const Color(0xff2f2f2f),
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w400,
                   fontFamily: "NotoSansSC",
                   fontStyle: FontStyle.normal,
                   fontSize: 12.0),

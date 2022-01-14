@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
+import 'package:polarstar_flutter/app/controller/timetable/timetable_addclass_search_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
+import 'package:polarstar_flutter/app/data/provider/timetable/timetable_addclass_provider.dart';
+import 'package:polarstar_flutter/app/data/repository/timetable/timetable_addclass_repository.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
+import 'package:polarstar_flutter/app/ui/android/timetable/add_class_search.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
 
 class TimeTableAppBar extends StatelessWidget {
@@ -45,21 +49,7 @@ class TimeTableAppBar extends StatelessWidget {
                 }),
               ),
             ),
-            // Positioned(
-            //   left: 20,
-            //   child: Ink(
-            //     child: InkWell(
-            //       onTap: () {
-            //         Get.back();
-            //       },
-            //       child: Image.asset(
-            //         "assets/images/back_icon.png",
-            //         width: 24,
-            //         height: 24,
-            //       ),
-            //     ),
-            //   ),
-            // ),
+
             Positioned(
               left: 20,
               child: Ink(
