@@ -23,8 +23,8 @@ const UNDEFINED = {
 };
 
 class MyPageApiClient {
-  Future<Map<String, dynamic>> getMineWrite() async {
-    var response = await Session().getX("/info");
+  Future<Map<String, dynamic>> getMineProfile() async {
+    var response = await Session().getX("/info/profile");
     var responseBody = jsonDecode(response.body);
 
     var profileData;
@@ -33,6 +33,18 @@ class MyPageApiClient {
     } catch (e) {
       profileData = UNDEFINED;
     }
+
+    MyProfileModel myProfile;
+
+    myProfile = MyProfileModel.fromJson(profileData);
+
+    return {"status": response.statusCode, "myProfile": myProfile};
+  }
+
+  Future<Map<String, dynamic>> getMineWrite(int page) async {
+    var response = await Session().getX("/info/write/page/$page");
+    var responseBody = jsonDecode(response.body);
+
     Iterable listMyPageBoard;
     try {
       listMyPageBoard = responseBody["WritePost"];
@@ -41,28 +53,18 @@ class MyPageApiClient {
     }
 
     List<Rx<Post>> listMyPageBoardVal;
-    MyProfileModel myProfile;
 
     listMyPageBoardVal =
         listMyPageBoard.map((model) => Post.fromJson(model).obs).toList();
-    myProfile = MyProfileModel.fromJson(profileData);
 
     return {
       "status": response.statusCode,
       "myPageBoard": listMyPageBoardVal,
-      "myProfile": myProfile
     };
-    // } catch (e) {
-    //   return {
-    //     "status": response.statusCode,
-    //     "myPageBoard": [],
-    //     "myProfile": []
-    //   };
-    // }
   }
 
-  Future<Map<String, dynamic>> getMineLike() async {
-    var response = await Session().getX("/info/like");
+  Future<Map<String, dynamic>> getMineLike(int page) async {
+    var response = await Session().getX("/info/like/page/$page");
 
     if (response.statusCode != 200) {
       return {"status": response.statusCode, "myPageBoard": []};
@@ -76,8 +78,8 @@ class MyPageApiClient {
     return {"status": response.statusCode, "myPageBoard": listMyPageBoardVal};
   }
 
-  Future<Map<String, dynamic>> getMineScrap() async {
-    var response = await Session().getX("/info/scrap");
+  Future<Map<String, dynamic>> getMineScrap(int page) async {
+    var response = await Session().getX("/info/scrap/page/$page");
 
     if (response.statusCode != 200) {
       return {"status": response.statusCode, "myPageBoard": []};
