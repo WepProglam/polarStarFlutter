@@ -532,7 +532,7 @@ class ClassViewInfo extends StatelessWidget {
                         style: const TextStyle(
                             color: const Color(categoryColor),
                             fontWeight: FontWeight.w400,
-                            fontFamily: "NotoSansTC",
+                            fontFamily: "NㅋotoSansTC",
                             fontStyle: FontStyle.normal,
                             fontSize: 14.0),
                         textAlign: TextAlign.left),
@@ -654,36 +654,81 @@ class ClassViewReview extends StatelessWidget {
     final ClassViewController classViewController = Get.find();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.4),
+      padding: const EdgeInsets.symmetric(horizontal: 14.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          // 별점 & 좋아요
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                  width: 68,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: rate_star(classReviewModel.RATE, 12))),
-              TextButton.icon(
-                  style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all(Colors.red),
-                      overlayColor: MaterialStateProperty.all(
-                          Colors.red.withOpacity(0.6))),
-                  onPressed: () async {
-                    await classViewController.getCommentLike(
-                        classReviewModel.CLASS_ID,
-                        classReviewModel.CLASS_COMMENT_ID,
-                        index);
-                  },
-                  icon: Icon(Icons.thumb_up, size: 12),
-                  label: Text(classReviewModel.LIKES.toString()))
-            ],
+          //* 별점 & 좋아요
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                          margin: const EdgeInsets.only(right: 4.0),
+                          width: 68,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: rate_star(classReviewModel.RATE, 12))),
+                      Text("(${classReviewModel.RATE})",
+                          style: const TextStyle(
+                              color: const Color(0xffd6d4d4),
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 10.0),
+                          textAlign: TextAlign.center),
+                    ],
+                  ),
+                  InkWell(
+                    splashColor: Colors.cyan[100].withOpacity(0.6),
+                    onTap: () async {
+                      await classViewController.getCommentLike(
+                          classReviewModel.CLASS_ID,
+                          classReviewModel.CLASS_COMMENT_ID,
+                          index);
+                    },
+                    child: Container(
+                      width: 25.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(Icons.thumb_up, size: 12.0, color: Colors.cyan),
+                          Text(
+                            classReviewModel.LIKES.toString(),
+                            style: const TextStyle(
+                                color: Colors.cyan,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "Roboto",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.0),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  //   TextButton.icon(
+                  //       style: ButtonStyle(
+                  //           foregroundColor:
+                  //               MaterialStateProperty.all(Colors.cyan[200]),
+                  //           overlayColor: MaterialStateProperty.all(
+                  //               Colors.cyan[100].withOpacity(0.6))),
+                  //       onPressed: () async {
+                  //         await classViewController.getCommentLike(
+                  //             classReviewModel.CLASS_ID,
+                  //             classReviewModel.CLASS_COMMENT_ID,
+                  //             index);
+                  //       },
+                  //       icon: Icon(Icons.thumb_up, size: 12),
+                  //       label: Text(classReviewModel.LIKES.toString()))
+                ]),
           ),
 
-          // 수강 학기: 데이터 안 날라옴
+          //* 수강 학기: 데이터 안 날라옴
           Text(
               "${semester(classReviewModel.CLASS_SEMESTER)} Semester Of ${classReviewModel.CLASS_YEAR}",
               style: const TextStyle(
@@ -695,22 +740,19 @@ class ClassViewReview extends StatelessWidget {
               textAlign: TextAlign.left),
 
           Container(
-              margin: EdgeInsets.only(top: 11, bottom: 13),
+              margin: EdgeInsets.only(top: 5.0, bottom: 14.0),
               width: Get.mediaQuery.size.width,
-              decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(10)),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 10, 8, 10),
-                child: Text(
-                  classReviewModel.CONTENT,
-                  // maxLines: 2,
-                  style: TextStyle(
-                      color: const Color(0xff707070),
-                      fontWeight: FontWeight.normal,
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                ),
+              // decoration: BoxDecoration(
+              //     color: Colors.grey[200],
+              //     borderRadius: BorderRadius.circular(10)),
+              child: Text(
+                classReviewModel.CONTENT,
+                // maxLines: 2,
+                style: TextStyle(
+                    color: const Color(0xff707070),
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
               ))
         ],
       ),
