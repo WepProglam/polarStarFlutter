@@ -36,7 +36,6 @@ class TimeTableBin extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
-            print(index);
             if (index == 0) {
               return Container(
                 height: top_height,
@@ -131,7 +130,8 @@ class TimeTableAddClass extends StatelessWidget {
                   child: Container(
                     width: (width * 11 / 12) / dayAmount,
                     height: (end_time - start_time) * (time_height / 60),
-                    decoration: contentTableBoxDecoration(Colors.black),
+                    decoration:
+                        contentTableBoxDecoration(const Color(0xff9ee85e)),
                     margin: EdgeInsets.only(
                         top: ((start_time - last_end_time) *
                                     (time_height / 60)) <
@@ -196,7 +196,7 @@ class TimeTableContent extends StatelessWidget {
                             top: (item["start_time"] - last_end_time) *
                                     (time_height / 60) +
                                 1,
-                            width: ((width - 4) * 11 / 12) / dayAmount,
+                            width: ((width) * 11 / 12) / dayAmount,
                             child: Container(
                               child: TimeTableItem(
                                 classItem: item,
@@ -412,7 +412,7 @@ class TimeTableItem extends StatelessWidget {
         },
         child: Container(
           // margin: const EdgeInsets.only(top: 1),
-          margin: const EdgeInsets.symmetric(horizontal: 1),
+          margin: const EdgeInsets.symmetric(horizontal: 0.5),
 
           height: (classItem["end_time"] - classItem["start_time"]) *
                   time_height /
@@ -429,29 +429,35 @@ class TimeTableItem extends StatelessWidget {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "${classItemModel.CLASS_NAME}",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            color: const Color(0xffffffff),
-                            fontWeight: FontWeight.w700,
-                            fontFamily: "Roboto",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 10.0),
-                        textAlign: TextAlign.center,
-                      ),
-                      // 이연희
-                      Text("${classItemModel.PROFESSOR}",
-                          maxLines: 1,
+                      Container(
+                        width: 60,
+                        child: Text(
+                          "${classItemModel.CLASS_NAME}",
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              color: const Color(0xfffff8dd),
-                              fontWeight: FontWeight.w400,
+                              color: const Color(0xffffffff),
+                              fontWeight: FontWeight.w700,
                               fontFamily: "Roboto",
                               fontStyle: FontStyle.normal,
                               fontSize: 10.0),
-                          textAlign: TextAlign.center)
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      // 이연희
+                      Container(
+                        width: 60,
+                        child: Text("${classItemModel.PROFESSOR}",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: const Color(0xfffff8dd),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "Roboto",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 10.0),
+                            textAlign: TextAlign.center),
+                      )
                     ]),
               );
             }),
@@ -516,8 +522,8 @@ class TimeTableDays extends StatelessWidget {
 const tableBoxDecoration = BoxDecoration(
     color: const Color(0xfff8f6fe),
     border: Border(
-        bottom: BorderSide(color: Color(0xffdedede), width: 0.5),
-        right: BorderSide(color: Color(0xffdedede), width: 0.5)));
+      bottom: BorderSide(color: Color(0xffdedede), width: 0.5),
+    ));
 
 var contentTableBoxDecoration = (Color color) => BoxDecoration(
     color: color, borderRadius: BorderRadius.all(Radius.circular(8)));
@@ -525,5 +531,5 @@ var contentTableBoxDecoration = (Color color) => BoxDecoration(
 const innerTableBoxDecoration = BoxDecoration(
     color: Colors.white,
     border: Border(
-        bottom: BorderSide(color: Color(0xffdedede), width: 0.5),
-        right: BorderSide(color: Color(0xffdedede), width: 0.5)));
+      bottom: BorderSide(color: Color(0xffdedede), width: 0.5),
+    ));

@@ -7,6 +7,7 @@ import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
+import 'package:polarstar_flutter/app/ui/android/main/board_list.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -41,10 +42,10 @@ class MainPageScroll extends StatelessWidget {
         searchFocusNode.unfocus();
       },
       child: Scaffold(
+        backgroundColor: Get.theme.primaryColor,
         appBar: AppBar(
           elevation: 0,
-          // * + 0.5 안하면 앱에서 이상한 금이 생김
-          toolbarHeight: 56 + 0.5,
+          toolbarHeight: 56,
           automaticallyImplyLeading: false,
           titleSpacing: 0,
           title: Container(
@@ -95,9 +96,6 @@ class MainPageScroll extends StatelessWidget {
               controller: mainScrollController,
               child: Stack(children: [
                 Container(
-                  decoration: BoxDecoration(
-                    color: Get.theme.primaryColor,
-                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -171,50 +169,6 @@ class MainPageScroll extends StatelessWidget {
                               ),
                             ),
 
-                            //* 핫게
-                            Container(
-                              // padding: const EdgeInsets.all(18),
-                              margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  // 热榜
-                                  Text("热榜",
-                                      style: const TextStyle(
-                                          color: const Color(0xff2f2f2f),
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: "NotoSansSC",
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 18.0),
-                                      textAlign: TextAlign.left),
-                                  InkWell(
-                                    onTap: () async {
-                                      searchText.clear();
-                                      searchFocusNode.unfocus();
-                                      await Get.toNamed("/board/hot/page/1")
-                                          .then((value) async {
-                                        await MainUpdateModule.updateMainPage();
-                                      });
-                                    },
-                                    child: SeeMore(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: size.width,
-                              child: Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                child: HotBoardMain(
-                                  size: size,
-                                  mainController: mainController,
-                                  searchFocusNode: searchFocusNode,
-                                  searchText: searchText,
-                                ),
-                              ),
-                            ),
-
                             // 게시판
                             Container(
                               margin: const EdgeInsets.only(
@@ -229,12 +183,10 @@ class MainPageScroll extends StatelessWidget {
                                     ),
                                     mainController.followingCommunity.length > 0
                                         ? Container(
-                                            height: (80 + 10.0) *
-                                                mainController
-                                                    .followingCommunity.length,
                                             child: ListView.builder(
                                                 itemCount: mainController
                                                     .followingCommunity.length,
+                                                shrinkWrap: true,
                                                 physics:
                                                     NeverScrollableScrollPhysics(),
                                                 itemBuilder:
@@ -256,96 +208,111 @@ class MainPageScroll extends StatelessWidget {
                                                     }
                                                   }
 
-                                                  return InkWell(
-                                                    onTap: () async {
-                                                      searchText.clear();
-                                                      searchFocusNode.unfocus();
-                                                      await Get.toNamed(
-                                                        "/board/${boardInfo.value.COMMUNITY_ID}/page/${1}",
-                                                      ).then((value) async {
-                                                        await MainUpdateModule
-                                                            .updateMainPage();
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                        height: 80,
-                                                        margin: const EdgeInsets
-                                                            .only(bottom: 10.0),
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            8)),
-                                                            border: Border.all(
-                                                                color: const Color(
-                                                                    0xffeaeaea),
-                                                                width: 1),
-                                                            color: const Color(
-                                                                0xffffffff)),
-                                                        child: Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      14),
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Row(children: [
-                                                                Text(
-                                                                    "${boardInfo.value.COMMUNITY_NAME}",
-                                                                    style: const TextStyle(
-                                                                        color: const Color(
-                                                                            0xff2f2f2f),
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
-                                                                        fontFamily:
-                                                                            "NotoSansKR",
-                                                                        fontStyle:
-                                                                            FontStyle
-                                                                                .normal,
-                                                                        fontSize:
-                                                                            14.0),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .left),
-                                                                NewIcon()
-                                                              ]),
-                                                              Text(
-                                                                  "${boardInfo.value.RECENT_TITLE}",
-                                                                  style: const TextStyle(
-                                                                      color: const Color(
-                                                                          0xff6f6e6e),
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      fontFamily:
-                                                                          "NotoSansSC",
-                                                                      fontStyle:
-                                                                          FontStyle
-                                                                              .normal,
-                                                                      fontSize:
-                                                                          12.0),
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left)
-                                                            ],
-                                                          ),
-                                                        )
-                                                        // BoardPreviewItem_board(
-                                                        //   boardInfo: boardInfo,
-                                                        //   size: size,
-                                                        //   fromList: false,
-                                                        // ),
-                                                        ),
-                                                  );
+                                                  // * follow 하는게 서버에서 사라졌을때 해당 팔로우 정보 삭제
+                                                  if (boardInfo == null) {
+                                                    mainController
+                                                        .deleteFollowingCommunity(
+                                                            int.parse(
+                                                                target_community_id));
+                                                    return Container();
+                                                  }
+
+                                                  return BoardListItem(
+                                                      enableFollowTab: false,
+                                                      boardInfo: boardInfo,
+                                                      mainController:
+                                                          mainController);
+
+                                                  // InkWell(
+                                                  //   onTap: () async {
+                                                  //     searchText.clear();
+                                                  //     searchFocusNode.unfocus();
+                                                  //     await Get.toNamed(
+                                                  //       "/board/${boardInfo.value.COMMUNITY_ID}/page/${1}",
+                                                  //     ).then((value) async {
+                                                  //       await MainUpdateModule
+                                                  //           .updateMainPage();
+                                                  //     });
+                                                  //   },
+                                                  //   child: Container(
+                                                  //       height: 80,
+                                                  //       margin: const EdgeInsets
+                                                  //           .only(bottom: 10.0),
+                                                  //       decoration: BoxDecoration(
+                                                  //           borderRadius:
+                                                  //               BorderRadius
+                                                  //                   .all(Radius
+                                                  //                       .circular(
+                                                  //                           8)),
+                                                  //           border: Border.all(
+                                                  //               color: const Color(
+                                                  //                   0xffeaeaea),
+                                                  //               width: 1),
+                                                  //           color: const Color(
+                                                  //               0xffffffff)),
+                                                  //       child: Container(
+                                                  //         margin:
+                                                  //             const EdgeInsets
+                                                  //                     .symmetric(
+                                                  //                 horizontal:
+                                                  //                     14),
+                                                  //         child: Column(
+                                                  //           mainAxisAlignment:
+                                                  //               MainAxisAlignment
+                                                  //                   .center,
+                                                  //           crossAxisAlignment:
+                                                  //               CrossAxisAlignment
+                                                  //                   .start,
+                                                  //           children: [
+                                                  //             Row(children: [
+                                                  //               Text(
+                                                  //                   "${boardInfo.value.COMMUNITY_NAME}",
+                                                  //                   style: const TextStyle(
+                                                  //                       color: const Color(
+                                                  //                           0xff2f2f2f),
+                                                  //                       fontWeight:
+                                                  //                           FontWeight
+                                                  //                               .w500,
+                                                  //                       fontFamily:
+                                                  //                           "NotoSansKR",
+                                                  //                       fontStyle:
+                                                  //                           FontStyle
+                                                  //                               .normal,
+                                                  //                       fontSize:
+                                                  //                           14.0),
+                                                  //                   textAlign:
+                                                  //                       TextAlign
+                                                  //                           .left),
+                                                  //               NewIcon()
+                                                  //             ]),
+                                                  //             Text(
+                                                  //                 "${boardInfo.value.RECENT_TITLE}",
+                                                  //                 style: const TextStyle(
+                                                  //                     color: const Color(
+                                                  //                         0xff6f6e6e),
+                                                  //                     fontWeight:
+                                                  //                         FontWeight
+                                                  //                             .w400,
+                                                  //                     fontFamily:
+                                                  //                         "NotoSansSC",
+                                                  //                     fontStyle:
+                                                  //                         FontStyle
+                                                  //                             .normal,
+                                                  //                     fontSize:
+                                                  //                         12.0),
+                                                  //                 textAlign:
+                                                  //                     TextAlign
+                                                  //                         .left)
+                                                  //           ],
+                                                  //         ),
+                                                  //       )
+                                                  //       // BoardPreviewItem_board(
+                                                  //       //   boardInfo: boardInfo,
+                                                  //       //   size: size,
+                                                  //       //   fromList: false,
+                                                  //       // ),
+                                                  //       ),
+                                                  // );
                                                 }),
                                           )
                                         : Container(
@@ -395,6 +362,60 @@ class MainPageScroll extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            //
+                            mainController.hotBoard.length != 0
+                                ?
+                                //* 핫게
+                                Column(children: [
+                                    Container(
+                                      // padding: const EdgeInsets.all(18),
+                                      margin: const EdgeInsets.fromLTRB(
+                                          20, 20, 20, 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          // 热榜
+                                          Text("收集帖子",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff2f2f2f),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "NotoSansSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 18.0),
+                                              textAlign: TextAlign.left),
+                                          InkWell(
+                                            onTap: () async {
+                                              searchText.clear();
+                                              searchFocusNode.unfocus();
+                                              await Get.toNamed(
+                                                      "/board/hot/page/1")
+                                                  .then((value) async {
+                                                await MainUpdateModule
+                                                    .updateMainPage();
+                                              });
+                                            },
+                                            child: SeeMore(),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      width: size.width,
+                                      child: Container(
+                                        margin: const EdgeInsets.fromLTRB(
+                                            0, 0, 0, 0),
+                                        child: HotBoardMain(
+                                          size: size,
+                                          mainController: mainController,
+                                          searchFocusNode: searchFocusNode,
+                                          searchText: searchText,
+                                        ),
+                                      ),
+                                    ),
+                                  ])
+                                : Container(),
 
                             // ClassItem(model: mainController.classList[0]),
                             //강의정보

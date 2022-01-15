@@ -231,10 +231,16 @@ class PostWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 14),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        border: Border.all(color: const Color(0xffeaeaea), width: 1),
-        color: const Color(0xffffffff),
-      ),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          border: Border.all(color: const Color(0xffeaeaea), width: 1),
+          boxShadow: [
+            BoxShadow(
+                color: const Color(0x0f000000),
+                offset: Offset(0, 3),
+                blurRadius: 10,
+                spreadRadius: 0)
+          ],
+          color: const Color(0xffffffff)),
       child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -258,7 +264,7 @@ class PostWidget extends StatelessWidget {
             // * 좋아요, 댓글, 스크랩 수
             Container(
               margin: EdgeInsets.only(top: 14),
-              decoration: BoxDecoration(color: const Color(0x0a571df0)),
+              decoration: BoxDecoration(color: const Color(0xfff5f6ff)),
               child: PostBottom(
                   item: item,
                   mainController: mainController,

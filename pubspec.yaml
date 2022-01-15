@@ -261,6 +261,9 @@ flutter:
     - assets/images/timetable_share_links.png
     - assets/images/timetable_delete.png
     - assets/images/timetable_set_default.png
+    - assets/images/community_create.png
+    - assets/images/timetable_addclass_close.png
+    - assets/images/timetable_filter_delete.png
 
     # - assets/fonts/
   #   - images/a_dot_burr.jpeg

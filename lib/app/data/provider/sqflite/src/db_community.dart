@@ -20,6 +20,7 @@ mixin COMMUNITY_DB_HELPER implements DatabaseHelper {
   }
 
   static Future<List<Rx<BoardInfo>>> queryAllRows() async {
+    // ! 맨 처음에 디폴트 게시판 아이디 추가한 상태로 배포하기
     final Database db = await DatabaseHelper.instance.database;
     Iterable res =
         await db.query(table, orderBy: "${COLUMN_COMMUNITY_ID} DESC");

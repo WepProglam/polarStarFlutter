@@ -110,8 +110,8 @@ class PostController extends GetxController {
             Get.back();
             switch (status) {
               case 200:
-                Get.snackbar("삭제 성공", "삭제 성공",
-                    snackPosition: SnackPosition.BOTTOM);
+                // Get.snackbar("삭제 성공", "삭제 성공",
+                //     snackPosition: SnackPosition.BOTTOM);
                 // Todo: main api 호출 후 refresh 해야 함
                 // * offNamedUntil로 하면 현재 사용하고 있던 컨트롤러랑 새로 만들어진 컨트롤러랑 달라서 충돌 나는듯?
                 if (tag == "bid") {
@@ -125,7 +125,9 @@ class PostController extends GetxController {
 
                 break;
               default:
-                Get.snackbar("삭제 실패", "삭제 실패",
+                Get.snackbar("시스템 오류", "삭제 실패하였습니다.",
+                    colorText: Colors.white,
+                    backgroundColor: Colors.black,
                     snackPosition: SnackPosition.BOTTOM);
             }
           },
@@ -216,7 +218,9 @@ class PostController extends GetxController {
         case 200:
           break;
         case 403:
-          Get.snackbar('이미 $what 한 게시글입니다', '이미 $what 한 게시글입니다',
+          Get.snackbar('부적절한 접근', '이미 $what 한 게시글입니다',
+              colorText: Colors.white,
+              backgroundColor: Colors.black,
               snackPosition: SnackPosition.BOTTOM);
           break;
         default:
@@ -236,7 +240,9 @@ class PostController extends GetxController {
         case 200:
           break;
         case 403:
-          Get.snackbar('이미 스크랩 취소한 게시글입니다', '이미 스크랩 취소한 게시글입니다',
+          Get.snackbar('부적절한 접근', '이미 스크랩 취소한 게시글입니다',
+              colorText: Colors.white,
+              backgroundColor: Colors.black,
               snackPosition: SnackPosition.BOTTOM);
           break;
 

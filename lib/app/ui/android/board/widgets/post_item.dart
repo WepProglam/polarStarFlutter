@@ -43,6 +43,8 @@ class PostBottom extends StatelessWidget {
           onPressed: () async {
             if (item.value.MYSELF) {
               Get.snackbar("게시글 좋아요", "내가 쓴 게시글에는 할 수 없습니다.",
+                  colorText: Colors.white,
+                  backgroundColor: Colors.black,
                   snackPosition: SnackPosition.BOTTOM);
             } else if (mainController.isLiked(item.value)) {
             } else {
@@ -141,7 +143,7 @@ class PostBody extends StatelessWidget {
           child: Text("${item.value.TITLE}",
               style: const TextStyle(
                   color: const Color(0xff2f2f2f),
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                   fontFamily: "NotoSansSC",
                   fontStyle: FontStyle.normal,
                   fontSize: 12.0),
@@ -151,7 +153,7 @@ class PostBody extends StatelessWidget {
         Container(
           child: Text("${item.value.CONTENT}",
               style: const TextStyle(
-                  color: const Color(0xff2f2f2f),
+                  color: const Color(0xff6f6e6e),
                   fontWeight: FontWeight.w400,
                   fontFamily: "NotoSansSC",
                   fontStyle: FontStyle.normal,
