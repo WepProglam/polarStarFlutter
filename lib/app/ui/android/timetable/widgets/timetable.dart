@@ -36,7 +36,6 @@ class TimeTableBin extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
-            print(index);
             if (index == 0) {
               return Container(
                 height: top_height,
@@ -197,7 +196,7 @@ class TimeTableContent extends StatelessWidget {
                             top: (item["start_time"] - last_end_time) *
                                     (time_height / 60) +
                                 1,
-                            width: ((width - 4) * 11 / 12) / dayAmount,
+                            width: ((width) * 11 / 12) / dayAmount,
                             child: Container(
                               child: TimeTableItem(
                                 classItem: item,
@@ -413,7 +412,7 @@ class TimeTableItem extends StatelessWidget {
         },
         child: Container(
           // margin: const EdgeInsets.only(top: 1),
-          margin: const EdgeInsets.symmetric(horizontal: 1),
+          margin: const EdgeInsets.symmetric(horizontal: 0.5),
 
           height: (classItem["end_time"] - classItem["start_time"]) *
                   time_height /
@@ -523,8 +522,8 @@ class TimeTableDays extends StatelessWidget {
 const tableBoxDecoration = BoxDecoration(
     color: const Color(0xfff8f6fe),
     border: Border(
-        bottom: BorderSide(color: Color(0xffdedede), width: 0.5),
-        right: BorderSide(color: Color(0xffdedede), width: 0.5)));
+      bottom: BorderSide(color: Color(0xffdedede), width: 0.5),
+    ));
 
 var contentTableBoxDecoration = (Color color) => BoxDecoration(
     color: color, borderRadius: BorderRadius.all(Radius.circular(8)));
@@ -532,5 +531,5 @@ var contentTableBoxDecoration = (Color color) => BoxDecoration(
 const innerTableBoxDecoration = BoxDecoration(
     color: Colors.white,
     border: Border(
-        bottom: BorderSide(color: Color(0xffdedede), width: 0.5),
-        right: BorderSide(color: Color(0xffdedede), width: 0.5)));
+      bottom: BorderSide(color: Color(0xffdedede), width: 0.5),
+    ));
