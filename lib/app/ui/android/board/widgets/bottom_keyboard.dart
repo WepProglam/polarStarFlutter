@@ -28,18 +28,19 @@ class BottomKeyboard extends StatelessWidget {
             borderRadius: BorderRadius.circular(10)),
         child: Stack(
           children: [
-            TextFormField(
-              autofocus: false,
-              controller: commentWriteController,
-              // autofocus: c.autoFocusTextForm.value,
-              // scrollPadding: const EdgeInsets.all(),
+            Obx(
+              () => TextFormField(
+                autofocus: false,
+                controller: commentWriteController,
+                // autofocus: c.autoFocusTextForm.value,
+                // scrollPadding: const EdgeInsets.all(),
 
-              keyboardType: TextInputType.multiline,
-              minLines: 1,
-              maxLines: 5,
+                keyboardType: TextInputType.multiline,
+                minLines: 1,
+                maxLines: 5,
 
-              // expands: true,
-              /* onChanged: (String str) {
+                // expands: true,
+                /* onChanged: (String str) {
               int line_num = '\n'.allMatches(str).length + 1;
             
               List<String> splitStr = str.split("\n");
@@ -81,24 +82,25 @@ class BottomKeyboard extends StatelessWidget {
             },
              */
 
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: "NotoSansSC",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14.0),
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "NotoSansSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
 
-              textAlign: TextAlign.left,
-              decoration: InputDecoration(
-                isDense: true,
-                contentPadding:
-                    EdgeInsets.only(left: 66, right: 40, top: 10, bottom: 10),
-                hintText: c.autoFocusTextForm.value
-                    ? '수정하기'
-                    : c.isCcomment.value
-                        ? '대댓글 작성'
-                        : '댓글 작성',
-                border: InputBorder.none,
+                textAlign: TextAlign.left,
+                decoration: InputDecoration(
+                  isDense: true,
+                  contentPadding:
+                      EdgeInsets.only(left: 66, right: 40, top: 10, bottom: 10),
+                  hintText: c.autoFocusTextForm.value
+                      ? '수정하기'
+                      : c.isCcomment.value
+                          ? '대댓글 작성'
+                          : '댓글 작성',
+                  border: InputBorder.none,
+                ),
               ),
             ),
             // 익명 체크

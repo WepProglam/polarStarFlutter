@@ -210,6 +210,12 @@ class ClassViewController extends GetxController
     getClassView(int.parse(Get.parameters["CLASS_ID"]));
     getExamInfo(int.parse(Get.parameters["CLASS_ID"]));
     tabController = await TabController(vsync: this, length: 2);
+    tabController.addListener(() {
+      if (!tabController.indexIsChanging) {
+        typeIndex(tabController.index);
+        print(typeIndex.value);
+      }
+    });
     super.onInit();
   }
 
