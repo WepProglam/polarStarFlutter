@@ -1,3 +1,4 @@
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart'
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
 
-class MainController extends GetxController {
+class MainController extends GetxController with SingleGetTickerProviderMixin {
   final MainRepository repository;
   final box = GetStorage();
   final DatabaseHelper _dbHelper = DatabaseHelper.instance;
@@ -45,6 +46,7 @@ class MainController extends GetxController {
   RxInt mainPageIndex = 0.obs;
   RxList<String> followingCommunity = <String>[].obs;
 
+  TabController tabController;
   List<Color> classColorList = [
     Color(0xff1a785c),
     Color(0xff983280),
@@ -250,10 +252,12 @@ class MainController extends GetxController {
   }
 
   @override
-  onInit() async {
+  void onInit() async {
+    tabController = TabController(vsync: this, length: 2);
     super.onInit();
     await getFollowingCommunity();
     await getBoardInfo();
+
     initDataAvailable.value = true;
   }
 

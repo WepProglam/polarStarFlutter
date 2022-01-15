@@ -171,7 +171,215 @@ class MainPageScroll extends StatelessWidget {
                               ),
                             ),
 
-                            // * 핫게가 없을 때
+                            // 게시판
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 20, right: 20, top: 36),
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      child: BoardPreviewItem_top(),
+                                      padding:
+                                          const EdgeInsets.only(bottom: 20),
+                                    ),
+                                    mainController.followingCommunity.length > 0
+                                        ? Container(
+                                            height: (80 + 10.0) *
+                                                mainController
+                                                    .followingCommunity.length,
+                                            child: ListView.builder(
+                                                itemCount: mainController
+                                                    .followingCommunity.length,
+                                                physics:
+                                                    NeverScrollableScrollPhysics(),
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  String target_community_id =
+                                                      mainController
+                                                              .followingCommunity[
+                                                          index];
+                                                  Rx<BoardInfo> boardInfo;
+
+                                                  for (var item
+                                                      in mainController
+                                                          .boardInfo) {
+                                                    if ("${item.value.COMMUNITY_ID}" ==
+                                                        target_community_id) {
+                                                      boardInfo = item;
+                                                      break;
+                                                    }
+                                                  }
+
+                                                  // * follow 하는게 서버에서 사라졌을때 해당 팔로우 정보 삭제
+                                                  if (boardInfo == null) {
+                                                    mainController
+                                                        .deleteFollowingCommunity(
+                                                            int.parse(
+                                                                target_community_id));
+                                                    return Container();
+                                                  }
+
+                                                  return InkWell(
+                                                    onTap: () async {
+                                                      searchText.clear();
+                                                      searchFocusNode.unfocus();
+                                                      await Get.toNamed(
+                                                        "/board/${boardInfo.value.COMMUNITY_ID}/page/${1}",
+                                                      ).then((value) async {
+                                                        await MainUpdateModule
+                                                            .updateMainPage();
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                        height: 80,
+                                                        margin: const EdgeInsets
+                                                            .only(bottom: 10.0),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            7)),
+                                                                border: Border.all(
+                                                                    color: const Color(
+                                                                        0xffeaeaea),
+                                                                    width: 1),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                      color: const Color(
+                                                                          0x0f000000),
+                                                                      offset:
+                                                                          Offset(
+                                                                              0,
+                                                                              3),
+                                                                      blurRadius:
+                                                                          10,
+                                                                      spreadRadius:
+                                                                          0)
+                                                                ],
+                                                                color: const Color(
+                                                                    0xffffffff)),
+                                                        child: Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      14),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Row(children: [
+                                                                Text(
+                                                                    "${boardInfo.value.COMMUNITY_NAME}",
+                                                                    style: const TextStyle(
+                                                                        color: const Color(
+                                                                            0xff2f2f2f),
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500,
+                                                                        fontFamily:
+                                                                            "NotoSansKR",
+                                                                        fontStyle:
+                                                                            FontStyle
+                                                                                .normal,
+                                                                        fontSize:
+                                                                            14.0),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .left),
+                                                                NewIcon()
+                                                              ]),
+                                                              Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        top: 2),
+                                                                child: Text(
+                                                                    "${boardInfo.value.RECENT_TITLE}",
+                                                                    style: const TextStyle(
+                                                                        color: const Color(
+                                                                            0xff6f6e6e),
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w400,
+                                                                        fontFamily:
+                                                                            "NotoSansSC",
+                                                                        fontStyle:
+                                                                            FontStyle
+                                                                                .normal,
+                                                                        fontSize:
+                                                                            10.0),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .left),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        )
+                                                        // BoardPreviewItem_board(
+                                                        //   boardInfo: boardInfo,
+                                                        //   size: size,
+                                                        //   fromList: false,
+                                                        // ),
+                                                        ),
+                                                  );
+                                                }),
+                                          )
+                                        : Container(
+                                            height: 150,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20)),
+                                                color: const Color(0xffffffff)),
+                                            child: Center(
+                                              child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              bottom: 10),
+                                                      child: Ink(
+                                                        width: 40,
+                                                        height: 40,
+                                                        child: InkWell(
+                                                          onTap: () async {
+                                                            searchText.clear();
+                                                            searchFocusNode
+                                                                .unfocus();
+                                                            await Get.toNamed(
+                                                                    "/board/boardList")
+                                                                .then(
+                                                                    (value) async {
+                                                              await MainUpdateModule
+                                                                  .updateMainPage();
+                                                            });
+                                                          },
+                                                          child: Image.asset(
+                                                              "assets/images/941.png"),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "Follow communites",
+                                                      style: textStyle,
+                                                    ),
+                                                  ]),
+                                            ),
+                                          ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            //
                             mainController.hotBoard.length != 0
                                 ?
                                 //* 핫게
@@ -179,20 +387,19 @@ class MainPageScroll extends StatelessWidget {
                                     Container(
                                       // padding: const EdgeInsets.all(18),
                                       margin: const EdgeInsets.fromLTRB(
-                                          20, 20, 20, 10),
+                                          20, 20, 26, 14),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          // 热榜
-                                          Text("热榜",
+                                          Text("收集帖子",
                                               style: const TextStyle(
                                                   color:
                                                       const Color(0xff2f2f2f),
                                                   fontWeight: FontWeight.w500,
                                                   fontFamily: "NotoSansSC",
                                                   fontStyle: FontStyle.normal,
-                                                  fontSize: 18.0),
+                                                  fontSize: 16.0),
                                               textAlign: TextAlign.left),
                                           InkWell(
                                             onTap: () async {
@@ -211,6 +418,65 @@ class MainPageScroll extends StatelessWidget {
                                       ),
                                     ),
                                     Container(
+                                      margin: const EdgeInsets.only(left: 20),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: TabBar(
+                                            labelPadding:
+                                                const EdgeInsets.all(0.0),
+                                            isScrollable: true,
+                                            controller:
+                                                mainController.tabController,
+                                            indicatorColor:
+                                                Get.theme.primaryColor,
+                                            indicatorPadding:
+                                                const EdgeInsets.all(0.0),
+                                            tabs: <Tab>[
+                                              Tab(
+                                                iconMargin:
+                                                    const EdgeInsets.only(
+                                                        bottom: 0.0),
+                                                child: Container(
+                                                  child: Text("Hot",
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xff000000),
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontFamily: "Roboto",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 14.0),
+                                                      textAlign:
+                                                          TextAlign.left),
+                                                ),
+                                              ),
+                                              Tab(
+                                                iconMargin:
+                                                    const EdgeInsets.only(
+                                                        bottom: 0.0),
+                                                child: Container(
+                                                  margin: const EdgeInsets.only(
+                                                      left: 12),
+                                                  child: Text("New",
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xffd6d4d4),
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontFamily: "Roboto",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 14.0),
+                                                      textAlign:
+                                                          TextAlign.left),
+                                                ),
+                                              )
+                                            ]),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 23),
                                       width: size.width,
                                       child: Container(
                                         margin: const EdgeInsets.fromLTRB(
