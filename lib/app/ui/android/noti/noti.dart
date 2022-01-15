@@ -64,10 +64,11 @@ class Noti extends StatelessWidget {
                       notiController.pageViewIndex.value = index;
                     },
                     itemBuilder: (BuildContext context, int i) {
-                      if (i == 0) {
+                      if (isNotiPage.value) {
                         return RefreshIndicator(
                             onRefresh: () async {
-                              await MainUpdateModule.updateNotiPage(i);
+                              await MainUpdateModule.updateNotiPage(
+                                  notiController.pageViewIndex.value);
                             },
                             child: Obx(() => ListView.builder(
                                 shrinkWrap: true,
@@ -116,7 +117,8 @@ class Noti extends StatelessWidget {
                       } else {
                         return RefreshIndicator(
                             onRefresh: () async {
-                              await MainUpdateModule.updateNotiPage(i);
+                              await MainUpdateModule.updateNotiPage(
+                                  notiController.pageViewIndex.value);
                             },
                             child: Obx(() => ListView.builder(
                                 shrinkWrap: true,
