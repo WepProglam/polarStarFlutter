@@ -8,8 +8,8 @@ List<Widget> rate_star(String AVG_RATE, double size) {
       height: size,
       child: Image.asset(
         i + 1 <= double.parse(AVG_RATE)
-            ? 'assets/images/icn_star_selected_fill.png'
-            : 'assets/images/icn_star_normal_white.png',
+            ? 'assets/images/star_100.png'
+            : 'assets/images/star_0.png',
         fit: BoxFit.fitHeight,
       ),
     ));
@@ -32,40 +32,40 @@ List<Widget> rate_heart(String AVG_RATE, double size) {
     String img;
     switch (fraction.toString()) {
       case "0.0":
-        img = "687";
+        img = "star_0";
         break;
       case "0.1":
-        img = "688";
+        img = "star_10";
         break;
       case "0.2":
-        img = "675";
+        img = "star_20";
         break;
       case "0.3":
-        img = "674";
+        img = "star_30";
         break;
       case "0.4":
-        img = "673";
+        img = "star_40";
         break;
       case "0.5":
-        img = "672";
+        img = "star_50";
         break;
       case "0.6":
-        img = "678";
+        img = "star_60";
         break;
       case "0.7":
-        img = "681";
+        img = "star_70";
         break;
       case "0.8":
-        img = "726";
+        img = "star_80";
         break;
       case "0.9":
-        img = "725";
+        img = "star_90";
         break;
       case "1.0":
-        img = "733";
+        img = "star_100";
         break;
       default:
-        img = "733";
+        img = "star_0";
         break;
     }
     retList.add(Container(
