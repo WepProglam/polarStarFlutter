@@ -46,6 +46,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   RxInt mainPageIndex = 0.obs;
   RxList<String> followingCommunity = <String>[].obs;
 
+  RxInt hotOrNewIndex = 0.obs;
   TabController tabController;
   List<Color> classColorList = [
     Color(0xff1a785c),
