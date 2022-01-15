@@ -430,29 +430,35 @@ class TimeTableItem extends StatelessWidget {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "${classItemModel.CLASS_NAME}",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            color: const Color(0xffffffff),
-                            fontWeight: FontWeight.w700,
-                            fontFamily: "Roboto",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 10.0),
-                        textAlign: TextAlign.center,
-                      ),
-                      // 이연희
-                      Text("${classItemModel.PROFESSOR}",
-                          maxLines: 1,
+                      Container(
+                        width: 60,
+                        child: Text(
+                          "${classItemModel.CLASS_NAME}",
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              color: const Color(0xfffff8dd),
-                              fontWeight: FontWeight.w400,
+                              color: const Color(0xffffffff),
+                              fontWeight: FontWeight.w700,
                               fontFamily: "Roboto",
                               fontStyle: FontStyle.normal,
                               fontSize: 10.0),
-                          textAlign: TextAlign.center)
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      // 이연희
+                      Container(
+                        width: 60,
+                        child: Text("${classItemModel.PROFESSOR}",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: const Color(0xfffff8dd),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "Roboto",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 10.0),
+                            textAlign: TextAlign.center),
+                      )
                     ]),
               );
             }),
