@@ -254,8 +254,8 @@ class classSearchBottomSheet extends StatelessWidget {
                       // ypos_average /= controller.NewClass.length;
 
                       double target_ypos = (ypos_average - 9) *
-                          timeTableController.timeHeight.value;
-                      print(target_ypos);
+                              timeTableController.timeHeight.value +
+                          20;
 
                       double current_ypos = scrollController.offset;
 
@@ -271,8 +271,8 @@ class classSearchBottomSheet extends StatelessWidget {
                     return Container(
                         padding: const EdgeInsets.only(bottom: 12.5),
                         color: index == controller.selectedIndex.value
-                            ? Colors.lightBlue[50]
-                            : Colors.white,
+                            ? const Color(0xfff5f6ff)
+                            : const Color(0xffffffff),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -406,42 +406,51 @@ class classSearchBottomSheet extends StatelessWidget {
                                                 const EdgeInsets.only(top: 7),
                                             child: Row(
                                               children: [
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                      color: Get
-                                                          .theme.primaryColor,
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  10))),
-                                                  child: Ink(
-                                                    padding: const EdgeInsets
-                                                        .fromLTRB(8, 2, 8, 2),
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        controller.addClass(
-                                                            timeTableController
-                                                                .selectedTimeTableId
-                                                                .value);
-                                                      },
-                                                      child: Center(
-                                                        child: Text(
-                                                          "등록",
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: const TextStyle(
+                                                Ink(
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      controller.addClass(
+                                                          timeTableController
+                                                              .selectedTimeTableId
+                                                              .value);
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          13)),
+                                                          border: Border.all(
                                                               color: const Color(
-                                                                  0xffffffff),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontFamily:
-                                                                  "NotoSansKR",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: 10.0),
-                                                        ),
+                                                                  0xff8f90f8),
+                                                              width: 1),
+                                                          color: const Color(
+                                                              0xffffffff)),
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal: 12,
+                                                                vertical: 4.5),
+                                                        child: Center(
+                                                            child: Text("注册",
+                                                                style: const TextStyle(
+                                                                    color: const Color(
+                                                                        0xff371ac7),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontFamily:
+                                                                        "NotoSansSC",
+                                                                    fontStyle:
+                                                                        FontStyle
+                                                                            .normal,
+                                                                    fontSize:
+                                                                        12.0),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center)),
                                                       ),
                                                     ),
                                                   ),
@@ -505,7 +514,7 @@ class searchClassSliverAppBar extends StatelessWidget {
                             child: Container(
                                 height: 32,
                                 padding:
-                                    const EdgeInsets.only(left: 18, right: 18),
+                                    const EdgeInsets.only(left: 12, right: 12),
                                 child: Row(children: [
                                   Center(
                                     child: // 专业/领域: 整个
@@ -520,20 +529,22 @@ class searchClassSliverAppBar extends StatelessWidget {
                                                 fontSize: 14.0),
                                             textAlign: TextAlign.left),
                                   ),
-                                  Ink(
-                                    child: InkWell(
-                                      onTap: () async {
-                                        controller.initMajor();
-                                        // * page 값 초기화
-                                        controller.initSeachPage();
-                                        controller
-                                            .getClass(controller.searchPage);
-                                      },
-                                      child: Icon(
-                                        Icons.delete,
-                                        size: 16,
-                                        color: Colors.white,
-                                      ),
+                                  Container(
+                                    margin: const EdgeInsets.only(left: 8),
+                                    child: Ink(
+                                      child: InkWell(
+                                          onTap: () async {
+                                            controller.initMajor();
+                                            // * page 값 초기화
+                                            controller.initSeachPage();
+                                            controller.getClass(
+                                                controller.searchPage);
+                                          },
+                                          child: Image.asset(
+                                            "assets/images/timetable_filter_delete.png",
+                                            width: 16,
+                                            height: 16,
+                                          )),
                                     ),
                                   )
                                 ]),
@@ -549,7 +560,7 @@ class searchClassSliverAppBar extends StatelessWidget {
                 // 사각형 16
                 Container(
                     height: 32,
-                    padding: const EdgeInsets.only(left: 18, right: 18),
+                    padding: const EdgeInsets.only(left: 12, right: 12),
                     child: Ink(
                       child: InkWell(
                         onTap: () {
@@ -574,18 +585,21 @@ class searchClassSliverAppBar extends StatelessWidget {
                                         fontSize: 14.0),
                                     textAlign: TextAlign.left),
                               ),
-                              Ink(
-                                child: InkWell(
-                                  onTap: () async {
-                                    controller.initSearchName();
-                                    // * page 값 초기화
-                                    controller.initSeachPage();
-                                    await controller.getFilteredClass(0);
-                                  },
-                                  child: Icon(
-                                    Icons.delete,
-                                    size: 16,
-                                    color: Colors.white,
+                              Container(
+                                margin: const EdgeInsets.only(left: 8),
+                                child: Ink(
+                                  child: InkWell(
+                                    onTap: () async {
+                                      controller.initSearchName();
+                                      // * page 값 초기화
+                                      controller.initSeachPage();
+                                      await controller.getFilteredClass(0);
+                                    },
+                                    child: Image.asset(
+                                      "assets/images/timetable_filter_delete.png",
+                                      width: 16,
+                                      height: 16,
+                                    ),
                                   ),
                                 ),
                               )

@@ -97,6 +97,18 @@ class WritePost extends StatelessWidget {
                           await Get.defaultDialog(
                               title: "게시글 작성",
                               middleText: "게시글을 작성하시겠습니까?",
+                              titleStyle: const TextStyle(
+                                  color: const Color(0xff2f2f2f),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansTC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16.0),
+                              middleTextStyle: const TextStyle(
+                                  color: const Color(0xff2f2f2f),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansTC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16.0),
                               actions: [
                                 TextButton(
                                     onPressed: () async {
@@ -119,12 +131,28 @@ class WritePost extends StatelessWidget {
                                         }
                                       }
                                     },
-                                    child: Text("네")),
+                                    child: Text(
+                                      "네",
+                                      style: const TextStyle(
+                                          color: const Color(0xff2f2f2f),
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "Roboto",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 14.0),
+                                    )),
                                 TextButton(
                                     onPressed: () {
                                       Get.back();
                                     },
-                                    child: Text("아니오")),
+                                    child: Text(
+                                      "아니오",
+                                      style: const TextStyle(
+                                          color: const Color(0xff2f2f2f),
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "Roboto",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 14.0),
+                                    )),
                               ]);
                           //수정
                         },

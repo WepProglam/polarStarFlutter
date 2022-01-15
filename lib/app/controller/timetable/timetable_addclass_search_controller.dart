@@ -119,13 +119,21 @@ class TimeTableAddClassSearchController extends GetxController {
     return true;
   }
 
-  Future<void> getClassInfo() async {
+  Future<void> getClassInfo(int page) async {
     // * initmodel이 있으면 initmodel 반환
     // ? initmodel도 page별로 append할거면 코드 수정 필요
     if (initModel.length != 0) {
-      CLASS_SEARCH.value = initModel;
+      var response = await Session().getX("/class/timetable/page/$page");
+      var json = jsonDecode(response.body);
+      Iterable classList = json;
+      CLASS_SEARCH.addAll(
+          classList.map((e) => TimeTableClassModel.fromJson(e)).toList());
+      initModel = CLASS_SEARCH.value;
+      dataAvailbale.value = true;
       return;
     }
+
+    print("bb");
     var response = await Session().getX("/class/timetable");
     var json = jsonDecode(response.body);
     Iterable classList = json["CLASS"];
@@ -255,7 +263,7 @@ class TimeTableAddClassSearchController extends GetxController {
     // * getClass - 이것도 계속 로드?
     if (searchNameEmpty && searchMajorEmpty) {
       print("1");
-      await getClassInfo();
+      await getClassInfo(page);
     }
     // * getFilteredClass
     else if (!searchNameEmpty && searchMajorEmpty) {
@@ -284,7 +292,7 @@ class TimeTableAddClassSearchController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await getClassInfo();
+    await getClassInfo(0);
     await timeTableController.handleAddButtonFalse();
 
     scrollController.value.addListener(() async {

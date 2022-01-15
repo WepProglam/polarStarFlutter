@@ -256,6 +256,15 @@ class MainPageScroll extends StatelessWidget {
                                                     }
                                                   }
 
+                                                  // * follow 하는게 서버에서 사라졌을때 해당 팔로우 정보 삭제
+                                                  if (boardInfo == null) {
+                                                    mainController
+                                                        .deleteFollowingCommunity(
+                                                            int.parse(
+                                                                target_community_id));
+                                                    return Container();
+                                                  }
+
                                                   return InkWell(
                                                     onTap: () async {
                                                       searchText.clear();

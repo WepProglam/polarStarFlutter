@@ -131,7 +131,8 @@ class TimeTableAddClass extends StatelessWidget {
                   child: Container(
                     width: (width * 11 / 12) / dayAmount,
                     height: (end_time - start_time) * (time_height / 60),
-                    decoration: contentTableBoxDecoration(Colors.black),
+                    decoration:
+                        contentTableBoxDecoration(const Color(0xff9ee85e)),
                     margin: EdgeInsets.only(
                         top: ((start_time - last_end_time) *
                                     (time_height / 60)) <

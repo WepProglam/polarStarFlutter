@@ -123,19 +123,31 @@ class WritePostController extends GetxController {
 void responseSwitchCase(int status) {
   switch (status) {
     case 200:
-      Get.snackbar("글쓰기 성공", "글쓰기 성공");
+      // Get.snackbar("시스템 오류", "글쓰기 성공");
       break;
     case 401:
-      Get.snackbar("$status", "로그인 에러");
+      Get.snackbar("시스템 오류", "식별되지 않은 사용자입니다.",
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.black);
       break;
     case 403:
-      Get.snackbar("$status", "잘못된 접근(forbidden)");
+      Get.snackbar("시스템 오류", "잘못된 접근입니다.",
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.black);
       break;
     case 404:
-      Get.snackbar("$status", "게시판이 존재하지 않습니다");
+      Get.snackbar("시스템 오류", "게시판이 존재하지 않습니다",
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.black);
       break;
     default:
-      Get.snackbar("$status", "실패");
+      Get.snackbar("시스템 오류", "게시글이 작성되지 않았습니다.",
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.black);
       break;
   }
 }
