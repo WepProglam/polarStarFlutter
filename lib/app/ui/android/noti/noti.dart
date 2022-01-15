@@ -156,7 +156,7 @@ class Noti extends StatelessWidget {
                                     }
                                   },
                                   child: Container(
-                                      height: 108,
+                                      height: 80,
                                       child: Container(
                                         margin: const EdgeInsets.only(left: 14),
                                         child: Column(
@@ -232,7 +232,27 @@ class Noti extends StatelessWidget {
                                                                       .circular(
                                                                           15)),
                                                               color: const Color(
-                                                                  0xff571df0)))
+                                                                  0xff571df0))),
+                                                  Spacer(),
+                                                  Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            right: 20),
+                                                    child: Text(
+                                                        "${dateTime.value}",
+                                                        style: const TextStyle(
+                                                            color: const Color(
+                                                                0xff6f6e6e),
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "Roboto",
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontSize: 12.0),
+                                                        textAlign:
+                                                            TextAlign.left),
+                                                  )
                                                 ]);
                                               }),
                                             ),
@@ -244,7 +264,7 @@ class Noti extends StatelessWidget {
                                                   maxLines: 1,
                                                   style: const TextStyle(
                                                       color: const Color(
-                                                          0xff6f6e6e),
+                                                          0xff2f2f2f),
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       fontFamily: "NotoSansSC",
@@ -253,21 +273,6 @@ class Noti extends StatelessWidget {
                                                       fontSize: 12.0),
                                                   textAlign: TextAlign.left),
                                             ),
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  top: 14),
-                                              child: Text("${dateTime.value}",
-                                                  style: const TextStyle(
-                                                      color: const Color(
-                                                          0xff6f6e6e),
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontFamily: "Roboto",
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontSize: 12.0),
-                                                  textAlign: TextAlign.left),
-                                            )
                                           ],
                                         ),
                                       ),
