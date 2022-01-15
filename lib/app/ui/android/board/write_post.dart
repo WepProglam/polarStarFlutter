@@ -197,7 +197,7 @@ class WritePost extends StatelessWidget {
 
                         // textAlign: TextAlign.center,
                         style: const TextStyle(
-                            color: const Color(0xff9b9b9b),
+                            color: const Color(0xff6f6e6e),
                             fontWeight: FontWeight.w500,
                             fontFamily: "NotoSansSC",
                             fontStyle: FontStyle.normal,
@@ -212,7 +212,7 @@ class WritePost extends StatelessWidget {
                               fontFamily: "NotoSansSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 12.0),
-                          hintText: '请输入内容.',
+                          hintText: '标题.',
                         ),
                       ),
                     ),
@@ -243,7 +243,7 @@ class WritePost extends StatelessWidget {
                         maxLines: 10,
 
                         style: const TextStyle(
-                            color: const Color(0xff9b9b9b),
+                            color: const Color(0xff6f6e6e),
                             fontWeight: FontWeight.w500,
                             fontFamily: "NotoSansSC",
                             fontStyle: FontStyle.normal,
@@ -258,7 +258,7 @@ class WritePost extends StatelessWidget {
                               fontFamily: "NotoSansSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 12.0),
-                          hintText: '附有照片',
+                          hintText: '请输入内容.',
                         ),
                       ),
                     ),
@@ -287,14 +287,36 @@ class WritePost extends StatelessWidget {
                                         child: Container(
                                             width: 120,
                                             height: 120,
-                                            child: Center(
-                                              child: Icon(
-                                                Icons
-                                                    .add_circle_outline_outlined,
-                                                color: const Color(0xffeaeaea),
-                                                size: 20,
-                                              ),
-                                            ),
+                                            child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Center(
+                                                    child: Icon(
+                                                      Icons
+                                                          .add_circle_outline_outlined,
+                                                      color: const Color(
+                                                          0xffeaeaea),
+                                                      size: 20,
+                                                    ),
+                                                  ),
+                                                  // 附有照片
+                                                  Text("附有照片",
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xffd6d4d4),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily:
+                                                              "NotoSansSC",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 10.0),
+                                                      textAlign:
+                                                          TextAlign.center)
+                                                ]),
                                             decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(8)),
