@@ -170,50 +170,60 @@ class MainPageScroll extends StatelessWidget {
                                     activeDotColor: const Color(0xff571df0)),
                               ),
                             ),
-
-                            //* 핫게
-                            Container(
-                              // padding: const EdgeInsets.all(18),
-                              margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  // 热榜
-                                  Text("热榜",
-                                      style: const TextStyle(
-                                          color: const Color(0xff2f2f2f),
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: "NotoSansSC",
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 18.0),
-                                      textAlign: TextAlign.left),
-                                  InkWell(
-                                    onTap: () async {
-                                      searchText.clear();
-                                      searchFocusNode.unfocus();
-                                      await Get.toNamed("/board/hot/page/1")
-                                          .then((value) async {
-                                        await MainUpdateModule.updateMainPage();
-                                      });
-                                    },
-                                    child: SeeMore(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: size.width,
-                              child: Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                child: HotBoardMain(
-                                  size: size,
-                                  mainController: mainController,
-                                  searchFocusNode: searchFocusNode,
-                                  searchText: searchText,
-                                ),
-                              ),
-                            ),
+                            // * 핫게가 없을 때
+                            mainController.hotBoard.length != 0
+                                ?
+                                //* 핫게
+                                Column(children: [
+                                    Container(
+                                      // padding: const EdgeInsets.all(18),
+                                      margin: const EdgeInsets.fromLTRB(
+                                          20, 20, 20, 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          // 热榜
+                                          Text("热榜",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff2f2f2f),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "NotoSansSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 18.0),
+                                              textAlign: TextAlign.left),
+                                          InkWell(
+                                            onTap: () async {
+                                              searchText.clear();
+                                              searchFocusNode.unfocus();
+                                              await Get.toNamed(
+                                                      "/board/hot/page/1")
+                                                  .then((value) async {
+                                                await MainUpdateModule
+                                                    .updateMainPage();
+                                              });
+                                            },
+                                            child: SeeMore(),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      width: size.width,
+                                      child: Container(
+                                        margin: const EdgeInsets.fromLTRB(
+                                            0, 0, 0, 0),
+                                        child: HotBoardMain(
+                                          size: size,
+                                          mainController: mainController,
+                                          searchFocusNode: searchFocusNode,
+                                          searchText: searchText,
+                                        ),
+                                      ),
+                                    ),
+                                  ])
+                                : Container(),
 
                             // 게시판
                             Container(

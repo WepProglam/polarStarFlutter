@@ -258,7 +258,7 @@ class PostWidget extends StatelessWidget {
             // * 좋아요, 댓글, 스크랩 수
             Container(
               margin: EdgeInsets.only(top: 14),
-              decoration: BoxDecoration(color: const Color(0x0a571df0)),
+              decoration: BoxDecoration(color: const Color(0xfff5f6ff)),
               child: PostBottom(
                   item: item,
                   mainController: mainController,

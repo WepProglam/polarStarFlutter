@@ -43,6 +43,8 @@ class PostBottom extends StatelessWidget {
           onPressed: () async {
             if (item.value.MYSELF) {
               Get.snackbar("게시글 좋아요", "내가 쓴 게시글에는 할 수 없습니다.",
+                  colorText: Colors.white,
+                  backgroundColor: Colors.black,
                   snackPosition: SnackPosition.BOTTOM);
             } else if (mainController.isLiked(item.value)) {
             } else {
