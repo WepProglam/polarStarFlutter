@@ -64,7 +64,7 @@ class Noti extends StatelessWidget {
                       notiController.pageViewIndex.value = index;
                     },
                     itemBuilder: (BuildContext context, int i) {
-                      if (isNotiPage.value) {
+                      if (isNotiPage.value && i == 0) {
                         return RefreshIndicator(
                             onRefresh: () async {
                               await MainUpdateModule.updateNotiPage(
