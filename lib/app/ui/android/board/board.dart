@@ -150,6 +150,7 @@ class Board extends StatelessWidget {
                         child: Obx(() {
                           if (controller.dataAvailablePostPreview.value) {
                             return ListView.builder(
+                                physics: AlwaysScrollableScrollPhysics(),
                                 controller: controller.scrollController.value,
                                 itemCount: controller.postBody.length,
                                 itemBuilder: (BuildContext context, int index) {

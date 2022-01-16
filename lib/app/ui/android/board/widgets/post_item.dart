@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
@@ -40,20 +41,22 @@ class PostBottom extends StatelessWidget {
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
           ),
-          onPressed: () async {
-            if (item.value.MYSELF) {
-              Get.snackbar("게시글 좋아요", "내가 쓴 게시글에는 할 수 없습니다.",
-                  colorText: Colors.white,
-                  backgroundColor: Colors.black,
-                  snackPosition: SnackPosition.BOTTOM);
-            } else if (mainController.isLiked(item.value)) {
-            } else {
-              int status_code = await c.totalSend(
-                  '/like/${item.value.COMMUNITY_ID}/id/${item.value.UNIQUE_ID}',
-                  '좋아요',
-                  index);
-            }
-          },
+          onPressed: mainController.isLiked(item.value) || c == null
+              ? null
+              : () async {
+                  if (item.value.MYSELF) {
+                    Get.snackbar("게시글 좋아요", "내가 쓴 게시글에는 할 수 없습니다.",
+                        colorText: Colors.white,
+                        backgroundColor: Colors.black,
+                        snackPosition: SnackPosition.BOTTOM);
+                  } else {
+                    int status_code = await c.totalSend(
+                        '/like/${item.value.COMMUNITY_ID}/id/${item.value.UNIQUE_ID}',
+                        '좋아요',
+                        index);
+                    print(status_code);
+                  }
+                },
           icon: Container(
             width: PostIconSize,
             height: PostIconSize,
@@ -93,17 +96,19 @@ class PostBottom extends StatelessWidget {
         TextButton.icon(
           style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.black)),
-          onPressed: () async {
-            if (mainController.isScrapped(item.value)) {
-              int status_code = await c.scrap_cancel(
-                  '/scrap/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}');
-            } else {
-              int status_code = await c.totalSend(
-                  '/scrap/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}',
-                  '스크랩',
-                  index);
-            }
-          },
+          onPressed: c == null
+              ? null
+              : () async {
+                  if (mainController.isScrapped(item.value)) {
+                    int status_code = await c.scrap_cancel(
+                        '/scrap/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}');
+                  } else {
+                    int status_code = await c.totalSend(
+                        '/scrap/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}',
+                        '스크랩',
+                        index);
+                  }
+                },
           icon: Container(
             width: PostIconSize,
             height: PostIconSize,
