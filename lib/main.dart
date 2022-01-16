@@ -125,7 +125,8 @@ void main() async {
     themeMode: ThemeMode.light, // Change it as you want
     theme: ThemeData(
         buttonColor: const Color(0xff371ac7),
-        primaryColor: const Color(0xff371ac7)),
+        primaryColor: const Color(0xff371ac7),
+        appBarTheme: AppBarTheme(color: const Color(0xff371ac7))),
     scrollBehavior: MyBehavior(),
     debugShowCheckedModeBanner: false,
     initialBinding: isLogined ? MainBinding() : LoginBinding(),
