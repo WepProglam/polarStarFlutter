@@ -96,17 +96,19 @@ class PostBottom extends StatelessWidget {
         TextButton.icon(
           style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.black)),
-          onPressed: () async {
-            if (mainController.isScrapped(item.value)) {
-              int status_code = await c.scrap_cancel(
-                  '/scrap/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}');
-            } else {
-              int status_code = await c.totalSend(
-                  '/scrap/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}',
-                  '스크랩',
-                  index);
-            }
-          },
+          onPressed: c == null
+              ? null
+              : () async {
+                  if (mainController.isScrapped(item.value)) {
+                    int status_code = await c.scrap_cancel(
+                        '/scrap/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}');
+                  } else {
+                    int status_code = await c.totalSend(
+                        '/scrap/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}',
+                        '스크랩',
+                        index);
+                  }
+                },
           icon: Container(
             width: PostIconSize,
             height: PostIconSize,
