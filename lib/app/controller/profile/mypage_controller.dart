@@ -49,6 +49,7 @@ class MyPageController extends GetxController
   RxInt writeMaxPage = 99999.obs;
   RxInt likeMaxPage = 99999.obs;
   RxInt scrapMaxPage = 99999.obs;
+  int MAX_BOARDS_LIMIT = 30;
 
   final Rx<ScrollController> scrollController =
       ScrollController(initialScrollOffset: 0.0).obs;
@@ -66,6 +67,7 @@ class MyPageController extends GetxController
   Future<void> getMineWrite() async {
     final response = await repository.getMineWrite(writePage.value);
     final status = response["status"];
+    MAX_BOARDS_LIMIT = response["MAX_BOARDS_LIMIT"];
 
     if (writePage.value > 0) {
       if (response["myPageBoard"].length == 0) {
@@ -77,6 +79,9 @@ class MyPageController extends GetxController
       switch (status) {
         case 200:
           myBoardWrite.value = response["myPageBoard"];
+          if (myBoardWrite.length < MAX_BOARDS_LIMIT) {
+            writeMaxPage.value = writePage.value;
+          }
           break;
         default:
           myBoardWrite.value = [];
@@ -91,6 +96,7 @@ class MyPageController extends GetxController
   Future<void> getMineLike() async {
     final response = await repository.getMineLike(likePage.value);
     final status = response["status"];
+    MAX_BOARDS_LIMIT = response["MAX_BOARDS_LIMIT"];
 
     if (likePage.value > 0) {
       if (response["myPageBoard"].length == 0) {
@@ -102,7 +108,9 @@ class MyPageController extends GetxController
       switch (status) {
         case 200:
           myBoardLike.value = response["myPageBoard"];
-
+          if (myBoardLike.length < MAX_BOARDS_LIMIT) {
+            likeMaxPage.value = likePage.value;
+          }
           break;
         default:
           myBoardLike.value = [];
@@ -118,6 +126,7 @@ class MyPageController extends GetxController
   Future<void> getMineScrap() async {
     final response = await repository.getMineScrap(scrapPage.value);
     final status = response["status"];
+    MAX_BOARDS_LIMIT = response["MAX_BOARDS_LIMIT"];
 
     if (scrapPage.value > 0) {
       if (response["myPageBoard"].length == 0) {
@@ -129,7 +138,9 @@ class MyPageController extends GetxController
       switch (status) {
         case 200:
           myBoardScrap.value = response["myPageBoard"];
-
+          if (myBoardScrap.length < MAX_BOARDS_LIMIT) {
+            scrapMaxPage.value = scrapPage.value;
+          }
           break;
         default:
           myBoardScrap.value = [];

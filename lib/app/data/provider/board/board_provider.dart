@@ -25,7 +25,22 @@ class BoardApiClient {
     var response = await Session().getX("/board/hot/page/$page");
 
     if (response.statusCode != 200) {
-      return {"status": response.statusCode, "listBoard": []};
+      return {"status": response.statusCode, "listBoard": <Rx<Post>>[].obs};
+    }
+
+    Iterable jsonResponse = jsonDecode(response.body);
+
+    List<Rx<Post>> listBoard =
+        jsonResponse.map((model) => Post.fromJson(model).obs).toList();
+
+    return {"status": response.statusCode, "listBoard": listBoard};
+  }
+
+  Future<Map<String, dynamic>> getNewBoard(int page) async {
+    var response = await Session().getX("/board/new/page/$page");
+
+    if (response.statusCode != 200) {
+      return {"status": response.statusCode, "listBoard": <Rx<Post>>[]};
     }
 
     Iterable jsonResponse = jsonDecode(response.body);

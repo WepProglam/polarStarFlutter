@@ -60,37 +60,52 @@ class MyPageApiClient {
     return {
       "status": response.statusCode,
       "myPageBoard": listMyPageBoardVal,
+      "MAX_BOARDS_LIMIT": responseBody["MAX_BOARDS_LIMIT"]
     };
   }
 
   Future<Map<String, dynamic>> getMineLike(int page) async {
     var response = await Session().getX("/info/like/page/$page");
-
+    var responseBody = jsonDecode(response.body);
     if (response.statusCode != 200) {
-      return {"status": response.statusCode, "myPageBoard": []};
+      return {
+        "status": response.statusCode,
+        "myPageBoard": [],
+        "MAX_BOARDS_LIMIT": responseBody["MAX_BOARDS_LIMIT"]
+      };
     }
 
-    var responseBody = jsonDecode(response.body);
     List<Rx<Post>> listMyPageBoardVal;
     Iterable listMyPageBoard = responseBody["LIKE"];
     listMyPageBoardVal =
         listMyPageBoard.map((model) => Post.fromJson(model).obs).toList();
-    return {"status": response.statusCode, "myPageBoard": listMyPageBoardVal};
+    return {
+      "status": response.statusCode,
+      "myPageBoard": listMyPageBoardVal,
+      "MAX_BOARDS_LIMIT": responseBody["MAX_BOARDS_LIMIT"]
+    };
   }
 
   Future<Map<String, dynamic>> getMineScrap(int page) async {
     var response = await Session().getX("/info/scrap/page/$page");
-
+    var responseBody = jsonDecode(response.body);
     if (response.statusCode != 200) {
-      return {"status": response.statusCode, "myPageBoard": []};
+      return {
+        "status": response.statusCode,
+        "myPageBoard": [],
+        "MAX_BOARDS_LIMIT": responseBody["MAX_BOARDS_LIMIT"]
+      };
     }
 
-    var responseBody = jsonDecode(response.body);
     List<Rx<Post>> listMyPageBoardVal;
     Iterable listMyPageBoard = responseBody["SCRAP"];
     listMyPageBoardVal =
         listMyPageBoard.map((model) => Post.fromJson(model).obs).toList();
-    return {"status": response.statusCode, "myPageBoard": listMyPageBoardVal};
+    return {
+      "status": response.statusCode,
+      "myPageBoard": listMyPageBoardVal,
+      "MAX_BOARDS_LIMIT": responseBody["MAX_BOARDS_LIMIT"]
+    };
   }
 
   Future<Map<String, dynamic>> uploadProfileImage(

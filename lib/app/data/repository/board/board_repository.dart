@@ -16,6 +16,11 @@ class BoardRepository {
     return json;
   }
 
+  Future<Map<String, dynamic>> getNewBoard(int page) async {
+    final json = await apiClient.getNewBoard(page);
+    return json;
+  }
+
   Future<Map<String, dynamic>> getSearchBoard(
       String searchText, int COMMUNITY_ID) async {
     final json = await apiClient.getSearchBoard(searchText, COMMUNITY_ID);

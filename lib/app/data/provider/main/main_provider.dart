@@ -43,7 +43,8 @@ class MainApiClient {
       "likeList": listLikeList,
       "scrapList": listScrapList,
       "classList": listClassList,
-      "year_sem": jsonResponse["YEAR_SEM"]
+      "year_sem": jsonResponse["YEAR_SEM"],
+      "MAX_BOARDS_LIMIT": jsonResponse["MAX_BOARDS_LIMIT"]
     };
   }
 
