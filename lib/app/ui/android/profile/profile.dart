@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
 
 class Profile extends StatelessWidget {
   final MyPageController myPageController = Get.find();
@@ -35,28 +36,23 @@ class Profile extends StatelessWidget {
                     if (myPageController.dataAvailableMypage) {
                       return Column(children: [
                         Container(
-                            height: 268.5,
+                            height: 207,
                             child: Stack(children: [
                               Container(
-                                height: 141,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image:
-                                            AssetImage('assets/images/279.png'),
-                                        fit: BoxFit.none)),
-                              ),
+                                  height: 207,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(20),
+                                          bottomRight: Radius.circular(20)),
+                                      color: const Color(0xff371ac7))),
                               Align(
                                   alignment: Alignment.topCenter,
                                   child: Container(
-                                      height: 129,
-                                      width: 129,
-                                      margin: EdgeInsets.only(top: 70.5),
+                                      height: 80,
+                                      width: 80,
+                                      margin: EdgeInsets.only(top: 72),
                                       decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                            color: const Color(0x24ffffff),
-                                            width: 11),
-                                      ),
+                                          color: const Color(0xff371ac7)),
                                       child: CachedNetworkImage(
                                           imageUrl:
                                               '${myPageController.myProfile.value.PROFILE_PHOTO}',
@@ -64,14 +60,6 @@ class Profile extends StatelessWidget {
                                                   imageProvider) =>
                                               Container(
                                                   decoration: BoxDecoration(
-                                                      boxShadow: [
-                                                    BoxShadow(
-                                                        color: const Color(
-                                                            0x4a143a66),
-                                                        offset: Offset(0, 10),
-                                                        blurRadius: 26,
-                                                        spreadRadius: 0)
-                                                  ],
                                                       shape: BoxShape.circle,
                                                       image: DecorationImage(
                                                           image: imageProvider,
@@ -90,18 +78,11 @@ class Profile extends StatelessWidget {
                               Align(
                                 alignment: Alignment.topCenter,
                                 child: Container(
-                                  margin: EdgeInsets.only(top: 172, left: 100),
-                                  width: 30.5,
-                                  height: 30.5,
+                                  margin: EdgeInsets.only(top: 132, left: 62),
+                                  width: 20,
+                                  height: 20,
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: const Color(0x3352749d),
-                                            offset: Offset(0, 6),
-                                            blurRadius: 20,
-                                            spreadRadius: 0)
-                                      ],
                                       color: const Color(0xffffffff)),
                                 ),
                               ),
@@ -109,20 +90,20 @@ class Profile extends StatelessWidget {
                                 alignment: Alignment.topCenter,
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 180, left: 100),
+                                      top: 137.7, left: 67.1, right: 4),
                                   child: Ink(
                                     decoration:
                                         BoxDecoration(shape: BoxShape.circle),
-                                    width: 13.7,
-                                    height: 11.8,
+                                    width: 9.8,
+                                    height: 8.7,
                                     child: InkWell(
                                       onTap: () async {
                                         await myPageController
                                             .getMultipleGallertImage(context);
                                         await myPageController.upload();
                                       },
-                                      child:
-                                          Image.asset("assets/images/605.png"),
+                                      child: Image.asset(
+                                          "assets/images/camera.png"),
                                     ),
                                   ),
                                 ),
@@ -130,23 +111,32 @@ class Profile extends StatelessWidget {
                               Align(
                                 alignment: Alignment.topCenter,
                                 child: Container(
-                                    margin: EdgeInsets.only(top: 217),
-                                    height: 28,
+                                    margin: EdgeInsets.only(top: 164),
+                                    height: 19,
                                     child: // Userd
                                         Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
                                           Text(
                                               '${myPageController.myProfile.value.PROFILE_NICKNAME}',
                                               style: const TextStyle(
                                                   color:
-                                                      const Color(0xff333333),
-                                                  fontWeight: FontWeight.w700,
-                                                  fontFamily: "PingFangSC",
+                                                      const Color(0xffffffff),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "Roboto",
                                                   fontStyle: FontStyle.normal,
-                                                  fontSize: 21.0),
+                                                  fontSize: 16.0),
                                               textAlign: TextAlign.center),
+                                          Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 4, top: 4),
+                                              width: 8.9,
+                                              height: 8.5,
+                                              child: Image.asset(
+                                                  "assets/images/edit_3.png"))
                                         ])),
                               )
                             ])),
@@ -156,249 +146,290 @@ class Profile extends StatelessWidget {
                                 BoxDecoration(color: const Color(0xfff6f6f6))),
                         Expanded(
                             child: Container(
+                                margin: EdgeInsets.only(top: 34.5),
                                 child: Column(
-                          children: [
-                            // Container(
-                            //     height: 54.6,
-                            //     width: MediaQuery.of(context).size.width,
-                            //     decoration: BoxDecoration(
-                            //         border: Border(
-                            //             bottom: BorderSide(
-                            //                 color: const Color(0xffdedede),
-                            //                 width: 1))),
-                            //     child: Stack(children: [
-                            //       Align(
-                            //           alignment: Alignment.centerLeft,
-                            //           child: Container(
-                            //               margin: EdgeInsets.only(left: 15),
-                            //               child: Text("Name",
-                            //                   style: const TextStyle(
-                            //                       color:
-                            //                           const Color(0xff333333),
-                            //                       fontWeight: FontWeight.w400,
-                            //                       fontFamily: "PingFangSC",
-                            //                       fontStyle: FontStyle.normal,
-                            //                       fontSize: 16.0),
-                            //                   textAlign: TextAlign.left))),
-                            //       Align(
-                            //           alignment: Alignment.centerRight,
-                            //           child: Container(
-                            //               margin: EdgeInsets.only(right: 18),
-                            //               child: Text("Li Ming",
-                            //                   style: const TextStyle(
-                            //                       color:
-                            //                           const Color(0xff666666),
-                            //                       fontWeight: FontWeight.w400,
-                            //                       fontFamily: "PingFangSC",
-                            //                       fontStyle: FontStyle.normal,
-                            //                       fontSize: 16.0),
-                            //                   textAlign: TextAlign.left)))
-                            //     ])),
-                            // Container(
-                            //     height: 54.6,
-                            //     width: MediaQuery.of(context).size.width,
-                            //     decoration: BoxDecoration(
-                            //         border: Border(
-                            //             bottom: BorderSide(
-                            //                 color: const Color(0xffdedede),
-                            //                 width: 1))),
-                            //     child: Stack(children: [
-                            //       Align(
-                            //           alignment: Alignment.centerLeft,
-                            //           child: Container(
-                            //               margin: EdgeInsets.only(left: 15),
-                            //               child: Text("University",
-                            //                   style: const TextStyle(
-                            //                       color:
-                            //                           const Color(0xff333333),
-                            //                       fontWeight: FontWeight.w400,
-                            //                       fontFamily: "PingFangSC",
-                            //                       fontStyle: FontStyle.normal,
-                            //                       fontSize: 16.0),
-                            //                   textAlign: TextAlign.left))),
-                            //       Align(
-                            //           alignment: Alignment.centerRight,
-                            //           child: Container(
-                            //               margin: EdgeInsets.only(right: 18),
-                            //               child: Text("Li Ming",
-                            //                   style: const TextStyle(
-                            //                       color:
-                            //                           const Color(0xff666666),
-                            //                       fontWeight: FontWeight.w400,
-                            //                       fontFamily: "PingFangSC",
-                            //                       fontStyle: FontStyle.normal,
-                            //                       fontSize: 16.0),
-                            //                   textAlign: TextAlign.left)))
-                            //     ])),
-                            Container(
-                                height: 54.6,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: const Color(0xffdedede),
-                                            width: 1))),
-                                child: Stack(children: [
-                                  Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Container(
-                                          margin: EdgeInsets.only(left: 15),
-                                          child: Text("ID",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff333333),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "PingFangSC",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 16.0),
-                                              textAlign: TextAlign.left))),
-                                  Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Container(
-                                          margin: EdgeInsets.only(right: 18),
-                                          child: Text(
-                                              "${myPageController.myProfile.value.LOGIN_ID}",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff666666),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "PingFangSC",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 16.0),
-                                              textAlign: TextAlign.left))),
-                                ])),
-                            InkWell(
-                                child: Container(
-                                    height: 54.6,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: const Color(0xffdedede),
-                                                width: 1))),
-                                    child: Stack(children: [
-                                      Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Container(
-                                              margin: EdgeInsets.only(left: 15),
-                                              child: Text("PROFILE MESSAGE",
-                                                  style: const TextStyle(
-                                                      color: const Color(
-                                                          0xff333333),
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontFamily: "PingFangSC",
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontSize: 16.0),
-                                                  textAlign: TextAlign.left))),
-                                      Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Container(
-                                              margin:
-                                                  EdgeInsets.only(right: 18),
-                                              child: Text(
-                                                  "${myPageController.myProfile.value.PROFILE_MESSAGE}",
-                                                  style: const TextStyle(
-                                                      color: const Color(
-                                                          0xff666666),
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontFamily: "PingFangSC",
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontSize: 16.0),
-                                                  textAlign: TextAlign.left))),
-                                    ])),
-                                onTap: () async {
-                                  ProfileMessageDialog(
-                                      context, myPageController);
-                                }),
-                            InkWell(
-                                child: Container(
-                                    height: 54.6,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: const Color(0xffdedede),
-                                                width: 1))),
-                                    child: Stack(children: [
-                                      Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Container(
-                                              margin: EdgeInsets.only(left: 15),
-                                              child: Text("NICKNAME",
-                                                  style: const TextStyle(
-                                                      color: const Color(
-                                                          0xff333333),
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontFamily: "PingFangSC",
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontSize: 16.0),
-                                                  textAlign: TextAlign.left))),
-                                      Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Container(
-                                              margin:
-                                                  EdgeInsets.only(right: 18),
-                                              child: Text(
-                                                  "${myPageController.myProfile.value.PROFILE_NICKNAME}",
-                                                  style: const TextStyle(
-                                                      color: const Color(
-                                                          0xff666666),
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontFamily: "PingFangSC",
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontSize: 16.0),
-                                                  textAlign: TextAlign.left))),
-                                    ])),
-                                onTap: () async {
-                                  NicknameDialog(context, myPageController);
-                                }),
-                            // Container(
-                            //     height: 54.6,
-                            //     width: MediaQuery.of(context).size.width,
-                            //     decoration: BoxDecoration(
-                            //         border: Border(
-                            //             bottom: BorderSide(
-                            //                 color: const Color(0xffdedede),
-                            //                 width: 1))),
-                            //     child: Stack(children: [
-                            //       Align(
-                            //           alignment: Alignment.centerLeft,
-                            //           child: Container(
-                            //               margin: EdgeInsets.only(left: 15),
-                            //               child: Text("STUDENT ID",
-                            //                   style: const TextStyle(
-                            //                       color:
-                            //                           const Color(0xff333333),
-                            //                       fontWeight: FontWeight.w400,
-                            //                       fontFamily: "PingFangSC",
-                            //                       fontStyle: FontStyle.normal,
-                            //                       fontSize: 16.0),
-                            //                   textAlign: TextAlign.left))),
-                            //       Align(
-                            //           alignment: Alignment.centerRight,
-                            //           child: Container(
-                            //               margin: EdgeInsets.only(right: 18),
-                            //               child: Text(
-                            //                   "${myPageController.myProfile.value.PROFILE_SCHOOL}",
-                            //                   style: const TextStyle(
-                            //                       color:
-                            //                           const Color(0xff666666),
-                            //                       fontWeight: FontWeight.w400,
-                            //                       fontFamily: "PingFangSC",
-                            //                       fontStyle: FontStyle.normal,
-                            //                       fontSize: 16.0),
-                            //                   textAlign: TextAlign.left))),
-                            //     ]))
-                          ],
-                        )))
+                                  children: [
+                                    // Container(
+                                    //     height: 54.6,
+                                    //     width: MediaQuery.of(context).size.width,
+                                    //     decoration: BoxDecoration(
+                                    //         border: Border(
+                                    //             bottom: BorderSide(
+                                    //                 color: const Color(0xffdedede),
+                                    //                 width: 1))),
+                                    //     child: Stack(children: [
+                                    //       Align(
+                                    //           alignment: Alignment.centerLeft,
+                                    //           child: Container(
+                                    //               margin: EdgeInsets.only(left: 15),
+                                    //               child: Text("Name",
+                                    //                   style: const TextStyle(
+                                    //                       color:
+                                    //                           const Color(0xff333333),
+                                    //                       fontWeight: FontWeight.w400,
+                                    //                       fontFamily: "PingFangSC",
+                                    //                       fontStyle: FontStyle.normal,
+                                    //                       fontSize: 16.0),
+                                    //                   textAlign: TextAlign.left))),
+                                    //       Align(
+                                    //           alignment: Alignment.centerRight,
+                                    //           child: Container(
+                                    //               margin: EdgeInsets.only(right: 18),
+                                    //               child: Text("Li Ming",
+                                    //                   style: const TextStyle(
+                                    //                       color:
+                                    //                           const Color(0xff666666),
+                                    //                       fontWeight: FontWeight.w400,
+                                    //                       fontFamily: "PingFangSC",
+                                    //                       fontStyle: FontStyle.normal,
+                                    //                       fontSize: 16.0),
+                                    //                   textAlign: TextAlign.left)))
+                                    //     ])),
+                                    // Container(
+                                    //     height: 54.6,
+                                    //     width: MediaQuery.of(context).size.width,
+                                    //     decoration: BoxDecoration(
+                                    //         border: Border(
+                                    //             bottom: BorderSide(
+                                    //                 color: const Color(0xffdedede),
+                                    //                 width: 1))),
+                                    //     child: Stack(children: [
+                                    //       Align(
+                                    //           alignment: Alignment.centerLeft,
+                                    //           child: Container(
+                                    //               margin: EdgeInsets.only(left: 15),
+                                    //               child: Text("University",
+                                    //                   style: const TextStyle(
+                                    //                       color:
+                                    //                           const Color(0xff333333),
+                                    //                       fontWeight: FontWeight.w400,
+                                    //                       fontFamily: "PingFangSC",
+                                    //                       fontStyle: FontStyle.normal,
+                                    //                       fontSize: 16.0),
+                                    //                   textAlign: TextAlign.left))),
+                                    //       Align(
+                                    //           alignment: Alignment.centerRight,
+                                    //           child: Container(
+                                    //               margin: EdgeInsets.only(right: 18),
+                                    //               child: Text("Li Ming",
+                                    //                   style: const TextStyle(
+                                    //                       color:
+                                    //                           const Color(0xff666666),
+                                    //                       fontWeight: FontWeight.w400,
+                                    //                       fontFamily: "PingFangSC",
+                                    //                       fontStyle: FontStyle.normal,
+                                    //                       fontSize: 16.0),
+                                    //                   textAlign: TextAlign.left)))
+                                    //     ])),
+                                    Container(
+                                        height: 54.6,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color:
+                                                        const Color(0xffdedede),
+                                                    width: 1))),
+                                        child: Stack(children: [
+                                          Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Container(
+                                                  margin:
+                                                      EdgeInsets.only(left: 21),
+                                                  child: Text("ID",
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xff6f6e6e),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontFamily: "Roboto",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 14.0),
+                                                      textAlign:
+                                                          TextAlign.left))),
+                                          Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Container(
+                                                  margin: EdgeInsets.only(
+                                                      right: 20),
+                                                  child: Text(
+                                                      "${myPageController.myProfile.value.LOGIN_ID}",
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xff9b9b9b),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily: "Roboto",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 14.0),
+                                                      textAlign:
+                                                          TextAlign.left))),
+                                        ])),
+                                    InkWell(
+                                        child: Container(
+                                            height: 54.6,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        color: const Color(
+                                                            0xffdedede),
+                                                        width: 1))),
+                                            child: Stack(children: [
+                                              Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 21),
+                                                      child: Text(
+                                                          "PROFILE MESSAGE",
+                                                          style: const TextStyle(
+                                                              color: const Color(
+                                                                  0xff6f6e6e),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontFamily:
+                                                                  "Roboto",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: 14.0),
+                                                          textAlign:
+                                                              TextAlign.left))),
+                                              Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Container(
+                                                      margin: EdgeInsets.only(
+                                                          right: 20),
+                                                      child: Text(
+                                                          "${myPageController.myProfile.value.PROFILE_MESSAGE}",
+                                                          style: const TextStyle(
+                                                              color: const Color(
+                                                                  0xff9b9b9b),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontFamily:
+                                                                  "Roboto",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: 14.0),
+                                                          textAlign:
+                                                              TextAlign.left))),
+                                            ])),
+                                        onTap: () async {
+                                          ProfileMessageDialog(
+                                              context, myPageController);
+                                        }),
+                                    InkWell(
+                                        child: Container(
+                                            height: 54.6,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        color: const Color(
+                                                            0xffdedede),
+                                                        width: 1))),
+                                            child: Stack(children: [
+                                              Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 21),
+                                                      child: Text("NICKNAME",
+                                                          style: const TextStyle(
+                                                              color: const Color(
+                                                                  0xff6f6e6e),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontFamily:
+                                                                  "Roboto",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: 14.0),
+                                                          textAlign:
+                                                              TextAlign.left))),
+                                              Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Container(
+                                                      margin: EdgeInsets.only(
+                                                          right: 20),
+                                                      child: Text(
+                                                          "${myPageController.myProfile.value.PROFILE_NICKNAME}",
+                                                          style: const TextStyle(
+                                                              color: const Color(
+                                                                  0xff9b9b9b),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontFamily:
+                                                                  "Roboto",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: 14.0),
+                                                          textAlign:
+                                                              TextAlign.left))),
+                                            ])),
+                                        onTap: () async {
+                                          NicknameDialog(
+                                              context, myPageController);
+                                        }),
+                                    // Container(
+                                    //     height: 54.6,
+                                    //     width: MediaQuery.of(context).size.width,
+                                    //     decoration: BoxDecoration(
+                                    //         border: Border(
+                                    //             bottom: BorderSide(
+                                    //                 color: const Color(0xffdedede),
+                                    //                 width: 1))),
+                                    //     child: Stack(children: [
+                                    //       Align(
+                                    //           alignment: Alignment.centerLeft,
+                                    //           child: Container(
+                                    //               margin: EdgeInsets.only(left: 15),
+                                    //               child: Text("STUDENT ID",
+                                    //                   style: const TextStyle(
+                                    //                       color:
+                                    //                           const Color(0xff333333),
+                                    //                       fontWeight: FontWeight.w400,
+                                    //                       fontFamily: "PingFangSC",
+                                    //                       fontStyle: FontStyle.normal,
+                                    //                       fontSize: 16.0),
+                                    //                   textAlign: TextAlign.left))),
+                                    //       Align(
+                                    //           alignment: Alignment.centerRight,
+                                    //           child: Container(
+                                    //               margin: EdgeInsets.only(right: 18),
+                                    //               child: Text(
+                                    //                   "${myPageController.myProfile.value.PROFILE_SCHOOL}",
+                                    //                   style: const TextStyle(
+                                    //                       color:
+                                    //                           const Color(0xff666666),
+                                    //                       fontWeight: FontWeight.w400,
+                                    //                       fontFamily: "PingFangSC",
+                                    //                       fontStyle: FontStyle.normal,
+                                    //                       fontSize: 16.0),
+                                    //                   textAlign: TextAlign.left))),
+                                    //     ]))
+                                  ],
+                                )))
                       ]);
                     } else {
                       return CircularProgressIndicator();
