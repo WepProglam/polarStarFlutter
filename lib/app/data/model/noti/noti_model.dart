@@ -44,8 +44,9 @@ class SaveNotiModel {
 }
 
 class ChatBoxModel {
-  String CLASS_NAME, CLASS_PROFESSOR;
+  String CLASS_NAME, CLASS_PROFESSOR, LAST_CHAT;
   int CLASS_ID;
+  DateTime TIME_LAST_CHAT_SENDED;
 
   ChatBoxModel({CLASS_NAME, CLASS_PROFESSOR, CLASS_ID});
 
@@ -55,5 +56,10 @@ class ChatBoxModel {
     print("class_id: ${json["CLASS_ID"]}");
 
     this.CLASS_ID = json["CLASS_ID"];
+    this.LAST_CHAT = json["LAST_CHAT"];
+    print(json["LAST_CHAT"]);
+    this.TIME_LAST_CHAT_SENDED = json["TIME_LAST_CHAT_SENDED"] == null
+        ? null
+        : DateTime.parse(json["TIME_LAST_CHAT_SENDED"]);
   }
 }

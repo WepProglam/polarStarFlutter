@@ -364,6 +364,8 @@ class MainUpdateModule {
     NotiController nc = Get.find();
     if (index == 0) {
       await nc.getNoties();
+    } else if (index == 1) {
+      await nc.getChatBox();
     } else {
       await nc.getMailBox();
     }

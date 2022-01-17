@@ -2,6 +2,9 @@ import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 
 String prettyDate(DateTime date) {
+  if (date == null) {
+    return null;
+  }
   DateTime now = DateTime.now();
   if (date.year != now.year) {
     return "${date.year}-${date.month}-${date.day}";

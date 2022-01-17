@@ -6,6 +6,7 @@ import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/data/model/mail/mailBox_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/board_name.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
 import 'package:polarstar_flutter/app/ui/android/noti/widgets/mailBox.dart';
@@ -117,177 +118,65 @@ class Noti extends StatelessWidget {
                                 })));
                       } else if (i == 1) {
                         // ! 단톡방으로 수정
-                        return RefreshIndicator(
-                            onRefresh: () async {
-                              await MainUpdateModule.updateNotiPage(
-                                  notiController.pageViewIndex.value);
-                            },
-                            child: Obx(() => ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: notiController.chatBox.isEmpty
-                                    ? 1
-                                    : notiController.chatBox.length,
-                                itemBuilder: (context, index) {
-                                  if (notiController.chatBox.length == 0) {
-                                    return Center(
-                                      child: Text(
-                                        "아직 채팅이 없습니다.",
-                                        style: const TextStyle(
-                                            color: const Color(0xff6f6e6e),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: "NotoSansKR",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 14.0),
-                                      ),
-                                    );
-                                  }
-
-                                  return SingleChildScrollView(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(left: 20),
-                                          child: Text("战功课",
+                        return RefreshIndicator(onRefresh: () async {
+                          await MainUpdateModule.updateNotiPage(
+                              notiController.pageViewIndex.value);
+                        }, child: Obx(() {
+                          return SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(left: 20),
+                                  child: Text("战功课",
+                                      style: const TextStyle(
+                                          color: const Color(0xff2f2f2f),
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "NotoSansSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 16.0),
+                                      textAlign: TextAlign.left),
+                                ),
+                                // * 강의별 단톡방
+                                RefreshIndicator(
+                                  displacement: 0.0,
+                                  color: Get.theme.primaryColor,
+                                  onRefresh: () async {
+                                    await MainUpdateModule.updateNotiPage(
+                                        notiController.pageViewIndex.value);
+                                  },
+                                  child: ListView.builder(
+                                      itemCount: notiController.chatBox.isEmpty
+                                          ? 1
+                                          : notiController.chatBox.length,
+                                      shrinkWrap: true,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        if (notiController.chatBox.length ==
+                                            0) {
+                                          return Center(
+                                            child: Text(
+                                              "아직 채팅이 없습니다.",
                                               style: const TextStyle(
                                                   color:
-                                                      const Color(0xff2f2f2f),
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: "NotoSansSC",
+                                                      const Color(0xff6f6e6e),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "NotoSansKR",
                                                   fontStyle: FontStyle.normal,
-                                                  fontSize: 16.0),
-                                              textAlign: TextAlign.left),
-                                        ),
-                                        // * 채팅방 UI
-                                        Column(
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  left: 20,
-                                                  top: 20,
-                                                  bottom: 20),
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                    height: 40,
-                                                    width: 40,
-                                                    child: Image.asset(
-                                                        "assets/images/class_chat_profile.png"),
-                                                  ),
-                                                  Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            left: 10),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Container(
-                                                          child: Text("在校生交流区",
-                                                              style: const TextStyle(
-                                                                  color: const Color(
-                                                                      0xff2f2f2f),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontFamily:
-                                                                      "NotoSansSC",
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .normal,
-                                                                  fontSize:
-                                                                      14.0),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(top: 3),
-                                                          child: // 在校生交流区
-                                                              Text(
-                                                                  "恭喜你上热棒了：大家这次期末考的的的",
-                                                                  style: const TextStyle(
-                                                                      color: const Color(
-                                                                          0xff9b9b9b),
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      fontFamily:
-                                                                          "NotoSansSC",
-                                                                      fontStyle:
-                                                                          FontStyle
-                                                                              .normal,
-                                                                      fontSize:
-                                                                          12.0),
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Spacer(),
-                                                  Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            right: 20),
-                                                    child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          Text("10:22 AM",
-                                                              style: const TextStyle(
-                                                                  color: const Color(
-                                                                      0xff9b9b9b),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  fontFamily:
-                                                                      "Roboto",
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .normal,
-                                                                  fontSize:
-                                                                      10.0),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .right),
-                                                          Container(
-                                                            width: 16,
-                                                            height: 16,
-                                                            margin:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    top: 8),
-                                                            decoration: BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color: Get.theme
-                                                                    .primaryColor),
-                                                          )
-                                                        ]),
-                                                  ),
-                                                  // 선 21
-                                                ],
-                                              ),
+                                                  fontSize: 14.0),
                                             ),
-                                            Container(
-                                                height: 1,
-                                                decoration: BoxDecoration(
-                                                    color: const Color(
-                                                        0xffeaeaea)))
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                })));
+                                          );
+                                        }
+                                        Rx<ChatBoxModel> model =
+                                            notiController.chatBox[index];
+                                        // * 채팅방 UI
+                                        return ChatItem(model: model);
+                                      }),
+                                )
+                              ],
+                            ),
+                          );
+                        }));
                       } else {
                         return RefreshIndicator(
                             onRefresh: () async {
@@ -353,6 +242,110 @@ class Noti extends StatelessWidget {
     //         );
     //       }
     //     }));
+  }
+}
+
+class ChatItem extends StatelessWidget {
+  const ChatItem({
+    Key key,
+    @required this.model,
+  }) : super(key: key);
+
+  final Rx<ChatBoxModel> model;
+
+  @override
+  Widget build(BuildContext context) {
+    return Ink(
+      child: InkWell(
+        onTap: () async {
+          await Get.toNamed(Routes.CLASSCHAT,
+              arguments: {"roomID": "${model.value.CLASS_ID}"}).then((value) {
+            MainUpdateModule.updateNotiPage(1);
+          });
+        },
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
+              child: Row(
+                children: [
+                  Container(
+                    height: 40,
+                    width: 40,
+                    child: Image.asset("assets/images/class_chat_profile.png"),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: Get.mediaQuery.size.width - 135,
+                          child: Text(
+                              "${model.value.CLASS_NAME}-${model.value.CLASS_PROFESSOR}ffffffffffffffffffffffffffffffffffffdfddddddddddddd",
+                              overflow: TextOverflow.fade,
+                              maxLines: 1,
+                              style: const TextStyle(
+                                  color: const Color(0xff2f2f2f),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansKR",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14.0),
+                              textAlign: TextAlign.left),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 3),
+                          child: // 在校生交流区
+                              Text("${model.value.LAST_CHAT}",
+                                  style: const TextStyle(
+                                      color: const Color(0xff9b9b9b),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "NotoSansSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12.0),
+                                  textAlign: TextAlign.left),
+                        )
+                      ],
+                    ),
+                  ),
+                  Spacer(),
+                  Container(
+                    margin: const EdgeInsets.only(right: 20),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                              model.value.TIME_LAST_CHAT_SENDED != null
+                                  ? "${prettyDate(model.value.TIME_LAST_CHAT_SENDED)}"
+                                  : "",
+                              style: const TextStyle(
+                                  color: const Color(0xff9b9b9b),
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "Roboto",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 10.0),
+                              textAlign: TextAlign.right),
+                          Container(
+                            width: 16,
+                            height: 16,
+                            margin: const EdgeInsets.only(top: 8),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Get.theme.primaryColor),
+                          )
+                        ]),
+                  ),
+                  // 선 21
+                ],
+              ),
+            ),
+            Container(
+                height: 1,
+                decoration: BoxDecoration(color: const Color(0xffeaeaea)))
+          ],
+        ),
+      ),
+    );
   }
 }
 
