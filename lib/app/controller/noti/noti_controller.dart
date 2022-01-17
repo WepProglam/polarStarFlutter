@@ -27,6 +27,7 @@ class NotiController extends GetxController {
   RxList<Rx<MailBoxModel>> mailBox = <Rx<MailBoxModel>>[].obs; //쪽지함
   RxList<SaveNotiModel> readNoties = <SaveNotiModel>[].obs;
   RxList<SaveMailBoxModel> readMails = <SaveMailBoxModel>[].obs;
+  RxList<Rx<ChatBoxModel>> chatBox = <Rx<ChatBoxModel>>[].obs;
 
   NotiController({@required this.repository}) : assert(repository != null);
 
@@ -91,6 +92,13 @@ class NotiController extends GetxController {
     notiMailFetched.value = true;
   }
 
+  Future<void> getChatBox() async {
+    var response = await Session().getX("/chat/chatBox");
+    Iterable chatBoxList = jsonDecode(response.body);
+    chatBox.value =
+        chatBoxList.map((e) => ChatBoxModel.fromJson(e).obs).toList();
+  }
+
   Future<void> sortMailBox() async {
     mailBox
         .sort((a, b) => b.value.TIME_CREATED.compareTo(a.value.TIME_CREATED));
@@ -101,6 +109,7 @@ class NotiController extends GetxController {
     super.onInit();
     await getNoties();
     await getMailBox();
+    await getChatBox();
   }
 
   @override

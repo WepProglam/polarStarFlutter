@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+    <defs>
+        <clipPath id="clip-path">
+            <path id="unsplash:B4TjXnI0Y2c" d="M80 40A40 40 0 1 1 40 0a40 40 0 0 1 40 40z" transform="translate(-141 -9024)" style="fill:#d6d4d4"/>
+        </clipPath>
+        <clipPath id="clip-path-2">
+            <path id="사각형_116" data-name="사각형 116" class="cls-2" d="M0 0h64.977v71.53H0z"/>
+        </clipPath>
+        <style>
+            .cls-2{fill:#918dff}
+        </style>
+    </defs>
+    <g id="그룹_255" data-name="그룹 255" transform="translate(141 9024)">
+        <path id="unsplash:B4TjXnI0Y2c-2" data-name="unsplash:B4TjXnI0Y2c" d="M80 40A40 40 0 1 1 40 0a40 40 0 0 1 40 40z" transform="translate(-141 -9024)" style="fill:#f5f6ff"/>
+        <g id="마스크_그룹_2" data-name="마스크 그룹 2" style="clip-path:url(#clip-path)">
+            <g id="그룹_247" data-name="그룹 247" transform="translate(-140 7)">
+                <g id="그룹_246" data-name="그룹 246" transform="translate(6.512 -9015.418)">
+                    <g id="그룹_245" data-name="그룹 245" style="clip-path:url(#clip-path-2)">
+                        <path id="패스_89" data-name="패스 89" class="cls-2" d="M44.907 17.527A17.528 17.528 0 1 1 27.38 0a17.527 17.527 0 0 1 17.527 17.527" transform="translate(5.11)"/>
+                        <path id="패스_90" data-name="패스 90" class="cls-2" d="M64.977 58.473c-.027-18.4-14.561-33.3-32.489-33.3S.027 40.077 0 58.473z" transform="translate(0 13.057)"/>
+                    </g>
+                </g>
+                <path id="패스_91" data-name="패스 91" d="M-1.087-2.364a10.3 10.3 0 0 1 .606-3.9 10.212 10.212 0 0 1 2.4-3.188 18.285 18.285 0 0 0 2.269-2.471 4.339 4.339 0 0 0 .735-2.426 3.712 3.712 0 0 0-.854-2.637 3.278 3.278 0 0 0-2.508-.91A3.6 3.6 0 0 0-.986-17a3.129 3.129 0 0 0-.965 2.416h-4.465A6.571 6.571 0 0 1-4.2-19.728a8.469 8.469 0 0 1 5.761-1.893 8.267 8.267 0 0 1 5.761 1.874 6.709 6.709 0 0 1 2.065 5.237 8.572 8.572 0 0 1-2.793 5.9L4.333-6.388a6.051 6.051 0 0 0-1.25 4.024zM-1.4 3.351A2.356 2.356 0 0 1-.72 1.6 2.5 2.5 0 0 1 1.118.925a2.489 2.489 0 0 1 1.856.689 2.371 2.371 0 0 1 .68 1.736 2.328 2.328 0 0 1-.662 1.691 2.5 2.5 0 0 1-1.874.68 2.464 2.464 0 0 1-1.865-.68 2.346 2.346 0 0 1-.653-1.69z" transform="translate(37.386 -8989.305)" style="opacity:.777;fill:#f5f6ff"/>
+            </g>
+        </g>
+    </g>
+</svg>

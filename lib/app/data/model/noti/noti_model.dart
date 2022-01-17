@@ -42,3 +42,18 @@ class SaveNotiModel {
     this.LOOKUP_DATE = DateTime.parse(json["LOOKUP_DATE"]);
   }
 }
+
+class ChatBoxModel {
+  String CLASS_NAME, CLASS_PROFESSOR;
+  int CLASS_ID;
+
+  ChatBoxModel({CLASS_NAME, CLASS_PROFESSOR, CLASS_ID});
+
+  ChatBoxModel.fromJson(Map<String, dynamic> json) {
+    this.CLASS_NAME = json["CLASS_NAME"];
+    this.CLASS_PROFESSOR = json["CLASS_PROFESSOR"];
+    print("class_id: ${json["CLASS_ID"]}");
+
+    this.CLASS_ID = json["CLASS_ID"];
+  }
+}

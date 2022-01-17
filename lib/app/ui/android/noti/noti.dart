@@ -50,7 +50,7 @@ class Noti extends StatelessWidget {
           children: [
             NotiMailSelect(notiController: notiController),
             Container(
-              height: 14,
+              height: 24,
             ),
             Expanded(
               child: Obx(() {
@@ -124,11 +124,11 @@ class Noti extends StatelessWidget {
                             },
                             child: Obx(() => ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: notiController.noties.isEmpty
+                                itemCount: notiController.chatBox.isEmpty
                                     ? 1
-                                    : notiController.noties.length,
+                                    : notiController.chatBox.length,
                                 itemBuilder: (context, index) {
-                                  if (notiController.noties.length == 0) {
+                                  if (notiController.chatBox.length == 0) {
                                     return Center(
                                       child: Text(
                                         "아직 채팅이 없습니다.",
@@ -142,28 +142,150 @@ class Noti extends StatelessWidget {
                                     );
                                   }
 
-                                  RxString title = (notiController
-                                              .noties[index].value.NOTI_TYPE ==
-                                          0
-                                      ? "${communityBoardName(notiController.noties[index].value.COMMUNITY_ID)}"
-                                          .obs
-                                      : "${notiController.noties[index].value.TITLE}"
-                                          .obs);
-
-                                  RxString content =
-                                      "${notiController.noties[index].value.CONTENT}"
-                                          .obs;
-
-                                  RxString dateTime =
-                                      "${prettyDate(notiController.noties[index].value.TIME_CREATED)}"
-                                          .obs;
-
-                                  return NotiPreview(
-                                    notiController: notiController,
-                                    title: title,
-                                    content: content,
-                                    dateTime: dateTime,
-                                    index: index,
+                                  return SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin:
+                                              const EdgeInsets.only(left: 20),
+                                          child: Text("战功课",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff2f2f2f),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "NotoSansSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 16.0),
+                                              textAlign: TextAlign.left),
+                                        ),
+                                        // * 채팅방 UI
+                                        Column(
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 20,
+                                                  top: 20,
+                                                  bottom: 20),
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    height: 40,
+                                                    width: 40,
+                                                    child: Image.asset(
+                                                        "assets/images/class_chat_profile.png"),
+                                                  ),
+                                                  Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            left: 10),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          child: Text("在校生交流区",
+                                                              style: const TextStyle(
+                                                                  color: const Color(
+                                                                      0xff2f2f2f),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontFamily:
+                                                                      "NotoSansSC",
+                                                                  fontStyle:
+                                                                      FontStyle
+                                                                          .normal,
+                                                                  fontSize:
+                                                                      14.0),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left),
+                                                        ),
+                                                        Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .only(top: 3),
+                                                          child: // 在校生交流区
+                                                              Text(
+                                                                  "恭喜你上热棒了：大家这次期末考的的的",
+                                                                  style: const TextStyle(
+                                                                      color: const Color(
+                                                                          0xff9b9b9b),
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      fontFamily:
+                                                                          "NotoSansSC",
+                                                                      fontStyle:
+                                                                          FontStyle
+                                                                              .normal,
+                                                                      fontSize:
+                                                                          12.0),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Spacer(),
+                                                  Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            right: 20),
+                                                    child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Text("10:22 AM",
+                                                              style: const TextStyle(
+                                                                  color: const Color(
+                                                                      0xff9b9b9b),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  fontFamily:
+                                                                      "Roboto",
+                                                                  fontStyle:
+                                                                      FontStyle
+                                                                          .normal,
+                                                                  fontSize:
+                                                                      10.0),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right),
+                                                          Container(
+                                                            width: 16,
+                                                            height: 16,
+                                                            margin:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    top: 8),
+                                                            decoration: BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: Get.theme
+                                                                    .primaryColor),
+                                                          )
+                                                        ]),
+                                                  ),
+                                                  // 선 21
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                                height: 1,
+                                                decoration: BoxDecoration(
+                                                    color: const Color(
+                                                        0xffeaeaea)))
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   );
                                 })));
                       } else {
