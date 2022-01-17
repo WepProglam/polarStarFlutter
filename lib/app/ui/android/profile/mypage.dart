@@ -287,14 +287,15 @@ class MyPageProfile extends StatelessWidget {
                                           fontSize: 14.0),
                                       textAlign: TextAlign.left),
                                 ))),
+                        Container(width: 8),
                         InkWell(
                             onTap: () async {
-                              // await Get.toNamed('/mail');
+                              await Get.toNamed('/myPage/setting');
                             },
                             child: Container(
                                 height: 30,
                                 width: 90,
-                                margin: EdgeInsets.only(left: 8),
+                                //margin: EdgeInsets.only(left: 8),
                                 decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(30)),
