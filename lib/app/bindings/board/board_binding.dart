@@ -21,8 +21,14 @@ class BoardBinding implements Bindings {
           initPage: int.parse(Get.parameters["page"]),
           from: "board"),
     );
+    print("binding");
+    print(Get.parameters["COMMUNITY_ID"]);
 
     final BoardController boardController = Get.find();
+    boardController.COMMUNITY_ID.value =
+        int.parse(Get.parameters["COMMUNITY_ID"]);
+
+    boardController.page.value = int.parse(Get.parameters["page"]);
 
     await boardController.getBoard();
   }

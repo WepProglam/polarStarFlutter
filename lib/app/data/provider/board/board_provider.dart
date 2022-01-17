@@ -8,12 +8,15 @@ import 'package:polarstar_flutter/session.dart';
 class BoardApiClient {
   Future<Map<String, dynamic>> getBoard(int COMMUNITY_ID, int page) async {
     var response = await Session().getX("/board/$COMMUNITY_ID/page/$page");
+    print("/board/$COMMUNITY_ID/page/$page");
 
     if (response.statusCode != 200) {
       return {"status": response.statusCode, "listBoard": <Rx<Post>>[]};
     }
 
     Iterable jsonResponse = jsonDecode(response.body);
+
+    print(jsonResponse);
 
     List<Rx<Post>> listBoard =
         jsonResponse.map((model) => Post.fromJson(model).obs).toList();

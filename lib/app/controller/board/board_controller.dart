@@ -39,6 +39,7 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
   var newScrollController = ScrollController().obs;
 
   Future<void> refreshPage() async {
+    page.value = 1;
     await getBoard().then((value) => postBody.refresh());
   }
 
@@ -51,16 +52,26 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
   }
 
   Future<void> getBoard() async {
+    print("CM : ${COMMUNITY_ID.value} PAGE : ${page.value}");
+
     Map<String, dynamic> response =
         await repository.getBoard(COMMUNITY_ID.value, page.value);
     final int status = response["status"];
     final List<Rx<Post>> listBoard = response["listBoard"];
-
+    if (listBoard.length < MAX_BOARDS_LIMIT) {
+      searchMaxPage.value = page.value;
+    }
     httpStatus.value = status;
+
+    print("CM : ${COMMUNITY_ID.value} PAGE : ${page.value}");
+
+    print(listBoard);
 
     switch (status) {
       case 200:
-        if (postBody.length == 0) {
+        // * refresh
+        if (postBody.length != 0 && page.value == 1) {
+          print("refresh");
           postBody.clear();
         }
 
@@ -135,6 +146,9 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
         await repository.getSearchBoard(searchText, COMMUNITY_ID.value);
     final int status = response["status"];
     final List<Rx<Post>> listBoard = response["listBoard"];
+    if (listBoard.length < MAX_BOARDS_LIMIT) {
+      searchMaxPage.value = page.value;
+    }
 
     httpStatus.value = status;
     switch (status) {
@@ -163,7 +177,9 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
     httpStatus.value = status;
     switch (status) {
       case 200:
-        postBody.clear();
+        if (postBody.length == 0) {
+          postBody.clear();
+        }
 
         for (int i = 0; i < listBoard.length; i++) {
           postBody.add(listBoard[i]);
@@ -234,9 +250,6 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
           (page.value < searchMaxPage.value)) {
         page.value += 1;
         await getBoard();
-        if (postBody.length < MAX_BOARDS_LIMIT) {
-          searchMaxPage.value = page.value;
-        }
       }
     });
   }

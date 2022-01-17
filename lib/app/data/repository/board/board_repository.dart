@@ -7,6 +7,8 @@ class BoardRepository {
   BoardRepository({@required this.apiClient}) : assert(apiClient != null);
 
   Future<Map<String, dynamic>> getBoard(int COMMUNITY_ID, int page) async {
+    print("/board/$COMMUNITY_ID/page/$page");
+
     final json = await apiClient.getBoard(COMMUNITY_ID, page);
     return json;
   }
