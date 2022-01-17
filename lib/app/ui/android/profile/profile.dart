@@ -135,8 +135,13 @@ class Profile extends StatelessWidget {
                                                   left: 4, top: 4),
                                               width: 8.9,
                                               height: 8.5,
-                                              child: Image.asset(
-                                                  "assets/images/edit_3.png"))
+                                              child: InkWell(
+                                                  onTap: () async {
+                                                    NicknameDialog(context,
+                                                        myPageController);
+                                                  },
+                                                  child: Image.asset(
+                                                      "assets/images/edit_3.png")))
                                         ])),
                               )
                             ])),
@@ -309,22 +314,37 @@ class Profile extends StatelessWidget {
                                                   child: Container(
                                                       margin: EdgeInsets.only(
                                                           right: 20),
-                                                      child: Text(
-                                                          "${myPageController.myProfile.value.PROFILE_MESSAGE}",
-                                                          style: const TextStyle(
-                                                              color: const Color(
-                                                                  0xff9b9b9b),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontFamily:
-                                                                  "Roboto",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: 14.0),
-                                                          textAlign:
-                                                              TextAlign.left))),
+                                                      child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                                "${myPageController.myProfile.value.PROFILE_MESSAGE}",
+                                                                style: const TextStyle(
+                                                                    color: const Color(
+                                                                        0xff9b9b9b),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    fontFamily:
+                                                                        "Roboto",
+                                                                    fontStyle:
+                                                                        FontStyle
+                                                                            .normal,
+                                                                    fontSize:
+                                                                        14.0),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left),
+                                                            Image.asset(
+                                                                "assets/images/188.png",
+                                                                height: 16,
+                                                                width: 16)
+                                                          ]))),
                                             ])),
                                         onTap: () async {
                                           ProfileMessageDialog(
@@ -370,22 +390,37 @@ class Profile extends StatelessWidget {
                                                   child: Container(
                                                       margin: EdgeInsets.only(
                                                           right: 20),
-                                                      child: Text(
-                                                          "${myPageController.myProfile.value.PROFILE_NICKNAME}",
-                                                          style: const TextStyle(
-                                                              color: const Color(
-                                                                  0xff9b9b9b),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontFamily:
-                                                                  "Roboto",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: 14.0),
-                                                          textAlign:
-                                                              TextAlign.left))),
+                                                      child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .end,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                                "${myPageController.myProfile.value.PROFILE_NICKNAME}",
+                                                                style: const TextStyle(
+                                                                    color: const Color(
+                                                                        0xff9b9b9b),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    fontFamily:
+                                                                        "Roboto",
+                                                                    fontStyle:
+                                                                        FontStyle
+                                                                            .normal,
+                                                                    fontSize:
+                                                                        14.0),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left),
+                                                            Image.asset(
+                                                                "assets/images/188.png",
+                                                                height: 16,
+                                                                width: 16)
+                                                          ]))),
                                             ])),
                                         onTap: () async {
                                           NicknameDialog(
