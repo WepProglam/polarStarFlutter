@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
 import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
@@ -15,305 +16,314 @@ class ClassChatHistory extends StatelessWidget {
   final InitController initController = Get.find();
   @override
   Widget build(BuildContext context) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      initController.chatScrollController.value.jumpTo(
+          initController.chatScrollController.value.position.maxScrollExtent);
+    });
     print(initController.chatBox[0].value.ClassChatList.length);
     int chatIndex = initController.findChatHistory();
     return SafeArea(
       child: Scaffold(
-          backgroundColor: const Color(0xffffffff),
-          // appBar: AppBar(
-          //   backgroundColor: Colors.white,
-          //   foregroundColor: Colors.black,
-          //   elevation: 0,
-          //   leading: Container(
-          //     margin: const EdgeInsets.only(top: 8),
-          //     child: InkWell(
-          //       child: Icon(Icons.arrow_back_ios_new, color: Colors.black),
-          //       onTap: () {
-          //         Get.back();
-          //       },
-          //     ),
-          //   ),
-          //   actions: [
-          //     PopupMenuButton<String>(
-          //       padding: EdgeInsets.zero,
-          //       icon: Container(
-          //         margin: const EdgeInsets.only(top: 8, right: 8),
-          //         height: 15.5,
-          //         width: 19.2,
-          //         child: Image.asset("assets/images/16_10.png"),
-          //       ),
-          //       //여기다 삭제 추가 신고 메서드 추가 필요
-          //       onSelected: (String result) {
-          //         switch (result) {
-          //           case '전체 삭제하기':
-          //             print('filter 1 clicked');
-          //             break;
-          //           case '차단하기':
-          //             print('filter 2 clicked');
-          //             break;
-          //           case '신고하기':
-          //             print('Clear filters');
-          //             break;
-          //           default:
-          //         }
-          //       },
-          //       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-          //         const PopupMenuItem<String>(
-          //           value: '전체 삭제하기',
-          //           child: Text('전체 삭제하기'),
-          //         ),
-          //         const PopupMenuItem<String>(
-          //           value: '차단하기',
-          //           child: Text('차단하기'),
-          //         ),
-          //         const PopupMenuItem<String>(
-          //           value: '신고하기',
-          //           child: Text('신고하기'),
-          //         ),
-          //       ],
-          //     ),
-          //   ],
-          //   leadingWidth: 35,
-          //   titleSpacing: 0,
-          //   title: Obx(() {
-          //     return Container(
-          //       margin: const EdgeInsets.only(top: 1.5),
-          //       child: Row(children: [
-          //         Text("nickname",
-          //             style: const TextStyle(
-          //                 color: const Color(0xff333333),
-          //                 fontWeight: FontWeight.w700,
-          //                 fontFamily: "PingFangSC",
-          //                 fontStyle: FontStyle.normal,
-          //                 fontSize: 21.0),
-          //             textAlign: TextAlign.left),
-          //       ]),
-          //     );
-          //   }),
-          // ),
-          appBar: AppBar(
-            toolbarHeight: 56,
+        backgroundColor: const Color(0xffffffff),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.white,
+        //   foregroundColor: Colors.black,
+        //   elevation: 0,
+        //   leading: Container(
+        //     margin: const EdgeInsets.only(top: 8),
+        //     child: InkWell(
+        //       child: Icon(Icons.arrow_back_ios_new, color: Colors.black),
+        //       onTap: () {
+        //         Get.back();
+        //       },
+        //     ),
+        //   ),
+        //   actions: [
+        //     PopupMenuButton<String>(
+        //       padding: EdgeInsets.zero,
+        //       icon: Container(
+        //         margin: const EdgeInsets.only(top: 8, right: 8),
+        //         height: 15.5,
+        //         width: 19.2,
+        //         child: Image.asset("assets/images/16_10.png"),
+        //       ),
+        //       //여기다 삭제 추가 신고 메서드 추가 필요
+        //       onSelected: (String result) {
+        //         switch (result) {
+        //           case '전체 삭제하기':
+        //             print('filter 1 clicked');
+        //             break;
+        //           case '차단하기':
+        //             print('filter 2 clicked');
+        //             break;
+        //           case '신고하기':
+        //             print('Clear filters');
+        //             break;
+        //           default:
+        //         }
+        //       },
+        //       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+        //         const PopupMenuItem<String>(
+        //           value: '전체 삭제하기',
+        //           child: Text('전체 삭제하기'),
+        //         ),
+        //         const PopupMenuItem<String>(
+        //           value: '차단하기',
+        //           child: Text('차단하기'),
+        //         ),
+        //         const PopupMenuItem<String>(
+        //           value: '신고하기',
+        //           child: Text('신고하기'),
+        //         ),
+        //       ],
+        //     ),
+        //   ],
+        //   leadingWidth: 35,
+        //   titleSpacing: 0,
+        //   title: Obx(() {
+        //     return Container(
+        //       margin: const EdgeInsets.only(top: 1.5),
+        //       child: Row(children: [
+        //         Text("nickname",
+        //             style: const TextStyle(
+        //                 color: const Color(0xff333333),
+        //                 fontWeight: FontWeight.w700,
+        //                 fontFamily: "PingFangSC",
+        //                 fontStyle: FontStyle.normal,
+        //                 fontSize: 21.0),
+        //             textAlign: TextAlign.left),
+        //       ]),
+        //     );
+        //   }),
+        // ),
+        appBar: AppBar(
+          toolbarHeight: 56,
 
-            backgroundColor: Get.theme.primaryColor,
-            titleSpacing: 0,
-            // elevation: 0,
-            automaticallyImplyLeading: false,
+          backgroundColor: Get.theme.primaryColor,
+          titleSpacing: 0,
+          // elevation: 0,
+          automaticallyImplyLeading: false,
 
-            title: Stack(
-              children: [
-                Center(
-                  child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 16.5),
-                      child: // 设置
-                          Text("设置",
-                              style: const TextStyle(
-                                  color: const Color(0xffffffff),
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: "NotoSansSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 16.0),
-                              textAlign: TextAlign.center)),
-                ),
-                Positioned(
-                  // left: 20,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 16, horizontal: 20),
-                    child: Ink(
-                      child: InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Image.asset(
-                          'assets/images/891.png',
-                          color: const Color(0xffffffff),
-                          width: 12,
-                          height: 24,
-                        ),
+          title: Stack(
+            children: [
+              Center(
+                child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 16.5),
+                    child: // 设置
+                        Text("设置",
+                            style: const TextStyle(
+                                color: const Color(0xffffffff),
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 16.0),
+                            textAlign: TextAlign.center)),
+              ),
+              Positioned(
+                // left: 20,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                  child: Ink(
+                    child: InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Image.asset(
+                        'assets/images/891.png',
+                        color: const Color(0xffffffff),
+                        width: 12,
+                        height: 24,
                       ),
                     ),
                   ),
                 ),
-                // Positioned(
-                //   right: 0,
-                //   child: Container(
-                //     padding: const EdgeInsets.symmetric(
-                //         vertical: 16, horizontal: 20),
-                //     child: Ink(
-                //       child: InkWell(
-                //         onTap: () async {
-                //           await Get.toNamed("/searchBoard")
-                //               .then((value) async {
-                //             await MainUpdateModule.updateBoard();
-                //           });
-                //         },
-                //         child: Image.asset(
-                //           'assets/images/icn_search.png',
-                //           // fit: BoxFit.fitWidth,
-                //           width: 24,
-                //           height: 24,
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
+              ),
+              // Positioned(
+              //   right: 0,
+              //   child: Container(
+              //     padding: const EdgeInsets.symmetric(
+              //         vertical: 16, horizontal: 20),
+              //     child: Ink(
+              //       child: InkWell(
+              //         onTap: () async {
+              //           await Get.toNamed("/searchBoard")
+              //               .then((value) async {
+              //             await MainUpdateModule.updateBoard();
+              //           });
+              //         },
+              //         child: Image.asset(
+              //           'assets/images/icn_search.png',
+              //           // fit: BoxFit.fitWidth,
+              //           width: 24,
+              //           height: 24,
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+            ],
           ),
-          body: Obx(() {
-            if (controller.dataAvailble.value) {
-              print(initController.chatBox);
-
-              return ListView.builder(
-                controller: initController.chatScrollController.value,
-                itemCount: initController
-                    .chatBox[chatIndex].value.ClassChatList.length,
-                scrollDirection: Axis.vertical,
-                padding: EdgeInsets.only(top: 24, bottom: 75),
-                itemBuilder: (context, index) {
-                  Rx<ClassChatModel> model = initController
-                      .chatBox[chatIndex].value.ClassChatList[index];
-                  bool MY_SELF = model.value.MY_SELF;
-                  //print(MY_SELF);
-                  return Container(
-                      padding: (MY_SELF
-                          // mailController.mailHistory[index].FROM_ME == 0
-                          ? EdgeInsets.only(right: 20, bottom: 16)
-                          : EdgeInsets.only(left: 20, bottom: 16)),
-                      child: Align(
-                        alignment: (MY_SELF
-                            // mailController.mailHistory[index].FROM_ME == 0
-                            ? Alignment.topRight
-                            : Alignment.topLeft),
-                        child:
-                            // Text("${controller.chatHistory[index].CONTENT}"),
-                            // child:
-                            (MY_SELF
-                                ? Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                        // MAIL_PROFILE_ITEM(
-                                        //   model: controller.chatHistory[index],
-                                        //   FROM_ME: MY_SELF,
-                                        // ),
-
-                                        MAIL_CONTENT_ITEM(
-                                          // mailController: mailController,
-                                          model: model.value,
-                                        )
-                                      ])
-                                : Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                        MAIL_PROFILE_ITEM(
-                                          model: model.value,
-                                          FROM_ME: MY_SELF,
-                                        ),
-                                        MAIL_CONTENT_ITEM(
-                                          model: model.value,
-                                        ),
-                                      ])),
-                      ));
-                },
-              );
-            } else {
-              return Container(
-                color: Colors.white,
-              );
+        ),
+        body: Obx(() {
+          if (controller.dataAvailble.value) {
+            if (initController.chatScrollController.value.hasClients) {
+              initController.chatScrollController.value.jumpTo(initController
+                      .chatScrollController.value.position.maxScrollExtent +
+                  57);
             }
-          }),
-          //입력창
-          bottomSheet: Container(
-            height: 75,
-            decoration: BoxDecoration(color: const Color(0xffe0e4ff)),
-            child: Row(
-              children: [
-                Container(
-                  height: 36,
-                  margin:
-                      const EdgeInsets.only(left: 20, right: 20, bottom: 31),
-                  width: Get.mediaQuery.size.width - 20 - 20,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(18)),
-                      border:
-                          Border.all(color: const Color(0xffeaeaea), width: 1),
-                      color: const Color(0xffffffff)),
-                  child: Row(children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 24),
-                      width: Get.mediaQuery.size.width - 20 - 20 - 32 - 24,
-                      child: TextFormField(
-                          keyboardType: TextInputType.multiline,
-                          onEditingComplete: () async {
-                            // initController
-                            //     .sendMessage(commentWriteController.text);
-                            // commentWriteController.clear();
 
-                            // double max_hight = initController
-                            //     .chatScrollController
-                            //     .value
-                            //     .position
-                            //     .maxScrollExtent;
+            print("build!");
 
-                            // initController.chatScrollController.value
-                            //     .jumpTo(max_hight);
-                          },
-                          maxLines: 1,
-                          controller: commentWriteController,
-                          style: const TextStyle(
-                              color: const Color(0xff2f2f2f),
+            return ListView.builder(
+              shrinkWrap: true,
+              controller: initController.chatScrollController.value,
+              itemCount:
+                  initController.chatBox[chatIndex].value.ClassChatList.length,
+              scrollDirection: Axis.vertical,
+              padding: EdgeInsets.only(top: 24, bottom: 75),
+              itemBuilder: (context, index) {
+                Rx<ClassChatModel> model = initController
+                    .chatBox[chatIndex].value.ClassChatList[index];
+                bool MY_SELF = model.value.MY_SELF;
+                //print(MY_SELF);
+                return Container(
+                    padding: (MY_SELF
+                        // mailController.mailHistory[index].FROM_ME == 0
+                        ? EdgeInsets.only(right: 20, bottom: 16)
+                        : EdgeInsets.only(left: 20, bottom: 16)),
+                    child: Align(
+                      alignment: (MY_SELF
+                          // mailController.mailHistory[index].FROM_ME == 0
+                          ? Alignment.topRight
+                          : Alignment.topLeft),
+                      child:
+                          // Text("${controller.chatHistory[index].CONTENT}"),
+                          // child:
+                          (MY_SELF
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                      // MAIL_PROFILE_ITEM(
+                                      //   model: controller.chatHistory[index],
+                                      //   FROM_ME: MY_SELF,
+                                      // ),
+
+                                      MAIL_CONTENT_ITEM(
+                                        // mailController: mailController,
+                                        model: model.value,
+                                      )
+                                    ])
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                      MAIL_PROFILE_ITEM(
+                                        model: model.value,
+                                        FROM_ME: MY_SELF,
+                                      ),
+                                      MAIL_CONTENT_ITEM(
+                                        model: model.value,
+                                      ),
+                                    ])),
+                    ));
+              },
+            );
+          } else {
+            return Container(
+              color: Colors.white,
+            );
+          }
+        }),
+        //입력창
+        bottomSheet: Container(
+          height: 75,
+          decoration: BoxDecoration(color: const Color(0xffe0e4ff)),
+          child: Row(
+            children: [
+              Container(
+                height: 36,
+                margin: const EdgeInsets.only(left: 20, right: 20, bottom: 31),
+                width: Get.mediaQuery.size.width - 20 - 20,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(18)),
+                    border:
+                        Border.all(color: const Color(0xffeaeaea), width: 1),
+                    color: const Color(0xffffffff)),
+                child: Row(children: [
+                  Container(
+                    margin: const EdgeInsets.only(left: 24),
+                    width: Get.mediaQuery.size.width - 20 - 20 - 32 - 24,
+                    child: TextFormField(
+                        keyboardType: TextInputType.multiline,
+                        onTap: () {
+                          initController.chatScrollController.value.animateTo(
+                              1000000,
+                              duration: Duration(milliseconds: 1500),
+                              curve: Curves.fastOutSlowIn);
+                        },
+                        onEditingComplete: () async {
+                          // initController
+                          //     .sendMessage(commentWriteController.text);
+                          // commentWriteController.clear();
+
+                          // double max_hight = initController
+                          //     .chatScrollController
+                          //     .value
+                          //     .position
+                          //     .maxScrollExtent;
+
+                          // initController.chatScrollController.value
+                          //     .jumpTo(max_hight);
+                        },
+                        maxLines: 1,
+                        controller: commentWriteController,
+                        style: const TextStyle(
+                            color: const Color(0xff2f2f2f),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        onFieldSubmitted: (value) {},
+                        textInputAction: TextInputAction.done,
+                        decoration: InputDecoration(
+                          hintText: "你好吗，麦克斯？",
+                          border: InputBorder.none,
+                          hintStyle: const TextStyle(
+                              color: const Color(0xff9b9b9b),
                               fontWeight: FontWeight.w400,
                               fontFamily: "NotoSansSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 14.0),
-                          onFieldSubmitted: (value) {},
-                          textInputAction: TextInputAction.done,
-                          decoration: InputDecoration(
-                            hintText: "你好吗，麦克斯？",
-                            border: InputBorder.none,
-                            hintStyle: const TextStyle(
-                                color: const Color(0xff9b9b9b),
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14.0),
-                          )),
-                    ),
-                    InkWell(
-                        child: // 타원 20
-                            Container(
-                                width: 28,
-                                height: 28,
-                                child: Center(
-                                  child: Icon(
-                                    Icons.arrow_upward,
-                                    color: const Color(0xffffffff),
-                                  ),
+                        )),
+                  ),
+                  InkWell(
+                      child: // 타원 20
+                          Container(
+                              width: 28,
+                              height: 28,
+                              child: Center(
+                                child: Icon(
+                                  Icons.arrow_upward,
+                                  color: const Color(0xffffffff),
                                 ),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: const Color(0xff371ac7))),
-                        onTap: () async {
-                          String text = commentWriteController.text;
-                          initController
-                              .sendMessage(commentWriteController.text);
+                              ),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: const Color(0xff371ac7))),
+                      onTap: () async {
+                        String text = commentWriteController.text;
+                        initController.sendMessage(commentWriteController.text);
 
-                          commentWriteController.clear();
-
-                          double max_hight = initController.chatScrollController
-                              .value.position.maxScrollExtent;
-
-                          initController.chatScrollController.value
-                              .jumpTo(max_hight);
-                        }),
-                  ]),
-                ),
-              ],
-            ),
-          )),
+                        commentWriteController.clear();
+                      }),
+                ]),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
