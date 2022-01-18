@@ -709,35 +709,35 @@ class SubjectList extends StatelessWidget {
                         margin: const EdgeInsets.only(right: 8),
                         child: Ink(
                           child: InkWell(
-                            onTap: () async {
-                              // box.remove("classSocket");
-                              if (box.hasData("classSocket")) {
-                                List<dynamic> classSocketList =
-                                    box.read("classSocket");
-                                bool isExist = false;
-                                for (var item in classSocketList) {
-                                  if ("${item}" ==
-                                      "${model.value.CLASSES[i].CLASS_ID}") {
-                                    isExist = true;
-                                  }
-                                }
-                                if (!isExist) {
-                                  classSocketList.add(
-                                      "${model.value.CLASSES[i].CLASS_ID}");
-                                  box.write("classSocket", classSocketList);
-                                }
-                              } else {
-                                box.write("classSocket",
-                                    ["${model.value.CLASSES[i].CLASS_ID}"]);
-                              }
+                            // onTap: () async {
+                            //   // box.remove("classSocket");
+                            //   if (box.hasData("classSocket")) {
+                            //     List<dynamic> classSocketList =
+                            //         box.read("classSocket");
+                            //     bool isExist = false;
+                            //     for (var item in classSocketList) {
+                            //       if ("${item}" ==
+                            //           "${model.value.CLASSES[i].CLASS_ID}") {
+                            //         isExist = true;
+                            //       }
+                            //     }
+                            //     if (!isExist) {
+                            //       classSocketList.add(
+                            //           "${model.value.CLASSES[i].CLASS_ID}");
+                            //       box.write("classSocket", classSocketList);
+                            //     }
+                            //   } else {
+                            //     box.write("classSocket",
+                            //         ["${model.value.CLASSES[i].CLASS_ID}"]);
+                            //   }
 
-                              Get.toNamed(Routes.CLASSCHAT, arguments: {
-                                "roomID": "${model.value.CLASSES[i].CLASS_ID}"
-                              });
+                            //   Get.toNamed(Routes.CLASSCHAT, arguments: {
+                            //     "roomID": "${model.value.CLASSES[i].CLASS_ID}"
+                            //   });
 
-                              // IO.Socket socket = await socketting(
-                              //     "${model.value.CLASSES[i].CLASS_ID}");
-                            },
+                            //   // IO.Socket socket = await socketting(
+                            //   //     "${model.value.CLASSES[i].CLASS_ID}");
+                            // },
                             child: Container(
                               margin: const EdgeInsets.only(left: 20, top: 20),
                               child: Column(

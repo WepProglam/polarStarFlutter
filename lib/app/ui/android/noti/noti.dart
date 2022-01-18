@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
@@ -20,6 +21,7 @@ class Noti extends StatelessWidget {
   }) : super(key: key);
   final MainController mainController = Get.find();
   final NotiController notiController = Get.find();
+  final InitController initController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,13 +148,13 @@ class Noti extends StatelessWidget {
                                         notiController.pageViewIndex.value);
                                   },
                                   child: ListView.builder(
-                                      itemCount: notiController.chatBox.isEmpty
+                                      itemCount: initController.chatBox.isEmpty
                                           ? 1
-                                          : notiController.chatBox.length,
+                                          : initController.chatBox.length,
                                       shrinkWrap: true,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        if (notiController.chatBox.length ==
+                                        if (initController.chatBox.length ==
                                             0) {
                                           return Center(
                                             child: Text(
@@ -168,7 +170,8 @@ class Noti extends StatelessWidget {
                                           );
                                         }
                                         Rx<ChatBoxModel> model =
-                                            notiController.chatBox[index];
+                                            initController.chatBox[index];
+
                                         // * 채팅방 UI
                                         return ChatItem(model: model);
                                       }),
@@ -267,77 +270,100 @@ class ChatItem extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
-              child: Row(
-                children: [
-                  Container(
-                    height: 40,
-                    width: 40,
-                    child: Image.asset("assets/images/class_chat_profile.png"),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: Get.mediaQuery.size.width - 135,
-                          child: Text(
-                              "${model.value.CLASS_NAME}-${model.value.CLASS_PROFESSOR}ffffffffffffffffffffffffffffffffffffdfddddddddddddd",
-                              overflow: TextOverflow.clip,
-                              maxLines: 1,
-                              style: const TextStyle(
-                                  color: const Color(0xff2f2f2f),
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: "NotoSansKR",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14.0),
-                              textAlign: TextAlign.left),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 3),
-                          child: // 在校生交流区
-                              Text("${model.value.LAST_CHAT}",
-                                  style: const TextStyle(
-                                      color: const Color(0xff9b9b9b),
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "NotoSansSC",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 12.0),
-                                  textAlign: TextAlign.left),
-                        )
-                      ],
+              child: Obx(() {
+                return Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      width: 40,
+                      child:
+                          Image.asset("assets/images/class_chat_profile.png"),
                     ),
-                  ),
-                  Spacer(),
-                  Container(
-                    margin: const EdgeInsets.only(right: 20),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                    Container(
+                      margin: const EdgeInsets.only(left: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                              model.value.TIME_LAST_CHAT_SENDED != null
-                                  ? "${prettyDate(model.value.TIME_LAST_CHAT_SENDED)}"
-                                  : "",
-                              style: const TextStyle(
-                                  color: const Color(0xff9b9b9b),
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "Roboto",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 10.0),
-                              textAlign: TextAlign.right),
                           Container(
-                            width: 16,
-                            height: 16,
-                            margin: const EdgeInsets.only(top: 8),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Get.theme.primaryColor),
+                            width: Get.mediaQuery.size.width - 135,
+                            child: Text(
+                                "${model.value.CLASS_NAME}-${model.value.CLASS_PROFESSOR}",
+                                overflow: TextOverflow.clip,
+                                maxLines: 1,
+                                style: const TextStyle(
+                                    color: const Color(0xff2f2f2f),
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "NotoSansKR",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                textAlign: TextAlign.left),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 3),
+                            child: // 在校生交流区
+                                Text("${model.value.LAST_CHAT}",
+                                    style: const TextStyle(
+                                        color: const Color(0xff9b9b9b),
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 12.0),
+                                    textAlign: TextAlign.left),
                           )
-                        ]),
-                  ),
-                  // 선 21
-                ],
-              ),
+                        ],
+                      ),
+                    ),
+                    Spacer(),
+                    Container(
+                      margin: const EdgeInsets.only(right: 20),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                                model.value.TIME_LAST_CHAT_SENDED != null
+                                    ? "${prettyDate(model.value.TIME_LAST_CHAT_SENDED)}"
+                                    : "",
+                                style: const TextStyle(
+                                    color: const Color(0xff9b9b9b),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "Roboto",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 10.0),
+                                textAlign: TextAlign.right),
+                            model.value.AMOUNT == 0
+                                ? Container(
+                                    margin: const EdgeInsets.only(top: 9),
+                                    child: Image.asset(
+                                        "assets/images/right_arrow.png",
+                                        width: 16,
+                                        height: 16))
+                                : Container(
+                                    width: 16,
+                                    height: 16,
+                                    child: Center(
+                                      child: FittedBox(
+                                        child: Text(
+                                          "${model.value.AMOUNT}",
+                                          style: const TextStyle(
+                                              color: const Color(0xffffffff),
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: "Roboto",
+                                              fontStyle: FontStyle.normal,
+                                              fontSize: 10.0),
+                                        ),
+                                      ),
+                                    ),
+                                    margin: const EdgeInsets.only(top: 9),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Get.theme.primaryColor),
+                                  )
+                          ]),
+                    ),
+                    // 선 21
+                  ],
+                );
+              }),
             ),
             Container(
                 height: 1,

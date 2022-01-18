@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
+import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_chat_model.dart';
 import 'package:polarstar_flutter/app/data/model/mail/mailSend_model.dart';
+import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
 
 class ClassChatHistory extends StatelessWidget {
   final ClassChatController controller = Get.find();
   final commentWriteController = TextEditingController();
-
+  final InitController initController = Get.find();
   @override
   Widget build(BuildContext context) {
+    print(initController.chatBox[0].value.ClassChatList.length);
+    int chatIndex = initController.findChatHistory();
     return SafeArea(
       child: Scaffold(
           backgroundColor: const Color(0xffffffff),
@@ -158,14 +162,18 @@ class ClassChatHistory extends StatelessWidget {
           ),
           body: Obx(() {
             if (controller.dataAvailble.value) {
+              print(initController.chatBox);
+
               return ListView.builder(
-                // controller: mailController.scrollController,
-                itemCount: controller.chatHistory.length,
+                controller: initController.chatScrollController.value,
+                itemCount: initController
+                    .chatBox[chatIndex].value.ClassChatList.length,
                 scrollDirection: Axis.vertical,
                 padding: EdgeInsets.only(top: 24, bottom: 75),
                 itemBuilder: (context, index) {
-                  bool MY_SELF = controller.chatHistory[index].MY_SELF;
-                  ClassChatModel model = controller.chatHistory[index];
+                  Rx<ClassChatModel> model = initController
+                      .chatBox[chatIndex].value.ClassChatList[index];
+                  bool MY_SELF = model.value.MY_SELF;
                   //print(MY_SELF);
                   return Container(
                       padding: (MY_SELF
@@ -192,7 +200,7 @@ class ClassChatHistory extends StatelessWidget {
 
                                         MAIL_CONTENT_ITEM(
                                           // mailController: mailController,
-                                          model: controller.chatHistory[index],
+                                          model: model.value,
                                         )
                                       ])
                                 : Row(
@@ -201,11 +209,11 @@ class ClassChatHistory extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                         MAIL_PROFILE_ITEM(
-                                          model: controller.chatHistory[index],
+                                          model: model.value,
                                           FROM_ME: MY_SELF,
                                         ),
                                         MAIL_CONTENT_ITEM(
-                                          model: controller.chatHistory[index],
+                                          model: model.value,
                                         ),
                                       ])),
                       ));
@@ -240,9 +248,18 @@ class ClassChatHistory extends StatelessWidget {
                       child: TextFormField(
                           keyboardType: TextInputType.multiline,
                           onEditingComplete: () async {
-                            print(commentWriteController.text);
-                            controller.sendMessage(commentWriteController.text);
-                            commentWriteController.clear();
+                            // initController
+                            //     .sendMessage(commentWriteController.text);
+                            // commentWriteController.clear();
+
+                            // double max_hight = initController
+                            //     .chatScrollController
+                            //     .value
+                            //     .position
+                            //     .maxScrollExtent;
+
+                            // initController.chatScrollController.value
+                            //     .jumpTo(max_hight);
                           },
                           maxLines: 1,
                           controller: commentWriteController,
@@ -280,14 +297,17 @@ class ClassChatHistory extends StatelessWidget {
                                     shape: BoxShape.circle,
                                     color: const Color(0xff371ac7))),
                         onTap: () async {
-                          // await mailController.sendMailIn(
-                          //     commentWriteController.text,
-                          //     mailController.scrollController);
-                          print(commentWriteController.text);
-
-                          controller.sendMessage(commentWriteController.text);
+                          String text = commentWriteController.text;
+                          initController
+                              .sendMessage(commentWriteController.text);
 
                           commentWriteController.clear();
+
+                          double max_hight = initController.chatScrollController
+                              .value.position.maxScrollExtent;
+
+                          initController.chatScrollController.value
+                              .jumpTo(max_hight);
                         }),
                   ]),
                 ),

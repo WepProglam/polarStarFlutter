@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/data/model/class/class_chat_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 
 class NotiModel {
@@ -47,10 +49,30 @@ class SaveNotiModel {
 
 class ChatBoxModel {
   String CLASS_NAME, CLASS_PROFESSOR, LAST_CHAT;
-  int CLASS_ID, CHAT_ID;
+  int CLASS_ID, CHAT_ID, AMOUNT;
   DateTime TIME_LAST_CHAT_SENDED;
+  RxList<Rx<ClassChatModel>> ClassChatList;
 
-  ChatBoxModel({CLASS_NAME, CLASS_PROFESSOR, CLASS_ID});
+  ChatBoxModel(
+      {CLASS_NAME,
+      CLASS_PROFESSOR,
+      LAST_CHAT,
+      CLASS_ID,
+      CHAT_ID,
+      TIME_LAST_CHAT_SENDED});
+
+  Map<String, dynamic> toJson() {
+    print("tojson called");
+    return {
+      'CLASS_NAME': "${this.CLASS_NAME}",
+      'CLASS_PROFESSOR': "${this.CLASS_PROFESSOR}",
+      'LAST_CHAT': "${this.LAST_CHAT}",
+      'CLASS_ID': "${this.CLASS_ID}",
+      'CHAT_ID': "${this.CHAT_ID}",
+      'TIME_LAST_CHAT_SENDED': "${this.TIME_LAST_CHAT_SENDED}",
+      'ClassChatList': this.ClassChatList.toJson(),
+    };
+  }
 
   ChatBoxModel.fromJson(Map<String, dynamic> json) {
     this.CLASS_NAME = json["CLASS_NAME"];
@@ -63,5 +85,12 @@ class ChatBoxModel {
     this.TIME_LAST_CHAT_SENDED = json["TIME_LAST_CHAT_SENDED"] == null
         ? null
         : DateTime.parse(json["TIME_LAST_CHAT_SENDED"]);
+    this.ClassChatList = json["ClassChatList"] != null
+        ? json["ClassChatList"]
+            .map((e) => ClassChatModel.fromJson(e).obs)
+            .toList()
+            .obs
+        : <Rx<ClassChatModel>>[].obs;
+    this.AMOUNT = 0;
   }
 }

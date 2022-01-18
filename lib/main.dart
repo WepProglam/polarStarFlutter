@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/bindings/loby/login_binding.dart';
 import 'package:polarstar_flutter/app/bindings/loby/init_binding.dart';
 import 'package:polarstar_flutter/app/bindings/main/main_binding.dart';
+import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
@@ -91,10 +92,10 @@ void main() async {
   await GetStorage.init();
 
   await Firebase.initializeApp();
-  InitController initController;
 
-  initController = await Get.put(
+  await Get.put(
       InitController(repository: LoginRepository(apiClient: LoginApiClient())));
+  InitController initController = Get.find();
 
   bool isLogined = await initController.checkLogin();
 
@@ -123,11 +124,13 @@ void main() async {
         IO.OptionBuilder().setTransports(['websocket'])
             // .disableAutoConnect()
             .setExtraHeaders({'cookie': Session.headers["Cookie"]}).build());
+    await initController.registerSocket();
     await initController.getChatBox();
-    List<int> ridList = box.read("classSocket");
-    for (int rid in ridList) {
-      classChatSocket.emit("joinRoom", [rid, "fuckfuck"]);
-    }
+    print(" !!!!  ${initController.chatBox}");
+    // List<ChatBoxModel> ridList = box.read("classSocket");
+    // for (ChatBoxModel item in ridList) {
+    //   classChatSocket.emit("joinRoom", [item.CLASS_ID, "fuckfuck"]);
+    // }
   }
 
   await runApp(GetMaterialApp(

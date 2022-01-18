@@ -365,7 +365,7 @@ class MainUpdateModule {
     if (index == 0) {
       await nc.getNoties();
     } else if (index == 1) {
-      await nc.getChatBox();
+      // await nc.getChatBox();
     } else {
       await nc.getMailBox();
     }

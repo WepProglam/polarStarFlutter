@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:meta/meta.dart';
+import 'package:polarstar_flutter/app/data/model/class/class_chat_model.dart';
 import 'package:polarstar_flutter/app/data/model/mail/mailBox_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
@@ -27,9 +28,10 @@ class NotiController extends GetxController {
   RxList<Rx<MailBoxModel>> mailBox = <Rx<MailBoxModel>>[].obs; //쪽지함
   RxList<SaveNotiModel> readNoties = <SaveNotiModel>[].obs;
   RxList<SaveMailBoxModel> readMails = <SaveMailBoxModel>[].obs;
-  RxList<Rx<ChatBoxModel>> chatBox = <Rx<ChatBoxModel>>[].obs;
 
   NotiController({@required this.repository}) : assert(repository != null);
+
+  RxList<ClassChatModel> chatHistory = <ClassChatModel>[].obs;
 
   Future<void> getReadMails() async {
     readMails.value = await MAIL_DB_HELPER.queryAllRows();
@@ -92,17 +94,23 @@ class NotiController extends GetxController {
     notiMailFetched.value = true;
   }
 
-  Future<void> getChatBox() async {
-    var response = await Session().getX("/chat/chatBox");
-    Iterable chatBoxList = jsonDecode(response.body);
-    chatBox.value =
-        chatBoxList.map((e) => ChatBoxModel.fromJson(e).obs).toList();
-    box.remove("classSocket");
-    List<int> tempClassList = [];
-    for (Rx<ChatBoxModel> item in chatBox) {
-      tempClassList.add(item.value.CLASS_ID);
-    }
-  }
+  // Future<void> getChatBox() async {
+  //   List<ChatBoxModel> tempBox = box.read("classSocket");
+  //   chatBox.value = tempBox.map((e) => e.obs).toList();
+
+  //   RxList<Rx<ClassChatModel>> tt = chatBox[0].value.ClassChatList;
+  //   print(chatBox[0].value.ClassChatList);
+
+  //   // var response = await Session().getX("/chat/chatBox");
+  //   // Iterable chatBoxList = jsonDecode(response.body);
+  //   // chatBox.value =
+  //   //     chatBoxList.map((e) => ChatBoxModel.fromJson(e).obs).toList();
+  //   // box.remove("classSocket");
+  //   // List<int> tempClassList = [];
+  //   // for (Rx<ChatBoxModel> item in chatBox) {
+  //   //   tempClassList.add(item.value.CLASS_ID);
+  //   // }
+  // }
 
   Future<void> sortMailBox() async {
     mailBox
@@ -114,7 +122,7 @@ class NotiController extends GetxController {
     super.onInit();
     await getNoties();
     await getMailBox();
-    await getChatBox();
+    // await getChatBox();
   }
 
   @override
