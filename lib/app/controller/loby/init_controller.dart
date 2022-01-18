@@ -244,8 +244,18 @@ class InitController extends GetxController {
     ever(chatBox, (_) {
       print("char box ${chatBox}");
     });
+
+    ever(chatScrollController, (_) {
+      print("has client!");
+    });
+
     // firebaseCloudMessaging_Listeners();
   }
+
+  // @override
+  // void onReady() async {
+  //   print("onready");
+  // }
 
   RxList<Rx<ClassChatModel>> get getClassHistory {
     print("!!!!");
