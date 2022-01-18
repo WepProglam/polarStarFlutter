@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -17,17 +18,18 @@ import 'package:polarstar_flutter/app/data/repository/noti/noti_repository.dart'
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 import 'package:polarstar_flutter/session.dart';
 
-class NotiController extends GetxController {
+class NotiController extends GetxController with SingleGetTickerProviderMixin {
   final NotiRepository repository;
   final box = GetStorage();
   RxList<Rx<NotiModel>> noties = <Rx<NotiModel>>[].obs;
-  RxInt pageViewIndex = 0.obs;
-  final PageController pageController = PageController(initialPage: 0);
+  // RxInt pageViewIndex = 0.obs;
+  // final PageController pageController = PageController(initialPage: 0);
   RxBool notiNotiFetched = false.obs;
   RxBool notiMailFetched = false.obs;
   RxList<Rx<MailBoxModel>> mailBox = <Rx<MailBoxModel>>[].obs; //쪽지함
   RxList<SaveNotiModel> readNoties = <SaveNotiModel>[].obs;
   RxList<SaveMailBoxModel> readMails = <SaveMailBoxModel>[].obs;
+  TabController tabController;
 
   NotiController({@required this.repository}) : assert(repository != null);
 
@@ -119,6 +121,8 @@ class NotiController extends GetxController {
 
   @override
   onInit() async {
+    tabController = TabController(vsync: this, length: 3);
+
     super.onInit();
     await getNoties();
     await getMailBox();
