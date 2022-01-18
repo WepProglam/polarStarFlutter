@@ -76,7 +76,7 @@ class TimeTableController extends GetxController {
 
   List<String> addTimeTableYearSemList = [
     "2021년 2학기",
-    "2021년 겨울학기",
+    //"2021년 겨울학기",
     "2022년 1학기",
     // "2022년 여름학기",
     // "2022년 2학기",
