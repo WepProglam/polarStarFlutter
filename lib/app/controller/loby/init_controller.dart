@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:polarstar_flutter/app/data/model/login_model.dart';
+import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:polarstar_flutter/main.dart';
+import 'package:polarstar_flutter/session.dart';
 
 class InitController extends GetxController {
   final LoginRepository repository;
@@ -42,6 +46,20 @@ class InitController extends GetxController {
     box.write("FcmToken", FcmToken);
 
     print("fcm return : ${response}");
+    return;
+  }
+
+  Future<void> getChatBox() async {
+    var response = await Session().getX("/chat/chatBox");
+    Iterable chatBoxList = jsonDecode(response.body);
+    List<Rx<ChatBoxModel>> chatBox =
+        chatBoxList.map((e) => ChatBoxModel.fromJson(e).obs).toList();
+    box.remove("classSocket");
+    List<int> tempClassList = [];
+    for (Rx<ChatBoxModel> item in chatBox) {
+      tempClassList.add(item.value.CLASS_ID);
+    }
+    await box.write("classSocket", tempClassList);
     return;
   }
 

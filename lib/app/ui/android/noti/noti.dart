@@ -283,7 +283,7 @@ class ChatItem extends StatelessWidget {
                           width: Get.mediaQuery.size.width - 135,
                           child: Text(
                               "${model.value.CLASS_NAME}-${model.value.CLASS_PROFESSOR}ffffffffffffffffffffffffffffffffffffdfddddddddddddd",
-                              overflow: TextOverflow.fade,
+                              overflow: TextOverflow.clip,
                               maxLines: 1,
                               style: const TextStyle(
                                   color: const Color(0xff2f2f2f),

@@ -101,6 +101,9 @@ void main() async {
   print(isLogined);
   print("start");
 
+  final box = GetStorage();
+  print(box.read("classSocket"));
+
   // socket.connect();
 
   // // fcm token check
@@ -114,12 +117,18 @@ void main() async {
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
   //     statusBarColor: const Color(0xfff6f6f6),
   //     statusBarBrightness: Brightness.light));
-
-  classChatSocket = await IO.io(
-      'http://13.209.5.161:3000',
-      IO.OptionBuilder().setTransports(['websocket'])
-          // .disableAutoConnect()
-          .setExtraHeaders({'cookie': Session.headers["Cookie"]}).build());
+  if (isLogined) {
+    classChatSocket = await IO.io(
+        'http://13.209.5.161:3000',
+        IO.OptionBuilder().setTransports(['websocket'])
+            // .disableAutoConnect()
+            .setExtraHeaders({'cookie': Session.headers["Cookie"]}).build());
+    await initController.getChatBox();
+    List<int> ridList = box.read("classSocket");
+    for (int rid in ridList) {
+      classChatSocket.emit("joinRoom", [rid, "fuckfuck"]);
+    }
+  }
 
   await runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want

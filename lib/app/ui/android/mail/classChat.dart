@@ -121,9 +121,9 @@ class ClassChatHistory extends StatelessWidget {
                           Get.back();
                         },
                         child: Image.asset(
-                          'assets/images/back_icon.png',
-                          // fit: BoxFit.fitWidth,
-                          width: 24,
+                          'assets/images/891.png',
+                          color: const Color(0xffffffff),
+                          width: 12,
                           height: 24,
                         ),
                       ),
@@ -189,34 +189,25 @@ class ClassChatHistory extends StatelessWidget {
                                         //   model: controller.chatHistory[index],
                                         //   FROM_ME: MY_SELF,
                                         // ),
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 8),
-                                          child: Text(
-                                              "${prettyDate(model.TIME_CREATED)}",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xffd6d4d4),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "Roboto",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 10.0),
-                                              textAlign: TextAlign.right),
-                                        ),
+
                                         MAIL_CONTENT_ITEM(
                                           // mailController: mailController,
                                           model: controller.chatHistory[index],
                                         )
                                       ])
-                                : Row(children: [
-                                    MAIL_CONTENT_ITEM(
-                                      model: controller.chatHistory[index],
-                                    ),
-                                    MAIL_PROFILE_ITEM(
-                                      model: controller.chatHistory[index],
-                                      FROM_ME: MY_SELF,
-                                    ),
-                                  ])),
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                        MAIL_PROFILE_ITEM(
+                                          model: controller.chatHistory[index],
+                                          FROM_ME: MY_SELF,
+                                        ),
+                                        MAIL_CONTENT_ITEM(
+                                          model: controller.chatHistory[index],
+                                        ),
+                                      ])),
                       ));
                 },
               );
@@ -279,6 +270,12 @@ class ClassChatHistory extends StatelessWidget {
                             Container(
                                 width: 28,
                                 height: 28,
+                                child: Center(
+                                  child: Icon(
+                                    Icons.arrow_upward,
+                                    color: const Color(0xffffffff),
+                                  ),
+                                ),
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: const Color(0xff371ac7))),
@@ -311,36 +308,32 @@ class MAIL_PROFILE_ITEM extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        // width: 41.5,
-        // height: 41.5,
-        margin:
-            FROM_ME ? EdgeInsets.only(left: 14) : EdgeInsets.only(right: 14),
-        child: Column(children: [
-          // CachedNetworkImage(
-          //     imageUrl: '${model.PHOTO}',
-          //     imageBuilder: (context, imageProvider) => Container(
-          //         decoration: BoxDecoration(
-          //             shape: BoxShape.circle,
-          //             image: DecorationImage(
-          //                 image: imageProvider, fit: BoxFit.fill))),
-          //     fadeInDuration: Duration(milliseconds: 0),
-          //     progressIndicatorBuilder: (context, url, downloadProgress) =>
-          //         Image(image: AssetImage('assets/images/spinner.gif')),
-          //     errorWidget: (context, url, error) {
-          //       print(error);
-          //       return Icon(Icons.error);
-          //     }),
-          Center(
-            child: Text(
-              "${model.USERNAME}",
-            ),
+      margin: const EdgeInsets.only(right: 10),
+      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Container(
+          width: 32,
+          height: 32,
+          child: CachedNetworkImage(
+            imageUrl: "${model.PROFILE_PHOTO}",
+            imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: imageProvider, fit: BoxFit.cover))),
           ),
-          Center(
+        ),
+        Center(
             child: Text(
-              "${model.TIME_CREATED}",
-            ),
-          )
-        ]));
+          "${model.PROFILE_NICKNAME}",
+          style: const TextStyle(
+              color: Color(0xff2f2f2f),
+              fontWeight: FontWeight.w400,
+              fontFamily: "NotoSansSC",
+              fontStyle: FontStyle.normal,
+              fontSize: 10.0),
+        ))
+      ]),
+    );
   }
 }
 
@@ -351,28 +344,58 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        constraints: BoxConstraints(maxWidth: 260),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(36),
-                topRight: model.MY_SELF == 0
-                    ? Radius.circular(36)
-                    : Radius.circular(0),
-                bottomRight: Radius.circular(36),
-                bottomLeft: Radius.circular(36)),
-            color: model.MY_SELF == 0
-                ? const Color(0xfff5f5f5)
-                : const Color(0xffe0e4ff)),
-        child: Container(
-            padding: EdgeInsets.only(left: 16, top: 10, right: 24, bottom: 10),
-            child: Text("${model.CONTENT}",
-                style: const TextStyle(
-                    color: const Color(0xff2f2f2f),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: "NotoSansSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 14.0),
-                textAlign: TextAlign.left)));
+    print(model.MY_SELF);
+    return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+      model.MY_SELF
+          ? Container(
+              margin: const EdgeInsets.only(right: 8),
+              child: Text("${prettyDate(model.TIME_CREATED)}",
+                  style: const TextStyle(
+                      color: const Color(0xffd6d4d4),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "Roboto",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 10.0),
+                  textAlign: TextAlign.right),
+            )
+          : Container(),
+      Container(
+          constraints: BoxConstraints(maxWidth: 260),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft:
+                      model.MY_SELF ? Radius.circular(36) : Radius.circular(0),
+                  topRight:
+                      model.MY_SELF ? Radius.circular(0) : Radius.circular(36),
+                  bottomRight: Radius.circular(36),
+                  bottomLeft: Radius.circular(36)),
+              color: model.MY_SELF
+                  ? const Color(0xffe0e4ff)
+                  : const Color(0xfff5f5f5)),
+          child: Container(
+              padding:
+                  EdgeInsets.only(left: 16, top: 10, right: 24, bottom: 10),
+              child: Text("${model.CONTENT}",
+                  style: const TextStyle(
+                      color: const Color(0xff2f2f2f),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                  textAlign: TextAlign.left))),
+      model.MY_SELF
+          ? Container()
+          : Container(
+              margin: const EdgeInsets.only(left: 8),
+              child: Text("${prettyDate(model.TIME_CREATED)}",
+                  style: const TextStyle(
+                      color: const Color(0xffd6d4d4),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "Roboto",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 10.0),
+                  textAlign: TextAlign.right),
+            ),
+    ]);
   }
 }

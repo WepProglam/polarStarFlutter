@@ -97,6 +97,11 @@ class NotiController extends GetxController {
     Iterable chatBoxList = jsonDecode(response.body);
     chatBox.value =
         chatBoxList.map((e) => ChatBoxModel.fromJson(e).obs).toList();
+    box.remove("classSocket");
+    List<int> tempClassList = [];
+    for (Rx<ChatBoxModel> item in chatBox) {
+      tempClassList.add(item.value.CLASS_ID);
+    }
   }
 
   Future<void> sortMailBox() async {

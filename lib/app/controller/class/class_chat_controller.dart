@@ -41,6 +41,7 @@ class ClassChatController extends GetxController {
   // }
 
   // IO.Socket soc = null;
+  final box = GetStorage();
   RxString roomID = "".obs;
   RxBool dataAvailble = false.obs;
   RxList<ClassChatModel> chatHistory = <ClassChatModel>[].obs;
@@ -55,28 +56,23 @@ class ClassChatController extends GetxController {
     classChatSocket.emit("sendMessage", {"content": text});
   }
 
+  bool readFirstRecent = true;
+
   Future<void> socketting(String roomID) async {
-    // IO.Socket socket = await IO.io(
-    //     'http://13.209.5.161:3000',
-    //     IO.OptionBuilder()
-    //         .setTransports(['websocket'])
-    //         .disableAutoConnect()
-    //         .setExtraHeaders({'cookie': Session.headers["Cookie"]})
-    //         .build());
-
-    // classChatSocket.onConnect((_) {
-    //   classChatSocket.emit("joinRoom", [roomID, "fuckfuck"]);
-    // });
-
-    print(classChatSocket.id);
-    classChatSocket.emit("joinRoom", [roomID, "fuckfuck"]);
-
     classChatSocket.onConnectError((data) => print(data));
 
     classChatSocket.on("viewRecentMessage", (data) {
-      print("viewRecentMessage called");
       Iterable cc = data;
       chatHistory.value = cc.map((e) => ClassChatModel.fromJson(e)).toList();
+      if (readFirstRecent) {
+        readFirstRecent = false;
+        int CHAT_ID = box.read("LastChat_${chatHistory.last.CLASS_ID}");
+        for (ClassChatModel item in chatHistory) {
+          if (item.CHAT_ID == CHAT_ID) {}
+        }
+        box.write(
+            "LastChat_${chatHistory.last.CLASS_ID}", chatHistory.last.CHAT_ID);
+      }
     });
 
     classChatSocket.on("newMessage", (data) {
@@ -108,6 +104,7 @@ class ClassChatController extends GetxController {
     print("controller init : room ID = ${roomID.value}");
     await registerSocket();
     print("controller init : ${classChatSocket.connected}");
+    await classChatSocket.emit("getChatLog", [roomID.value, 0]);
 
     super.onInit();
     dataAvailble.value = true;
@@ -117,9 +114,6 @@ class ClassChatController extends GetxController {
   void onClose() async {
     print("contoller close : ${roomID.value}");
     await classChatSocket.emit("leaveRoom", roomID.value);
-
-    // await classChatSocket.disconnect();
-    // print("disconnect 완료");
     chatHistory.clear();
   }
 }

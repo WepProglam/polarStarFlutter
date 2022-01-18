@@ -1,3 +1,5 @@
+import 'package:polarstar_flutter/app/data/model/main_model.dart';
+
 class NotiModel {
   String URL, CONTENT, TITLE;
   int NOTI_ID, NOTI_TYPE;
@@ -45,7 +47,7 @@ class SaveNotiModel {
 
 class ChatBoxModel {
   String CLASS_NAME, CLASS_PROFESSOR, LAST_CHAT;
-  int CLASS_ID;
+  int CLASS_ID, CHAT_ID;
   DateTime TIME_LAST_CHAT_SENDED;
 
   ChatBoxModel({CLASS_NAME, CLASS_PROFESSOR, CLASS_ID});
@@ -54,7 +56,7 @@ class ChatBoxModel {
     this.CLASS_NAME = json["CLASS_NAME"];
     this.CLASS_PROFESSOR = json["CLASS_PROFESSOR"];
     print("class_id: ${json["CLASS_ID"]}");
-
+    this.CHAT_ID = nullCheck(json["CHAT_ID"]);
     this.CLASS_ID = json["CLASS_ID"];
     this.LAST_CHAT = json["LAST_CHAT"];
     print(json["LAST_CHAT"]);
