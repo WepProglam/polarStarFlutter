@@ -20,8 +20,8 @@ import 'package:polarstar_flutter/app/ui/android/timetable/widgets/timetable.dar
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 // Colors
-const mainColor = 0xff371ac7;
-const backgroundColor = 0xfff5f6ff;
+const mainColor = 0xff4570ff;
+const backgroundColor = 0xffe6f1ff;
 const classInfoColor = 0xff2f2f2f;
 const categoryColor = 0xff2f2f2f;
 

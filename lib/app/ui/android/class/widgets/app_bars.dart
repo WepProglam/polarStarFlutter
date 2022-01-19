@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 // 다른 모양 AppBar도 만들면됨
 class AppBars {
   AppBar classBasicAppBar() {
-    const mainColor = 0xff371ac7;
+    const mainColor = 0xff4570ff;
 
     return AppBar(
       backgroundColor: const Color(mainColor),

@@ -14,6 +14,11 @@ import 'package:polarstar_flutter/app/ui/android/class/widgets/class_preview.dar
 import 'package:polarstar_flutter/app/ui/android/class/widgets/class_search_bar.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page_scroll.dart';
 
+const mainColor = 0xff4570ff;
+const backColor = 0xffe6f1ff;
+const textColor = 0xff000000;
+const whiteColor = 0xffffffff;
+
 class Class extends StatelessWidget {
   Class({Key key}) : super(key: key);
   final ScrollController classScrollController =
@@ -28,7 +33,7 @@ class Class extends StatelessWidget {
         searchFocusNode.unfocus();
       },
       child: Scaffold(
-        backgroundColor: const Color(0xfff8f6fe),
+        backgroundColor: const Color(backColor),
         appBar: AppBar(
           toolbarHeight: 56,
           backgroundColor: Get.theme.primaryColor,
@@ -41,7 +46,7 @@ class Class extends StatelessWidget {
                 child: Text(
                   "成均馆大学",
                   style: const TextStyle(
-                      color: const Color(0xffffffff),
+                      color: const Color(whiteColor),
                       fontWeight: FontWeight.w500,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
@@ -136,7 +141,7 @@ class Class extends StatelessWidget {
                                 Container(
                                   child: Text("我选的课程",
                                       style: const TextStyle(
-                                          color: const Color(0xff2f2f2f),
+                                          color: const Color(textColor),
                                           fontWeight: FontWeight.w500,
                                           fontFamily: "NotoSansSC",
                                           fontStyle: FontStyle.normal,
@@ -145,17 +150,18 @@ class Class extends StatelessWidget {
                                 ),
                                 Spacer(),
                                 // ! 서버에서 포인트 받아야함
-                                Container(
-                                  margin: const EdgeInsets.only(top: 6),
-                                  child: Text("积分 100Point",
-                                      style: const TextStyle(
-                                          color: const Color(0xff571df0),
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: "NotoSansSC",
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 14.0),
-                                      textAlign: TextAlign.left),
-                                )
+                                // ! 일단 삭제
+                                // Container(
+                                //   margin: const EdgeInsets.only(top: 6),
+                                //   child: Text("积分 100Point",
+                                //       style: const TextStyle(
+                                //           color: const Color(0xff571df0),
+                                //           fontWeight: FontWeight.w500,
+                                //           fontFamily: "NotoSansSC",
+                                //           fontStyle: FontStyle.normal,
+                                //           fontSize: 14.0),
+                                //       textAlign: TextAlign.left),
+                                // )
                               ],
                             ),
                           ),
@@ -184,7 +190,7 @@ class Class extends StatelessWidget {
                                           child: Text(
                                             "수업 추가하러 가기",
                                             style: const TextStyle(
-                                                color: const Color(0xff2f2f2f),
+                                                color: const Color(textColor),
                                                 fontWeight: FontWeight.w500,
                                                 fontFamily: "NotoSansKR",
                                                 fontStyle: FontStyle.normal,
@@ -197,7 +203,7 @@ class Class extends StatelessWidget {
                                             border: Border.all(
                                                 color: const Color(0xffeaeaea),
                                                 width: 1),
-                                            color: const Color(0xffffffff))),
+                                            color: const Color(whiteColor))),
                                   ),
                                 )
                               : Container(
@@ -235,7 +241,7 @@ class Class extends StatelessWidget {
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 10),
-                      color: const Color(0xfff8f6fe),
+                      color: const Color(backColor),
                       child: Column(
                         children: [
                           Container(
@@ -245,7 +251,7 @@ class Class extends StatelessWidget {
                                 Row(children: [
                               Text("最新课程评价",
                                   style: const TextStyle(
-                                      color: const Color(0xff2f2f2f),
+                                      color: const Color(textColor),
                                       fontWeight: FontWeight.w500,
                                       fontFamily: "NotoSansSC",
                                       fontStyle: FontStyle.normal,
@@ -359,6 +365,13 @@ class ClassRecentReview extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10)),
             border: Border.all(color: const Color(0xffeaeaea), width: 1),
+            boxShadow: [
+              BoxShadow(
+                  color: const Color(0x0f000000),
+                  offset: Offset(0, 3),
+                  blurRadius: 10,
+                  spreadRadius: 0)
+            ],
             color: const Color(0xffffffff)));
   }
 }
@@ -383,8 +396,8 @@ class RateStarRow extends StatelessWidget {
         margin: const EdgeInsets.only(left: 2),
         child: Image.asset(
           (rate_int >= 1)
-              ? "assets/images/icn_reply_star_selected.png"
-              : "assets/images/icn_reply_star_normal.png",
+              ? "assets/images/star_100.png"
+              : "assets/images/star_0.png",
           width: 12,
           height: 12,
         ),
@@ -393,8 +406,8 @@ class RateStarRow extends StatelessWidget {
         margin: const EdgeInsets.only(left: 2),
         child: Image.asset(
           (rate_int >= 2)
-              ? "assets/images/icn_reply_star_selected.png"
-              : "assets/images/icn_reply_star_normal.png",
+              ? "assets/images/star_100.png"
+              : "assets/images/star_0.png",
           width: 12,
           height: 12,
         ),
@@ -403,8 +416,8 @@ class RateStarRow extends StatelessWidget {
         margin: const EdgeInsets.only(left: 2),
         child: Image.asset(
           (rate_int >= 3)
-              ? "assets/images/icn_reply_star_selected.png"
-              : "assets/images/icn_reply_star_normal.png",
+              ? "assets/images/star_100.png"
+              : "assets/images/star_0.png",
           width: 12,
           height: 12,
         ),
@@ -413,8 +426,8 @@ class RateStarRow extends StatelessWidget {
         margin: const EdgeInsets.only(left: 2),
         child: Image.asset(
           (rate_int >= 4)
-              ? "assets/images/icn_reply_star_selected.png"
-              : "assets/images/icn_reply_star_normal.png",
+              ? "assets/images/star_100.png"
+              : "assets/images/star_0.png",
           width: 12,
           height: 12,
         ),
@@ -423,8 +436,8 @@ class RateStarRow extends StatelessWidget {
         margin: const EdgeInsets.only(left: 2),
         child: Image.asset(
           (rate_int >= 5)
-              ? "assets/images/icn_reply_star_selected.png"
-              : "assets/images/icn_reply_star_normal.png",
+              ? "assets/images/star_100.png"
+              : "assets/images/star_0.png",
           width: 12,
           height: 12,
         ),
@@ -446,11 +459,12 @@ class ClassItem extends StatelessWidget {
           child: Row(children: [
             Container(
                 margin: const EdgeInsets.symmetric(vertical: 3.5),
-                child: Image.asset("assets/images/icn_book.png")),
+                child: Image.asset("assets/images/icn_book.png", width: 32.0)),
             Container(
               margin: const EdgeInsets.only(left: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // 한국문화와언어
                   Container(
@@ -484,11 +498,12 @@ class ClassItem extends StatelessWidget {
               ),
             ),
             Spacer(),
+            //! 평가하기 버튼 삭제 예정 아직 데이터가 없어 삭제 불가
             Container(
               margin: const EdgeInsets.symmetric(vertical: 3.5),
               child: // Rectangle 7
                   Container(
-                      width: 78,
+                      width: 76,
                       height: 32,
                       child: Center(
                         child: // 去评价
@@ -503,7 +518,7 @@ class ClassItem extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(40)),
-                          color: const Color(0xff571df0))),
+                          color: const Color(mainColor))),
             )
           ]),
         ),
