@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 import 'package:polarstar_flutter/app/controller/class/class_view_controller.dart';
@@ -11,6 +12,8 @@ class WriteCommentController extends GetxController {
   final ClassRepository repository;
   WriteCommentController({@required this.repository});
 
+  final box = GetStorage();
+
   final commentRate = 5.obs;
   final languageRate = 5.obs;
   final attitudeRate = 5.obs;
@@ -18,8 +21,13 @@ class WriteCommentController extends GetxController {
   final assignmentRate = 5.obs;
   final gradeRate = 5.obs;
 
+  var currentYearSem;
+
+  int writeCommentIndex;
   int writeCommentYear;
   int writeCommentSemester;
+
+  List<DropdownMenuItem> yearSemItem = [];
 
   Future postComment(int CLASS_ID, Map<String, String> data) async {
     final jsonResponse = await repository.postComment(CLASS_ID, data);
@@ -45,6 +53,46 @@ class WriteCommentController extends GetxController {
 
   @override
   void onInit() {
+    currentYearSem = box.read("year_sem");
+    print(currentYearSem);
+    if (currentYearSem["TIMETABLE_SEMESTER_FROM_DATE"] == 1) {
+      for (var i = 0; i < 5; i++) {
+        yearSemItem.add(DropdownMenuItem(
+          child: Center(
+            child: Text(
+              "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}년도 ${i % 2 + 1}학기",
+              style: const TextStyle(
+                  color: const Color(0xff6f6e6e),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "NotoSansSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          value: i,
+        ));
+      }
+    } else {
+      for (var i = 0; i < 6; i++) {
+        yearSemItem.add(DropdownMenuItem(
+          child: Center(
+            child: Text(
+              "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}년도 ${(i + 1) % 2 + 1}학기",
+              style: const TextStyle(
+                  color: const Color(0xff6f6e6e),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "NotoSansSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          value: i,
+        ));
+      }
+    }
+
     super.onInit();
   }
 }

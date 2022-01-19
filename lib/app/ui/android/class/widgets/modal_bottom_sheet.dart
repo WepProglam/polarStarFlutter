@@ -400,7 +400,7 @@ class WriteComment extends StatelessWidget {
                       children: [
                         Expanded(
                           child: DropdownButtonFormField(
-                            isExpanded: true,
+                            isExpanded: false,
                             hint: Text("请输入说明.",
                                 style: const TextStyle(
                                     color: const Color(0xff9b9b9b),
@@ -409,54 +409,80 @@ class WriteComment extends StatelessWidget {
                                     fontStyle: FontStyle.normal,
                                     fontSize: 14.0),
                                 textAlign: TextAlign.left),
-                            items: [
-                              for (int i = DateTime.now().year;
-                                  i > DateTime.now().year - 5;
-                                  i--)
-                                DropdownMenuItem(
-                                  child: Center(
-                                    child: Text(
-                                      "$i년도",
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                  value: i,
-                                )
-                            ],
-                            value: writeCommentController.writeCommentYear,
+                            items: writeCommentController.yearSemItem,
+                            value: writeCommentController.writeCommentIndex,
                             onChanged: (value) {
-                              print(value);
-                              writeCommentController.writeCommentYear = value;
+                              writeCommentController.writeCommentIndex = value;
+                              if (writeCommentController.currentYearSem[
+                                      "TIMETABLE_SEMESTER_FROM_DATE"] ==
+                                  1) {
+                                writeCommentController.writeCommentYear =
+                                    writeCommentController.currentYearSem[
+                                            "TIMETABLE_YEAR_FROM_DATE"] -
+                                        writeCommentController
+                                            .writeCommentIndex;
+                                writeCommentController.writeCommentSemester =
+                                    writeCommentController.writeCommentIndex %
+                                            2 +
+                                        1;
+                              } else {
+                                writeCommentController.writeCommentYear =
+                                    writeCommentController.currentYearSem[
+                                            "TIMETABLE_YEAR_FROM_DATE"] -
+                                        writeCommentController
+                                            .writeCommentIndex;
+                                writeCommentController.writeCommentSemester =
+                                    (writeCommentController.writeCommentIndex +
+                                                1) %
+                                            2 +
+                                        1;
+                              }
+
+                              print(writeCommentController.writeCommentYear);
+                              print(
+                                  writeCommentController.writeCommentSemester);
                             },
                           ),
                         ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: DropdownButtonFormField(
-                            isExpanded: true,
-                            hint: Text("Please select semester"),
-                            value: writeCommentController.writeCommentSemester,
-                            items: [
-                              for (int j = 1; j < 3; j++)
-                                DropdownMenuItem(
-                                  child: Center(
-                                    child: Text(
-                                      "$j학기",
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                  value: j,
-                                )
-                            ],
-                            onChanged: (value) {
-                              print(value);
-                              writeCommentController.writeCommentSemester =
-                                  value;
-                            },
-                          ),
-                        ),
+
+                        //* 학기 선택 드롭다운
+                        // Expanded(
+                        //   child: DropdownButtonFormField(
+                        //     isExpanded: true,
+                        //     hint: Text("请输入说明.",
+                        //         style: const TextStyle(
+                        //             color: const Color(0xff9b9b9b),
+                        //             fontWeight: FontWeight.w400,
+                        //             fontFamily: "NotoSansSC",
+                        //             fontStyle: FontStyle.normal,
+                        //             fontSize: 14.0),
+                        //         textAlign: TextAlign.left),
+                        //     value: writeCommentController.writeCommentSemester,
+                        //     items: [
+                        //       for (int j = 1; j < 3; j++)
+                        //         DropdownMenuItem(
+                        //           child: Center(
+                        //             child: Text(
+                        //               "$j학기",
+                        //               style: const TextStyle(
+                        //                   color: const Color(0xff6f6e6e),
+                        //                   fontWeight: FontWeight.w400,
+                        //                   fontFamily: "NotoSansSC",
+                        //                   fontStyle: FontStyle.normal,
+                        //                   fontSize: 14.0),
+                        //               textAlign: TextAlign.left,
+                        //             ),
+                        //           ),
+                        //           value: j,
+                        //         )
+                        //     ],
+                        //     onChanged: (value) {
+                        //       print(value);
+                        //       writeCommentController.writeCommentSemester =
+                        //           value;
+                        //     },
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
