@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:polarstar_flutter/app/controller/loby/sign_up_controller.dart';
+import 'package:polarstar_flutter/app/data/model/sign_up_model.dart';
 
 import 'package:polarstar_flutter/app/ui/android/functions/form_validator.dart';
 
@@ -156,6 +157,57 @@ class SignUpInputs extends StatelessWidget {
                 ),
               ),
               Container(
+                  margin: const EdgeInsets.symmetric(vertical: 8.5),
+                  child: Row(children: [
+                    Container(
+                      width: 100,
+                      child: Obx(() {
+                        return DropdownButton(
+                          hint: Text("전공을 선택해주세요"),
+                          value: signUpController.selectedCollege.value,
+                          isExpanded: true,
+                          items: [
+                            for (CollegeMajorModel item
+                                in signUpController.collegeList)
+                              DropdownMenuItem(
+                                child: Center(
+                                  child: Text("${item.NAME}"),
+                                ),
+                                value: item.INDEX,
+                              ),
+                          ],
+                          onChanged: (value) {
+                            signUpController.selectedCollege.value = value;
+                          },
+                        );
+                      }),
+                    ),
+                    Container(
+                      width: 100,
+                      margin: const EdgeInsets.only(left: 100),
+                      child: Obx(() {
+                        return DropdownButton(
+                          hint: Text("전공을 선택해주세요"),
+                          value: signUpController.selectedMajor.value,
+                          isExpanded: true,
+                          items: [
+                            for (CollegeMajorModel item
+                                in signUpController.matchMajorList)
+                              DropdownMenuItem(
+                                child: Center(
+                                  child: Text("${item.NAME}"),
+                                ),
+                                value: item.INDEX,
+                              ),
+                          ],
+                          onChanged: (value) {
+                            signUpController.selectedMajor.value = value;
+                          },
+                        );
+                      }),
+                    ),
+                  ])),
+              Container(
                 margin: const EdgeInsets.symmetric(vertical: 8.5),
                 child: SignUpTextForm(
                   textEditingController: studentIDController,
@@ -262,11 +314,22 @@ class SignUpInputs extends StatelessWidget {
                 child: InkWell(
                   onTap: () async {
                     if (_formKey.currentState.validate()) {
+                      if (signUpController.selectIndexPK(
+                              signUpController.selectedMajor.value) ==
+                          null) {
+                        Get.snackbar("회원 가입 오류", "전공이 잘못 선택되었습니다.",
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: Colors.black,
+                            colorText: Colors.white);
+                        return;
+                      }
                       await signUpController.signUp(
                           idController.text,
                           pwController.text,
                           nicknameController.text,
-                          studentIDController.text);
+                          studentIDController.text,
+                          signUpController.selectIndexPK(
+                              signUpController.selectedMajor.value));
                     }
                   },
                   child: Ink(

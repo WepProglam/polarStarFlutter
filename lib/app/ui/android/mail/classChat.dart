@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
@@ -168,12 +170,11 @@ class ClassChatHistory extends StatelessWidget {
         body: Obx(() {
           if (controller.dataAvailble.value) {
             if (initController.chatScrollController.value.hasClients) {
-              initController.chatScrollController.value.jumpTo(initController
-                      .chatScrollController.value.position.maxScrollExtent +
-                  57);
+              Timer(Duration(milliseconds: 100), () {
+                initController.chatScrollController.value.jumpTo(initController
+                    .chatScrollController.value.position.maxScrollExtent);
+              });
             }
-
-            print("build!");
 
             return ListView.builder(
               shrinkWrap: true,
@@ -337,6 +338,7 @@ class MAIL_PROFILE_ITEM extends StatelessWidget {
   final bool FROM_ME;
   @override
   Widget build(BuildContext context) {
+    print("pf: ${model.PROFILE_PHOTO}");
     return Container(
       margin: const EdgeInsets.only(right: 10),
       child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [

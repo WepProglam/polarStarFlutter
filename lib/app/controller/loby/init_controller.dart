@@ -70,6 +70,42 @@ class InitController extends GetxController {
     return null;
   }
 
+  void countingAmount(int curClassID) {
+    int last_cid = box.read("LastChat_${curClassID}");
+
+    // * 최근 메시지가 같이 왔을 때 카운팅
+    bool isExist = false;
+    for (Rx<ChatBoxModel> item in chatBox) {
+      print("${item.value.CLASS_ID} : ${curClassID}");
+      if (item.value.CLASS_ID == curClassID) {
+        int index = item.value.ClassChatList.length - 1;
+        for (Rx<ClassChatModel> it in item.value.ClassChatList) {
+          if (it.value.CHAT_ID == last_cid) {
+            item.update((val) {
+              val.AMOUNT = index;
+            });
+            isExist = true;
+            break;
+          }
+          index--;
+        }
+      }
+    }
+    // * 최근 메시지가 없을 때 카운팅
+    if (!isExist) {
+      for (Rx<ChatBoxModel> item in chatBox) {
+        if (item.value.CLASS_ID == curClassID) {
+          item.update((val) {
+            val.AMOUNT = item.value.ClassChatList.length > 100
+                ? 100
+                : item.value.ClassChatList.length;
+          });
+          break;
+        }
+      }
+    }
+  }
+
   Future<void> socketting() async {
     // classChatSocket.onConnectError((data) => print(data));
 
@@ -94,49 +130,21 @@ class InitController extends GetxController {
         }
       }
 
-      int last_cid =
-          box.read("LastChat_${tempChatHistory.last.value.CLASS_ID}");
-
-      // * 최근 메시지가 같이 왔을 때 카운팅
-      bool isExist = false;
-      for (Rx<ChatBoxModel> item in chatBox) {
-        if (item.value.CLASS_ID == curClassID) {
-          int index = item.value.ClassChatList.length - 1;
-          for (Rx<ClassChatModel> it in item.value.ClassChatList) {
-            print("${last_cid} ${it.value.CHAT_ID}");
-            if (it.value.CHAT_ID == last_cid) {
-              item.update((val) {
-                val.AMOUNT = index;
-              });
-              isExist = true;
-              break;
-            }
-            index--;
-          }
-        }
-      }
-      // * 최근 메시지가 없을 때 카운팅
-      if (!isExist) {
-        for (Rx<ChatBoxModel> item in chatBox) {
-          if (item.value.CLASS_ID == curClassID) {
-            item.update((val) {
-              val.AMOUNT = item.value.ClassChatList.length > 100
-                  ? 100
-                  : item.value.ClassChatList.length;
-            });
-            break;
-          }
-        }
+      // * 현재 들어가있을때
+      if (currentClassID.value == curClassID) {
+        box.write("LastChat_${tempChatHistory.last.value.CLASS_ID}",
+            tempChatHistory.last.value.CHAT_ID);
       }
 
-      box.write("LastChat_${tempChatHistory.last.value.CLASS_ID}",
-          tempChatHistory.last.value.CHAT_ID);
+      // * 안 읽은 개수 체크
+      countingAmount(curClassID);
     });
 
-    classChatSocket.on("newMessage", (data) {
+    classChatSocket.on("newMessage", (data) async {
       print("newMessage called ${data}");
       Rx<ClassChatModel> chat = ClassChatModel.fromJson(data).obs;
       print(chat.value.CLASS_ID);
+      print(" ???? : ${chatBox}");
 
       for (Rx<ChatBoxModel> item in chatBox) {
         if (item.value.CLASS_ID == chat.value.CLASS_ID) {
@@ -148,10 +156,16 @@ class InitController extends GetxController {
             val.LAST_CHAT = chat.value.CONTENT;
             val.TIME_LAST_CHAT_SENDED = chat.value.TIME_CREATED;
           });
-          print("chat id : ${chat.value.CHAT_ID}");
-          box.write("LastChat_${chat.value.CLASS_ID}", chat.value.CHAT_ID);
         }
       }
+
+      // * 현재 들어가있을때
+      if (currentClassID.value == chat.value.CLASS_ID) {
+        await box.write("LastChat_${chat.value.CLASS_ID}", chat.value.CHAT_ID);
+      }
+
+      // * 안 읽은 개수 체크
+      countingAmount(chat.value.CLASS_ID);
     });
 
     classChatSocket.on('leaveRoom', (_) {

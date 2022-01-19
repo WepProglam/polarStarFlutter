@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/controller/class/class_controller.dart';
+import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 import 'package:polarstar_flutter/app/controller/search/search_controller.dart';
@@ -359,12 +360,15 @@ class MainUpdateModule {
     return;
   }
 
-  static Future<void> updateNotiPage(int index) async {
+  static Future<void> updateNotiPage(int index, {int curClassID}) async {
     putController<NotiController>();
+    final InitController initController = Get.find();
+
     NotiController nc = Get.find();
     if (index == 0) {
       await nc.getNoties();
     } else if (index == 1) {
+      initController.countingAmount(curClassID);
       // await nc.getChatBox();
     } else {
       await nc.getMailBox();

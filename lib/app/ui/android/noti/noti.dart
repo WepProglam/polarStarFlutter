@@ -423,123 +423,130 @@ class ChatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Ink(
-      color: model.value.AMOUNT == 0
-          ? const Color(0xfffafbff)
-          : const Color(0xffffffff),
-      child: InkWell(
-        onTap: () async {
-          await Get.toNamed(Routes.CLASSCHAT,
-              arguments: {"roomID": "${model.value.CLASS_ID}"}).then((value) {
-            MainUpdateModule.updateNotiPage(1);
-          });
-        },
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
-              child: Obx(() {
-                return Row(
-                  children: [
-                    Container(
-                      height: 40,
-                      width: 40,
-                      child:
-                          Image.asset("assets/images/class_chat_profile.png"),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: Get.mediaQuery.size.width - 135,
-                            child: Text(
-                                "${model.value.CLASS_NAME}-${model.value.CLASS_PROFESSOR}",
-                                overflow: TextOverflow.clip,
-                                maxLines: 1,
-                                style: const TextStyle(
-                                    color: const Color(0xff2f2f2f),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansKR",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                textAlign: TextAlign.left),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 3),
-                            child: // 在校生交流区
-                                Text("${model.value.LAST_CHAT}",
-                                    style: const TextStyle(
-                                        color: const Color(0xff9b9b9b),
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: "NotoSansSC",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 12.0),
-                                    textAlign: TextAlign.left),
-                          )
-                        ],
+    return Obx(() {
+      return Ink(
+        color: model.value.AMOUNT == 0
+            ? const Color(0xfffafbff)
+            : const Color(0xffffffff),
+        child: InkWell(
+          onTap: () async {
+            await Get.toNamed(Routes.CLASSCHAT,
+                    arguments: {"roomID": "${model.value.CLASS_ID}"})
+                .then((value) async {
+              // * 가장 마지막으로 읽은 class_id 등록
+              await box.write("LastChat_${model.value.CLASS_ID}",
+                  model.value.ClassChatList.last.value.CHAT_ID);
+              MainUpdateModule.updateNotiPage(1,
+                  curClassID: model.value.CLASS_ID);
+            });
+          },
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
+                child: Obx(() {
+                  return Row(
+                    children: [
+                      Container(
+                        height: 40,
+                        width: 40,
+                        child:
+                            Image.asset("assets/images/class_chat_profile.png"),
                       ),
-                    ),
-                    Spacer(),
-                    Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                      Container(
+                        margin: const EdgeInsets.only(left: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                                model.value.TIME_LAST_CHAT_SENDED != null
-                                    ? "${prettyDate(model.value.TIME_LAST_CHAT_SENDED)}"
-                                    : "",
-                                style: const TextStyle(
-                                    color: const Color(0xff9b9b9b),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "Roboto",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 10.0),
-                                textAlign: TextAlign.right),
-                            model.value.AMOUNT == 0
-                                ? Container(
-                                    margin: const EdgeInsets.only(top: 9),
-                                    child: Image.asset(
-                                        "assets/images/right_arrow.png",
-                                        width: 16,
-                                        height: 16))
-                                : Container(
-                                    width: 16,
-                                    height: 16,
-                                    child: Center(
-                                      child: FittedBox(
-                                        child: Text(
-                                          "${model.value.AMOUNT}",
-                                          style: const TextStyle(
-                                              color: const Color(0xffffffff),
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: "Roboto",
-                                              fontStyle: FontStyle.normal,
-                                              fontSize: 10.0),
+                            Container(
+                              width: Get.mediaQuery.size.width - 135,
+                              child: Text(
+                                  "${model.value.CLASS_NAME}-${model.value.CLASS_PROFESSOR}",
+                                  overflow: TextOverflow.clip,
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                      color: const Color(0xff2f2f2f),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "NotoSansKR",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  textAlign: TextAlign.left),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 3),
+                              child: // 在校生交流区
+                                  Text("${model.value.LAST_CHAT}",
+                                      style: const TextStyle(
+                                          color: const Color(0xff9b9b9b),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "NotoSansSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 12.0),
+                                      textAlign: TextAlign.left),
+                            )
+                          ],
+                        ),
+                      ),
+                      Spacer(),
+                      Container(
+                        margin: const EdgeInsets.only(right: 20),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                  model.value.TIME_LAST_CHAT_SENDED != null
+                                      ? "${prettyDate(model.value.TIME_LAST_CHAT_SENDED)}"
+                                      : "",
+                                  style: const TextStyle(
+                                      color: const Color(0xff9b9b9b),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "Roboto",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 10.0),
+                                  textAlign: TextAlign.right),
+                              model.value.AMOUNT == 0
+                                  ? Container(
+                                      margin: const EdgeInsets.only(top: 9),
+                                      child: Image.asset(
+                                          "assets/images/right_arrow.png",
+                                          width: 16,
+                                          height: 16))
+                                  : Container(
+                                      width: 16,
+                                      height: 16,
+                                      child: Center(
+                                        child: FittedBox(
+                                          child: Text(
+                                            "${model.value.AMOUNT}",
+                                            style: const TextStyle(
+                                                color: const Color(0xffffffff),
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: "Roboto",
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 10.0),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    margin: const EdgeInsets.only(top: 9),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Get.theme.primaryColor),
-                                  )
-                          ]),
-                    ),
-                    // 선 21
-                  ],
-                );
-              }),
-            ),
-            Container(
-                height: 1,
-                decoration: BoxDecoration(color: const Color(0xffeaeaea)))
-          ],
+                                      margin: const EdgeInsets.only(top: 9),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Get.theme.primaryColor),
+                                    )
+                            ]),
+                      ),
+                      // 선 21
+                    ],
+                  );
+                }),
+              ),
+              Container(
+                  height: 1,
+                  decoration: BoxDecoration(color: const Color(0xffeaeaea)))
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
