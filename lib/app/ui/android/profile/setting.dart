@@ -100,7 +100,7 @@ class Setting extends StatelessWidget {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)),
-                                        color: const Color(0xff371ac7))),
+                                        color: const Color(0xff4570ff))),
                                 Container(
                                     margin: EdgeInsets.only(left: 20),
                                     width: 16,

@@ -44,7 +44,7 @@ class Profile extends StatelessWidget {
                                       borderRadius: BorderRadius.only(
                                           bottomLeft: Radius.circular(20),
                                           bottomRight: Radius.circular(20)),
-                                      color: const Color(0xff371ac7))),
+                                      color: const Color(0xff4570ff))),
                               Align(
                                   alignment: Alignment.topCenter,
                                   child: Container(
@@ -52,7 +52,7 @@ class Profile extends StatelessWidget {
                                       width: 80,
                                       margin: EdgeInsets.only(top: 72),
                                       decoration: BoxDecoration(
-                                          color: const Color(0xff371ac7)),
+                                          color: const Color(0xff4570ff)),
                                       child: CachedNetworkImage(
                                           imageUrl:
                                               '${myPageController.myProfile.value.PROFILE_PHOTO}',

@@ -11,7 +11,7 @@ import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
 
-const mainColor = 0xff371ac7;
+const mainColor = 0xff4570ff;
 
 class Mypage extends StatelessWidget {
   final MyPageController myPageController = Get.find();
@@ -249,7 +249,8 @@ class MyPageProfile extends StatelessWidget {
               Container(
                   margin: EdgeInsets.only(top: 2),
                   child: Text(
-                      "${myPageController.myProfile.value.PROFILE_MESSAGE}，${myPageController.myProfile.value.PROFILE_SCHOOL}",
+                      //"${myPageController.myProfile.value.PROFILE_MESSAGE}，${myPageController.myProfile.value.PROFILE_SCHOOL}",
+                      "",
                       style: const TextStyle(
                           color: const Color(0xff9b75ff),
                           fontWeight: FontWeight.w500,

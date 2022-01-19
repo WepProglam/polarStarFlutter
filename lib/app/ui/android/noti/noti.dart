@@ -71,7 +71,7 @@ class Noti extends StatelessWidget {
                                 fontFamily: "NotoSansSC",
                                 fontStyle: FontStyle.normal,
                                 fontSize: 14.0),
-                            labelColor: const Color(0xff918dff),
+                            labelColor: const Color(0xff6ea5ff),
                             unselectedLabelColor: const Color(0xffffffff),
                             indicator: UnderlineTabIndicator(
                               borderSide: BorderSide(
