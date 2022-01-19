@@ -33,102 +33,149 @@ class WriteComment extends StatelessWidget {
         padding: EdgeInsets.only(bottom: Get.mediaQuery.viewInsets.bottom),
         child: Container(
           // height: 590,
-          margin: EdgeInsets.fromLTRB(15, 15, 15, 15),
+          margin: EdgeInsets.fromLTRB(24, 24, 24, 72),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 알수없는 구분선
-              Center(
-                child: Container(
-                  width: 53,
-                  height: 6,
-                  child: Image.asset('assets/images/359.png', fit: BoxFit.fill),
-                ),
+              // Center(
+              //   child: Container(
+              //     width: 53,
+              //     height: 6,
+              //     child: Image.asset('assets/images/359.png', fit: BoxFit.fill),
+              //   ),
+              // ),
+
+              //* X 아이콘
+              Row(
+                children: [
+                  Spacer(),
+                  InkWell(
+                    onTap: () => Get.back(),
+                    child: Container(
+                        width: 15,
+                        height: 15,
+                        child: Image.asset('assets/images/174.png',
+                            fit: BoxFit.fill)),
+                  )
+                ],
+              ),
+
+              //* 뭔진 모르겠지만 写入教学评价
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0, bottom: 8.0),
+                child: Text("写入教学评价",
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        color: const Color(0xff6f6e6e),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 20.0),
+                    textAlign: TextAlign.left),
               ),
 
               // 전체 별점
-              Padding(
-                padding: const EdgeInsets.only(top: 25.1),
-                child: Container(
-                  width: 260,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      for (int i = 0; i < 5; i++)
-                        InkWell(
-                            onTap: () {
-                              writeCommentController.commentRate(i + 1);
-                            },
-                            child: Obx(
-                              () => Container(
-                                width: 27.4,
-                                height: 26.5,
-                                child: Image.asset(
-                                  i + 1 <=
-                                          writeCommentController
-                                              .commentRate.value
-                                      ? 'assets/images/897.png'
-                                      : 'assets/images/898.png',
-                                  fit: BoxFit.fitHeight,
-                                ),
+              Container(
+                width: 156.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    for (int i = 0; i < 5; i++)
+                      InkWell(
+                          onTap: () {
+                            writeCommentController.commentRate(i + 1);
+                          },
+                          child: Obx(
+                            () => Container(
+                              width: 20.0,
+                              height: 20.0,
+                              child: Image.asset(
+                                i + 1 <=
+                                        writeCommentController.commentRate.value
+                                    ? 'assets/images/star_100.png'
+                                    : 'assets/images/star_0.png',
+                                fit: BoxFit.fitHeight,
                               ),
-                            )),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 23.2),
-                        child: Obx(() => Text(
-                              "${writeCommentController.commentRate}/5",
-                              style: TextStyle(
-                                  color: const Color(0xff333333),
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "PingFangSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 21.0),
-                            )),
-                      )
-                    ],
-                  ),
+                            ),
+                          )),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2.0),
+                      child: Obx(() => Text(
+                          "(${writeCommentController.commentRate}.0)",
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              color: const Color(0xff9b9b9b),
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0),
+                          textAlign: TextAlign.left)),
+                    )
+                  ],
                 ),
               ),
 
               // 구분선
               Container(
-                margin: EdgeInsets.only(top: 21.6, bottom: 23.9),
-                height: 0.5,
-                decoration: BoxDecoration(color: Colors.grey),
+                margin: EdgeInsets.only(top: 23.5, bottom: 13.5),
+                height: 1,
+                decoration: BoxDecoration(color: const Color(0xffeaeaea)),
               ),
 
-              // 세부 별점들 실제론 하트여야할 듯
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: Text("成绩反映",
+                    style: const TextStyle(
+                        color: const Color(0xff6f6e6e),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0),
+                    textAlign: TextAlign.left),
+              ),
+
+              //* 말하기 속도, 억양, 사투리
               Container(
-                margin: EdgeInsets.only(bottom: 17.5),
+                margin: EdgeInsets.only(bottom: 20.0),
                 child: Row(
                   children: [
-                    Text(
-                      "팀플량",
-                      style: TextStyle(
-                          color: const Color(0xff333333),
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "PingFangSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 16.0),
-                    ),
+                    Text("教授语速、方言等",
+                        style: const TextStyle(
+                            color: const Color(0xff9b9b9b),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
                     Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 4.0),
+                      child: Text("中间儿",
+                          style: const TextStyle(
+                              color: const Color(0xffd6d4d4),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 10.0),
+                          textAlign: TextAlign.right),
+                    ),
                     for (int i = 0; i < 5; i++)
-                      InkWell(
-                          onTap: () {
-                            writeCommentController.teamProjectRate(i + 1);
-                          },
-                          child: Obx(
-                            () => Container(
-                              margin: EdgeInsets.only(left: 8),
-                              width: 21.5,
-                              height: 21.5,
-                              // 하트로 바꿔야 되는데 이미지가 없음
-                              child: Image.asset(
+                      Container(
+                          margin: EdgeInsets.only(left: 4.0),
+                          width: 20.0,
+                          height: 20.0,
+                          child: InkWell(
+                            onTap: () {
+                              writeCommentController.languageRate(i + 1);
+                            },
+                            child: Obx(
+                              () => Image.asset(
                                 i + 1 <=
                                         writeCommentController
-                                            .teamProjectRate.value
-                                    ? 'assets/images/733.png'
-                                    : 'assets/images/687.png',
+                                            .languageRate.value
+                                    ? 'assets/images/star_100.png'
+                                    : 'assets/images/star_0.png',
                                 fit: BoxFit.fitHeight,
                               ),
                             ),
@@ -136,36 +183,142 @@ class WriteComment extends StatelessWidget {
                   ],
                 ),
               ),
+              //* 외국인을 대하는 태도
               Container(
+                margin: const EdgeInsets.only(bottom: 20.0),
                 child: Row(
                   children: [
-                    Text(
-                      "과제량",
-                      style: TextStyle(
-                          color: const Color(0xff333333),
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "PingFangSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 16.0),
-                    ),
+                    Text("教授对留学生的态度",
+                        style: const TextStyle(
+                            color: const Color(0xff9b9b9b),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
                     Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 4.0),
+                      child: Text("中间儿",
+                          style: const TextStyle(
+                              color: const Color(0xffd6d4d4),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 10.0),
+                          textAlign: TextAlign.right),
+                    ),
                     for (int i = 0; i < 5; i++)
-                      InkWell(
-                          onTap: () {
-                            writeCommentController.assignmentRate(i + 1);
-                          },
-                          child: Obx(
-                            () => Container(
-                              width: 21.5,
-                              height: 21.5,
-                              margin: EdgeInsets.only(left: 8),
-                              // 하트로 바꿔야 되는데 이미지가 없음
-                              child: Image.asset(
+                      Container(
+                          margin: EdgeInsets.only(left: 4.0),
+                          width: 20.0,
+                          height: 20.0,
+                          child: InkWell(
+                            onTap: () {
+                              writeCommentController.attitudeRate(i + 1);
+                            },
+                            child: Obx(
+                              () => Image.asset(
+                                i + 1 <=
+                                        writeCommentController
+                                            .attitudeRate.value
+                                    ? 'assets/images/star_100.png'
+                                    : 'assets/images/star_0.png',
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                          )),
+                  ],
+                ),
+              ),
+              //* 시험 난이도
+              Container(
+                margin: EdgeInsets.only(bottom: 20.0),
+                child: Row(
+                  children: [
+                    Text("考试难度",
+                        style: const TextStyle(
+                            color: const Color(0xff9b9b9b),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 4.0),
+                      child: Text("中间儿",
+                          style: const TextStyle(
+                              color: const Color(0xffd6d4d4),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 10.0),
+                          textAlign: TextAlign.right),
+                    ),
+                    for (int i = 0; i < 5; i++)
+                      Container(
+                          margin: EdgeInsets.only(left: 4.0),
+                          width: 20.0,
+                          height: 20.0,
+                          child: InkWell(
+                            onTap: () {
+                              writeCommentController.examRate(i + 1);
+                            },
+                            child: Obx(
+                              () => Image.asset(
+                                i + 1 <= writeCommentController.examRate.value
+                                    ? 'assets/images/star_100.png'
+                                    : 'assets/images/star_0.png',
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                          )),
+                  ],
+                ),
+              ),
+
+              //* 과제량
+              Container(
+                margin: EdgeInsets.only(bottom: 20.0),
+                child: Row(
+                  children: [
+                    Text("作业量",
+                        style: const TextStyle(
+                            color: const Color(0xff9b9b9b),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 4.0),
+                      child: Text("中间儿",
+                          style: const TextStyle(
+                              color: const Color(0xffd6d4d4),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 10.0),
+                          textAlign: TextAlign.right),
+                    ),
+                    for (int i = 0; i < 5; i++)
+                      Container(
+                          margin: EdgeInsets.only(left: 4.0),
+                          width: 20.0,
+                          height: 20.0,
+                          child: InkWell(
+                            onTap: () {
+                              writeCommentController.assignmentRate(i + 1);
+                            },
+                            child: Obx(
+                              () => Image.asset(
                                 i + 1 <=
                                         writeCommentController
                                             .assignmentRate.value
-                                    ? 'assets/images/733.png'
-                                    : 'assets/images/687.png',
+                                    ? 'assets/images/star_100.png'
+                                    : 'assets/images/star_0.png',
                                 fit: BoxFit.fitHeight,
                               ),
                             ),
@@ -173,70 +326,45 @@ class WriteComment extends StatelessWidget {
                   ],
                 ),
               ),
+              //* 학점비율
               Container(
-                margin: EdgeInsets.symmetric(vertical: 17.5),
+                margin: EdgeInsets.only(bottom: 20.0),
                 child: Row(
                   children: [
-                    Text(
-                      "시험 공부량",
-                      style: TextStyle(
-                          color: const Color(0xff333333),
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "PingFangSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 16.0),
-                    ),
+                    Text("给分",
+                        style: const TextStyle(
+                            color: const Color(0xff9b9b9b),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
                     Spacer(),
-                    for (int i = 0; i < 5; i++)
-                      InkWell(
-                          onTap: () {
-                            writeCommentController.examRate(i + 1);
-                          },
-                          child: Obx(
-                            () => Container(
-                              width: 21.5,
-                              height: 21.5,
-                              margin: EdgeInsets.only(left: 8),
-                              // 하트로 바꿔야 되는데 이미지가 없음
-                              child: Image.asset(
-                                i + 1 <= writeCommentController.examRate.value
-                                    ? 'assets/images/733.png'
-                                    : 'assets/images/687.png',
-                                fit: BoxFit.fitHeight,
-                              ),
-                            ),
-                          )),
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Text(
-                      "학점 비율",
-                      style: TextStyle(
-                          color: const Color(0xff333333),
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "PingFangSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 16.0),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 4.0),
+                      child: Text("中间儿",
+                          style: const TextStyle(
+                              color: const Color(0xffd6d4d4),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 10.0),
+                          textAlign: TextAlign.right),
                     ),
-                    Spacer(),
                     for (int i = 0; i < 5; i++)
-                      InkWell(
-                          onTap: () {
-                            writeCommentController.gradeRate(i + 1);
-                          },
-                          child: Obx(
-                            () => Container(
-                              width: 21.5,
-                              height: 21.5,
-                              margin: EdgeInsets.only(left: 8),
-                              // 하트로 바꿔야 되는데 이미지가 없음
-                              child: Image.asset(
+                      Container(
+                          margin: EdgeInsets.only(left: 4.0),
+                          width: 20.0,
+                          height: 20.0,
+                          child: InkWell(
+                            onTap: () {
+                              writeCommentController.gradeRate(i + 1);
+                            },
+                            child: Obx(
+                              () => Image.asset(
                                 i + 1 <= writeCommentController.gradeRate.value
-                                    ? 'assets/images/733.png'
-                                    : 'assets/images/687.png',
+                                    ? 'assets/images/star_100.png'
+                                    : 'assets/images/star_0.png',
                                 fit: BoxFit.fitHeight,
                               ),
                             ),
@@ -246,40 +374,45 @@ class WriteComment extends StatelessWidget {
               ),
               // 구분선
               Container(
-                margin: EdgeInsets.only(top: 33.1, bottom: 13.8),
-                height: 0.5,
-                decoration: BoxDecoration(color: Colors.grey),
+                margin: EdgeInsets.only(top: 3.5, bottom: 13.5),
+                height: 1.0,
+                decoration: BoxDecoration(color: const Color(0xffeaeaea)),
               ),
 
               // General Comment
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "General Comment",
-                    style: TextStyle(
-                        color: const Color(0xff333333),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "PingFangSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 18.0),
-                    textAlign: TextAlign.left,
-                  ),
+                  Text("一般评论",
+                      style: const TextStyle(
+                          color: const Color(0xff6f6e6e),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "NotoSansSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14.0),
+                      textAlign: TextAlign.left),
 
                   // 학기 선택 버튼
                   Padding(
-                    padding: const EdgeInsets.only(top: 16.3, bottom: 16.3),
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 23.5),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: DropdownButtonFormField(
                             isExpanded: true,
-                            hint: Text("Please select year"),
-                            value:
-                                writeCommentController.writeCommentYear.value,
+                            hint: Text("请输入说明.",
+                                style: const TextStyle(
+                                    color: const Color(0xff9b9b9b),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "NotoSansSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                textAlign: TextAlign.left),
                             items: [
-                              for (int i = DateTime.now().year; i > 1999; i--)
+                              for (int i = DateTime.now().year;
+                                  i > DateTime.now().year - 5;
+                                  i--)
                                 DropdownMenuItem(
                                   child: Center(
                                     child: Text(
@@ -290,10 +423,10 @@ class WriteComment extends StatelessWidget {
                                   value: i,
                                 )
                             ],
+                            value: writeCommentController.writeCommentYear,
                             onChanged: (value) {
                               print(value);
-                              writeCommentController.writeCommentYear(value);
-                              writeCommentController.writeCommentYear.refresh();
+                              writeCommentController.writeCommentYear = value;
                             },
                           ),
                         ),
@@ -304,8 +437,7 @@ class WriteComment extends StatelessWidget {
                           child: DropdownButtonFormField(
                             isExpanded: true,
                             hint: Text("Please select semester"),
-                            value: writeCommentController
-                                .writeCommentSemester.value,
+                            value: writeCommentController.writeCommentSemester,
                             items: [
                               for (int j = 1; j < 3; j++)
                                 DropdownMenuItem(
@@ -320,10 +452,8 @@ class WriteComment extends StatelessWidget {
                             ],
                             onChanged: (value) {
                               print(value);
-                              writeCommentController
-                                  .writeCommentSemester(value);
-                              writeCommentController.writeCommentSemester
-                                  .refresh();
+                              writeCommentController.writeCommentSemester =
+                                  value;
                             },
                           ),
                         ),
@@ -374,30 +504,34 @@ class WriteComment extends StatelessWidget {
                             print(Get.currentRoute);
                             Map<String, String> data = {
                               "content": reviewTextController.text,
-                              "rate": writeCommentController.commentRate.value
+                              "RATE": writeCommentController.commentRate.value
                                   .toDouble()
                                   .toString(),
-                              "rate_assignment": writeCommentController
-                                  .assignmentRate.value
+                              "RATE_LANGUAGE": writeCommentController
+                                  .languageRate.value
                                   .toDouble()
                                   .toString(),
-                              "rate_group_study": writeCommentController
-                                  .teamProjectRate.value
+                              "RATE_ATTITUDE": writeCommentController
+                                  .attitudeRate.value
                                   .toDouble()
                                   .toString(),
-                              "rate_exam_study": writeCommentController
+                              "RATE_EXAM_DIFFICULTY": writeCommentController
                                   .examRate.value
                                   .toDouble()
                                   .toString(),
-                              "rate_grade_ratio": writeCommentController
+                              "RATE_ASSIGNMENT": writeCommentController
+                                  .assignmentRate.value
+                                  .toDouble()
+                                  .toString(),
+                              "RAGE_GRADE": writeCommentController
                                   .gradeRate.value
                                   .toDouble()
                                   .toString(),
                               "class_year": writeCommentController
-                                  .writeCommentYear.value
+                                  .writeCommentYear
                                   .toString(),
                               "class_semester": writeCommentController
-                                  .writeCommentSemester.value
+                                  .writeCommentSemester
                                   .toString()
                             };
 

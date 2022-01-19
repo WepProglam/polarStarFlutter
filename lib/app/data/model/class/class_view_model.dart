@@ -7,10 +7,11 @@ class ClassInfoModel {
   int MY_CLASS_POINT;
   double CREDIT;
   String AVG_RATE,
+      AVG_RATE_LANGUAGE,
+      AVG_RATE_ATTITUDE,
+      AVG_RATE_EXAM_DIFFICULTY,
       AVG_RATE_ASSIGNMENT,
-      AVG_RATE_GROUP_STUDY,
-      AVG_RATE_EXAM_STUDY,
-      AVG_RATE_GRADE_RATIO,
+      AVG_RATE_GRADE,
       CLASS_NUMBER,
       CLASS_NAME,
       PROFESSOR,
@@ -24,10 +25,11 @@ class ClassInfoModel {
   ClassInfoModel(
       {CLASS_ID,
       AVG_RATE,
+      AVG_RATE_LANGUAGE,
+      AVG_RATE_ATTITUDE,
+      AVG_RATE_EXAM_DIFFICULTY,
       AVG_RATE_ASSIGNMENT,
-      AVG_RATE_GROUP_STUDY,
-      AVG_RATE_EXAM_STUDY,
-      AVG_RATE_GRADE_RATIO,
+      AVG_RATE_GRADE,
       CLASS_NUMBER,
       CLASS_NAME,
       PROFESSOR,
@@ -44,10 +46,11 @@ class ClassInfoModel {
   ClassInfoModel.fromJson(Map<String, dynamic> json) {
     this.CLASS_ID = json["CLASS_ID"];
     this.AVG_RATE = json["AVG(RATE)"];
+    this.AVG_RATE_LANGUAGE = json["AVG(RATE_LANGUAGE)"];
+    this.AVG_RATE_ATTITUDE = json["AVG(RATE_ATTITUDE)"];
+    this.AVG_RATE_EXAM_DIFFICULTY = json["AVG(RATE_EXAM_DIFFICULTY)"];
     this.AVG_RATE_ASSIGNMENT = json["AVG(RATE_ASSIGNMENT)"];
-    this.AVG_RATE_GROUP_STUDY = json["AVG(RATE_GROUP_STUDY)"];
-    this.AVG_RATE_EXAM_STUDY = json["AVG(RATE_EXAM_STUDY)"];
-    this.AVG_RATE_GRADE_RATIO = json["AVG(RATE_GRADE_RATIO)"];
+    this.AVG_RATE_GRADE = json["AVG(RATE_GRADE)"];
     this.CLASS_NUMBER = json["CLASS_NUMBER"];
     this.CLASS_NAME = json["CLASS_NAME"];
     this.PROFESSOR = json["PROFESSOR"];

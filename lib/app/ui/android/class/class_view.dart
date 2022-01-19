@@ -51,8 +51,8 @@ class ClassView extends StatelessWidget {
                 showModalBottomSheet(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(30),
-                            topRight: const Radius.circular(30))),
+                            topLeft: const Radius.circular(20),
+                            topRight: const Radius.circular(20))),
                     isScrollControlled: true,
                     context: context,
                     builder: (BuildContext context) {
@@ -127,7 +127,7 @@ class ClassView extends StatelessWidget {
                         snap: false,
                         forceElevated: false,
                         elevation: 0,
-                        expandedHeight: 272,
+                        expandedHeight: 300.0,
                         flexibleSpace: FlexibleSpaceBar(
                           collapseMode: CollapseMode.pin,
                           background: ClassViewInfo(
@@ -522,13 +522,13 @@ class ClassViewInfo extends StatelessWidget {
                   ],
                 ),
               ),
-              // Team Project
+              //* 말하기 속도, 억양, 사투리
               Padding(
                 padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 6.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("小组作业量",
+                    Text("教授语速、方言等",
                         style: const TextStyle(
                             color: const Color(categoryColor),
                             fontWeight: FontWeight.w400,
@@ -541,16 +541,44 @@ class ClassViewInfo extends StatelessWidget {
                       height: 20,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: classInfoModel.AVG_RATE_GROUP_STUDY != null
+                        children: classInfoModel.AVG_RATE_LANGUAGE != null
                             ? rate_heart(
-                                classInfoModel.AVG_RATE_GROUP_STUDY, starSize)
+                                classInfoModel.AVG_RATE_LANGUAGE, starSize)
                             : rate_heart("0.0", starSize),
                       ),
                     ),
                   ],
                 ),
               ),
-              // 과제량
+              //* 외국인을 대하는 태도
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 6.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("教授对留学生的态度",
+                        style: const TextStyle(
+                            color: const Color(categoryColor),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansTC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
+                    Container(
+                      width: 68,
+                      height: 20,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: classInfoModel.AVG_RATE_ATTITUDE != null
+                            ? rate_heart(
+                                classInfoModel.AVG_RATE_ATTITUDE, starSize)
+                            : rate_heart("0.0", starSize),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              //* 시험 난이도
               Padding(
                 padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 6.0),
                 child: Row(
@@ -559,6 +587,36 @@ class ClassViewInfo extends StatelessWidget {
                     Text("考试难度",
                         style: const TextStyle(
                             color: const Color(categoryColor),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansTC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
+                    Container(
+                      width: 68,
+                      height: 20,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children:
+                            classInfoModel.AVG_RATE_EXAM_DIFFICULTY != null
+                                ? rate_heart(
+                                    classInfoModel.AVG_RATE_EXAM_DIFFICULTY,
+                                    starSize)
+                                : rate_heart("0.0", starSize),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              //* 과제량
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 6.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("作业量",
+                        style: const TextStyle(
+                            color: const Color(0xff2f2f2f),
                             fontWeight: FontWeight.w400,
                             fontFamily: "NotoSansTC",
                             fontStyle: FontStyle.normal,
@@ -578,41 +636,13 @@ class ClassViewInfo extends StatelessWidget {
                   ],
                 ),
               ),
-              //시험공부량
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 6.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("授课方式",
-                        style: const TextStyle(
-                            color: const Color(categoryColor),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "NotoSansTC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
-                        textAlign: TextAlign.left),
-                    Container(
-                      width: 68,
-                      height: 20,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: classInfoModel.AVG_RATE_EXAM_STUDY != null
-                            ? rate_heart(
-                                classInfoModel.AVG_RATE_EXAM_STUDY, starSize)
-                            : rate_heart("0.0", starSize),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // 학점 비율
+              //* 학점 비율
               Padding(
                 padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("出勤",
+                    Text("给分",
                         style: const TextStyle(
                             color: const Color(0xff2f2f2f),
                             fontWeight: FontWeight.w400,
@@ -625,9 +655,9 @@ class ClassViewInfo extends StatelessWidget {
                       height: 20,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: classInfoModel.AVG_RATE_GRADE_RATIO != null
+                        children: classInfoModel.AVG_RATE_GRADE != null
                             ? rate_heart(
-                                classInfoModel.AVG_RATE_GRADE_RATIO, starSize)
+                                classInfoModel.AVG_RATE_GRADE, starSize)
                             : rate_heart("0.0", starSize),
                       ),
                     ),

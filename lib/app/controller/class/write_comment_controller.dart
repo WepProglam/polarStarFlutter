@@ -12,13 +12,14 @@ class WriteCommentController extends GetxController {
   WriteCommentController({@required this.repository});
 
   final commentRate = 5.obs;
-  final teamProjectRate = 5.obs;
-  final assignmentRate = 5.obs;
+  final languageRate = 5.obs;
+  final attitudeRate = 5.obs;
   final examRate = 5.obs;
+  final assignmentRate = 5.obs;
   final gradeRate = 5.obs;
 
-  final writeCommentYear = DateTime.now().year.obs;
-  final writeCommentSemester = 1.obs;
+  int writeCommentYear;
+  int writeCommentSemester;
 
   Future postComment(int CLASS_ID, Map<String, String> data) async {
     final jsonResponse = await repository.postComment(CLASS_ID, data);
