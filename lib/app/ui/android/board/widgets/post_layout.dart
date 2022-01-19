@@ -19,6 +19,12 @@ import 'package:polarstar_flutter/app/ui/android/board/widgets/post_item.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 import 'package:polarstar_flutter/main.dart';
 
+const mainColor = 0xff4570ff;
+const subColor = 0xff91bbff;
+const whiteColor = 0xffffffff;
+const textColor = 0xff2f2f2f;
+const bottomColor = 0xfff4faff;
+
 final double PostIconSize = 16;
 final double CommentIconSize = 12;
 
@@ -240,7 +246,7 @@ class PostWidget extends StatelessWidget {
                 blurRadius: 10,
                 spreadRadius: 0)
           ],
-          color: const Color(0xffffffff)),
+          color: const Color(whiteColor)),
       child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -264,7 +270,7 @@ class PostWidget extends StatelessWidget {
             // * 좋아요, 댓글, 스크랩 수
             Container(
               margin: EdgeInsets.only(top: 14),
-              decoration: BoxDecoration(color: const Color(0xfff5f6ff)),
+              decoration: BoxDecoration(color: const Color(bottomColor)),
               child: PostBottom(
                   item: item,
                   mainController: mainController,

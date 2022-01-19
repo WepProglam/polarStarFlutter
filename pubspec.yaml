@@ -236,7 +236,7 @@ flutter:
     - assets/images/icn_pen.png
     - assets/images/icn_book.png
     - assets/images/bookmark_followed.png
-    - assets/images/bookmark_none.png\
+    - assets/images/bookmark_none.png
 
     # Main Page Scroll
     - assets/images/378.png

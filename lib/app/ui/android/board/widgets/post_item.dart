@@ -39,7 +39,8 @@ class PostBottom extends StatelessWidget {
         // 게시글 좋아요 수 버튼
         TextButton.icon(
           style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+            foregroundColor:
+                MaterialStateProperty.all<Color>(Color(0xff6f6e6e)),
           ),
           onPressed: mainController.isLiked(item.value) || c == null
               ? null
@@ -47,7 +48,7 @@ class PostBottom extends StatelessWidget {
                   if (item.value.MYSELF) {
                     Get.snackbar("게시글 좋아요", "내가 쓴 게시글에는 할 수 없습니다.",
                         colorText: Colors.white,
-                        backgroundColor: Colors.black,
+                        backgroundColor: Color(0xff6f6e6e),
                         snackPosition: SnackPosition.BOTTOM);
                   } else {
                     int status_code = await c.totalSend(
