@@ -34,7 +34,7 @@ class WriteComment extends StatelessWidget {
         padding: EdgeInsets.only(bottom: Get.mediaQuery.viewInsets.bottom),
         child: Container(
           // height: 590,
-          margin: EdgeInsets.fromLTRB(24, 24, 24, 10),
+          margin: EdgeInsets.fromLTRB(24, 24, 24, 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -119,7 +119,7 @@ class WriteComment extends StatelessWidget {
 
               // 구분선
               Container(
-                margin: EdgeInsets.only(top: 23.5, bottom: 13.5),
+                margin: EdgeInsets.only(top: 13.5, bottom: 13.5),
                 height: 1,
                 decoration: BoxDecoration(color: const Color(0xffeaeaea)),
               ),
@@ -278,7 +278,6 @@ class WriteComment extends StatelessWidget {
                   ],
                 ),
               ),
-
               //* 과제량
               Container(
                 margin: EdgeInsets.only(bottom: 20.0),
@@ -329,7 +328,7 @@ class WriteComment extends StatelessWidget {
               ),
               //* 학점비율
               Container(
-                margin: EdgeInsets.only(bottom: 20.0),
+                margin: EdgeInsets.only(bottom: 10.0),
                 child: Row(
                   children: [
                     Text("给分",
@@ -395,109 +394,55 @@ class WriteComment extends StatelessWidget {
 
                   //* 학기 선택 버튼
                   Padding(
-                    padding: const EdgeInsets.only(top: 10.0, bottom: 23.5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: DropdownButtonFormField(
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: const Color(0xffeaeaea),
-                                      width: 1.0)),
-                            ),
-                            isExpanded: false,
-                            hint: Text("请输入说明.",
-                                style: const TextStyle(
-                                    color: const Color(0xff9b9b9b),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                textAlign: TextAlign.left),
-                            items: writeCommentController.yearSemItem,
-                            value: writeCommentController.writeCommentIndex,
-                            onChanged: (value) {
-                              writeCommentController.writeCommentIndex = value;
-                              if (writeCommentController.currentYearSem[
-                                      "TIMETABLE_SEMESTER_FROM_DATE"] ==
-                                  1) {
-                                writeCommentController.writeCommentYear =
-                                    writeCommentController.currentYearSem[
-                                            "TIMETABLE_YEAR_FROM_DATE"] -
-                                        writeCommentController
-                                            .writeCommentIndex;
-                                writeCommentController.writeCommentSemester =
-                                    writeCommentController.writeCommentIndex %
-                                            2 +
-                                        1;
-                              } else {
-                                writeCommentController.writeCommentYear =
-                                    writeCommentController.currentYearSem[
-                                            "TIMETABLE_YEAR_FROM_DATE"] -
-                                        writeCommentController
-                                            .writeCommentIndex;
-                                writeCommentController.writeCommentSemester =
-                                    (writeCommentController.writeCommentIndex +
-                                                1) %
-                                            2 +
-                                        1;
-                              }
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 13.5),
+                    child: DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: const Color(0xffeaeaea), width: 1.0)),
+                      ),
+                      isExpanded: false,
+                      hint: Text("请输入说明.",
+                          style: const TextStyle(
+                              color: const Color(0xff9b9b9b),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                          textAlign: TextAlign.left),
+                      items: writeCommentController.yearSemItem,
+                      value: writeCommentController.writeCommentIndex,
+                      onChanged: (value) {
+                        writeCommentController.writeCommentIndex = value;
+                        if (writeCommentController.currentYearSem[
+                                "TIMETABLE_SEMESTER_FROM_DATE"] ==
+                            1) {
+                          writeCommentController
+                              .writeCommentYear = writeCommentController
+                                  .currentYearSem["TIMETABLE_YEAR_FROM_DATE"] -
+                              writeCommentController.writeCommentIndex;
+                          writeCommentController.writeCommentSemester =
+                              writeCommentController.writeCommentIndex % 2 + 1;
+                        } else {
+                          writeCommentController
+                              .writeCommentYear = writeCommentController
+                                  .currentYearSem["TIMETABLE_YEAR_FROM_DATE"] -
+                              writeCommentController.writeCommentIndex;
+                          writeCommentController.writeCommentSemester =
+                              (writeCommentController.writeCommentIndex + 1) %
+                                      2 +
+                                  1;
+                        }
 
-                              print(writeCommentController.writeCommentYear);
-                              print(
-                                  writeCommentController.writeCommentSemester);
-                            },
-                            icon: Image.asset(
-                                'assets/images/drop_down_arrow.png',
-                                fit: BoxFit.fill),
-                          ),
-                        ),
-
-                        //* 학기 선택 드롭다운
-                        // Expanded(
-                        //   child: DropdownButtonFormField(
-                        //     isExpanded: true,
-                        //     hint: Text("请输入说明.",
-                        //         style: const TextStyle(
-                        //             color: const Color(0xff9b9b9b),
-                        //             fontWeight: FontWeight.w400,
-                        //             fontFamily: "NotoSansSC",
-                        //             fontStyle: FontStyle.normal,
-                        //             fontSize: 14.0),
-                        //         textAlign: TextAlign.left),
-                        //     value: writeCommentController.writeCommentSemester,
-                        //     items: [
-                        //       for (int j = 1; j < 3; j++)
-                        //         DropdownMenuItem(
-                        //           child: Center(
-                        //             child: Text(
-                        //               "$j학기",
-                        //               style: const TextStyle(
-                        //                   color: const Color(0xff6f6e6e),
-                        //                   fontWeight: FontWeight.w400,
-                        //                   fontFamily: "NotoSansSC",
-                        //                   fontStyle: FontStyle.normal,
-                        //                   fontSize: 14.0),
-                        //               textAlign: TextAlign.left,
-                        //             ),
-                        //           ),
-                        //           value: j,
-                        //         )
-                        //     ],
-                        //     onChanged: (value) {
-                        //       print(value);
-                        //       writeCommentController.writeCommentSemester =
-                        //           value;
-                        //     },
-                        //   ),
-                        // ),
-                      ],
+                        print(writeCommentController.writeCommentYear);
+                        print(writeCommentController.writeCommentSemester);
+                      },
+                      icon: Image.asset('assets/images/drop_down_arrow.png',
+                          fit: BoxFit.fill),
                     ),
                   ),
 
-                  // 리뷰 작성칸
+                  //* 리뷰 작성칸
                   Container(
                       height: 120.0,
                       decoration: BoxDecoration(
@@ -542,7 +487,7 @@ class WriteComment extends StatelessWidget {
                         ),
                       )),
 
-                  // 제출 버튼
+                  //* 제출 버튼
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 32.0),
@@ -638,97 +583,170 @@ class WriteExamInfo extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(bottom: Get.mediaQuery.viewInsets.bottom),
         child: Container(
-          margin: EdgeInsets.fromLTRB(15, 15, 15, 15),
+          margin: EdgeInsets.fromLTRB(24, 24, 24, 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 알수없는 구분선
-              Center(
-                child: Container(
-                  width: 53,
-                  height: 6,
-                  child: Image.asset('assets/images/359.png', fit: BoxFit.fill),
-                ),
+              // Center(
+              //   child: Container(
+              //     width: 53,
+              //     height: 6,
+              //     child: Image.asset('assets/images/359.png', fit: BoxFit.fill),
+              //   ),
+              // ),
+              //* X 아이콘
+              Row(
+                children: [
+                  Spacer(),
+                  InkWell(
+                    onTap: () => Get.back(),
+                    child: Container(
+                        width: 15,
+                        height: 15,
+                        child: Image.asset('assets/images/174.png',
+                            fit: BoxFit.fill)),
+                  )
+                ],
               ),
 
-              // TeachingPeriod
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.8, bottom: 14.5),
-                  child: Text(
-                    "Teaching Period",
-                    style: TextStyle(
-                        color: const Color(0xff333333),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "PingFangSC",
+              //* 시험정보 텍스트
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Text("考试信息",
+                    style: const TextStyle(
+                        color: const Color(0xff6f6e6e),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
                         fontStyle: FontStyle.normal,
-                        fontSize: 16.0),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
+                        fontSize: 20.0),
+                    textAlign: TextAlign.left),
+              ),
 
-                // 학기 선택 버튼
-                // 일단 임시로 해놓음
+              //* 구분선
+              Container(
+                  margin: const EdgeInsets.symmetric(vertical: 13.5),
+                  height: 1,
+                  decoration: BoxDecoration(color: const Color(0xffeaeaea))),
+
+              //* 시험 학기 선택
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text("应试考试",
+                    style: const TextStyle(
+                        color: const Color(0xff6f6e6e),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0),
+                    textAlign: TextAlign.left),
+
+                //* 학기 선택 버튼
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 14.5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: DropdownButtonFormField(
-                          isExpanded: true,
-                          hint: Text("Please select year"),
-                          value: classViewController.writeExamInfoYear.value,
-                          items: [
-                            for (int i = DateTime.now().year; i > 1999; i--)
-                              DropdownMenuItem(
-                                child: Center(
-                                  child: Text(
-                                    "$i년도",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                value: i,
-                              )
-                          ],
-                          onChanged: (value) {
-                            print(value);
-                            classViewController.writeExamInfoYear(value);
-                            classViewController.writeExamInfoYear.refresh();
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                        child: DropdownButtonFormField(
-                          isExpanded: true,
-                          hint: Text("Please select semester"),
-                          value:
-                              classViewController.writeExamInfoSemester.value,
-                          items: [
-                            for (int j = 1; j < 3; j++)
-                              DropdownMenuItem(
-                                child: Center(
-                                  child: Text(
-                                    "$j학기",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                value: j,
-                              )
-                          ],
-                          onChanged: (value) {
-                            print(value);
-                            classViewController.writeExamInfoSemester(value);
-                            classViewController.writeExamInfoSemester.refresh();
-                          },
-                        ),
-                      ),
-                    ],
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 13.5),
+                  child: DropdownButtonFormField(
+                    decoration: InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: const BorderSide(
+                              color: const Color(0xffeaeaea), width: 1.0)),
+                    ),
+                    isExpanded: false,
+                    hint: Text("请输入说明.",
+                        style: const TextStyle(
+                            color: const Color(0xff9b9b9b),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
+                    items: classViewController.yearSemItem,
+                    value: classViewController.writeCommentIndex,
+                    onChanged: (value) {
+                      classViewController.writeCommentIndex = value;
+                      if (classViewController
+                              .currentYearSem["TIMETABLE_SEMESTER_FROM_DATE"] ==
+                          1) {
+                        classViewController
+                            .writeExamInfoYear = classViewController
+                                .currentYearSem["TIMETABLE_YEAR_FROM_DATE"] -
+                            classViewController.writeCommentIndex;
+                        classViewController.writeExamInfoSemester =
+                            classViewController.writeCommentIndex % 2 + 1;
+                      } else {
+                        classViewController
+                            .writeExamInfoYear = classViewController
+                                .currentYearSem["TIMETABLE_YEAR_FROM_DATE"] -
+                            classViewController.writeCommentIndex;
+                        classViewController.writeExamInfoSemester =
+                            (classViewController.writeCommentIndex + 1) % 2 + 1;
+                      }
+
+                      print(classViewController.writeExamInfoYear);
+                      print(classViewController.writeExamInfoSemester);
+                    },
+                    icon: Image.asset('assets/images/drop_down_arrow.png',
+                        fit: BoxFit.fill),
                   ),
                 ),
+                // Padding(
+                //   padding: const EdgeInsets.only(bottom: 14.5),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Expanded(
+                //         child: DropdownButtonFormField(
+                //           isExpanded: true,
+                //           hint: Text("Please select year"),
+                //           value: classViewController.writeExamInfoYear.value,
+                //           items: [
+                //             for (int i = DateTime.now().year; i > 1999; i--)
+                //               DropdownMenuItem(
+                //                 child: Center(
+                //                   child: Text(
+                //                     "$i년도",
+                //                     textAlign: TextAlign.center,
+                //                   ),
+                //                 ),
+                //                 value: i,
+                //               )
+                //           ],
+                //           onChanged: (value) {
+                //             print(value);
+                //             classViewController.writeExamInfoYear(value);
+                //             classViewController.writeExamInfoYear.refresh();
+                //           },
+                //         ),
+                //       ),
+                //       SizedBox(
+                //         width: 20,
+                //       ),
+                //       Expanded(
+                //         child: DropdownButtonFormField(
+                //           isExpanded: true,
+                //           hint: Text("Please select semester"),
+                //           value:
+                //               classViewController.writeExamInfoSemester.value,
+                //           items: [
+                //             for (int j = 1; j < 3; j++)
+                //               DropdownMenuItem(
+                //                 child: Center(
+                //                   child: Text(
+                //                     "$j학기",
+                //                     textAlign: TextAlign.center,
+                //                   ),
+                //                 ),
+                //                 value: j,
+                //               )
+                //           ],
+                //           onChanged: (value) {
+                //             print(value);
+                //             classViewController.writeExamInfoSemester(value);
+                //             classViewController.writeExamInfoSemester.refresh();
+                //           },
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ]),
 
               // Exam
@@ -736,57 +754,55 @@ class WriteExamInfo extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Exam",
-                      style: TextStyle(
-                          color: const Color(0xff333333),
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "PingFangSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 16.0),
-                      textAlign: TextAlign.left,
-                    ),
+                    Text("门类",
+                        style: const TextStyle(
+                            color: const Color(0xff9b9b9b),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
                     Container(
-                      height: 29,
-                      margin: EdgeInsets.only(top: 16.0),
+                      height: 28.0,
+                      margin: const EdgeInsets.only(top: 10.0),
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: classViewController.examList.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: index < classViewController.examList.length
-                                ? EdgeInsets.only(right: 10.0)
+                                ? EdgeInsets.only(right: 8.0)
                                 : null,
                             child: Obx(() => InkWell(
                                   onTap: () {
                                     classViewController.examIndex(index);
                                   },
                                   child: Ink(
-                                    height: 29,
-                                    padding:
-                                        EdgeInsets.fromLTRB(14, 4.5, 14, 6),
+                                    height: 28.0,
+                                    padding: EdgeInsets.fromLTRB(
+                                        12.0, 5.0, 12.0, 6.0),
                                     decoration: BoxDecoration(
                                         color: index ==
                                                 classViewController
                                                     .examIndex.value
-                                            ? Color(0xff1a4678)
-                                            : Color(0xffebebeb),
+                                            ? const Color(0xff91bbff)
+                                            : const Color(0xffeaeaea),
                                         borderRadius:
-                                            BorderRadius.circular(14.5)),
+                                            BorderRadius.circular(14.0)),
                                     child: Center(
                                         child: Text(
-                                      classViewController.examList[index],
-                                      style: TextStyle(
-                                          color: index ==
-                                                  classViewController
-                                                      .examIndex.value
-                                              ? Color(0xffffffff)
-                                              : Color(0xff6b6b6b),
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: "PingFangSC",
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 14.0),
-                                    )),
+                                            classViewController.examList[index],
+                                            style: TextStyle(
+                                                color: index ==
+                                                        classViewController
+                                                            .examIndex.value
+                                                    ? const Color(0xffffffff)
+                                                    : const Color(0xff9b9b9b),
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: "NotoSansSC",
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 12.0),
+                                            textAlign: TextAlign.center)),
                                   ),
                                 )),
                           );
@@ -797,25 +813,23 @@ class WriteExamInfo extends StatelessWidget {
                 ),
               ),
 
-              // Questioon Type
+              //* 시험 유형
               Container(
-                margin: EdgeInsets.only(top: 16.5, bottom: 15.5),
+                margin: EdgeInsets.only(top: 14.0, bottom: 24.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Question Type",
-                      style: TextStyle(
-                          color: const Color(0xff333333),
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "PingFangSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 16.0),
-                      textAlign: TextAlign.left,
-                    ),
+                    Text("问题类型",
+                        style: const TextStyle(
+                            color: const Color(0xff9b9b9b),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
                     Container(
-                      height: 29,
-                      margin: EdgeInsets.only(top: 16.0),
+                      height: 28.0,
+                      margin: EdgeInsets.only(top: 10.0),
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: classViewController.questionTypeList.length,
@@ -823,7 +837,7 @@ class WriteExamInfo extends StatelessWidget {
                           return Padding(
                             padding: index <
                                     classViewController.questionTypeList.length
-                                ? EdgeInsets.only(right: 10.0)
+                                ? EdgeInsets.only(right: 8.0)
                                 : null,
                             child: Obx(() => InkWell(
                                   onTap: () {
@@ -831,32 +845,33 @@ class WriteExamInfo extends StatelessWidget {
                                         .questionTypeIndex(index);
                                   },
                                   child: Ink(
-                                    height: 29,
-                                    padding:
-                                        EdgeInsets.fromLTRB(14, 4.5, 14, 6),
+                                    height: 28.0,
+                                    padding: EdgeInsets.fromLTRB(
+                                        12.0, 5.0, 12.0, 5.0),
                                     decoration: BoxDecoration(
                                         color: index ==
                                                 classViewController
                                                     .questionTypeIndex.value
-                                            ? Color(0xff1a4678)
-                                            : Color(0xffebebeb),
+                                            ? const Color(0xff91bbff)
+                                            : const Color(0xffeaeaea),
                                         borderRadius:
-                                            BorderRadius.circular(14.5)),
+                                            BorderRadius.circular(14.0)),
                                     child: Center(
                                         child: Text(
-                                      classViewController
-                                          .questionTypeList[index],
-                                      style: TextStyle(
-                                          color: index ==
-                                                  classViewController
-                                                      .questionTypeIndex.value
-                                              ? Color(0xffffffff)
-                                              : Color(0xff6b6b6b),
-                                          fontWeight: FontWeight.normal,
-                                          fontFamily: "PingFangSC",
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 14.0),
-                                    )),
+                                            classViewController
+                                                .questionTypeList[index],
+                                            style: TextStyle(
+                                                color: index ==
+                                                        classViewController
+                                                            .questionTypeIndex
+                                                            .value
+                                                    ? const Color(0xffffffff)
+                                                    : const Color(0xff9b9b9b),
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: "NotoSansSC",
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 12.0),
+                                            textAlign: TextAlign.center)),
                                   ),
                                 )),
                           );
@@ -867,36 +882,64 @@ class WriteExamInfo extends StatelessWidget {
                 ),
               ),
 
-              // Test Strategy
+              //* 시험 전략
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Test Strategy",
-                    style: TextStyle(
-                        color: const Color(0xff333333),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "PingFangSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 16.0),
-                    textAlign: TextAlign.left,
-                  ),
+                  Text("试验战略",
+                      style: const TextStyle(
+                          color: const Color(0xff9b9b9b),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "NotoSansSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14.0),
+                      textAlign: TextAlign.left),
                   Container(
-                    margin: EdgeInsets.only(top: 12, bottom: 12),
+                    margin: EdgeInsets.only(top: 10.0, bottom: 14.0),
+                    // height: 46.0,
+                    decoration: BoxDecoration(
+                      // borderRadius: BorderRadius.all(Radius.circular(7)),
+                      // border:
+                      //     Border.all(color: const Color(0xffeaeaea), width: 1),
+                      boxShadow: [
+                        BoxShadow(
+                            color: const Color(0x0f000000),
+                            offset: Offset(0, 3),
+                            blurRadius: 10,
+                            spreadRadius: 0)
+                      ],
+                      color: const Color(0xffffffff),
+                    ),
                     child: TextFormField(
                       maxLines: 1,
                       controller: testStrategyController,
-                      style: TextStyle(
-                        color: const Color(0xff333333),
-                        fontWeight: FontWeight.normal,
-                        fontFamily: "PingFangSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14.0,
-                      ),
+                      cursorColor: const Color(0xff91bbff),
+                      style: const TextStyle(
+                          color: const Color(0xff9b9b9b),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "NotoSansSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 12.0),
                       decoration: InputDecoration(
-                          hintText: "Please enter your test strategy",
+                          hintText: "请输入说明.",
+                          hintStyle: const TextStyle(
+                              color: const Color(0xffd6d4d4),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(7)),
+                            borderSide: BorderSide(
+                                color: const Color(0xffeaeaea), width: 1),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(7)),
+                            borderSide: BorderSide(
+                                color: const Color(0xffeaeaea), width: 1),
+                          ),
                           filled: true,
-                          fillColor: Color(0xfff3f3f3),
+                          fillColor: const Color(0xffffffff),
                           border: InputBorder.none,
                           isDense: true),
                     ),
@@ -904,83 +947,128 @@ class WriteExamInfo extends StatelessWidget {
                 ],
               ),
 
-              // For Example
+              //* 시험 문제 예시
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "For Example",
-                    style: TextStyle(
-                        color: const Color(0xff333333),
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "PingFangSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 16.0),
-                    textAlign: TextAlign.left,
-                  ),
+                  Text("问题示例",
+                      style: const TextStyle(
+                          color: const Color(0xff9b9b9b),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "NotoSansSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14.0),
+                      textAlign: TextAlign.left),
 
                   Obx(() {
-                    if (classViewController.exampleList.isEmpty) {
-                      return Container();
-                    } else {
-                      List<Widget> exampleWidget = [];
-                      for (var exampleStr in classViewController.exampleList) {
-                        exampleWidget.add(Container(
-                          margin: EdgeInsets.symmetric(vertical: 4.0),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                            width: 1,
-                          )),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
+                    List<Widget> exampleWidget = [];
+                    for (var exampleStr in classViewController.exampleList) {
+                      exampleWidget.add(Container(
+                        margin: EdgeInsets.only(top: 8.0),
+                        height: 39.0,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(7)),
+                            border: Border.all(
+                                color: const Color(0xffeaeaea), width: 1),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: const Color(0x0f000000),
+                                  offset: Offset(0, 3),
+                                  blurRadius: 10,
+                                  spreadRadius: 0)
+                            ],
+                            color: const Color(0xffffffff)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    12.0, 10.0, 12.0, 12.0),
                                 child: Text(
                                   exampleStr,
                                   softWrap: true,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      color: const Color(0xff9b9b9b),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "NotoSansSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12.0),
                                 ),
                               ),
-                              InkWell(
+                            ),
+                            Ink(
+                              padding: const EdgeInsets.only(right: 12.0),
+                              child: InkWell(
                                 onTap: () {
                                   classViewController.exampleList
                                       .remove(exampleStr);
                                 },
-                                child: Icon(Icons.delete),
-                              )
-                            ],
-                          ),
-                        ));
-                      }
-                      return Container(
-                          width: Get.mediaQuery.size.width,
-                          child: Column(children: exampleWidget));
+                                child: Image.asset("assets/images/186.png"),
+                              ),
+                            )
+                          ],
+                        ),
+                      ));
                     }
+                    return Container(
+                        width: Get.mediaQuery.size.width,
+                        child: Column(children: exampleWidget));
                   }),
 
                   //* 텍스트 작성칸
                   Container(
-                      height: 94.5,
-                      margin: EdgeInsets.only(top: 13.4, bottom: 12),
+                      margin: EdgeInsets.only(top: 8.0, bottom: 20.0),
+                      decoration: BoxDecoration(
+                          // borderRadius: BorderRadius.all(Radius.circular(7)),
+                          // border: Border.all(
+                          //     color: const Color(0xffeaeaea), width: 1),
+                          boxShadow: [
+                            BoxShadow(
+                                color: const Color(0x0f000000),
+                                offset: Offset(0, 3),
+                                blurRadius: 10,
+                                spreadRadius: 0)
+                          ], color: const Color(0xffffffff)),
                       child: TextFormField(
                         textInputAction: TextInputAction.go,
-                        maxLines: 6,
+                        maxLines: 1,
                         controller: examInfoTextController,
-                        style: TextStyle(
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.normal,
-                            fontFamily: "PingFangSC",
+                        style: const TextStyle(
+                            color: const Color(0xff9b9b9b),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansSC",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
+                            fontSize: 12.0),
                         decoration: const InputDecoration(
-                          hintText:
-                              "Please enter some examples.\n\nIf you enter in the keyboard,\nnew text field will be created",
-                          filled: true,
-                          fillColor: Color(0xfff3f3f3),
-                          border: InputBorder.none,
-                        ),
+                            hintText: "请输入说明.",
+                            hintStyle: const TextStyle(
+                                color: const Color(0xffd6d4d4),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.0),
+                            filled: true,
+                            fillColor: const Color(0xffffffff),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(7)),
+                              borderSide: BorderSide(
+                                  color: const Color(0xffeaeaea), width: 1),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(7)),
+                              borderSide: BorderSide(
+                                  color: const Color(0xffeaeaea), width: 1),
+                            ),
+                            border: InputBorder.none,
+                            isDense: true),
                         onEditingComplete: () {
                           classViewController.exampleList
                               .add(examInfoTextController.text);
+                          examInfoTextController.text = "";
                           examInfoTextController.clear();
                           // print(classViewController.exampleList);
                         },
@@ -989,17 +1077,17 @@ class WriteExamInfo extends StatelessWidget {
                   //* 제출 버튼
                   Center(
                     child: Ink(
-                      height: 49,
-                      width: 288,
+                      height: 48.0,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Color(0xff1a4678),
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
                           boxShadow: [
                             BoxShadow(
-                                color: Color(0xff965f88b7),
-                                offset: Offset(0, 6.5),
-                                blurRadius: 15)
-                          ]),
+                                color: const Color(0x33000000),
+                                offset: Offset(0, 3),
+                                blurRadius: 10,
+                                spreadRadius: 0)
+                          ],
+                          color: const Color(0xff4570ff)),
                       child: InkWell(
                         onTap: () {
                           Map<String, dynamic> data = {
@@ -1008,10 +1096,10 @@ class WriteExamInfo extends StatelessWidget {
                             "strategy": testStrategyController.text,
                             "example":
                                 classViewController.exampleList.toString(),
-                            "year": classViewController.writeExamInfoYear.value
+                            "year": classViewController.writeExamInfoYear
                                 .toString(),
                             "semester": classViewController
-                                .writeExamInfoSemester.value
+                                .writeExamInfoSemester
                                 .toString(),
                             "mid_final":
                                 examType(classViewController.examIndex.value)
@@ -1024,15 +1112,14 @@ class WriteExamInfo extends StatelessWidget {
                               data);
                         },
                         child: Center(
-                            child: Text(
-                          "Confirm Submission",
-                          style: TextStyle(
-                              color: const Color(0xffffffff),
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "PingFangSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 18.0),
-                        )),
+                            child: Text("写考试攻略",
+                                style: const TextStyle(
+                                    color: const Color(0xffffffff),
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "NotoSansSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                textAlign: TextAlign.left)),
                       ),
                     ),
                   )

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 
@@ -11,6 +12,8 @@ class ClassViewController extends GetxController
     with SingleGetTickerProviderMixin {
   final ClassRepository repository;
   ClassViewController({@required this.repository});
+
+  final box = GetStorage();
 
   // final commentRate = 5.obs;
   // final teamProjectRate = 5.obs;
@@ -23,11 +26,21 @@ class ClassViewController extends GetxController
   final examIndex = 0.obs;
   final questionTypeIndex = 0.obs;
 
-  final List<String> examList = ["중간고사", "기말고사"];
-  final List<String> questionTypeList = ["객관식", "단답형", "서술형", "혼합형"];
+  final List<String> examList = ["期中考试", "期末考试"];
+  final List<String> questionTypeList = [
+    "选择题",
+    "判断题",
+    "填空题",
+    "简答题",
+    "论述题",
+    "其它"
+  ];
 
-  final writeExamInfoYear = DateTime.now().year.obs;
-  final writeExamInfoSemester = 1.obs;
+  var currentYearSem;
+  int writeCommentIndex;
+  int writeExamInfoYear;
+  int writeExamInfoSemester;
+  List<DropdownMenuItem> yearSemItem = [];
 
   final classViewAvailable = false.obs;
   final classExamAvailable = false.obs;
@@ -216,12 +229,50 @@ class ClassViewController extends GetxController
         print(typeIndex.value);
       }
     });
+
+    currentYearSem = box.read("year_sem");
+    print(currentYearSem);
+    if (currentYearSem["TIMETABLE_SEMESTER_FROM_DATE"] == 1) {
+      for (var i = 0; i < 5; i++) {
+        yearSemItem.add(DropdownMenuItem(
+          child: Text(
+            "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}년도 ${i % 2 + 1}학기",
+            style: const TextStyle(
+                color: const Color(0xff6f6e6e),
+                fontWeight: FontWeight.w400,
+                fontFamily: "NotoSansSC",
+                fontStyle: FontStyle.normal,
+                fontSize: 14.0),
+            textAlign: TextAlign.left,
+          ),
+          value: i,
+        ));
+      }
+    } else {
+      for (var i = 0; i < 6; i++) {
+        yearSemItem.add(DropdownMenuItem(
+          child: Text(
+            "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}년도 ${(i + 1) % 2 + 1}학기",
+            style: const TextStyle(
+                color: const Color(0xff6f6e6e),
+                fontWeight: FontWeight.w400,
+                fontFamily: "NotoSansSC",
+                fontStyle: FontStyle.normal,
+                fontSize: 14.0),
+            textAlign: TextAlign.left,
+          ),
+          value: i,
+        ));
+      }
+    }
+
     super.onInit();
   }
 
   @override
   void onClose() {
     Get.delete<WriteCommentController>();
+
     super.onClose();
   }
 }

@@ -58,17 +58,15 @@ class WriteCommentController extends GetxController {
     if (currentYearSem["TIMETABLE_SEMESTER_FROM_DATE"] == 1) {
       for (var i = 0; i < 5; i++) {
         yearSemItem.add(DropdownMenuItem(
-          child: Center(
-            child: Text(
-              "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}년도 ${i % 2 + 1}학기",
-              style: const TextStyle(
-                  color: const Color(0xff6f6e6e),
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "NotoSansSC",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14.0),
-              textAlign: TextAlign.left,
-            ),
+          child: Text(
+            "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}년도 ${i % 2 + 1}학기",
+            style: const TextStyle(
+                color: const Color(0xff6f6e6e),
+                fontWeight: FontWeight.w400,
+                fontFamily: "NotoSansSC",
+                fontStyle: FontStyle.normal,
+                fontSize: 14.0),
+            textAlign: TextAlign.left,
           ),
           value: i,
         ));
@@ -76,17 +74,15 @@ class WriteCommentController extends GetxController {
     } else {
       for (var i = 0; i < 6; i++) {
         yearSemItem.add(DropdownMenuItem(
-          child: Center(
-            child: Text(
-              "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}년도 ${(i + 1) % 2 + 1}학기",
-              style: const TextStyle(
-                  color: const Color(0xff6f6e6e),
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "NotoSansSC",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14.0),
-              textAlign: TextAlign.left,
-            ),
+          child: Text(
+            "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}년도 ${(i + 1) % 2 + 1}학기",
+            style: const TextStyle(
+                color: const Color(0xff6f6e6e),
+                fontWeight: FontWeight.w400,
+                fontFamily: "NotoSansSC",
+                fontStyle: FontStyle.normal,
+                fontSize: 14.0),
+            textAlign: TextAlign.left,
           ),
           value: i,
         ));
