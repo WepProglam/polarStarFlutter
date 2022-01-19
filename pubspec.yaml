@@ -243,6 +243,7 @@ flutter:
     - assets/images/icn_star_normal_white.png
     - assets/images/icn_star_selected_fill.png
     - assets/images/174.png
+    - assets/images/drop_down_arrow.png
 
     # Class Star
     - assets/images/star_0.png
