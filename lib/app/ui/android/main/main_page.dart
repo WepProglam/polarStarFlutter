@@ -32,6 +32,11 @@ import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.d
 import 'package:flutter/services.dart';
 import 'package:polarstar_flutter/main.dart';
 
+const mainColor = 0xff4570ff;
+const subColor = 0xff91bbff;
+const whiteColor = 0xffffffff;
+const textColor = 0xff2f2f2f;
+
 class MainPage extends StatelessWidget {
   final box = GetStorage();
   // ! 시작할때 모든 컨트롤러 다 불러와야해서 변경 -> 바텀 네비게이션 누를때마다 생성하는걸로
@@ -74,7 +79,7 @@ class MainPage extends StatelessWidget {
         int index = initController.mainPageIndex.value;
         print(index);
         if (!mainController.initDataAvailable.value) {
-          changeStatusBarColor(const Color(0xffffffff), Brightness.light);
+          changeStatusBarColor(const Color(whiteColor), Brightness.light);
           return Scaffold(
             body: Container(
               color: Colors.white,
@@ -88,7 +93,7 @@ class MainPage extends StatelessWidget {
             ),
           );
         }
-        changeStatusBarColor(const Color(0xff371ac7), Brightness.light);
+        changeStatusBarColor(const Color(mainColor), Brightness.light);
 
         return Scaffold(
           body: Builder(builder: (BuildContext context) {

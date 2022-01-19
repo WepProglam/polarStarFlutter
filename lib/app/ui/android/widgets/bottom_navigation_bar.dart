@@ -6,6 +6,11 @@ import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 
+const mainColor = 0xff4570ff;
+const subColor = 0xff91bbff;
+const whiteColor = 0xffffffff;
+const textColor = 0xff2f2f2f;
+
 class CustomBottomNavigationBar extends StatelessWidget {
   CustomBottomNavigationBar({
     Key key,
@@ -37,7 +42,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             showSelectedLabels: false,
             showUnselectedLabels: false,
             selectedFontSize: 0,
-            backgroundColor: const Color(0xff371ac7),
+            backgroundColor: const Color(mainColor),
             type: BottomNavigationBarType.fixed,
             items: [
               BottomNavigationBarItem(
