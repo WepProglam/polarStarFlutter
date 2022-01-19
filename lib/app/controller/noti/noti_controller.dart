@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:meta/meta.dart';
+import 'package:polarstar_flutter/app/data/model/class/class_chat_model.dart';
 import 'package:polarstar_flutter/app/data/model/mail/mailBox_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
@@ -16,19 +18,22 @@ import 'package:polarstar_flutter/app/data/repository/noti/noti_repository.dart'
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 import 'package:polarstar_flutter/session.dart';
 
-class NotiController extends GetxController {
+class NotiController extends GetxController with SingleGetTickerProviderMixin {
   final NotiRepository repository;
   final box = GetStorage();
   RxList<Rx<NotiModel>> noties = <Rx<NotiModel>>[].obs;
-  RxInt pageViewIndex = 0.obs;
-  final PageController pageController = PageController(initialPage: 0);
+  // RxInt pageViewIndex = 0.obs;
+  // final PageController pageController = PageController(initialPage: 0);
   RxBool notiNotiFetched = false.obs;
   RxBool notiMailFetched = false.obs;
   RxList<Rx<MailBoxModel>> mailBox = <Rx<MailBoxModel>>[].obs; //쪽지함
   RxList<SaveNotiModel> readNoties = <SaveNotiModel>[].obs;
   RxList<SaveMailBoxModel> readMails = <SaveMailBoxModel>[].obs;
+  TabController tabController;
 
   NotiController({@required this.repository}) : assert(repository != null);
+
+  RxList<ClassChatModel> chatHistory = <ClassChatModel>[].obs;
 
   Future<void> getReadMails() async {
     readMails.value = await MAIL_DB_HELPER.queryAllRows();
@@ -91,6 +96,24 @@ class NotiController extends GetxController {
     notiMailFetched.value = true;
   }
 
+  // Future<void> getChatBox() async {
+  //   List<ChatBoxModel> tempBox = box.read("classSocket");
+  //   chatBox.value = tempBox.map((e) => e.obs).toList();
+
+  //   RxList<Rx<ClassChatModel>> tt = chatBox[0].value.ClassChatList;
+  //   print(chatBox[0].value.ClassChatList);
+
+  //   // var response = await Session().getX("/chat/chatBox");
+  //   // Iterable chatBoxList = jsonDecode(response.body);
+  //   // chatBox.value =
+  //   //     chatBoxList.map((e) => ChatBoxModel.fromJson(e).obs).toList();
+  //   // box.remove("classSocket");
+  //   // List<int> tempClassList = [];
+  //   // for (Rx<ChatBoxModel> item in chatBox) {
+  //   //   tempClassList.add(item.value.CLASS_ID);
+  //   // }
+  // }
+
   Future<void> sortMailBox() async {
     mailBox
         .sort((a, b) => b.value.TIME_CREATED.compareTo(a.value.TIME_CREATED));
@@ -98,9 +121,12 @@ class NotiController extends GetxController {
 
   @override
   onInit() async {
+    tabController = TabController(vsync: this, length: 3);
+
     super.onInit();
     await getNoties();
     await getMailBox();
+    // await getChatBox();
   }
 
   @override

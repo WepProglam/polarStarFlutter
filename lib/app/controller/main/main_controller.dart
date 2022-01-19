@@ -47,7 +47,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   RxList<String> followingCommunity = <String>[].obs;
 
   RxInt hotOrNewIndex = 0.obs;
-  TabController tabController;
+  // TabController tabController;
   List<Color> classColorList = [
     Color(0xff1a785c),
     Color(0xff983280),
@@ -151,6 +151,9 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     classList.value = value["classList"];
 
     box.write("year_sem", value["year_sem"]);
+    box.write("MAX_BOARDS_LIMIT", value["MAX_BOARDS_LIMIT"]);
+
+    print("MAX_BOARDS_LIMIT : ${value["MAX_BOARDS_LIMIT"]}");
 
     // print(value["year_sem"]["TIMETABLE_YEAR_FROM_DATE"]);
     // for (MainClassModel model in classList) {
@@ -254,10 +257,15 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
 
   @override
   void onInit() async {
-    tabController = TabController(vsync: this, length: 2);
+    // tabController = TabController(vsync: this, length: 2);
     super.onInit();
     await getFollowingCommunity();
     await getBoardInfo();
+
+    // ever(hotOrNewIndex, (_) {
+    //   if (hotOrNewIndex.value == 0) {
+    //   } else if (hotOrNewIndex.value == 1) {}
+    // });
 
     initDataAvailable.value = true;
   }
@@ -297,6 +305,18 @@ class MainUpdateModule {
   static Future<void> updatePost({int type = 2}) async {
     final PostController postController = Get.find();
     await postController.refreshPost();
+    return;
+  }
+
+  static Future<void> updateLikeList() async {
+    MainController mc = Get.find();
+    await mc.refreshLikeList();
+    return;
+  }
+
+  static Future<void> updateScrapList() async {
+    MainController mc = Get.find();
+    await mc.refreshScrapList();
     return;
   }
 
@@ -344,15 +364,25 @@ class MainUpdateModule {
     NotiController nc = Get.find();
     if (index == 0) {
       await nc.getNoties();
+    } else if (index == 1) {
+      // await nc.getChatBox();
     } else {
       await nc.getMailBox();
     }
     return;
   }
 
-  static Future<void> updateHotMain() async {
+  static Future<void> updateHotMain(int index) async {
     final BoardController boardController = Get.find();
-    await boardController.refreshHotPage();
+    if (index == 0) {
+      await boardController.refreshHotPage();
+    } else {
+      await boardController.refreshNewPage();
+    }
+
+    updateLikeList();
+    updateScrapList();
+
     return;
   }
 

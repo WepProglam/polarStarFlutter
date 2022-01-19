@@ -175,12 +175,15 @@ flutter:
     - assets/images/675.png
     - assets/images/674.png
     - assets/images/673.png
+    - assets/images/camera.png
+    - assets/images/edit_3.png
     - assets/images/672.png
     - assets/images/678.png
     - assets/images/681.png
     - assets/images/726.png
     - assets/images/725.png
     - assets/images/733.png
+    - assets/images/188.png
     - assets/images/main_card_temp.png
     - assets/images/main_card_expanded.png
     - assets/images/class_1.png
@@ -265,6 +268,10 @@ flutter:
     - assets/images/community_create.png
     - assets/images/timetable_addclass_close.png
     - assets/images/timetable_filter_delete.png
+    - assets/images/class_chat_profile.png
+    - assets/images/right_arrow.png
+
+    
 
     # - assets/fonts/
   #   - images/a_dot_burr.jpeg

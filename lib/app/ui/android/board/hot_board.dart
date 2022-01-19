@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/search/search_controller.dart';
+import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/board.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
@@ -19,6 +20,7 @@ class HotBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+            backgroundColor: const Color(0xffffffff),
             appBar: AppBar(
               toolbarHeight: 56,
 
@@ -108,42 +110,164 @@ class HotBoard extends StatelessWidget {
             ),
             body: Obx(() {
               if (controller.dataAvailablePostPreview.value) {
-                return RefreshIndicator(
-                  onRefresh: () async {
-                    await MainUpdateModule.updateHotMain();
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 16),
-                    child: ListView.builder(
-                        controller: controller.scrollController.value,
-                        itemCount: controller.postBody.length,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        cacheExtent: 100,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Ink(
-                            child: InkWell(
-                              onTap: () async {
-                                await Get.toNamed(
-                                    "/board/${controller.postBody[index].value.COMMUNITY_ID}/read/${controller.postBody[index].value.BOARD_ID}",
-                                    arguments: {"type": 0}).then((value) async {
-                                  await MainUpdateModule.updateHotMain();
-                                });
-                              },
-                              child: PostWidget(
-                                c: null,
-                                mailWriteController: null,
-                                mailController: null,
-                                item: controller.postBody[index],
-                                index: index,
-                                mainController: mainController,
+                return NestedScrollView(
+                  headerSliverBuilder: (context, innerBoxIsScrolled) {
+                    return [
+                      SliverAppBar(
+                        backgroundColor: Colors.white,
+                        automaticallyImplyLeading: false,
+                        pinned: true,
+                        floating: true,
+                        snap: false,
+                        expandedHeight: 48.1,
+                        elevation: 0,
+                        bottom: PreferredSize(
+                          preferredSize: Size.fromHeight(48.1),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 20 - 6.0),
+                              child: TabBar(
+                                indicator: UnderlineTabIndicator(
+                                  borderSide: BorderSide(
+                                      color: Color(0xDD613896), width: 2.0),
+                                  insets:
+                                      EdgeInsets.fromLTRB(3.0, 0.0, 3.0, 12.0),
+                                ),
+                                controller: controller.tabController,
+                                indicatorColor: Get.theme.primaryColor,
+                                isScrollable: true,
+                                indicatorPadding: EdgeInsets.zero,
+                                labelPadding:
+                                    const EdgeInsets.symmetric(horizontal: 6),
+                                labelColor: const Color(0xff000000),
+                                unselectedLabelColor: const Color(0xffd6d4d4),
+                                labelStyle: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: "Roboto",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                tabs: <Tab>[
+                                  Tab(
+                                    text: "HOT",
+                                  ),
+                                  Tab(
+                                    text: "NEW",
+                                  ),
+                                ],
                               ),
                             ),
-                          );
+                          ),
+                        ),
+                      )
+                    ];
+                  },
+                  body: Container(
+                    margin: const EdgeInsets.only(top: 0),
+                    child: TabBarView(
+                        controller: controller.tabController,
+                        children: [
+                          Container(
+                            child: RefreshIndicator(
+                              onRefresh: () async {
+                                await MainUpdateModule.updateHotMain(
+                                    controller.tabController.index);
+                              },
+                              child: ListView.builder(
+                                  controller:
+                                      controller.hotScrollController.value,
+                                  itemCount:
+                                      controller.hotSearchMaxPage.value ==
+                                              controller.hotPage.value
+                                          ? controller.HotBody.length
+                                          : controller.HotBody.length + 1,
+                                  physics: AlwaysScrollableScrollPhysics(),
+                                  cacheExtent: 100,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    if (index == controller.HotBody.length) {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: Get.theme.primaryColor,
+                                        ),
+                                      );
+                                    }
+                                    Rx<Post> model = controller.HotBody[index];
 
-                          // PostPreview(
-                          //   item: controller.postBody[index],
-                          // );
-                        }),
+                                    return Ink(
+                                      child: InkWell(
+                                        onTap: () async {
+                                          await Get.toNamed(
+                                              "/board/${model.value.COMMUNITY_ID}/read/${model.value.BOARD_ID}",
+                                              arguments: {
+                                                "type": 0
+                                              }).then((value) async {
+                                            await MainUpdateModule
+                                                .updateHotMain(controller
+                                                    .tabController.index);
+                                          });
+                                        },
+                                        child: PostWidget(
+                                          item: model,
+                                          index: index,
+                                          mainController: mainController,
+                                        ),
+                                      ),
+                                    );
+
+                                    // PostPreview(
+                                    //   item: model,
+                                    // );
+                                  }),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 0),
+                            child: ListView.builder(
+                                controller:
+                                    controller.newScrollController.value,
+                                itemCount: controller.newSearchMaxPage.value ==
+                                        controller.newPage.value
+                                    ? controller.NewBody.length
+                                    : controller.NewBody.length + 1,
+                                physics: AlwaysScrollableScrollPhysics(),
+                                cacheExtent: 100,
+                                itemBuilder: (BuildContext context, int index) {
+                                  if (index == controller.NewBody.length) {
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: Get.theme.primaryColor,
+                                      ),
+                                    );
+                                  }
+                                  Rx<Post> model = controller.NewBody[index];
+
+                                  return Ink(
+                                    child: InkWell(
+                                      onTap: () async {
+                                        await Get.toNamed(
+                                            "/board/${model.value.COMMUNITY_ID}/read/${model.value.BOARD_ID}",
+                                            arguments: {
+                                              "type": 0
+                                            }).then((value) async {
+                                          await MainUpdateModule.updateHotMain(
+                                              controller.tabController.index);
+                                        });
+                                      },
+                                      child: PostWidget(
+                                        item: model,
+                                        index: index,
+                                        mainController: mainController,
+                                      ),
+                                    ),
+                                  );
+
+                                  // PostPreview(
+                                  //   item: model,
+                                  // );
+                                }),
+                          ),
+                        ]),
                   ),
                 );
               } else if (controller.httpStatus == 404) {

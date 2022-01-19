@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/bindings/loby/login_binding.dart';
 import 'package:polarstar_flutter/app/bindings/loby/init_binding.dart';
 import 'package:polarstar_flutter/app/bindings/main/main_binding.dart';
+import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
@@ -91,15 +92,18 @@ void main() async {
   await GetStorage.init();
 
   await Firebase.initializeApp();
-  InitController initController;
 
-  initController = await Get.put(
+  await Get.put(
       InitController(repository: LoginRepository(apiClient: LoginApiClient())));
+  InitController initController = Get.find();
 
   bool isLogined = await initController.checkLogin();
 
   print(isLogined);
   print("start");
+
+  final box = GetStorage();
+  print(box.read("classSocket"));
 
   // socket.connect();
 
@@ -114,12 +118,20 @@ void main() async {
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
   //     statusBarColor: const Color(0xfff6f6f6),
   //     statusBarBrightness: Brightness.light));
-
-  classChatSocket = await IO.io(
-      'http://13.209.5.161:3000',
-      IO.OptionBuilder().setTransports(['websocket'])
-          // .disableAutoConnect()
-          .setExtraHeaders({'cookie': Session.headers["Cookie"]}).build());
+  if (isLogined) {
+    classChatSocket = await IO.io(
+        'http://13.209.5.161:3000',
+        IO.OptionBuilder().setTransports(['websocket'])
+            // .disableAutoConnect()
+            .setExtraHeaders({'cookie': Session.headers["Cookie"]}).build());
+    await initController.registerSocket();
+    await initController.getChatBox();
+    print(" !!!!  ${initController.chatBox}");
+    // List<ChatBoxModel> ridList = box.read("classSocket");
+    // for (ChatBoxModel item in ridList) {
+    //   classChatSocket.emit("joinRoom", [item.CLASS_ID, "fuckfuck"]);
+    // }
+  }
 
   await runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want

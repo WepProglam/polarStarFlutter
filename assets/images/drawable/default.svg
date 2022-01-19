@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+    <defs>
+        <clipPath id="clip-path">
+            <path id="unsplash:B4TjXnI0Y2c" d="M80 40A40 40 0 1 1 40 0a40 40 0 0 1 40 40z" transform="translate(-141 -9024)" style="fill:#d6d4d4"/>
+        </clipPath>
+        <clipPath id="clip-path-2">
+            <path id="사각형_117" data-name="사각형 117" class="cls-2" d="M0 0h64.977v71.53H0z"/>
+        </clipPath>
+        <style>
+            .cls-2{fill:#918dff}
+        </style>
+    </defs>
+    <g id="그룹_256" data-name="그룹 256" transform="translate(47 9024)">
+        <path id="unsplash:B4TjXnI0Y2c-2" data-name="unsplash:B4TjXnI0Y2c" d="M80 40A40 40 0 1 1 40 0a40 40 0 0 1 40 40z" transform="translate(-47 -9024)" style="fill:#f5f6ff"/>
+        <g id="마스크_그룹_3" data-name="마스크 그룹 3" transform="translate(94)" style="clip-path:url(#clip-path)">
+            <g id="그룹_250" data-name="그룹 250" transform="translate(-140 7)">
+                <g id="그룹_249" data-name="그룹 249" transform="translate(6.512 -9015.418)">
+                    <g id="그룹_248" data-name="그룹 248" style="clip-path:url(#clip-path-2)">
+                        <path id="패스_92" data-name="패스 92" class="cls-2" d="M44.907 17.527A17.528 17.528 0 1 1 27.38 0a17.527 17.527 0 0 1 17.527 17.527" transform="translate(5.11)"/>
+                        <path id="패스_93" data-name="패스 93" class="cls-2" d="M64.977 58.473c-.027-18.4-14.561-33.3-32.489-33.3S.027 40.077 0 58.473z" transform="translate(0 13.057)"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -17,6 +17,19 @@ class BoardList extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xffffffff),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            await createNewCommunity(mainController);
+          },
+          child: // Ellipse 6
+              Container(
+                  width: 56,
+                  height: 56,
+                  child: Image.asset("assets/images/community_create.png"),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                      color: const Color(0xff571df0))),
+        ),
         appBar: AppBar(
           elevation: 0,
           toolbarHeight: 56,

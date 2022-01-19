@@ -152,8 +152,18 @@ class Board extends StatelessWidget {
                             return ListView.builder(
                                 physics: AlwaysScrollableScrollPhysics(),
                                 controller: controller.scrollController.value,
-                                itemCount: controller.postBody.length,
+                                itemCount: controller.page.value ==
+                                        controller.searchMaxPage.value
+                                    ? controller.postBody.length
+                                    : controller.postBody.length + 1,
                                 itemBuilder: (BuildContext context, int index) {
+                                  if (index == controller.postBody.length) {
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: Get.theme.primaryColor,
+                                      ),
+                                    );
+                                  }
                                   return Ink(
                                     child: InkWell(
                                       onTap: () async {

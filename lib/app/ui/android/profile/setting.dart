@@ -32,18 +32,38 @@ class Setting extends StatelessWidget {
                             margin: EdgeInsets.only(left: 15),
                             child: Text("Dark mode",
                                 style: const TextStyle(
-                                    color: const Color(0xff333333),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "PingFangSC",
+                                    color: const Color(0xff6f6e6e),
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "Roboto",
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 16.0),
+                                    fontSize: 14.0),
                                 textAlign: TextAlign.left))),
                     Align(
                         alignment: Alignment.centerRight,
                         child: Container(
+                            width: 38,
+                            height: 20,
                             margin: EdgeInsets.only(right: 18),
-                            child: Image.asset("assets/images/606.png",
-                                height: 22.5, width: 44.8)))
+                            child: Stack(
+                              alignment: Alignment.centerLeft,
+                              children: [
+                                Container(
+                                    width: 38,
+                                    height: 20,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                        color: const Color(0xffd6d4d4))),
+                                Container(
+                                    margin: EdgeInsets.only(left: 2),
+                                    width: 16,
+                                    height: 16,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xffffffff),
+                                      shape: BoxShape.circle,
+                                    ))
+                              ],
+                            )))
                   ])),
               Container(
                   height: 54.6,
@@ -57,20 +77,40 @@ class Setting extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Container(
                             margin: EdgeInsets.only(left: 15),
-                            child: Text("Dark mode",
+                            child: Text("Message reminding",
                                 style: const TextStyle(
-                                    color: const Color(0xff333333),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "PingFangSC",
+                                    color: const Color(0xff6f6e6e),
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "Roboto",
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 16.0),
+                                    fontSize: 14.0),
                                 textAlign: TextAlign.left))),
                     Align(
                         alignment: Alignment.centerRight,
                         child: Container(
+                            width: 38,
+                            height: 20,
                             margin: EdgeInsets.only(right: 18),
-                            child: Image.asset("assets/images/607.png",
-                                height: 22.5, width: 44.8)))
+                            child: Stack(
+                              alignment: Alignment.centerLeft,
+                              children: [
+                                Container(
+                                    width: 38,
+                                    height: 20,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                        color: const Color(0xff371ac7))),
+                                Container(
+                                    margin: EdgeInsets.only(left: 20),
+                                    width: 16,
+                                    height: 16,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xffffffff),
+                                      shape: BoxShape.circle,
+                                    ))
+                              ],
+                            )))
                   ])),
               Container(
                   height: 54.6,
@@ -84,13 +124,13 @@ class Setting extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Container(
                             margin: EdgeInsets.only(left: 15),
-                            child: Text("Dark mode",
+                            child: Text("Password",
                                 style: const TextStyle(
-                                    color: const Color(0xff333333),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "PingFangSC",
+                                    color: const Color(0xff6f6e6e),
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "Roboto",
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 16.0),
+                                    fontSize: 14.0),
                                 textAlign: TextAlign.left))),
                     Align(
                         alignment: Alignment.centerRight,
@@ -111,13 +151,13 @@ class Setting extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Container(
                             margin: EdgeInsets.only(left: 15),
-                            child: Text("Dark mode",
+                            child: Text("Notice",
                                 style: const TextStyle(
-                                    color: const Color(0xff333333),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "PingFangSC",
+                                    color: const Color(0xff6f6e6e),
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "Roboto",
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 16.0),
+                                    fontSize: 14.0),
                                 textAlign: TextAlign.left))),
                     Align(
                         alignment: Alignment.centerRight,
@@ -136,20 +176,61 @@ class Setting extends StatelessWidget {
 class SettingAppBars {
   AppBar classBasicAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black,
-      elevation: 0,
-      leading: InkWell(
-        child: Icon(Icons.arrow_back_ios_new, color: Colors.black),
-        onTap: () {
-          Get.back();
-        },
-      ),
-      leadingWidth: 35,
+      toolbarHeight: 56,
+
+      backgroundColor: Get.theme.primaryColor,
       titleSpacing: 0,
-      title: Text(
-        "Setting",
-        style: TextStyle(color: Colors.black),
+      // elevation: 0,
+      automaticallyImplyLeading: false,
+
+      title: Stack(
+        children: [
+          Center(
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 16.5),
+              child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "设置",
+                        style: const TextStyle(
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                      )
+                    ],
+                    style: const TextStyle(
+                        color: const Color(0xffffffff),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 16.0),
+                  ),
+                  textAlign: TextAlign.left),
+            ),
+          ),
+          Positioned(
+            // left: 20,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+              child: Ink(
+                child: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Image.asset(
+                    'assets/images/back_icon.png',
+                    // fit: BoxFit.fitWidth,
+                    width: 24,
+                    height: 24,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

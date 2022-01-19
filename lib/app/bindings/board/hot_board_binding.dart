@@ -13,5 +13,6 @@ class HotBoardBinding implements Bindings {
 
     final BoardController boardController = Get.find();
     await boardController.getHotBoard();
+    await boardController.getNewBoard();
   }
 }

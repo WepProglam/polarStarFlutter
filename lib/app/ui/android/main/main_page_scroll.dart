@@ -31,9 +31,12 @@ class MainPageScroll extends StatelessWidget {
   final TextEditingController searchText = TextEditingController();
   final ScrollController mainScrollController =
       ScrollController(initialScrollOffset: 0.0);
+  final InitController initController = Get.find();
   final FocusNode searchFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
+    print(" !!!!  ${initController.chatBox}");
+
     print("시발");
     final Size size = MediaQuery.of(context).size;
     final PageController outsidePageController = PageController();

@@ -41,73 +41,62 @@ class ClassChatController extends GetxController {
   // }
 
   // IO.Socket soc = null;
+  final box = GetStorage();
   RxString roomID = "".obs;
   RxBool dataAvailble = false.obs;
   RxList<ClassChatModel> chatHistory = <ClassChatModel>[].obs;
 
-  Future<void> registerSocket() async {
-    String currentSocketRoom = roomID.value;
-    print("socketting function start : roomID - ${currentSocketRoom}");
-    await socketting("${roomID.value}");
-  }
+  // Future<void> registerSocket() async {
+  //   String currentSocketRoom = roomID.value;
+  //   print("socketting function start : roomID - ${currentSocketRoom}");
+  //   await socketting("${roomID.value}");
+  // }
 
-  void sendMessage(String text) {
-    classChatSocket.emit("sendMessage", {"content": text});
-  }
+  // Future<void> socketting(String roomID) async {
+  //   classChatSocket.onConnectError((data) => print(data));
 
-  Future<void> socketting(String roomID) async {
-    // IO.Socket socket = await IO.io(
-    //     'http://13.209.5.161:3000',
-    //     IO.OptionBuilder()
-    //         .setTransports(['websocket'])
-    //         .disableAutoConnect()
-    //         .setExtraHeaders({'cookie': Session.headers["Cookie"]})
-    //         .build());
+  //   classChatSocket.on("viewRecentMessage", (data) {
+  //     Iterable cc = data;
+  //     chatHistory.value = cc.map((e) => ClassChatModel.fromJson(e)).toList();
+  //     if (readFirstRecent) {
+  //       readFirstRecent = false;
+  //       int CHAT_ID = box.read("LastChat_${chatHistory.last.CLASS_ID}");
+  //       for (ClassChatModel item in chatHistory) {
+  //         if (item.CHAT_ID == CHAT_ID) {}
+  //       }
+  //       box.write(
+  //           "LastChat_${chatHistory.last.CLASS_ID}", chatHistory.last.CHAT_ID);
+  //     }
+  //   });
 
-    // classChatSocket.onConnect((_) {
-    //   classChatSocket.emit("joinRoom", [roomID, "fuckfuck"]);
-    // });
+  //   classChatSocket.on("newMessage", (data) {
+  //     print("newMessage called");
+  //     ClassChatModel chat = ClassChatModel.fromJson(data);
+  //     print(chat.CLASS_ID);
+  //     print("roomID : ${roomID}");
+  //     if (chat.CLASS_ID == roomID) {
+  //       chatHistory.add(chat);
+  //     } else {
+  //       Get.snackbar("왜 오냐 이건.. ㅅㅂ", "${chat.CLASS_ID}: ${chat.CONTENT}");
+  //     }
+  //   });
 
-    print(classChatSocket.id);
-    classChatSocket.emit("joinRoom", [roomID, "fuckfuck"]);
+  //   classChatSocket.on('leaveRoom', (_) {
+  //     print("leaveRoom called : roomID - ${roomID}");
+  //   });
 
-    classChatSocket.onConnectError((data) => print(data));
+  //   classChatSocket.on('event', (data) => print(data));
+  //   classChatSocket.onDisconnect((_) => print('disconnect!!!!'));
+  //   classChatSocket.on('fromServer', (_) => print(_));
 
-    classChatSocket.on("viewRecentMessage", (data) {
-      print("viewRecentMessage called");
-      Iterable cc = data;
-      chatHistory.value = cc.map((e) => ClassChatModel.fromJson(e)).toList();
-    });
-
-    classChatSocket.on("newMessage", (data) {
-      print("newMessage called");
-      ClassChatModel chat = ClassChatModel.fromJson(data);
-      print(chat.CLASS_ID);
-      print("roomID : ${roomID}");
-      if (chat.CLASS_ID == roomID) {
-        chatHistory.add(chat);
-      } else {
-        Get.snackbar("왜 오냐 이건.. ㅅㅂ", "${chat.CLASS_ID}: ${chat.CONTENT}");
-      }
-    });
-
-    classChatSocket.on('leaveRoom', (_) {
-      print("leaveRoom called : roomID - ${roomID}");
-    });
-
-    classChatSocket.on('event', (data) => print(data));
-    classChatSocket.onDisconnect((_) => print('disconnect!!!!'));
-    classChatSocket.on('fromServer', (_) => print(_));
-
-    // return socket;
-  }
+  //   // return socket;
+  // }
 
   @override
   void onInit() async {
-    roomID.value = Get.arguments["roomID"];
-    print("controller init : room ID = ${roomID.value}");
-    await registerSocket();
-    print("controller init : ${classChatSocket.connected}");
+    // roomID.value = Get.arguments["roomID"];
+    // print("controller init : room ID = ${roomID.value}");
+    // print("controller init : ${classChatSocket.connected}");
 
     super.onInit();
     dataAvailble.value = true;
@@ -115,11 +104,8 @@ class ClassChatController extends GetxController {
 
   @override
   void onClose() async {
-    print("contoller close : ${roomID.value}");
-    await classChatSocket.emit("leaveRoom", roomID.value);
-
-    // await classChatSocket.disconnect();
-    // print("disconnect 완료");
-    chatHistory.clear();
+    // print("contoller close : ${roomID.value}");
+    // await classChatSocket.emit("leaveRoom", roomID.value);
+    // chatHistory.clear();
   }
 }
