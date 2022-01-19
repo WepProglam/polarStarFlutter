@@ -6,6 +6,7 @@ import 'package:polarstar_flutter/app/controller/class/class_view_controller.dar
 import 'package:polarstar_flutter/app/controller/class/write_comment_controller.dart';
 import 'package:polarstar_flutter/app/data/provider/class/class_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
+import 'package:polarstar_flutter/app/ui/android/class/class_view.dart';
 import 'package:polarstar_flutter/app/ui/android/class/functions/semester.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/timetable.dart';
 
@@ -33,7 +34,7 @@ class WriteComment extends StatelessWidget {
         padding: EdgeInsets.only(bottom: Get.mediaQuery.viewInsets.bottom),
         child: Container(
           // height: 590,
-          margin: EdgeInsets.fromLTRB(24, 24, 24, 72),
+          margin: EdgeInsets.fromLTRB(24, 24, 24, 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -372,14 +373,14 @@ class WriteComment extends StatelessWidget {
                   ],
                 ),
               ),
-              // 구분선
+              //* 구분선
               Container(
                 margin: EdgeInsets.only(top: 3.5, bottom: 13.5),
                 height: 1.0,
                 decoration: BoxDecoration(color: const Color(0xffeaeaea)),
               ),
 
-              // General Comment
+              //* General Comment
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -392,7 +393,7 @@ class WriteComment extends StatelessWidget {
                           fontSize: 14.0),
                       textAlign: TextAlign.left),
 
-                  // 학기 선택 버튼
+                  //* 학기 선택 버튼
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0, bottom: 23.5),
                     child: Row(
@@ -400,6 +401,12 @@ class WriteComment extends StatelessWidget {
                       children: [
                         Expanded(
                           child: DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: const Color(0xffeaeaea),
+                                      width: 1.0)),
+                            ),
                             isExpanded: false,
                             hint: Text("请输入说明.",
                                 style: const TextStyle(
@@ -442,6 +449,9 @@ class WriteComment extends StatelessWidget {
                               print(
                                   writeCommentController.writeCommentSemester);
                             },
+                            icon: Image.asset(
+                                'assets/images/drop_down_arrow.png',
+                                fit: BoxFit.fill),
                           ),
                         ),
 
@@ -489,7 +499,19 @@ class WriteComment extends StatelessWidget {
 
                   // 리뷰 작성칸
                   Container(
-                      height: 94.5,
+                      height: 120.0,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(7)),
+                          border: Border.all(
+                              color: const Color(0xffeaeaea), width: 1),
+                          boxShadow: [
+                            BoxShadow(
+                                color: const Color(0x0f000000),
+                                offset: Offset(0, 3),
+                                blurRadius: 10,
+                                spreadRadius: 0)
+                          ],
+                          color: const Color(0xffffffff)),
                       child: TextField(
                         maxLines: 6,
                         keyboardType: TextInputType.multiline,
@@ -500,31 +522,42 @@ class WriteComment extends StatelessWidget {
                             fontWeight: FontWeight.normal,
                             fontFamily: "PingFangSC",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
+                            fontSize: 12.0),
                         decoration: const InputDecoration(
-                          hintText: "Please enter the review content",
+                          hintText: "请输入说明.",
+                          hintStyle: const TextStyle(
+                              color: const Color(0xffd6d4d4),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0),
                           filled: true,
-                          fillColor: Color(0xfff3f3f3),
+                          fillColor: Color(0xffffffff),
                           border: InputBorder.none,
+                          // enabledBorder: OutlineInputBorder(
+                          //     borderSide: const BorderSide(
+                          //         color: const Color(0xffeaeaea)),
+                          //     borderRadius:
+                          //         BorderRadius.all(Radius.circular(7))),
                         ),
                       )),
 
                   // 제출 버튼
                   Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 17.5),
+                      padding: const EdgeInsets.only(top: 32.0),
                       child: Ink(
-                        height: 49,
-                        width: 288,
+                        height: 48,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color(0xff1a4678),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Color(0xff965f88b7),
-                                  offset: Offset(0, 6.5),
-                                  blurRadius: 15)
-                            ]),
+                          borderRadius: BorderRadius.circular(8),
+                          color: Color(mainColor),
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //       color: Color(0xff965f88b7),
+                          //       offset: Offset(0, 6.5),
+                          //       blurRadius: 15)
+                          // ]
+                        ),
                         child: InkWell(
                           onTap: () async {
                             print(Get.currentRoute);
@@ -565,15 +598,14 @@ class WriteComment extends StatelessWidget {
                                 CLASS_ID, data);
                           },
                           child: Center(
-                              child: Text(
-                            "Confirm Submission",
-                            style: TextStyle(
-                                color: const Color(0xffffffff),
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 18.0),
-                          )),
+                              child: Text("写考试攻略",
+                                  style: const TextStyle(
+                                      color: const Color(0xffffffff),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "NotoSansSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  textAlign: TextAlign.left)),
                         ),
                       ),
                     ),
@@ -925,7 +957,7 @@ class WriteExamInfo extends StatelessWidget {
                     }
                   }),
 
-                  // 텍스트 작성칸
+                  //* 텍스트 작성칸
                   Container(
                       height: 94.5,
                       margin: EdgeInsets.only(top: 13.4, bottom: 12),
@@ -954,7 +986,7 @@ class WriteExamInfo extends StatelessWidget {
                         },
                       )),
 
-                  // 제출 버튼
+                  //* 제출 버튼
                   Center(
                     child: Ink(
                       height: 49,
