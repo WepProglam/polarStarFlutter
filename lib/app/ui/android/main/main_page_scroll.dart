@@ -26,6 +26,11 @@ import 'package:flutter/services.dart';
 
 import '../../../../main.dart';
 
+const mainColor = 0xff4570ff;
+const subColor = 0xff91bbff;
+const whiteColor = 0xffffffff;
+const textColor = 0xff2f2f2f;
+
 class MainPageScroll extends StatelessWidget {
   final MainController mainController = Get.find();
   final TextEditingController searchText = TextEditingController();
@@ -33,11 +38,10 @@ class MainPageScroll extends StatelessWidget {
       ScrollController(initialScrollOffset: 0.0);
   final InitController initController = Get.find();
   final FocusNode searchFocusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     print(" !!!!  ${initController.chatBox}");
-
-    print("시발");
     final Size size = MediaQuery.of(context).size;
     final PageController outsidePageController = PageController();
     return GestureDetector(
@@ -62,7 +66,7 @@ class MainPageScroll extends StatelessWidget {
                       child: // 폴라스타
                           Text("폴라스타",
                               style: const TextStyle(
-                                  color: const Color(0xffffffff),
+                                  color: const Color(whiteColor),
                                   fontWeight: FontWeight.w500,
                                   fontFamily: "NotoSansKR",
                                   fontStyle: FontStyle.normal,
@@ -110,7 +114,7 @@ class MainPageScroll extends StatelessWidget {
                           children: [
                             Text("新建立 韩国大学联合交流区",
                                 style: const TextStyle(
-                                    color: const Color(0xffffffff),
+                                    color: const Color(whiteColor),
                                     fontWeight: FontWeight.w500,
                                     fontFamily: "NotoSansSC",
                                     fontStyle: FontStyle.normal,
@@ -118,7 +122,7 @@ class MainPageScroll extends StatelessWidget {
                                 textAlign: TextAlign.center),
                             Text("成均馆大学，汉阳大学，高丽大学",
                                 style: const TextStyle(
-                                    color: const Color(0xff9b75ff),
+                                    color: const Color(subColor),
                                     fontWeight: FontWeight.w500,
                                     fontFamily: "NotoSansSC",
                                     fontStyle: FontStyle.normal,
@@ -138,10 +142,10 @@ class MainPageScroll extends StatelessWidget {
                       Container(
                         margin: const EdgeInsets.only(top: 129),
                         decoration: BoxDecoration(
-                            color: const Color(0xffffffff),
+                            color: const Color(whiteColor),
                             borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(40),
-                                topRight: Radius.circular(40))),
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20))),
                         child: Column(
                           children: [
                             // * 정보제공
@@ -168,7 +172,7 @@ class MainPageScroll extends StatelessWidget {
                                     dotHeight: 6,
                                     expansionFactor: 2,
                                     dotColor: const Color(0xffcecece),
-                                    activeDotColor: const Color(0xff571df0)),
+                                    activeDotColor: const Color(mainColor)),
                               ),
                             ),
 
@@ -323,7 +327,7 @@ class MainPageScroll extends StatelessWidget {
                                             decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(20)),
-                                                color: const Color(0xffffffff)),
+                                                color: const Color(whiteColor)),
                                             child: Center(
                                               child: Column(
                                                   mainAxisAlignment:
@@ -381,8 +385,7 @@ class MainPageScroll extends StatelessWidget {
                                           // 热榜
                                           Text("收集帖子",
                                               style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff2f2f2f),
+                                                  color: const Color(textColor),
                                                   fontWeight: FontWeight.w500,
                                                   fontFamily: "NotoSansSC",
                                                   fontStyle: FontStyle.normal,
@@ -528,7 +531,7 @@ class MainPageScroll extends StatelessWidget {
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(20)),
-                                          color: const Color(0xffffffff)))
+                                          color: const Color(whiteColor)))
                                 ],
                               ),
                             ),
@@ -539,13 +542,13 @@ class MainPageScroll extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                    right: 20,
-                    top: 142,
+                    right: 20.0,
+                    top: 133.1,
                     child: Image.asset(
-                      "assets/images/img_main_illust.png",
+                      "assets/images/378.png",
                       // width: 272,
                       fit: BoxFit.fitHeight,
-                      height: 137,
+                      height: 155.9,
                       // width: Get.mediaQuery.size.width,
                       // height: 137,/
                     ))
@@ -637,7 +640,7 @@ class NormalSearchBar extends StatelessWidget {
                   child: // 搜索
                       Text("搜索",
                           style: const TextStyle(
-                              color: const Color(0xffffffff),
+                              color: const Color(whiteColor),
                               fontWeight: FontWeight.w500,
                               fontFamily: "NotoSansSC",
                               fontStyle: FontStyle.normal,
@@ -646,12 +649,12 @@ class NormalSearchBar extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color: const Color(0xff2f2f2f))),
+                    color: const Color(textColor))),
           ),
         ]),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(30)),
-            color: const Color(0xffffffff)));
+            color: const Color(whiteColor)));
   }
 }
 
@@ -669,7 +672,7 @@ class NewIcon extends StatelessWidget {
             Center(
           child: Text("New",
               style: const TextStyle(
-                  color: const Color(0xffffffff),
+                  color: const Color(whiteColor),
                   fontWeight: FontWeight.w500,
                   fontFamily: "Roboto",
                   fontStyle: FontStyle.normal,
@@ -695,7 +698,7 @@ class SeeMore extends StatelessWidget {
         // 更多
         Text("更多",
             style: const TextStyle(
-                color: const Color(0xff371ac7),
+                color: const Color(mainColor),
                 fontWeight: FontWeight.w400,
                 fontFamily: "NotoSansSC",
                 fontStyle: FontStyle.normal,
@@ -708,7 +711,7 @@ class SeeMore extends StatelessWidget {
           child: Image.asset(
             "assets/images/icn_detail.png",
             fit: BoxFit.contain,
-            color: const Color(0xff371ac7),
+            color: const Color(mainColor),
           ),
         )
       ],

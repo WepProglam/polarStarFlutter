@@ -136,9 +136,9 @@ void main() async {
   await runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want
     theme: ThemeData(
-        buttonColor: const Color(0xff371ac7),
-        primaryColor: const Color(0xff371ac7),
-        appBarTheme: AppBarTheme(color: const Color(0xff371ac7))),
+        buttonColor: const Color(0xff4570ff),
+        primaryColor: const Color(0xff4570ff),
+        appBarTheme: AppBarTheme(color: const Color(0xff4570ff))),
     scrollBehavior: MyBehavior(),
     debugShowCheckedModeBanner: false,
     initialBinding: isLogined ? MainBinding() : LoginBinding(),
