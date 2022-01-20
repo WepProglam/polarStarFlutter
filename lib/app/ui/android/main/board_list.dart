@@ -268,23 +268,25 @@ class BoardListItem extends StatelessWidget {
                         ),
                         Spacer(),
                         // Rectangle 7
-                        Container(
-                            width: 38,
-                            height: 18,
-                            child: Center(
-                              child: // New
-                                  Text("New",
-                                      style: const TextStyle(
-                                          color: const Color(0xffffffff),
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: "Roboto",
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 10.0),
-                                      textAlign: TextAlign.left),
-                            ),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Get.theme.primaryColor))
+                        boardInfo.value.isNew
+                            ? Container(
+                                width: 38,
+                                height: 18,
+                                child: Center(
+                                  child: // New
+                                      Text("New",
+                                          style: const TextStyle(
+                                              color: const Color(0xffffffff),
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: "Roboto",
+                                              fontStyle: FontStyle.normal,
+                                              fontSize: 10.0),
+                                          textAlign: TextAlign.left),
+                                ),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Get.theme.primaryColor))
+                            : Container()
                       ],
                     ),
                   ),
