@@ -1091,11 +1091,16 @@ class WriteExamInfo extends StatelessWidget {
                           color: const Color(0xff4570ff)),
                       child: InkWell(
                         onTap: () {
+                          if (classViewController.exampleList.isEmpty) {
+                            return;
+                          }
                           var str = "";
                           classViewController.exampleList.forEach((element) {
                             str += element;
-                            str += "\n";
+                            str += "\n\n";
                           });
+                          str = str.substring(0, str.length - 2);
+
                           Map<String, dynamic> data = {
                             "type": classViewController
                                 .examList[classViewController.examIndex.value],
@@ -1115,6 +1120,8 @@ class WriteExamInfo extends StatelessWidget {
                           classViewController.postExam(
                               classViewController.classInfo.value.CLASS_ID,
                               data);
+
+                          classViewController.exampleList.clear();
                         },
                         child: Center(
                             child: Text("写考试攻略",
