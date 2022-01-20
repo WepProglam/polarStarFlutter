@@ -519,6 +519,11 @@ class WriteComment extends StatelessWidget {
                         ),
                         child: InkWell(
                           onTap: () async {
+                            if (writeCommentController.writeCommentYear ==
+                                    null ||
+                                reviewTextController.text.isEmpty) {
+                              return;
+                            }
                             print(Get.currentRoute);
                             Map<String, String> data = {
                               "content": reviewTextController.text,
@@ -1150,8 +1155,8 @@ class WriteExamInfo extends StatelessWidget {
                           color: const Color(0xff4570ff)),
                       child: InkWell(
                         onTap: () {
-                          if (classViewController.exampleList.isEmpty ||
-                              examInfoTextController.text.isEmpty ||
+                          if (classViewController.writeExamInfoYear == null ||
+                              classViewController.exampleList.isEmpty ||
                               testStrategyController.text.isEmpty) {
                             return;
                           }
