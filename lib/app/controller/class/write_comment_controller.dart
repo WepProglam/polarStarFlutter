@@ -27,6 +27,8 @@ class WriteCommentController extends GetxController {
   int writeCommentYear;
   int writeCommentSemester;
 
+  ScrollController writeCommentScrollController;
+
   List<DropdownMenuItem> yearSemItem = [];
 
   Future postComment(int CLASS_ID, Map<String, String> data) async {
@@ -88,6 +90,8 @@ class WriteCommentController extends GetxController {
         ));
       }
     }
+
+    writeCommentScrollController = ScrollController(initialScrollOffset: 0.0);
 
     super.onInit();
   }

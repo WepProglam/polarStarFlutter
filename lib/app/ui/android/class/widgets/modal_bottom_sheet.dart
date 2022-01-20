@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 
 import 'package:polarstar_flutter/app/controller/class/class_view_controller.dart';
 
+import 'package:polarstar_flutter/app/ui/android/functions/form_validator.dart';
+
 import 'package:polarstar_flutter/app/controller/class/write_comment_controller.dart';
 import 'package:polarstar_flutter/app/data/provider/class/class_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
@@ -30,6 +32,7 @@ class WriteComment extends StatelessWidget {
     // print(CLASS_ID);
 
     return SingleChildScrollView(
+      controller: writeCommentController.writeCommentScrollController,
       child: Padding(
         padding: EdgeInsets.only(bottom: Get.mediaQuery.viewInsets.bottom),
         child: Container(
@@ -458,6 +461,17 @@ class WriteComment extends StatelessWidget {
                           ],
                           color: const Color(0xffffffff)),
                       child: TextField(
+                        onTap: () async {
+                          await Future.delayed(Duration(milliseconds: 500));
+                          writeCommentController.writeCommentScrollController
+                              .animateTo(
+                                  writeCommentController
+                                      .writeCommentScrollController
+                                      .position
+                                      .maxScrollExtent,
+                                  duration: Duration(milliseconds: 500),
+                                  curve: Curves.fastOutSlowIn);
+                        },
                         maxLines: 6,
                         keyboardType: TextInputType.multiline,
                         expands: false,
@@ -566,7 +580,7 @@ class WriteComment extends StatelessWidget {
 }
 
 class WriteExamInfo extends StatelessWidget {
-  const WriteExamInfo(
+  WriteExamInfo(
       {Key key,
       @required this.classViewController,
       @required this.examInfoTextController,
@@ -576,10 +590,13 @@ class WriteExamInfo extends StatelessWidget {
   final ClassViewController classViewController;
   final TextEditingController examInfoTextController;
   final TextEditingController testStrategyController;
+  final GlobalKey<FormState> _exampleFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _tipsFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      controller: classViewController.writeExamInfoScrollController,
       child: Padding(
         padding: EdgeInsets.only(bottom: Get.mediaQuery.viewInsets.bottom),
         child: Container(
@@ -749,7 +766,7 @@ class WriteExamInfo extends StatelessWidget {
                 // ),
               ]),
 
-              // Exam
+              //* Exam
               Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -911,6 +928,20 @@ class WriteExamInfo extends StatelessWidget {
                       color: const Color(0xffffffff),
                     ),
                     child: TextFormField(
+                      validator: (value) {
+                        return checkEmpty(value);
+                      },
+                      onTap: () async {
+                        await Future.delayed(Duration(milliseconds: 500));
+                        classViewController.writeExamInfoScrollController
+                            .animateTo(
+                                classViewController
+                                    .writeExamInfoScrollController
+                                    .position
+                                    .maxScrollExtent,
+                                duration: Duration(milliseconds: 500),
+                                curve: Curves.fastOutSlowIn);
+                      },
                       maxLines: 1,
                       controller: testStrategyController,
                       cursorColor: const Color(0xff91bbff),
@@ -1032,6 +1063,21 @@ class WriteExamInfo extends StatelessWidget {
                                 spreadRadius: 0)
                           ], color: const Color(0xffffffff)),
                       child: TextFormField(
+                        // key: _exampleFormKey,
+                        validator: (value) {
+                          return checkEmpty(value);
+                        },
+                        onTap: () async {
+                          await Future.delayed(Duration(milliseconds: 500));
+                          classViewController.writeExamInfoScrollController
+                              .animateTo(
+                                  classViewController
+                                      .writeExamInfoScrollController
+                                      .position
+                                      .maxScrollExtent,
+                                  duration: Duration(milliseconds: 500),
+                                  curve: Curves.fastOutSlowIn);
+                        },
                         textInputAction: TextInputAction.go,
                         maxLines: 1,
                         controller: examInfoTextController,
@@ -1065,13 +1111,26 @@ class WriteExamInfo extends StatelessWidget {
                             ),
                             border: InputBorder.none,
                             isDense: true),
-                        onEditingComplete: () {
+                        onEditingComplete: () async {
+                          if (examInfoTextController.text.isEmpty) {
+                            return;
+                          }
                           classViewController.exampleList
                               .add(examInfoTextController.text);
 
                           examInfoTextController.text = "";
                           examInfoTextController.clear();
                           // print(classViewController.exampleList);
+
+                          await Future.delayed(Duration(milliseconds: 500));
+                          classViewController.writeExamInfoScrollController
+                              .animateTo(
+                                  classViewController
+                                      .writeExamInfoScrollController
+                                      .position
+                                      .maxScrollExtent,
+                                  duration: Duration(milliseconds: 500),
+                                  curve: Curves.fastOutSlowIn);
                         },
                       )),
 
@@ -1091,7 +1150,9 @@ class WriteExamInfo extends StatelessWidget {
                           color: const Color(0xff4570ff)),
                       child: InkWell(
                         onTap: () {
-                          if (classViewController.exampleList.isEmpty) {
+                          if (classViewController.exampleList.isEmpty ||
+                              examInfoTextController.text.isEmpty ||
+                              testStrategyController.text.isEmpty) {
                             return;
                           }
                           var str = "";
