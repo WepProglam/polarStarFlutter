@@ -68,6 +68,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   smooth_page_indicator: ^1.0.0+2
   socket_io_client: ^1.0.2
+  webview_flutter: ^3.0.0
 
   
 dependency_overrides:
@@ -279,6 +280,15 @@ flutter:
     - assets/images/timetable_filter_delete.png
     - assets/images/class_chat_profile.png
     - assets/images/right_arrow.png
+
+    - assets/images/timetable_direct_book.png
+    - assets/images/timetable_direct_professr.png
+    - assets/images/timetable_direct_clock.png
+    - assets/images/timetable_direct_location.png
+
+
+    # Community
+    - assets/images/comment_cc.png
 
     
 

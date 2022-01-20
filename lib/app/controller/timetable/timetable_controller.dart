@@ -91,15 +91,15 @@ class TimeTableController extends GetxController {
   // RxString createTimeTableSemester ="".obs;
 
   final List<Color> colorList = [
-    const Color(0xff571df0),
-    const Color(0xff895dfd),
-    const Color(0xffffd423),
+    const Color(0xff2cbf4f),
+    const Color(0xff91e5dd),
     const Color(0xff9ee85e),
-    const Color(0xff637af5),
-    const Color(0xff9b9bf9),
-    const Color(0xffff7097),
-    const Color(0xfff9cadb),
-    const Color(0xffc13eff),
+    const Color(0xfffeb764),
+    const Color(0xfffcc7ff),
+    const Color(0xff4570ff),
+    const Color(0xff294dff),
+    const Color(0xfff7c0fa),
+    const Color(0xff00ed84),
   ];
 
   void makeShowTimeTable() {

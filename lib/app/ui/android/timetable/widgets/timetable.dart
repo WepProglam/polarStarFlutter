@@ -520,7 +520,7 @@ class TimeTableDays extends StatelessWidget {
 }
 
 const tableBoxDecoration = BoxDecoration(
-    color: const Color(0xfff8f6fe),
+    color: const Color(0xfff7fbff),
     border: Border(
       bottom: BorderSide(color: Color(0xffdedede), width: 0.5),
     ));

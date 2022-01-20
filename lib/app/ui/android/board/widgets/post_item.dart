@@ -372,14 +372,16 @@ class CommnetTop extends StatelessWidget {
                           Container(
                             margin: const EdgeInsets.only(left: 8),
                             child: Image.asset(
-                                "assets/images/icn_reply_like_color.png"),
+                              "assets/images/icn_reply_like_color.png",
+                              color: Get.theme.primaryColor,
+                            ),
                           ),
                           Container(
                             margin: const EdgeInsets.only(left: 4),
                             child: // 99
                                 Text("${item.LIKES}",
-                                    style: const TextStyle(
-                                        color: const Color(0xff571df0),
+                                    style: TextStyle(
+                                        color: Get.theme.primaryColor,
                                         fontWeight: FontWeight.w400,
                                         fontFamily: "Roboto",
                                         fontStyle: FontStyle.normal,
@@ -432,6 +434,7 @@ class CCTopIcons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MainController mainController = Get.find();
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -444,7 +447,9 @@ class CCTopIcons extends StatelessWidget {
           child: Container(
               width: CommentIconSize,
               height: CommentIconSize,
-              child: AssetImageBin.like_none),
+              child: mainController.isLiked(item)
+                  ? Image.asset("assets/images/icn_like_selected.png")
+                  : Image.asset("assets/images/icn_like_normal.png")),
         ),
 
         // * 메뉴
@@ -520,6 +525,7 @@ class CommnetTopIcons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MainController mainController = Get.find();
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -532,7 +538,9 @@ class CommnetTopIcons extends StatelessWidget {
           child: Container(
               width: CommentIconSize,
               height: CommentIconSize,
-              child: AssetImageBin.like_none),
+              child: mainController.isLiked(item)
+                  ? Image.asset("assets/images/icn_like_selected.png")
+                  : Image.asset("assets/images/icn_like_normal.png")),
         ),
 
         // * 댓글
@@ -550,8 +558,7 @@ class CommnetTopIcons extends StatelessWidget {
                   fit: BoxFit.fitHeight,
                   child: Obx(() =>
                       c.isCcomment.value && c.ccommentUrl.value == cidUrl
-                          ? Image.asset(
-                              'assets/images/icn_reply_comment_normal.png')
+                          ? Image.asset('assets/images/comment_cc.png')
                           : Image.asset(
                               'assets/images/icn_reply_comment_normal.png')),
                 ),

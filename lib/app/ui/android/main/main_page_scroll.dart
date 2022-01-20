@@ -23,7 +23,7 @@ import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:flutter/services.dart';
-
+import 'package:webview_flutter/webview_flutter.dart';
 import '../../../../main.dart';
 
 const mainColor = 0xff4570ff;
@@ -41,7 +41,6 @@ class MainPageScroll extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(" !!!!  ${initController.chatBox}");
     final Size size = MediaQuery.of(context).size;
     final PageController outsidePageController = PageController();
     return GestureDetector(
@@ -149,18 +148,28 @@ class MainPageScroll extends StatelessWidget {
                         child: Column(
                           children: [
                             // * 정보제공
-                            Container(
-                              margin:
-                                  const EdgeInsets.only(top: 48, bottom: 12),
-                              height: 100,
-                              child: PageView.builder(
-                                scrollDirection: Axis.horizontal,
-                                physics: PageScrollPhysics(),
-                                controller: outsidePageController,
-                                itemCount: 5,
-                                itemBuilder: (context, index) {
-                                  return OutsidePreview();
-                                },
+                            InkWell(
+                              onTap: () {
+                                Get.to(SafeArea(
+                                  child: WebView(
+                                    initialUrl: 'https://flutter.dev',
+                                    javascriptMode: JavascriptMode.unrestricted,
+                                  ),
+                                ));
+                              },
+                              child: Container(
+                                margin:
+                                    const EdgeInsets.only(top: 48, bottom: 12),
+                                height: 100,
+                                child: PageView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  physics: PageScrollPhysics(),
+                                  controller: outsidePageController,
+                                  itemCount: 5,
+                                  itemBuilder: (context, index) {
+                                    return OutsidePreview();
+                                  },
+                                ),
                               ),
                             ),
                             Center(

@@ -99,8 +99,8 @@ class BoardList extends StatelessWidget {
                 Container(
                   child: Ink(
                     child: InkWell(
-                      onTap: () async {
-                        await createNewCommunity(mainController);
+                      onTap: () {
+                        Get.back();
                       },
                       child: Text("取消",
                           style: const TextStyle(

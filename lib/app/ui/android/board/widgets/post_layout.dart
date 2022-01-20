@@ -65,7 +65,7 @@ class PostLayout extends StatelessWidget {
                             c: c,
                             mailWriteController: mailWriteController,
                             mailController: mailController,
-                            item: c.sortedList[index].value,
+                            item: c.sortedList[index],
                             index: index);
                       } else {
                         return CCWidget(
@@ -163,12 +163,16 @@ class CommentWidget extends StatelessWidget {
   final PostController c;
   final TextEditingController mailWriteController;
   final MailController mailController;
-  final Post item;
+  final Rx<Post> item;
   final int index;
 
   @override
   Widget build(BuildContext context) {
-    String cidUrl = '/board/${item.COMMUNITY_ID}/cid/${item.UNIQUE_ID}';
+    final MainController mainController = Get.find();
+    print("${item.value.CONTENT} ${mainController.isLiked(item.value)}");
+
+    String cidUrl =
+        '/board/${item.value.COMMUNITY_ID}/cid/${item.value.UNIQUE_ID}';
 
     return Container(
       decoration: BoxDecoration(color: const Color(0xfff8f6fe)),
@@ -187,7 +191,7 @@ class CommentWidget extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 8),
               child: CommnetTop(
-                  item: item,
+                  item: item.value,
                   c: c,
                   index: index,
                   cidUrl: cidUrl,
@@ -198,7 +202,7 @@ class CommentWidget extends StatelessWidget {
             // * 댓글 내용
             Container(
               margin: const EdgeInsets.only(bottom: 10),
-              child: Text(item.CONTENT,
+              child: Text(item.value.CONTENT,
                   style: const TextStyle(
                       color: const Color(0xff242424),
                       fontWeight: FontWeight.w400,

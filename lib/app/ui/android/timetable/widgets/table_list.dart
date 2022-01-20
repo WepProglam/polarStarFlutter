@@ -529,14 +529,7 @@ void showSetting(
             ],
           ),
           decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                    color: const Color(0x4d4710b8),
-                    offset: Offset(0, -3),
-                    blurRadius: 6,
-                    spreadRadius: 0)
-              ],
-              color: const Color(0xffffffff),
+              color: const Color(0xfff7fbff),
               borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(30),
                   topRight: const Radius.circular(30))),
@@ -643,8 +636,8 @@ class TableList extends StatelessWidget {
                                   color: model.TIMETABLE_ID ==
                                           timeTableController
                                               .selectedTimeTableId.value
-                                      ? Color(0xffffffff)
-                                      : Color(0xff2f2f2f),
+                                      ? const Color(0xffffffff)
+                                      : const Color(0xff9b9b9b),
                                   fontWeight: FontWeight.w400,
                                   fontFamily: "NotoSansSC",
                                   fontStyle: FontStyle.normal,
@@ -656,8 +649,8 @@ class TableList extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(12)),
                           color: model.TIMETABLE_ID ==
                                   timeTableController.selectedTimeTableId.value
-                              ? Color(0xff571df0)
-                              : Color(0xfff8f6fe)));
+                              ? const Color(0xff4570ff)
+                              : const Color(0xfff4f9ff)));
                 });
               });
         },
@@ -680,28 +673,14 @@ class SubjectList extends StatelessWidget {
       // model.value.CLASSES == null ? 1 : model.value.CLASSES.length + 1;
       return Container(
           child: ListView.builder(
-              itemCount: total_length,
+              itemCount: total_length + 1,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int i) {
-                return i == total_length
+                int index = i - 1;
+                return i == 0
                     // return i == total_length - 1
-                    ? InkWell(
-                        onTap: () {
-                          Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
-                        },
-                        child: Container(
-                          width: 180,
-                          height: 144,
-                          margin: const EdgeInsets.only(right: 31),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(36)),
-                              color: const Color(0xffe6edf5)),
-                          child: Icon(
-                            Icons.add,
-                            size: 50,
-                          ),
-                        ),
+                    ? Container(
+                        width: 20,
                       )
                     : Container(
                         width: 180,
@@ -745,7 +724,7 @@ class SubjectList extends StatelessWidget {
                                 children: [
                                   Container(
                                     child: Text(
-                                        "${model.value.CLASSES[i].CLASS_NAME}",
+                                        "${model.value.CLASSES[index].CLASS_NAME}",
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                             color: const Color(0xff000000),
@@ -759,7 +738,7 @@ class SubjectList extends StatelessWidget {
                                     margin: const EdgeInsets.only(bottom: 8),
                                     child: // 이연희
                                         Text(
-                                            "${model.value.CLASSES[i].PROFESSOR}",
+                                            "${model.value.CLASSES[index].PROFESSOR}",
                                             style: const TextStyle(
                                                 color: const Color(0xff6f6e6e),
                                                 fontWeight: FontWeight.w400,
@@ -771,17 +750,17 @@ class SubjectList extends StatelessWidget {
                                   FittedBox(
                                     child: SubjectPreviewList(
                                         text:
-                                            "- ${model.value.CLASSES[i].CLASS_NUMBER}"),
+                                            "- ${model.value.CLASSES[index].CLASS_NUMBER}"),
                                   ),
                                   FittedBox(
                                     child: SubjectPreviewList(
                                         text:
-                                            "- ${model.value.CLASSES[i].CREDIT}"),
+                                            "- ${model.value.CLASSES[index].CREDIT}"),
                                   ),
                                   FittedBox(
                                     child: SubjectPreviewList(
                                         text:
-                                            "- ${model.value.CLASSES[i].PROFESSOR}"),
+                                            "- ${model.value.CLASSES[index].PROFESSOR}"),
                                   ),
                                 ],
                               ),
@@ -789,9 +768,16 @@ class SubjectList extends StatelessWidget {
                           ),
                         ),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderRadius: BorderRadius.all(Radius.circular(9)),
                             border: Border.all(
                                 color: const Color(0xffeaeaea), width: 1),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: const Color(0x0f000000),
+                                  offset: Offset(0, 3),
+                                  blurRadius: 6,
+                                  spreadRadius: 0)
+                            ],
                             color: const Color(0xffffffff)));
               }));
     });

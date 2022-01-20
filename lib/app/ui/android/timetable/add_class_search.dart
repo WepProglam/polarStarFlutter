@@ -97,13 +97,13 @@ class TimetableAddClassMain extends StatelessWidget {
                       child: Ink(
                         child: InkWell(
                           onTap: () {
-                            Get.toNamed("/timetable/addClass/direct");
+                            Get.toNamed(Routes.TIMETABLE_ADDCLASS_DIRECT);
                           },
                           child: Center(
                             child: Text("直接输入",
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    color: const Color(0xff371ac7),
+                                style: TextStyle(
+                                    color: Get.theme.primaryColor,
                                     fontWeight: FontWeight.w500,
                                     fontFamily: "NotoSansSC",
                                     fontStyle: FontStyle.normal,
@@ -115,7 +115,7 @@ class TimetableAddClassMain extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(13)),
                           border: Border.all(
-                              color: const Color(0xff8f90f8), width: 1),
+                              color: const Color(0xff99bbf9), width: 1),
                           color: const Color(0xffffffff))),
                 ],
               ),
@@ -422,8 +422,8 @@ class classSearchBottomSheet extends StatelessWidget {
                                                                       .circular(
                                                                           13)),
                                                           border: Border.all(
-                                                              color: const Color(
-                                                                  0xff8f90f8),
+                                                              color: Get.theme
+                                                                  .primaryColor,
                                                               width: 1),
                                                           color: const Color(
                                                               0xffffffff)),
@@ -435,9 +435,10 @@ class classSearchBottomSheet extends StatelessWidget {
                                                                 vertical: 4.5),
                                                         child: Center(
                                                             child: Text("注册",
-                                                                style: const TextStyle(
-                                                                    color: const Color(
-                                                                        0xff371ac7),
+                                                                style: TextStyle(
+                                                                    color: Get
+                                                                        .theme
+                                                                        .primaryColor,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w500,
@@ -551,7 +552,7 @@ class searchClassSliverAppBar extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(16)),
-                                    color: const Color(0xff371ac7)))),
+                                    color: Get.theme.primaryColor))),
                     margin: const EdgeInsets.only(left: 15),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(14)),
@@ -609,7 +610,7 @@ class searchClassSliverAppBar extends StatelessWidget {
                     margin: const EdgeInsets.only(left: 12),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(16)),
-                        color: const Color(0xff371ac7))),
+                        color: Get.theme.primaryColor)),
               ],
             ));
       }),
@@ -723,7 +724,10 @@ class ClassInfoTPO extends StatelessWidget {
           ],
         );
       } else {
-        return CircularProgressIndicator();
+        return Center(
+            child: CircularProgressIndicator(
+          color: Get.theme.primaryColor,
+        ));
       }
     });
   }

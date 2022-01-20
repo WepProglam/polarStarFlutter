@@ -245,13 +245,12 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
 
   bool isLiked(Post c) {
     for (int i = 0; i < likeList.length; i++) {
-      final bool bidSame = (likeList[i].UNIQUE_ID == c.BOARD_ID);
+      final bool bidSame = (likeList[i].UNIQUE_ID == c.UNIQUE_ID);
       final bool cidSame = (likeList[i].COMMUNITY_ID == c.COMMUNITY_ID);
       if (cidSame && bidSame) {
         return true;
       }
     }
-    print("false");
 
     return false;
   }

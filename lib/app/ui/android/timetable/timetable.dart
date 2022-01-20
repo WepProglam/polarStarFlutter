@@ -89,8 +89,7 @@ class TimeTableBody extends StatelessWidget {
                             0)
                     ? Container()
                     : Container(
-                        margin: const EdgeInsets.only(
-                            left: 20, top: 14, bottom: 20),
+                        margin: const EdgeInsets.only(top: 14, bottom: 20),
                         height: 144,
                         //과목 리스트
                         child:
