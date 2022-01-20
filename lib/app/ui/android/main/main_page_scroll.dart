@@ -489,41 +489,61 @@ class MainPageScroll extends StatelessWidget {
                                                           height: 40,
                                                           child: InkWell(
                                                             onTap: () async {
-                                                              searchText
-                                                                  .clear();
-                                                              searchFocusNode
-                                                                  .unfocus();
-                                                              putController<
-                                                                  TimeTableController>();
-                                                              final box =
-                                                                  GetStorage();
-                                                              TimeTableController
-                                                                  tc =
-                                                                  Get.find();
-                                                              int stc = await tc
-                                                                  .getSemesterTimeTable(
-                                                                "${box.read("year_sem")["TIMETABLE_YEAR_FROM_DATE"]}",
-                                                                "${box.read("year_sem")["TIMETABLE_SEMESTER_FROM_DATE"]}",
-                                                              );
-                                                              if (stc == 200) {
-                                                                await Get.toNamed(
-                                                                        Routes
-                                                                            .TIMETABLE_ADDCLASS_MAIN)
-                                                                    .then(
-                                                                        (value) async {
-                                                                  await MainUpdateModule
-                                                                      .updateMainPage();
-                                                                });
-                                                              } else {
-                                                                await Get.toNamed(
-                                                                        Routes
-                                                                            .TIMETABLE_ADDTIMETABLE)
-                                                                    .then(
-                                                                        (value) async {
-                                                                  await MainUpdateModule
-                                                                      .updateMainPage();
-                                                                });
-                                                              }
+                                                              Get.defaultDialog(
+                                                                  title:
+                                                                      "Really Add Class?",
+                                                                  titlePadding: const EdgeInsets
+                                                                          .only(
+                                                                      top: 20.0,
+                                                                      bottom:
+                                                                          10.0),
+                                                                  contentPadding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                              top: 10.0),
+                                                                  content: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () async {
+                                                                            searchText.clear();
+                                                                            searchFocusNode.unfocus();
+                                                                            putController<TimeTableController>();
+                                                                            final box =
+                                                                                GetStorage();
+                                                                            TimeTableController
+                                                                                tc =
+                                                                                Get.find();
+                                                                            int stc =
+                                                                                await tc.getSemesterTimeTable(
+                                                                              "${box.read("year_sem")["TIMETABLE_YEAR_FROM_DATE"]}",
+                                                                              "${box.read("year_sem")["TIMETABLE_SEMESTER_FROM_DATE"]}",
+                                                                            );
+                                                                            if (stc ==
+                                                                                200) {
+                                                                              await Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN).then((value) async {
+                                                                                await MainUpdateModule.updateMainPage();
+                                                                              });
+                                                                            } else {
+                                                                              await Get.toNamed(Routes.TIMETABLE_ADDTIMETABLE).then((value) async {
+                                                                                await MainUpdateModule.updateMainPage();
+                                                                              });
+                                                                            }
+                                                                          },
+                                                                          child:
+                                                                              Text("YES")),
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            Get.back();
+                                                                          },
+                                                                          child:
+                                                                              Text("NO")),
+                                                                    ],
+                                                                  ));
                                                             },
                                                             child: Image.asset(
                                                                 "assets/images/941.png"),
