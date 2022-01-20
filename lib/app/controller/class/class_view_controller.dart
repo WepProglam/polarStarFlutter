@@ -54,6 +54,8 @@ class ClassViewController extends GetxController
 
   final RxList<String> exampleList = <String>[].obs;
 
+  ScrollController writeExamInfoScrollController;
+
   Future<void> refreshPage() async {
     // classViewAvailable(false);
     // classExamAvailable(false);
@@ -265,6 +267,8 @@ class ClassViewController extends GetxController
         ));
       }
     }
+
+    writeExamInfoScrollController = ScrollController(initialScrollOffset: 0.0);
 
     super.onInit();
   }
