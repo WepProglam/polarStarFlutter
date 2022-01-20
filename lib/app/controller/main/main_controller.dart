@@ -121,6 +121,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   }
 
   void sortBoard() {
+    followingCommunity.sort((String a, String b) => a.compareTo(b));
     selectedBoard.sort((Rx<BoardInfo> a, Rx<BoardInfo> b) {
       if (a.value.isFollowed && b.value.isFollowed) {
         return a.value.COMMUNITY_ID.compareTo(b.value.COMMUNITY_ID);
