@@ -185,7 +185,7 @@ class MainPageScroll extends StatelessWidget {
                               ),
                             ),
 
-                            // 게시판
+                            //* 게시판
                             Container(
                               margin: const EdgeInsets.only(
                                   left: 20, right: 20, top: 20),

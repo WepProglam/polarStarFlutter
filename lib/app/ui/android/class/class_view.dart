@@ -949,7 +949,7 @@ class ClassExamInfo extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(right: 8.0),
                           child: Text(
-                            "考试类型",
+                            "考试类型 :",
                             style: const TextStyle(
                                 color: const Color(0xff2f2f2f),
                                 fontWeight: FontWeight.w500,

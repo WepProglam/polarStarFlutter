@@ -122,20 +122,44 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
 
   void sortBoard() {
     selectedBoard.sort((Rx<BoardInfo> a, Rx<BoardInfo> b) {
-      return a.value.isFollowed
-          ? 0
-          : a.value.COMMUNITY_ID > b.value.COMMUNITY_ID
-              ? 1
-              : 2;
+      if (a.value.isFollowed && b.value.isFollowed) {
+        return a.value.COMMUNITY_ID.compareTo(b.value.COMMUNITY_ID);
+      } else if (a.value.isFollowed && !b.value.isFollowed) {
+        return -1;
+      } else if (!a.value.isFollowed && b.value.isFollowed) {
+        return 1;
+      } else {
+        return a.value.COMMUNITY_ID.compareTo(b.value.COMMUNITY_ID);
+      }
     });
 
     boardInfo.sort((Rx<BoardInfo> a, Rx<BoardInfo> b) {
-      return a.value.isFollowed
-          ? 0
-          : a.value.COMMUNITY_ID > b.value.COMMUNITY_ID
-              ? 1
-              : 2;
+      if (a.value.isFollowed && b.value.isFollowed) {
+        return a.value.COMMUNITY_ID.compareTo(b.value.COMMUNITY_ID);
+      } else if (a.value.isFollowed && !b.value.isFollowed) {
+        return -1;
+      } else if (!a.value.isFollowed && b.value.isFollowed) {
+        return 1;
+      } else {
+        return a.value.COMMUNITY_ID.compareTo(b.value.COMMUNITY_ID);
+      }
     });
+
+    // selectedBoard.sort((Rx<BoardInfo> a, Rx<BoardInfo> b) {
+    //   return a.value.isFollowed
+    //       ? 0
+    //       : a.value.COMMUNITY_ID > b.value.COMMUNITY_ID
+    //           ? 1
+    //           : 2;
+    // });
+
+    // boardInfo.sort((Rx<BoardInfo> a, Rx<BoardInfo> b) {
+    //   return a.value.isFollowed
+    //       ? 0
+    //       : a.value.COMMUNITY_ID > b.value.COMMUNITY_ID
+    //           ? 1
+    //           : 2;
+    // });
   }
 
   Future<void> getBoardInfo() async {
