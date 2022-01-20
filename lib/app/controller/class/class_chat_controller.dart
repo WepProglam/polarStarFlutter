@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_chat_model.dart';
@@ -45,6 +46,8 @@ class ClassChatController extends GetxController {
   RxString roomID = "".obs;
   RxBool dataAvailble = false.obs;
   RxList<ClassChatModel> chatHistory = <ClassChatModel>[].obs;
+
+  ScrollController chatScrollController;
 
   // Future<void> registerSocket() async {
   //   String currentSocketRoom = roomID.value;
@@ -97,6 +100,17 @@ class ClassChatController extends GetxController {
     // roomID.value = Get.arguments["roomID"];
     // print("controller init : room ID = ${roomID.value}");
     // print("controller init : ${classChatSocket.connected}");
+    chatScrollController = ScrollController(initialScrollOffset: 0.0);
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      chatScrollController
+          .jumpTo(chatScrollController.position.maxScrollExtent);
+    });
+
+    // SchedulerBinding.instance.addPostFrameCallback((_) {
+    //  chatScrollController
+    //       .jumpTo(chatScrollController.position.maxScrollExtent);
+    // });
 
     super.onInit();
     dataAvailble.value = true;

@@ -1,6 +1,7 @@
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_chat_model.dart';
@@ -22,8 +23,6 @@ class InitController extends GetxController {
   RxInt mainPageIndex = 0.obs;
   RxList<Rx<ChatBoxModel>> chatBox = <Rx<ChatBoxModel>>[].obs;
   RxInt currentClassID = 0.obs;
-  final Rx<ScrollController> chatScrollController =
-      ScrollController(initialScrollOffset: 0.0).obs;
 
   Future<String> checkFcmToken() async {
     String FcmToken;
@@ -259,9 +258,9 @@ class InitController extends GetxController {
       print("char box ${chatBox}");
     });
 
-    ever(chatScrollController, (_) {
-      print("has client!");
-    });
+    // ever(chatScrollController, (_) {
+    //   print("has client!");
+    // });
 
     // firebaseCloudMessaging_Listeners();
   }

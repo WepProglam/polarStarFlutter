@@ -18,10 +18,10 @@ class ClassChatHistory extends StatelessWidget {
   final InitController initController = Get.find();
   @override
   Widget build(BuildContext context) {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      initController.chatScrollController.value.jumpTo(
-          initController.chatScrollController.value.position.maxScrollExtent);
-    });
+    // SchedulerBinding.instance.addPostFrameCallback((_) {
+    //   controller.chatScrollController
+    //       .jumpTo(controller.chatScrollController.position.maxScrollExtent);
+    // });
     print(initController.chatBox[0].value.ClassChatList.length);
     int chatIndex = initController.findChatHistory();
     return SafeArea(
@@ -169,16 +169,16 @@ class ClassChatHistory extends StatelessWidget {
         ),
         body: Obx(() {
           if (controller.dataAvailble.value) {
-            if (initController.chatScrollController.value.hasClients) {
+            if (controller.chatScrollController.hasClients) {
               Timer(Duration(milliseconds: 100), () {
-                initController.chatScrollController.value.jumpTo(initController
-                    .chatScrollController.value.position.maxScrollExtent);
+                controller.chatScrollController.jumpTo(
+                    controller.chatScrollController.position.maxScrollExtent);
               });
             }
 
             return ListView.builder(
               shrinkWrap: true,
-              controller: initController.chatScrollController.value,
+              controller: controller.chatScrollController,
               itemCount:
                   initController.chatBox[chatIndex].value.ClassChatList.length,
               scrollDirection: Axis.vertical,
@@ -256,48 +256,58 @@ class ClassChatHistory extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(left: 24),
                     width: Get.mediaQuery.size.width - 20 - 20 - 32 - 24,
-                    child: TextFormField(
-                        keyboardType: TextInputType.multiline,
-                        onTap: () {
-                          initController.chatScrollController.value.animateTo(
-                              1000000,
-                              duration: Duration(milliseconds: 1500),
-                              curve: Curves.fastOutSlowIn);
-                        },
-                        onEditingComplete: () async {
-                          // initController
-                          //     .sendMessage(commentWriteController.text);
-                          // commentWriteController.clear();
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.chatScrollController.jumpTo(controller
+                            .chatScrollController.position.maxScrollExtent);
+                      },
+                      child: TextFormField(
+                          keyboardType: TextInputType.multiline,
+                          onTap: () async {
+                            // controller.chatScrollController.jumpTo(controller
+                            //     .chatScrollController.position.maxScrollExtent);
+                            await Future.delayed(Duration(milliseconds: 200));
+                            controller.chatScrollController.animateTo(
+                                controller.chatScrollController.position
+                                    .maxScrollExtent,
+                                duration: Duration(milliseconds: 1000),
+                                curve: Curves.fastOutSlowIn);
+                          },
+                          onEditingComplete: () async {
+                            // initController
+                            //     .sendMessage(commentWriteController.text);
+                            // commentWriteController.clear();
 
-                          // double max_hight = initController
-                          //     .chatScrollController
-                          //     .value
-                          //     .position
-                          //     .maxScrollExtent;
+                            // double max_hight = initController
+                            //     .chatScrollController
+                            //     .value
+                            //     .position
+                            //     .maxScrollExtent;
 
-                          // initController.chatScrollController.value
-                          //     .jumpTo(max_hight);
-                        },
-                        maxLines: 1,
-                        controller: commentWriteController,
-                        style: const TextStyle(
-                            color: const Color(0xff2f2f2f),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "NotoSansSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
-                        onFieldSubmitted: (value) {},
-                        textInputAction: TextInputAction.done,
-                        decoration: InputDecoration(
-                          hintText: "你好吗，麦克斯？",
-                          border: InputBorder.none,
-                          hintStyle: const TextStyle(
-                              color: const Color(0xff9b9b9b),
+                            // initController.chatScrollController.value
+                            //     .jumpTo(max_hight);
+                          },
+                          maxLines: 1,
+                          controller: commentWriteController,
+                          style: const TextStyle(
+                              color: const Color(0xff2f2f2f),
                               fontWeight: FontWeight.w400,
                               fontFamily: "NotoSansSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 14.0),
-                        )),
+                          onFieldSubmitted: (value) {},
+                          textInputAction: TextInputAction.done,
+                          decoration: InputDecoration(
+                            hintText: "你好吗，麦克斯？",
+                            border: InputBorder.none,
+                            hintStyle: const TextStyle(
+                                color: const Color(0xff9b9b9b),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14.0),
+                          )),
+                    ),
                   ),
                   InkWell(
                       child: // 타원 20
