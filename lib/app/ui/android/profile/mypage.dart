@@ -27,6 +27,7 @@ class Mypage extends StatelessWidget {
               () {
                 if (myPageController.dataAvailableMypage) {
                   return NestedScrollView(
+                    controller: myPageController.scrollController,
                     headerSliverBuilder: (context, innerBoxIsScrolled) {
                       return [
                         MyPageProfile(myPageController: myPageController)
@@ -117,7 +118,6 @@ class MyPagePostList extends StatelessWidget {
         } else {
           return ListView.builder(
               cacheExtent: 10,
-              controller: myPageController.scrollController.value,
               itemCount: myPageController.curPage == myPageController.MaxPage
                   ? postList.length
                   : postList.length + 1,

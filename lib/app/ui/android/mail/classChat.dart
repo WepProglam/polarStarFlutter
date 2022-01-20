@@ -266,7 +266,7 @@ class ClassChatHistory extends StatelessWidget {
                           onTap: () async {
                             // controller.chatScrollController.jumpTo(controller
                             //     .chatScrollController.position.maxScrollExtent);
-                            await Future.delayed(Duration(milliseconds: 200));
+                            await Future.delayed(Duration(milliseconds: 1000));
                             controller.chatScrollController.animateTo(
                                 controller.chatScrollController.position
                                     .maxScrollExtent,

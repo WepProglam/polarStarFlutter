@@ -51,8 +51,8 @@ class MyPageController extends GetxController
   RxInt scrapMaxPage = 99999.obs;
   int MAX_BOARDS_LIMIT = 30;
 
-  final Rx<ScrollController> scrollController =
-      ScrollController(initialScrollOffset: 0.0).obs;
+  final ScrollController scrollController =
+      ScrollController(initialScrollOffset: 0.0);
 
   //내 프로필
   Future<void> getMineProfile() async {
@@ -169,10 +169,10 @@ class MyPageController extends GetxController
       print("${tabController.index}");
     });
 
-    scrollController.value.addListener(() async {
-      if ((scrollController.value.position.pixels ==
-              scrollController.value.position.maxScrollExtent ||
-          !scrollController.value.position.hasPixels)) {
+    scrollController.addListener(() async {
+      if ((scrollController.position.pixels ==
+              scrollController.position.maxScrollExtent ||
+          !scrollController.position.hasPixels)) {
         print("curpage : ${curPage} maxPage: ${MaxPage}");
         if (curPage == MaxPage) {
           return;
