@@ -28,10 +28,10 @@ class BoardInfo {
     this.isNew = DateTime.now()
         .subtract(const Duration(hours: 15))
         .isBefore(this.RECENT_TIME);
-    print(DateTime.now()
-        .subtract(const Duration(hours: 15))
-        .difference(this.RECENT_TIME));
-    print(this.isNew);
+    // print(DateTime.now()
+    //     .subtract(const Duration(hours: 15))
+    //     .difference(this.RECENT_TIME));
+    // print(this.isNew);
   }
 
   Map<String, dynamic> toJson() {
