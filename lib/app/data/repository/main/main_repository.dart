@@ -14,6 +14,11 @@ class MainRepository {
     return await apiClient.getBoardInfo(follwingCommunity);
   }
 
+  Future<Map<String, dynamic>> getNewBoard(int page) async {
+    final json = await apiClient.getNewBoard(page);
+    return json;
+  }
+
   Future<Map<String, dynamic>> createCommunity(
       String COMMUNITY_NAME, String COMMUNITY_DESCRIPTION) async {
     var status =

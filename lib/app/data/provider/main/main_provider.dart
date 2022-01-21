@@ -48,6 +48,21 @@ class MainApiClient {
     };
   }
 
+  Future<Map<String, dynamic>> getNewBoard(int page) async {
+    var response = await Session().getX("/board/new/page/$page");
+
+    if (response.statusCode != 200) {
+      return {"status": response.statusCode, "listBoard": <Rx<Post>>[]};
+    }
+
+    Iterable jsonResponse = jsonDecode(response.body);
+
+    List<Rx<Post>> listBoard =
+        jsonResponse.map((model) => Post.fromJson(model).obs).toList();
+
+    return {"status": response.statusCode, "listBoard": listBoard};
+  }
+
   Future<List<dynamic>> refreshLikeList() async {
     final response = await Session().getX('/main/refresh/like');
     final jsonResponse = jsonDecode(response.body);

@@ -392,3 +392,57 @@ class HotBoardPreviewItem_Top extends StatelessWidget {
     ]);
   }
 }
+
+class NewBoardMain extends StatelessWidget {
+  NewBoardMain(
+      {Key key,
+      @required this.size,
+      @required this.mainController,
+      this.searchText,
+      this.searchFocusNode})
+      : super(key: key);
+
+  final Size size;
+  final MainController mainController;
+  final searchText;
+  final searchFocusNode;
+  final controller = PageController(
+    initialPage: 0,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    List<Ink> newList = [];
+    for (var index = 0; index < mainController.newBoard.length; index++) {
+      newList.add(Ink(
+        child: InkWell(
+          //                  * * type 0 : 메인 -> 핫
+          //                  * * type 1 : 마이 -> 게시글
+          //                  * * type 2 : 게시판 -> 게시글
+          //                  */
+          onTap: () async {
+            searchText.clear();
+            searchFocusNode.unfocus();
+            await Get.toNamed(
+                "/board/${mainController.newBoard[index].value.COMMUNITY_ID}/read/${mainController.newBoard[index].value.BOARD_ID}",
+                arguments: {"type": 0}).then((value) async {
+              await MainUpdateModule.updateMainPage();
+            });
+          },
+          child: PostWidget(
+            c: null,
+            mailWriteController: null,
+            mailController: null,
+            item: mainController.newBoard[index],
+            index: index,
+            mainController: mainController,
+          ),
+        ),
+      ));
+    }
+
+    return Column(
+      children: newList,
+    );
+  }
+}

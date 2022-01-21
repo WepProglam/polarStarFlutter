@@ -31,7 +31,9 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   RxList<Rx<BoardInfo>> selectedBoard = <Rx<BoardInfo>>[].obs;
 
   RxList<Rx<Post>> hotBoard = <Rx<Post>>[].obs;
+  RxList<Rx<Post>> newBoard = <Rx<Post>>[].obs;
   RxInt hotBoardIndex = 0.obs;
+  RxInt newBoardIndex = 0.obs;
   RxInt followAmount = 0.obs;
   Rx<Color> statusBarColor = Colors.white.obs;
 
@@ -165,8 +167,32 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     // });
   }
 
+  Future<void> getNewBoard() async {
+    Map<String, dynamic> response = await repository.getNewBoard(0);
+    final int status = response["status"];
+    final List<Rx<Post>> listBoard = response["listBoard"];
+
+    switch (status) {
+      case 200:
+        if (newBoard.length == 0) {
+          newBoard.clear();
+        }
+
+        for (int i = 0; i < listBoard.length; i++) {
+          newBoard.add(listBoard[i]);
+        }
+        _dataAvailable.value = true;
+
+        break;
+      default:
+        _dataAvailable.value = false;
+        break;
+    }
+  }
+
   Future<void> getBoardInfo() async {
     final value = await repository.getBoardInfo(followingCommunity);
+    await getNewBoard();
     boardListInfo.clear();
     boardInfo.clear();
 

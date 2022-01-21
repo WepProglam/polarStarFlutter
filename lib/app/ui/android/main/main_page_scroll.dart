@@ -416,23 +416,59 @@ class MainPageScroll extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    TabBar(
-                                      controller:
-                                          mainController.hotNewTabController,
-                                      onTap: (index) {
-                                        mainController.hotOrNewIndex(index);
-                                        print(mainController.hotOrNewIndex);
-                                      },
-                                      tabs: [
-                                        Tab(
-                                          text: "HOT",
-                                        ),
-                                        Tab(
-                                          text: "NEW",
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20.0, bottom: 13.0),
+                                          child: TabBar(
+                                            indicator: UnderlineTabIndicator(
+                                              borderSide: BorderSide(
+                                                  color:
+                                                      const Color(0xff4c74f6),
+                                                  width: 2.0),
+                                              insets: EdgeInsets.fromLTRB(
+                                                  3.0, 0.0, 3.0, 12.0),
+                                            ),
+                                            controller: mainController
+                                                .hotNewTabController,
+                                            onTap: (index) {
+                                              mainController
+                                                  .hotOrNewIndex(index);
+                                              print(
+                                                  mainController.hotOrNewIndex);
+                                            },
+                                            indicatorColor:
+                                                Get.theme.primaryColor,
+                                            isScrollable: true,
+                                            indicatorPadding: EdgeInsets.zero,
+                                            labelPadding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 6),
+                                            labelColor: const Color(0xff000000),
+                                            unselectedLabelColor:
+                                                const Color(0xffd6d4d4),
+                                            labelStyle: const TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: "Roboto",
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 14.0),
+                                            tabs: <Tab>[
+                                              Tab(
+                                                text: "HOT",
+                                              ),
+                                              Tab(
+                                                text: "NEW",
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
-                                    Builder(builder: (_) {
+
+                                    Obx(() {
                                       if (mainController.hotOrNewIndex.value ==
                                           0) {
                                         return Container(
@@ -452,15 +488,15 @@ class MainPageScroll extends StatelessWidget {
                                         return Container(
                                           width: size.width,
                                           child: Container(
-                                            margin: const EdgeInsets.fromLTRB(
-                                                0, 0, 0, 0),
-                                            child: HotBoardMain(
-                                              size: size,
-                                              mainController: mainController,
-                                              searchFocusNode: searchFocusNode,
-                                              searchText: searchText,
-                                            ),
-                                          ),
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  0, 0, 0, 0),
+                                              child: NewBoardMain(
+                                                size: size,
+                                                mainController: mainController,
+                                                searchFocusNode:
+                                                    searchFocusNode,
+                                                searchText: searchText,
+                                              )),
                                         );
                                       }
                                     }),
