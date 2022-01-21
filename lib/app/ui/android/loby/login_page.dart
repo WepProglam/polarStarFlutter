@@ -14,6 +14,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: const Color(0xff4570ff),
         resizeToAvoidBottomInset: false,
         body: LoginInputs(),
       ),
@@ -38,34 +39,34 @@ class LoginInputs extends GetView<LoginController> {
     return Form(
       key: _formKey,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 35.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // 로고 이미지
-            Center(
-              child: Container(
-                  width: 281.2,
-                  height: 232.4,
-                  margin: EdgeInsets.fromLTRB(2.3, 35.1, 21.5, 20),
-                  child: Image.asset("assets/images/636.png")),
-            ),
+            // Center(
+            //   child: Container(
+            //       width: 281.2,
+            //       height: 232.4,
+            //       margin: EdgeInsets.fromLTRB(2.3, 35.1, 21.5, 20),
+            //       child: Image.asset("assets/images/636.png")),
+            // ),
 
             // 아이디 입력
             Padding(
-              padding: const EdgeInsets.only(bottom: 12.3),
+              padding: const EdgeInsets.only(top: 331.0, bottom: 14.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Account",
-                    style: const TextStyle(
-                        color: const Color(0xff999999),
-                        fontWeight: FontWeight.normal,
-                        fontFamily: "PingFangSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 13.5),
-                  ),
+                  // Text(
+                  //   "Account",
+                  //   style: const TextStyle(
+                  //       color: const Color(0xff999999),
+                  //       fontWeight: FontWeight.normal,
+                  //       fontFamily: "PingFangSC",
+                  //       fontStyle: FontStyle.normal,
+                  //       fontSize: 13.5),
+                  // ),
                   Stack(
                     children: [
                       TextFormField(
@@ -80,14 +81,21 @@ class LoginInputs extends GetView<LoginController> {
                         decoration: InputDecoration(
                           isDense: true,
                           contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 0.0, vertical: 11.6),
+                              horizontal: 20.0, vertical: 10.0),
                           hintStyle: const TextStyle(
-                              color: const Color(0xff999999),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "PingFangSC",
+                              color: const Color(0xff9b9b9b),
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "NotoSansSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 14.0),
-                          hintText: "Enter Your ID",
+                          hintText: "输入用户名",
+                          filled: true,
+                          fillColor: const Color(0xffffffff),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              borderSide: BorderSide(
+                                  color: const Color(0xffeaeaea), width: 1)),
                         ),
                       ),
                       Positioned.fill(
@@ -119,19 +127,19 @@ class LoginInputs extends GetView<LoginController> {
 
             // 비밀번호 입력
             Padding(
-              padding: const EdgeInsets.only(top: 12.3, bottom: 10),
+              padding: const EdgeInsets.only(top: 0.0, bottom: 8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Password",
-                    style: const TextStyle(
-                        color: const Color(0xff999999),
-                        fontWeight: FontWeight.normal,
-                        fontFamily: "PingFangSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 13.5),
-                  ),
+                  // Text(
+                  //   "Password",
+                  //   style: const TextStyle(
+                  //       color: const Color(0xff999999),
+                  //       fontWeight: FontWeight.normal,
+                  //       fontFamily: "PingFangSC",
+                  //       fontStyle: FontStyle.normal,
+                  //       fontSize: 13.5),
+                  // ),
                   Stack(
                     children: [
                       Obx(() => TextFormField(
@@ -151,16 +159,25 @@ class LoginInputs extends GetView<LoginController> {
                               return checkEmpty(value);
                             },
                             decoration: InputDecoration(
-                                isDense: true,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 0.0, vertical: 11.6),
-                                hintStyle: const TextStyle(
-                                    color: const Color(0xff999999),
-                                    fontWeight: FontWeight.w400,
-                                    // fontFamily: "PingFangSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                hintText: "Enter the PW"),
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 10.0),
+                              hintStyle: const TextStyle(
+                                  color: const Color(0xff9b9b9b),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14.0),
+                              hintText: "输入密码",
+                              filled: true,
+                              fillColor: const Color(0xffffffff),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                                borderSide: BorderSide(
+                                    color: const Color(0xffeaeaea), width: 1),
+                              ),
+                            ),
                           )),
                       Positioned.fill(
                         child: Align(
@@ -190,42 +207,72 @@ class LoginInputs extends GetView<LoginController> {
             ),
 
             // 자동로그인 선택버튼
-            Row(children: [
-              Obx(
-                () => Checkbox(
-                    value: controller.isAutoLogin.value,
-                    // splashRadius: 0,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    visualDensity: VisualDensity.compact,
-                    onChanged: (value) {
-                      controller.isAutoLogin(value);
-                    }),
-              ),
-              InkWell(
-                  onTap: () {
-                    controller.isAutoLogin(!controller.isAutoLogin.value);
-                  },
-                  child: Text('자동 로그인')),
-              Spacer(),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed("/findPw");
-                },
-                child: Text(
-                  "Having trouble loggin in?",
-                  style: const TextStyle(
-                      color: const Color(0xff333333),
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "PingFangSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                ),
-              ),
-            ]),
+            Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: Obx(
+                      () => SizedBox(
+                        height: 12.0,
+                        width: 12.0,
+                        child: Transform.scale(
+                          scale: 0.7,
+                          child: Checkbox(
+                              // fillColor: ,
+                              checkColor: const Color(0xffd6d4d4),
+                              activeColor: const Color(0xffffffff),
+                              value: controller.isAutoLogin.value,
+                              // splashRadius: 0,
+                              // materialTapTargetSize:
+                              //     MaterialTapTargetSize.shrinkWrap,
+                              // visualDensity: VisualDensity.compact,
+                              onChanged: (value) {
+                                controller.isAutoLogin(value);
+                              }),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 3.0),
+                    child: GestureDetector(
+                        onTap: () {
+                          controller.isAutoLogin(!controller.isAutoLogin.value);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 4.0),
+                          child: Text('输入密码',
+                              style: const TextStyle(
+                                  color: const Color(0xffffffff),
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "NotoSansSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 10.0),
+                              textAlign: TextAlign.left),
+                        )),
+                  ),
+                  Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed("/findPw");
+                    },
+                    child: Text(
+                      "登录有问题吗?",
+                      style: const TextStyle(
+                          color: const Color(0xffffffff),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "NotoSansSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 10.0),
+                    ),
+                  ),
+                ]),
 
             // 로그인 버튼
             Padding(
-              padding: const EdgeInsets.only(top: 40),
+              padding: const EdgeInsets.only(top: 68),
               child: InkWell(
                 onTap: () async {
                   print(_formKey.currentState.validate());
@@ -236,49 +283,47 @@ class LoginInputs extends GetView<LoginController> {
                   }
                 },
                 child: Ink(
-                  width: Get.mediaQuery.size.width - 70,
-                  height: 52,
+                  height: 40.0,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xff1a4678)),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      border:
+                          Border.all(color: const Color(0xffeaeaea), width: 1),
+                      color: const Color(0x4dffffff)),
                   child: Center(
-                      child: Text(
-                    "Log In",
-                    style: const TextStyle(
-                        color: const Color(0xffffffff),
-                        fontWeight: FontWeight.normal,
-                        fontFamily: "PingFangSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 18),
-                  )),
+                      child: Text("登录",
+                          style: const TextStyle(
+                              color: const Color(0xffffffff),
+                              fontWeight: FontWeight.w700,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0),
+                          textAlign: TextAlign.center)),
                 ),
               ),
             ),
 
             // 회원가입 버튼
             Padding(
-              padding: const EdgeInsets.only(top: 30),
+              padding: const EdgeInsets.only(top: 14.0),
               child: InkWell(
                 onTap: () {
                   Get.toNamed("/signUp");
                 },
                 child: Ink(
-                  width: Get.mediaQuery.size.width - 70,
-                  height: 52,
+                  height: 40.0,
                   decoration: BoxDecoration(
-                      color: Color(0xffffffff),
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Color(0xff1a4678), width: 2)),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      border:
+                          Border.all(color: const Color(0xffeaeaea), width: 1)),
                   child: Center(
-                    child: Text(
-                      "Sign Up",
-                      style: const TextStyle(
-                          color: const Color(0xff1a4678),
-                          fontWeight: FontWeight.normal,
-                          fontFamily: "PingFangSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 18.0),
-                    ),
+                    child: Text("注册会员",
+                        style: const TextStyle(
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 16.0),
+                        textAlign: TextAlign.center),
                   ),
                 ),
               ),

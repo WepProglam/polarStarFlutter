@@ -138,7 +138,8 @@ void main() async {
     theme: ThemeData(
         buttonColor: const Color(0xff4570ff),
         primaryColor: const Color(0xff4570ff),
-        appBarTheme: AppBarTheme(color: const Color(0xff4570ff))),
+        appBarTheme: AppBarTheme(color: const Color(0xff4570ff)),
+        unselectedWidgetColor: Color(0xffeaeaea)),
     scrollBehavior: MyBehavior(),
     debugShowCheckedModeBanner: false,
     initialBinding: isLogined ? MainBinding() : LoginBinding(),
