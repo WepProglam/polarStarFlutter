@@ -110,7 +110,14 @@ class SignUpController extends GetxController {
         tempCollegeList.map((e) => CollegeMajorModel.fromJson(e)).toList();
     majorList.value =
         tempMajorList.map((e) => CollegeMajorModel.fromJson(e)).toList();
-    majorList.value.addAll(defaultMajor);
+    majorList.addAll(defaultMajor);
+
+    print(majorList
+        .where((major) => major.NAME == "사회과학대학")
+        .toList()
+        .first
+        .INDEX_TYPE);
+
     selectedCollege.value = collegeList.first.INDEX;
   }
 
