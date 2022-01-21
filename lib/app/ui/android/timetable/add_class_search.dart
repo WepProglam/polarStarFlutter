@@ -51,7 +51,7 @@ class TimetableAddClassMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
+    print(timeTableController.yearSem);
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -219,7 +219,6 @@ class classSearchBottomSheet extends StatelessWidget {
                           controller.NewClass[0].value.start_time.minute / 60;
 
                       for (var item in controller.NewClass) {
-                        print(item.value.start_time);
                         //끝 시간 맞추기
                         if (item.value.end_time.hour >=
                             timeTableController.limitEndTime.value) {
@@ -340,7 +339,7 @@ class classSearchBottomSheet extends StatelessWidget {
                                           textAlign: TextAlign.center),
                                       Spacer(),
                                       // 담은 82
-                                      Text("담은 82",
+                                      Text("담은 ${model.NUMBER_OF_STUDENTS}",
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                               color: const Color(0xff9b9b9b),
@@ -497,121 +496,125 @@ class searchClassSliverAppBar extends StatelessWidget {
       flexibleSpace: Obx(() {
         return FlexibleSpaceBar(
             titlePadding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-            title: Row(
-              children: [
-                Container(
-                    height: 32,
-                    child: // 전공/영역: 전체
-                        InkWell(
-                            onTap: () {
-                              // * 선택된 강의 취소 후 이동
-                              controller.selectedIndex.value = -1;
-                              // * page 값 초기화
-                              controller.initSeachPage();
+            title: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Container(
+                      height: 32,
+                      child: // 전공/영역: 전체
+                          InkWell(
+                              onTap: () {
+                                // * 선택된 강의 취소 후 이동
+                                controller.selectedIndex.value = -1;
+                                // * page 값 초기화
+                                controller.initSeachPage();
 
-                              Get.toNamed(
-                                  Routes.TIMETABLE_ADDCLASS_FILTER_COLLEGE);
-                            },
-                            child: Container(
-                                height: 32,
-                                padding:
-                                    const EdgeInsets.only(left: 12, right: 12),
-                                child: Row(children: [
-                                  Center(
-                                    child: // 专业/领域: 整个
-                                        Text(
-                                            "专业/领域: ${controller.college_major.value.isEmpty ? "整个" : controller.college_major.value}",
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                                color: const Color(0xffffffff),
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: "NotoSansSC",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 14.0),
-                                            textAlign: TextAlign.left),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 8),
-                                    child: Ink(
-                                      child: InkWell(
-                                          onTap: () async {
-                                            controller.initMajor();
-                                            // * page 값 초기화
-                                            controller.initSeachPage();
-                                            controller.getClass(
-                                                controller.searchPage);
-                                          },
-                                          child: Image.asset(
-                                            "assets/images/timetable_filter_delete.png",
-                                            width: 16,
-                                            height: 16,
-                                          )),
+                                Get.toNamed(
+                                    Routes.TIMETABLE_ADDCLASS_FILTER_COLLEGE);
+                              },
+                              child: Container(
+                                  height: 32,
+                                  padding: const EdgeInsets.only(
+                                      left: 12, right: 12),
+                                  child: Row(children: [
+                                    Center(
+                                      child: // 专业/领域: 整个
+                                          Text(
+                                              "专业/领域: ${controller.college_major.value.isEmpty ? "整个" : controller.college_major.value}",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xffffffff),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "NotoSansSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 14.0),
+                                              textAlign: TextAlign.left),
                                     ),
-                                  )
-                                ]),
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(16)),
-                                    color: Get.theme.primaryColor))),
-                    margin: const EdgeInsets.only(left: 15),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(14)),
-                        color: const Color(0xff1a4678))),
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 8),
+                                      child: Ink(
+                                        child: InkWell(
+                                            onTap: () async {
+                                              controller.initMajor();
+                                              // * page 값 초기화
+                                              controller.initSeachPage();
+                                              controller.getClass(
+                                                  controller.searchPage);
+                                            },
+                                            child: Image.asset(
+                                              "assets/images/timetable_filter_delete.png",
+                                              width: 16,
+                                              height: 16,
+                                            )),
+                                      ),
+                                    )
+                                  ]),
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(16)),
+                                      color: Get.theme.primaryColor))),
+                      margin: const EdgeInsets.only(left: 15),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(14)),
+                          color: const Color(0xff1a4678))),
 
-                // 사각형 16
-                Container(
-                    height: 32,
-                    padding: const EdgeInsets.only(left: 12, right: 12),
-                    child: Ink(
-                      child: InkWell(
-                        onTap: () {
-                          // * 선택된 강의 취소 후 이동
-                          controller.selectedIndex.value = -1;
-                          // * page 값 초기화
-                          controller.initSeachPage();
-                          Get.toNamed(Routes.TIMETABLE_ADDCLASS_SEARCH);
-                        },
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Center(
-                                child: Text(
-                                    "科目名: ${controller.search_name.isEmpty ? "无" : controller.search_name}",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                        color: const Color(0xffffffff),
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: "NotoSansSC",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 14.0),
-                                    textAlign: TextAlign.left),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(left: 8),
-                                child: Ink(
-                                  child: InkWell(
-                                    onTap: () async {
-                                      controller.initSearchName();
-                                      // * page 값 초기화
-                                      controller.initSeachPage();
-                                      await controller.getFilteredClass(0);
-                                    },
-                                    child: Image.asset(
-                                      "assets/images/timetable_filter_delete.png",
-                                      width: 16,
-                                      height: 16,
-                                    ),
-                                  ),
+                  // 사각형 16
+                  Container(
+                      height: 32,
+                      padding: const EdgeInsets.only(left: 12, right: 12),
+                      child: Ink(
+                        child: InkWell(
+                          onTap: () {
+                            // * 선택된 강의 취소 후 이동
+                            controller.selectedIndex.value = -1;
+                            // * page 값 초기화
+                            controller.initSeachPage();
+                            Get.toNamed(Routes.TIMETABLE_ADDCLASS_SEARCH);
+                          },
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: Text(
+                                      "科目名: ${controller.search_name.isEmpty ? "无" : controller.search_name}",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          color: const Color(0xffffffff),
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "NotoSansSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 14.0),
+                                      textAlign: TextAlign.left),
                                 ),
-                              )
-                            ]),
+                                Container(
+                                  margin: const EdgeInsets.only(left: 8),
+                                  child: Ink(
+                                    child: InkWell(
+                                      onTap: () async {
+                                        controller.initSearchName();
+                                        // * page 값 초기화
+                                        controller.initSeachPage();
+                                        await controller.getFilteredClass(0);
+                                      },
+                                      child: Image.asset(
+                                        "assets/images/timetable_filter_delete.png",
+                                        width: 16,
+                                        height: 16,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ]),
+                        ),
                       ),
-                    ),
-                    margin: const EdgeInsets.only(left: 12),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                        color: Get.theme.primaryColor)),
-              ],
+                      margin: const EdgeInsets.only(left: 12, right: 20),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                          color: Get.theme.primaryColor)),
+                ],
+              ),
             ));
       }),
     );

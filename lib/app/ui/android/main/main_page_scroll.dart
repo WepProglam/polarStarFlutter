@@ -382,7 +382,22 @@ class MainPageScroll extends StatelessWidget {
                             mainController.hotBoard.length != 0
                                 ?
                                 //* 핫게
-                                Column(children: [
+                                GestureDetector(
+                                  // mainController.hotOrNewIndex.value 
+                                  onHorizontalDragUpdate: (details) {  
+                                      // Note: Sensitivity is integer used when you don't want to mess up vertical drag
+                                      int sensitivity = 8;
+                                      if (details.delta.dx > sensitivity) {
+                                        mainController.hotOrNewIndex.value = 0;
+                                        print("??");
+                                          // Right Swipe
+                                      } else if(details.delta.dx < -sensitivity){
+                                        mainController.hotOrNewIndex.value = 1;
+                                        print("!!");
+                                          //Left Swipe
+                                      }
+                                  },
+                                  child:Column(children: [
                                     Container(
                                       // padding: const EdgeInsets.all(18),
                                       margin: const EdgeInsets.fromLTRB(
@@ -514,6 +529,9 @@ class MainPageScroll extends StatelessWidget {
                                     //   ),
                                     // ),
                                   ])
+
+                                )
+                                
                                 : Container(),
 
                             // ClassItem(model: mainController.classList[0]),

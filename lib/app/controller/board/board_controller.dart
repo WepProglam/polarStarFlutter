@@ -100,10 +100,18 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
       case 200:
         if (NewBody.length == 0) {
           NewBody.clear();
+        } else {
+          if (checkDuplicate(NewBody, listBoard)) {
+            NewBody.value = listBoard;
+            break;
+          }
         }
 
         for (int i = 0; i < listBoard.length; i++) {
           NewBody.add(listBoard[i]);
+          print("${NewBody[i].value.CONTENT}  |  ${NewBody[i].value.TITLE}");
+          print(
+              "${NewBody[i].value.COMMUNITY_ID}  |  ${NewBody[i].value.UNIQUE_ID}");
         }
         dataAvailablePostPreview.value = true;
         break;
@@ -112,6 +120,13 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
         dataAvailablePostPreview.value = false;
         break;
     }
+  }
+
+  bool checkDuplicate(List<Rx<Post>> listBoard, List<Rx<Post>> src) {
+    if (src.last.value.UNIQUE_ID == listBoard.last.value.UNIQUE_ID) {
+      return true;
+    }
+    return false;
   }
 
   Future<void> getHotBoard() async {
@@ -126,6 +141,11 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
       case 200:
         if (HotBody.length == 0) {
           HotBody.clear();
+        } else {
+          if (checkDuplicate(HotBody, listBoard)) {
+            HotBody.value = listBoard;
+            break;
+          }
         }
 
         for (int i = 0; i < listBoard.length; i++) {
@@ -155,6 +175,10 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
       case 200:
         if (postBody.length == 0) {
           postBody.clear();
+        } else {
+          if (checkDuplicate(postBody, listBoard)) {
+            break;
+          }
         }
 
         for (int i = 0; i < listBoard.length; i++) {
@@ -179,6 +203,10 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
       case 200:
         if (postBody.length == 0) {
           postBody.clear();
+        } else {
+          if (checkDuplicate(postBody, listBoard)) {
+            break;
+          }
         }
 
         for (int i = 0; i < listBoard.length; i++) {

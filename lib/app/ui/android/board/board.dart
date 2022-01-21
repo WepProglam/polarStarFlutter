@@ -123,7 +123,7 @@ class Board extends StatelessWidget {
                       child: Image.asset("assets/images/icn_pen.png"),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(100)),
-                          color: const Color(0xff571df0))),
+                          color: Get.theme.primaryColor)),
             ),
             body: RefreshIndicator(
               onRefresh: MainUpdateModule.updateBoard,

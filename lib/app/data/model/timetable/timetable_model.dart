@@ -30,7 +30,6 @@ class SelectedTimeTableModel {
     this.SEMESTER = json["SEMESTER"];
     this.TIMETABLE_ID = json["TIMETABLE_ID"];
     this.NAME = json["NAME"];
-    print(json);
     Iterable classesJson = json["CLASSES"];
     this.CLASSES = classesJson == null
         ? []

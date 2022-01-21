@@ -34,32 +34,34 @@ class HotBoard extends StatelessWidget {
                   Center(
                     child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 16.5),
-                      child: RichText(
-                          text: TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: "成均馆大学",
-                                style: const TextStyle(
-                                    color: const Color(0xffffffff),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                              )
-                            ],
-                            text: communityBoardName(
-                                        controller.COMMUNITY_ID.value) ==
-                                    null
-                                ? ""
-                                : '${communityBoardName(controller.COMMUNITY_ID.value)} / ',
-                            style: const TextStyle(
-                                color: const Color(0xffffffff),
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0),
-                          ),
-                          textAlign: TextAlign.left),
+                      child: Obx(() {
+                        return RichText(
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: "成均馆大学",
+                                  style: const TextStyle(
+                                      color: const Color(0xffffffff),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "NotoSansSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                )
+                              ],
+                              text: communityBoardName(
+                                          controller.COMMUNITY_ID.value) ==
+                                      null
+                                  ? ""
+                                  : '${communityBoardName(controller.COMMUNITY_ID.value)} / ',
+                              style: const TextStyle(
+                                  color: const Color(0xffffffff),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16.0),
+                            ),
+                            textAlign: TextAlign.left);
+                      }),
                     ),
                   ),
                   Positioned(
@@ -130,7 +132,8 @@ class HotBoard extends StatelessWidget {
                               child: TabBar(
                                 indicator: UnderlineTabIndicator(
                                   borderSide: BorderSide(
-                                      color: Color(0xDD613896), width: 2.0),
+                                      color: Get.theme.primaryColor,
+                                      width: 2.0),
                                   insets:
                                       EdgeInsets.fromLTRB(3.0, 0.0, 3.0, 12.0),
                                 ),
@@ -241,7 +244,6 @@ class HotBoard extends StatelessWidget {
                                     );
                                   }
                                   Rx<Post> model = controller.NewBody[index];
-
                                   return Ink(
                                     child: InkWell(
                                       onTap: () async {

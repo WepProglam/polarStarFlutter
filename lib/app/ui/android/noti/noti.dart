@@ -617,7 +617,7 @@ class NotiPreview extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(15)),
-                                    color: const Color(0xff571df0))),
+                                    color: Get.theme.primaryColor)),
                         Spacer(),
                         Container(
                           margin: const EdgeInsets.only(right: 20),

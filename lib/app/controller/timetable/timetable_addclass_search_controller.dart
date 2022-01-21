@@ -125,7 +125,8 @@ class TimeTableAddClassSearchController extends GetxController {
     // * initmodel이 있으면 initmodel 반환
     // ? initmodel도 page별로 append할거면 코드 수정 필요
     if (initModel.length != 0) {
-      var response = await Session().getX("/class/timetable/page/$page");
+      var response = await Session().getX(
+          "/class/timetable/page/$page/year/${timeTableController.selectedYear}/semester/${timeTableController.selectedSemester}");
       var json = jsonDecode(response.body);
       Iterable classList = json;
       CLASS_SEARCH.addAll(
@@ -136,7 +137,8 @@ class TimeTableAddClassSearchController extends GetxController {
     }
 
     print("bb");
-    var response = await Session().getX("/class/timetable");
+    var response = await Session().getX(
+        "/class/timetable/year/${timeTableController.selectedYear}/semester/${timeTableController.selectedSemester}");
     var json = jsonDecode(response.body);
     Iterable classList = json["CLASS"];
     Iterable collegeList = json["index"];
@@ -161,9 +163,8 @@ class TimeTableAddClassSearchController extends GetxController {
     if (page > searchMaxPage.value) {
       return;
     }
-
     var response = await Session().getX(
-        "/class/timetable/filter/page/$page?INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
+        "/class/timetable/filter/page/$page/year/${timeTableController.selectedYear}/semester/${timeTableController.selectedSemester}?INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
     Iterable class_list = jsonDecode(response.body);
     print("${CLASS_SEARCH.length} page: $page");
     List<TimeTableClassModel> tempClasses =
@@ -186,8 +187,8 @@ class TimeTableAddClassSearchController extends GetxController {
       CLASS_SEARCH.value = initModel;
       return;
     }
-    var response = await Session()
-        .getX("/class/search/page/$page?search=${search_name.value}");
+    var response = await Session().getX(
+        "/class/search/page/$page/year/${timeTableController.selectedYear}/semester/${timeTableController.selectedSemester}?search=${search_name.value}");
 
     Iterable class_list = jsonDecode(response.body);
 
@@ -198,7 +199,6 @@ class TimeTableAddClassSearchController extends GetxController {
     } else {
       if (tempClasses.length == 0) {
         searchMaxPage.value = page;
-        print("find max");
       } else {
         CLASS_SEARCH.addAll(tempClasses);
       }
@@ -207,7 +207,7 @@ class TimeTableAddClassSearchController extends GetxController {
 
   Future<void> getFilterAndSearch(int page) async {
     var response = await Session().getX(
-        "/class/search/page/$page?search=${search_name.value}&INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
+        "/class/search/page/$page/year/${timeTableController.selectedYear}/semester/${timeTableController.selectedSemester}?search=${search_name.value}&INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
     Iterable class_list = jsonDecode(response.body);
 
     List<TimeTableClassModel> tempClasses =
@@ -218,7 +218,6 @@ class TimeTableAddClassSearchController extends GetxController {
     } else {
       if (tempClasses.length == 0) {
         searchMaxPage.value = page;
-        print("find max");
       } else {
         CLASS_SEARCH.addAll(tempClasses);
       }

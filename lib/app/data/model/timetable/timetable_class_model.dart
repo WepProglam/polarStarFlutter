@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 
 class TimeTableClassModel {
-  int CLASS_ID, HEAD_COUNT;
+  int CLASS_ID, HEAD_COUNT, NUMBER_OF_STUDENTS;
   String CLASS_NUMBER,
       CLASS_NAME,
       PROFESSOR,
@@ -33,11 +33,11 @@ class TimeTableClassModel {
   TimeTableClassModel.fromJson(Map<String, dynamic> json) {
     this.CLASS_ID = json["CLASS_ID"];
     this.HEAD_COUNT = json["HEAD_COUNT"];
+    this.NUMBER_OF_STUDENTS = json["NUMBER_OF_STUDENTS"];
 
     this.CLASS_NUMBER = json["CLASS_NUMBER"];
     this.CLASS_NAME = json["CLASS_NAME"];
     this.PROFESSOR = json["PROFESSOR"];
-    print(json['CREDIT']);
     if (json['CREDIT'] == null) {
       this.CREDIT = null;
     } else {
@@ -65,14 +65,6 @@ class TimeTableClassModel {
     });
 
     this.CLASS_TIME = CLASS_TIME_UNION;
-
-    print("=======================================================");
-    print(unionClassMap);
-    for (var item in CLASS_TIME_UNION) {
-      print("${item.start_time}  ~ ${item.end_time}");
-    }
-    print(CLASS_TIME_UNION);
-    print("=======================================================");
   }
 
   Map<String, List<AddClassModel>> unionClasses(
@@ -114,6 +106,7 @@ class TimeTableClassModel {
     if (this.CLASS_ID != null) {
       data['CLASS_ID'] = this.CLASS_ID;
       data['HEAD_COUNT'] = this.HEAD_COUNT;
+      data['NUMBER_OF_STUDENTS'] = this.NUMBER_OF_STUDENTS;
       data['CLASS_NUMBER'] = this.CLASS_NUMBER;
       data['CLASS_NAME'] = this.CLASS_NAME;
       data['PROFESSOR'] = this.PROFESSOR;
@@ -143,7 +136,6 @@ class AddClassModel {
   AddClassModel({start_time, end_time, day, class_room});
 
   AddClassModel.fromJson(Map<String, dynamic> json) {
-    print(json);
     if (json["day"].trim() == "미지정" ||
         json["end_time"].trim() == "미지정" ||
         json["start_time"].trim() == "미지정") {

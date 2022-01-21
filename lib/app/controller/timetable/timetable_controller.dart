@@ -447,5 +447,8 @@ class TimeTableController extends GetxController {
 
   String get yearSem =>
       "${selectTable.value.YEAR}년 ${selectTable.value.SEMESTER}학기";
+
+  int get selectedYear => selectTable.value.YEAR;
+  int get selectedSemester => selectTable.value.SEMESTER;
   // bool get isReady => _isReady.value;
 }

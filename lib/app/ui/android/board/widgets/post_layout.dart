@@ -107,7 +107,7 @@ class CCWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: const Color(0xfff8f6fe)),
+      decoration: BoxDecoration(color: const Color(0xfff4f9ff)),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(58, 0, 20, 0),
         child: Column(
@@ -175,7 +175,7 @@ class CommentWidget extends StatelessWidget {
         '/board/${item.value.COMMUNITY_ID}/cid/${item.value.UNIQUE_ID}';
 
     return Container(
-      decoration: BoxDecoration(color: const Color(0xfff8f6fe)),
+      decoration: BoxDecoration(color: const Color(0xfff4f9ff)),
       child: Container(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Column(

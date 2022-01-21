@@ -18,11 +18,6 @@ class ClassChatHistory extends StatelessWidget {
   final InitController initController = Get.find();
   @override
   Widget build(BuildContext context) {
-    // SchedulerBinding.instance.addPostFrameCallback((_) {
-    //   controller.chatScrollController
-    //       .jumpTo(controller.chatScrollController.position.maxScrollExtent);
-    // });
-    print(initController.chatBox[0].value.ClassChatList.length);
     int chatIndex = initController.findChatHistory();
     return SafeArea(
       child: Scaffold(
@@ -239,13 +234,14 @@ class ClassChatHistory extends StatelessWidget {
         }),
         //입력창
         bottomSheet: Container(
-          height: 75,
-          decoration: BoxDecoration(color: const Color(0xffe0e4ff)),
+          height: 60,
+          decoration: BoxDecoration(color: const Color(0xffe6f1ff)),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: 36,
-                margin: const EdgeInsets.only(left: 20, right: 20, bottom: 31),
+                height: 40,
+                margin: const EdgeInsets.only(left: 20, right: 20),
                 width: Get.mediaQuery.size.width - 20 - 20,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(18)),
@@ -321,8 +317,9 @@ class ClassChatHistory extends StatelessWidget {
                                 ),
                               ),
                               decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: const Color(0xff371ac7))),
+                                shape: BoxShape.circle,
+                                color: Get.theme.primaryColor,
+                              )),
                       onTap: () async {
                         String text = commentWriteController.text;
                         initController.sendMessage(commentWriteController.text);
@@ -412,7 +409,7 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                   bottomRight: Radius.circular(36),
                   bottomLeft: Radius.circular(36)),
               color: model.MY_SELF
-                  ? const Color(0xffe0e4ff)
+                  ? const Color(0xffe6f1ff)
                   : const Color(0xfff5f5f5)),
           child: Container(
               padding:
