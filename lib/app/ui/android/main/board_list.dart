@@ -243,7 +243,10 @@ class BoardListItem extends StatelessWidget {
                                               boardInfo.value.COMMUNITY_ID,
                                               boardInfo.value.COMMUNITY_NAME,
                                               boardInfo.value.RECENT_TITLE,
-                                              boardInfo.value.isFollowed);
+                                              boardInfo.value.RECENT_TIME
+                                                  .toString(),
+                                              boardInfo.value.isFollowed,
+                                              boardInfo.value.isNew);
                                     } else {
                                       await mainController
                                           .deleteFollowingCommunity(
@@ -371,6 +374,7 @@ Widget board(BoardInfo element, MainController mainController) {
   int COMMUNITY_ID = element.COMMUNITY_ID;
   String COMMUNITY_NAME = element.COMMUNITY_NAME;
   String RECENT_TITLE = "${element.RECENT_TITLE}";
+  DateTime RECENT_TIME = element.RECENT_TIME;
   bool isFollowed = element.isFollowed;
   return Obx(() {
     return Padding(
@@ -391,7 +395,12 @@ Widget board(BoardInfo element, MainController mainController) {
               onTap: () async {
                 if (!checkFollow(COMMUNITY_ID, mainController.boardInfo)) {
                   await mainController.setFollowingCommunity(
-                      COMMUNITY_ID, COMMUNITY_NAME, RECENT_TITLE, isFollowed);
+                      COMMUNITY_ID,
+                      COMMUNITY_NAME,
+                      RECENT_TITLE,
+                      RECENT_TIME.toString(),
+                      isFollowed,
+                      element.isNew);
                 } else {
                   await mainController.deleteFollowingCommunity(COMMUNITY_ID);
                 }

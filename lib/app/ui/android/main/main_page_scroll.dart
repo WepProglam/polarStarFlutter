@@ -386,7 +386,7 @@ class MainPageScroll extends StatelessWidget {
                                     Container(
                                       // padding: const EdgeInsets.all(18),
                                       margin: const EdgeInsets.fromLTRB(
-                                          20, 20, 20, 10),
+                                          20.0, 20.0, 20.0, 10.0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -416,19 +416,67 @@ class MainPageScroll extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    Container(
-                                      width: size.width,
-                                      child: Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0, 0, 0, 0),
-                                        child: HotBoardMain(
-                                          size: size,
-                                          mainController: mainController,
-                                          searchFocusNode: searchFocusNode,
-                                          searchText: searchText,
+                                    TabBar(
+                                      controller:
+                                          mainController.hotNewTabController,
+                                      onTap: (index) {
+                                        mainController.hotOrNewIndex(index);
+                                        print(mainController.hotOrNewIndex);
+                                      },
+                                      tabs: [
+                                        Tab(
+                                          text: "HOT",
                                         ),
-                                      ),
+                                        Tab(
+                                          text: "NEW",
+                                        ),
+                                      ],
                                     ),
+                                    Builder(builder: (_) {
+                                      if (mainController.hotOrNewIndex.value ==
+                                          0) {
+                                        return Container(
+                                          width: size.width,
+                                          child: Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                0, 0, 0, 0),
+                                            child: HotBoardMain(
+                                              size: size,
+                                              mainController: mainController,
+                                              searchFocusNode: searchFocusNode,
+                                              searchText: searchText,
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        return Container(
+                                          width: size.width,
+                                          child: Container(
+                                            margin: const EdgeInsets.fromLTRB(
+                                                0, 0, 0, 0),
+                                            child: HotBoardMain(
+                                              size: size,
+                                              mainController: mainController,
+                                              searchFocusNode: searchFocusNode,
+                                              searchText: searchText,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    }),
+                                    // Container(
+                                    //   width: size.width,
+                                    //   child: Container(
+                                    //     margin: const EdgeInsets.fromLTRB(
+                                    //         0, 0, 0, 0),
+                                    //     child: HotBoardMain(
+                                    //       size: size,
+                                    //       mainController: mainController,
+                                    //       searchFocusNode: searchFocusNode,
+                                    //       searchText: searchText,
+                                    //     ),
+                                    //   ),
+                                    // ),
                                   ])
                                 : Container(),
 

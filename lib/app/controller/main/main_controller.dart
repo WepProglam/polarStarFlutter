@@ -48,6 +48,8 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   RxList<String> followingCommunity = <String>[].obs;
 
   RxInt hotOrNewIndex = 0.obs;
+
+  TabController hotNewTabController;
   // TabController tabController;
   List<Color> classColorList = [
     Color(0xff1a785c),
@@ -220,13 +222,20 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
         follwing.map((e) => "${e.value.COMMUNITY_ID}").toList();
   }
 
-  Future<void> setFollowingCommunity(int COMMUNITY_ID, String COMMUNITY_NAME,
-      String RECENT_TITLE, bool isFollowed) async {
+  Future<void> setFollowingCommunity(
+      int COMMUNITY_ID,
+      String COMMUNITY_NAME,
+      String RECENT_TITLE,
+      String RECENT_TIME,
+      bool isFollowed,
+      bool isNew) async {
     await COMMUNITY_DB_HELPER.insert(BoardInfo.fromJson({
       "COMMUNITY_ID": COMMUNITY_ID,
       "COMMUNITY_NAME": COMMUNITY_NAME,
       "RECENT_TITLE": RECENT_TITLE,
-      "isFollowed": isFollowed
+      "RECENT_TIME": RECENT_TIME,
+      "isFollowed": isFollowed,
+      "isNew": isNew
     }));
     await getFollowingCommunity();
     // await _dbHelper.dropTable();
@@ -286,6 +295,8 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     super.onInit();
     await getFollowingCommunity();
     await getBoardInfo();
+
+    hotNewTabController = await TabController(vsync: this, length: 2);
 
     // ever(hotOrNewIndex, (_) {
     //   if (hotOrNewIndex.value == 0) {

@@ -48,7 +48,10 @@ class BoardPreviewItem_board extends StatelessWidget {
                                               boardInfo.value.COMMUNITY_ID,
                                               boardInfo.value.COMMUNITY_NAME,
                                               boardInfo.value.RECENT_TITLE,
-                                              boardInfo.value.isFollowed);
+                                              boardInfo.value.RECENT_TIME
+                                                  .toString(),
+                                              boardInfo.value.isFollowed,
+                                              boardInfo.value.isNew);
                                     } else {
                                       await mainController
                                           .deleteFollowingCommunity(
