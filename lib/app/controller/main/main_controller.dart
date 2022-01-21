@@ -177,15 +177,9 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
         if (newBoard.length == 0) {
           newBoard.clear();
         }
-
-        for (int i = 0; i < listBoard.length; i++) {
-          newBoard.add(listBoard[i]);
-        }
-        _dataAvailable.value = true;
-
+        newBoard(listBoard);
         break;
       default:
-        _dataAvailable.value = false;
         break;
     }
   }
