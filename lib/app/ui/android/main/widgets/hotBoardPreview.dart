@@ -413,7 +413,7 @@ class NewBoardMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Ink> newList = [];
-    for (var index = 0; index < mainController.newBoard.length; index++) {
+    for (var index = 0; index < 5; index++) {
       newList.add(Ink(
         child: InkWell(
           //                  * * type 0 : 메인 -> 핫
