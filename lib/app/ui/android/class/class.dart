@@ -517,27 +517,14 @@ class ClassItem extends StatelessWidget {
               ),
             ),
             Spacer(),
-            //! 평가하기 버튼 삭제 예정 아직 데이터가 없어 삭제 불가
             Container(
               margin: const EdgeInsets.symmetric(vertical: 3.5),
               child: // Rectangle 7
                   Container(
-                      width: 76,
-                      height: 32,
-                      child: Center(
-                        child: // 去评价
-                            Text("去评价",
-                                style: const TextStyle(
-                                    color: const Color(0xffffffff),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                textAlign: TextAlign.left),
-                      ),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(40)),
-                          color: const Color(mainColor))),
+                width: 76,
+                height: 32,
+                child: RateStarRow(rate: model.RATE),
+              ),
             )
           ]),
         ),

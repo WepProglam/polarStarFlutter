@@ -218,12 +218,17 @@ class PostController extends GetxController {
         case 200:
           break;
         case 403:
-          Get.snackbar('부적절한 접근', '이미 $what 한 게시글입니다',
+          Get.snackbar(
+              '부적절한 접근', '1. 이미 $what 한 게시글입니다\n2. 본인의 글 / 댓글에 좋아요 할 수 없습니다',
               colorText: Colors.white,
               backgroundColor: Colors.black,
               snackPosition: SnackPosition.BOTTOM);
           break;
         default:
+          Get.snackbar('${value.statusCode}', '좋아요 실패',
+              colorText: Colors.white,
+              backgroundColor: Colors.black,
+              snackPosition: SnackPosition.BOTTOM);
           break;
       }
     });

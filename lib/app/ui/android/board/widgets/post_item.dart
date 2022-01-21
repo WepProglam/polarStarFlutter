@@ -45,18 +45,18 @@ class PostBottom extends StatelessWidget {
           onPressed: mainController.isLiked(item.value) || c == null
               ? null
               : () async {
-                  if (item.value.MYSELF) {
+                  /*if (item.value.MYSELF) {
                     Get.snackbar("게시글 좋아요", "내가 쓴 게시글에는 할 수 없습니다.",
                         colorText: Colors.white,
                         backgroundColor: Color(0xff6f6e6e),
                         snackPosition: SnackPosition.BOTTOM);
-                  } else {
-                    int status_code = await c.totalSend(
-                        '/like/${item.value.COMMUNITY_ID}/id/${item.value.UNIQUE_ID}',
-                        '좋아요',
-                        index);
-                    print(status_code);
-                  }
+                  } else {*/
+                  int status_code = await c.totalSend(
+                      '/like/${item.value.COMMUNITY_ID}/id/${item.value.UNIQUE_ID}',
+                      '좋아요',
+                      index);
+                  print(status_code);
+                  //}
                 },
           icon: Container(
             width: PostIconSize,

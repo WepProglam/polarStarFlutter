@@ -12,6 +12,7 @@ class ClassModel {
       CLASS_SECTOR_1,
       CLASS_SECTOR_TOTAL,
       COLLEGE_NAME,
+      RATE,
       COLLEGE_MAJOR;
 
   List CLASS_TIME;
@@ -30,6 +31,7 @@ class ClassModel {
       COLLEGE_MAJOR,
       CLASS_TIME,
       OPEN_TIME,
+      RATE,
       CREDIT});
 
   ClassModel.fromJson(Map<String, dynamic> json) {
@@ -44,7 +46,7 @@ class ClassModel {
     this.CLASS_SECTOR_1 = nullCheck(json["CLASS_SECTOR_1"]);
     this.CLASS_SECTOR_TOTAL = nullCheck(json["CLASS_SECTOR_TOTAL"]);
     this.COLLEGE_NAME = nullCheck(json["COLLEGE_NAME"]);
-
+    this.RATE = json["AVG(RATE)"] == null ? "0" : json["AVG(RATE)"];
     this.COLLEGE_MAJOR = nullCheck(json["COLLEGE_MAJOR"]);
     this.CLASS_TIME = nullCheck(json["CLASS_TIME"]);
     this.OPEN_TIME = nullCheck(json["OPEN_TIME"]);
