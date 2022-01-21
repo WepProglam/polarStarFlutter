@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 import 'package:polarstar_flutter/app/data/model/sign_up_model.dart';
 import 'package:polarstar_flutter/app/data/repository/sign_up_repository.dart';
@@ -62,6 +63,7 @@ class SignUpController extends GetxController {
 
   RxList<CollegeMajorModel> collegeList = <CollegeMajorModel>[].obs;
   RxList<CollegeMajorModel> majorList = <CollegeMajorModel>[].obs;
+  RxList<CollegeMajorModel> searchedMajorList = <CollegeMajorModel>[].obs;
 
   Future<void> getMajorInfo() async {
     var response = await Session().getX("/signup/majorInfo");
@@ -69,11 +71,46 @@ class SignUpController extends GetxController {
     Iterable tempCollegeList = json["college"];
     Iterable tempMajorList = json["major"];
 
+    CollegeMajorModel natureScience = CollegeMajorModel.fromJson({
+      "NAME": "자연과학계열",
+      "CLASS_INDEX_ID": tempMajorList.length + 317,
+      "INDEX_COLLEGE_NAME": 2,
+      "INDEX_TYPE": 3,
+      "INDEX": tempMajorList.length
+    });
+    CollegeMajorModel engineering = CollegeMajorModel.fromJson({
+      "NAME": "공학계열",
+      "CLASS_INDEX_ID": tempMajorList.length + 318,
+      "INDEX_COLLEGE_NAME": 3,
+      "INDEX_TYPE": 3,
+      "INDEX": tempMajorList.length + 1
+    });
+    CollegeMajorModel socialScience = CollegeMajorModel.fromJson({
+      "NAME": "사회과학계열",
+      "CLASS_INDEX_ID": tempMajorList.length + 319,
+      "INDEX_COLLEGE_NAME": 4,
+      "INDEX_TYPE": 3,
+      "INDEX": tempMajorList.length + 2
+    });
+    CollegeMajorModel humanities = CollegeMajorModel.fromJson({
+      "NAME": "인문과학계열",
+      "CLASS_INDEX_ID": tempMajorList.length + 320,
+      "INDEX_COLLEGE_NAME": 5,
+      "INDEX_TYPE": 3,
+      "INDEX": tempMajorList.length + 3
+    });
+    List<CollegeMajorModel> defaultMajor = [
+      natureScience,
+      engineering,
+      socialScience,
+      humanities
+    ];
+
     collegeList.value =
         tempCollegeList.map((e) => CollegeMajorModel.fromJson(e)).toList();
     majorList.value =
         tempMajorList.map((e) => CollegeMajorModel.fromJson(e)).toList();
-
+    majorList.value.addAll(defaultMajor);
     selectedCollege.value = collegeList.first.INDEX;
   }
 

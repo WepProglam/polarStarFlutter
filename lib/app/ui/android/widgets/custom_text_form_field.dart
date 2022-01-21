@@ -56,21 +56,29 @@ class SignUpTextForm extends StatelessWidget {
       controller: textEditingController,
       validator: funcValidator,
       style: const TextStyle(
-        color: const Color(0xff333333),
-        fontWeight: FontWeight.w400,
-        fontFamily: "PingFangSC",
-        fontStyle: FontStyle.normal,
-        fontSize: 14.0,
-      ),
+          color: const Color(0xff4570ff),
+          fontWeight: FontWeight.w400,
+          fontFamily: "Roboto",
+          fontStyle: FontStyle.normal,
+          fontSize: 14.0),
       textAlign: TextAlign.left,
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(13.5, 9.5, 13.5, 12),
+          contentPadding: EdgeInsets.fromLTRB(10.0, 11.0, 10.0, 11.0),
           isDense: true,
           hintText: hint,
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide:
-                  BorderSide(color: const Color(0xff1a4678), width: 2))),
+          hintStyle: const TextStyle(
+              color: const Color(0xffd6d4d4),
+              fontWeight: FontWeight.w400,
+              fontFamily: "Roboto",
+              fontStyle: FontStyle.normal,
+              fontSize: 14.0),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: const Color(0xffeaeaea), width: 1)),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: const Color(0xffeaeaea), width: 1)),
+          border: InputBorder.none),
     );
   }
 }

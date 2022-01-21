@@ -805,263 +805,256 @@ class ClassExamInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final ClassViewController classViewController = Get.find();
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 13.5),
-      child: Stack(children: [
-        Container(
-            child: ImageFiltered(
-          imageFilter: classExamModel.IS_BUYED
-              ? ImageFilter.blur(sigmaX: 0, sigmaY: 0)
-              : ImageFilter.blur(
-                  sigmaX: 5.0, sigmaY: 5.0, tileMode: TileMode.decal),
-          child: GestureDetector(
-            onTap: () {
-              print(classExamModel.CLASS_ID);
-              print(classExamModel.CLASS_EXAM_ID);
+    return Stack(children: [
+      Container(
+          child: ImageFiltered(
+        imageFilter: classExamModel.IS_BUYED
+            ? ImageFilter.blur(sigmaX: 0, sigmaY: 0)
+            : ImageFilter.blur(
+                sigmaX: 5.0, sigmaY: 5.0, tileMode: TileMode.decal),
+        child: GestureDetector(
+          onTap: () {
+            print(classExamModel.CLASS_ID);
+            print(classExamModel.CLASS_EXAM_ID);
 
-              if (classExamModel.IS_BUYED) {
-                print("이미 구매한 정보");
-              } else {
-                Get.defaultDialog(
-                    title: "시험 정보 구매",
-                    middleText: "시험 정보를 구매하시겠습니까?",
-                    actions: [
-                      TextButton(
-                          onPressed: () async {
-                            Get.back();
-                            await classViewController.buyExamInfo(
-                                classExamModel.CLASS_ID,
-                                classExamModel.CLASS_EXAM_ID);
-                          },
-                          child: Text("네")),
-                      TextButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          child: Text("아니요")),
-                    ]);
-              }
-            },
-            child: Container(
-              margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8.0)),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //* 시험 종류
-                    Row(
-                      children: [
-                        Text(
-                          classExamModel.MID_FINAL != null
-                              ? "${classExamModel.MID_FINAL}"
-                              : "Unknown",
-                          style: const TextStyle(
-                              color: const Color(0xff2f2f2f),
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "NotoSansSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                        ),
-                        Spacer(),
-                        InkWell(
-                          onTap: () async {
-                            await classViewController.getExamLike(
-                                classExamModel.CLASS_ID,
-                                classExamModel.CLASS_EXAM_ID,
-                                index);
-                          },
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 4.0),
-                                child: Image.asset(
-                                  "assets/images/like_class.png",
-                                  height: 12.0,
-                                  width: 12.0,
-                                ),
+            if (classExamModel.IS_BUYED) {
+              print("이미 구매한 정보");
+            } else {
+              Get.defaultDialog(
+                  title: "시험 정보 구매",
+                  middleText: "시험 정보를 구매하시겠습니까?",
+                  actions: [
+                    TextButton(
+                        onPressed: () async {
+                          Get.back();
+                          await classViewController.buyExamInfo(
+                              classExamModel.CLASS_ID,
+                              classExamModel.CLASS_EXAM_ID);
+                        },
+                        child: Text("네")),
+                    TextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Text("아니요")),
+                  ]);
+            }
+          },
+          child: Container(
+            margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(8.0)),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //* 시험 종류
+                  Row(
+                    children: [
+                      Text(
+                        classExamModel.MID_FINAL != null
+                            ? "${classExamModel.MID_FINAL}"
+                            : "Unknown",
+                        style: const TextStyle(
+                            color: const Color(0xff2f2f2f),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                      ),
+                      Spacer(),
+                      InkWell(
+                        onTap: () async {
+                          await classViewController.getExamLike(
+                              classExamModel.CLASS_ID,
+                              classExamModel.CLASS_EXAM_ID,
+                              index);
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 4.0),
+                              child: Image.asset(
+                                "assets/images/like_class.png",
+                                height: 12.0,
+                                width: 12.0,
                               ),
-                              Text(
-                                classExamModel.LIKES.toString(),
-                                style: const TextStyle(
-                                    color: const Color(0xff4570ff),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "Roboto",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 12.0),
-                              )
-                            ],
-                          ),
+                            ),
+                            Text(
+                              classExamModel.LIKES.toString(),
+                              style: const TextStyle(
+                                  color: const Color(0xff4570ff),
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "Roboto",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 12.0),
+                            )
+                          ],
                         ),
-                      ],
-                    ),
-                    //* 학기 정보
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Text(
-                          classExamModel.CLASS_EXAM_YEAR.toString() +
-                              "年 " +
-                              semester(classExamModel.CLASS_EXAM_SEMESTER),
-                          style: const TextStyle(
-                              color: const Color(0xff6f6e6e),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "NotoSansSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left),
-                    ),
+                      ),
+                    ],
+                  ),
+                  //* 학기 정보
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(
+                        classExamModel.CLASS_EXAM_YEAR.toString() +
+                            "年 " +
+                            semester(classExamModel.CLASS_EXAM_SEMESTER),
+                        style: const TextStyle(
+                            color: const Color(0xff6f6e6e),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 12.0),
+                        textAlign: TextAlign.left),
+                  ),
 
-                    //* 시험 전략
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Text("考试攻略 :",
+                  //* 시험 전략
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Text("考试攻略 :",
+                              style: const TextStyle(
+                                  color: const Color(0xff2f2f2f),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 12.0),
+                              textAlign: TextAlign.left),
+                        ),
+                        classExamModel.TEST_STRATEGY != null
+                            ? Text(
+                                classExamModel.TEST_STRATEGY,
                                 style: const TextStyle(
-                                    color: const Color(0xff2f2f2f),
-                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xff6f6e6e),
+                                    fontWeight: FontWeight.w400,
                                     fontFamily: "NotoSansSC",
                                     fontStyle: FontStyle.normal,
                                     fontSize: 12.0),
-                                textAlign: TextAlign.left),
-                          ),
-                          classExamModel.TEST_STRATEGY != null
-                              ? Text(
-                                  classExamModel.TEST_STRATEGY,
-                                  style: const TextStyle(
-                                      color: const Color(0xff6f6e6e),
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "NotoSansSC",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 12.0),
-                                )
-                              : Text('')
-                        ],
-                      ),
+                              )
+                            : Text('')
+                      ],
                     ),
-                    //* 문제 유형
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Text(
-                              "考试类型 :",
-                              style: const TextStyle(
-                                  color: const Color(0xff2f2f2f),
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: "NotoSansSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 12.0),
-                            ),
+                  ),
+                  //* 문제 유형
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Text(
+                            "考试类型 :",
+                            style: const TextStyle(
+                                color: const Color(0xff2f2f2f),
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.0),
                           ),
-                          classExamModel.TEST_TYPE != null
-                              ? Text(
-                                  classExamModel.TEST_TYPE,
-                                  style: const TextStyle(
-                                      color: const Color(0xff6f6e6e),
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "NotoSansSC",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 12.0),
-                                )
-                              : Text('')
-                        ],
-                      ),
+                        ),
+                        classExamModel.TEST_TYPE != null
+                            ? Text(
+                                classExamModel.TEST_TYPE,
+                                style: const TextStyle(
+                                    color: const Color(0xff6f6e6e),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "NotoSansSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 12.0),
+                              )
+                            : Text('')
+                      ],
                     ),
-                    //* 시험 예시
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Text(
-                              "考试真题 :",
-                              style: const TextStyle(
-                                  color: const Color(0xff2f2f2f),
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: "NotoSansSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 12.0),
-                            ),
+                  ),
+                  //* 시험 예시
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Text(
+                            "考试真题 :",
+                            style: const TextStyle(
+                                color: const Color(0xff2f2f2f),
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.0),
                           ),
-                          Expanded(
-                            child: Container(
-                              // height: 54.0,
-                              child: classExamModel.TEST_EXAMPLE != null
-                                  ? ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount:
-                                          classExamModel.TEST_EXAMPLE.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 8.0),
-                                          child: classExamModel
-                                                      .TEST_EXAMPLE[index] !=
-                                                  null
-                                              ? Text(
-                                                  classExamModel
-                                                      .TEST_EXAMPLE[index],
-                                                  style: const TextStyle(
-                                                      color: const Color(
-                                                          0xff6f6e6e),
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontFamily: "NotoSansSC",
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontSize: 12.0),
-                                                )
-                                              : Text(''),
-                                        );
-                                        ;
-                                      })
-                                  : Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Text("There are no examples"),
-                                    ),
-                            ),
-                          )
-                        ],
-                      ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            // height: 54.0,
+                            child: classExamModel.TEST_EXAMPLE != null
+                                ? ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount:
+                                        classExamModel.TEST_EXAMPLE.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 8.0),
+                                        child: classExamModel
+                                                    .TEST_EXAMPLE[index] !=
+                                                null
+                                            ? Text(
+                                                classExamModel
+                                                    .TEST_EXAMPLE[index],
+                                                style: const TextStyle(
+                                                    color:
+                                                        const Color(0xff6f6e6e),
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: "NotoSansSC",
+                                                    fontStyle: FontStyle.normal,
+                                                    fontSize: 12.0),
+                                              )
+                                            : Text(''),
+                                      );
+                                      ;
+                                    })
+                                : Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: Text("There are no examples"),
+                                  ),
+                          ),
+                        )
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
-        )),
-        Positioned.fill(
-            child: Align(
-                alignment: Alignment.center,
-                child: Container(
-                    child: Text(
-                  classExamModel.IS_BUYED
-                      ? ""
-                      : '시험 정보를 구매해야 열람할 수 있습니다!\n' +
-                          '현재 내 포인트 : ${classInfoModel.MY_CLASS_POINT}',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      color: const Color(0xff2f2f2f),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
-                ))))
-      ]),
-    );
+        ),
+      )),
+      Positioned.fill(
+          child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                  child: Text(
+                classExamModel.IS_BUYED
+                    ? ""
+                    : '시험 정보를 구매해야 열람할 수 있습니다!\n' +
+                        '현재 내 포인트 : ${classInfoModel.MY_CLASS_POINT}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    color: const Color(0xff2f2f2f),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "NotoSansSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 12.0),
+              ))))
+    ]);
   }
 }
 
