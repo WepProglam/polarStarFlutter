@@ -383,155 +383,169 @@ class MainPageScroll extends StatelessWidget {
                                 ?
                                 //* 핫게
                                 GestureDetector(
-                                  // mainController.hotOrNewIndex.value 
-                                  onHorizontalDragUpdate: (details) {  
+                                    // mainController.hotOrNewIndex.value
+                                    onHorizontalDragUpdate: (details) {
                                       // Note: Sensitivity is integer used when you don't want to mess up vertical drag
                                       int sensitivity = 8;
                                       if (details.delta.dx > sensitivity) {
                                         mainController.hotOrNewIndex.value = 0;
+                                        mainController.hotNewTabController
+                                            .animateTo(0,
+                                                duration:
+                                                    Duration(milliseconds: 500),
+                                                curve: Curves.fastOutSlowIn);
                                         print("??");
-                                          // Right Swipe
-                                      } else if(details.delta.dx < -sensitivity){
+                                        // Right Swipe
+                                      } else if (details.delta.dx <
+                                          -sensitivity) {
                                         mainController.hotOrNewIndex.value = 1;
+                                        mainController.hotNewTabController
+                                            .animateTo(1,
+                                                duration:
+                                                    Duration(milliseconds: 500),
+                                                curve: Curves.fastOutSlowIn);
                                         print("!!");
-                                          //Left Swipe
+                                        //Left Swipe
                                       }
-                                  },
-                                  child:Column(children: [
-                                    Container(
-                                      // padding: const EdgeInsets.all(18),
-                                      margin: const EdgeInsets.fromLTRB(
-                                          20.0, 20.0, 20.0, 10.0),
-                                      child: Row(
+                                    },
+                                    child: Column(children: [
+                                      Container(
+                                        // padding: const EdgeInsets.all(18),
+                                        margin: const EdgeInsets.fromLTRB(
+                                            20.0, 20.0, 20.0, 10.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            // 热榜
+                                            Text("收集帖子",
+                                                style: const TextStyle(
+                                                    color:
+                                                        const Color(textColor),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: "NotoSansSC",
+                                                    fontStyle: FontStyle.normal,
+                                                    fontSize: 18.0),
+                                                textAlign: TextAlign.left),
+                                            InkWell(
+                                              onTap: () async {
+                                                searchText.clear();
+                                                searchFocusNode.unfocus();
+                                                await Get.toNamed(
+                                                        "/board/hot/page/1")
+                                                    .then((value) async {
+                                                  await MainUpdateModule
+                                                      .updateMainPage();
+                                                });
+                                              },
+                                              child: SeeMore(),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.start,
                                         children: [
-                                          // 热榜
-                                          Text("收集帖子",
-                                              style: const TextStyle(
-                                                  color: const Color(textColor),
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: "NotoSansSC",
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20.0, bottom: 13.0),
+                                            child: TabBar(
+                                              indicator: UnderlineTabIndicator(
+                                                borderSide: BorderSide(
+                                                    color:
+                                                        const Color(0xff4c74f6),
+                                                    width: 2.0),
+                                                insets: EdgeInsets.fromLTRB(
+                                                    3.0, 0.0, 3.0, 12.0),
+                                              ),
+                                              controller: mainController
+                                                  .hotNewTabController,
+                                              onTap: (index) {
+                                                mainController
+                                                    .hotOrNewIndex(index);
+                                                print(mainController
+                                                    .hotOrNewIndex);
+                                              },
+                                              indicatorColor:
+                                                  Get.theme.primaryColor,
+                                              isScrollable: true,
+                                              indicatorPadding: EdgeInsets.zero,
+                                              labelPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 6),
+                                              labelColor:
+                                                  const Color(0xff000000),
+                                              unselectedLabelColor:
+                                                  const Color(0xffd6d4d4),
+                                              labelStyle: const TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontFamily: "Roboto",
                                                   fontStyle: FontStyle.normal,
-                                                  fontSize: 18.0),
-                                              textAlign: TextAlign.left),
-                                          InkWell(
-                                            onTap: () async {
-                                              searchText.clear();
-                                              searchFocusNode.unfocus();
-                                              await Get.toNamed(
-                                                      "/board/hot/page/1")
-                                                  .then((value) async {
-                                                await MainUpdateModule
-                                                    .updateMainPage();
-                                              });
-                                            },
-                                            child: SeeMore(),
+                                                  fontSize: 14.0),
+                                              tabs: <Tab>[
+                                                Tab(
+                                                  text: "HOT",
+                                                ),
+                                                Tab(
+                                                  text: "NEW",
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 20.0, bottom: 13.0),
-                                          child: TabBar(
-                                            indicator: UnderlineTabIndicator(
-                                              borderSide: BorderSide(
-                                                  color:
-                                                      const Color(0xff4c74f6),
-                                                  width: 2.0),
-                                              insets: EdgeInsets.fromLTRB(
-                                                  3.0, 0.0, 3.0, 12.0),
-                                            ),
-                                            controller: mainController
-                                                .hotNewTabController,
-                                            onTap: (index) {
-                                              mainController
-                                                  .hotOrNewIndex(index);
-                                              print(
-                                                  mainController.hotOrNewIndex);
-                                            },
-                                            indicatorColor:
-                                                Get.theme.primaryColor,
-                                            isScrollable: true,
-                                            indicatorPadding: EdgeInsets.zero,
-                                            labelPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 6),
-                                            labelColor: const Color(0xff000000),
-                                            unselectedLabelColor:
-                                                const Color(0xffd6d4d4),
-                                            labelStyle: const TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontFamily: "Roboto",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 14.0),
-                                            tabs: <Tab>[
-                                              Tab(
-                                                text: "HOT",
-                                              ),
-                                              Tab(
-                                                text: "NEW",
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
 
-                                    Obx(() {
-                                      if (mainController.hotOrNewIndex.value ==
-                                          0) {
-                                        return Container(
-                                          width: size.width,
-                                          child: Container(
-                                            margin: const EdgeInsets.fromLTRB(
-                                                0, 0, 0, 0),
-                                            child: HotBoardMain(
-                                              size: size,
-                                              mainController: mainController,
-                                              searchFocusNode: searchFocusNode,
-                                              searchText: searchText,
-                                            ),
-                                          ),
-                                        );
-                                      } else {
-                                        return Container(
-                                          width: size.width,
-                                          child: Container(
+                                      Obx(() {
+                                        if (mainController
+                                                .hotOrNewIndex.value ==
+                                            0) {
+                                          return Container(
+                                            width: size.width,
+                                            child: Container(
                                               margin: const EdgeInsets.fromLTRB(
                                                   0, 0, 0, 0),
-                                              child: NewBoardMain(
+                                              child: HotBoardMain(
                                                 size: size,
                                                 mainController: mainController,
                                                 searchFocusNode:
                                                     searchFocusNode,
                                                 searchText: searchText,
-                                              )),
-                                        );
-                                      }
-                                    }),
-                                    // Container(
-                                    //   width: size.width,
-                                    //   child: Container(
-                                    //     margin: const EdgeInsets.fromLTRB(
-                                    //         0, 0, 0, 0),
-                                    //     child: HotBoardMain(
-                                    //       size: size,
-                                    //       mainController: mainController,
-                                    //       searchFocusNode: searchFocusNode,
-                                    //       searchText: searchText,
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                  ])
-
-                                )
-                                
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          return Container(
+                                            width: size.width,
+                                            child: Container(
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 0, 0),
+                                                child: NewBoardMain(
+                                                  size: size,
+                                                  mainController:
+                                                      mainController,
+                                                  searchFocusNode:
+                                                      searchFocusNode,
+                                                  searchText: searchText,
+                                                )),
+                                          );
+                                        }
+                                      }),
+                                      // Container(
+                                      //   width: size.width,
+                                      //   child: Container(
+                                      //     margin: const EdgeInsets.fromLTRB(
+                                      //         0, 0, 0, 0),
+                                      //     child: HotBoardMain(
+                                      //       size: size,
+                                      //       mainController: mainController,
+                                      //       searchFocusNode: searchFocusNode,
+                                      //       searchText: searchText,
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ]))
                                 : Container(),
 
                             // ClassItem(model: mainController.classList[0]),
