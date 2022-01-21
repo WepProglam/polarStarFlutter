@@ -8,6 +8,7 @@ mixin COMMUNITY_DB_HELPER implements DatabaseHelper {
   static final COLUMN_COMMUNITY_NAME = 'COMMUNITY_NAME';
   static final COLUMN_isFollowed = 'isFollowed';
   static final COLUMN_RECENT_TITLE = 'RECENT_TITLE';
+  static final COLUMN_RECENT_TIME = 'RECENT_TIME';
   static final table = "COMMUNITY";
 
   static Future<void> insert(BoardInfo board) async {
