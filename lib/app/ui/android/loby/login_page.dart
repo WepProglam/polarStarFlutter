@@ -96,6 +96,11 @@ class LoginInputs extends GetView<LoginController> {
                                   BorderRadius.all(Radius.circular(20)),
                               borderSide: BorderSide(
                                   color: const Color(0xffeaeaea), width: 1)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              borderSide: BorderSide(
+                                  color: const Color(0xffeaeaea), width: 1)),
                         ),
                       ),
                       Positioned.fill(
@@ -177,6 +182,12 @@ class LoginInputs extends GetView<LoginController> {
                                 borderSide: BorderSide(
                                     color: const Color(0xffeaeaea), width: 1),
                               ),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20)),
+                                  borderSide: BorderSide(
+                                      color: const Color(0xffeaeaea),
+                                      width: 1)),
                             ),
                           )),
                       Positioned.fill(
