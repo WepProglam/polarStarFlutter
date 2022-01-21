@@ -189,7 +189,8 @@ class InitController extends GetxController {
 
   Future<void> getChatBox() async {
     var response = await Session().getX("/chat/chatBox");
-    Iterable chatBoxList = jsonDecode(response.body);
+    var jsonResponse = jsonDecode(response.body);
+    Iterable chatBoxList = jsonResponse["classChatBox"];
     chatBox.value =
         chatBoxList.map((e) => ChatBoxModel.fromJson(e).obs).toList().obs;
     box.remove("classSocket");
