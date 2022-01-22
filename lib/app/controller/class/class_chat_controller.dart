@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -103,6 +105,10 @@ class ClassChatController extends GetxController {
     chatScrollController = ScrollController(initialScrollOffset: 0.0);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      // Timer(Duration(milliseconds: 1000), () {
+      //   chatScrollController
+      //       .jumpTo(chatScrollController.position.maxScrollExtent);
+      // });
       chatScrollController
           .jumpTo(chatScrollController.position.maxScrollExtent);
     });
