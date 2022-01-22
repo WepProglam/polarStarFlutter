@@ -231,7 +231,7 @@ class ClassChatHistory extends StatelessWidget {
                   itemCount: initController
                       .chatBox[chatIndex].value.ClassChatList.length,
                   scrollDirection: Axis.vertical,
-                  padding: EdgeInsets.only(top: 24, bottom: 60 + 6.0),
+                  padding: EdgeInsets.only(top: 24, bottom: 6.0),
                   itemBuilder: (context, index) {
                     Rx<ClassChatModel> model = initController
                         .chatBox[chatIndex].value.ClassChatList[index];
@@ -371,6 +371,98 @@ class ClassChatHistory extends StatelessWidget {
                         ));
                   },
                 ),
+                Container(
+                  height: 60,
+                  decoration: BoxDecoration(color: const Color(0xffe6f1ff)),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 40,
+                        margin: const EdgeInsets.only(left: 20, right: 20),
+                        width: Get.mediaQuery.size.width - 20 - 20,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(18)),
+                            border: Border.all(
+                                color: const Color(0xffeaeaea), width: 1),
+                            color: const Color(0xffffffff)),
+                        child: Row(children: [
+                          Container(
+                            margin: const EdgeInsets.only(left: 24),
+                            width:
+                                Get.mediaQuery.size.width - 20 - 20 - 32 - 24,
+                            child: GestureDetector(
+                              onTap: () {
+                                initController.chatScrollController.jumpTo(
+                                    initController.chatScrollController.position
+                                        .maxScrollExtent);
+                              },
+                              child: TextFormField(
+                                  keyboardType: TextInputType.multiline,
+                                  onTap: () async {},
+                                  onEditingComplete: () async {
+                                    // initController
+                                    //     .sendMessage(commentWriteController.text);
+                                    // commentWriteController.clear();
+
+                                    // double max_hight = initController
+                                    //     .chatScrollController
+                                    //     .value
+                                    //     .position
+                                    //     .maxScrollExtent;
+
+                                    // initController.chatScrollController.value
+                                    //     .jumpTo(max_hight);
+                                  },
+                                  maxLines: 1,
+                                  controller: commentWriteController,
+                                  style: const TextStyle(
+                                      color: const Color(0xff2f2f2f),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "NotoSansSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  onFieldSubmitted: (value) {},
+                                  textInputAction: TextInputAction.done,
+                                  decoration: InputDecoration(
+                                    hintText: "你好吗，麦克斯？",
+                                    border: InputBorder.none,
+                                    hintStyle: const TextStyle(
+                                        color: const Color(0xff9b9b9b),
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14.0),
+                                  )),
+                            ),
+                          ),
+                          InkWell(
+                              child: // 타원 20
+                                  Container(
+                                      width: 28,
+                                      height: 28,
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.arrow_upward,
+                                          color: const Color(0xffffffff),
+                                        ),
+                                      ),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Get.theme.primaryColor,
+                                      )),
+                              onTap: () async {
+                                String text = commentWriteController.text;
+                                initController
+                                    .sendMessage(commentWriteController.text);
+
+                                commentWriteController.clear();
+                              }),
+                        ]),
+                      ),
+                    ],
+                  ),
+                ),
               ]),
             );
           } else {
@@ -380,113 +472,7 @@ class ClassChatHistory extends StatelessWidget {
           }
         }),
         //입력창
-        bottomSheet: Container(
-          height: 60,
-          decoration: BoxDecoration(color: const Color(0xffe6f1ff)),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                height: 40,
-                margin: const EdgeInsets.only(left: 20, right: 20),
-                width: Get.mediaQuery.size.width - 20 - 20,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(18)),
-                    border:
-                        Border.all(color: const Color(0xffeaeaea), width: 1),
-                    color: const Color(0xffffffff)),
-                child: Row(children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 24),
-                    width: Get.mediaQuery.size.width - 20 - 20 - 32 - 24,
-                    child: GestureDetector(
-                      onTap: () {
-                        initController.chatScrollController.jumpTo(
-                            initController
-                                .chatScrollController.position.maxScrollExtent);
-                      },
-                      child: TextFormField(
-                          keyboardType: TextInputType.multiline,
-                          onTap: () async {
-                            // * jumpto
-                            // await Future.delayed(Duration(milliseconds: 1000));
-                            // initController.chatScrollController.jumpTo(
-                            //   initController.chatScrollController.position
-                            //       .maxScrollExtent,
-                            // );
-
-                            // * animate to
-                            // // controller.chatScrollController.jumpTo(controller
-                            // //     .chatScrollController.position.maxScrollExtent);
-                            // await Future.delayed(Duration(milliseconds: 1000));
-                            // initController.chatScrollController.animateTo(
-                            //     initController.chatScrollController.position
-                            //         .maxScrollExtent,
-                            //     duration: Duration(milliseconds: 1000),
-                            //     curve: Curves.fastOutSlowIn);
-                          },
-                          onEditingComplete: () async {
-                            // initController
-                            //     .sendMessage(commentWriteController.text);
-                            // commentWriteController.clear();
-
-                            // double max_hight = initController
-                            //     .chatScrollController
-                            //     .value
-                            //     .position
-                            //     .maxScrollExtent;
-
-                            // initController.chatScrollController.value
-                            //     .jumpTo(max_hight);
-                          },
-                          maxLines: 1,
-                          controller: commentWriteController,
-                          style: const TextStyle(
-                              color: const Color(0xff2f2f2f),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "NotoSansSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          onFieldSubmitted: (value) {},
-                          textInputAction: TextInputAction.done,
-                          decoration: InputDecoration(
-                            hintText: "你好吗，麦克斯？",
-                            border: InputBorder.none,
-                            hintStyle: const TextStyle(
-                                color: const Color(0xff9b9b9b),
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14.0),
-                          )),
-                    ),
-                  ),
-                  InkWell(
-                      child: // 타원 20
-                          Container(
-                              width: 28,
-                              height: 28,
-                              child: Center(
-                                child: Icon(
-                                  Icons.arrow_upward,
-                                  color: const Color(0xffffffff),
-                                ),
-                              ),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Get.theme.primaryColor,
-                              )),
-                      onTap: () async {
-                        String text = commentWriteController.text;
-                        initController.sendMessage(commentWriteController.text);
-
-                        commentWriteController.clear();
-                      }),
-                ]),
-              ),
-            ],
-          ),
-        ),
+        // bottomSheet:
       ),
     );
   }
