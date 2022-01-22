@@ -28,6 +28,22 @@ var inputDecoration = (hint) => InputDecoration(
         fontSize: 14.0),
     hintText: "${hint}");
 
+var addTimetablenputDecoration = (hint) => InputDecoration(
+    isDense: true,
+    border: InputBorder.none,
+    focusedBorder: InputBorder.none,
+    enabledBorder: InputBorder.none,
+    errorBorder: InputBorder.none,
+    disabledBorder: InputBorder.none,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+    hintStyle: const TextStyle(
+        color: const Color(0xff9b9b9b),
+        fontWeight: FontWeight.w400,
+        fontFamily: "NotoSansSC",
+        fontStyle: FontStyle.normal,
+        fontSize: 14.0),
+    hintText: "${hint}");
+
 const textStyle = const TextStyle(
     color: Colors.black,
     fontWeight: FontWeight.w400,

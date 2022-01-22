@@ -32,53 +32,40 @@ class TimeTableAdd extends StatelessWidget {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          backgroundColor: const Color(0xfff6f6f6),
-          body: SingleChildScrollView(
+          appBar: AppBar(
+            elevation: 0,
+            toolbarHeight: 56,
+            automaticallyImplyLeading: false,
+            titleSpacing: 0,
+            title: Container(
               child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 30.5,
-                  child: Container(
-                    child: Row(
-                      children: [
-                        // 패스 844
-                        Container(
-                          margin: const EdgeInsets.only(top: 6.5, bottom: 7.3),
-                          padding: const EdgeInsets.only(right: 14.6),
-                          child: InkWell(
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: Image.asset("assets/images/891.png"),
-                          ),
+                child: Stack(children: [
+                  Row(
+                    children: [
+                      Ink(
+                        child: InkWell(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Image.asset(
+                                "assets/images/back_icon.png",
+                                width: 24,
+                                height: 24,
+                              )),
                         ),
-                        Container(
-                          width: 145.5,
+                      ),
+                      Spacer(),
+
+                      // 사각형 4
+                      Container(
+                          width: 52,
                           height: 28,
-                          margin: const EdgeInsets.only(bottom: 2.5),
-                          child: Text("Add Timetable",
-                              style: const TextStyle(
-                                  color: const Color(0xff333333),
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: "PingFangSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 21.0),
-                              textAlign: TextAlign.left),
-                        ),
-                        Spacer(),
-                        Container(
-                            margin: const EdgeInsets.only(top: 2.5),
-                            height: 28,
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(28)),
-                                color: const Color(0xffdceafa)),
-                            child: // 사각형 409
-                                // complete
-                                InkWell(
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Ink(
+                            child: InkWell(
                               onTap: () async {
                                 await timeTableController.createTimeTable(
                                     timeTableController.createYear.value,
@@ -87,52 +74,67 @@ class TimeTableAdd extends StatelessWidget {
 
                                 Get.until((route) =>
                                     Get.currentRoute == Routes.MAIN_PAGE);
-
-                                // Get.snackbar("complete", "complete");
                               },
-                              child: Container(
-                                height: 28,
-                                width: 74.5,
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                      top: 4, bottom: 5.5, left: 7.5, right: 7),
-                                  child: FittedBox(
-                                    child: Text("Complete",
-                                        style: const TextStyle(
-                                            color: const Color(0xff1a4678),
-                                            fontWeight: FontWeight.w900,
-                                            fontFamily: "PingFangSC",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 14.0),
-                                        textAlign: TextAlign.center),
-                                  ),
-                                ),
+                              child: Center(
+                                child: Text("张榜",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        color: Get.theme.primaryColor,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 12.0),
+                                    textAlign: TextAlign.right),
                               ),
-                            ))
-                      ],
-                    ),
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(14)),
+                              border: Border.all(
+                                  color: const Color(0xff99bbf9), width: 1),
+                              color: const Color(0xffffffff))),
+                    ],
                   ),
-                ),
+                  Center(
+                    child: Text("创建新时间表",
+                        style: const TextStyle(
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 16.0),
+                        textAlign: TextAlign.center),
+                  )
+                ]),
+              ),
+            ),
+          ),
+          backgroundColor: const Color(0xfff6f6f6),
+          body: SingleChildScrollView(
+              child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Container(
-                  margin: const EdgeInsets.only(top: 19),
-                  height: 67.1,
+                  margin: const EdgeInsets.only(top: 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 21.5,
-                        margin: const EdgeInsets.only(bottom: 12),
-                        child: Text("Schedule name",
-                            style: const TextStyle(
-                                color: const Color(0xff333333),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0),
-                            textAlign: TextAlign.center),
+                        child: // 时间表名称
+                            Text("时间表名称",
+                                style: const TextStyle(
+                                    color: const Color(0xff6f6e6e),
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "NotoSansSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                textAlign: TextAlign.left),
                       ),
                       Container(
-                        height: 18.5,
+                        margin: const EdgeInsets.only(top: 10),
                         child: TextFormField(
                           key: _formKey,
                           onChanged: (value) {
@@ -141,35 +143,36 @@ class TimeTableAdd extends StatelessWidget {
                           maxLines: 1,
                           style: textStyle,
                           textAlign: TextAlign.left,
-                          decoration: inputDecoration("schedule"),
+                          decoration: addTimetablenputDecoration("请输入说明."),
                         ),
                       ),
-                      // 선 41
+                      // 선 83
                       Container(
-                          height: 0.5,
-                          margin: const EdgeInsets.only(top: 14.3),
+                          margin: const EdgeInsets.only(top: 7.5),
+                          height: 1,
                           decoration:
-                              BoxDecoration(color: const Color(0xffdedede)))
+                              BoxDecoration(color: const Color(0xffeaeaea)))
                     ],
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 12.3),
+                  margin: const EdgeInsets.only(top: 23.5),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        child: Text("Semester",
-                            style: const TextStyle(
-                                color: const Color(0xff333333),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0),
-                            textAlign: TextAlign.center),
+                        child: // 教学名
+                            Text("教学名",
+                                style: const TextStyle(
+                                    color: const Color(0xff6f6e6e),
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "NotoSansSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                textAlign: TextAlign.left),
                       ),
                       Container(
+                          margin: const EdgeInsets.only(top: 10),
                           child: // Please enter a schedule name
                               SelectSem(
                                   formKeyDrop: _formKeyDrop,
@@ -177,7 +180,7 @@ class TimeTableAdd extends StatelessWidget {
                       // 선 41
                       Container(
                           height: 0.5,
-                          margin: const EdgeInsets.only(top: 14.3),
+                          margin: const EdgeInsets.only(top: 7.5),
                           decoration:
                               BoxDecoration(color: const Color(0xffdedede)))
                     ],
@@ -213,18 +216,19 @@ class SelectSem extends StatelessWidget {
           icon: Container(
             height: 18.5,
             child: Container(
-              width: 10.682647705078125,
-              height: 5.931396484375,
+              width: 10,
+              height: 5,
               margin: const EdgeInsets.only(top: 10, bottom: 2.6, right: 6.6),
-              child: Image.asset("assets/images/940.png"),
+              child: Image.asset(
+                "assets/images/940.png",
+                color: Get.theme.primaryColor,
+              ),
             ),
           ),
           onTap: () {
             FocusManager.instance.primaryFocus?.unfocus();
           },
           onChanged: (value) {
-            print("변경 _ ${value}");
-
             bool isNormal = setCreateNormal(value.split("년 ")[1])[0];
             String sem = setCreateNormal(value.split("년 ")[1])[1];
 
@@ -246,9 +250,9 @@ class SelectSem extends StatelessWidget {
                         child: Text(
                       "${element}",
                       style: const TextStyle(
-                          color: Colors.black,
+                          color: const Color(0xff9b9b9b),
                           fontWeight: FontWeight.w400,
-                          fontFamily: "PingFangSC",
+                          fontFamily: "NotoSansSC",
                           fontStyle: FontStyle.normal,
                           fontSize: 14.0),
                     )),
