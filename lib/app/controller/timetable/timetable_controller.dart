@@ -260,6 +260,14 @@ class TimeTableController extends GetxController {
           break;
       }
     } else {
+      for (SelectedTimeTableModel item in selectTableList) {
+        if (item.YEAR == int.parse(YEAR) &&
+            item.SEMESTER == int.parse(SEMESTER)) {
+          selectedTimeTableId.value = item.TIMETABLE_ID;
+
+          break;
+        }
+      }
       status_code = 200;
     }
     return status_code;
