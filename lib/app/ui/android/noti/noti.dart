@@ -246,6 +246,16 @@ class MailBody extends StatelessWidget {
           : Container(
               width: 16,
               height: 16,
+              child: Center(
+                child: Text("N",
+                    style: const TextStyle(
+                        color: const Color(0xffffffff),
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "Roboto",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 9.0),
+                    textAlign: TextAlign.left),
+              ),
               decoration: BoxDecoration(
                   shape: BoxShape.circle, color: Get.theme.primaryColor),
             )
@@ -573,87 +583,95 @@ class NotiPreview extends StatelessWidget {
         onTap: () async {
           await checkNoti(notiController, index);
         },
-        child: Container(
-            height: 80,
+        child: Obx(() {
+          RxBool isReaded = notiController.noties[index].value.isReaded.obs;
+          return Container(
+            decoration: BoxDecoration(
+                color: isReaded.value ? Color(0xfff7fbff) : Color(0xffffffff)),
             child: Container(
-              margin: const EdgeInsets.only(left: 14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    child: Obx(() {
-                      RxBool isReaded =
-                          notiController.noties[index].value.isReaded.obs;
-                      return Row(children: [
-                        Text("${title.value}",
+              child: Column(children: [
+                Container(
+                  margin: const EdgeInsets.only(left: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        child: Obx(() {
+                          return Row(children: [
+                            Text("${title.value}",
+                                maxLines: 1,
+                                style: const TextStyle(
+                                    color: const Color(0xff2f2f2f),
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "NotoSansSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                textAlign: TextAlign.left),
+                            // Rectangle 7
+                            isReaded.value
+                                ? Container()
+                                : Container(
+                                    width: 38,
+                                    height: 18,
+                                    child: Center(
+                                      child: // New
+                                          Text("New",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xffffffff),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "Roboto",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 10.0),
+                                              textAlign: TextAlign.left),
+                                    ),
+                                    margin: const EdgeInsets.only(
+                                        top: 1.5, bottom: 1.5, left: 8),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15)),
+                                        color: Get.theme.primaryColor)),
+                            Spacer(),
+                            Container(
+                              margin: const EdgeInsets.only(right: 20),
+                              child: Text("${dateTime.value}",
+                                  style: const TextStyle(
+                                      color: const Color(0xff6f6e6e),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "Roboto",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12.0),
+                                  textAlign: TextAlign.left),
+                            )
+                          ]);
+                        }),
+                      ),
+                      // 恭喜你上热棒了：大家这次期末考的怎么样啊？
+                      Container(
+                        margin: const EdgeInsets.only(top: 2),
+                        child: Text("${content.value}",
                             maxLines: 1,
                             style: const TextStyle(
-                                color: const Color(0xff2f2f2f),
-                                fontWeight: FontWeight.w500,
+                                color: const Color(0xff6f6e6e),
+                                fontWeight: FontWeight.w400,
                                 fontFamily: "NotoSansSC",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 14.0),
+                                fontSize: 12.0),
                             textAlign: TextAlign.left),
-                        // Rectangle 7
-                        isReaded.value
-                            ? Container()
-                            : Container(
-                                width: 38,
-                                height: 18,
-                                child: Center(
-                                  child: // New
-                                      Text("New",
-                                          style: const TextStyle(
-                                              color: const Color(0xffffffff),
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: "Roboto",
-                                              fontStyle: FontStyle.normal,
-                                              fontSize: 10.0),
-                                          textAlign: TextAlign.left),
-                                ),
-                                margin: const EdgeInsets.only(
-                                    top: 1.5, bottom: 1.5, left: 8),
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
-                                    color: Get.theme.primaryColor)),
-                        Spacer(),
-                        Container(
-                          margin: const EdgeInsets.only(right: 20),
-                          child: Text("${dateTime.value}",
-                              style: const TextStyle(
-                                  color: const Color(0xff6f6e6e),
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "Roboto",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 12.0),
-                              textAlign: TextAlign.left),
-                        )
-                      ]);
-                    }),
+                      ),
+                    ],
                   ),
-                  // 恭喜你上热棒了：大家这次期末考的怎么样啊？
-                  Container(
-                    margin: const EdgeInsets.only(top: 2),
-                    child: Text("${content.value}",
-                        maxLines: 1,
-                        style: const TextStyle(
-                            color: const Color(0xff6f6e6e),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "NotoSansSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 12.0),
-                        textAlign: TextAlign.left),
-                  ),
-                ],
-              ),
+                ),
+                // 선 21
+                Container(
+                    height: 1,
+                    margin: const EdgeInsets.only(top: 20),
+                    decoration: BoxDecoration(color: const Color(0xffeaeaea)))
+              ]),
             ),
-            margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-                border: Border.all(color: const Color(0xffeaeaea), width: 1),
-                color: const Color(0xffffffff))),
+          );
+        }),
       ),
     );
   }
