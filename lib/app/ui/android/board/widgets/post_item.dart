@@ -141,12 +141,20 @@ class PostBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isNotBoard = true;
+    if (Get.currentRoute.contains("board") &&
+        Get.currentRoute.contains("read")) {
+      isNotBoard = false;
+    }
+    print(Get.currentRoute);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // 제목
         Container(
           child: Text("${item.value.TITLE}",
+              maxLines: isNotBoard ? 1 : null,
+              overflow: isNotBoard ? TextOverflow.ellipsis : null,
               style: const TextStyle(
                   color: const Color(0xff2f2f2f),
                   fontWeight: FontWeight.w500,
@@ -158,6 +166,8 @@ class PostBody extends StatelessWidget {
         // 내용
         Container(
           child: Text("${item.value.CONTENT}",
+              maxLines: isNotBoard ? 3 : null,
+              overflow: isNotBoard ? TextOverflow.ellipsis : null,
               style: const TextStyle(
                   color: const Color(0xff6f6e6e),
                   fontWeight: FontWeight.w400,

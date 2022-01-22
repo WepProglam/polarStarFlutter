@@ -176,9 +176,6 @@ class Board extends StatelessWidget {
                                         });
                                       },
                                       child: PostWidget(
-                                        c: null,
-                                        mailWriteController: null,
-                                        mailController: null,
                                         item: controller.postBody[index],
                                         index: index,
                                         mainController: mainController,

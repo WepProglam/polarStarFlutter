@@ -164,20 +164,13 @@ class ClassChatHistory extends StatelessWidget {
         ),
         body: Obx(() {
           if (controller.dataAvailble.value) {
-            if (controller.chatScrollController.hasClients) {
-              Timer(Duration(milliseconds: 100), () {
-                controller.chatScrollController.jumpTo(
-                    controller.chatScrollController.position.maxScrollExtent);
-              });
-            }
-
-            // WidgetsBinding.instance.addPostFrameCallback((_) {
-            //   controller.chatScrollController.jumpTo(
-            //       controller.chatScrollController.position.maxScrollExtent);
-            // });
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              initController.chatScrollController.jumpTo(
+                  initController.chatScrollController.position.maxScrollExtent);
+            });
 
             return SingleChildScrollView(
-              controller: controller.chatScrollController,
+              controller: initController.chatScrollController,
               child: Column(children: [
                 ListView.separated(
                   separatorBuilder: (BuildContext context, int index) {
@@ -238,7 +231,7 @@ class ClassChatHistory extends StatelessWidget {
                   itemCount: initController
                       .chatBox[chatIndex].value.ClassChatList.length,
                   scrollDirection: Axis.vertical,
-                  padding: EdgeInsets.only(top: 24, bottom: 75),
+                  padding: EdgeInsets.only(top: 24, bottom: 60 + 6.0),
                   itemBuilder: (context, index) {
                     Rx<ClassChatModel> model = initController
                         .chatBox[chatIndex].value.ClassChatList[index];
@@ -408,20 +401,29 @@ class ClassChatHistory extends StatelessWidget {
                     width: Get.mediaQuery.size.width - 20 - 20 - 32 - 24,
                     child: GestureDetector(
                       onTap: () {
-                        controller.chatScrollController.jumpTo(controller
-                            .chatScrollController.position.maxScrollExtent);
+                        initController.chatScrollController.jumpTo(
+                            initController
+                                .chatScrollController.position.maxScrollExtent);
                       },
                       child: TextFormField(
                           keyboardType: TextInputType.multiline,
                           onTap: () async {
-                            // controller.chatScrollController.jumpTo(controller
-                            //     .chatScrollController.position.maxScrollExtent);
-                            await Future.delayed(Duration(milliseconds: 1000));
-                            controller.chatScrollController.animateTo(
-                                controller.chatScrollController.position
-                                    .maxScrollExtent,
-                                duration: Duration(milliseconds: 1000),
-                                curve: Curves.fastOutSlowIn);
+                            // * jumpto
+                            // await Future.delayed(Duration(milliseconds: 1000));
+                            // initController.chatScrollController.jumpTo(
+                            //   initController.chatScrollController.position
+                            //       .maxScrollExtent,
+                            // );
+
+                            // * animate to
+                            // // controller.chatScrollController.jumpTo(controller
+                            // //     .chatScrollController.position.maxScrollExtent);
+                            // await Future.delayed(Duration(milliseconds: 1000));
+                            // initController.chatScrollController.animateTo(
+                            //     initController.chatScrollController.position
+                            //         .maxScrollExtent,
+                            //     duration: Duration(milliseconds: 1000),
+                            //     curve: Curves.fastOutSlowIn);
                           },
                           onEditingComplete: () async {
                             // initController

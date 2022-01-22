@@ -49,8 +49,6 @@ class ClassChatController extends GetxController {
   RxBool dataAvailble = false.obs;
   RxList<ClassChatModel> chatHistory = <ClassChatModel>[].obs;
 
-  ScrollController chatScrollController;
-
   // Future<void> registerSocket() async {
   //   String currentSocketRoom = roomID.value;
   //   print("socketting function start : roomID - ${currentSocketRoom}");
@@ -102,16 +100,15 @@ class ClassChatController extends GetxController {
     // roomID.value = Get.arguments["roomID"];
     // print("controller init : room ID = ${roomID.value}");
     // print("controller init : ${classChatSocket.connected}");
-    chatScrollController = ScrollController(initialScrollOffset: 0.0);
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      // Timer(Duration(milliseconds: 1000), () {
-      //   chatScrollController
-      //       .jumpTo(chatScrollController.position.maxScrollExtent);
-      // });
-      chatScrollController
-          .jumpTo(chatScrollController.position.maxScrollExtent);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   // Timer(Duration(milliseconds: 1000), () {
+    //   //   chatScrollController
+    //   //       .jumpTo(chatScrollController.position.maxScrollExtent);
+    //   // });
+    //   chatScrollController
+    //       .jumpTo(chatScrollController.position.maxScrollExtent);
+    // });
 
     // SchedulerBinding.instance.addPostFrameCallback((_) {
     //  chatScrollController

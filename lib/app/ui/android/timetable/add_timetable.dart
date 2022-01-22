@@ -110,7 +110,7 @@ class TimeTableAdd extends StatelessWidget {
               ),
             ),
           ),
-          backgroundColor: const Color(0xfff6f6f6),
+          backgroundColor: const Color(0xffffffff),
           body: SingleChildScrollView(
               child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),

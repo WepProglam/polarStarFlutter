@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_chat_model.dart';
 
 import 'package:polarstar_flutter/app/data/model/login_model.dart';
@@ -23,6 +24,8 @@ class InitController extends GetxController {
   RxInt mainPageIndex = 0.obs;
   RxList<Rx<ChatBoxModel>> chatBox = <Rx<ChatBoxModel>>[].obs;
   RxInt currentClassID = 0.obs;
+
+  ScrollController chatScrollController;
 
   Future<String> checkFcmToken() async {
     String FcmToken;
@@ -138,10 +141,7 @@ class InitController extends GetxController {
     });
 
     classChatSocket.on("newMessage", (data) async {
-      print("newMessage called ${data}");
       Rx<ClassChatModel> chat = ClassChatModel.fromJson(data).obs;
-      print(chat.value.CLASS_ID);
-      print(" ???? : ${chatBox}");
 
       for (Rx<ChatBoxModel> item in chatBox) {
         if (item.value.CLASS_ID == chat.value.CLASS_ID) {
@@ -253,9 +253,16 @@ class InitController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    chatScrollController = ScrollController(initialScrollOffset: 0.0);
+
     ever(chatBox, (_) {
       print("char box ${chatBox}");
     });
+
+    // SchedulerBinding.instance.addPostFrameCallback((_) {
+    //   chatScrollController
+    //       .jumpTo(chatScrollController.position.maxScrollExtent);
+    // });
 
     // ever(chatScrollController, (_) {
     //   print("has client!");
