@@ -249,7 +249,7 @@ class TimeTableController extends GetxController {
           status_code = 200;
           break;
         case 404:
-          Get.snackbar("없는 시간표", "없는 시간표");
+          // Get.snackbar("없는 시간표", "없는 시간표");
           status_code = 404;
 
           break;
@@ -259,6 +259,8 @@ class TimeTableController extends GetxController {
           status_code = 404;
           break;
       }
+    } else {
+      status_code = 200;
     }
     return status_code;
 

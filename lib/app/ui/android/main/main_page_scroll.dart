@@ -605,61 +605,9 @@ class MainPageScroll extends StatelessWidget {
                                                           height: 40,
                                                           child: InkWell(
                                                             onTap: () async {
-                                                              Get.defaultDialog(
-                                                                  title:
-                                                                      "Really Add Class?",
-                                                                  titlePadding: const EdgeInsets
-                                                                          .only(
-                                                                      top: 20.0,
-                                                                      bottom:
-                                                                          10.0),
-                                                                  contentPadding:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                              top: 10.0),
-                                                                  content: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      TextButton(
-                                                                          onPressed:
-                                                                              () async {
-                                                                            searchText.clear();
-                                                                            searchFocusNode.unfocus();
-                                                                            putController<TimeTableController>();
-                                                                            final box =
-                                                                                GetStorage();
-                                                                            TimeTableController
-                                                                                tc =
-                                                                                Get.find();
-                                                                            int stc =
-                                                                                await tc.getSemesterTimeTable(
-                                                                              "${box.read("year_sem")["TIMETABLE_YEAR_FROM_DATE"]}",
-                                                                              "${box.read("year_sem")["TIMETABLE_SEMESTER_FROM_DATE"]}",
-                                                                            );
-                                                                            if (stc ==
-                                                                                200) {
-                                                                              await Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN).then((value) async {
-                                                                                await MainUpdateModule.updateMainPage();
-                                                                              });
-                                                                            } else {
-                                                                              await Get.toNamed(Routes.TIMETABLE_ADDTIMETABLE).then((value) async {
-                                                                                await MainUpdateModule.updateMainPage();
-                                                                              });
-                                                                            }
-                                                                          },
-                                                                          child:
-                                                                              Text("YES")),
-                                                                      TextButton(
-                                                                          onPressed:
-                                                                              () {
-                                                                            Get.back();
-                                                                          },
-                                                                          child:
-                                                                              Text("NO")),
-                                                                    ],
-                                                                  ));
+                                                              CreateNewTimetable(
+                                                                  searchText,
+                                                                  searchFocusNode);
                                                             },
                                                             child: Image.asset(
                                                                 "assets/images/941.png"),
@@ -703,6 +651,52 @@ class MainPageScroll extends StatelessWidget {
         }),
       ),
     );
+  }
+}
+
+void CreateNewTimetable(
+    TextEditingController searchText, FocusNode searchFocusNode) async {
+  putController<TimeTableController>();
+  final box = GetStorage();
+  TimeTableController tc = Get.find();
+  int stc = await tc.getSemesterTimeTable(
+    "${box.read("year_sem")["TIMETABLE_YEAR_FROM_DATE"]}",
+    "${box.read("year_sem")["TIMETABLE_SEMESTER_FROM_DATE"]}",
+  );
+  if (stc != 200) {
+    await Get.defaultDialog(
+        title: "현재 학기의 시간표가 없습니다.",
+        titlePadding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
+        contentPadding: EdgeInsets.only(top: 10.0),
+        content: Column(children: [
+          Text("2022년 1학기 시간표를 생성하시겠습니까?"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                  onPressed: () async {
+                    Get.back();
+                    searchText.clear();
+                    searchFocusNode.unfocus();
+
+                    await Get.toNamed(Routes.TIMETABLE_ADDTIMETABLE)
+                        .then((value) async {
+                      await MainUpdateModule.updateMainPage();
+                    });
+                  },
+                  child: Text("YES")),
+              TextButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Text("NO")),
+            ],
+          ),
+        ]));
+  } else {
+    await Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN).then((value) async {
+      await MainUpdateModule.updateMainPage();
+    });
   }
 }
 

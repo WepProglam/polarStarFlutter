@@ -13,7 +13,5 @@ class ClassChatBinding implements Bindings {
     Get.put(ClassChatController());
     InitController initController = Get.find();
     initController.currentClassID.value = int.parse(Get.arguments["roomID"]);
-    print("====================================");
-    print(initController.currentClassID.value);
   }
 }

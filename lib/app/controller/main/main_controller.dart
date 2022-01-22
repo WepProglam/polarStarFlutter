@@ -19,6 +19,7 @@ import 'package:polarstar_flutter/app/data/provider/sqflite/src/db_community.dar
 import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
+import 'package:polarstar_flutter/session.dart';
 
 class MainController extends GetxController with SingleGetTickerProviderMixin {
   final MainRepository repository;
@@ -44,6 +45,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   RxList<ClassModel> classList = <ClassModel>[].obs;
 
   RxBool isLikeScrapUpdate = false.obs;
+  // RxBool isCurSemTimetableExist = false.obs;
 
   RxBool _dataAvailable = false.obs;
   RxInt mainPageIndex = 0.obs;
@@ -184,6 +186,17 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     }
   }
 
+  // Future<void> getCurSemTimetableExist() async {
+  //   int curYear = box.read("year_sem")["TIMETABLE_YEAR_FROM_DATE"];
+  //   int curSem = box.read("year_sem")["TIMETABLE_SEMESTER_FROM_DATE"];
+  //   final value = await Session().getX("/timetable/${curYear}/${curSem}");
+  //   if (value.statusCode != 200) {
+  //     isCurSemTimetableExist.value = false;
+  //   } else {
+  //     isCurSemTimetableExist.value = true;
+  //   }
+  // }
+
   Future<void> getBoardInfo() async {
     final value = await repository.getBoardInfo(followingCommunity);
     await getNewBoard();
@@ -315,6 +328,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     super.onInit();
     await getFollowingCommunity();
     await getBoardInfo();
+    // await getCurSemTimetableExist();
 
     hotNewTabController = await TabController(vsync: this, length: 2);
 

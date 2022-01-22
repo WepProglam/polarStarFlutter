@@ -170,33 +170,8 @@ class Class extends StatelessWidget {
                               Ink(
                                   child: InkWell(
                                     onTap: () async {
-                                      searchFocusNode.unfocus();
-
-                                      Get.defaultDialog(
-                                          title: "Really Add Class?",
-                                          titlePadding: const EdgeInsets.only(
-                                              top: 20.0, bottom: 10.0),
-                                          content: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              TextButton(
-                                                  onPressed: () async {
-                                                    await Get.toNamed(Routes
-                                                            .TIMETABLE_ADDCLASS_MAIN)
-                                                        .then((value) async {
-                                                      await MainUpdateModule
-                                                          .updateClassPage();
-                                                    });
-                                                  },
-                                                  child: Text("YES")),
-                                              TextButton(
-                                                  onPressed: () {
-                                                    Get.back();
-                                                  },
-                                                  child: Text("NO")),
-                                            ],
-                                          ));
+                                      CreateNewTimetable(
+                                          searchText, searchFocusNode);
                                     },
                                     child: Container(
                                         margin: const EdgeInsets.only(
