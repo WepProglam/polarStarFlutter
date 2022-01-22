@@ -25,7 +25,12 @@ class Profile extends StatelessWidget {
       child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
-          appBar: ProfileAppBars().classBasicAppBar(),
+          appBar: AppBar(
+            elevation: 0,
+            toolbarHeight: 56,
+            automaticallyImplyLeading: false,
+            titleSpacing: 0,
+          ),
           body: RefreshIndicator(
             onRefresh: myPageController.getMineWrite,
             child: Stack(
@@ -273,6 +278,53 @@ class Profile extends StatelessWidget {
                                                       textAlign:
                                                           TextAlign.left))),
                                         ])),
+                                    Container(
+                                        height: 54.6,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color:
+                                                        const Color(0xffdedede),
+                                                    width: 1))),
+                                        child: Stack(children: [
+                                          Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Container(
+                                                  margin:
+                                                      EdgeInsets.only(left: 21),
+                                                  child: Text("MAJOR",
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xff6f6e6e),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontFamily: "Roboto",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 14.0),
+                                                      textAlign:
+                                                          TextAlign.left))),
+                                          Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Container(
+                                                  margin: EdgeInsets.only(
+                                                      right: 20),
+                                                  child: Text(
+                                                      "${myPageController.myProfile.value.MAJOR_NAME}",
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xff9b9b9b),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily: "Roboto",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 14.0),
+                                                      textAlign:
+                                                          TextAlign.left))),
+                                        ])),
                                     InkWell(
                                         child: Container(
                                             height: 54.6,
@@ -482,6 +534,7 @@ class Profile extends StatelessWidget {
 class ProfileAppBars {
   AppBar classBasicAppBar() {
     return AppBar(
+      toolbarHeight: 56,
       backgroundColor: Colors.transparent,
       elevation: 0,
       leading: InkWell(

@@ -1,22 +1,22 @@
 class MyProfileModel {
   String LOGIN_ID;
   String PROFILE_NICKNAME;
-  String PROFILE_SCHOOL;
   String PROFILE_MESSAGE;
   String PROFILE_PHOTO;
+  String MAJOR_NAME;
 
   MyProfileModel(
       {this.LOGIN_ID,
       this.PROFILE_NICKNAME,
       this.PROFILE_MESSAGE,
-      this.PROFILE_SCHOOL,
-      this.PROFILE_PHOTO});
+      this.PROFILE_PHOTO,
+      this.MAJOR_NAME});
 
   MyProfileModel.fromJson(Map<String, dynamic> json) {
     this.LOGIN_ID = json["LOGIN_ID"];
     this.PROFILE_NICKNAME = json["PROFILE_NICKNAME"];
     this.PROFILE_MESSAGE = json["PROFILE_MESSAGE"];
-    this.PROFILE_SCHOOL = json["PROFILE_SCHOOL"];
+    this.MAJOR_NAME = json["MAJOR_NAME"];
     this.PROFILE_PHOTO = json["PROFILE_PHOTO"];
   }
 
