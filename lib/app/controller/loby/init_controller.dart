@@ -116,9 +116,7 @@ class InitController extends GetxController {
           cc.map((e) => ClassChatModel.fromJson(e).obs).toList();
 
       // * 서버에서 역순으로 보내므로 다시 정렬
-      tempChatHistory.value.sort((Rx<ClassChatModel> a, Rx<ClassChatModel> b) {
-        return a.value.TIME_CREATED.isAfter(b.value.TIME_CREATED) ? 1 : 0;
-      });
+      tempChatHistory.value = tempChatHistory.reversed.toList();
       int curClassID = tempChatHistory[0].value.CLASS_ID;
       // * 채팅 박스 모델에 최근 채팅 내역 가져옴
       for (Rx<ChatBoxModel> item in chatBox) {

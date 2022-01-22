@@ -171,7 +171,59 @@ class ClassChatHistory extends StatelessWidget {
               });
             }
 
-            return ListView.builder(
+            return ListView.separated(
+              separatorBuilder: (BuildContext context, int index) {
+                Rx<ClassChatModel> model = initController
+                    .chatBox[chatIndex].value.ClassChatList[index];
+                Rx<ClassChatModel> prevModel;
+                Rx<ClassChatModel> nextModel;
+                if (index - 1 < 0) {
+                  prevModel = null;
+                } else {
+                  prevModel = initController
+                      .chatBox[chatIndex].value.ClassChatList[index - 1];
+                }
+
+                if (index + 1 >=
+                    initController
+                        .chatBox[chatIndex].value.ClassChatList.length) {
+                  nextModel = null;
+                } else {
+                  nextModel = initController
+                      .chatBox[chatIndex].value.ClassChatList[index + 1];
+                }
+                bool showLine = ((prevModel != null) &&
+                    (prevModel.value.TIME_CREATED.day !=
+                        model.value.TIME_CREATED.day));
+                print("${index} => ${model.value.TIME_CREATED.toString()}");
+                return showLine
+                    ? Container(
+                        margin: const EdgeInsets.symmetric(vertical: 20),
+                        child: Stack(alignment: Alignment.center, children: [
+                          // 선 77
+                          Container(
+                              height: 1,
+                              width: Get.mediaQuery.size.width,
+                              decoration: BoxDecoration(
+                                  color: const Color(0xffeaeaea))),
+                          Container(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 14.5),
+                            color: Colors.white,
+                            child: Text(
+                                "${model.value.TIME_CREATED.year}年${model.value.TIME_CREATED.month}月${model.value.TIME_CREATED.day}日",
+                                style: const TextStyle(
+                                    color: const Color(0xff9b9b9b),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "NotoSansSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 10.0),
+                                textAlign: TextAlign.center),
+                          ),
+                        ]),
+                      )
+                    : Container();
+              },
               shrinkWrap: true,
               controller: controller.chatScrollController,
               itemCount:
@@ -181,48 +233,134 @@ class ClassChatHistory extends StatelessWidget {
               itemBuilder: (context, index) {
                 Rx<ClassChatModel> model = initController
                     .chatBox[chatIndex].value.ClassChatList[index];
-                bool MY_SELF = model.value.MY_SELF;
-                //print(MY_SELF);
-                return Container(
-                    padding: (MY_SELF
-                        // mailController.mailHistory[index].FROM_ME == 0
-                        ? EdgeInsets.only(right: 20, bottom: 16)
-                        : EdgeInsets.only(left: 20, bottom: 16)),
-                    child: Align(
-                      alignment: (MY_SELF
-                          // mailController.mailHistory[index].FROM_ME == 0
-                          ? Alignment.topRight
-                          : Alignment.topLeft),
-                      child:
-                          // Text("${controller.chatHistory[index].CONTENT}"),
-                          // child:
-                          (MY_SELF
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                      // MAIL_PROFILE_ITEM(
-                                      //   model: controller.chatHistory[index],
-                                      //   FROM_ME: MY_SELF,
-                                      // ),
 
-                                      MAIL_CONTENT_ITEM(
-                                        // mailController: mailController,
-                                        model: model.value,
-                                      )
-                                    ])
-                              : Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                      MAIL_PROFILE_ITEM(
-                                        model: model.value,
-                                        FROM_ME: MY_SELF,
-                                      ),
-                                      MAIL_CONTENT_ITEM(
-                                        model: model.value,
-                                      ),
-                                    ])),
+                Rx<ClassChatModel> prevModel;
+                Rx<ClassChatModel> nextModel;
+                if (index - 1 < 0) {
+                  prevModel = null;
+                } else {
+                  prevModel = initController
+                      .chatBox[chatIndex].value.ClassChatList[index - 1];
+                }
+
+                if (index + 1 >=
+                    initController
+                        .chatBox[chatIndex].value.ClassChatList.length) {
+                  nextModel = null;
+                } else {
+                  nextModel = initController
+                      .chatBox[chatIndex].value.ClassChatList[index + 1];
+                }
+
+                bool MY_SELF = model.value.MY_SELF;
+
+                bool isContinueSame = (prevModel != null &&
+                    prevModel.value.PROFILE_NICKNAME ==
+                        model.value.PROFILE_NICKNAME &&
+                    prevModel.value.PROFILE_PHOTO == model.value.PROFILE_PHOTO);
+
+                bool isContinueDifferent = (prevModel != null &&
+                    prevModel.value.PROFILE_NICKNAME !=
+                        model.value.PROFILE_NICKNAME &&
+                    prevModel.value.PROFILE_PHOTO != model.value.PROFILE_PHOTO);
+
+                /**
+                 * displayTime: 시간 표시 boolean
+                 * 앞 사람이 다른 사람일때 - isContinueDifferent
+                 * 앞 사람이 같은 사람이고 이 채팅이 해당 시간에 쓴 마지막일때
+                 * 맨 마지막 톡 일때
+                 */
+                bool isChatSamePersonEnd = (nextModel != null &&
+                        nextModel.value.PROFILE_NICKNAME !=
+                            model.value.PROFILE_NICKNAME &&
+                        nextModel.value.PROFILE_PHOTO !=
+                            model.value.PROFILE_PHOTO) ||
+                    nextModel == null;
+
+                bool lastChatInTime = (nextModel != null &&
+                        (nextModel.value.TIME_CREATED.day !=
+                                model.value.TIME_CREATED.day ||
+                            nextModel.value.TIME_CREATED.hour !=
+                                model.value.TIME_CREATED.hour ||
+                            nextModel.value.TIME_CREATED.minute !=
+                                model.value.TIME_CREATED.minute)) ||
+                    nextModel == null;
+
+                bool displayTime = isChatSamePersonEnd || lastChatInTime;
+
+                // bool isTimeDifferent = (isContinueSame &&
+                //         (prevModel.value.TIME_CREATED.day !=
+                //                 model.value.TIME_CREATED.day ||
+                //             prevModel.value.TIME_CREATED.hour !=
+                //                 model.value.TIME_CREATED.hour ||
+                //             prevModel.value.TIME_CREATED.minute !=
+                //                 model.value.TIME_CREATED.minute)) ||
+                //     isContinueDifferent ||
+                //     prevModel == null;
+
+                return Container(
+                    padding: (prevModel == null
+                        ? MY_SELF
+                            ? EdgeInsets.only(right: 20, top: 0)
+                            : EdgeInsets.only(left: 20, top: 0)
+                        : MY_SELF
+                            ? EdgeInsets.only(
+                                right: 20, top: isContinueSame ? 6 : 24)
+                            : EdgeInsets.only(
+                                left: 20, top: isContinueSame ? 6 : 24)),
+                    child: Align(
+                      alignment:
+                          (MY_SELF ? Alignment.topRight : Alignment.topLeft),
+                      child: (MY_SELF
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                  MAIL_CONTENT_ITEM(
+                                    model: model.value,
+                                    isTimeDifferent: displayTime,
+                                  )
+                                ])
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                  isContinueSame
+                                      ? Container(
+                                          width: 42,
+                                        )
+                                      : MAIL_PROFILE_ITEM(
+                                          model: model.value,
+                                          FROM_ME: MY_SELF,
+                                        ),
+                                  Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        isContinueDifferent
+                                            ? Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: 4),
+                                                child: Text(
+                                                    "${model.value.PROFILE_NICKNAME}",
+                                                    style: const TextStyle(
+                                                        color: const Color(
+                                                            0xff6f6e6e),
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontFamily:
+                                                            "NotoSansSC",
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        fontSize: 10.0),
+                                                    textAlign: TextAlign.left),
+                                              )
+                                            : Container(),
+                                        MAIL_CONTENT_ITEM(
+                                            model: model.value,
+                                            isTimeDifferent: displayTime),
+                                      ]),
+                                ])),
                     ));
               },
             );
@@ -361,42 +499,37 @@ class MAIL_PROFILE_ITEM extends StatelessWidget {
                         image: imageProvider, fit: BoxFit.cover))),
           ),
         ),
-        Center(
-            child: Text(
-          "${model.PROFILE_NICKNAME}",
-          style: const TextStyle(
-              color: Color(0xff2f2f2f),
-              fontWeight: FontWeight.w400,
-              fontFamily: "NotoSansSC",
-              fontStyle: FontStyle.normal,
-              fontSize: 10.0),
-        ))
       ]),
     );
   }
 }
 
 class MAIL_CONTENT_ITEM extends StatelessWidget {
-  const MAIL_CONTENT_ITEM({Key key, @required this.model}) : super(key: key);
+  const MAIL_CONTENT_ITEM(
+      {Key key, @required this.model, @required this.isTimeDifferent})
+      : super(key: key);
 
   final ClassChatModel model;
+  final bool isTimeDifferent;
 
   @override
   Widget build(BuildContext context) {
-    print(model.MY_SELF);
+    print("${isTimeDifferent} ${prettyChatDate(model.TIME_CREATED)}");
     return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
       model.MY_SELF
-          ? Container(
-              margin: const EdgeInsets.only(right: 8),
-              child: Text("${prettyDate(model.TIME_CREATED)}",
-                  style: const TextStyle(
-                      color: const Color(0xffd6d4d4),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "Roboto",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 10.0),
-                  textAlign: TextAlign.right),
-            )
+          ? isTimeDifferent
+              ? Container(
+                  margin: const EdgeInsets.only(right: 8),
+                  child: Text("${prettyChatDate(model.TIME_CREATED)}",
+                      style: const TextStyle(
+                          color: const Color(0xffd6d4d4),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 10.0),
+                      textAlign: TextAlign.right),
+                )
+              : Container()
           : Container(),
       Container(
           constraints: BoxConstraints(maxWidth: 260),
@@ -424,17 +557,19 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                   textAlign: TextAlign.left))),
       model.MY_SELF
           ? Container()
-          : Container(
-              margin: const EdgeInsets.only(left: 8),
-              child: Text("${prettyDate(model.TIME_CREATED)}",
-                  style: const TextStyle(
-                      color: const Color(0xffd6d4d4),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "Roboto",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 10.0),
-                  textAlign: TextAlign.right),
-            ),
+          : isTimeDifferent
+              ? Container(
+                  margin: const EdgeInsets.only(left: 8),
+                  child: Text("${prettyChatDate(model.TIME_CREATED)}",
+                      style: const TextStyle(
+                          color: const Color(0xffd6d4d4),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 10.0),
+                      textAlign: TextAlign.right),
+                )
+              : Container(),
     ]);
   }
 }
