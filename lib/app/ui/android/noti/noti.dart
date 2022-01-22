@@ -446,6 +446,7 @@ class ChatItem extends StatelessWidget {
               // * 가장 마지막으로 읽은 class_id 등록
               await box.write("LastChat_${model.value.CLASS_ID}",
                   model.value.ClassChatList.last.value.CHAT_ID);
+
               MainUpdateModule.updateNotiPage(1,
                   curClassID: model.value.CLASS_ID);
             });

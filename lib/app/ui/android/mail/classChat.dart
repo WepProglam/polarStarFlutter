@@ -178,213 +178,207 @@ class ClassChatHistory extends StatelessWidget {
 
             return SingleChildScrollView(
               controller: controller.chatScrollController,
-              child: Expanded(
-                child: Column(children: [
-                  ListView.separated(
-                    separatorBuilder: (BuildContext context, int index) {
-                      Rx<ClassChatModel> model = initController
-                          .chatBox[chatIndex].value.ClassChatList[index];
-                      Rx<ClassChatModel> prevModel;
-                      Rx<ClassChatModel> nextModel;
-                      if (index - 1 < 0) {
-                        prevModel = null;
-                      } else {
-                        prevModel = initController
-                            .chatBox[chatIndex].value.ClassChatList[index - 1];
-                      }
+              child: Column(children: [
+                ListView.separated(
+                  separatorBuilder: (BuildContext context, int index) {
+                    Rx<ClassChatModel> model = initController
+                        .chatBox[chatIndex].value.ClassChatList[index];
+                    Rx<ClassChatModel> prevModel;
+                    Rx<ClassChatModel> nextModel;
+                    if (index - 1 < 0) {
+                      prevModel = null;
+                    } else {
+                      prevModel = initController
+                          .chatBox[chatIndex].value.ClassChatList[index - 1];
+                    }
 
-                      if (index + 1 >=
-                          initController
-                              .chatBox[chatIndex].value.ClassChatList.length) {
-                        nextModel = null;
-                      } else {
-                        nextModel = initController
-                            .chatBox[chatIndex].value.ClassChatList[index + 1];
-                      }
-                      bool showLine = ((prevModel != null) &&
-                          (prevModel.value.TIME_CREATED.day !=
-                              model.value.TIME_CREATED.day));
-                      print(
-                          "${index} => ${model.value.TIME_CREATED.toString()}");
-                      return showLine
-                          ? Container(
-                              margin: const EdgeInsets.symmetric(vertical: 20),
-                              child:
-                                  Stack(alignment: Alignment.center, children: [
-                                // 선 77
-                                Container(
-                                    height: 1,
-                                    width: Get.mediaQuery.size.width,
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xffeaeaea))),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 14.5),
-                                  color: Colors.white,
-                                  child: Text(
-                                      "${model.value.TIME_CREATED.year}年${model.value.TIME_CREATED.month}月${model.value.TIME_CREATED.day}日",
-                                      style: const TextStyle(
-                                          color: const Color(0xff9b9b9b),
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: "NotoSansSC",
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 10.0),
-                                      textAlign: TextAlign.center),
-                                ),
-                              ]),
-                            )
-                          : Container();
-                    },
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: initController
-                        .chatBox[chatIndex].value.ClassChatList.length,
-                    scrollDirection: Axis.vertical,
-                    padding: EdgeInsets.only(top: 24, bottom: 75),
-                    itemBuilder: (context, index) {
-                      Rx<ClassChatModel> model = initController
-                          .chatBox[chatIndex].value.ClassChatList[index];
+                    if (index + 1 >=
+                        initController
+                            .chatBox[chatIndex].value.ClassChatList.length) {
+                      nextModel = null;
+                    } else {
+                      nextModel = initController
+                          .chatBox[chatIndex].value.ClassChatList[index + 1];
+                    }
+                    bool showLine = ((prevModel != null) &&
+                        (prevModel.value.TIME_CREATED.day !=
+                            model.value.TIME_CREATED.day));
+                    print("${index} => ${model.value.TIME_CREATED.toString()}");
+                    return showLine
+                        ? Container(
+                            margin: const EdgeInsets.symmetric(vertical: 20),
+                            child:
+                                Stack(alignment: Alignment.center, children: [
+                              // 선 77
+                              Container(
+                                  height: 1,
+                                  width: Get.mediaQuery.size.width,
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xffeaeaea))),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 14.5),
+                                color: Colors.white,
+                                child: Text(
+                                    "${model.value.TIME_CREATED.year}年${model.value.TIME_CREATED.month}月${model.value.TIME_CREATED.day}日",
+                                    style: const TextStyle(
+                                        color: const Color(0xff9b9b9b),
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 10.0),
+                                    textAlign: TextAlign.center),
+                              ),
+                            ]),
+                          )
+                        : Container();
+                  },
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: initController
+                      .chatBox[chatIndex].value.ClassChatList.length,
+                  scrollDirection: Axis.vertical,
+                  padding: EdgeInsets.only(top: 24, bottom: 75),
+                  itemBuilder: (context, index) {
+                    Rx<ClassChatModel> model = initController
+                        .chatBox[chatIndex].value.ClassChatList[index];
 
-                      Rx<ClassChatModel> prevModel;
-                      Rx<ClassChatModel> nextModel;
-                      if (index - 1 < 0) {
-                        prevModel = null;
-                      } else {
-                        prevModel = initController
-                            .chatBox[chatIndex].value.ClassChatList[index - 1];
-                      }
+                    Rx<ClassChatModel> prevModel;
+                    Rx<ClassChatModel> nextModel;
+                    if (index - 1 < 0) {
+                      prevModel = null;
+                    } else {
+                      prevModel = initController
+                          .chatBox[chatIndex].value.ClassChatList[index - 1];
+                    }
 
-                      if (index + 1 >=
-                          initController
-                              .chatBox[chatIndex].value.ClassChatList.length) {
-                        nextModel = null;
-                      } else {
-                        nextModel = initController
-                            .chatBox[chatIndex].value.ClassChatList[index + 1];
-                      }
+                    if (index + 1 >=
+                        initController
+                            .chatBox[chatIndex].value.ClassChatList.length) {
+                      nextModel = null;
+                    } else {
+                      nextModel = initController
+                          .chatBox[chatIndex].value.ClassChatList[index + 1];
+                    }
 
-                      bool MY_SELF = model.value.MY_SELF;
+                    bool MY_SELF = model.value.MY_SELF;
 
-                      bool isContinueSame = (prevModel != null &&
-                          prevModel.value.PROFILE_NICKNAME ==
-                              model.value.PROFILE_NICKNAME &&
-                          prevModel.value.PROFILE_PHOTO ==
-                              model.value.PROFILE_PHOTO);
+                    bool isContinueSame = (prevModel != null &&
+                        prevModel.value.PROFILE_NICKNAME ==
+                            model.value.PROFILE_NICKNAME &&
+                        prevModel.value.PROFILE_PHOTO ==
+                            model.value.PROFILE_PHOTO);
 
-                      bool isContinueDifferent = (prevModel != null &&
-                          prevModel.value.PROFILE_NICKNAME !=
-                              model.value.PROFILE_NICKNAME &&
-                          prevModel.value.PROFILE_PHOTO !=
-                              model.value.PROFILE_PHOTO);
+                    bool isContinueDifferent = (prevModel != null &&
+                        prevModel.value.PROFILE_NICKNAME !=
+                            model.value.PROFILE_NICKNAME &&
+                        prevModel.value.PROFILE_PHOTO !=
+                            model.value.PROFILE_PHOTO);
 
-                      /**
-                       * displayTime: 시간 표시 boolean
-                       * 앞 사람이 다른 사람일때 - isContinueDifferent
-                       * 앞 사람이 같은 사람이고 이 채팅이 해당 시간에 쓴 마지막일때
-                       * 맨 마지막 톡 일때
-                       */
-                      bool isChatSamePersonEnd = (nextModel != null &&
-                              nextModel.value.PROFILE_NICKNAME !=
-                                  model.value.PROFILE_NICKNAME &&
-                              nextModel.value.PROFILE_PHOTO !=
-                                  model.value.PROFILE_PHOTO) ||
-                          nextModel == null;
+                    /**
+                     * displayTime: 시간 표시 boolean
+                     * 앞 사람이 다른 사람일때 - isContinueDifferent
+                     * 앞 사람이 같은 사람이고 이 채팅이 해당 시간에 쓴 마지막일때
+                     * 맨 마지막 톡 일때
+                     */
+                    bool isChatSamePersonEnd = (nextModel != null &&
+                            nextModel.value.PROFILE_NICKNAME !=
+                                model.value.PROFILE_NICKNAME &&
+                            nextModel.value.PROFILE_PHOTO !=
+                                model.value.PROFILE_PHOTO) ||
+                        nextModel == null;
 
-                      bool lastChatInTime = (nextModel != null &&
-                              (nextModel.value.TIME_CREATED.day !=
-                                      model.value.TIME_CREATED.day ||
-                                  nextModel.value.TIME_CREATED.hour !=
-                                      model.value.TIME_CREATED.hour ||
-                                  nextModel.value.TIME_CREATED.minute !=
-                                      model.value.TIME_CREATED.minute)) ||
-                          nextModel == null;
+                    bool lastChatInTime = (nextModel != null &&
+                            (nextModel.value.TIME_CREATED.day !=
+                                    model.value.TIME_CREATED.day ||
+                                nextModel.value.TIME_CREATED.hour !=
+                                    model.value.TIME_CREATED.hour ||
+                                nextModel.value.TIME_CREATED.minute !=
+                                    model.value.TIME_CREATED.minute)) ||
+                        nextModel == null;
 
-                      bool displayTime = isChatSamePersonEnd || lastChatInTime;
+                    bool displayTime = isChatSamePersonEnd || lastChatInTime;
 
-                      // bool isTimeDifferent = (isContinueSame &&
-                      //         (prevModel.value.TIME_CREATED.day !=
-                      //                 model.value.TIME_CREATED.day ||
-                      //             prevModel.value.TIME_CREATED.hour !=
-                      //                 model.value.TIME_CREATED.hour ||
-                      //             prevModel.value.TIME_CREATED.minute !=
-                      //                 model.value.TIME_CREATED.minute)) ||
-                      //     isContinueDifferent ||
-                      //     prevModel == null;
+                    // bool isTimeDifferent = (isContinueSame &&
+                    //         (prevModel.value.TIME_CREATED.day !=
+                    //                 model.value.TIME_CREATED.day ||
+                    //             prevModel.value.TIME_CREATED.hour !=
+                    //                 model.value.TIME_CREATED.hour ||
+                    //             prevModel.value.TIME_CREATED.minute !=
+                    //                 model.value.TIME_CREATED.minute)) ||
+                    //     isContinueDifferent ||
+                    //     prevModel == null;
 
-                      return Container(
-                          padding: (prevModel == null
-                              ? MY_SELF
-                                  ? EdgeInsets.only(right: 20, top: 0)
-                                  : EdgeInsets.only(left: 20, top: 0)
-                              : MY_SELF
-                                  ? EdgeInsets.only(
-                                      right: 20, top: isContinueSame ? 6 : 24)
-                                  : EdgeInsets.only(
-                                      left: 20, top: isContinueSame ? 6 : 24)),
-                          child: Align(
-                            alignment: (MY_SELF
-                                ? Alignment.topRight
-                                : Alignment.topLeft),
-                            child: (MY_SELF
-                                ? Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                        MAIL_CONTENT_ITEM(
-                                          model: model.value,
-                                          isTimeDifferent: displayTime,
-                                        )
-                                      ])
-                                : Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                        isContinueSame
-                                            ? Container(
-                                                width: 42,
-                                              )
-                                            : MAIL_PROFILE_ITEM(
+                    return Container(
+                        padding: (prevModel == null
+                            ? MY_SELF
+                                ? EdgeInsets.only(right: 20, top: 0)
+                                : EdgeInsets.only(left: 20, top: 0)
+                            : MY_SELF
+                                ? EdgeInsets.only(
+                                    right: 20, top: isContinueSame ? 6 : 24)
+                                : EdgeInsets.only(
+                                    left: 20, top: isContinueSame ? 6 : 24)),
+                        child: Align(
+                          alignment: (MY_SELF
+                              ? Alignment.topRight
+                              : Alignment.topLeft),
+                          child: (MY_SELF
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                      MAIL_CONTENT_ITEM(
+                                        model: model.value,
+                                        isTimeDifferent: displayTime,
+                                      )
+                                    ])
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                      isContinueSame
+                                          ? Container(
+                                              width: 42,
+                                            )
+                                          : MAIL_PROFILE_ITEM(
+                                              model: model.value,
+                                              FROM_ME: MY_SELF,
+                                            ),
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            isContinueDifferent
+                                                ? Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            bottom: 4),
+                                                    child: Text(
+                                                        "${model.value.PROFILE_NICKNAME}",
+                                                        style: const TextStyle(
+                                                            color: const Color(
+                                                                0xff6f6e6e),
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                "NotoSansSC",
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontSize: 10.0),
+                                                        textAlign:
+                                                            TextAlign.left),
+                                                  )
+                                                : Container(),
+                                            MAIL_CONTENT_ITEM(
                                                 model: model.value,
-                                                FROM_ME: MY_SELF,
-                                              ),
-                                        Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              isContinueDifferent
-                                                  ? Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              bottom: 4),
-                                                      child: Text(
-                                                          "${model.value.PROFILE_NICKNAME}",
-                                                          style: const TextStyle(
-                                                              color: const Color(
-                                                                  0xff6f6e6e),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontFamily:
-                                                                  "NotoSansSC",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: 10.0),
-                                                          textAlign:
-                                                              TextAlign.left),
-                                                    )
-                                                  : Container(),
-                                              MAIL_CONTENT_ITEM(
-                                                  model: model.value,
-                                                  isTimeDifferent: displayTime),
-                                            ]),
-                                      ])),
-                          ));
-                    },
-                  ),
-                ]),
-              ),
+                                                isTimeDifferent: displayTime),
+                                          ]),
+                                    ])),
+                        ));
+                  },
+                ),
+              ]),
             );
           } else {
             return Container(
