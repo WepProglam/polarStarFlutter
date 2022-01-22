@@ -252,6 +252,9 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
 
   Future<List<BoardInfo>> fetchCommunityInfoFromBox() async {
     List<dynamic> aa = await box.read("followingCommunity");
+    if (aa == null) {
+      return [];
+    }
     print(aa.runtimeType);
     if (aa[0].runtimeType == BoardInfo) {
       return aa;
