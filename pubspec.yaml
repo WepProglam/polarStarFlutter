@@ -285,6 +285,7 @@ flutter:
     - assets/images/timetable_direct_professr.png
     - assets/images/timetable_direct_clock.png
     - assets/images/timetable_direct_location.png
+    - assets/images/timetable_direct_delete.png
 
 
     # Community

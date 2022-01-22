@@ -242,19 +242,38 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   }
 
   Future<void> deleteFollowingCommunity(int COMMUNITY_ID) async {
-    List<BoardInfo> boardInfoList = box.read("followingCommunity");
+    List<BoardInfo> boardInfoList = await fetchCommunityInfoFromBox();
+
     boardInfoList.removeWhere(
         (BoardInfo element) => element.COMMUNITY_ID == COMMUNITY_ID);
     box.write("followingCommunity", boardInfoList);
     await getFollowingCommunity();
   }
 
+  Future<List<BoardInfo>> fetchCommunityInfoFromBox() async {
+    List<dynamic> aa = await box.read("followingCommunity");
+    print(aa.runtimeType);
+    if (aa[0].runtimeType == BoardInfo) {
+      return aa;
+    }
+
+    List<BoardInfo> boardInfoList = aa.map((e) {
+      if (e["COMMUNITY_ID"].runtimeType != int) {
+        e["COMMUNITY_ID"] = int.parse(e["COMMUNITY_ID"]);
+      }
+      return BoardInfo.fromJson(e);
+    }).toList();
+    return boardInfoList;
+  }
+
   Future<void> getFollowingCommunity() async {
-    List<BoardInfo> boardInfoList = box.read("followingCommunity");
+    List<BoardInfo> boardInfoList = await fetchCommunityInfoFromBox();
+    print(boardInfoList);
     if (boardInfoList == null) {
       followAmount.value = 0;
       return;
     }
+
     List<Rx<BoardInfo>> follwing = boardInfoList.map((e) => e.obs).toList();
     followAmount.value = follwing.length;
     followingCommunity.value =
@@ -269,18 +288,18 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
       bool isFollowed,
       bool isNew) async {
     if (box.read("followingCommunity") == null) {
-      box.write("followingCommunity", [
-        BoardInfo.fromJson({
-          "COMMUNITY_ID": COMMUNITY_ID,
-          "COMMUNITY_NAME": COMMUNITY_NAME,
-          "RECENT_TITLE": RECENT_TITLE,
-          "RECENT_TIME": RECENT_TIME,
-          "isFollowed": isFollowed,
-          "isNew": isNew
-        })
-      ]);
+      BoardInfo a = BoardInfo.fromJson({
+        "COMMUNITY_ID": COMMUNITY_ID,
+        "COMMUNITY_NAME": COMMUNITY_NAME,
+        "RECENT_TITLE": RECENT_TITLE,
+        "RECENT_TIME": RECENT_TIME,
+        "isFollowed": isFollowed,
+        "isNew": isNew
+      });
+      box.write("followingCommunity", [a]);
     } else {
-      List<BoardInfo> boardInfoList = box.read("followingCommunity").toList();
+      List<BoardInfo> boardInfoList = await fetchCommunityInfoFromBox();
+
       for (BoardInfo item in boardInfoList) {
         if (item.COMMUNITY_ID == COMMUNITY_ID) {
           return;

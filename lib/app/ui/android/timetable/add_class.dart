@@ -253,7 +253,8 @@ class TimetableAddClass extends StatelessWidget {
                                       maxLines: 1,
                                       style: textStyle,
                                       textAlign: TextAlign.left,
-                                      decoration: inputDecoration("course"),
+                                      decoration:
+                                          addTimetablenputDecoration("请输入说明."),
                                     ),
                                   ),
                                 ],
@@ -261,7 +262,8 @@ class TimetableAddClass extends StatelessWidget {
                             ),
                             // 선 83
                             Container(
-                                margin: const EdgeInsets.only(top: 7.5),
+                                margin:
+                                    const EdgeInsets.only(top: 7.5, right: 20),
                                 height: 1,
                                 decoration: BoxDecoration(
                                     color: const Color(0xffeaeaea)))
@@ -316,8 +318,8 @@ class TimetableAddClass extends StatelessWidget {
                                         maxLines: 1,
                                         style: textStyle,
                                         textAlign: TextAlign.left,
-                                        decoration:
-                                            inputDecoration("professor"),
+                                        decoration: addTimetablenputDecoration(
+                                            "请输入说明."),
                                       ),
                                     ),
                                   ],
@@ -325,7 +327,8 @@ class TimetableAddClass extends StatelessWidget {
                               ),
                               // 선 83
                               Container(
-                                  margin: const EdgeInsets.only(top: 7.5),
+                                  margin: const EdgeInsets.only(
+                                      top: 7.5, right: 20),
                                   height: 1,
                                   decoration: BoxDecoration(
                                       color: const Color(0xffeaeaea)))
@@ -335,7 +338,7 @@ class TimetableAddClass extends StatelessWidget {
 
                         //강의 장소 및 시간
                         Container(
-                          margin: const EdgeInsets.only(top: 14),
+                          margin: const EdgeInsets.only(top: 13.5),
                           child: ClassInfoTPO(
                             size: size,
                             timeTableAddClassController:
@@ -418,12 +421,11 @@ class ClassInfoTPO extends StatelessWidget {
                               size: size),
                         ),
                         Container(
-                          padding: const EdgeInsets.only(top: 5),
+                          margin: const EdgeInsets.only(top: 10, right: 20),
                           child: Container(
-                              width: size.width - 15.3 - 14.8,
                               height: 1,
                               decoration: BoxDecoration(
-                                  color: const Color(0xffdedede))),
+                                  color: const Color(0xffeaeaea))),
                         ),
                       ]);
                     }),
@@ -436,23 +438,26 @@ class ClassInfoTPO extends StatelessWidget {
                 timeTableAddClassController.selectIndex.value += 1;
               },
               child: Container(
-                  width: 80,
-                  height: 28,
-                  margin: const EdgeInsets.only(left: 30, top: 10),
+                  margin: const EdgeInsets.only(top: 10),
+                  width: 65,
+                  height: 24,
                   child: // complete
                       Center(
-                    child: Text("장소 및 시간 추가",
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w900,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 10.0),
-                        textAlign: TextAlign.center),
+                    child: // 添加时间
+                        Text("添加时间",
+                            style: const TextStyle(
+                                color: const Color(0xff4570ff),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "Roboto",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.0),
+                            textAlign: TextAlign.left),
                   ),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(28)),
-                      color: Colors.red)),
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      border:
+                          Border.all(color: const Color(0xff4c74f6), width: 1),
+                      color: const Color(0xffffffff))),
             )
           ],
         );
@@ -499,7 +504,7 @@ class TpoSelector extends StatelessWidget {
                   child: SelectStartTime(
                       newClass:
                           timeTableAddClassController.CLASS_LIST[classIndex]),
-                  padding: const EdgeInsets.only(left: 31.9, right: 27.2),
+                  padding: const EdgeInsets.only(left: 12),
                 );
               }),
               Obx(() {
@@ -507,15 +512,14 @@ class TpoSelector extends StatelessWidget {
                   child: SelectEndTime(
                       newClass:
                           timeTableAddClassController.CLASS_LIST[classIndex]),
-                  padding: const EdgeInsets.only(right: 27.2),
+                  padding: const EdgeInsets.only(left: 12),
                 );
               }),
-              Spacer(),
               Container(
                 child: ClassTrashCan(
                     classIndex: classIndex,
                     timeTableAddClassController: timeTableAddClassController),
-                margin: const EdgeInsets.only(right: 21.4),
+                margin: const EdgeInsets.only(left: 12),
               )
             ],
           ),
@@ -534,7 +538,7 @@ class TpoSelector extends StatelessWidget {
             maxLines: 1,
             style: textStyle,
             textAlign: TextAlign.left,
-            decoration: inputDecoration("class"),
+            decoration: addTimetablenputDecoration("请输入说明."),
           ),
         ),
       ],
@@ -558,10 +562,10 @@ class ClassTrashCan extends StatelessWidget {
         timeTableAddClassController.CLASS_LIST.removeAt(classIndex);
       },
       child: Container(
-        width: 17.104248046875,
-        height: 16.619873046875,
+        width: 16,
+        height: 16,
         child: Image.asset(
-          "assets/images/15_4.png",
+          "assets/images/timetable_direct_delete.png",
           fit: BoxFit.fitHeight,
         ),
       ),
@@ -590,7 +594,8 @@ class SelectDay extends StatelessWidget {
             width: 10.682647705078125,
             height: 5.931396484375,
             margin: const EdgeInsets.only(top: 8, bottom: 4.5),
-            child: Image.asset("assets/images/940.png"),
+            child: Image.asset("assets/images/940.png",
+                color: Get.theme.primaryColor),
           ),
           value: newClass.value.day,
           onChanged: (value) {
@@ -604,8 +609,16 @@ class SelectDay extends StatelessWidget {
           items: days
               .map((e) => DropdownMenuItem(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 12.7),
-                    child: Text(e),
+                    padding: const EdgeInsets.only(right: 4),
+                    child: // 星期一
+                        Text("${e}",
+                            style: const TextStyle(
+                                color: const Color(0xff9b9b9b),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14.0),
+                            textAlign: TextAlign.left),
                   ),
                   value: e))
               .toList());
@@ -635,18 +648,19 @@ class SelectStartTime extends StatelessWidget {
         bool flag = false;
 
         await Get.defaultDialog(
+            title: "Select Time",
             content: Container(
-          height: 200,
-          width: Get.mediaQuery.size.width,
-          child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.time,
-              use24hFormat: true,
-              initialDateTime: start_time,
-              minuteInterval: 5,
-              onDateTimeChanged: (DateTime dateTime) {
-                timeInput = dateTime;
-              }),
-        ));
+              height: 200,
+              width: Get.mediaQuery.size.width,
+              child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.time,
+                  use24hFormat: true,
+                  initialDateTime: start_time,
+                  minuteInterval: 5,
+                  onDateTimeChanged: (DateTime dateTime) {
+                    timeInput = dateTime;
+                  }),
+            ));
 
         int cal_time = timeInput.hour;
         if (cal_time >= 0 && cal_time < 24) {
@@ -679,9 +693,9 @@ class SelectStartTime extends StatelessWidget {
           Container(
             child: Text("${timeFormatter(newClass.value.start_time)}",
                 style: const TextStyle(
-                    color: const Color(0xff333333),
+                    color: const Color(0xff9b9b9b),
                     fontWeight: FontWeight.w400,
-                    fontFamily: "PingFangSC",
+                    fontFamily: "Roboto",
                     fontStyle: FontStyle.normal,
                     fontSize: 14.0),
                 textAlign: TextAlign.left),
@@ -690,7 +704,8 @@ class SelectStartTime extends StatelessWidget {
             width: 10.68267822265625,
             height: 5.931396484375,
             margin: const EdgeInsets.only(left: 10.7, top: 8, bottom: 4.5),
-            child: Image.asset("assets/images/940.png"),
+            child: Image.asset("assets/images/940.png",
+                color: Get.theme.primaryColor),
           )
         ]);
       }),
@@ -780,9 +795,9 @@ class SelectEndTime extends StatelessWidget {
           Container(
             child: Text("${timeFormatter(newClass.value.end_time)}",
                 style: const TextStyle(
-                    color: const Color(0xff333333),
+                    color: const Color(0xff9b9b9b),
                     fontWeight: FontWeight.w400,
-                    fontFamily: "PingFangSC",
+                    fontFamily: "Roboto",
                     fontStyle: FontStyle.normal,
                     fontSize: 14.0),
                 textAlign: TextAlign.left),
@@ -791,7 +806,8 @@ class SelectEndTime extends StatelessWidget {
             width: 10.68267822265625,
             height: 5.931396484375,
             margin: const EdgeInsets.only(left: 10.7, top: 8, bottom: 4.5),
-            child: Image.asset("assets/images/940.png"),
+            child: Image.asset("assets/images/940.png",
+                color: Get.theme.primaryColor),
           )
         ]);
       }),
