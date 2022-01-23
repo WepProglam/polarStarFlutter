@@ -26,6 +26,7 @@ class InitController extends GetxController {
   RxInt currentClassID = 0.obs;
   RxBool canChatFileShow = false.obs;
   RxBool tapTextField = false.obs;
+  final FocusNode chatFocusNode = new FocusNode();
 
   ScrollController chatScrollController;
 
@@ -261,6 +262,10 @@ class InitController extends GetxController {
       print("char box ${chatBox}");
     });
 
+    chatFocusNode.addListener(() {
+      print("???????!!!!!!!!!!!!!!!!");
+      print(chatFocusNode.hasFocus);
+    });
     // SchedulerBinding.instance.addPostFrameCallback((_) {
     //   chatScrollController
     //       .jumpTo(chatScrollController.position.maxScrollExtent);
