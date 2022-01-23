@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -21,10 +22,14 @@ class ClassChatHistory extends StatelessWidget {
   final FocusNode focusNode = new FocusNode();
   @override
   Widget build(BuildContext context) {
+    final double chatHeight =
+        box.read("keyBoardHeight") == null ? 342.0 : box.read("keyBoardHeight");
+
     int chatIndex = initController.findChatHistory();
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xffffffff),
+        resizeToAvoidBottomInset: false,
         // appBar: AppBar(
         //   backgroundColor: Colors.white,
         //   foregroundColor: Colors.black,
@@ -167,14 +172,15 @@ class ClassChatHistory extends StatelessWidget {
         ),
         body: Obx(() {
           if (controller.dataAvailble.value) {
-            // WidgetsBinding.instance.addPostFrameCallback((_) {
-            //   initController.chatScrollController.jumpTo(
-            //       initController.chatScrollController.position.maxScrollExtent);
-            // });
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              initController.chatScrollController.jumpTo(
+                  initController.chatScrollController.position.maxScrollExtent);
+            });
 
             return GestureDetector(
               onTap: () {
                 initController.canChatFileShow.value = false;
+                initController.tapTextField.value = false;
                 FocusScope.of(context).unfocus();
               },
               child: SingleChildScrollView(
@@ -240,7 +246,11 @@ class ClassChatHistory extends StatelessWidget {
                     itemCount: initController
                         .chatBox[chatIndex].value.ClassChatList.length,
                     scrollDirection: Axis.vertical,
-                    padding: EdgeInsets.only(top: 24, bottom: 60 + 6.0),
+                    padding: EdgeInsets.only(
+                        top: 24,
+                        bottom: initController.tapTextField.value
+                            ? 60 + 6.0 + chatHeight
+                            : 60 + 6.0),
                     itemBuilder: (context, index) {
                       Rx<ClassChatModel> model = initController
                           .chatBox[chatIndex].value.ClassChatList[index];
@@ -407,8 +417,10 @@ class ClassChatHistory extends StatelessWidget {
         }),
         //입력창
         bottomSheet: Obx(() {
+          print(initController.tapTextField.value);
+          print(60.0 + box.read("keyBoardHeight"));
           return Container(
-            height: initController.canChatFileShow.value
+            height: initController.tapTextField.value
                 ? 60.0 + box.read("keyBoardHeight")
                 : 60,
             decoration: BoxDecoration(color: const Color(0xffe6f1ff)),
@@ -442,6 +454,8 @@ class ClassChatHistory extends StatelessWidget {
                                 keyboardType: TextInputType.multiline,
                                 focusNode: focusNode,
                                 onTap: () async {
+                                  initController.tapTextField.value = true;
+                                  initController.canChatFileShow.value = false;
                                   Timer(Duration(milliseconds: 100), () {
                                     initController.chatScrollController.jumpTo(
                                       initController.chatScrollController
@@ -506,10 +520,12 @@ class ClassChatHistory extends StatelessWidget {
                                       shape: BoxShape.circle,
                                     )),
                             onTap: () async {
+                              initController.tapTextField.value = true;
+                              // initController.canChatFileShow.value = true;
                               if (initController.canChatFileShow.value) {
                                 focusNode.requestFocus();
                               } else {
-                                await FocusScope.of(context).unfocus();
+                                FocusScope.of(context).unfocus();
                               }
 
                               initController.canChatFileShow.value =
@@ -672,7 +688,8 @@ class ClassChatHistory extends StatelessWidget {
                           decoration:
                               BoxDecoration(color: const Color(0xfff4f9ff)));
                     })
-                  : Container()
+                  : Container(
+                      decoration: BoxDecoration(color: const Color(0xfff4f9ff)))
             ]),
           );
         }),

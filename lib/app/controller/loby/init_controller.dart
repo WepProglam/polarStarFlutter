@@ -25,6 +25,7 @@ class InitController extends GetxController {
   RxList<Rx<ChatBoxModel>> chatBox = <Rx<ChatBoxModel>>[].obs;
   RxInt currentClassID = 0.obs;
   RxBool canChatFileShow = false.obs;
+  RxBool tapTextField = false.obs;
 
   ScrollController chatScrollController;
 
