@@ -43,13 +43,20 @@ class WriteCommentController extends GetxController {
           classViewController.refreshPage();
         }
 
-        Get.snackbar("강평 작성 완료", "강의평가 작성이 완료되었습니다.",
-            duration: Duration(seconds: 2));
+        // Get.snackbar("강평 작성 완료", "강의평가 작성이 완료되었습니다.",
+        //     duration: Duration(seconds: 2),
+        //     snackPosition: SnackPosition.BOTTOM,
+        //     backgroundColor: Colors.white,
+        //     colorText: Colors.black);
 
         break;
       default:
         print(jsonResponse["statusCode"]);
-        Get.snackbar("강평 작성 실패", "Failed", duration: Duration(seconds: 2));
+        Get.snackbar("강평 작성 실패", "Failed",
+            duration: Duration(seconds: 2),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.white,
+            colorText: Colors.black);
     }
   }
 

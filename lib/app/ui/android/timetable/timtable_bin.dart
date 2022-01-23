@@ -5,6 +5,7 @@ import 'package:polarstar_flutter/app/controller/timetable/timetable_bin_control
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/timetable_semester.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/appBar.dart';
 
 class TimeTableBin extends StatelessWidget {
@@ -114,7 +115,7 @@ class TimeTableBin extends StatelessWidget {
                                   Container(
                                     margin: const EdgeInsets.only(top: 20),
                                     child: Text(
-                                        "${items[0].value.YEAR}年 第${items[0].value.SEMESTER}学期",
+                                        "${timetableSemChanger(items[0].value.YEAR, items[0].value.SEMESTER)}",
                                         style: const TextStyle(
                                             color: const Color(0xff000000),
                                             fontWeight: FontWeight.w500,

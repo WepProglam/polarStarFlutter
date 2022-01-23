@@ -43,73 +43,104 @@ class ClassView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: const Color(backgroundColor),
         appBar: AppBars().classBasicAppBar(),
-        bottomSheet: Ink(
-          color: const Color(mainColor),
-          child: InkWell(
-            onTap: () {
-              if (classViewController.typeIndex.value == 0) {
-                showModalBottomSheet(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(20),
-                            topRight: const Radius.circular(20))),
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return WriteComment(
-                        // classViewController: classViewController,
-                        reviewTextController: reviewTextController,
-                        CLASS_ID: classViewController.classInfo.value.CLASS_ID,
-                      );
-                    });
-              } else {
-                showModalBottomSheet(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(30),
-                            topRight: const Radius.circular(30))),
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return WriteExamInfo(
-                          classViewController: classViewController,
-                          examInfoTextController: examInfoTextController,
-                          testStrategyController: testStrategyController);
-                    });
-              }
-            },
-            child: Container(
-              height: 50,
-              width: Get.mediaQuery.size.width,
-              child: Obx(() => Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          classViewController.typeIndex.value == 0
-                              ? Icons.post_add
-                              : Icons.add_circle_outline,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          classViewController.typeIndex.value == 0
-                              ? "Writing Evaluation"
-                              : "Add Exam Information",
-                          textScaleFactor: 1.2,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal),
-                        ),
-                      ),
-                    ],
-                  )),
-            ),
-          ),
-        ),
+        // bottomSheet: TabBarView(
+        //     controller: classViewController.tabController,
+        //     children: [
+        //       Ink(
+        //         color: const Color(mainColor),
+        //         child: InkWell(
+        //           onTap: () {
+        //             showModalBottomSheet(
+        //                 shape: RoundedRectangleBorder(
+        //                     borderRadius: BorderRadius.only(
+        //                         topLeft: const Radius.circular(20),
+        //                         topRight: const Radius.circular(20))),
+        //                 isScrollControlled: true,
+        //                 context: context,
+        //                 builder: (BuildContext context) {
+        //                   return WriteComment(
+        //                     // classViewController: classViewController,
+        //                     reviewTextController: reviewTextController,
+        //                     CLASS_ID:
+        //                         classViewController.classInfo.value.CLASS_ID,
+        //                   );
+        //                 });
+        //           },
+        //           child: Container(
+        //             height: 50,
+        //             width: Get.mediaQuery.size.width,
+        //             child: Obx(() => Row(
+        //                   mainAxisAlignment: MainAxisAlignment.center,
+        //                   children: [
+        //                     Padding(
+        //                       padding: const EdgeInsets.all(8.0),
+        //                       child: Icon(
+        //                         Icons.post_add,
+        //                         color: Colors.white,
+        //                       ),
+        //                     ),
+        //                     Padding(
+        //                       padding: const EdgeInsets.all(8.0),
+        //                       child: Text(
+        //                         "Writing Evaluation",
+        //                         textScaleFactor: 1.2,
+        //                         style: TextStyle(
+        //                             color: Colors.white,
+        //                             fontWeight: FontWeight.normal),
+        //                       ),
+        //                     ),
+        //                   ],
+        //                 )),
+        //           ),
+        //         ),
+        //       ),
+        //       Ink(
+        //         color: const Color(mainColor),
+        //         child: InkWell(
+        //           onTap: () {
+        //             showModalBottomSheet(
+        //                 shape: RoundedRectangleBorder(
+        //                     borderRadius: BorderRadius.only(
+        //                         topLeft: const Radius.circular(30),
+        //                         topRight: const Radius.circular(30))),
+        //                 isScrollControlled: true,
+        //                 context: context,
+        //                 builder: (BuildContext context) {
+        //                   return WriteExamInfo(
+        //                       classViewController: classViewController,
+        //                       examInfoTextController: examInfoTextController,
+        //                       testStrategyController: testStrategyController);
+        //                 });
+        //           },
+        //           child: Container(
+        //             height: 50,
+        //             width: Get.mediaQuery.size.width,
+        //             child: Obx(() => Row(
+        //                   mainAxisAlignment: MainAxisAlignment.center,
+        //                   children: [
+        //                     Padding(
+        //                       padding: const EdgeInsets.all(8.0),
+        //                       child: Icon(
+        //                         Icons.add_circle_outline,
+        //                         color: Colors.white,
+        //                       ),
+        //                     ),
+        //                     Padding(
+        //                       padding: const EdgeInsets.all(8.0),
+        //                       child: Text(
+        //                         "Add Exam Information",
+        //                         textScaleFactor: 1.2,
+        //                         style: TextStyle(
+        //                             color: Colors.white,
+        //                             fontWeight: FontWeight.normal),
+        //                       ),
+        //                     ),
+        //                   ],
+        //                 )),
+        //           ),
+        //         ),
+        //       ),
+        //     ]),
         body: RefreshIndicator(
           notificationPredicate: (notification) {
             return notification.depth == 2;
@@ -168,83 +199,205 @@ class ClassView extends StatelessWidget {
                   body: TabBarView(
                       controller: classViewController.tabController,
                       children: [
-                        ListView.separated(
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) {
-                            if (index == 0) {
-                              return Container(
-                                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                                decoration: BoxDecoration(
+                        Stack(children: [
+                          ListView.separated(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                              if (index == 0) {
+                                return Container(
+                                  margin:
+                                      EdgeInsets.symmetric(horizontal: 20.0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(8))),
+                                  child: ClassViewReview(
+                                    classReviewModel: classViewController
+                                        .classReviewList[index],
+                                    index: index,
+                                  ),
+                                );
+                              } else if (index ==
+                                  classViewController.classReviewList.length -
+                                      1) {
+                                return Container(
+                                  margin:
+                                      EdgeInsets.symmetric(horizontal: 20.0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.vertical(
+                                          bottom: Radius.circular(8))),
+                                  child: ClassViewReview(
+                                    classReviewModel: classViewController
+                                        .classReviewList[index],
+                                    index: index,
+                                  ),
+                                );
+                              } else {
+                                return Container(
+                                  margin:
+                                      EdgeInsets.symmetric(horizontal: 20.0),
+                                  decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(8))),
-                                child: ClassViewReview(
-                                  classReviewModel: classViewController
-                                      .classReviewList[index],
-                                  index: index,
-                                ),
-                              );
-                            } else if (index ==
-                                classViewController.classReviewList.length -
-                                    1) {
+                                  ),
+                                  child: ClassViewReview(
+                                    classReviewModel: classViewController
+                                        .classReviewList[index],
+                                    index: index,
+                                  ),
+                                );
+                              }
+                            },
+                            itemCount:
+                                classViewController.classReviewList.length,
+                            separatorBuilder: (context, index) {
                               return Container(
-                                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.vertical(
-                                        bottom: Radius.circular(8))),
-                                child: ClassViewReview(
-                                  classReviewModel: classViewController
-                                      .classReviewList[index],
-                                  index: index,
-                                ),
-                              );
-                            } else {
-                              return Container(
-                                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                ),
-                                child: ClassViewReview(
-                                  classReviewModel: classViewController
-                                      .classReviewList[index],
-                                  index: index,
-                                ),
-                              );
-                            }
-                          },
-                          itemCount: classViewController.classReviewList.length,
-                          separatorBuilder: (context, index) {
-                            return Container(
-                                margin: EdgeInsets.symmetric(horizontal: 34.5),
-                                height: 1,
-                                decoration: BoxDecoration(
-                                    color: const Color(0xffeaeaea)));
-                          },
-                        ),
+                                  margin:
+                                      EdgeInsets.symmetric(horizontal: 34.5),
+                                  height: 1,
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xffeaeaea)));
+                            },
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            child: Ink(
+                              color: const Color(mainColor),
+                              child: InkWell(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft:
+                                                  const Radius.circular(20),
+                                              topRight:
+                                                  const Radius.circular(20))),
+                                      isScrollControlled: true,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return WriteComment(
+                                          // classViewController: classViewController,
+                                          reviewTextController:
+                                              reviewTextController,
+                                          CLASS_ID: classViewController
+                                              .classInfo.value.CLASS_ID,
+                                        );
+                                      });
+                                },
+                                child: Container(
+                                    height: 50,
+                                    width: Get.mediaQuery.size.width,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.post_add,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "Writing Evaluation",
+                                            textScaleFactor: 1.2,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                            ),
+                          ),
+                        ]),
                         Obx(() {
                           if (classViewController.classExamAvailable.value) {
-                            return ListView.separated(
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (BuildContext context, int index) {
-                                  return ClassExamInfo(
-                                    classExamModel: classViewController
-                                        .classExamList[index],
-                                    classInfoModel:
-                                        classViewController.classInfo.value,
-                                    index: index,
-                                  );
-                                },
-                                itemCount:
-                                    classViewController.classExamList.length,
-                                separatorBuilder: (context, index) {
-                                  return Container(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 34.5),
-                                      height: 1,
-                                      decoration: BoxDecoration(
-                                          color: const Color(0xffeaeaea)));
-                                });
+                            return Stack(children: [
+                              ListView.separated(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return ClassExamInfo(
+                                      classExamModel: classViewController
+                                          .classExamList[index],
+                                      classInfoModel:
+                                          classViewController.classInfo.value,
+                                      index: index,
+                                    );
+                                  },
+                                  itemCount:
+                                      classViewController.classExamList.length,
+                                  separatorBuilder: (context, index) {
+                                    return Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 34.5),
+                                        height: 1,
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xffeaeaea)));
+                                  }),
+                              Positioned(
+                                bottom: 0,
+                                child: Ink(
+                                  color: const Color(mainColor),
+                                  child: InkWell(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft:
+                                                      const Radius.circular(30),
+                                                  topRight:
+                                                      const Radius.circular(
+                                                          30))),
+                                          isScrollControlled: true,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return WriteExamInfo(
+                                                classViewController:
+                                                    classViewController,
+                                                examInfoTextController:
+                                                    examInfoTextController,
+                                                testStrategyController:
+                                                    testStrategyController);
+                                          });
+                                    },
+                                    child: Container(
+                                        height: 50,
+                                        width: Get.mediaQuery.size.width,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                Icons.add_circle_outline,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Add Exam Information",
+                                                textScaleFactor: 1.2,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                  ),
+                                ),
+                              ),
+                            ]);
                           } else {
                             return Center(
                               child: CircularProgressIndicator(),
@@ -758,7 +911,7 @@ class ClassViewReview extends StatelessWidget {
                 ]),
           ),
 
-          //* 수강 학기: 데이터 안 날라옴
+          // * 수강 학기: 데이터 안 날라옴
           Text(
               "${semester(classReviewModel.CLASS_SEMESTER)} Semester Of ${classReviewModel.CLASS_YEAR}",
               style: const TextStyle(

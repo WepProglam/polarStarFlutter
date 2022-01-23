@@ -10,8 +10,11 @@ import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.
 class TimetableClassBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<TimeTableAddClassController>((() => TimeTableAddClassController(
+    Get.put(TimeTableAddClassController(
         repository: TimeTableAddClassRepository(
-            apiClient: TimeTableAddClassApiClient()))));
+            apiClient: TimeTableAddClassApiClient())));
+    // Get.lazyPut<TimeTableAddClassController>((() => TimeTableAddClassController(
+    //     repository: TimeTableAddClassRepository(
+    //         apiClient: TimeTableAddClassApiClient()))));
   }
 }

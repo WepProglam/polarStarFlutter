@@ -659,9 +659,11 @@ void CreateNewTimetable(
   putController<TimeTableController>();
   final box = GetStorage();
   TimeTableController tc = Get.find();
+  int year = box.read("year_sem")["TIMETABLE_YEAR_FROM_DATE"];
+  int semester = box.read("year_sem")["TIMETABLE_SEMESTER_FROM_DATE"];
   int stc = await tc.getSemesterTimeTable(
-    "${box.read("year_sem")["TIMETABLE_YEAR_FROM_DATE"]}",
-    "${box.read("year_sem")["TIMETABLE_SEMESTER_FROM_DATE"]}",
+    "${year}",
+    "${semester}",
   );
   if (stc != 200) {
     await Get.defaultDialog(
@@ -694,9 +696,16 @@ void CreateNewTimetable(
           ),
         ]));
   } else {
-    await Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN).then((value) async {
-      await MainUpdateModule.updateMainPage();
-    });
+    bool canGo = await tc.canGoClassSearchPage(year, semester);
+    if (canGo) {
+      await Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN).then((value) async {
+        await MainUpdateModule.updateMainPage();
+      });
+    } else {
+      await Get.toNamed(Routes.TIMETABLE_ADDCLASS_DIRECT).then((value) async {
+        await MainUpdateModule.updateMainPage();
+      });
+    }
   }
 }
 

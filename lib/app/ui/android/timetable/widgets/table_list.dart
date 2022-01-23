@@ -672,114 +672,125 @@ class SubjectList extends StatelessWidget {
       // 밑에서 강의 추가하는 기능
       // model.value.CLASSES == null ? 1 : model.value.CLASSES.length + 1;
       return Container(
-          child: ListView.builder(
-              itemCount: total_length + 1,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int i) {
-                int index = i - 1;
-                return i == 0
-                    // return i == total_length - 1
-                    ? Container(
-                        width: 20,
-                      )
-                    : Container(
-                        width: 180,
-                        height: 144,
-                        margin: const EdgeInsets.only(right: 8),
-                        child: Ink(
-                          child: InkWell(
-                            // onTap: () async {
-                            //   // box.remove("classSocket");
-                            //   if (box.hasData("classSocket")) {
-                            //     List<dynamic> classSocketList =
-                            //         box.read("classSocket");
-                            //     bool isExist = false;
-                            //     for (var item in classSocketList) {
-                            //       if ("${item}" ==
-                            //           "${model.value.CLASSES[i].CLASS_ID}") {
-                            //         isExist = true;
-                            //       }
-                            //     }
-                            //     if (!isExist) {
-                            //       classSocketList.add(
-                            //           "${model.value.CLASSES[i].CLASS_ID}");
-                            //       box.write("classSocket", classSocketList);
-                            //     }
-                            //   } else {
-                            //     box.write("classSocket",
-                            //         ["${model.value.CLASSES[i].CLASS_ID}"]);
-                            //   }
+          child: Row(children: [
+        Container(
+          width: 20,
+        ),
+        ListView.builder(
+            itemCount: total_length,
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int i) {
+              return Container(
+                  width: 180,
+                  height: 144,
+                  margin: const EdgeInsets.only(right: 8),
+                  child: Ink(
+                    child: InkWell(
+                      // onTap: () async {
+                      //   // box.remove("classSocket");
+                      //   if (box.hasData("classSocket")) {
+                      //     List<dynamic> classSocketList =
+                      //         box.read("classSocket");
+                      //     bool isExist = false;
+                      //     for (var item in classSocketList) {
+                      //       if ("${item}" ==
+                      //           "${model.value.CLASSES[i].CLASS_ID}") {
+                      //         isExist = true;
+                      //       }
+                      //     }
+                      //     if (!isExist) {
+                      //       classSocketList.add(
+                      //           "${model.value.CLASSES[i].CLASS_ID}");
+                      //       box.write("classSocket", classSocketList);
+                      //     }
+                      //   } else {
+                      //     box.write("classSocket",
+                      //         ["${model.value.CLASSES[i].CLASS_ID}"]);
+                      //   }
 
-                            //   Get.toNamed(Routes.CLASSCHAT, arguments: {
-                            //     "roomID": "${model.value.CLASSES[i].CLASS_ID}"
-                            //   });
+                      //   Get.toNamed(Routes.CLASSCHAT, arguments: {
+                      //     "roomID": "${model.value.CLASSES[i].CLASS_ID}"
+                      //   });
 
-                            //   // IO.Socket socket = await socketting(
-                            //   //     "${model.value.CLASSES[i].CLASS_ID}");
-                            // },
-                            child: Container(
-                              margin: const EdgeInsets.only(left: 20, top: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    child: Text(
-                                        "${model.value.CLASSES[index].CLASS_NAME}",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            color: const Color(0xff000000),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: "NotoSansSC",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 14.0),
-                                        textAlign: TextAlign.center),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(bottom: 8),
-                                    child: // 이연희
-                                        Text(
-                                            "${model.value.CLASSES[index].PROFESSOR}",
-                                            style: const TextStyle(
-                                                color: const Color(0xff6f6e6e),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "NotoSansSC",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 12.0),
-                                            textAlign: TextAlign.center),
-                                  ),
-                                  FittedBox(
-                                    child: SubjectPreviewList(
-                                        text:
-                                            "- ${model.value.CLASSES[index].CLASS_NUMBER}"),
-                                  ),
-                                  FittedBox(
-                                    child: SubjectPreviewList(
-                                        text:
-                                            "- ${model.value.CLASSES[index].CREDIT}"),
-                                  ),
-                                  FittedBox(
-                                    child: SubjectPreviewList(
-                                        text:
-                                            "- ${model.value.CLASSES[index].PROFESSOR}"),
-                                  ),
-                                ],
-                              ),
+                      //   // IO.Socket socket = await socketting(
+                      //   //     "${model.value.CLASSES[i].CLASS_ID}");
+                      // },
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 20, top: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: Text(
+                                  "${model.value.CLASSES[i].CLASS_NAME}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      color: const Color(0xff000000),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "NotoSansSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  textAlign: TextAlign.center),
                             ),
-                          ),
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 8),
+                              child: // 이연희
+                                  Text("${model.value.CLASSES[i].PROFESSOR}",
+                                      style: const TextStyle(
+                                          color: const Color(0xff6f6e6e),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "NotoSansSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 12.0),
+                                      textAlign: TextAlign.center),
+                            ),
+                            model.value.CLASSES[i].CLASS_ID == null
+                                ? FittedBox(
+                                    child:
+                                        SubjectPreviewList(text: "- 커스텀 시간표"),
+                                  )
+                                : Column(children: [
+                                    FittedBox(
+                                      child: SubjectPreviewList(
+                                          text: model.value.CLASSES[i]
+                                                      .CLASS_NUMBER ==
+                                                  null
+                                              ? "- 커스텀 시간표"
+                                              : "- ${model.value.CLASSES[i].CLASS_NUMBER}"),
+                                    ),
+                                    FittedBox(
+                                      child: SubjectPreviewList(
+                                          text: model.value.CLASSES[i].CREDIT ==
+                                                  null
+                                              ? "- 커스텀 시간표"
+                                              : "- ${model.value.CLASSES[i].CREDIT}"),
+                                    ),
+                                    FittedBox(
+                                      child: SubjectPreviewList(
+                                          text:
+                                              "- ${model.value.CLASSES[i].PROFESSOR}"),
+                                    ),
+                                  ]),
+                          ],
                         ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(9)),
-                            border: Border.all(
-                                color: const Color(0xffeaeaea), width: 1),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: const Color(0x0f000000),
-                                  offset: Offset(0, 3),
-                                  blurRadius: 6,
-                                  spreadRadius: 0)
-                            ],
-                            color: const Color(0xffffffff)));
-              }));
+                      ),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(9)),
+                      border:
+                          Border.all(color: const Color(0xffeaeaea), width: 1),
+                      boxShadow: [
+                        BoxShadow(
+                            color: const Color(0x0f000000),
+                            offset: Offset(0, 3),
+                            blurRadius: 6,
+                            spreadRadius: 0)
+                      ],
+                      color: const Color(0xffffffff)));
+            }),
+      ]));
     });
   }
 }

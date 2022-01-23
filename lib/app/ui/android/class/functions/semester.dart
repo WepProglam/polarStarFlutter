@@ -4,7 +4,7 @@ String semester(int intSemester) {
     case 1:
       retString = "First";
       break;
-    case 2:
+    case 3:
       retString = "Second";
       break;
     default:

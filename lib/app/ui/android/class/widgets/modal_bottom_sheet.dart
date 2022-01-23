@@ -10,6 +10,7 @@ import 'package:polarstar_flutter/app/data/provider/class/class_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class_view.dart';
 import 'package:polarstar_flutter/app/ui/android/class/functions/semester.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/timetable_semester.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/timetable.dart';
 
 class WriteComment extends StatelessWidget {
@@ -425,16 +426,20 @@ class WriteComment extends StatelessWidget {
                                   .currentYearSem["TIMETABLE_YEAR_FROM_DATE"] -
                               writeCommentController.writeCommentIndex;
                           writeCommentController.writeCommentSemester =
-                              writeCommentController.writeCommentIndex % 2 + 1;
+                              flutterToServerSemChanger(
+                                  writeCommentController.writeCommentIndex % 2 +
+                                      1);
                         } else {
                           writeCommentController
                               .writeCommentYear = writeCommentController
                                   .currentYearSem["TIMETABLE_YEAR_FROM_DATE"] -
                               writeCommentController.writeCommentIndex;
                           writeCommentController.writeCommentSemester =
-                              (writeCommentController.writeCommentIndex + 1) %
-                                      2 +
-                                  1;
+                              flutterToServerSemChanger(
+                                  (writeCommentController.writeCommentIndex +
+                                              1) %
+                                          2 +
+                                      1);
                         }
 
                         print(writeCommentController.writeCommentYear);
@@ -546,7 +551,7 @@ class WriteComment extends StatelessWidget {
                                   .assignmentRate.value
                                   .toDouble()
                                   .toString(),
-                              "RAGE_GRADE": writeCommentController
+                              "RATE_GRADE": writeCommentController
                                   .gradeRate.value
                                   .toDouble()
                                   .toString(),
@@ -557,6 +562,10 @@ class WriteComment extends StatelessWidget {
                                   .writeCommentSemester
                                   .toString()
                             };
+
+                            print(writeCommentController.gradeRate.value
+                                .toDouble()
+                                .toString());
 
                             await writeCommentController.postComment(
                                 CLASS_ID, data);
@@ -692,14 +701,18 @@ class WriteExamInfo extends StatelessWidget {
                                 .currentYearSem["TIMETABLE_YEAR_FROM_DATE"] -
                             classViewController.writeCommentIndex;
                         classViewController.writeExamInfoSemester =
-                            classViewController.writeCommentIndex % 2 + 1;
+                            flutterToServerSemChanger(
+                                classViewController.writeCommentIndex % 2 + 1);
                       } else {
                         classViewController
                             .writeExamInfoYear = classViewController
                                 .currentYearSem["TIMETABLE_YEAR_FROM_DATE"] -
                             classViewController.writeCommentIndex;
                         classViewController.writeExamInfoSemester =
-                            (classViewController.writeCommentIndex + 1) % 2 + 1;
+                            flutterToServerSemChanger(
+                                (classViewController.writeCommentIndex + 1) %
+                                        2 +
+                                    1);
                       }
 
                       print(classViewController.writeExamInfoYear);

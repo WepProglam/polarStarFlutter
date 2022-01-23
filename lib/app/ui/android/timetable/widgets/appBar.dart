@@ -8,6 +8,7 @@ import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart'
 import 'package:polarstar_flutter/app/data/provider/timetable/timetable_addclass_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_addclass_repository.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/timetable_semester.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/add_class_search.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
 
@@ -38,7 +39,7 @@ class TimeTableAppBar extends StatelessWidget {
                     return Container();
                   }
                   return Text(
-                      "${timeTableController.selectTable.value.YEAR}년 ${timeTableController.selectTable.value.SEMESTER}학기",
+                      "${timetableSemChanger(timeTableController.selectTable.value.YEAR, timeTableController.selectTable.value.SEMESTER)}",
                       style: const TextStyle(
                           color: const Color(0xffffffff),
                           fontWeight: FontWeight.w500,
@@ -69,8 +70,15 @@ class TimeTableAppBar extends StatelessWidget {
               right: 20,
               child: Ink(
                 child: InkWell(
-                  onTap: () {
-                    Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
+                  onTap: () async {
+                    bool canGo = await timeTableController.canGoClassSearchPage(
+                        timeTableController.selectTable.value.YEAR,
+                        timeTableController.selectTable.value.SEMESTER);
+                    if (canGo) {
+                      Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
+                    } else {
+                      Get.toNamed(Routes.TIMETABLE_ADDCLASS_DIRECT);
+                    }
                   },
                   child: Image.asset(
                     "assets/images/icn_plus.png",

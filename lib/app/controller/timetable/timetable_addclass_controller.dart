@@ -139,7 +139,6 @@ class TimeTableAddClassController extends GetxController {
     super.onInit();
     initClass();
     dataAvailable.value = true;
-    await timeTableController.handleAddButtonFalse();
     ever(CLASS_LIST, (_) {
       for (var item in CLASS_LIST) {
         print(item.value.day);
@@ -154,6 +153,11 @@ class TimeTableAddClassController extends GetxController {
         initClass();
       }
     });
+  }
+
+  @override
+  void onReady() async {
+    await timeTableController.handleAddButtonFalse();
   }
 
   @override

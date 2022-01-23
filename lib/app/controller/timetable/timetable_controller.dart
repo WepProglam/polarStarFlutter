@@ -162,6 +162,15 @@ class TimeTableController extends GetxController {
     return false;
   }
 
+  Future<bool> canGoClassSearchPage(int year, int semester) async {
+    var response =
+        await Session().getX("/isExist/year/${year}/semester/${semester}");
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
   void initShowTimeTable() {
     showTimeTable.value = [
       <Map<String, dynamic>>[].obs,
