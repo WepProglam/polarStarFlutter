@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
@@ -14,11 +15,33 @@ import 'package:polarstar_flutter/app/data/model/mail/mailSend_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
 
-class ClassChatHistory extends StatelessWidget {
+class ClassChatHistory extends StatefulWidget {
+  @override
+  State<ClassChatHistory> createState() => _ClassChatHistoryState();
+}
+
+class _ClassChatHistoryState extends State<ClassChatHistory> {
   final ClassChatController controller = Get.find();
+
   final commentWriteController = TextEditingController();
+
   final InitController initController = Get.find();
+
   final box = GetStorage();
+  StreamSubscription<bool> keyboardSubscription;
+  @override
+  void initState() {
+    super.initState();
+    var keyboardVisibilityController = KeyboardVisibilityController();
+
+    keyboardSubscription =
+        keyboardVisibilityController.onChange.listen((event) {
+      print(event ? "keyboard open" : "keyboard hidden");
+      if (!event) {
+        initController.tapTextField.value = false;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +50,7 @@ class ClassChatHistory extends StatelessWidget {
 
     int chatIndex = initController.findChatHistory();
     print("build!!");
+
     return WillPopScope(
       onWillPop: () async {
         initController.tapTextField.value = false;

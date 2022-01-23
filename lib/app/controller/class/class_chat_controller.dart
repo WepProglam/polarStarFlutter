@@ -10,6 +10,7 @@ import 'package:polarstar_flutter/app/data/model/class/class_chat_model.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/keyboard_visibility.dart';
 import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -116,6 +117,12 @@ class ClassChatController extends GetxController {
     // });
 
     super.onInit();
+
+    // KeyboardVisibilityNotification().addNewListener(onHide: () {
+    //   //키보드가 내려갔을 때
+    //   print("!!!!!hide");
+    //   Get.snackbar("asdfasdfasdf", "ASfasdfasdf");
+    // });
     dataAvailble.value = true;
   }
 
