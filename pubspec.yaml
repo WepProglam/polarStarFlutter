@@ -292,6 +292,11 @@ flutter:
     - assets/images/comment_cc.png
     - assets/images/board_create.png
 
+    # Chat
+    - assets/images/chat_input_send.png
+    - assets/images/file_plus.png
+
+
     
 
     # - assets/fonts/

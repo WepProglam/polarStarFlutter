@@ -73,6 +73,13 @@ class LoginInputs extends GetView<LoginController> {
                         controller: loginIdContoller,
                         obscureText: false,
                         textInputAction: TextInputAction.next,
+                        onTap: () {},
+                        onChanged: (e) {
+                          // print(MediaQuery.of(context).viewInsets.bottom);
+                          // * 유저 키보드 사이즈 저장
+                          box.write("keyBoardHeight",
+                              MediaQuery.of(context).viewInsets.bottom);
+                        },
                         onFieldSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(focus),
                         validator: (value) {
