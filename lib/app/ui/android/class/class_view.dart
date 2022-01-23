@@ -629,7 +629,7 @@ class ClassViewInfo extends StatelessWidget {
                         child: Text(
                             classInfoModel.AVG_RATE != null
                                 ? "(${classInfoModel.AVG_RATE})"
-                                : "평가 X",
+                                : "",
                             style: const TextStyle(
                                 color: const Color(0xffffffff),
                                 fontWeight: FontWeight.w500,

@@ -197,8 +197,8 @@ class ClassChatHistory extends StatelessWidget {
                         nextModel = initController
                             .chatBox[chatIndex].value.ClassChatList[index + 1];
                       }
-                      bool showLine = ((prevModel != null) &&
-                          (prevModel.value.TIME_CREATED.day !=
+                      bool showLine = ((nextModel != null) &&
+                          (nextModel.value.TIME_CREATED.day !=
                               model.value.TIME_CREATED.day));
                       print(
                           "${index} => ${model.value.TIME_CREATED.toString()}");
@@ -295,7 +295,20 @@ class ClassChatHistory extends StatelessWidget {
                                       model.value.TIME_CREATED.minute)) ||
                           nextModel == null;
 
+                      bool firstChatInTime = (prevModel != null &&
+                              (prevModel.value.TIME_CREATED.day !=
+                                      model.value.TIME_CREATED.day ||
+                                  prevModel.value.TIME_CREATED.hour !=
+                                      model.value.TIME_CREATED.hour ||
+                                  prevModel.value.TIME_CREATED.minute !=
+                                      model.value.TIME_CREATED.minute)) ||
+                          prevModel == null;
+
                       bool displayTime = isChatSamePersonEnd || lastChatInTime;
+
+                      bool showProfile = prevModel == null ||
+                          isContinueDifferent ||
+                          firstChatInTime;
 
                       // bool isTimeDifferent = (isContinueSame &&
                       //         (prevModel.value.TIME_CREATED.day !=
@@ -316,7 +329,7 @@ class ClassChatHistory extends StatelessWidget {
                                   ? EdgeInsets.only(
                                       right: 20, top: isContinueSame ? 6 : 24)
                                   : EdgeInsets.only(
-                                      left: 20, top: isContinueSame ? 6 : 24)),
+                                      left: 20, top: showProfile ? 24 : 6)),
                           child: Align(
                             alignment: (MY_SELF
                                 ? Alignment.topRight
@@ -336,19 +349,19 @@ class ClassChatHistory extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                        isContinueSame
-                                            ? Container(
-                                                width: 42,
-                                              )
-                                            : MAIL_PROFILE_ITEM(
+                                        showProfile
+                                            ? MAIL_PROFILE_ITEM(
                                                 model: model.value,
                                                 FROM_ME: MY_SELF,
+                                              )
+                                            : Container(
+                                                width: 42,
                                               ),
                                         Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              isContinueDifferent
+                                              showProfile
                                                   ? Container(
                                                       margin:
                                                           const EdgeInsets.only(
@@ -417,7 +430,7 @@ class ClassChatHistory extends StatelessWidget {
                       child: TextFormField(
                           keyboardType: TextInputType.multiline,
                           onTap: () async {
-                            Timer(Duration(milliseconds: 550), () {
+                            Timer(Duration(milliseconds: 100), () {
                               initController.chatScrollController.jumpTo(
                                 initController.chatScrollController.position
                                     .maxScrollExtent,
