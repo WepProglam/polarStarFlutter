@@ -27,6 +27,10 @@ class MailController extends GetxController {
   Rx<MailProfile> myProfile = MailProfile().obs; //쪽지 상대방 프로필
 
   final NotiController notiController = Get.find();
+  RxBool tapTextField = false.obs;
+  ScrollController chatScrollController =
+      ScrollController(initialScrollOffset: 0.0);
+  FocusNode chatFocusNode = FocusNode();
 
   @override
   onInit() async {

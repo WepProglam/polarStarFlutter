@@ -841,7 +841,7 @@ void checkNoti(NotiController notiController, int index) async {
 void checkMail(NotiController notiController, int index) async {
   await Get.toNamed("/mail/${notiController.mailBox[index].value.MAIL_BOX_ID}")
       .then((value) async {
-    await MainUpdateModule.updateNotiPage(1);
+    await MainUpdateModule.updateNotiPage(2);
   });
   if (!notiController.mailBox[index].value.isReaded) {
     notiController.mailBox[index].update((val) {

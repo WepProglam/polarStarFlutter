@@ -118,7 +118,6 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                   controller.canChatFileShow.value = false;
                   controller.tapTextField.value = false;
                   controller.chatFocusNode.unfocus();
-                  // FocusScope.of(context).unfocus();
                 },
                 child: SingleChildScrollView(
                   controller: controller.chatScrollController,
