@@ -38,9 +38,12 @@ class MainBinding implements Bindings {
 
     Get.put(ClassChatController());
     ClassChatController classChatController = Get.find();
-    // if (classChatSocket == null || classChatSocket.disconnected) {
-    //   classChatSocket
-    // }
+    if (classChatSocket == null || classChatSocket.disconnected) {
+      classChatSocket = await IO.io(
+          'http://13.209.5.161:3000',
+          IO.OptionBuilder().setTransports(['websocket']).setExtraHeaders(
+              {'cookie': Session.headers["Cookie"]}).build());
+    }
 
     await classChatController.registerSocket();
     await classChatController.getChatBox();

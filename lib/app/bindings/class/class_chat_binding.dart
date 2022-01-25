@@ -13,7 +13,6 @@ class ClassChatBinding implements Bindings {
   void dependencies() {
     putController<ClassChatController>();
     ClassChatController classChatController = Get.find();
-    classChatController.currentClassID.value =
-        int.parse(Get.arguments["roomID"]);
+    classChatController.currentBoxID.value = int.parse(Get.arguments["roomID"]);
   }
 }
