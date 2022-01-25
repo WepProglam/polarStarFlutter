@@ -164,7 +164,7 @@ class TimeTableController extends GetxController {
 
   Future<bool> canGoClassSearchPage(int year, int semester) async {
     var response =
-        await Session().getX("/isExist/year/${year}/semester/${semester}");
+        await Session().getX("/timetable/isExist/year/${year}/semester/${semester}");
     if (response.statusCode == 200) {
       return true;
     }

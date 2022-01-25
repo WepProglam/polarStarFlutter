@@ -37,7 +37,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
     keyboardSubscription =
         keyboardVisibilityController.onChange.listen((event) {
       print(event ? "keyboard open" : "keyboard hidden");
-      if (!event) {
+      if (!event && !initController.canChatFileShow.value) {
         initController.tapTextField.value = false;
       }
     });
