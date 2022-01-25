@@ -54,6 +54,7 @@ class LoginController extends GetxController {
 
     switch (response["statusCode"]) {
       case 200:
+        print("chatSokcet : ${classChatSocket.connected}");
         // * 이미 박스에 데이터 있을 때
         if (box.hasData('id') || box.hasData('pw')) {
           await box.remove('id');

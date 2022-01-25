@@ -33,18 +33,28 @@ class ClassChatController extends GetxController {
   RxBool tapTextField = false.obs;
   final FocusNode chatFocusNode = new FocusNode();
 
-  int findChatHistory() {
+  Map<String, dynamic> findChatHistory() {
     int index = 0;
+    // * class
     for (Rx<ChatBoxModel> item in classChatBox) {
       if (item.value.BOX_ID == currentClassID.value) {
-        return index;
+        return {"isClass": true, "index": index};
+      }
+      index++;
+    }
+
+    // * major
+    index = 0;
+    for (Rx<ChatBoxModel> item in majorChatBox) {
+      if (item.value.BOX_ID == currentClassID.value) {
+        return {"isClass": false, "index": index};
       }
       index++;
     }
     return null;
   }
 
-  void countingAmount(int curClassID) {
+  void countingAmountClassChat(int curClassID) {
     int last_cid = box.read("LastChat_${curClassID}");
 
     // * 최근 메시지가 같이 왔을 때 카운팅
@@ -82,8 +92,8 @@ class ClassChatController extends GetxController {
 
   Future<void> socketting() async {
     classChatSocket.on("viewRecentMessage", (data) {
+      // print(data);
       Iterable cc = data;
-      print(data);
       tempChatHistory.clear();
       tempChatHistory.value = cc.map((e) => ChatModel.fromJson(e).obs).toList();
 
@@ -104,7 +114,7 @@ class ClassChatController extends GetxController {
             tempChatHistory.last.value.CHAT_ID);
       }
       // * 안 읽은 개수 체크
-      countingAmount(curClassID);
+      countingAmountClassChat(curClassID);
     });
 
     classChatSocket.on("newMessage", (data) async {
@@ -112,6 +122,9 @@ class ClassChatController extends GetxController {
 
       for (Rx<ChatBoxModel> item in classChatBox) {
         if (item.value.BOX_ID == chat.value.BOX_ID) {
+          if (item.value.ChatList.last.value.CHAT_ID == chat.value.CHAT_ID) {
+            break;
+          }
           item.update((val) {
             // * 채팅방 수정
             val.ChatList.add(chat.value.obs);
@@ -129,7 +142,7 @@ class ClassChatController extends GetxController {
       }
 
       // * 안 읽은 개수 체크
-      countingAmount(chat.value.BOX_ID);
+      countingAmountClassChat(chat.value.BOX_ID);
     });
 
     classChatSocket.on('leaveRoom', (_) {
@@ -143,7 +156,8 @@ class ClassChatController extends GetxController {
   }
 
   void sendMessage(String text) {
-    print(currentClassID.value);
+    print(
+        "!!!!!!!!!!!!!!!!send!!!!!!!!!!!!!!!!!!!${classChatSocket.connected}");
     classChatSocket
         .emit("sendMessage", {"content": text, "roomId": currentClassID.value});
   }
@@ -153,8 +167,10 @@ class ClassChatController extends GetxController {
   }
 
   Future<void> getChatBox() async {
+    print("getChatBox called!!!!!!!!!!!!!!!!!!!!!!!!!");
     var response = await Session().getX("/chat/chatBox");
     var jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
     Iterable classChatBoxList = jsonResponse["classChatBox"];
     Iterable majorChatBoxList = jsonResponse["majorChatBox"];
     classChatBox.value =
@@ -166,17 +182,25 @@ class ClassChatController extends GetxController {
     box.remove("classSocket");
     List<ChatBoxModel> tempClassList = [];
     for (Rx<ChatBoxModel> item in classChatBox) {
-      tempClassList.add(item.value);
-      classChatSocket.emit("joinRoom", [item.value.BOX_ID, "fuckfuck"]);
-      await classChatSocket.emit("getChatLog", [item.value.BOX_ID, 0]);
+      joinAndEmit(item.value.BOX_ID);
     }
 
     tempClassList.clear();
     for (Rx<ChatBoxModel> item in majorChatBox) {
-      tempClassList.add(item.value);
-      classChatSocket.emit("joinRoom", [item.value.BOX_ID, "fuckfuck"]);
-      await classChatSocket.emit("getChatLog", [item.value.BOX_ID, 0]);
+      joinAndEmit(item.value.BOX_ID);
     }
+    return;
+  }
+
+  List<int> rooms = [];
+  Future<void> joinAndEmit(int BOX_ID) async {
+    // if (rooms.indexOf(BOX_ID) == -1) {
+    //   print("already joined");
+    //   return;
+    // }
+    classChatSocket.emit("joinRoom", [BOX_ID, "fuckfuck"]);
+    await classChatSocket.emit("getChatLog", [BOX_ID, 0]);
+    rooms.add(BOX_ID);
     return;
   }
 
@@ -184,109 +208,11 @@ class ClassChatController extends GetxController {
     currentClassID.value = id;
   }
 
-  // final ClassRepository repository;
-  // ClassChatController({@required this.repository});
-
-  // final classListAvailable = false.obs;
-  // final classList = <ClassModel>[].obs;
-  // final reviewList = <ClassRecentReviewModel>[].obs;
-
-  // RxBool dataAvailbale = false.obs;
-
-  // Future<void> refreshPage() async {
-  //   await getClassList();
-  // }
-
-  // Future getClassList() async {
-  //   Map<String, dynamic> jsonResponse = await repository.getRecentClass();
-
-  //   switch (jsonResponse["statusCode"]) {
-  //     case 200:
-  //       classList(jsonResponse["classList"]);
-  //       reviewList(jsonResponse["reviewList"]);
-  //       classListAvailable(true);
-  //       break;
-  //     default:
-  //       classListAvailable(false);
-  //       printError(info: "Data Fetch ERROR!!");
-  //   }
-  // }
-
-  // IO.Socket soc = null;
-
-  // Future<void> registerSocket() async {
-  //   String currentSocketRoom = roomID.value;
-  //   print("socketting function start : roomID - ${currentSocketRoom}");
-  //   await socketting("${roomID.value}");
-  // }
-
-  // Future<void> socketting(String roomID) async {
-  //   classChatSocket.onConnectError((data) => print(data));
-
-  //   classChatSocket.on("viewRecentMessage", (data) {
-  //     Iterable cc = data;
-  //     chatHistory.value = cc.map((e) => ChatModel.fromJson(e)).toList();
-  //     if (readFirstRecent) {
-  //       readFirstRecent = false;
-  //       int CHAT_ID = box.read("LastChat_${chatHistory.last.BOX_ID}");
-  //       for (ChatModel item in chatHistory) {
-  //         if (item.CHAT_ID == CHAT_ID) {}
-  //       }
-  //       box.write(
-  //           "LastChat_${chatHistory.last.BOX_ID}", chatHistory.last.CHAT_ID);
-  //     }
-  //   });
-
-  //   classChatSocket.on("newMessage", (data) {
-  //     print("newMessage called");
-  //     ChatModel chat = ChatModel.fromJson(data);
-  //     print(chat.BOX_ID);
-  //     print("roomID : ${roomID}");
-  //     if (chat.BOX_ID == roomID) {
-  //       chatHistory.add(chat);
-  //     } else {
-  //       Get.snackbar("왜 오냐 이건.. ㅅㅂ", "${chat.BOX_ID}: ${chat.CONTENT}");
-  //     }
-  //   });
-
-  //   classChatSocket.on('leaveRoom', (_) {
-  //     print("leaveRoom called : roomID - ${roomID}");
-  //   });
-
-  //   classChatSocket.on('event', (data) => print(data));
-  //   classChatSocket.onDisconnect((_) => print('disconnect!!!!'));
-  //   classChatSocket.on('fromServer', (_) => print(_));
-
-  //   // return socket;
-  // }
-
   @override
   void onInit() async {
-    // roomID.value = Get.arguments["roomID"];
-    // print("controller init : room ID = ${roomID.value}");
-    // print("controller init : ${classChatSocket.connected}");
-
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   // Timer(Duration(milliseconds: 1000), () {
-    //   //   chatScrollController
-    //   //       .jumpTo(chatScrollController.position.maxScrollExtent);
-    //   // });
-    //   chatScrollController
-    //       .jumpTo(chatScrollController.position.maxScrollExtent);
-    // });
-
-    // SchedulerBinding.instance.addPostFrameCallback((_) {
-    //  chatScrollController
-    //       .jumpTo(chatScrollController.position.maxScrollExtent);
-    // });
-
     super.onInit();
+    rooms = [];
 
-    // KeyboardVisibilityNotification().addNewListener(onHide: () {
-    //   //키보드가 내려갔을 때
-    //   print("!!!!!hide");
-    //   Get.snackbar("asdfasdfasdf", "ASfasdfasdf");
-    // });
     chatScrollController = ScrollController(initialScrollOffset: 0.0);
 
     ever(classChatBox, (_) {
@@ -313,6 +239,7 @@ class ClassChatController extends GetxController {
 
   @override
   void onClose() async {
+    // classChatSocket.disconnect();
     // print("contoller close : ${roomID.value}");
     // await classChatSocket.emit("leaveRoom", roomID.value);
     // chatHistory.clear();

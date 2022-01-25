@@ -475,8 +475,10 @@ class ChatItem extends StatelessWidget {
                     arguments: {"roomID": "${model.value.BOX_ID}"})
                 .then((value) async {
               // * 가장 마지막으로 읽은 class_id 등록
-              await box.write("LastChat_${model.value.BOX_ID}",
-                  model.value.ChatList.last.value.CHAT_ID);
+              if (model.value.ChatList.length != 0) {
+                await box.write("LastChat_${model.value.BOX_ID}",
+                    model.value.ChatList.last.value.CHAT_ID);
+              }
 
               MainUpdateModule.updateNotiPage(1,
                   curClassID: model.value.BOX_ID);

@@ -24,7 +24,6 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 class MainBinding implements Bindings {
   @override
   void dependencies() async {
-    print("mainBinding!");
     Get.lazyPut<MainController>(() =>
         MainController(repository: MainRepository(apiClient: MainApiClient())));
 
@@ -39,17 +38,9 @@ class MainBinding implements Bindings {
 
     Get.put(ClassChatController());
     ClassChatController classChatController = Get.find();
-    classChatSocket = await IO.io(
-        'http://13.209.5.161:3000',
-        IO.OptionBuilder().setTransports(['websocket']).setExtraHeaders(
-            {'cookie': Session.headers["Cookie"]}).build());
-
-    print("classchat binding!");
-
-    // majorChatSocket = await IO.io(
-    //     'http://13.209.5.161:3000',
-    //     IO.OptionBuilder().setTransports(['websocket']).setExtraHeaders(
-    //         {'cookie': Session.headers["Cookie"]}).build());
+    // if (classChatSocket == null || classChatSocket.disconnected) {
+    //   classChatSocket
+    // }
 
     await classChatController.registerSocket();
     await classChatController.getChatBox();

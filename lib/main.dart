@@ -79,6 +79,13 @@ void main() async {
 
   bool isLogined = await initController.checkLogin();
 
+  if (isLogined) {
+    classChatSocket = await IO.io(
+        'http://13.209.5.161:3000',
+        IO.OptionBuilder().setTransports(['websocket']).setExtraHeaders(
+            {'cookie': Session.headers["Cookie"]}).build());
+  }
+
   await runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want
     theme: ThemeData(
