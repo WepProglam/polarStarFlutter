@@ -492,33 +492,41 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                 Get.mediaQuery.size.width - 20 - 16 - 70 - 20,
                             child: GestureDetector(
                               onTap: () {
-                                initController.chatScrollController.jumpTo(
-                                    initController.chatScrollController.position
-                                        .maxScrollExtent);
+                                initController.tapTextField.value = true;
+                                initController.canChatFileShow.value = false;
+                                double target_pos =
+                                    initController.chatScrollController.offset +
+                                        box.read("keyBoardHeight");
+                                Timer(Duration(milliseconds: 100), () {
+                                  initController.chatScrollController
+                                      .jumpTo(target_pos);
+                                });
                               },
                               child: TextFormField(
                                   keyboardType: TextInputType.multiline,
                                   focusNode: initController.chatFocusNode,
                                   onTap: () async {
-                                    initController.tapTextField.value = true;
-                                    initController.canChatFileShow.value =
-                                        false;
-                                    Timer(Duration(milliseconds: 100), () {
-                                      initController.chatScrollController
-                                          .jumpTo(
-                                        initController.chatScrollController
-                                            .position.maxScrollExtent,
-                                      );
-                                      // initController.chatScrollController.animateTo(
-                                      //     initController.chatScrollController.position
-                                      //         .maxScrollExtent,
-                                      //     duration: Duration(milliseconds: 100),
-                                      //     curve: Curves.fastOutSlowIn);
-                                    });
-                                    initController.chatScrollController.jumpTo(
-                                      initController.chatScrollController
-                                          .position.maxScrollExtent,
-                                    );
+                                    // initController.tapTextField.value = true;
+                                    // initController.canChatFileShow.value =
+                                    //     false;
+
+                                    // Timer(Duration(milliseconds: 100), () {
+                                    //   initController.chatScrollController
+                                    //       .jumpTo(
+                                    //     initController.chatScrollController
+                                    //             .position.pixels +
+                                    //         box.read("keyBoardHeight"),
+                                    //   );
+                                    //   // initController.chatScrollController.animateTo(
+                                    //   //     initController.chatScrollController.position
+                                    //   //         .maxScrollExtent,
+                                    //   //     duration: Duration(milliseconds: 100),
+                                    //   //     curve: Curves.fastOutSlowIn);
+                                    // });
+                                    // initController.chatScrollController.jumpTo(
+                                    //   initController.chatScrollController
+                                    //       .position.maxScrollExtent,
+                                    // );
                                   },
                                   onEditingComplete: () async {
                                     // initController
