@@ -69,26 +69,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 IO.Socket classChatSocket;
 
 void main() async {
-  // Socket.connect("http://13.209.5.161", 3000).then((Socket sock) {
-  //   print("adfsdfsadf");
-  // });
-
-  // socket.connect();
-  // IO.Socket socket;
-  // // http.get(Uri.parse('http://10.0.2.2:52324'));
-  // try {
-  //   socket = IO.io('http://10.0.2.2:52324', <String, dynamic>{
-  //     'transports': ['websocket'],
-  //   });
-
-  //   socket.emit("joinRoom", ["asdf", "asdfasdf"]);
-  //   socket.on("sendMessage", (res) {
-  //     print(res);
-  //   });
-  // } catch (e) {
-  //   print(e);
-  // }
-
   await GetStorage.init();
 
   await Firebase.initializeApp();
@@ -99,44 +79,9 @@ void main() async {
 
   bool isLogined = await initController.checkLogin();
 
-  print(isLogined);
-  print("start");
-
-  final box = GetStorage();
-  print(box.read("classSocket"));
-
-  // socket.connect();
-
-  // // fcm token check
-  // await checkFcmToken(initController);
-
-  // // * FCM background
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  // // * FCM foreground
-  // onforegroundMessage();
-
-  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  //     statusBarColor: const Color(0xfff6f6f6),
-  //     statusBarBrightness: Brightness.light));
-  if (isLogined) {
-    classChatSocket = await IO.io(
-        'http://13.209.5.161:3000',
-        IO.OptionBuilder().setTransports(['websocket'])
-            // .disableAutoConnect()
-            .setExtraHeaders({'cookie': Session.headers["Cookie"]}).build());
-    await initController.registerSocket();
-    await initController.getChatBox();
-    print(" !!!!  ${initController.chatBox}");
-    // List<ChatBoxModel> ridList = box.read("classSocket");
-    // for (ChatBoxModel item in ridList) {
-    //   classChatSocket.emit("joinRoom", [item.CLASS_ID, "fuckfuck"]);
-    // }
-  }
-
   await runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want
     theme: ThemeData(
-        buttonColor: const Color(0xff4570ff),
         primaryColor: const Color(0xff4570ff),
         appBarTheme: AppBarTheme(color: const Color(0xff4570ff)),
         unselectedWidgetColor: Color(0xffeaeaea)),
@@ -145,7 +90,7 @@ void main() async {
     initialBinding: isLogined ? MainBinding() : LoginBinding(),
     initialRoute: isLogined ? Routes.MAIN_PAGE : Routes.LOGIN,
     // theme: appThemeData,
-    defaultTransition: Transition.fade,
+    defaultTransition: Transition.cupertino,
     getPages: AppPages.pages,
     locale: Locale('pt', 'BR'),
     // translationsKeys: AppTranslation.translations,

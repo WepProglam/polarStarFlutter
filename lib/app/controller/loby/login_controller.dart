@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/data/model/login_model.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:meta/meta.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/crypt.dart';
 import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
@@ -80,7 +81,7 @@ class LoginController extends GetxController {
         print(box.read("id"));
 
         // Get.offAndToNamed('/main');
-        Get.offAllNamed('/main');
+        Get.offAllNamed(Routes.MAIN_PAGE);
         break;
       default:
         Get.snackbar("로그인 실패", "로그인 실패");

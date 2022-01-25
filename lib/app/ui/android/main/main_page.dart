@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
 import 'package:polarstar_flutter/app/controller/class/class_controller.dart';
 import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
@@ -157,6 +158,9 @@ void putController<T>() {
   } else if (T == ClassController) {
     Get.put(ClassController(
         repository: ClassRepository(apiClient: ClassApiClient())));
+    return;
+  } else if (T == ClassChatController) {
+    Get.put(ClassChatController());
     return;
   }
 }

@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:meta/meta.dart';
-import 'package:polarstar_flutter/app/data/model/class/class_chat_model.dart';
 import 'package:polarstar_flutter/app/data/model/mail/mailBox_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
@@ -33,7 +32,7 @@ class NotiController extends GetxController with SingleGetTickerProviderMixin {
 
   NotiController({@required this.repository}) : assert(repository != null);
 
-  RxList<ClassChatModel> chatHistory = <ClassChatModel>[].obs;
+  RxList<ChatModel> chatHistory = <ChatModel>[].obs;
 
   Future<void> getReadMails() async {
     readMails.value = await MAIL_DB_HELPER.queryAllRows();
@@ -100,7 +99,7 @@ class NotiController extends GetxController with SingleGetTickerProviderMixin {
   //   List<ChatBoxModel> tempBox = box.read("classSocket");
   //   chatBox.value = tempBox.map((e) => e.obs).toList();
 
-  //   RxList<Rx<ClassChatModel>> tt = chatBox[0].value.ClassChatList;
+  //   RxList<Rx<ChatModel>> tt = chatBox[0].value.ClassChatList;
   //   print(chatBox[0].value.ClassChatList);
 
   //   // var response = await Session().getX("/chat/chatBox");

@@ -10,7 +10,6 @@ import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dar
 import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:polarstar_flutter/app/data/model/class/class_chat_model.dart';
 import 'package:polarstar_flutter/app/data/model/mail/mailSend_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
@@ -25,8 +24,6 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
 
   final commentWriteController = TextEditingController();
 
-  final InitController initController = Get.find();
-
   final box = GetStorage();
   StreamSubscription<bool> keyboardSubscription;
   @override
@@ -36,9 +33,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
 
     keyboardSubscription =
         keyboardVisibilityController.onChange.listen((event) {
-      print(event ? "keyboard open" : "keyboard hidden");
-      if (!event && !initController.canChatFileShow.value) {
-        initController.tapTextField.value = false;
+      if (!event && !controller.canChatFileShow.value) {
+        controller.tapTextField.value = false;
       }
     });
   }
@@ -48,89 +44,19 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
     final double chatHeight =
         box.read("keyBoardHeight") == null ? 342.0 : box.read("keyBoardHeight");
 
-    int chatIndex = initController.findChatHistory();
-    print("build!!");
+    int chatIndex = controller.findChatHistory();
 
     return WillPopScope(
       onWillPop: () async {
-        initController.tapTextField.value = false;
+        controller.tapTextField.value = false;
+        controller.canChatFileShow.value = false;
         return true;
       },
       child: SafeArea(
         child: Scaffold(
           backgroundColor: const Color(0xffffffff),
           resizeToAvoidBottomInset: false,
-          // appBar: AppBar(
-          //   backgroundColor: Colors.white,
-          //   foregroundColor: Colors.black,
-          //   elevation: 0,
-          //   leading: Container(
-          //     margin: const EdgeInsets.only(top: 8),
-          //     child: InkWell(
-          //       child: Icon(Icons.arrow_back_ios_new, color: Colors.black),
-          //       onTap: () {
-          //         Get.back();
-          //       },
-          //     ),
-          //   ),
-          //   actions: [
-          //     PopupMenuButton<String>(
-          //       padding: EdgeInsets.zero,
-          //       icon: Container(
-          //         margin: const EdgeInsets.only(top: 8, right: 8),
-          //         height: 15.5,
-          //         width: 19.2,
-          //         child: Image.asset("assets/images/16_10.png"),
-          //       ),
-          //       //여기다 삭제 추가 신고 메서드 추가 필요
-          //       onSelected: (String result) {
-          //         switch (result) {
-          //           case '전체 삭제하기':
-          //             print('filter 1 clicked');
-          //             break;
-          //           case '차단하기':
-          //             print('filter 2 clicked');
-          //             break;
-          //           case '신고하기':
-          //             print('Clear filters');
-          //             break;
-          //           default:
-          //         }
-          //       },
-          //       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-          //         const PopupMenuItem<String>(
-          //           value: '전체 삭제하기',
-          //           child: Text('전체 삭제하기'),
-          //         ),
-          //         const PopupMenuItem<String>(
-          //           value: '차단하기',
-          //           child: Text('차단하기'),
-          //         ),
-          //         const PopupMenuItem<String>(
-          //           value: '신고하기',
-          //           child: Text('신고하기'),
-          //         ),
-          //       ],
-          //     ),
-          //   ],
-          //   leadingWidth: 35,
-          //   titleSpacing: 0,
-          //   title: Obx(() {
-          //     return Container(
-          //       margin: const EdgeInsets.only(top: 1.5),
-          //       child: Row(children: [
-          //         Text("nickname",
-          //             style: const TextStyle(
-          //                 color: const Color(0xff333333),
-          //                 fontWeight: FontWeight.w700,
-          //                 fontFamily: "PingFangSC",
-          //                 fontStyle: FontStyle.normal,
-          //                 fontSize: 21.0),
-          //             textAlign: TextAlign.left),
-          //       ]),
-          //     );
-          //   }),
-          // ),
+
           appBar: AppBar(
             toolbarHeight: 56,
 
@@ -174,69 +100,46 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                     ),
                   ),
                 ),
-                // Positioned(
-                //   right: 0,
-                //   child: Container(
-                //     padding: const EdgeInsets.symmetric(
-                //         vertical: 16, horizontal: 20),
-                //     child: Ink(
-                //       child: InkWell(
-                //         onTap: () async {
-                //           await Get.toNamed("/searchBoard")
-                //               .then((value) async {
-                //             await MainUpdateModule.updateBoard();
-                //           });
-                //         },
-                //         child: Image.asset(
-                //           'assets/images/icn_search.png',
-                //           // fit: BoxFit.fitWidth,
-                //           width: 24,
-                //           height: 24,
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
           body: Obx(() {
             if (controller.dataAvailble.value) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                initController.chatScrollController.jumpTo(initController
-                    .chatScrollController.position.maxScrollExtent);
+                controller.chatScrollController.jumpTo(
+                    controller.chatScrollController.position.maxScrollExtent);
               });
 
               return GestureDetector(
                 onTap: () {
-                  initController.canChatFileShow.value = false;
-                  initController.tapTextField.value = false;
-                  initController.chatFocusNode.unfocus();
+                  controller.canChatFileShow.value = false;
+                  controller.tapTextField.value = false;
+                  controller.chatFocusNode.unfocus();
                   // FocusScope.of(context).unfocus();
                 },
                 child: SingleChildScrollView(
-                  controller: initController.chatScrollController,
+                  controller: controller.chatScrollController,
                   child: Column(children: [
                     ListView.separated(
                       separatorBuilder: (BuildContext context, int index) {
-                        Rx<ClassChatModel> model = initController
-                            .chatBox[chatIndex].value.ClassChatList[index];
-                        Rx<ClassChatModel> prevModel;
-                        Rx<ClassChatModel> nextModel;
+                        Rx<ChatModel> model = controller
+                            .classChatBox[chatIndex].value.ChatList[index];
+                        Rx<ChatModel> prevModel;
+                        Rx<ChatModel> nextModel;
                         if (index - 1 < 0) {
                           prevModel = null;
                         } else {
-                          prevModel = initController.chatBox[chatIndex].value
-                              .ClassChatList[index - 1];
+                          prevModel = controller.classChatBox[chatIndex].value
+                              .ChatList[index - 1];
                         }
 
                         if (index + 1 >=
-                            initController.chatBox[chatIndex].value
-                                .ClassChatList.length) {
+                            controller.classChatBox[chatIndex].value.ChatList
+                                .length) {
                           nextModel = null;
                         } else {
-                          nextModel = initController.chatBox[chatIndex].value
-                              .ClassChatList[index + 1];
+                          nextModel = controller.classChatBox[chatIndex].value
+                              .ChatList[index + 1];
                         }
                         bool showLine = ((nextModel != null) &&
                             (nextModel.value.TIME_CREATED.day !=
@@ -276,34 +179,34 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                       },
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: initController
-                          .chatBox[chatIndex].value.ClassChatList.length,
+                      itemCount: controller
+                          .classChatBox[chatIndex].value.ChatList.length,
                       scrollDirection: Axis.vertical,
                       padding: EdgeInsets.only(
                           top: 24,
-                          bottom: initController.tapTextField.value
+                          bottom: controller.tapTextField.value
                               ? 60 + 6.0 + chatHeight
                               : 60 + 6.0),
                       itemBuilder: (context, index) {
-                        Rx<ClassChatModel> model = initController
-                            .chatBox[chatIndex].value.ClassChatList[index];
+                        Rx<ChatModel> model = controller
+                            .classChatBox[chatIndex].value.ChatList[index];
 
-                        Rx<ClassChatModel> prevModel;
-                        Rx<ClassChatModel> nextModel;
+                        Rx<ChatModel> prevModel;
+                        Rx<ChatModel> nextModel;
                         if (index - 1 < 0) {
                           prevModel = null;
                         } else {
-                          prevModel = initController.chatBox[chatIndex].value
-                              .ClassChatList[index - 1];
+                          prevModel = controller.classChatBox[chatIndex].value
+                              .ChatList[index - 1];
                         }
 
                         if (index + 1 >=
-                            initController.chatBox[chatIndex].value
-                                .ClassChatList.length) {
+                            controller.classChatBox[chatIndex].value.ChatList
+                                .length) {
                           nextModel = null;
                         } else {
-                          nextModel = initController.chatBox[chatIndex].value
-                              .ClassChatList[index + 1];
+                          nextModel = controller.classChatBox[chatIndex].value
+                              .ChatList[index + 1];
                         }
 
                         bool MY_SELF = model.value.MY_SELF;
@@ -453,19 +356,13 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
           }),
           //입력창
           bottomSheet: Obx(() {
-            // print(MediaQuery.of(context).viewInsets.bottom);
-            // final inputHeight = box.read("keyBoardHeight");
-            // if (MediaQuery.of(context).viewInsets.bottom == 0) {
-            //   initController.tapTextField.value = false;
-            //   print("??");
-            // }
             if (WidgetsBinding.instance.window.viewInsets.bottom > 0.0) {
               print("keyboard visivle");
             } else {
               print("keyboard unvisivle");
             }
             return Container(
-              height: initController.tapTextField.value
+              height: controller.tapTextField.value
                   ? 60.0 + box.read("keyBoardHeight")
                   : 60,
               decoration: BoxDecoration(color: const Color(0xffe6f1ff)),
@@ -492,54 +389,54 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                 Get.mediaQuery.size.width - 20 - 16 - 70 - 20,
                             child: GestureDetector(
                               onTap: () {
-                                initController.tapTextField.value = true;
-                                initController.canChatFileShow.value = false;
+                                controller.tapTextField.value = true;
+                                controller.canChatFileShow.value = false;
                                 double target_pos =
-                                    initController.chatScrollController.offset +
+                                    controller.chatScrollController.offset +
                                         box.read("keyBoardHeight");
                                 Timer(Duration(milliseconds: 100), () {
-                                  initController.chatScrollController
+                                  controller.chatScrollController
                                       .jumpTo(target_pos);
                                 });
                               },
                               child: TextFormField(
                                   keyboardType: TextInputType.multiline,
-                                  focusNode: initController.chatFocusNode,
+                                  focusNode: controller.chatFocusNode,
                                   onTap: () async {
-                                    // initController.tapTextField.value = true;
-                                    // initController.canChatFileShow.value =
+                                    // controller.tapTextField.value = true;
+                                    // controller.canChatFileShow.value =
                                     //     false;
 
                                     // Timer(Duration(milliseconds: 100), () {
-                                    //   initController.chatScrollController
+                                    //   controller.chatScrollController
                                     //       .jumpTo(
-                                    //     initController.chatScrollController
+                                    //     controller.chatScrollController
                                     //             .position.pixels +
                                     //         box.read("keyBoardHeight"),
                                     //   );
-                                    //   // initController.chatScrollController.animateTo(
-                                    //   //     initController.chatScrollController.position
+                                    //   // controller.chatScrollController.animateTo(
+                                    //   //     controller.chatScrollController.position
                                     //   //         .maxScrollExtent,
                                     //   //     duration: Duration(milliseconds: 100),
                                     //   //     curve: Curves.fastOutSlowIn);
                                     // });
-                                    // initController.chatScrollController.jumpTo(
-                                    //   initController.chatScrollController
+                                    // controller.chatScrollController.jumpTo(
+                                    //   controller.chatScrollController
                                     //       .position.maxScrollExtent,
                                     // );
                                   },
                                   onEditingComplete: () async {
-                                    // initController
+                                    // controller
                                     //     .sendMessage(commentWriteController.text);
                                     // commentWriteController.clear();
 
-                                    // double max_hight = initController
+                                    // double max_hight = controller
                                     //     .chatScrollController
                                     //     .value
                                     //     .position
                                     //     .maxScrollExtent;
 
-                                    // initController.chatScrollController.value
+                                    // controller.chatScrollController.value
                                     //     .jumpTo(max_hight);
                                   },
                                   maxLines: 1,
@@ -576,16 +473,16 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                         shape: BoxShape.circle,
                                       )),
                               onTap: () async {
-                                initController.tapTextField.value = true;
-                                // initController.canChatFileShow.value = true;
-                                if (initController.canChatFileShow.value) {
-                                  initController.chatFocusNode.requestFocus();
+                                controller.tapTextField.value = true;
+                                // controller.canChatFileShow.value = true;
+                                if (controller.canChatFileShow.value) {
+                                  controller.chatFocusNode.requestFocus();
                                 } else {
                                   FocusScope.of(context).unfocus();
                                 }
 
-                                initController.canChatFileShow.value =
-                                    !initController.canChatFileShow.value;
+                                controller.canChatFileShow.value =
+                                    !controller.canChatFileShow.value;
                               }),
                           InkWell(
                               child: // 타원 20
@@ -605,7 +502,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                 if (testText.trim().isEmpty) {
                                   return;
                                 }
-                                initController
+                                controller
                                     .sendMessage(commentWriteController.text);
 
                                 commentWriteController.clear();
@@ -615,7 +512,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                     ],
                   ),
                 ),
-                initController.canChatFileShow.value
+                controller.canChatFileShow.value
                     ? Builder(builder: (context) {
                         double height = box.read("keyBoardHeight");
                         double containerSize =
@@ -768,7 +665,7 @@ class MAIL_PROFILE_ITEM extends StatelessWidget {
       {Key key, @required this.model, @required this.FROM_ME})
       : super(key: key);
 
-  final ClassChatModel model;
+  final ChatModel model;
   final bool FROM_ME;
   @override
   Widget build(BuildContext context) {
@@ -798,7 +695,7 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
       {Key key, @required this.model, @required this.isTimeDifferent})
       : super(key: key);
 
-  final ClassChatModel model;
+  final ChatModel model;
   final bool isTimeDifferent;
 
   @override

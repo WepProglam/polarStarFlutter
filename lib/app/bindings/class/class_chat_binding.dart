@@ -6,12 +6,14 @@ import 'package:polarstar_flutter/app/data/provider/class/class_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
 import 'package:polarstar_flutter/app/controller/class/class_controller.dart';
 import 'package:polarstar_flutter/app/controller/class/write_comment_controller.dart';
+import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
 
 class ClassChatBinding implements Bindings {
   @override
   void dependencies() {
-    Get.put(ClassChatController());
-    InitController initController = Get.find();
-    initController.currentClassID.value = int.parse(Get.arguments["roomID"]);
+    putController<ClassChatController>();
+    ClassChatController classChatController = Get.find();
+    classChatController.currentClassID.value =
+        int.parse(Get.arguments["roomID"]);
   }
 }

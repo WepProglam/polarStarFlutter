@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
+import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
 import 'package:polarstar_flutter/app/controller/class/class_controller.dart';
 import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
@@ -390,6 +391,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
 
   @override
   onClose() async {
+    Get.delete<ClassChatController>();
     super.onClose();
     _dataAvailable.value = false;
   }
@@ -416,6 +418,12 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
       }
     }
     return i;
+  }
+
+  @override
+  void dispose() {
+    Get.delete<ClassChatController>();
+    super.dispose();
   }
 }
 
@@ -485,7 +493,9 @@ class MainUpdateModule {
     if (index == 0) {
       await nc.getNoties();
     } else if (index == 1) {
-      initController.countingAmount(curClassID);
+      putController<ClassChatController>();
+      final ClassChatController classChatController = Get.find();
+      classChatController.countingAmount(curClassID);
       // await nc.getChatBox();
     } else {
       await nc.getMailBox();

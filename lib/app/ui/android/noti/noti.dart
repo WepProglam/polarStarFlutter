@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
 import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
@@ -22,7 +23,7 @@ class Noti extends StatelessWidget {
   }) : super(key: key);
   final MainController mainController = Get.find();
   final NotiController notiController = Get.find();
-  final InitController initController = Get.find();
+  final ClassChatController classChatController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,7 +118,7 @@ class Noti extends StatelessWidget {
                           },
                           child: ChatWidget(
                               notiController: notiController,
-                              initController: initController)),
+                              classChatController: classChatController)),
                       RefreshIndicator(
                           onRefresh: () async {
                             await MainUpdateModule.updateNotiPage(2);
@@ -308,11 +309,11 @@ class ChatWidget extends StatelessWidget {
   const ChatWidget({
     Key key,
     @required this.notiController,
-    @required this.initController,
+    @required this.classChatController,
   }) : super(key: key);
 
   final NotiController notiController;
-  final InitController initController;
+  final ClassChatController classChatController;
 
   @override
   Widget build(BuildContext context) {
@@ -333,37 +334,67 @@ class ChatWidget extends StatelessWidget {
                   textAlign: TextAlign.left),
             ),
             // * 강의별 단톡방
-            RefreshIndicator(
-              displacement: 0.0,
-              color: Get.theme.primaryColor,
-              onRefresh: () async {
-                await MainUpdateModule.updateNotiPage(1);
-              },
-              child: ListView.builder(
-                  itemCount: initController.chatBox.isEmpty
-                      ? 1
-                      : initController.chatBox.length,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    if (initController.chatBox.length == 0) {
-                      return Center(
-                        child: Text(
-                          "아직 채팅이 없습니다.",
-                          style: const TextStyle(
-                              color: const Color(0xff6f6e6e),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "NotoSansKR",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                        ),
-                      );
-                    }
-                    Rx<ChatBoxModel> model = initController.chatBox[index];
+            ListView.builder(
+                itemCount: classChatController.classChatBox.isEmpty
+                    ? 1
+                    : classChatController.classChatBox.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  if (classChatController.classChatBox.length == 0) {
+                    return Center(
+                      child: Text(
+                        "아직 채팅이 없습니다.",
+                        style: const TextStyle(
+                            color: const Color(0xff6f6e6e),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansKR",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                      ),
+                    );
+                  }
+                  Rx<ChatBoxModel> model =
+                      classChatController.classChatBox[index];
 
-                    // * 채팅방 UI
-                    return ChatItem(model: model);
-                  }),
-            )
+                  // * 채팅방 UI
+                  return ChatItem(model: model);
+                }),
+            // * 전공별 단톡방
+            Container(
+                margin: const EdgeInsets.only(left: 20, top: 35.5),
+                child: Text("时间表",
+                    style: const TextStyle(
+                        color: const Color(0xff2f2f2f),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 16.0),
+                    textAlign: TextAlign.left)),
+            ListView.builder(
+                itemCount: classChatController.majorChatBox.isEmpty
+                    ? 1
+                    : classChatController.majorChatBox.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  if (classChatController.majorChatBox.length == 0) {
+                    return Center(
+                      child: Text(
+                        "아직 채팅이 없습니다.",
+                        style: const TextStyle(
+                            color: const Color(0xff6f6e6e),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansKR",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                      ),
+                    );
+                  }
+                  Rx<ChatBoxModel> model =
+                      classChatController.majorChatBox[index];
+
+                  // * 채팅방 UI
+                  return ChatItem(model: model);
+                })
           ],
         ),
       );
@@ -441,14 +472,14 @@ class ChatItem extends StatelessWidget {
         child: InkWell(
           onTap: () async {
             await Get.toNamed(Routes.CLASSCHAT,
-                    arguments: {"roomID": "${model.value.CLASS_ID}"})
+                    arguments: {"roomID": "${model.value.BOX_ID}"})
                 .then((value) async {
               // * 가장 마지막으로 읽은 class_id 등록
-              await box.write("LastChat_${model.value.CLASS_ID}",
-                  model.value.ClassChatList.last.value.CHAT_ID);
+              await box.write("LastChat_${model.value.BOX_ID}",
+                  model.value.ChatList.last.value.CHAT_ID);
 
               MainUpdateModule.updateNotiPage(1,
-                  curClassID: model.value.CLASS_ID);
+                  curClassID: model.value.BOX_ID);
             });
           },
           child: Column(
@@ -472,7 +503,9 @@ class ChatItem extends StatelessWidget {
                             Container(
                               width: Get.mediaQuery.size.width - 135,
                               child: Text(
-                                  "${model.value.CLASS_NAME}-${model.value.CLASS_PROFESSOR}",
+                                  model.value.CLASS_PROFESSOR == null
+                                      ? "${model.value.BOX_NAME}"
+                                      : "${model.value.BOX_NAME}-${model.value.CLASS_PROFESSOR}",
                                   overflow: TextOverflow.clip,
                                   maxLines: 1,
                                   style: const TextStyle(

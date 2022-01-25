@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:polarstar_flutter/app/data/model/class/class_chat_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 
 class NotiModel {
@@ -48,49 +47,90 @@ class SaveNotiModel {
 }
 
 class ChatBoxModel {
-  String CLASS_NAME, CLASS_PROFESSOR, LAST_CHAT;
-  int CLASS_ID, CHAT_ID, AMOUNT;
+  String BOX_NAME, CLASS_PROFESSOR, LAST_CHAT;
+  int BOX_ID, CHAT_ID, AMOUNT;
   DateTime TIME_LAST_CHAT_SENDED;
-  RxList<Rx<ClassChatModel>> ClassChatList;
+  RxList<Rx<ChatModel>> ChatList;
 
   ChatBoxModel(
-      {CLASS_NAME,
+      {BOX_NAME,
       CLASS_PROFESSOR,
       LAST_CHAT,
-      CLASS_ID,
+      BOX_ID,
       CHAT_ID,
       TIME_LAST_CHAT_SENDED});
 
   Map<String, dynamic> toJson() {
     print("tojson called");
     return {
-      'CLASS_NAME': "${this.CLASS_NAME}",
+      'BOX_NAME': "${this.BOX_NAME}",
       'CLASS_PROFESSOR': "${this.CLASS_PROFESSOR}",
       'LAST_CHAT': "${this.LAST_CHAT}",
-      'CLASS_ID': "${this.CLASS_ID}",
+      'CLASS_ID': "${this.BOX_ID}",
       'CHAT_ID': "${this.CHAT_ID}",
       'TIME_LAST_CHAT_SENDED': "${this.TIME_LAST_CHAT_SENDED}",
-      'ClassChatList': this.ClassChatList.toJson(),
+      'ChatList': this.ChatList.toJson(),
     };
   }
 
   ChatBoxModel.fromJson(Map<String, dynamic> json) {
-    this.CLASS_NAME = json["CLASS_NAME"];
+    this.BOX_NAME = json["BOX_NAME"];
     this.CLASS_PROFESSOR = json["CLASS_PROFESSOR"];
     print("class_id: ${json["CLASS_ID"]}");
     this.CHAT_ID = nullCheck(json["CHAT_ID"]);
-    this.CLASS_ID = json["CLASS_ID"];
+    this.BOX_ID = json["BOX_ID"];
     this.LAST_CHAT = json["LAST_CHAT"];
     print(json["LAST_CHAT"]);
     this.TIME_LAST_CHAT_SENDED = json["TIME_LAST_CHAT_SENDED"] == null
         ? null
         : DateTime.parse(json["TIME_LAST_CHAT_SENDED"]);
-    this.ClassChatList = json["ClassChatList"] != null
-        ? json["ClassChatList"]
-            .map((e) => ClassChatModel.fromJson(e).obs)
-            .toList()
-            .obs
-        : <Rx<ClassChatModel>>[].obs;
+    this.ChatList = json["ChatList"] != null
+        ? json["ChatList"].map((e) => ChatModel.fromJson(e).obs).toList().obs
+        : <Rx<ChatModel>>[].obs;
     this.AMOUNT = 0;
+  }
+}
+
+class ChatModel {
+  String CONTENT, PHOTO, PROFILE_NICKNAME, PROFILE_PHOTO;
+  DateTime TIME_CREATED;
+  int CHAT_ID, BOX_ID;
+  bool MY_SELF;
+
+  ChatModel({
+    BOX_ID,
+    CONTENT,
+    PHOTO,
+    PROFILE_NICKNAME,
+    PROFILE_PHOTO,
+    TIME_CREATED,
+    CHAT_ID,
+    MY_SELF,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'BOX_ID': BOX_ID,
+      'CONTENT': CONTENT,
+      'PHOTO': PHOTO,
+      'PROFILE_NICKNAME': PROFILE_NICKNAME,
+      'PROFILE_PHOTO': PROFILE_PHOTO,
+      'TIME_CREATED': TIME_CREATED,
+      'CHAT_ID': CHAT_ID,
+      'MY_SELF': MY_SELF,
+    };
+  }
+
+  ChatModel.fromJson(Map<String, dynamic> json) {
+    this.BOX_ID = nullCheck(json["BOX_ID"]);
+    this.CONTENT = nullCheck("${json["CONTENT"]}");
+
+    this.PHOTO = nullCheck(json["PHOTO"]);
+    this.PROFILE_NICKNAME = nullCheck(json["PROFILE_NICKNAME"]);
+    this.PROFILE_PHOTO = nullCheck(json["PROFILE_PHOTO"]);
+    this.TIME_CREATED = nullCheck(DateTime.parse(json["TIME_CREATED"]));
+    this.CHAT_ID = nullCheck(json["CHAT_ID"]);
+
+    this.MY_SELF = json["MY_SELF"] == null ? false : nullCheck(json["MY_SELF"]);
   }
 }

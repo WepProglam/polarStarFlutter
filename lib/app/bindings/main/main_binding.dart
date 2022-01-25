@@ -1,3 +1,4 @@
+import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
 import 'package:polarstar_flutter/app/controller/loby/login_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
@@ -16,10 +17,14 @@ import 'package:polarstar_flutter/app/data/repository/mail/mail_repository.dart'
 import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/noti/noti_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/profile/mypage_repository.dart';
+import 'package:polarstar_flutter/main.dart';
+import 'package:polarstar_flutter/session.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class MainBinding implements Bindings {
   @override
-  void dependencies() {
+  void dependencies() async {
+    print("mainBinding!");
     Get.lazyPut<MainController>(() =>
         MainController(repository: MainRepository(apiClient: MainApiClient())));
 
@@ -28,16 +33,26 @@ class MainBinding implements Bindings {
 
     Get.put(LoginController(
         repository: LoginRepository(apiClient: LoginApiClient())));
-    // Get.lazyPut<SearchController>(() => (SearchController(
-    //     repository: SearchRepository(apiClient: SearchApiClient()),
-    //     initCommunityId: 1,
-    //     initPage: 1,
-    //     from: "outside")));
 
     Get.lazyPut<MyPageController>(() => MyPageController(
         repository: MyPageRepository(apiClient: MyPageApiClient())));
 
-    // Get.lazyPut<MailController>(() =>
-    //     MailController(repository: MailRepository(apiClient: MailApiClient())));
+    Get.put(ClassChatController());
+    ClassChatController classChatController = Get.find();
+    classChatSocket = await IO.io(
+        'http://13.209.5.161:3000',
+        IO.OptionBuilder().setTransports(['websocket']).setExtraHeaders(
+            {'cookie': Session.headers["Cookie"]}).build());
+
+    print("classchat binding!");
+
+    // majorChatSocket = await IO.io(
+    //     'http://13.209.5.161:3000',
+    //     IO.OptionBuilder().setTransports(['websocket']).setExtraHeaders(
+    //         {'cookie': Session.headers["Cookie"]}).build());
+
+    await classChatController.registerSocket();
+    await classChatController.getChatBox();
+    print(" !!!!  ${classChatController.classChatBox}");
   }
 }
