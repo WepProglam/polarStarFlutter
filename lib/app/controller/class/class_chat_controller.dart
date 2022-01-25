@@ -98,11 +98,8 @@ class ClassChatController extends GetxController {
     for (Rx<ChatBoxModel> item in majorChatBox) {
       print("${item.value.BOX_ID} : ${curMajorID}");
       if (item.value.BOX_ID == curMajorID) {
-        print("??????");
         int index = item.value.ChatList.length - 1;
         for (Rx<ChatModel> it in item.value.ChatList) {
-          print(
-              "${it.value.CHAT_ID} -- ${last_cid} -- ${it.value.CHAT_ID == last_cid}");
           if (it.value.CHAT_ID == last_cid) {
             item.update((val) {
               val.AMOUNT = index;
@@ -134,7 +131,6 @@ class ClassChatController extends GetxController {
     if (isClass) {
       countingAmountClassChat(BOX_ID);
     } else {
-      print("?!!!!!!!!!!!");
       countingAmountMajorChat(BOX_ID);
     }
     return;
@@ -144,11 +140,15 @@ class ClassChatController extends GetxController {
     classChatSocket.on("viewRecentMessage", (data) {
       // print(data);
       Iterable cc = data;
+      print(data);
       tempChatHistory.clear();
       tempChatHistory.value = cc.map((e) => ChatModel.fromJson(e).obs).toList();
 
       // * 서버에서 역순으로 보내므로 다시 정렬
       tempChatHistory.value = tempChatHistory.reversed.toList();
+      if (tempChatHistory.length == 0) {
+        return;
+      }
       int curBoxID = tempChatHistory[0].value.BOX_ID;
 
       bool isClass = checkClassOrMajor(curBoxID);
@@ -174,14 +174,15 @@ class ClassChatController extends GetxController {
       bool isClass = checkClassOrMajor(chat.value.BOX_ID);
       for (Rx<ChatBoxModel> item in isClass ? classChatBox : majorChatBox) {
         if (item.value.BOX_ID == chat.value.BOX_ID) {
-          if (item.value.ChatList.last.value.CHAT_ID == chat.value.CHAT_ID) {
+          if (item.value.ChatList.length != 0 &&
+              item.value.ChatList.last.value.CHAT_ID == chat.value.CHAT_ID) {
             print("중복");
             break;
           }
           item.update((val) {
             // * 채팅방 수정
             val.ChatList.add(chat.value.obs);
-
+            print(chat.value.CONTENT);
             // * 단톡방 미리보기 수정
             val.LAST_CHAT = chat.value.CONTENT;
             val.TIME_LAST_CHAT_SENDED = chat.value.TIME_CREATED;

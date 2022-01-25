@@ -387,13 +387,20 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                 onTap: () async {
                                   controller.tapTextField.value = true;
                                   controller.canChatFileShow.value = false;
+                                  if (controller.chatScrollController.position
+                                          .maxScrollExtent ==
+                                      0) {
+                                    return;
+                                  }
                                   double target_pos =
                                       controller.chatScrollController.offset +
                                           box.read("keyBoardHeight");
-                                  Timer(Duration(milliseconds: 100), () {
-                                    controller.chatScrollController
-                                        .jumpTo(target_pos);
-                                  });
+
+                                  // Timer(Duration(milliseconds: 100), () {
+                                  //   controller.chatScrollController
+                                  //       .jumpTo(target_pos);
+                                  // });
+
                                   // controller.tapTextField.value = true;
                                   // controller.canChatFileShow.value =
                                   //     false;

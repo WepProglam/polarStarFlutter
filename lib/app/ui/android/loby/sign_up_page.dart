@@ -86,6 +86,7 @@ class SignUpInputs extends StatelessWidget {
                   children: [
                     SignUpTextForm(
                       textEditingController: idController,
+                      obscureText: false,
                       hint: "Please enter the ID",
                       funcValidator: (value) {
                         return checkEmpty(value);
@@ -190,6 +191,7 @@ class SignUpInputs extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 10.0, bottom: 8.0),
                 child: SignUpTextForm(
                   textEditingController: pwController,
+                  obscureText: true,
                   hint: "Please enter the password",
                   funcValidator: (value) {
                     return checkEmpty(value);
@@ -200,6 +202,7 @@ class SignUpInputs extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 18.0),
                 child: SignUpTextForm(
                   textEditingController: pwConfirmController,
+                  obscureText: true,
                   hint: "Please confirm your password",
                   funcValidator: (value) {
                     return checkEmpty(value);
@@ -219,6 +222,7 @@ class SignUpInputs extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 10.0, bottom: 18.0),
                 child: SignUpTextForm(
                   textEditingController: nicknameController,
+                  obscureText: false,
                   hint: "Please enter the nickname",
                   funcValidator: (value) {
                     return checkEmpty(value);

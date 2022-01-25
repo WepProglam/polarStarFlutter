@@ -43,18 +43,21 @@ class SignUpTextForm extends StatelessWidget {
       {Key key,
       @required this.textEditingController,
       @required this.hint,
-      @required this.funcValidator})
+      @required this.funcValidator,
+      @required this.obscureText})
       : super(key: key);
 
   final TextEditingController textEditingController;
   final String hint;
   final funcValidator;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: textEditingController,
       validator: funcValidator,
+      obscureText: obscureText,
       style: const TextStyle(
           color: const Color(0xff4570ff),
           fontWeight: FontWeight.w400,
