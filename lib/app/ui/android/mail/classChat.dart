@@ -51,8 +51,13 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
     bool isClass = chatMeta["isClass"];
     return WillPopScope(
       onWillPop: () async {
-        controller.tapTextField.value = false;
+        if (controller.canChatFileShow.value) {
+          controller.canChatFileShow.value = false;
+          controller.tapTextField.value = false;
+          return false;
+        }
         controller.canChatFileShow.value = false;
+        controller.tapTextField.value = false;
         return true;
       },
       child: SafeArea(
@@ -479,9 +484,6 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                         shape: BoxShape.circle,
                                       )),
                               onTap: () async {
-                                double keyBoardHeight =
-                                    MediaQuery.of(context).viewInsets.bottom;
-                                box.write("keyBoardHeight", keyBoardHeight);
                                 controller.tapTextField.value = true;
                                 // controller.canChatFileShow.value = true;
                                 if (controller.canChatFileShow.value) {
@@ -511,6 +513,9 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                 } else if (controller.photos.length != 0) {
                                   await controller.sendPhoto();
                                 } else {
+                                  double keyBoardHeight =
+                                      MediaQuery.of(context).viewInsets.bottom;
+                                  box.write("keyBoardHeight", keyBoardHeight);
                                   String text = commentWriteController.text;
                                   String testText = text;
                                   if (testText.trim().isEmpty) {
@@ -731,6 +736,15 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(model.PHOTO);
+    bool isPhotoExist = false;
+    bool isFileExist = false;
+    if (model.PHOTO != null && model.PHOTO.length != 0) {
+      isPhotoExist = true;
+    } else if (model.FILE != null && model.FILE.length != 0) {
+      isFileExist = true;
+    }
+
     // print("${isTimeDifferent} ${prettyChatDate(model.TIME_CREATED)}");
     return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
       model.MY_SELF
@@ -750,28 +764,36 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
           : Container(),
       Container(
           constraints: BoxConstraints(maxWidth: 260),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft:
-                      model.MY_SELF ? Radius.circular(36) : Radius.circular(0),
-                  topRight:
-                      model.MY_SELF ? Radius.circular(0) : Radius.circular(36),
-                  bottomRight: Radius.circular(36),
-                  bottomLeft: Radius.circular(36)),
-              color: model.MY_SELF
-                  ? const Color(0xffe6f1ff)
-                  : const Color(0xfff5f5f5)),
+          decoration: isPhotoExist || isFileExist
+              ? null
+              : BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: model.MY_SELF
+                          ? Radius.circular(36)
+                          : Radius.circular(0),
+                      topRight: model.MY_SELF
+                          ? Radius.circular(0)
+                          : Radius.circular(36),
+                      bottomRight: Radius.circular(36),
+                      bottomLeft: Radius.circular(36)),
+                  color: model.MY_SELF
+                      ? const Color(0xffe6f1ff)
+                      : const Color(0xfff5f5f5)),
           child: Container(
               padding:
                   EdgeInsets.only(left: 16, top: 10, right: 24, bottom: 10),
-              child: Text("${model.CONTENT}",
-                  style: const TextStyle(
-                      color: const Color(0xff2f2f2f),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                  textAlign: TextAlign.left))),
+              child: isPhotoExist
+                  ? CachedNetworkImage(imageUrl: model.PHOTO[0])
+                  : isFileExist
+                      ? CachedNetworkImage(imageUrl: model.FILE[0])
+                      : Text("${model.CONTENT}",
+                          style: const TextStyle(
+                              color: const Color(0xff2f2f2f),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                          textAlign: TextAlign.left))),
       model.MY_SELF
           ? Container()
           : isTimeDifferent
