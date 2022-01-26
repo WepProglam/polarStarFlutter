@@ -497,12 +497,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                               onTap: () async {
                                 if (controller.files.length != 0) {
                                   await controller.sendFile();
-                                  controller.tapTextField = false.obs;
-                                  controller.canChatFileShow = false.obs;
                                 } else if (controller.photos.length != 0) {
                                   await controller.sendPhoto();
-                                  controller.tapTextField = false.obs;
-                                  controller.canChatFileShow = false.obs;
                                 } else {
                                   String text = commentWriteController.text;
                                   String testText = text;

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
+import 'dart:convert';
 
 class NotiModel {
   String URL, CONTENT, TITLE;
@@ -126,7 +127,13 @@ class ChatModel {
     this.BOX_ID = nullCheck(json["BOX_ID"]);
     this.CONTENT = nullCheck("${json["CONTENT"]}");
 
-    this.PHOTO = nullCheck(json["PHOTO"]);
+    print(json["PHOTO"]);
+    if (json["PHOTO"] == null) {
+      this.PHOTO = null;
+    } else {
+      this.PHOTO = jsonDecode(json["PHOTO"]);
+    }
+
     this.PROFILE_NICKNAME = nullCheck(json["PROFILE_NICKNAME"]);
     this.PROFILE_PHOTO = nullCheck(json["PROFILE_PHOTO"]);
     this.TIME_CREATED = nullCheck(DateTime.parse(json["TIME_CREATED"]));
