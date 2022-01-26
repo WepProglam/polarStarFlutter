@@ -127,8 +127,6 @@ class ChatModel {
   ChatModel.fromJson(Map<String, dynamic> json) {
     this.BOX_ID = nullCheck(json["BOX_ID"]);
     this.CONTENT = nullCheck("${json["CONTENT"]}");
-    print(json["PHOTO"].runtimeType);
-    print(json["PHOTO"].runtimeType == "String");
     if (json["PHOTO"] == null) {
       this.PHOTO = null;
     } else if (json["PHOTO"].runtimeType.toString() == "String") {

@@ -44,7 +44,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
   @override
   Widget build(BuildContext context) {
     final double chatHeight =
-        box.read("keyBoardHeight") == null ? 400.0 : box.read("keyBoardHeight");
+        box.read("keyBoardHeight") == null ? 342.0 : box.read("keyBoardHeight");
     Map<String, dynamic> chatMeta = controller.findChatHistory();
 
     int chatIndex = chatMeta["index"];
@@ -79,22 +79,14 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                   child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 16.5),
                       child: // 设置
-                          Obx(() {
-                        Rx<ChatBoxModel> model = controller.findCurBox;
-                        bool isClass =
-                            controller.checkClassOrMajor(model.value.BOX_ID);
-                        return Text(
-                            isClass
-                                ? "${model.value.BOX_NAME}-${model.value.CLASS_PROFESSOR}"
-                                : "${model.value.BOX_NAME}",
-                            style: const TextStyle(
-                                color: const Color(0xffffffff),
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0),
-                            textAlign: TextAlign.center);
-                      })),
+                          Text("设置",
+                              style: const TextStyle(
+                                  color: const Color(0xffffffff),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16.0),
+                              textAlign: TextAlign.center)),
                 ),
                 Positioned(
                   // left: 20,
@@ -438,7 +430,6 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                   // );
                                 },
                                 onEditingComplete: () async {
-                                  print("??");
                                   // controller
                                   //     .sendMessage(commentWriteController.text);
                                   // commentWriteController.clear();
@@ -463,6 +454,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                 onFieldSubmitted: (value) {},
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
+                                  hintText: "你好吗，麦克斯？",
                                   border: InputBorder.none,
                                   hintStyle: const TextStyle(
                                       color: const Color(0xff9b9b9b),
@@ -782,10 +774,28 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
           child: Container(
               padding:
                   EdgeInsets.only(left: 16, top: 10, right: 24, bottom: 10),
-              child: isPhotoExist
-                  ? CachedNetworkImage(imageUrl: model.PHOTO[0])
-                  : isFileExist
-                      ? CachedNetworkImage(imageUrl: model.FILE[0])
+              child: (isFileExist)
+                  ? CachedNetworkImage(imageUrl: model.FILE[0])
+
+                  // Text("파일입니다",
+                  //     style: const TextStyle(
+                  //         color: const Color(0xff2f2f2f),
+                  //         fontWeight: FontWeight.w400,
+                  //         fontFamily: "NotoSansSC",
+                  //         fontStyle: FontStyle.normal,
+                  //         fontSize: 14.0),
+                  //     textAlign: TextAlign.left)
+                  : ((isPhotoExist)
+                      ? CachedNetworkImage(imageUrl: model.PHOTO[0])
+
+                      // Text("사진입니다",
+                      //     style: const TextStyle(
+                      //         color: const Color(0xff2f2f2f),
+                      //         fontWeight: FontWeight.w400,
+                      //         fontFamily: "NotoSansSC",
+                      //         fontStyle: FontStyle.normal,
+                      //         fontSize: 14.0),
+                      //     textAlign: TextAlign.left)
                       : Text("${model.CONTENT}",
                           style: const TextStyle(
                               color: const Color(0xff2f2f2f),
@@ -793,7 +803,7 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                               fontFamily: "NotoSansSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 14.0),
-                          textAlign: TextAlign.left))),
+                          textAlign: TextAlign.left)))),
       model.MY_SELF
           ? Container()
           : isTimeDifferent
