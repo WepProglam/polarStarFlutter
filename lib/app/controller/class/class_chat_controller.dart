@@ -40,6 +40,19 @@ class ClassChatController extends GetxController {
   List<AssetEntity> photos = <AssetEntity>[].obs;
   final FocusNode chatFocusNode = new FocusNode();
 
+  Rx<ChatBoxModel> get findCurBox {
+    for (Rx<ChatBoxModel> item in classChatBox) {
+      if (item.value.BOX_ID == currentBoxID.value) {
+        return item;
+      }
+    }
+    for (Rx<ChatBoxModel> item in majorChatBox) {
+      if (item.value.BOX_ID == currentBoxID.value) {
+        return item;
+      }
+    }
+  }
+
   Future<void> sendFile() async {
     List<Map> sendFileObj = [];
     for (int i = 0; i < files.length; i++) {

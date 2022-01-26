@@ -232,8 +232,21 @@ class TimeTableItem extends StatelessWidget {
   final TimeTableClassModel classItemModel;
   final TimeTableController timeTableController;
 
+  String findCorrectClassRoom() {
+    for (AddClassModel item in classItemModel.CLASS_TIME) {
+      int dateToInt = item.start_time.hour * 60 + item.start_time.minute;
+      print(
+          "${dateToInt}  - ${classItem["start_time"]} => ${dateToInt == classItem["start_time"]} ");
+      if (dateToInt == classItem["start_time"]) {
+        return item.class_room;
+      }
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    String current_class_room = findCorrectClassRoom();
     return Ink(
       child: InkWell(
         onTap: () {
@@ -457,7 +470,20 @@ class TimeTableItem extends StatelessWidget {
                                 fontStyle: FontStyle.normal,
                                 fontSize: 10.0),
                             textAlign: TextAlign.center),
-                      )
+                      ),
+                      Container(
+                        width: 60,
+                        child: Text("${current_class_room}",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: const Color(0xfffff8dd),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "Roboto",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 10.0),
+                            textAlign: TextAlign.center),
+                      ),
                     ]),
               );
             }),

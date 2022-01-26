@@ -75,9 +75,9 @@ class TimeTableController extends GetxController {
   RxString addTimeTableYearSem = "".obs;
 
   List<String> addTimeTableYearSemList = [
-    "2021년 2학기",
+    "2021学年度 第2学期",
     //"2021년 겨울학기",
-    "2022년 1학기",
+    "2022学年度 第1学期",
     // "2022년 여름학기",
     // "2022년 2학기",
     // "2022년 겨울학기",
@@ -163,8 +163,8 @@ class TimeTableController extends GetxController {
   }
 
   Future<bool> canGoClassSearchPage(int year, int semester) async {
-    var response =
-        await Session().getX("/timetable/isExist/year/${year}/semester/${semester}");
+    var response = await Session()
+        .getX("/timetable/isExist/year/${year}/semester/${semester}");
     if (response.statusCode == 200) {
       return true;
     }
@@ -183,8 +183,9 @@ class TimeTableController extends GetxController {
     ];
   }
 
-  Future<void> createTimeTable(
-      String year, String semester, String name) async {
+  Future<void> createTimeTable(int year, int semester, String name) async {
+    print(year);
+    print(semester);
     var response = await Session()
         .postX("/timetable/${year}/${semester}?name=${name}", {});
     switch (response.statusCode) {
@@ -193,8 +194,8 @@ class TimeTableController extends GetxController {
         if (!otherTable.containsKey("${year}년 ${semester}학기")) {
           otherTable["${year}년 ${semester}학기"] = [
             TimeTableModel.fromJson({
-              "YEAR": int.parse(year),
-              "SEMESTER": int.parse(semester),
+              "YEAR": year,
+              "SEMESTER": semester,
               "NAME": name,
               "IS_DEFAULT": 1,
               "TIMETABLE_ID": rs["TIMETABLE_ID"]
@@ -202,8 +203,8 @@ class TimeTableController extends GetxController {
           ].obs;
         } else {
           otherTable["${year}년 ${semester}학기"].add(TimeTableModel.fromJson({
-            "YEAR": int.parse(year),
-            "SEMESTER": int.parse(semester),
+            "YEAR": year,
+            "SEMESTER": semester,
             "NAME": name,
             "IS_DEFAULT": 0,
             "TIMETABLE_ID": rs["TIMETABLE_ID"]

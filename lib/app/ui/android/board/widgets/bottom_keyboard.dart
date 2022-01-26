@@ -28,38 +28,39 @@ class BottomKeyboard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20)),
         child: Stack(
           children: [
-            Obx(
-              () => TextFormField(
-                autofocus: false,
-                controller: commentWriteController,
-                // autofocus: c.autoFocusTextForm.value,
-                // scrollPadding: const EdgeInsets.all(),
+            // Obx(
+            //   () =>
+            TextFormField(
+              autofocus: false,
+              controller: commentWriteController,
+              // autofocus: c.autoFocusTextForm.value,
+              // scrollPadding: const EdgeInsets.all(),
 
-                keyboardType: TextInputType.multiline,
-                minLines: 1,
-                maxLines: 5,
+              keyboardType: TextInputType.multiline,
+              minLines: 1,
+              maxLines: 5,
 
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "NotoSansSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 14.0),
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "NotoSansSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
 
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  isDense: true,
-                  contentPadding:
-                      EdgeInsets.only(left: 70, right: 40, top: 10, bottom: 10),
-                  // hintText: c.autoFocusTextForm.value
-                  //     ? '수정하기'
-                  //     : c.isCcomment.value
-                  //         ? '대댓글 작성'
-                  //         : '댓글 작성',
-                  border: InputBorder.none,
-                ),
+              textAlign: TextAlign.left,
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding:
+                    EdgeInsets.only(left: 70, right: 40, top: 10, bottom: 10),
+                // hintText: c.autoFocusTextForm.value
+                //     ? '수정하기'
+                //     : c.isCcomment.value
+                //         ? '대댓글 작성'
+                //         : '댓글 작성',
+                border: InputBorder.none,
               ),
             ),
+            // ),
             // 익명 체크
             Positioned.fill(
               child: Align(
@@ -200,17 +201,7 @@ class BottomKeyboard extends StatelessWidget {
                     child: Container(
                       width: 24,
                       height: 24,
-                      decoration: BoxDecoration(
-                          color: const Color(0xff4570ff),
-                          shape: BoxShape.circle),
-                      child: Center(
-                        child: Container(
-                          child: Icon(
-                            Icons.arrow_upward,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+                      child: Image.asset("assets/images/chat_input_send.png"),
                       // child: Image.asset(
                       //   'assets/images/icn_send_white.png',
                       //   // fit: BoxFit.fitWidth,

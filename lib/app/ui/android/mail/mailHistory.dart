@@ -332,7 +332,6 @@ class MailHistory extends StatelessWidget {
                                 onFieldSubmitted: (value) {},
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
-                                  hintText: "你好吗，麦克斯？",
                                   border: InputBorder.none,
                                   hintStyle: const TextStyle(
                                       color: const Color(0xff9b9b9b),

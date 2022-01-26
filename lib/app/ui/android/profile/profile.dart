@@ -247,6 +247,100 @@ class Profile extends StatelessWidget {
                                               child: Container(
                                                   margin:
                                                       EdgeInsets.only(left: 21),
+                                                  child: Text("学校",
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xff6f6e6e),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontFamily: "Roboto",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 14.0),
+                                                      textAlign:
+                                                          TextAlign.left))),
+                                          Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Container(
+                                                  margin: EdgeInsets.only(
+                                                      right: 20),
+                                                  child: Text("成均馆大学",
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xff9b9b9b),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily: "Roboto",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 14.0),
+                                                      textAlign:
+                                                          TextAlign.left))),
+                                        ])),
+                                    Container(
+                                        height: 54.6,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color:
+                                                        const Color(0xffdedede),
+                                                    width: 1))),
+                                        child: Stack(children: [
+                                          Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Container(
+                                                  margin:
+                                                      EdgeInsets.only(left: 21),
+                                                  child: Text("专业",
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xff6f6e6e),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontFamily:
+                                                              "NotoSansSC",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 14.0),
+                                                      textAlign:
+                                                          TextAlign.left))),
+                                          Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Container(
+                                                  margin: EdgeInsets.only(
+                                                      right: 20),
+                                                  child: Text(
+                                                      "${myPageController.myProfile.value.MAJOR_NAME}",
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xff9b9b9b),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily: "Roboto",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 14.0),
+                                                      textAlign:
+                                                          TextAlign.left))),
+                                        ])),
+                                    Container(
+                                        height: 54.6,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color:
+                                                        const Color(0xffdedede),
+                                                    width: 1))),
+                                        child: Stack(children: [
+                                          Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Container(
+                                                  margin:
+                                                      EdgeInsets.only(left: 21),
                                                   child: Text("ID",
                                                       style: const TextStyle(
                                                           color: const Color(
@@ -278,130 +372,85 @@ class Profile extends StatelessWidget {
                                                       textAlign:
                                                           TextAlign.left))),
                                         ])),
-                                    Container(
-                                        height: 54.6,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                            border: Border(
-                                                bottom: BorderSide(
-                                                    color:
-                                                        const Color(0xffdedede),
-                                                    width: 1))),
-                                        child: Stack(children: [
-                                          Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Container(
-                                                  margin:
-                                                      EdgeInsets.only(left: 21),
-                                                  child: Text("MAJOR",
-                                                      style: const TextStyle(
-                                                          color: const Color(
-                                                              0xff6f6e6e),
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontFamily: "Roboto",
-                                                          fontStyle:
-                                                              FontStyle.normal,
-                                                          fontSize: 14.0),
-                                                      textAlign:
-                                                          TextAlign.left))),
-                                          Align(
-                                              alignment: Alignment.centerRight,
-                                              child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 20),
-                                                  child: Text(
-                                                      "${myPageController.myProfile.value.MAJOR_NAME}",
-                                                      style: const TextStyle(
-                                                          color: const Color(
-                                                              0xff9b9b9b),
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontFamily: "Roboto",
-                                                          fontStyle:
-                                                              FontStyle.normal,
-                                                          fontSize: 14.0),
-                                                      textAlign:
-                                                          TextAlign.left))),
-                                        ])),
-                                    InkWell(
-                                        child: Container(
-                                            height: 54.6,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            decoration: BoxDecoration(
-                                                border: Border(
-                                                    bottom: BorderSide(
-                                                        color: const Color(
-                                                            0xffdedede),
-                                                        width: 1))),
-                                            child: Stack(children: [
-                                              Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          left: 21),
-                                                      child: Text(
-                                                          "PROFILE MESSAGE",
-                                                          style: const TextStyle(
-                                                              color: const Color(
-                                                                  0xff6f6e6e),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontFamily:
-                                                                  "Roboto",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: 14.0),
-                                                          textAlign:
-                                                              TextAlign.left))),
-                                              Align(
-                                                  alignment:
-                                                      Alignment.centerRight,
-                                                  child: Container(
-                                                      margin: EdgeInsets.only(
-                                                          right: 20),
-                                                      child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .end,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                                "${myPageController.myProfile.value.PROFILE_MESSAGE}",
-                                                                style: const TextStyle(
-                                                                    color: const Color(
-                                                                        0xff9b9b9b),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    fontFamily:
-                                                                        "Roboto",
-                                                                    fontStyle:
-                                                                        FontStyle
-                                                                            .normal,
-                                                                    fontSize:
-                                                                        14.0),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left),
-                                                            Image.asset(
-                                                                "assets/images/188.png",
-                                                                height: 16,
-                                                                width: 16)
-                                                          ]))),
-                                            ])),
-                                        onTap: () async {
-                                          ProfileMessageDialog(
-                                              context, myPageController);
-                                        }),
+
+                                    // ! profile message 무쓸모
+                                    // InkWell(
+                                    //     child: Container(
+                                    //         height: 54.6,
+                                    //         width: MediaQuery.of(context)
+                                    //             .size
+                                    //             .width,
+                                    //         decoration: BoxDecoration(
+                                    //             border: Border(
+                                    //                 bottom: BorderSide(
+                                    //                     color: const Color(
+                                    //                         0xffdedede),
+                                    //                     width: 1))),
+                                    //         child: Stack(children: [
+                                    //           Align(
+                                    //               alignment:
+                                    //                   Alignment.centerLeft,
+                                    //               child: Container(
+                                    //                   margin: EdgeInsets.only(
+                                    //                       left: 21),
+                                    //                   child: Text(
+                                    //                       "PROFILE MESSAGE",
+                                    //                       style: const TextStyle(
+                                    //                           color: const Color(
+                                    //                               0xff6f6e6e),
+                                    //                           fontWeight:
+                                    //                               FontWeight
+                                    //                                   .w500,
+                                    //                           fontFamily:
+                                    //                               "Roboto",
+                                    //                           fontStyle:
+                                    //                               FontStyle
+                                    //                                   .normal,
+                                    //                           fontSize: 14.0),
+                                    //                       textAlign:
+                                    //                           TextAlign.left))),
+                                    //           Align(
+                                    //               alignment:
+                                    //                   Alignment.centerRight,
+                                    //               child: Container(
+                                    //                   margin: EdgeInsets.only(
+                                    //                       right: 20),
+                                    //                   child: Row(
+                                    //                       mainAxisAlignment:
+                                    //                           MainAxisAlignment
+                                    //                               .end,
+                                    //                       crossAxisAlignment:
+                                    //                           CrossAxisAlignment
+                                    //                               .center,
+                                    //                       children: [
+                                    //                         Text(
+                                    //                             "${myPageController.myProfile.value.PROFILE_MESSAGE}",
+                                    //                             style: const TextStyle(
+                                    //                                 color: const Color(
+                                    //                                     0xff9b9b9b),
+                                    //                                 fontWeight:
+                                    //                                     FontWeight
+                                    //                                         .w400,
+                                    //                                 fontFamily:
+                                    //                                     "Roboto",
+                                    //                                 fontStyle:
+                                    //                                     FontStyle
+                                    //                                         .normal,
+                                    //                                 fontSize:
+                                    //                                     14.0),
+                                    //                             textAlign:
+                                    //                                 TextAlign
+                                    //                                     .left),
+                                    //                         Image.asset(
+                                    //                             "assets/images/188.png",
+                                    //                             height: 16,
+                                    //                             width: 16)
+                                    //                       ]))),
+                                    //         ])),
+                                    //     onTap: () async {
+                                    //       ProfileMessageDialog(
+                                    //           context, myPageController);
+                                    //     }),
                                     InkWell(
                                         child: Container(
                                             height: 54.6,

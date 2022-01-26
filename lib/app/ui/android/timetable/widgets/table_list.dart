@@ -230,7 +230,7 @@ void showSetting(
               topRight: const Radius.circular(30))),
       builder: (BuildContext context) {
         return Container(
-          height: 325,
+          height: 200,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -242,18 +242,17 @@ void showSetting(
                     // Rectangle-path
                     TimeTableSettingItem(
                       imagePath: "timetable_edit_name.png",
-                      title: "Edit Name",
+                      title: "编辑名称",
                       onTap: () async {
                         Get.back();
-                        // Get.back();
                         await Get.defaultDialog(
-                            title: "Edit course name",
+                            title: "编辑名称",
                             titlePadding: const EdgeInsets.only(top: 15.5),
                             contentPadding: const EdgeInsets.all(0),
                             titleStyle: const TextStyle(
                                 color: const Color(0xff333333),
                                 fontWeight: FontWeight.w700,
-                                fontFamily: "PingFangSC",
+                                fontFamily: "NotoSansSC",
                                 fontStyle: FontStyle.normal,
                                 fontSize: 18.0),
                             content: Container(
@@ -430,40 +429,8 @@ void showSetting(
                       },
                     ),
                     TimeTableSettingItem(
-                      imagePath: "timetable_visible_range.png",
-                      title: "Visible Range",
-                      onTap: () {
-                        Get.back();
-                      },
-                    ),
-                    TimeTableSettingItem(
-                      imagePath: "timetable_save_picture.png",
-                      title: "Save Picture",
-                      onTap: () {
-                        Get.back();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 20, left: 42, right: 42),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Rectangle-path
-                    TimeTableSettingItem(
-                      imagePath: "timetable_share_links.png",
-                      title: "Share Links",
-                      onTap: () {
-                        Get.back();
-
-                        print("Share Links");
-                      },
-                    ),
-                    TimeTableSettingItem(
                       imagePath: "timetable_delete.png",
-                      title: "Delete",
+                      title: "删除",
                       onTap: () async {
                         Get.back();
                         String yearSem = timeTableController.yearSem;
@@ -516,13 +483,27 @@ void showSetting(
                     ),
                     TimeTableSettingItem(
                       imagePath: "timetable_set_default.png",
-                      title: "Set Default",
+                      title: "设为基本",
                       onTap: () async {
                         Get.back();
 
                         await timeTableController.setDefaultTable();
                       },
                     ),
+                    // TimeTableSettingItem(
+                    //   imagePath: "timetable_visible_range.png",
+                    //   title: "Visible Range",
+                    //   onTap: () {
+                    //     Get.back();
+                    //   },
+                    // ),
+                    // TimeTableSettingItem(
+                    //   imagePath: "timetable_save_picture.png",
+                    //   title: "Save Picture",
+                    //   onTap: () {
+                    //     Get.back();
+                    //   },
+                    // ),
                   ],
                 ),
               ),
@@ -583,7 +564,7 @@ class TimeTableSettingItem extends StatelessWidget {
               style: const TextStyle(
                   color: const Color(0xff9b9b9b),
                   fontWeight: FontWeight.w400,
-                  fontFamily: "Roboto",
+                  fontFamily: "NotoSansSC",
                   fontStyle: FontStyle.normal,
                   fontSize: 10.0),
               textAlign: TextAlign.left),
@@ -775,7 +756,7 @@ class SubjectList extends StatelessWidget {
                                           FittedBox(
                                             child: SubjectPreviewList(
                                                 text:
-                                                    "- ${model.value.CLASSES[i].PROFESSOR}"),
+                                                    "- ${model.value.CLASSES[i].CLASS_TIME.first.class_room}"),
                                           ),
                                         ]),
                             ],

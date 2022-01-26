@@ -53,7 +53,7 @@ class WritePost extends StatelessWidget {
                 Center(
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 16.5),
-                    child: Text("新张贴物",
+                    child: Text("发布帖子",
                         style: const TextStyle(
                             color: const Color(0xffffffff),
                             fontWeight: FontWeight.w500,
@@ -160,9 +160,9 @@ class WritePost extends StatelessWidget {
                             width: 52,
                             height: 28,
                             child: Center(
-                              child: Text("张榜",
-                                  style: const TextStyle(
-                                      color: const Color(0xff371ac7),
+                              child: Text("发布",
+                                  style: TextStyle(
+                                      color: Get.theme.primaryColor,
                                       fontWeight: FontWeight.w500,
                                       fontFamily: "NotoSansSC",
                                       fontStyle: FontStyle.normal,
@@ -212,7 +212,7 @@ class WritePost extends StatelessWidget {
                               fontFamily: "NotoSansSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 12.0),
-                          hintText: '标题.',
+                          hintText: '标题',
                         ),
                       ),
                     ),
@@ -258,7 +258,7 @@ class WritePost extends StatelessWidget {
                               fontFamily: "NotoSansSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 12.0),
-                          hintText: '请输入内容.',
+                          hintText: '请输入内容',
                         ),
                       ),
                     ),
@@ -302,8 +302,7 @@ class WritePost extends StatelessWidget {
                                                       size: 20,
                                                     ),
                                                   ),
-                                                  // 附有照片
-                                                  Text("附有照片",
+                                                  Text("照片/视频",
                                                       style: const TextStyle(
                                                           color: const Color(
                                                               0xffd6d4d4),

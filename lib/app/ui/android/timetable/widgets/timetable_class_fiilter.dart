@@ -51,7 +51,7 @@ class TimetableClassFilter extends StatelessWidget {
                     ),
                     Center(
                       child: // 专业 / 领域
-                          Text("专业 / 领域",
+                          Text("专业 / 教养领域",
                               style: const TextStyle(
                                   color: const Color(0xffffffff),
                                   fontWeight: FontWeight.w500,

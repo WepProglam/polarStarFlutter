@@ -35,7 +35,7 @@ class TimeTableBin extends StatelessWidget {
                           if (!timeTableController.isReady.value) {
                             return Container();
                           }
-                          return Text("时间表列表",
+                          return Text("时间表",
                               style: const TextStyle(
                                   color: const Color(0xffffffff),
                                   fontWeight: FontWeight.w500,
@@ -199,18 +199,20 @@ class TimeTableBinItem extends StatelessWidget {
                       Center(
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 2.5, horizontal: 9),
+                          vertical: 2.5, horizontal: 5),
                       decoration: BoxDecoration(
                           color: Get.theme.primaryColor,
                           borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: Text("Default",
-                          style: const TextStyle(
-                              color: const Color(0xffffffff),
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 10.0),
-                          textAlign: TextAlign.left),
+                      child: Center(
+                        child: Text("基本",
+                            style: const TextStyle(
+                                color: const Color(0xffffffff),
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 10.0),
+                            textAlign: TextAlign.left),
+                      ),
                     ),
                   ),
                 )

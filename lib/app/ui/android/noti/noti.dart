@@ -40,7 +40,7 @@ class Noti extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.symmetric(vertical: 16.5),
               child: Text(
-                "成均馆大学",
+                "消息",
                 style: const TextStyle(
                     color: const Color(0xffffffff),
                     fontWeight: FontWeight.w500,
@@ -86,10 +86,10 @@ class Noti extends StatelessWidget {
                                 controller: notiController.tabController,
                                 tabs: <Tab>[
                                   Tab(
-                                    text: "消息",
+                                    text: "通知",
                                   ),
                                   Tab(
-                                    text: "团体",
+                                    text: "群聊",
                                   ),
                                   Tab(
                                     text: "私信",
@@ -336,7 +336,7 @@ class ChatWidget extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.only(left: 20),
-              child: Text("战功课",
+              child: Text("专业群聊",
                   style: const TextStyle(
                       color: const Color(0xff2f2f2f),
                       fontWeight: FontWeight.w500,
@@ -375,7 +375,7 @@ class ChatWidget extends StatelessWidget {
             // * 전공별 단톡방
             Container(
                 margin: const EdgeInsets.only(left: 20, top: 35.5),
-                child: Text("时间表",
+                child: Text("课程群聊",
                     style: const TextStyle(
                         color: const Color(0xff2f2f2f),
                         fontWeight: FontWeight.w500,
