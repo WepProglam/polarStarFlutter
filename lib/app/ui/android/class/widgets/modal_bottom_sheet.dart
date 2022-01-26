@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:polarstar_flutter/app/controller/class/class_view_controller.dart';
+import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 
 import 'package:polarstar_flutter/app/ui/android/functions/form_validator.dart';
 
@@ -16,6 +17,7 @@ import 'package:polarstar_flutter/app/ui/android/timetable/widgets/timetable.dar
 class WriteComment extends StatelessWidget {
   const WriteComment(
       {Key key,
+      @required this.classInfoModel,
       // @required this.classViewController,
       @required this.reviewTextController,
       @required this.CLASS_ID})
@@ -24,6 +26,7 @@ class WriteComment extends StatelessWidget {
   // final ClassViewController classViewController;
   final TextEditingController reviewTextController;
   final int CLASS_ID;
+  final ClassInfoModel classInfoModel;
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +69,10 @@ class WriteComment extends StatelessWidget {
                 ],
               ),
 
-              //* 뭔진 모르겠지만 写入教学评价
+              // * 강의명
               Padding(
                 padding: const EdgeInsets.only(top: 10.0, bottom: 8.0),
-                child: Text("写入教学评价",
+                child: Text("${classInfoModel.CLASS_NAME}",
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: const Color(0xff6f6e6e),
@@ -130,7 +133,7 @@ class WriteComment extends StatelessWidget {
 
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
-                child: Text("成绩反映",
+                child: Text("课程评分",
                     style: const TextStyle(
                         color: const Color(0xff6f6e6e),
                         fontWeight: FontWeight.w500,
@@ -387,7 +390,7 @@ class WriteComment extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("一般评论",
+                  Text("课程评价",
                       style: const TextStyle(
                           color: const Color(0xff6f6e6e),
                           fontWeight: FontWeight.w500,
@@ -406,7 +409,7 @@ class WriteComment extends StatelessWidget {
                                 color: const Color(0xffeaeaea), width: 1.0)),
                       ),
                       isExpanded: false,
-                      hint: Text("请输入说明.",
+                      hint: Text("请选择听课学期",
                           style: const TextStyle(
                               color: const Color(0xff9b9b9b),
                               fontWeight: FontWeight.w400,
@@ -484,11 +487,11 @@ class WriteComment extends StatelessWidget {
                         style: TextStyle(
                             color: const Color(0xff333333),
                             fontWeight: FontWeight.normal,
-                            fontFamily: "PingFangSC",
+                            fontFamily: "NotoSansSC",
                             fontStyle: FontStyle.normal,
                             fontSize: 12.0),
                         decoration: const InputDecoration(
-                          hintText: "请输入说明.",
+                          hintText: "请输入你对这门课的评价",
                           hintStyle: const TextStyle(
                               color: const Color(0xffd6d4d4),
                               fontWeight: FontWeight.w400,
@@ -644,11 +647,11 @@ class WriteExamInfo extends StatelessWidget {
               //* 시험정보 텍스트
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
-                child: Text("考试信息",
+                child: Text("${classViewController.classInfo.value.CLASS_NAME}",
                     style: const TextStyle(
                         color: const Color(0xff6f6e6e),
                         fontWeight: FontWeight.w500,
-                        fontFamily: "NotoSansSC",
+                        fontFamily: "NotoSansKR",
                         fontStyle: FontStyle.normal,
                         fontSize: 20.0),
                     textAlign: TextAlign.left),
@@ -662,7 +665,7 @@ class WriteExamInfo extends StatelessWidget {
 
               //* 시험 학기 선택
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text("应试考试",
+                Text("听课学期",
                     style: const TextStyle(
                         color: const Color(0xff6f6e6e),
                         fontWeight: FontWeight.w500,
@@ -681,7 +684,7 @@ class WriteExamInfo extends StatelessWidget {
                               color: const Color(0xffeaeaea), width: 1.0)),
                     ),
                     isExpanded: false,
-                    hint: Text("请输入说明.",
+                    hint: Text("请选择听课学期",
                         style: const TextStyle(
                             color: const Color(0xff9b9b9b),
                             fontWeight: FontWeight.w400,
@@ -789,14 +792,14 @@ class WriteExamInfo extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("门类",
-                        style: const TextStyle(
-                            color: const Color(0xff9b9b9b),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "NotoSansSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
-                        textAlign: TextAlign.left),
+                    // Text("门类",
+                    //     style: const TextStyle(
+                    //         color: const Color(0xff9b9b9b),
+                    //         fontWeight: FontWeight.w400,
+                    //         fontFamily: "NotoSansSC",
+                    //         fontStyle: FontStyle.normal,
+                    //         fontSize: 14.0),
+                    //     textAlign: TextAlign.left),
                     Container(
                       height: 28.0,
                       margin: const EdgeInsets.only(top: 10.0),
@@ -854,7 +857,7 @@ class WriteExamInfo extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("问题类型",
+                    Text("考试类型",
                         style: const TextStyle(
                             color: const Color(0xff9b9b9b),
                             fontWeight: FontWeight.w400,
@@ -921,7 +924,7 @@ class WriteExamInfo extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("试验战略",
+                  Text("考试攻略",
                       style: const TextStyle(
                           color: const Color(0xff9b9b9b),
                           fontWeight: FontWeight.w400,
@@ -970,7 +973,7 @@ class WriteExamInfo extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                           fontSize: 12.0),
                       decoration: InputDecoration(
-                          hintText: "请输入说明.",
+                          hintText: "请输入考试攻略",
                           hintStyle: const TextStyle(
                               color: const Color(0xffd6d4d4),
                               fontWeight: FontWeight.w400,
@@ -1000,7 +1003,7 @@ class WriteExamInfo extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("问题示例",
+                  Text("考试真题",
                       style: const TextStyle(
                           color: const Color(0xff9b9b9b),
                           fontWeight: FontWeight.w400,
@@ -1106,7 +1109,7 @@ class WriteExamInfo extends StatelessWidget {
                             fontStyle: FontStyle.normal,
                             fontSize: 12.0),
                         decoration: const InputDecoration(
-                            hintText: "请输入说明.",
+                            hintText: "请输入真题内容",
                             hintStyle: const TextStyle(
                                 color: const Color(0xffd6d4d4),
                                 fontWeight: FontWeight.w400,
@@ -1203,7 +1206,7 @@ class WriteExamInfo extends StatelessWidget {
                           classViewController.exampleList.clear();
                         },
                         child: Center(
-                            child: Text("写考试攻略",
+                            child: Text("发布",
                                 style: const TextStyle(
                                     color: const Color(0xffffffff),
                                     fontWeight: FontWeight.w500,

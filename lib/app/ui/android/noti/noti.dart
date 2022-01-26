@@ -60,7 +60,6 @@ class Noti extends StatelessWidget {
                   pinned: true,
                   floating: true,
                   snap: false,
-                  elevation: 0,
                   expandedHeight: 48 + 24.0 * 2 + 100 + 18,
                   bottom: PreferredSize(
                     preferredSize: Size.fromHeight(48 + 24.0 * 2 + 100 + 18),

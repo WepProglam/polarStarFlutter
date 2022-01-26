@@ -30,7 +30,7 @@ class ClassSearch extends StatelessWidget {
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 18),
                 child: Text(
-                  "成均馆大学",
+                  "讲义评价",
                   style: const TextStyle(
                       color: const Color(0xffffffff),
                       fontWeight: FontWeight.w500,

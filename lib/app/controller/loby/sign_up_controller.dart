@@ -41,6 +41,8 @@ class SignUpController extends GetxController {
     }
   }
 
+  RxBool idOK = false.obs;
+
   Future IDTest(String id) async {
     Map<String, String> data = {"id": id};
 
@@ -49,12 +51,15 @@ class SignUpController extends GetxController {
     switch (response["statusCode"]) {
       case 200:
         print("ID not duplicate");
-        Get.snackbar("ID not duplicate", "ID not duplicate");
+        idOK.value = true;
+        // Get.snackbar("ID not duplicate", "ID not duplicate");
 
         break;
       default:
         print("ID duplicate");
-        Get.snackbar("ID duplicate", "ID duplicate");
+        idOK.value = false;
+
+      // Get.snackbar("ID duplicate", "ID duplicate");
     }
   }
 

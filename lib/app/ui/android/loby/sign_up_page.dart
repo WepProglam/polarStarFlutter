@@ -71,7 +71,7 @@ class SignUpInputs extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 40.0),
-                child: Text("ID 重复确认",
+                child: Text("设置ID",
                     style: const TextStyle(
                         color: const Color(0xff4570ff),
                         fontWeight: FontWeight.w500,
@@ -87,7 +87,7 @@ class SignUpInputs extends StatelessWidget {
                     SignUpTextForm(
                       textEditingController: idController,
                       obscureText: false,
-                      hint: "Please enter the ID",
+                      hint: "请设置ID",
                       funcValidator: (value) {
                         return checkEmpty(value);
                       },
@@ -108,13 +108,13 @@ class SignUpInputs extends StatelessWidget {
                               color: const Color(0xff4570ff)),
                           child: Center(
                             child: Text(
-                              "Test",
+                              "验证",
                               style: const TextStyle(
                                   color: const Color(0xffffffff),
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "PingFangSC",
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansSC",
                                   fontStyle: FontStyle.normal,
-                                  fontSize: 16.0),
+                                  fontSize: 14.0),
                             ),
                           ),
                         ),
@@ -123,14 +123,21 @@ class SignUpInputs extends StatelessWidget {
                   ],
                 ),
               ),
-              Text("代码ID不重复，可以使用",
-                  style: const TextStyle(
-                      color: const Color(0xff9b9b9b),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 10.0),
-                  textAlign: TextAlign.left),
+              Obx(() {
+                return Text(
+                    signUpController.idOK.value
+                        ? "此ID未被注册，可以使用！"
+                        : "此ID已被注册，换一个再试试吧！",
+                    style: TextStyle(
+                        color: signUpController.idOK.value
+                            ? Colors.blue
+                            : Colors.red,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 10.0),
+                    textAlign: TextAlign.left);
+              }),
               // Padding(
               //   padding: const EdgeInsets.symmetric(vertical: 8.5),
               //   child: Row(
@@ -178,7 +185,7 @@ class SignUpInputs extends StatelessWidget {
               // ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
-                child: Text("输入密码",
+                child: Text("设置密码",
                     style: const TextStyle(
                         color: const Color(0xff4570ff),
                         fontWeight: FontWeight.w500,
@@ -192,7 +199,7 @@ class SignUpInputs extends StatelessWidget {
                 child: SignUpTextForm(
                   textEditingController: pwController,
                   obscureText: true,
-                  hint: "Please enter the password",
+                  hint: "请输入密码",
                   funcValidator: (value) {
                     return checkEmpty(value);
                   },
@@ -203,14 +210,14 @@ class SignUpInputs extends StatelessWidget {
                 child: SignUpTextForm(
                   textEditingController: pwConfirmController,
                   obscureText: true,
-                  hint: "Please confirm your password",
+                  hint: "请再次输入密码",
                   funcValidator: (value) {
                     return checkEmpty(value);
                   },
                 ),
               ),
 
-              Text("请设置昵称",
+              Text("设置昵称",
                   style: const TextStyle(
                       color: const Color(0xff4570ff),
                       fontWeight: FontWeight.w500,
@@ -223,14 +230,14 @@ class SignUpInputs extends StatelessWidget {
                 child: SignUpTextForm(
                   textEditingController: nicknameController,
                   obscureText: false,
-                  hint: "Please enter the nickname",
+                  hint: "请设置昵称",
                   funcValidator: (value) {
                     return checkEmpty(value);
                   },
                 ),
               ),
 
-              Text("主要的",
+              Text("入学年份",
                   style: const TextStyle(
                       color: const Color(0xff4570ff),
                       fontWeight: FontWeight.w500,
@@ -317,7 +324,7 @@ class SignUpInputs extends StatelessWidget {
                               style: const TextStyle(
                                   color: const Color(0xff2f2f2f),
                                   fontWeight: FontWeight.w500,
-                                  fontFamily: "NotoSansKR-Medium",
+                                  fontFamily: "NotoSansKR",
                                   fontStyle: FontStyle.normal,
                                   fontSize: 12.0),
                             ),
@@ -516,7 +523,7 @@ class SignUpInputs extends StatelessWidget {
                         ],
                         color: const Color(0xff4570ff)),
                     child: Center(
-                      child: Text("注册会员",
+                      child: Text("注册",
                           style: const TextStyle(
                               color: const Color(0xffffffff),
                               fontWeight: FontWeight.w700,
@@ -538,7 +545,7 @@ class SignUpInputs extends StatelessWidget {
                           fontFamily: "NotoSansSC",
                           fontStyle: FontStyle.normal,
                           fontSize: 10.0),
-                      text: "如果有账号, "),
+                      text: "已有账号, "),
                   TextSpan(
                     style: const TextStyle(
                         color: const Color(0xff4570ff),
@@ -546,7 +553,7 @@ class SignUpInputs extends StatelessWidget {
                         fontFamily: "NotoSansSC",
                         fontStyle: FontStyle.normal,
                         fontSize: 10.0),
-                    text: "请登录",
+                    text: "登录",
                     recognizer: TapGestureRecognizer()
                       ..onTap = () => Get.back(),
                   )

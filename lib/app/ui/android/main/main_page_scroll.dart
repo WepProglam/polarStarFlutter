@@ -63,11 +63,11 @@ class MainPageScroll extends StatelessWidget {
                   Container(
                       margin: const EdgeInsets.only(left: 20),
                       child: // 폴라스타
-                          Text("폴라스타",
+                          Text("北北上学堂",
                               style: const TextStyle(
                                   color: const Color(whiteColor),
                                   fontWeight: FontWeight.w500,
-                                  fontFamily: "NotoSansKR",
+                                  fontFamily: "NotoSansSC",
                                   fontStyle: FontStyle.normal,
                                   fontSize: 16.0),
                               textAlign: TextAlign.center)),
@@ -111,7 +111,7 @@ class MainPageScroll extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("新建立 韩国大学联合交流区",
+                            Text("成均馆大学",
                                 style: const TextStyle(
                                     color: const Color(whiteColor),
                                     fontWeight: FontWeight.w500,
@@ -119,7 +119,7 @@ class MainPageScroll extends StatelessWidget {
                                     fontStyle: FontStyle.normal,
                                     fontSize: 16.0),
                                 textAlign: TextAlign.center),
-                            Text("成均馆大学，汉阳大学，高丽大学",
+                            Text("=====学院 ===专业",
                                 style: const TextStyle(
                                     color: const Color(subColor),
                                     fontWeight: FontWeight.w500,
@@ -412,7 +412,7 @@ class MainPageScroll extends StatelessWidget {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             // 热榜
-                                            Text("收集帖子",
+                                            Text("帖子推荐",
                                                 style: const TextStyle(
                                                     color:
                                                         const Color(textColor),
@@ -750,7 +750,7 @@ class NormalSearchBar extends StatelessWidget {
               textAlign: TextAlign.left,
               decoration: InputDecoration(
                 isDense: true,
-                hintText: "新建立 韩国大学联合交流区",
+                hintText: "请输入搜索内容",
                 hintStyle: const TextStyle(
                     color: const Color(0xffcecece),
                     fontWeight: FontWeight.w500,

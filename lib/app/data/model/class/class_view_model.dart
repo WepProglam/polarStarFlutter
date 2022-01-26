@@ -163,7 +163,14 @@ class ClassExamModel {
     this.CLASS_EXAM_YEAR = json["CLASS_EXAM_YEAR"];
     this.CLASS_EXAM_SEMESTER = json["CLASS_EXAM_SEMESTER"];
     this.LIKES = json["LIKES"];
-    this.MID_FINAL = json["MID_FINAL"];
+    String mid_final = json["MID_FINAL"];
+    if (mid_final == null || mid_final.isEmpty) {
+      this.MID_FINAL = json["MID_FINAL"];
+    } else {
+      mid_final = mid_final.trim();
+      this.MID_FINAL = identical(mid_final, "중간") ? "期中考试" : "期末考试";
+    }
+
     this.IS_BUYED = json["IS_BUYED"];
   }
 }

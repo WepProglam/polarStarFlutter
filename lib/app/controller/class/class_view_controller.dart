@@ -7,6 +7,7 @@ import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
 import 'package:polarstar_flutter/app/controller/class/write_comment_controller.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/timetable_semester.dart';
 
 class ClassViewController extends GetxController
     with SingleGetTickerProviderMixin {
@@ -292,7 +293,7 @@ class ClassViewController extends GetxController
       for (var i = 0; i < 5; i++) {
         yearSemItem.add(DropdownMenuItem(
           child: Text(
-            "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}년도 ${i % 2 + 1}학기",
+            "${timetableSemChanger(currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i, i % 2 + 1)}",
             style: const TextStyle(
                 color: const Color(0xff6f6e6e),
                 fontWeight: FontWeight.w400,

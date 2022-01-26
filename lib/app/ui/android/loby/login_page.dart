@@ -95,7 +95,7 @@ class LoginInputs extends GetView<LoginController> {
                               fontFamily: "NotoSansSC",
                               fontStyle: FontStyle.normal,
                               fontSize: 14.0),
-                          hintText: "输入用户名",
+                          hintText: "输入ID",
                           filled: true,
                           fillColor: const Color(0xffffffff),
                           enabledBorder: OutlineInputBorder(
@@ -261,7 +261,7 @@ class LoginInputs extends GetView<LoginController> {
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 4.0),
-                          child: Text('输入密码',
+                          child: Text('自动登录',
                               style: const TextStyle(
                                   color: const Color(0xffffffff),
                                   fontWeight: FontWeight.w400,
@@ -274,10 +274,12 @@ class LoginInputs extends GetView<LoginController> {
                   Spacer(),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed("/findPw");
+                      // ! 우선 막음
+                      // ! email 인증 사용할 때부터
+                      // Get.toNamed("/findPw");
                     },
                     child: Text(
-                      "登录有问题吗?",
+                      "找回密码",
                       style: const TextStyle(
                           color: const Color(0xffffffff),
                           fontWeight: FontWeight.w400,
@@ -334,7 +336,7 @@ class LoginInputs extends GetView<LoginController> {
                       border:
                           Border.all(color: const Color(0xffeaeaea), width: 1)),
                   child: Center(
-                    child: Text("注册会员",
+                    child: Text("注册",
                         style: const TextStyle(
                             color: const Color(0xffffffff),
                             fontWeight: FontWeight.w700,

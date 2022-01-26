@@ -12,6 +12,7 @@ import 'package:polarstar_flutter/app/routes/app_pages.dart';
 
 import 'package:polarstar_flutter/app/ui/android/class/widgets/class_preview.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/class_search_bar.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/timetable_semester.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page_scroll.dart';
 
 const mainColor = 0xff4570ff;
@@ -139,7 +140,7 @@ class Class extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Container(
-                                  child: Text("我选的课程",
+                                  child: Text("我的课程",
                                       style: const TextStyle(
                                           color: const Color(textColor),
                                           fontWeight: FontWeight.w500,
@@ -268,7 +269,7 @@ class Class extends StatelessWidget {
                                 top: 20, left: 20, right: 20),
                             child: // 最新课程评价
                                 Row(children: [
-                              Text("最新课程评价",
+                              Text("最新评价",
                                   style: const TextStyle(
                                       color: const Color(textColor),
                                       fontWeight: FontWeight.w500,
@@ -345,7 +346,7 @@ class ClassRecentReview extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(top: 4, left: 20, right: 20),
-              child: Text("教授：${model.PROFESSOR}",
+              child: Text("听课学期：${model.PROFESSOR}",
                   style: const TextStyle(
                       color: const Color(0xff2f2f2f),
                       fontWeight: FontWeight.w500,
@@ -357,7 +358,7 @@ class ClassRecentReview extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(left: 20, right: 20),
               child: Text(
-                  "授课学期：${model.CLASS_YEAR}年 ${model.CLASS_SEMESTER}第一学期",
+                  "授课学期：${timetableSemChanger(model.CLASS_YEAR, model.CLASS_SEMESTER)}",
                   style: const TextStyle(
                       color: const Color(0xff2f2f2f),
                       fontWeight: FontWeight.w500,
@@ -575,7 +576,7 @@ class ClassSearchBar extends StatelessWidget {
               textAlign: TextAlign.left,
               decoration: InputDecoration(
                 isDense: true,
-                hintText: "新建立 韩国大学联合交流区",
+                hintText: "请输入搜索内容",
                 hintStyle: const TextStyle(
                     color: const Color(0xffcecece),
                     fontWeight: FontWeight.w500,

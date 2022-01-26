@@ -16,6 +16,7 @@ import 'package:polarstar_flutter/app/ui/android/class/functions/semester.dart';
 
 import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/modal_bottom_sheet.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/timetable_semester.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/timetable.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
@@ -185,10 +186,10 @@ class ClassView extends StatelessWidget {
                                 color: const Color(mainColor)),
                             tabs: <Tab>[
                               Tab(
-                                text: "在校生交流区",
+                                text: "讲义评价",
                               ),
                               Tab(
-                                text: "考试攻略",
+                                text: "考试信息",
                               ),
                             ],
                           ),
@@ -276,6 +277,8 @@ class ClassView extends StatelessWidget {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return WriteComment(
+                                          classInfoModel: classViewController
+                                              .classInfo.value,
                                           // classViewController: classViewController,
                                           reviewTextController:
                                               reviewTextController,
@@ -301,7 +304,7 @@ class ClassView extends StatelessWidget {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
-                                            "Writing Evaluation",
+                                            "写讲义评价",
                                             textScaleFactor: 1.2,
                                             style: TextStyle(
                                                 color: Colors.white,
@@ -384,7 +387,7 @@ class ClassView extends StatelessWidget {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                "Add Exam Information",
+                                                "写考试信息",
                                                 textScaleFactor: 1.2,
                                                 style: TextStyle(
                                                     color: Colors.white,
@@ -835,6 +838,8 @@ class ClassViewReview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ClassViewController classViewController = Get.find();
+    print(classReviewModel.CLASS_YEAR);
+    print(classReviewModel.CLASS_SEMESTER);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14.0),
@@ -913,7 +918,7 @@ class ClassViewReview extends StatelessWidget {
 
           // * 수강 학기: 데이터 안 날라옴
           Text(
-              "${semester(classReviewModel.CLASS_SEMESTER)} Semester Of ${classReviewModel.CLASS_YEAR}",
+              "${timetableSemChanger(classReviewModel.CLASS_YEAR, classReviewModel.CLASS_SEMESTER)}",
               style: const TextStyle(
                   color: const Color(0xff9b9b9b),
                   fontWeight: FontWeight.w300,
@@ -967,9 +972,6 @@ class ClassExamInfo extends StatelessWidget {
                 sigmaX: 5.0, sigmaY: 5.0, tileMode: TileMode.decal),
         child: GestureDetector(
           onTap: () {
-            print(classExamModel.CLASS_ID);
-            print(classExamModel.CLASS_EXAM_ID);
-
             if (classExamModel.IS_BUYED) {
               print("이미 구매한 정보");
             } else {
@@ -1053,9 +1055,7 @@ class ClassExamInfo extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Text(
-                        classExamModel.CLASS_EXAM_YEAR.toString() +
-                            "年 " +
-                            semester(classExamModel.CLASS_EXAM_SEMESTER),
+                        "${timetableSemChanger(classExamModel.CLASS_EXAM_YEAR, classExamModel.CLASS_EXAM_SEMESTER)}",
                         style: const TextStyle(
                             color: const Color(0xff6f6e6e),
                             fontWeight: FontWeight.w400,

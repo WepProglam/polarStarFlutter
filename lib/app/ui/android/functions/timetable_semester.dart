@@ -15,7 +15,7 @@ String timetableSemChanger(int year, int semester) {
       break;
     default:
   }
-  return "${year}年 第${sem}学期";
+  return "${year}学年度 第${sem}学期";
 }
 
 int flutterToServerSemChanger(int semester) {

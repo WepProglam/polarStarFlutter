@@ -180,7 +180,7 @@ class BoardPreviewItem_top extends StatelessWidget {
       Container(
         height: 24,
         child: // 公告事項
-            Text("公告事項",
+            Text("论坛分区",
                 style: const TextStyle(
                     color: const Color(0xff2f2f2f),
                     fontWeight: FontWeight.w500,

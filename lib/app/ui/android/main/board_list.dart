@@ -80,7 +80,7 @@ class BoardList extends StatelessWidget {
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
                               isDense: true,
-                              hintText: "新建立 韩国大学联合交流区",
+                              hintText: "搜索论坛分区",
                               hintStyle: const TextStyle(
                                   color: const Color(0xffcecece),
                                   fontWeight: FontWeight.w500,
