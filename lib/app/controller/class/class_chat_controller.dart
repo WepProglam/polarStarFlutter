@@ -174,11 +174,11 @@ class ClassChatController extends GetxController {
       bool isClass = checkClassOrMajor(chat.value.BOX_ID);
       for (Rx<ChatBoxModel> item in isClass ? classChatBox : majorChatBox) {
         if (item.value.BOX_ID == chat.value.BOX_ID) {
-          if (item.value.ChatList.length != 0 &&
-              item.value.ChatList.last.value.CHAT_ID == chat.value.CHAT_ID) {
-            print("중복");
-            break;
-          }
+          // if (item.value.ChatList.length != 0 &&
+          //     item.value.ChatList.last.value.CHAT_ID == chat.value.CHAT_ID) {
+          //   print("중복");
+          //   break;
+          // }
           item.update((val) {
             // * 채팅방 수정
             val.ChatList.add(chat.value.obs);
@@ -221,8 +221,9 @@ class ClassChatController extends GetxController {
   }
 
   void sendMessage(String text) {
-    print(
-        "!!!!!!!!!!!!!!!!send!!!!!!!!!!!!!!!!!!!${classChatSocket.connected}");
+    if (text.trim().isEmpty) {
+      return;
+    }
     classChatSocket
         .emit("sendMessage", {"content": text, "roomId": currentBoxID.value});
   }
@@ -257,16 +258,10 @@ class ClassChatController extends GetxController {
     return;
   }
 
-  List<int> rooms = [];
   Future<void> joinAndEmit(int BOX_ID) async {
-    // if (rooms.indexOf(BOX_ID) == -1) {
-    //   print("already joined");
-    //   return;
-    // }
     print("joinRoom! ${BOX_ID}");
     classChatSocket.emit("joinRoom", [BOX_ID, "fuckfuck"]);
     await classChatSocket.emit("getChatLog", [BOX_ID, 0]);
-    rooms.add(BOX_ID);
     return;
   }
 
@@ -277,7 +272,6 @@ class ClassChatController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    rooms = [];
 
     chatScrollController = ScrollController(initialScrollOffset: 0.0);
 

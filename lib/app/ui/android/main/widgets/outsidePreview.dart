@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 const mainColor = 0xff4570ff;
 const subColor = 0xff91bbff;
-const whiteColor = 0xffffffff;
+const whiteColor = 0xfff7fbff;
 const textColor = 0xff2f2f2f;
 
 class OutsidePreview extends StatelessWidget {
@@ -23,8 +23,7 @@ class OutsidePreview extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // 首尔地区包括
-                Text("首尔地区包括",
+                Text("2022学年度第1学期已结业",
                     style: const TextStyle(
                         color: const Color(whiteColor),
                         fontWeight: FontWeight.w500,
@@ -32,8 +31,7 @@ class OutsidePreview extends StatelessWidget {
                         fontStyle: FontStyle.normal,
                         fontSize: 14.0),
                     textAlign: TextAlign.left),
-                // 成均馆大学，汉阳大学，高丽大学
-                Text("成均馆大学，汉阳大学，高丽大学",
+                Text("业者替代论文学分取得制实行通",
                     style: const TextStyle(
                         color: const Color(subColor),
                         fontWeight: FontWeight.w400,
@@ -70,16 +68,15 @@ class OutsidePreview extends StatelessWidget {
       //   ),
       // ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-        boxShadow: [
-          BoxShadow(
-              color: const Color(whiteColor),
-              offset: Offset(0, 9),
-              blurRadius: 0,
-              spreadRadius: 0)
-        ],
-        color: Get.theme.primaryColor,
-      ),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          boxShadow: [
+            BoxShadow(
+                color: const Color(0x33000000),
+                offset: Offset(0, 3),
+                blurRadius: 10,
+                spreadRadius: 0)
+          ],
+          color: Get.theme.primaryColor),
     );
   }
 }

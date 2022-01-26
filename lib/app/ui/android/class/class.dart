@@ -175,29 +175,54 @@ class Class extends StatelessWidget {
                                     },
                                     child: Container(
                                         margin: const EdgeInsets.only(
-                                            top: 10,
+                                            top: 14,
                                             left: 20,
                                             right: 20,
                                             bottom: 20),
                                         height: 67,
-                                        child: Center(
-                                          child: Text(
-                                            "수업 추가하러 가기",
-                                            style: const TextStyle(
-                                                color: const Color(textColor),
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: "NotoSansKR",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 14.0),
-                                          ),
-                                        ),
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons
+                                                    .add_circle_outline_outlined,
+                                                size: 24,
+                                                color: const Color(0xffd6d4d4),
+                                              ),
+                                              Center(
+                                                  child: // 补课
+                                                      Text("补课",
+                                                          style: const TextStyle(
+                                                              color: const Color(
+                                                                  0xffd6d4d4),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontFamily:
+                                                                  "NotoSansSC",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: 10.0),
+                                                          textAlign: TextAlign
+                                                              .center)),
+                                            ]),
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.all(
-                                                Radius.circular(8)),
+                                                Radius.circular(7)),
                                             border: Border.all(
                                                 color: const Color(0xffeaeaea),
                                                 width: 1),
-                                            color: const Color(whiteColor))),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color:
+                                                      const Color(0x0f000000),
+                                                  offset: Offset(0, 3),
+                                                  blurRadius: 10,
+                                                  spreadRadius: 0)
+                                            ],
+                                            color: const Color(0xffffffff))),
                                   ),
                                 )
                               : Container(
@@ -234,7 +259,7 @@ class Class extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(bottom: 10),
+                      margin: const EdgeInsets.only(bottom: 14),
                       color: const Color(backColor),
                       child: Column(
                         children: [
@@ -357,7 +382,7 @@ class ClassRecentReview extends StatelessWidget {
           ],
         ),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
             border: Border.all(color: const Color(0xffeaeaea), width: 1),
             boxShadow: [
               BoxShadow(

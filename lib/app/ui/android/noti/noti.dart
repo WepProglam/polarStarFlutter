@@ -15,6 +15,7 @@ import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
 import 'package:polarstar_flutter/app/ui/android/noti/widgets/mailBox.dart';
 import 'package:polarstar_flutter/app/ui/android/noti/widgets/notiBox.dart';
 import 'package:polarstar_flutter/app/ui/android/noti/widgets/noti_appbar.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/banner_widget.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
 
 class Noti extends StatelessWidget {
@@ -101,6 +102,11 @@ class Noti extends StatelessWidget {
             children: [
               Container(
                 height: 24,
+              ),
+              // * 정보제공
+              Container(
+                margin: const EdgeInsets.only(bottom: 24),
+                child: BannerWidget(),
               ),
               Expanded(
                 child: TabBarView(

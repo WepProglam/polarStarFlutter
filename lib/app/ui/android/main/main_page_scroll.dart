@@ -9,6 +9,7 @@ import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart'
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 import 'package:polarstar_flutter/app/ui/android/main/board_list.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/banner_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
@@ -42,7 +43,6 @@ class MainPageScroll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final PageController outsidePageController = PageController();
     return GestureDetector(
       onTap: () {
         searchFocusNode.unfocus();
@@ -107,7 +107,7 @@ class MainPageScroll extends StatelessWidget {
                     children: [
                       Container(
                         margin:
-                            const EdgeInsets.only(top: 20, left: 20, right: 20),
+                            const EdgeInsets.only(top: 24, left: 20, right: 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -132,14 +132,14 @@ class MainPageScroll extends StatelessWidget {
                       ),
                       Container(
                         margin:
-                            const EdgeInsets.only(top: 14, left: 20, right: 20),
+                            const EdgeInsets.only(top: 9, left: 20, right: 20),
                         child: NormalSearchBar(
                             searchText: searchText,
                             searchFocusNode: searchFocusNode,
                             mainController: mainController),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 129),
+                        margin: const EdgeInsets.only(top: 198),
                         decoration: BoxDecoration(
                             color: const Color(whiteColor),
                             borderRadius: BorderRadius.only(
@@ -148,41 +148,9 @@ class MainPageScroll extends StatelessWidget {
                         child: Column(
                           children: [
                             // * 정보제공
-                            InkWell(
-                              onTap: () {
-                                Get.to(SafeArea(
-                                  child: WebView(
-                                    initialUrl: 'https://flutter.dev',
-                                    javascriptMode: JavascriptMode.unrestricted,
-                                  ),
-                                ));
-                              },
-                              child: Container(
-                                margin:
-                                    const EdgeInsets.only(top: 48, bottom: 12),
-                                height: 100,
-                                child: PageView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  physics: PageScrollPhysics(),
-                                  controller: outsidePageController,
-                                  itemCount: 5,
-                                  itemBuilder: (context, index) {
-                                    return OutsidePreview();
-                                  },
-                                ),
-                              ),
-                            ),
-                            Center(
-                              child: SmoothPageIndicator(
-                                controller: outsidePageController,
-                                count: 5,
-                                effect: ExpandingDotsEffect(
-                                    dotWidth: 6,
-                                    dotHeight: 6,
-                                    expansionFactor: 2,
-                                    dotColor: const Color(0xffcecece),
-                                    activeDotColor: const Color(mainColor)),
-                              ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 42),
+                              child: BannerWidget(),
                             ),
 
                             //* 게시판
@@ -195,7 +163,7 @@ class MainPageScroll extends StatelessWidget {
                                     Container(
                                       child: BoardPreviewItem_top(),
                                       padding:
-                                          const EdgeInsets.only(bottom: 10),
+                                          const EdgeInsets.only(bottom: 14),
                                     ),
                                     mainController.followingCommunity.length > 0
                                         ? Container(
@@ -332,11 +300,23 @@ class MainPageScroll extends StatelessWidget {
                                                 }),
                                           )
                                         : Container(
-                                            height: 150,
+                                            height: 77,
                                             decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.all(
-                                                    Radius.circular(20)),
-                                                color: const Color(whiteColor)),
+                                                    Radius.circular(7)),
+                                                border: Border.all(
+                                                    color:
+                                                        const Color(0xffeaeaea),
+                                                    width: 1),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: const Color(
+                                                          0x0f000000),
+                                                      offset: Offset(0, 3),
+                                                      blurRadius: 10,
+                                                      spreadRadius: 0)
+                                                ],
+                                                color: const Color(0xffffffff)),
                                             child: Center(
                                               child: Column(
                                                   mainAxisAlignment:
@@ -345,10 +325,10 @@ class MainPageScroll extends StatelessWidget {
                                                     Container(
                                                       margin:
                                                           const EdgeInsets.only(
-                                                              bottom: 10),
+                                                              bottom: 1),
                                                       child: Ink(
-                                                        width: 40,
-                                                        height: 40,
+                                                        width: 24,
+                                                        height: 24,
                                                         child: InkWell(
                                                           onTap: () async {
                                                             searchText.clear();
@@ -362,15 +342,29 @@ class MainPageScroll extends StatelessWidget {
                                                                   .updateMainPage();
                                                             });
                                                           },
-                                                          child: Image.asset(
-                                                              "assets/images/941.png"),
+                                                          child: Icon(
+                                                            Icons
+                                                                .add_circle_outline_outlined,
+                                                            size: 24,
+                                                            color: const Color(
+                                                                0xffd6d4d4),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                    Text(
-                                                      "Follow communites",
-                                                      style: textStyle,
-                                                    ),
+                                                    Text("跟踪社区",
+                                                        style: const TextStyle(
+                                                            color: const Color(
+                                                                0xffd6d4d4),
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            fontFamily:
+                                                                "NotoSansSC",
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontSize: 10.0),
+                                                        textAlign:
+                                                            TextAlign.center)
                                                   ]),
                                             ),
                                           ),
@@ -412,7 +406,7 @@ class MainPageScroll extends StatelessWidget {
                                       Container(
                                         // padding: const EdgeInsets.all(18),
                                         margin: const EdgeInsets.fromLTRB(
-                                            20.0, 20.0, 20.0, 10.0),
+                                            20.0, 40.0, 20.0, 10.0),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -548,86 +542,90 @@ class MainPageScroll extends StatelessWidget {
                                     ]))
                                 : Container(),
 
-                            // ClassItem(model: mainController.classList[0]),
-                            //강의정보
                             Container(
-                              //리스트 뷰에서 bottom 13 마진 줌
-                              margin: const EdgeInsets.only(
-                                  left: 20, right: 20, top: 20, bottom: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    child: ClassItem_TOP(),
-                                  ),
-                                  Container(
-                                      margin: const EdgeInsets.only(top: 10),
-                                      child: mainController.classList.length > 0
-                                          ? ListView.builder(
-                                              itemCount: mainController
-                                                  .classList.length,
-                                              shrinkWrap: true,
-                                              physics:
-                                                  NeverScrollableScrollPhysics(),
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return Ink(
-                                                  child: InkWell(
-                                                    onTap: () async {
-                                                      searchFocusNode.unfocus();
-                                                      await Get.toNamed(
-                                                              '/class/view/${mainController.classList[index].CLASS_ID}')
-                                                          .then((value) async {
-                                                        await MainUpdateModule
-                                                            .updateMainPage();
-                                                      });
-                                                    },
-                                                    child: ClassItem(
-                                                        model: mainController
-                                                            .classList[index]),
-                                                  ),
-                                                );
-                                              })
-                                          : Container(
-                                              height: 150,
-                                              child: Center(
-                                                child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Container(
-                                                        margin: const EdgeInsets
-                                                            .only(bottom: 10),
-                                                        child: Ink(
-                                                          width: 40,
-                                                          height: 40,
-                                                          child: InkWell(
-                                                            onTap: () async {
-                                                              CreateNewTimetable(
-                                                                  searchText,
-                                                                  searchFocusNode);
-                                                            },
-                                                            child: Image.asset(
-                                                                "assets/images/941.png"),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        "Add classes",
-                                                        style: textStyle,
-                                                      ),
-                                                    ]),
-                                              ),
-                                            ),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
-                                          color: const Color(whiteColor)))
-                                ],
-                              ),
-                            ),
+                              height: 27,
+                            )
+
+                            // // ClassItem(model: mainController.classList[0]),
+                            // //강의정보
+                            // Container(
+                            //   //리스트 뷰에서 bottom 13 마진 줌
+                            //   margin: const EdgeInsets.only(
+                            //       left: 20, right: 20, top: 27, bottom: 10),
+                            //   child: Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: [
+                            //       Container(
+                            //         child: ClassItem_TOP(),
+                            //       ),
+                            //       Container(
+                            //           margin: const EdgeInsets.only(top: 10),
+                            //           child: mainController.classList.length > 0
+                            //               ? ListView.builder(
+                            //                   itemCount: mainController
+                            //                       .classList.length,
+                            //                   shrinkWrap: true,
+                            //                   physics:
+                            //                       NeverScrollableScrollPhysics(),
+                            //                   itemBuilder:
+                            //                       (BuildContext context,
+                            //                           int index) {
+                            //                     return Ink(
+                            //                       child: InkWell(
+                            //                         onTap: () async {
+                            //                           searchFocusNode.unfocus();
+                            //                           await Get.toNamed(
+                            //                                   '/class/view/${mainController.classList[index].CLASS_ID}')
+                            //                               .then((value) async {
+                            //                             await MainUpdateModule
+                            //                                 .updateMainPage();
+                            //                           });
+                            //                         },
+                            //                         child: ClassItem(
+                            //                             model: mainController
+                            //                                 .classList[index]),
+                            //                       ),
+                            //                     );
+                            //                   })
+                            //               : Container(
+                            //                   height: 150,
+                            //                   child: Center(
+                            //                     child: Column(
+                            //                         mainAxisAlignment:
+                            //                             MainAxisAlignment
+                            //                                 .center,
+                            //                         children: [
+                            //                           Container(
+                            //                             margin: const EdgeInsets
+                            //                                 .only(bottom: 10),
+                            //                             child: Ink(
+                            //                               width: 40,
+                            //                               height: 40,
+                            //                               child: InkWell(
+                            //                                 onTap: () async {
+                            //                                   CreateNewTimetable(
+                            //                                       searchText,
+                            //                                       searchFocusNode);
+                            //                                 },
+                            //                                 child: Image.asset(
+                            //                                     "assets/images/941.png"),
+                            //                               ),
+                            //                             ),
+                            //                           ),
+                            //                           Text(
+                            //                             "Add classes",
+                            //                             style: textStyle,
+                            //                           ),
+                            //                         ]),
+                            //                   ),
+                            //                 ),
+                            //           decoration: BoxDecoration(
+                            //               borderRadius: BorderRadius.all(
+                            //                   Radius.circular(20)),
+                            //               color: const Color(whiteColor)))
+                            //     ],
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -636,12 +634,11 @@ class MainPageScroll extends StatelessWidget {
                 ),
                 Positioned(
                     right: 20.0,
-                    top: 133.1,
+                    top: 163.6,
                     child: Image.asset(
                       "assets/images/378.png",
                       // width: 272,
-                      fit: BoxFit.fitHeight,
-                      height: 155.9,
+                      height: 164.2,
                       // width: Get.mediaQuery.size.width,
                       // height: 137,/
                     ))
