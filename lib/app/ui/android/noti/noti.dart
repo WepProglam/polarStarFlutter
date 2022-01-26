@@ -60,54 +60,61 @@ class Noti extends StatelessWidget {
                   pinned: true,
                   floating: true,
                   snap: false,
-                  expandedHeight: 48,
+                  elevation: 0,
+                  expandedHeight: 48 + 24.0 * 2 + 100 + 18,
                   bottom: PreferredSize(
-                    preferredSize: Size.fromHeight(48),
+                    preferredSize: Size.fromHeight(48 + 24.0 * 2 + 100 + 18),
                     child: Container(
-                      decoration: BoxDecoration(color: const Color(0xff2f2f2f)),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: TabBar(
-                            labelStyle: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14.0),
-                            labelColor: const Color(0xff6ea5ff),
-                            unselectedLabelColor: const Color(0xffffffff),
-                            indicator: UnderlineTabIndicator(
-                              borderSide: BorderSide(
-                                  color: Color(0xDD613896), width: 0.0),
-                            ),
-                            controller: notiController.tabController,
-                            tabs: <Tab>[
-                              Tab(
-                                text: "消息",
-                              ),
-                              Tab(
-                                text: "团体",
-                              ),
-                              Tab(
-                                text: "私信",
-                              )
-                            ]
-                            // child: NotiMailSelect(notiController: notiController),
-                            ),
-                      ),
+                      color: const Color(0xffffffff),
+                      child: Column(children: [
+                        Container(
+                          decoration:
+                              BoxDecoration(color: const Color(0xff2f2f2f)),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: TabBar(
+                                labelStyle: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "NotoSansSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                labelColor: const Color(0xff6ea5ff),
+                                unselectedLabelColor: const Color(0xffffffff),
+                                indicator: UnderlineTabIndicator(
+                                  borderSide: BorderSide(
+                                      color: Color(0xDD613896), width: 0.0),
+                                ),
+                                controller: notiController.tabController,
+                                tabs: <Tab>[
+                                  Tab(
+                                    text: "消息",
+                                  ),
+                                  Tab(
+                                    text: "团体",
+                                  ),
+                                  Tab(
+                                    text: "私信",
+                                  )
+                                ]
+                                // child: NotiMailSelect(notiController: notiController),
+                                ),
+                          ),
+                        ),
+                        Container(
+                          height: 24,
+                        ),
+                        // * 정보제공
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 24),
+                          child: BannerWidget(),
+                        ),
+                      ]),
                     ),
                   )),
             ];
           },
           body: Column(
             children: [
-              Container(
-                height: 24,
-              ),
-              // * 정보제공
-              Container(
-                margin: const EdgeInsets.only(bottom: 24),
-                child: BannerWidget(),
-              ),
               Expanded(
                 child: TabBarView(
                     controller: notiController.tabController,
@@ -424,6 +431,7 @@ class NotiWidget extends StatelessWidget {
         shrinkWrap: true,
         itemCount:
             notiController.noties.isEmpty ? 1 : notiController.noties.length,
+        physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           if (notiController.noties.length == 0) {
             return Center(
