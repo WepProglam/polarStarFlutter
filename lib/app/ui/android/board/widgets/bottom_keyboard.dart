@@ -51,11 +51,11 @@ class BottomKeyboard extends StatelessWidget {
                   isDense: true,
                   contentPadding:
                       EdgeInsets.only(left: 70, right: 40, top: 10, bottom: 10),
-                  hintText: c.autoFocusTextForm.value
-                      ? '수정하기'
-                      : c.isCcomment.value
-                          ? '대댓글 작성'
-                          : '댓글 작성',
+                  // hintText: c.autoFocusTextForm.value
+                  //     ? '수정하기'
+                  //     : c.isCcomment.value
+                  //         ? '대댓글 작성'
+                  //         : '댓글 작성',
                   border: InputBorder.none,
                 ),
               ),
