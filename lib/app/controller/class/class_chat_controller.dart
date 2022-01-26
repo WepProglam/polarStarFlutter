@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -15,6 +18,8 @@ import 'package:polarstar_flutter/app/ui/android/functions/keyboard_visibility.d
 import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:path/path.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class ClassChatController extends GetxController {
   final box = GetStorage();
@@ -31,7 +36,38 @@ class ClassChatController extends GetxController {
   RxInt currentBoxID = 0.obs;
   RxBool canChatFileShow = false.obs;
   RxBool tapTextField = false.obs;
+  List<File> files = <File>[].obs;
+  List<AssetEntity> photos = <AssetEntity>[].obs;
   final FocusNode chatFocusNode = new FocusNode();
+
+  Future<void> sendFile() async {
+    List<Map> sendFileObj = [];
+    for (int i = 0; i < files.length; i++) {
+      //print(item);
+      Map tmp = {};
+      tmp["content"] = await files[i].readAsBytes();
+      tmp["fileName"] = basename(files[i].path);
+      sendFileObj.add(tmp);
+    }
+
+    classChatSocket.emitWithBinary(
+        "sendFile", {"sendFileObj": sendFileObj, "roomId": currentBoxID.value});
+    files = [];
+  }
+
+  Future<void> sendPhoto() async {
+    List<Map> sendFileObj = [];
+    for (int i = 0; i < photos.length; i++) {
+      Map tmp = {};
+      tmp["content"] = await photos[i].originBytes;
+      tmp["fileName"] = basename(photos[i].title);
+      sendFileObj.add(tmp);
+    }
+
+    classChatSocket.emitWithBinary(
+        "sendFile", {"sendFileObj": sendFileObj, "roomId": currentBoxID.value});
+    photos = [];
+  }
 
   Map<String, dynamic> findChatHistory() {
     int index = 0;

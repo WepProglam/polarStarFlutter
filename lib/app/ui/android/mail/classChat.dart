@@ -13,6 +13,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:polarstar_flutter/app/data/model/mail/mailSend_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class ClassChatHistory extends StatefulWidget {
   @override
@@ -493,15 +495,25 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                         color: Get.theme.primaryColor,
                                       )),
                               onTap: () async {
-                                String text = commentWriteController.text;
-                                String testText = text;
-                                if (testText.trim().isEmpty) {
-                                  return;
-                                }
-                                controller
-                                    .sendMessage(commentWriteController.text);
+                                if (controller.files.length != 0) {
+                                  await controller.sendFile();
+                                  controller.tapTextField = false.obs;
+                                  controller.canChatFileShow = false.obs;
+                                } else if (controller.photos.length != 0) {
+                                  await controller.sendPhoto();
+                                  controller.tapTextField = false.obs;
+                                  controller.canChatFileShow = false.obs;
+                                } else {
+                                  String text = commentWriteController.text;
+                                  String testText = text;
+                                  if (testText.trim().isEmpty) {
+                                    return;
+                                  }
+                                  controller
+                                      .sendMessage(commentWriteController.text);
 
-                                commentWriteController.clear();
+                                  commentWriteController.clear();
+                                }
                               }),
                         ]),
                       ),
@@ -568,8 +580,12 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                       children: [
                                         Ink(
                                           child: InkWell(
-                                            onTap: () {
-                                              print("Image");
+                                            onTap: () async {
+                                              print('사진추가');
+                                              controller.photos.addAll(
+                                                  await AssetPicker.pickAssets(
+                                                      context,
+                                                      maxAssets: 10));
                                             },
                                             child: Container(
                                                 width: containerSize,
@@ -606,8 +622,20 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                       children: [
                                         Ink(
                                           child: InkWell(
-                                            onTap: () {
+                                            onTap: () async {
                                               print("File");
+                                              FilePickerResult result =
+                                                  await FilePicker.platform
+                                                      .pickFiles(
+                                                          allowMultiple: true);
+
+                                              if (result != null) {
+                                                controller.files = result.paths
+                                                    .map((path) => File(path))
+                                                    .toList();
+                                              } else {
+                                                // User canceled the picker
+                                              }
                                             },
                                             child: Container(
                                                 width: containerSize,
