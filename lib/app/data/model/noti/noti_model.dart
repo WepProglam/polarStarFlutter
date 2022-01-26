@@ -142,9 +142,6 @@ class ChatModel {
     } else {
       this.FILE = json["FILE"];
     }
-    print(
-        "s;aldkgjnlkasdjhgnkjlnasdg==================================sdfkjhbnasdjhfbjhkabsdf");
-    print(this.FILE.toString());
 
     this.PROFILE_NICKNAME = nullCheck(json["PROFILE_NICKNAME"]);
     this.PROFILE_PHOTO = nullCheck(json["PROFILE_PHOTO"]);
