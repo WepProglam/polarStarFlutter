@@ -94,21 +94,21 @@ class ChatBoxModel {
 
 class ChatModel {
   String CONTENT, PROFILE_NICKNAME, PROFILE_PHOTO;
-  List<dynamic> PHOTO;
+  List<dynamic> PHOTO, FILE;
   DateTime TIME_CREATED;
   int CHAT_ID, BOX_ID;
   bool MY_SELF;
 
-  ChatModel({
-    BOX_ID,
-    CONTENT,
-    PHOTO,
-    PROFILE_NICKNAME,
-    PROFILE_PHOTO,
-    TIME_CREATED,
-    CHAT_ID,
-    MY_SELF,
-  });
+  ChatModel(
+      {BOX_ID,
+      CONTENT,
+      PHOTO,
+      PROFILE_NICKNAME,
+      PROFILE_PHOTO,
+      TIME_CREATED,
+      CHAT_ID,
+      MY_SELF,
+      FILE});
 
   Map<String, dynamic> toJson() {
     return {
@@ -120,6 +120,7 @@ class ChatModel {
       'TIME_CREATED': TIME_CREATED,
       'CHAT_ID': CHAT_ID,
       'MY_SELF': MY_SELF,
+      "FILE": FILE,
     };
   }
 
@@ -127,11 +128,20 @@ class ChatModel {
     this.BOX_ID = nullCheck(json["BOX_ID"]);
     this.CONTENT = nullCheck("${json["CONTENT"]}");
 
-    print(json["PHOTO"]);
     if (json["PHOTO"] == null) {
       this.PHOTO = null;
-    } else {
+    } else if (json["PHOTO"].runtimeType == "String") {
       this.PHOTO = jsonDecode(json["PHOTO"]);
+    } else {
+      this.PHOTO = json["PHOTO"];
+    }
+
+    if (json["FILE"] == null) {
+      this.FILE = null;
+    } else if (json["FILE"].runtimeType == "String") {
+      this.FILE = jsonDecode(json["FILE"]);
+    } else {
+      this.FILE = json["FILE"];
     }
 
     this.PROFILE_NICKNAME = nullCheck(json["PROFILE_NICKNAME"]);
