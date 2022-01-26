@@ -20,11 +20,12 @@ String prettyChatDate(DateTime date) {
   if (date == null) {
     return null;
   }
-  if (date.hour < 12) {
-    return "AM ${addZero(date.hour)}:${addZero(date.minute)}";
-  } else {
-    return "PM ${addZero(date.hour)}:${addZero(date.minute)}";
-  }
+  // if (date.hour < 12) {
+  //   return "AM ${addZero(date.hour)}:${addZero(date.minute)}";
+  // } else {
+  //   return "PM ${addZero(date.hour)}:${addZero(date.minute)}";
+  // }
+  return "${addZero(date.hour)}:${addZero(date.minute)}";
 }
 
 String addZero(int time) {

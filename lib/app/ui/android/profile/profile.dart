@@ -135,18 +135,19 @@ class Profile extends StatelessWidget {
                                                   fontStyle: FontStyle.normal,
                                                   fontSize: 16.0),
                                               textAlign: TextAlign.center),
-                                          Container(
-                                              margin: EdgeInsets.only(
-                                                  left: 4, top: 4),
-                                              width: 8.9,
-                                              height: 8.5,
-                                              child: InkWell(
-                                                  onTap: () async {
-                                                    NicknameDialog(context,
-                                                        myPageController);
-                                                  },
-                                                  child: Image.asset(
-                                                      "assets/images/edit_3.png")))
+                                          // ! 닉네임 수정 불가
+                                          // Container(
+                                          //     margin: EdgeInsets.only(
+                                          //         left: 4, top: 4),
+                                          //     width: 8.9,
+                                          //     height: 8.5,
+                                          //     child: InkWell(
+                                          //         onTap: () async {
+                                          //           NicknameDialog(context,
+                                          //               myPageController);
+                                          //         },
+                                          //         child: Image.asset(
+                                          //             "assets/images/edit_3.png")))
                                         ])),
                               )
                             ])),
@@ -451,7 +452,9 @@ class Profile extends StatelessWidget {
                                     //       ProfileMessageDialog(
                                     //           context, myPageController);
                                     //     }),
-                                    InkWell(
+                                    Ink(
+                                      child: InkWell(
+                                        enableFeedback: false,
                                         child: Container(
                                             height: 54.6,
                                             width: MediaQuery.of(context)
@@ -517,16 +520,20 @@ class Profile extends StatelessWidget {
                                                                 textAlign:
                                                                     TextAlign
                                                                         .left),
-                                                            Image.asset(
-                                                                "assets/images/188.png",
-                                                                height: 16,
-                                                                width: 16)
+                                                            // ! 닉네임 수정 불가
+                                                            // Image.asset(
+                                                            //     "assets/images/188.png",
+                                                            //     height: 16,
+                                                            //     width: 16)
                                                           ]))),
                                             ])),
-                                        onTap: () async {
-                                          NicknameDialog(
-                                              context, myPageController);
-                                        }),
+                                        // onTap: () async {
+                                        //   // ! 닉네임 수정 불가
+                                        //   // NicknameDialog(
+                                        //   //     context, myPageController);
+                                        // },
+                                      ),
+                                    ),
                                     // Container(
                                     //     height: 54.6,
                                     //     width: MediaQuery.of(context).size.width,

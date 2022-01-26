@@ -28,119 +28,116 @@ class Noti extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 56,
+      appBar: AppBar(
+        toolbarHeight: 56,
 
-          backgroundColor: Get.theme.primaryColor,
-          titleSpacing: 0,
-          // elevation: 0,
-          automaticallyImplyLeading: false,
+        backgroundColor: Get.theme.primaryColor,
+        titleSpacing: 0,
+        // elevation: 0,
+        automaticallyImplyLeading: false,
 
-          title: Center(
-            child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 16.5),
-              child: Text(
-                "消息",
-                style: const TextStyle(
-                    color: const Color(0xffffffff),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "NotoSansSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 14.0),
-              ),
+        title: Center(
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 16.5),
+            child: Text(
+              "消息",
+              style: const TextStyle(
+                  color: const Color(0xffffffff),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "NotoSansSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
             ),
           ),
         ),
-        backgroundColor: const Color(0xffffffff),
-        body: NestedScrollView(
-          floatHeaderSlivers: true,
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              SliverAppBar(
-                  pinned: true,
-                  floating: true,
-                  snap: false,
-                  expandedHeight: 48 + 24.0 * 2 + 100 + 18,
-                  bottom: PreferredSize(
-                    preferredSize: Size.fromHeight(48 + 24.0 * 2 + 100 + 18),
-                    child: Container(
-                      color: const Color(0xffffffff),
-                      child: Column(children: [
-                        Container(
-                          decoration:
-                              BoxDecoration(color: const Color(0xff2f2f2f)),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: TabBar(
-                                labelStyle: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                labelColor: const Color(0xff6ea5ff),
-                                unselectedLabelColor: const Color(0xffffffff),
-                                indicator: UnderlineTabIndicator(
-                                  borderSide: BorderSide(
-                                      color: Color(0xDD613896), width: 0.0),
+      ),
+      backgroundColor: const Color(0xffffffff),
+      body: NestedScrollView(
+        floatHeaderSlivers: false,
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          print("innerBoxIsScrolled: $innerBoxIsScrolled");
+          return [
+            SliverAppBar(
+                pinned: true,
+                floating: true,
+                snap: false,
+                expandedHeight: 48 + 24.0 * 2 + 100 + 18,
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(48 + 24.0 * 2 + 100 + 18),
+                  child: Container(
+                    color: const Color(0xffffffff),
+                    child: Column(children: [
+                      Container(
+                        decoration:
+                            BoxDecoration(color: const Color(0xff2f2f2f)),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: TabBar(
+                              labelStyle: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14.0),
+                              labelColor: const Color(0xff6ea5ff),
+                              unselectedLabelColor: const Color(0xffffffff),
+                              indicator: UnderlineTabIndicator(
+                                borderSide: BorderSide(
+                                    color: Color(0xDD613896), width: 0.0),
+                              ),
+                              controller: notiController.tabController,
+                              tabs: <Tab>[
+                                Tab(
+                                  text: "通知",
                                 ),
-                                controller: notiController.tabController,
-                                tabs: <Tab>[
-                                  Tab(
-                                    text: "通知",
-                                  ),
-                                  Tab(
-                                    text: "群聊",
-                                  ),
-                                  Tab(
-                                    text: "私信",
-                                  )
-                                ]
-                                // child: NotiMailSelect(notiController: notiController),
+                                Tab(
+                                  text: "群聊",
                                 ),
-                          ),
+                                Tab(
+                                  text: "私信",
+                                )
+                              ]
+                              // child: NotiMailSelect(notiController: notiController),
+                              ),
                         ),
-                        Container(
-                          height: 24,
-                        ),
-                        // * 정보제공
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 24),
-                          child: BannerWidget(),
-                        ),
-                      ]),
-                    ),
-                  )),
-            ];
-          },
-          body: Column(
-            children: [
-              Expanded(
-                child: TabBarView(
-                    controller: notiController.tabController,
-                    children: [
-                      RefreshIndicator(
-                        onRefresh: () async {
-                          await MainUpdateModule.updateNotiPage(0);
-                        },
-                        child: NotiWidget(notiController: notiController),
                       ),
-                      RefreshIndicator(
-                          onRefresh: () async {
-                            await MainUpdateModule.updateNotiPage(1);
-                          },
-                          child: ChatWidget(
-                              notiController: notiController,
-                              classChatController: classChatController)),
-                      RefreshIndicator(
-                          onRefresh: () async {
-                            await MainUpdateModule.updateNotiPage(2);
-                          },
-                          child: MailWidget(notiController: notiController))
+                      Container(
+                        height: 24,
+                      ),
+                      // * 정보제공
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 24),
+                        child: BannerWidget(),
+                      ),
                     ]),
-              ),
-            ],
-          ),
-        ));
+                  ),
+                )),
+          ];
+        },
+        body: TabBarView(
+          controller: notiController.tabController,
+          children: [
+            RefreshIndicator(
+              onRefresh: () async {
+                await MainUpdateModule.updateNotiPage(0);
+              },
+              child: NotiWidget(notiController: notiController),
+            ),
+            RefreshIndicator(
+                onRefresh: () async {
+                  await MainUpdateModule.updateNotiPage(1);
+                },
+                child: ChatWidget(
+                    notiController: notiController,
+                    classChatController: classChatController)),
+            RefreshIndicator(
+                onRefresh: () async {
+                  await MainUpdateModule.updateNotiPage(2);
+                },
+                child: MailWidget(notiController: notiController))
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -240,39 +237,42 @@ class MailBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      Container(
-        child: Text("${model.value.CONTENT}",
-            style: const TextStyle(
-                color: const Color(0xff6f6e6e),
-                fontWeight: FontWeight.w400,
-                fontFamily: "NotoSansSC",
-                fontStyle: FontStyle.normal,
-                fontSize: 12.0),
-            textAlign: TextAlign.left),
-      ),
-      Spacer(),
-      model.value.isReaded
-          ? Container(
-              child: Image.asset("assets/images/right_arrow.png",
-                  width: 16, height: 16))
-          : Container(
-              width: 16,
-              height: 16,
-              child: Center(
-                child: Text("N",
-                    style: const TextStyle(
-                        color: const Color(0xffffffff),
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "Roboto",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 9.0),
-                    textAlign: TextAlign.left),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          child: Text("${model.value.CONTENT}",
+              style: const TextStyle(
+                  color: const Color(0xff6f6e6e),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "NotoSansSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0),
+              textAlign: TextAlign.left),
+        ),
+        Spacer(),
+        model.value.isReaded
+            ? Container(
+                child: Image.asset("assets/images/right_arrow.png",
+                    width: 16, height: 16))
+            : Container(
+                width: 16,
+                height: 16,
+                child: Center(
+                  child: Text("N",
+                      style: const TextStyle(
+                          color: const Color(0xffffffff),
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 9.0),
+                      textAlign: TextAlign.left),
+                ),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle, color: Get.theme.primaryColor),
               ),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle, color: Get.theme.primaryColor),
-            )
-    ]);
+      ],
+    );
   }
 }
 
