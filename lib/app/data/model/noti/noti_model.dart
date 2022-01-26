@@ -127,10 +127,11 @@ class ChatModel {
   ChatModel.fromJson(Map<String, dynamic> json) {
     this.BOX_ID = nullCheck(json["BOX_ID"]);
     this.CONTENT = nullCheck("${json["CONTENT"]}");
-
+    print(json["PHOTO"].runtimeType);
+    print(json["PHOTO"].runtimeType == "String");
     if (json["PHOTO"] == null) {
       this.PHOTO = null;
-    } else if (json["PHOTO"].runtimeType == "String") {
+    } else if (json["PHOTO"].runtimeType.toString() == "String") {
       this.PHOTO = jsonDecode(json["PHOTO"]);
     } else {
       this.PHOTO = json["PHOTO"];
@@ -138,7 +139,7 @@ class ChatModel {
 
     if (json["FILE"] == null) {
       this.FILE = null;
-    } else if (json["FILE"].runtimeType == "String") {
+    } else if (json["FILE"].runtimeType.toString() == "String") {
       this.FILE = jsonDecode(json["FILE"]);
     } else {
       this.FILE = json["FILE"];
