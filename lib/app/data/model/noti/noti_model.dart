@@ -92,7 +92,8 @@ class ChatBoxModel {
 }
 
 class ChatModel {
-  String CONTENT, PHOTO, PROFILE_NICKNAME, PROFILE_PHOTO;
+  String CONTENT, PROFILE_NICKNAME, PROFILE_PHOTO;
+  List<dynamic> PHOTO;
   DateTime TIME_CREATED;
   int CHAT_ID, BOX_ID;
   bool MY_SELF;

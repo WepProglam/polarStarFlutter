@@ -89,7 +89,9 @@ void main() async {
         unselectedWidgetColor: Color(0xffeaeaea)),
     scrollBehavior: MyBehavior(),
     debugShowCheckedModeBanner: false,
-    initialBinding: isLogined ? MainBinding() : LoginBinding(),
+    // ! Route로 가면 자동으로 binding 됨
+    // ! 여기서 binding하면 binding 총 2번 실행됨
+    // initialBinding: isLogined ? MainBinding() : LoginBinding(),
     initialRoute: isLogined ? Routes.MAIN_PAGE : Routes.LOGIN,
     // theme: appThemeData,
     defaultTransition: Transition.cupertino,

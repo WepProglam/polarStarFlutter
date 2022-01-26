@@ -305,8 +305,8 @@ class ClassChatController extends GetxController {
 
   @override
   void onClose() async {
-    // classChatSocket.disconnect();
-    // print("contoller close : ${roomID.value}");
+    classChatSocket.disconnect();
+    print("contoller close : ${roomID.value}");
     // await classChatSocket.emit("leaveRoom", roomID.value);
     // chatHistory.clear();
   }
