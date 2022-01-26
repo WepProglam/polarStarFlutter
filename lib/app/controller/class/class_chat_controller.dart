@@ -77,8 +77,8 @@ class ClassChatController extends GetxController {
       sendFileObj.add(tmp);
     }
 
-    classChatSocket.emitWithBinary(
-        "sendFile", {"sendFileObj": sendFileObj, "roomId": currentBoxID.value});
+    classChatSocket.emitWithBinary("sendPhoto",
+        {"sendFileObj": sendFileObj, "roomId": currentBoxID.value});
     photos = [];
   }
 
