@@ -339,7 +339,7 @@ class classSearchBottomSheet extends StatelessWidget {
                                           textAlign: TextAlign.center),
                                       Spacer(),
                                       // 담은 82
-                                      Text("담은 ${model.NUMBER_OF_STUDENTS}",
+                                      Text("已选人数 ${model.NUMBER_OF_STUDENTS}",
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
                                               color: const Color(0xff9b9b9b),
@@ -433,7 +433,7 @@ class classSearchBottomSheet extends StatelessWidget {
                                                                 horizontal: 12,
                                                                 vertical: 4.5),
                                                         child: Center(
-                                                            child: Text("注册",
+                                                            child: Text("添加",
                                                                 style: TextStyle(
                                                                     color: Get
                                                                         .theme
@@ -521,7 +521,7 @@ class searchClassSliverAppBar extends StatelessWidget {
                                     Center(
                                       child: // 专业/领域: 整个
                                           Text(
-                                              "专业/领域: ${controller.college_major.value.isEmpty ? "整个" : controller.college_major.value}",
+                                              "专业/教养领域: ${controller.college_major.value.isEmpty ? "所有" : controller.college_major.value}",
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
                                                   color:
@@ -578,7 +578,7 @@ class searchClassSliverAppBar extends StatelessWidget {
                               children: [
                                 Center(
                                   child: Text(
-                                      "科目名: ${controller.search_name.isEmpty ? "无" : controller.search_name}",
+                                      "课程名: ${controller.search_name.isEmpty ? "无" : controller.search_name}",
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                           color: const Color(0xffffffff),

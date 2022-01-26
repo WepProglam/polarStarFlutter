@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/timetable_semester.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
 
 class TimeTableAdd extends StatelessWidget {
@@ -19,9 +20,12 @@ class TimeTableAdd extends StatelessWidget {
         timeTableController.addTimeTableYearSemList.last;
 
     timeTableController.createYear.value =
-        timeTableController.addTimeTableYearSemList.last.split("년 ")[0];
+        timeTableController.addTimeTableYearSemList.last.split("学年度 ")[0];
+    print(timeTableController.addTimeTableYearSemList.last.split("学年度 ")[0]);
     timeTableController.createSemester.value = setCreateNormal(
-        timeTableController.addTimeTableYearSemList.last.split("년 ")[1])[1];
+        timeTableController.addTimeTableYearSemList.last
+            .split("学年度 ")[1]
+            .substring(1, 1))[1];
     ;
 
     print(timeTableController.createYear.value);
@@ -67,16 +71,19 @@ class TimeTableAdd extends StatelessWidget {
                           child: Ink(
                             child: InkWell(
                               onTap: () async {
-                                await timeTableController.createTimeTable(
-                                    timeTableController.createYear.value,
-                                    timeTableController.createSemester.value,
-                                    timeTableController.createName.value);
+                                int year = int.parse(
+                                    timeTableController.createYear.value);
+                                int sem = flutterToServerSemChanger(int.parse(
+                                    timeTableController.createSemester.value));
+
+                                await timeTableController.createTimeTable(year,
+                                    sem, timeTableController.createName.value);
 
                                 Get.until((route) =>
                                     Get.currentRoute == Routes.MAIN_PAGE);
                               },
                               child: Center(
-                                child: Text("张榜",
+                                child: Text("添加",
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         color: Get.theme.primaryColor,
@@ -97,7 +104,7 @@ class TimeTableAdd extends StatelessWidget {
                     ],
                   ),
                   Center(
-                    child: Text("创建新时间表",
+                    child: Text("新时间表",
                         style: const TextStyle(
                             color: const Color(0xffffffff),
                             fontWeight: FontWeight.w500,
@@ -143,7 +150,7 @@ class TimeTableAdd extends StatelessWidget {
                           maxLines: 1,
                           style: textStyle,
                           textAlign: TextAlign.left,
-                          decoration: addTimetablenputDecoration("请输入说明."),
+                          decoration: addTimetablenputDecoration("请输入名称"),
                         ),
                       ),
                       // 선 83
@@ -162,7 +169,7 @@ class TimeTableAdd extends StatelessWidget {
                     children: [
                       Container(
                         child: // 教学名
-                            Text("教学名",
+                            Text("学期",
                                 style: const TextStyle(
                                     color: const Color(0xff6f6e6e),
                                     fontWeight: FontWeight.w500,
@@ -229,21 +236,31 @@ class SelectSem extends StatelessWidget {
             FocusManager.instance.primaryFocus?.unfocus();
           },
           onChanged: (value) {
-            bool isNormal = setCreateNormal(value.split("년 ")[1])[0];
-            String sem = setCreateNormal(value.split("년 ")[1])[1];
+            print(value.split("学年度 ")[1]);
+            print(value.split("学年度 ")[1][1]);
+            bool isNormal = setCreateNormal(value.split("学年度 ")[1][1])[0];
+            String sem = setCreateNormal(value.split("学年度 ")[1][1])[1];
 
             print(sem);
 
             if (isNormal) {
               timeTableController.addTimeTableYearSem.value = value;
 
-              timeTableController.createYear.value = value.split("년 ")[0];
+              timeTableController.createYear.value = value.split("学年度 ")[0];
               timeTableController.createSemester.value = "${sem}";
             } else {
               Get.snackbar("1학기, 여름학기, 2학기, 겨울학기 중 선택해주세요",
                   "1학기, 여름학기, 2학기, 겨울학기 중 선택해주세요");
             }
           },
+          hint: Text("请选择学期",
+              style: const TextStyle(
+                  color: const Color(0xff9b9b9b),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "NotoSansSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
+              textAlign: TextAlign.left),
           items: timeTableController.addTimeTableYearSemList
               .map((element) => DropdownMenuItem(
                     child: FittedBox(
@@ -266,7 +283,9 @@ class SelectSem extends StatelessWidget {
 List<dynamic> setCreateNormal(String selectSemester) {
   bool isNormal = false;
 
-  List<String> normalSemester = ["1학기", "여름학기", "2학기", "겨울학기"];
+  print("!!!!!!!!!!! ${selectSemester}");
+
+  List<String> normalSemester = ["1", "2"];
 
   int sem = 1;
   for (var item in normalSemester) {

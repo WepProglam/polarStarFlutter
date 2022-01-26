@@ -6,6 +6,7 @@ import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/timetable_daytoindex.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/timetable_semester.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/timetable.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
 
@@ -71,74 +72,90 @@ class TimetableAddClass extends StatelessWidget {
             title: Container(
               width: size.width,
               child: Container(
-                child: Row(
-                  children: [
-                    Ink(
-                      child: InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Image.asset(
-                              "assets/images/back_icon.png",
-                              width: 24,
-                              height: 24,
-                            )),
+                child: Stack(children: [
+                  Row(
+                    children: [
+                      Ink(
+                        child: InkWell(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Image.asset(
+                                "assets/images/back_icon.png",
+                                width: 24,
+                                height: 24,
+                              )),
+                        ),
                       ),
-                    ),
-                    Spacer(),
+                      Spacer(),
 
-                    // 사각형 4
-                    Container(
-                        width: 52,
-                        height: 28,
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Ink(
-                          child: InkWell(
-                            onTap: () {
-                              bool checkClasses = timeTableAddClassController
-                                  .checkClassValidate();
-                              TimeTableClassModel postData =
-                                  timeTableAddClassController.TOTAL_CLASS.value;
-                              if (postData.PROFESSOR == null ||
-                                  postData.PROFESSOR.isEmpty) {
-                                Get.snackbar("교강사명을 입력하세요", "교강사명을 입력하세요",
-                                    snackPosition: SnackPosition.BOTTOM);
-                              } else if (postData.CLASS_NAME == null ||
-                                  postData.CLASS_NAME.isEmpty) {
-                                Get.snackbar("강의명을 입력하세요", "강의명을 입력하세요",
-                                    snackPosition: SnackPosition.BOTTOM);
-                              } else if (!checkClasses) {
-                                Get.snackbar("시간이 중복되었습니다.", "시간이 중복되었습니다.",
-                                    snackPosition: SnackPosition.BOTTOM);
-                              } else {
-                                timeTableAddClassController.addClass(
-                                    timeTableController
-                                        .selectedTimeTableId.value);
-                                Get.back();
-                              }
-                            },
-                            child: Center(
-                              child: Text("张榜",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: Get.theme.primaryColor,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: "NotoSansSC",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 12.0),
-                                  textAlign: TextAlign.right),
+                      // 사각형 4
+                      Container(
+                          width: 52,
+                          height: 28,
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Ink(
+                            child: InkWell(
+                              onTap: () {
+                                bool checkClasses = timeTableAddClassController
+                                    .checkClassValidate();
+                                TimeTableClassModel postData =
+                                    timeTableAddClassController
+                                        .TOTAL_CLASS.value;
+                                if (postData.PROFESSOR == null ||
+                                    postData.PROFESSOR.isEmpty) {
+                                  Get.snackbar("교강사명을 입력하세요", "교강사명을 입력하세요",
+                                      snackPosition: SnackPosition.BOTTOM);
+                                } else if (postData.CLASS_NAME == null ||
+                                    postData.CLASS_NAME.isEmpty) {
+                                  Get.snackbar("강의명을 입력하세요", "강의명을 입력하세요",
+                                      snackPosition: SnackPosition.BOTTOM);
+                                } else if (!checkClasses) {
+                                  Get.snackbar("시간이 중복되었습니다.", "시간이 중복되었습니다.",
+                                      snackPosition: SnackPosition.BOTTOM);
+                                } else {
+                                  timeTableAddClassController.addClass(
+                                      timeTableController
+                                          .selectedTimeTableId.value);
+                                  Get.back();
+                                }
+                              },
+                              child: Center(
+                                child: Text("添加",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        color: Get.theme.primaryColor,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 12.0),
+                                    textAlign: TextAlign.right),
+                              ),
                             ),
                           ),
-                        ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(14)),
-                            border: Border.all(
-                                color: const Color(0xff99bbf9), width: 1),
-                            color: const Color(0xffffffff))),
-                  ],
-                ),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(14)),
+                              border: Border.all(
+                                  color: const Color(0xff99bbf9), width: 1),
+                              color: const Color(0xffffffff))),
+                    ],
+                  ),
+                  Center(
+                    child: Text(
+                      "输入日程",
+                      style: const TextStyle(
+                          color: const Color(0xffffffff),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "NotoSansSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16.0),
+                    ),
+                  )
+                ]),
               ),
             ),
           ),
@@ -221,7 +238,7 @@ class TimetableAddClass extends StatelessWidget {
                                 Container(
                                   margin: const EdgeInsets.only(left: 6),
                                   child: // 课名
-                                      Text("课名",
+                                      Text("新日程",
                                           style: const TextStyle(
                                               color: const Color(0xff9b9b9b),
                                               fontWeight: FontWeight.w500,
@@ -254,7 +271,7 @@ class TimetableAddClass extends StatelessWidget {
                                       style: textStyle,
                                       textAlign: TextAlign.left,
                                       decoration:
-                                          addTimetablenputDecoration("请输入说明."),
+                                          addTimetablenputDecoration("请输入日程"),
                                     ),
                                   ),
                                 ],
@@ -284,7 +301,7 @@ class TimetableAddClass extends StatelessWidget {
                                   ),
                                   Container(
                                     margin: const EdgeInsets.only(left: 6),
-                                    child: Text("教学名",
+                                    child: Text("教授名",
                                         style: const TextStyle(
                                             color: const Color(0xff9b9b9b),
                                             fontWeight: FontWeight.w500,
@@ -319,7 +336,7 @@ class TimetableAddClass extends StatelessWidget {
                                         style: textStyle,
                                         textAlign: TextAlign.left,
                                         decoration: addTimetablenputDecoration(
-                                            "请输入说明."),
+                                            "请输入教授名"),
                                       ),
                                     ),
                                   ],
@@ -393,7 +410,7 @@ class ClassInfoTPO extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(left: 6),
                   child: // 钟点
-                      Text("钟点",
+                      Text("时间",
                           style: const TextStyle(
                               color: const Color(0xff9b9b9b),
                               fontWeight: FontWeight.w500,
@@ -538,7 +555,7 @@ class TpoSelector extends StatelessWidget {
             maxLines: 1,
             style: textStyle,
             textAlign: TextAlign.left,
-            decoration: addTimetablenputDecoration("请输入说明."),
+            decoration: addTimetablenputDecoration("请输入场所"),
           ),
         ),
       ],
@@ -597,7 +614,7 @@ class SelectDay extends StatelessWidget {
             child: Image.asset("assets/images/940.png",
                 color: Get.theme.primaryColor),
           ),
-          value: newClass.value.day,
+          value: dayConverter(newClass.value.day),
           onChanged: (value) {
             newClass.update((val) {
               val.day = value;
@@ -611,7 +628,7 @@ class SelectDay extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 4),
                     child: // 星期一
-                        Text("${e}",
+                        Text("${dayConverter(e)}",
                             style: const TextStyle(
                                 color: const Color(0xff9b9b9b),
                                 fontWeight: FontWeight.w400,
@@ -620,7 +637,7 @@ class SelectDay extends StatelessWidget {
                                 fontSize: 14.0),
                             textAlign: TextAlign.left),
                   ),
-                  value: e))
+                  value: dayConverter(e)))
               .toList());
     });
   }
