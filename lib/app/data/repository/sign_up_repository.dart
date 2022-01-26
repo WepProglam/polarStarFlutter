@@ -19,6 +19,11 @@ class SignUpRepository {
     return response;
   }
 
+  nicknameTest(data) async {
+    final response = await apiClient.nicknameTestApi(data);
+    return response;
+  }
+
   emailAuthRequest(data) async {
     final response = await apiClient.emailAuthRequestApi(data);
     return response;

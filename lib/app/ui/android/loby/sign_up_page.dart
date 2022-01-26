@@ -85,6 +85,9 @@ class SignUpInputs extends StatelessWidget {
                 child: Stack(
                   children: [
                     SignUpTextForm(
+                      onchange: (value) {
+                        signUpController.idOK.value = false;
+                      },
                       textEditingController: idController,
                       obscureText: false,
                       hint: "请设置ID",
@@ -225,17 +228,66 @@ class SignUpInputs extends StatelessWidget {
                       fontStyle: FontStyle.normal,
                       fontSize: 14.0),
                   textAlign: TextAlign.left),
-              Container(
-                margin: const EdgeInsets.only(top: 10.0, bottom: 18.0),
-                child: SignUpTextForm(
-                  textEditingController: nicknameController,
-                  obscureText: false,
-                  hint: "请设置昵称",
-                  funcValidator: (value) {
-                    return checkEmpty(value);
-                  },
+              Stack(children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 10.0, bottom: 4.0),
+                  child: SignUpTextForm(
+                    onchange: (value) {
+                      signUpController.nicknameOK.value = false;
+                    },
+                    textEditingController: nicknameController,
+                    obscureText: false,
+                    hint: "请设置昵称",
+                    funcValidator: (value) {
+                      return checkEmpty(value);
+                    },
+                  ),
                 ),
-              ),
+                Positioned(
+                  right: 10.0,
+                  top: 20,
+                  child: InkWell(
+                    onTap: () async {
+                      signUpController.nicknameTest(nicknameController.text);
+                    },
+                    child: Ink(
+                      height: 24.0,
+                      width: 52.0,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          color: const Color(0xff4570ff)),
+                      child: Center(
+                        child: Text(
+                          "验证",
+                          style: const TextStyle(
+                              color: const Color(0xffffffff),
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ]),
+              Container(
+                  margin: const EdgeInsets.only(top: 0.0, bottom: 10.0),
+                  child: Obx(() {
+                    return Text(
+                        signUpController.nicknameOK.value
+                            ? "此昵称未被注册，可以使用！"
+                            : "此昵称已被注册，换一个再试试吧！",
+                        style: TextStyle(
+                            color: signUpController.nicknameOK.value
+                                ? Colors.blue
+                                : Colors.red,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 10.0),
+                        textAlign: TextAlign.left);
+                  })),
 
               Text("入学年份",
                   style: const TextStyle(

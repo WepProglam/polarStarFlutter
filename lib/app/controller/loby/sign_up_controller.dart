@@ -63,6 +63,28 @@ class SignUpController extends GetxController {
     }
   }
 
+  RxBool nicknameOK = false.obs;
+
+  Future nicknameTest(String nickname) async {
+    Map<String, String> data = {"nickname": nickname};
+
+    final response = await repository.nicknameTest(data);
+
+    switch (response["statusCode"]) {
+      case 200:
+        print("nickname not duplicate");
+        nicknameOK.value = true;
+        // Get.snackbar("ID not duplicate", "ID not duplicate");
+
+        break;
+      default:
+        print("nickname duplicate");
+        nicknameOK.value = false;
+
+      // Get.snackbar("ID duplicate", "ID duplicate");
+    }
+  }
+
   RxInt selectedCollege = 0.obs;
   RxInt selectedMajor = 0.obs;
 
