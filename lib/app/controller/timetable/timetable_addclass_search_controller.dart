@@ -136,7 +136,6 @@ class TimeTableAddClassSearchController extends GetxController {
       return;
     }
 
-    print("bb");
     var response = await Session().getX(
         "/class/timetable/year/${timeTableController.selectedYear}/semester/${timeTableController.selectedSemester}");
     var json = jsonDecode(response.body);
@@ -259,8 +258,6 @@ class TimeTableAddClassSearchController extends GetxController {
     bool searchNameEmpty = search_name.value.isEmpty;
     bool searchMajorEmpty =
         (INDEX_COLLEGE_NAME.value == -1 || INDEX_COLLEGE_MAJOR.value == -1);
-    print(searchNameEmpty);
-    print(searchMajorEmpty);
     // * getClass - 이것도 계속 로드?
     if (searchNameEmpty && searchMajorEmpty) {
       print("1");
@@ -293,7 +290,7 @@ class TimeTableAddClassSearchController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await getClassInfo(0);
+    await getClass(0);
     await timeTableController.handleAddButtonFalse();
 
     scrollController.value.addListener(() async {

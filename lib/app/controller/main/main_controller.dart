@@ -495,9 +495,7 @@ class MainUpdateModule {
     } else if (index == 1) {
       putController<ClassChatController>();
       final ClassChatController classChatController = Get.find();
-      bool isClass = classChatController.checkClassOrMajor(curClassID);
-      classChatController.countTotal(curClassID, isClass);
-      // await nc.getChatBox();
+      await classChatController.getChatBox();
     } else {
       await nc.getMailBox();
     }

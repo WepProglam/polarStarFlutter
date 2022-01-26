@@ -345,6 +345,7 @@ class ChatWidget extends StatelessWidget {
                     ? 1
                     : classChatController.classChatBox.length,
                 shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
                   if (classChatController.classChatBox.length == 0) {
                     return Center(
@@ -381,6 +382,7 @@ class ChatWidget extends StatelessWidget {
                     ? 1
                     : classChatController.majorChatBox.length,
                 shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
                   if (classChatController.majorChatBox.length == 0) {
                     return Center(

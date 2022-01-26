@@ -246,15 +246,21 @@ class ClassChatController extends GetxController {
         majorChatBoxList.map((e) => ChatBoxModel.fromJson(e).obs).toList().obs;
 
     box.remove("classSocket");
+
+    // * 강의별 톡방
     List<ChatBoxModel> tempClassList = [];
     for (Rx<ChatBoxModel> item in classChatBox) {
       joinAndEmit(item.value.BOX_ID);
+      countTotal(item.value.BOX_ID, true);
     }
 
+    // * 전공별 톡방
     tempClassList.clear();
     for (Rx<ChatBoxModel> item in majorChatBox) {
       joinAndEmit(item.value.BOX_ID);
+      countTotal(item.value.BOX_ID, false);
     }
+
     return;
   }
 
