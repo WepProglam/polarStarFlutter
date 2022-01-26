@@ -5,7 +5,7 @@ class BoardInfo {
   String COMMUNITY_NAME, RECENT_TITLE;
   DateTime RECENT_TIME;
   int COMMUNITY_ID;
-  bool isFollowed, isChecked, isNew;
+  bool isFollowed, isChecked, isNew, IS_DEFAULT;
 
   BoardInfo(
       {COMMUNITY_NAME,
@@ -13,7 +13,8 @@ class BoardInfo {
       RECENT_TITLE,
       RECENT_TIME,
       isNew,
-      isFollowed});
+      isFollowed,
+      IS_DEFAULT});
 
   BoardInfo.fromJson(Map<String, dynamic> json) {
     this.COMMUNITY_NAME = json['COMMUNITY_NAME'];
@@ -23,6 +24,7 @@ class BoardInfo {
         ? DateTime.parse(json["RECENT_TIME"])
         : DateTime.fromMicrosecondsSinceEpoch(0);
     this.isFollowed = toBoolean("${json["isFollowed"]}");
+    this.IS_DEFAULT = toBoolean("${json["IS_DEFAULT"]}");
     this.isChecked = true;
 
     this.isNew = DateTime.now()
