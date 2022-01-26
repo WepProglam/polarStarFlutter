@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
 
 import 'package:polarstar_flutter/app/data/model/login_model.dart';
@@ -100,6 +101,7 @@ class InitController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    await ManagePermission.getPermission();
 
     // SchedulerBinding.instance.addPostFrameCallback((_) {
     //   chatScrollController
@@ -118,4 +120,20 @@ class InitController extends GetxController {
   //   print("onready");
   // }
 
+}
+
+class ManagePermission {
+  static Future<bool> getPermission() async {
+    Map<Permission, PermissionStatus> statuses =
+        await [Permission.storage, Permission.camera].request();
+
+    PermissionStatus permissionStorage = statuses[Permission.storage];
+    PermissionStatus permissionCamera = statuses[Permission.camera];
+    if (permissionStorage.isGranted && permissionCamera.isGranted) {
+      return true;
+    } else {
+      openAppSettings();
+      return false;
+    }
+  }
 }

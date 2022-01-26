@@ -401,6 +401,9 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                   double target_pos =
                                       controller.chatScrollController.offset +
                                           box.read("keyBoardHeight");
+                                  double keyBoardHeight =
+                                      MediaQuery.of(context).viewInsets.bottom;
+                                  box.write("keyBoardHeight", keyBoardHeight);
 
                                   // Timer(Duration(milliseconds: 100), () {
                                   //   controller.chatScrollController
@@ -505,9 +508,6 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                 } else if (controller.photos.length != 0) {
                                   await controller.sendPhoto();
                                 } else {
-                                  double keyBoardHeight =
-                                      MediaQuery.of(context).viewInsets.bottom;
-                                  box.write("keyBoardHeight", keyBoardHeight);
                                   String text = commentWriteController.text;
                                   String testText = text;
                                   if (testText.trim().isEmpty) {
@@ -589,7 +589,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                               controller.photos.addAll(
                                                   await AssetPicker.pickAssets(
                                                       context,
-                                                      maxAssets: 10));
+                                                      maxAssets: 1));
+                                              await controller.sendPhoto();
                                             },
                                             child: Container(
                                                 width: containerSize,

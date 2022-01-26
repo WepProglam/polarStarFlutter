@@ -20,6 +20,7 @@ import 'package:flutter/services.dart';
 import 'package:polarstar_flutter/firebase/firebase_config.dart';
 import 'app/controller/loby/init_controller.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class MyBehavior extends ScrollBehavior {
   @override
