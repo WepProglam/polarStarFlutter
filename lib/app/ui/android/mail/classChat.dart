@@ -833,14 +833,21 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
     final status = await Permission.storage.request();
 
     if (status.isGranted) {
-      final externalDir = await getExternalStorageDirectory();
+      String dirloc = "";
+      if (Platform.isAndroid) {
+        dirloc = "/sdcard/download/";
+      } else {
+        dirloc = (await getApplicationDocumentsDirectory()).path;
+      }
+
+      // final externalDir = await getExternalStorageDirectory();
       model.update((val) {
         val.FILE_DOWNLOADING = true;
       });
 
       final String taskID = await FlutterDownloader.enqueue(
           url: url,
-          savedDir: externalDir.path,
+          savedDir: dirloc,
           showNotification: true,
           openFileFromNotification: true,
           saveInPublicStorage: true);
@@ -1014,7 +1021,7 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                       //         fontStyle: FontStyle.normal,
                       //         fontSize: 14.0),
                       //     textAlign: TextAlign.left)
-                      : ((isPhotoExist)
+                      : (isPhotoExist
                           ? Ink(
                               child: InkWell(
                                   onTap: () {
@@ -1024,7 +1031,9 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                   },
                                   child: Container(
                                     child: CachedNetworkImage(
-                                        fit: BoxFit.contain,
+                                        alignment: model.value.MY_SELF
+                                            ? Alignment.topRight
+                                            : Alignment.topLeft,
                                         imageUrl: model.value.PHOTO[0]),
                                   )))
 

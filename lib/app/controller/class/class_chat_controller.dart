@@ -337,10 +337,18 @@ class ClassChatController extends GetxController {
     return;
   }
 
+  List<int> joinedRooms = [];
+
   Future<void> joinAndEmit(int BOX_ID) async {
     print("joinRoom! ${BOX_ID}");
+    if (joinedRooms.indexOf(BOX_ID) != -1) {
+      print("이미 조인함");
+      await classChatSocket.emit("getChatLog", [BOX_ID, 0]);
+      return;
+    }
     classChatSocket.emit("joinRoom", [BOX_ID, "fuckfuck"]);
     await classChatSocket.emit("getChatLog", [BOX_ID, 0]);
+    joinedRooms.add(BOX_ID);
     return;
   }
 

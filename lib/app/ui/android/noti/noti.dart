@@ -58,7 +58,6 @@ class Noti extends StatelessWidget {
       body: NestedScrollView(
         floatHeaderSlivers: false,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
-          print("innerBoxIsScrolled: $innerBoxIsScrolled");
           return [
             SliverAppBar(
                 pinned: true,
@@ -485,9 +484,7 @@ class ChatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Ink(
-        color: model.value.AMOUNT == 0
-            ? const Color(0xfffafbff)
-            : const Color(0xffffffff),
+        color: model.value.AMOUNT == 0 ? Color(0xfffafbff) : Color(0xffffffff),
         child: InkWell(
           onTap: () async {
             await Get.toNamed(Routes.CLASSCHAT,

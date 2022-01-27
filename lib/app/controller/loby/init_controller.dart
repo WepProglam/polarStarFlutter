@@ -132,8 +132,11 @@ class ManagePermission {
         await [Permission.storage, Permission.camera].request();
 
     PermissionStatus permissionStorage = statuses[Permission.storage];
-    PermissionStatus permissionCamera = statuses[Permission.camera];
-    if (permissionStorage.isGranted && permissionCamera.isGranted) {
+    // PermissionStatus permissionCamera = statuses[Permission.camera];
+    print(permissionStorage.toString());
+    print(permissionStorage.isGranted);
+    if (permissionStorage.isGranted) {
+      print("????");
       return true;
     } else {
       openAppSettings();
