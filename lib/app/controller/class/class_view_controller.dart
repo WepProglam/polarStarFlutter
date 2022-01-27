@@ -47,7 +47,7 @@ class ClassViewController extends GetxController
   final classExamAvailable = false.obs;
 
   TabController tabController;
-  final typeIndex = 0.obs;
+  // final typeIndex = 0.obs;
 
   final classInfo = ClassInfoModel().obs;
   final classReviewList = <ClassReviewModel>[].obs;
@@ -279,13 +279,13 @@ class ClassViewController extends GetxController
   void onInit() async {
     getClassView(int.parse(Get.parameters["CLASS_ID"]));
     getExamInfo(int.parse(Get.parameters["CLASS_ID"]));
-    tabController = await TabController(vsync: this, length: 2);
-    tabController.addListener(() {
-      if (!tabController.indexIsChanging) {
-        typeIndex(tabController.index);
-        print(typeIndex.value);
-      }
-    });
+    tabController = TabController(vsync: this, length: 2);
+    // tabController.addListener(() {
+    //   if (!tabController.indexIsChanging) {
+    //     typeIndex(tabController.index);
+    //     print(typeIndex.value);
+    //   }
+    // });
 
     currentYearSem = box.read("year_sem");
     print(currentYearSem);

@@ -44,104 +44,110 @@ class ClassView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: const Color(backgroundColor),
         appBar: AppBars().classBasicAppBar(),
-        // bottomSheet: TabBarView(
-        //     controller: classViewController.tabController,
-        //     children: [
-        //       Ink(
-        //         color: const Color(mainColor),
-        //         child: InkWell(
-        //           onTap: () {
-        //             showModalBottomSheet(
-        //                 shape: RoundedRectangleBorder(
-        //                     borderRadius: BorderRadius.only(
-        //                         topLeft: const Radius.circular(20),
-        //                         topRight: const Radius.circular(20))),
-        //                 isScrollControlled: true,
-        //                 context: context,
-        //                 builder: (BuildContext context) {
-        //                   return WriteComment(
-        //                     // classViewController: classViewController,
-        //                     reviewTextController: reviewTextController,
-        //                     CLASS_ID:
-        //                         classViewController.classInfo.value.CLASS_ID,
-        //                   );
-        //                 });
-        //           },
-        //           child: Container(
-        //             height: 50,
-        //             width: Get.mediaQuery.size.width,
-        //             child: Obx(() => Row(
-        //                   mainAxisAlignment: MainAxisAlignment.center,
-        //                   children: [
-        //                     Padding(
-        //                       padding: const EdgeInsets.all(8.0),
-        //                       child: Icon(
-        //                         Icons.post_add,
-        //                         color: Colors.white,
-        //                       ),
+        // bottomSheet: Container(
+        //   height: 56,
+        //   child: TabBarView(
+        //       controller: classViewController.tabController,
+        //       children: [
+        //         Ink(
+        //           color: const Color(mainColor),
+        //           child: InkWell(
+        //             onTap: () {
+        //               showModalBottomSheet(
+        //                   shape: RoundedRectangleBorder(
+        //                       borderRadius: BorderRadius.only(
+        //                           topLeft: const Radius.circular(20),
+        //                           topRight: const Radius.circular(20))),
+        //                   isScrollControlled: true,
+        //                   context: context,
+        //                   builder: (BuildContext context) {
+        //                     return WriteComment(
+        //                       classInfoModel:
+        //                           classViewController.classInfo.value,
+        //                       // classViewController: classViewController,
+        //                       reviewTextController: reviewTextController,
+        //                       CLASS_ID:
+        //                           classViewController.classInfo.value.CLASS_ID,
+        //                     );
+        //                   });
+        //             },
+        //             child: Container(
+        //               height: 50,
+        //               width: Get.mediaQuery.size.width,
+        //               child: Row(
+        //                 mainAxisAlignment: MainAxisAlignment.center,
+        //                 children: [
+        //                   Padding(
+        //                     padding: const EdgeInsets.all(8.0),
+        //                     child: Icon(
+        //                       Icons.post_add,
+        //                       color: Colors.white,
         //                     ),
-        //                     Padding(
-        //                       padding: const EdgeInsets.all(8.0),
-        //                       child: Text(
-        //                         "Writing Evaluation",
-        //                         textScaleFactor: 1.2,
-        //                         style: TextStyle(
-        //                             color: Colors.white,
-        //                             fontWeight: FontWeight.normal),
-        //                       ),
+        //                   ),
+        //                   Padding(
+        //                     padding: const EdgeInsets.all(8.0),
+        //                     child: Text(
+        //                       "Writing Evaluation",
+        //                       textScaleFactor: 1.2,
+        //                       style: TextStyle(
+        //                           color: Colors.white,
+        //                           fontWeight: FontWeight.normal),
         //                     ),
-        //                   ],
-        //                 )),
+        //                   ),
+        //                 ],
+        //               ),
+        //             ),
         //           ),
         //         ),
-        //       ),
-        //       Ink(
-        //         color: const Color(mainColor),
-        //         child: InkWell(
-        //           onTap: () {
-        //             showModalBottomSheet(
-        //                 shape: RoundedRectangleBorder(
-        //                     borderRadius: BorderRadius.only(
-        //                         topLeft: const Radius.circular(30),
-        //                         topRight: const Radius.circular(30))),
-        //                 isScrollControlled: true,
-        //                 context: context,
-        //                 builder: (BuildContext context) {
-        //                   return WriteExamInfo(
-        //                       classViewController: classViewController,
-        //                       examInfoTextController: examInfoTextController,
-        //                       testStrategyController: testStrategyController);
-        //                 });
-        //           },
-        //           child: Container(
-        //             height: 50,
-        //             width: Get.mediaQuery.size.width,
-        //             child: Obx(() => Row(
-        //                   mainAxisAlignment: MainAxisAlignment.center,
-        //                   children: [
-        //                     Padding(
-        //                       padding: const EdgeInsets.all(8.0),
-        //                       child: Icon(
-        //                         Icons.add_circle_outline,
-        //                         color: Colors.white,
-        //                       ),
+        //         Ink(
+        //           color: const Color(mainColor),
+        //           child: InkWell(
+        //             onTap: () {
+        //               showModalBottomSheet(
+        //                   shape: RoundedRectangleBorder(
+        //                       borderRadius: BorderRadius.only(
+        //                           topLeft: const Radius.circular(30),
+        //                           topRight: const Radius.circular(30))),
+        //                   isScrollControlled: true,
+        //                   context: context,
+        //                   builder: (BuildContext context) {
+        //                     return WriteExamInfo(
+        //                         classViewController: classViewController,
+        //                         examInfoTextController: examInfoTextController,
+        //                         testStrategyController: testStrategyController);
+        //                   });
+        //             },
+        //             child: Container(
+        //               height: 50,
+        //               width: Get.mediaQuery.size.width,
+        //               child: Row(
+        //                 mainAxisAlignment: MainAxisAlignment.center,
+        //                 children: [
+        //                   Padding(
+        //                     padding: const EdgeInsets.all(8.0),
+        //                     child: Icon(
+        //                       Icons.add_circle_outline,
+        //                       color: Colors.white,
         //                     ),
-        //                     Padding(
-        //                       padding: const EdgeInsets.all(8.0),
-        //                       child: Text(
-        //                         "Add Exam Information",
-        //                         textScaleFactor: 1.2,
-        //                         style: TextStyle(
-        //                             color: Colors.white,
-        //                             fontWeight: FontWeight.normal),
-        //                       ),
+        //                   ),
+        //                   Padding(
+        //                     padding: const EdgeInsets.all(8.0),
+        //                     child: Text(
+        //                       "Add Exam Information",
+        //                       textScaleFactor: 1.2,
+        //                       style: TextStyle(
+        //                           color: Colors.white,
+        //                           fontWeight: FontWeight.normal),
         //                     ),
-        //                   ],
-        //                 )),
+        //                   ),
+        //                 ],
+        //               ),
+        //             ),
         //           ),
         //         ),
-        //       ),
-        //     ]),
+        //       ]),
+        // ),
+
         body: RefreshIndicator(
           notificationPredicate: (notification) {
             return notification.depth == 2;
@@ -262,7 +268,7 @@ class ClassView extends StatelessWidget {
                           ),
                           Positioned(
                             bottom: 0,
-                            child: Ink(
+                            child: Container(
                               color: const Color(mainColor),
                               child: InkWell(
                                 onTap: () {
@@ -320,31 +326,33 @@ class ClassView extends StatelessWidget {
                         Obx(() {
                           if (classViewController.classExamAvailable.value) {
                             return Stack(children: [
-                              ListView.separated(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return ClassExamInfo(
-                                      classExamModel: classViewController
-                                          .classExamList[index],
-                                      classInfoModel:
-                                          classViewController.classInfo.value,
-                                      index: index,
-                                    );
-                                  },
-                                  itemCount:
-                                      classViewController.classExamList.length,
-                                  separatorBuilder: (context, index) {
-                                    return Container(
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 34.5),
-                                        height: 1,
-                                        decoration: BoxDecoration(
-                                            color: const Color(0xffeaeaea)));
-                                  }),
+                              Positioned.fill(
+                                child: ListView.separated(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return ClassExamInfo(
+                                        classExamModel: classViewController
+                                            .classExamList[index],
+                                        classInfoModel:
+                                            classViewController.classInfo.value,
+                                        index: index,
+                                      );
+                                    },
+                                    itemCount: classViewController
+                                        .classExamList.length,
+                                    separatorBuilder: (context, index) {
+                                      return Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 34.5),
+                                          height: 1,
+                                          decoration: BoxDecoration(
+                                              color: const Color(0xffeaeaea)));
+                                    }),
+                              ),
                               Positioned(
                                 bottom: 0,
-                                child: Ink(
+                                child: Container(
                                   color: const Color(mainColor),
                                   child: InkWell(
                                     onTap: () {
@@ -1302,90 +1310,91 @@ class MenuTabBar extends SliverPersistentHeaderDelegate {
 //   }
 // }
 
-class IndexButton extends SliverPersistentHeaderDelegate {
-  final height = 50.0;
-  final ClassViewController classViewController = Get.find();
+//! 안씀 제거예정
+// class IndexButton extends SliverPersistentHeaderDelegate {
+//   final height = 50.0;
+//   final ClassViewController classViewController = Get.find();
 
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return SizedBox.expand(
-      child: Container(
-        decoration: BoxDecoration(color: Colors.grey[200]),
-        child: Container(
-          margin: EdgeInsets.only(top: 10),
-          // height: 40,
-          decoration: BoxDecoration(color: Colors.white),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              // commenr, exam info button
-              GestureDetector(
-                onTap: () {
-                  classViewController.typeIndex(0);
-                },
-                child: Container(
-                  width: Get.mediaQuery.size.width / 2,
-                  child: Center(
-                    child: Obx(
-                      () => Text(
-                        "Comment",
-                        style: TextStyle(
-                            fontSize: 18.0,
-                            color: classViewController.typeIndex.value == 0
-                                ? Color(0xff1a4678)
-                                : Colors.black,
-                            fontWeight: classViewController.typeIndex.value == 0
-                                ? FontWeight.bold
-                                : FontWeight.normal),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  classViewController.typeIndex(1);
-                  if (!classViewController.classExamAvailable.value) {
-                    print("exam data fetch");
-                    classViewController
-                        .getExamInfo(int.parse(Get.parameters["CLASS_ID"]));
-                  }
-                },
-                child: Container(
-                  width: Get.mediaQuery.size.width / 2,
-                  child: Center(
-                    child: Obx(
-                      () => Text(
-                        "Exam Information",
-                        style: TextStyle(
-                            fontSize: 18.0,
-                            color: classViewController.typeIndex.value == 1
-                                ? Color(0xff1a4678)
-                                : Colors.black,
-                            fontWeight: classViewController.typeIndex.value == 1
-                                ? FontWeight.bold
-                                : FontWeight.normal),
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+//   @override
+//   Widget build(
+//       BuildContext context, double shrinkOffset, bool overlapsContent) {
+//     return SizedBox.expand(
+//       child: Container(
+//         decoration: BoxDecoration(color: Colors.grey[200]),
+//         child: Container(
+//           margin: EdgeInsets.only(top: 10),
+//           // height: 40,
+//           decoration: BoxDecoration(color: Colors.white),
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//             children: [
+//               // commenr, exam info button
+//               GestureDetector(
+//                 onTap: () {
+//                   classViewController.typeIndex(0);
+//                 },
+//                 child: Container(
+//                   width: Get.mediaQuery.size.width / 2,
+//                   child: Center(
+//                     child: Obx(
+//                       () => Text(
+//                         "Comment",
+//                         style: TextStyle(
+//                             fontSize: 18.0,
+//                             color: classViewController.typeIndex.value == 0
+//                                 ? Color(0xff1a4678)
+//                                 : Colors.black,
+//                             fontWeight: classViewController.typeIndex.value == 0
+//                                 ? FontWeight.bold
+//                                 : FontWeight.normal),
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               GestureDetector(
+//                 onTap: () {
+//                   classViewController.typeIndex(1);
+//                   if (!classViewController.classExamAvailable.value) {
+//                     print("exam data fetch");
+//                     classViewController
+//                         .getExamInfo(int.parse(Get.parameters["CLASS_ID"]));
+//                   }
+//                 },
+//                 child: Container(
+//                   width: Get.mediaQuery.size.width / 2,
+//                   child: Center(
+//                     child: Obx(
+//                       () => Text(
+//                         "Exam Information",
+//                         style: TextStyle(
+//                             fontSize: 18.0,
+//                             color: classViewController.typeIndex.value == 1
+//                                 ? Color(0xff1a4678)
+//                                 : Colors.black,
+//                             fontWeight: classViewController.typeIndex.value == 1
+//                                 ? FontWeight.bold
+//                                 : FontWeight.normal),
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//               )
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
 
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
-  }
+//   @override
+//   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+//     return false;
+//   }
 
-  @override
-  double get minExtent => height;
+//   @override
+//   double get minExtent => height;
 
-  @override
-  double get maxExtent => height;
-}
+//   @override
+//   double get maxExtent => height;
+// }
