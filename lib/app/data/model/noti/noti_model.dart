@@ -98,7 +98,7 @@ class ChatBoxModel {
 
 class ChatModel {
   String CONTENT, PROFILE_NICKNAME, PROFILE_PHOTO;
-  List<dynamic> PHOTO, FILE;
+  List<dynamic> PHOTO, FILE, FILENAME;
   bool FILE_DOWNLOADED, FILE_DOWNLOADING;
   int FILE_PROGRESS;
   String FILE_TID;
@@ -115,6 +115,7 @@ class ChatModel {
       TIME_CREATED,
       CHAT_ID,
       MY_SELF,
+      FILENAME,
       FILE});
 
   Map<String, dynamic> toJson() {
@@ -140,6 +141,14 @@ class ChatModel {
       this.PHOTO = jsonDecode(json["PHOTO"]);
     } else {
       this.PHOTO = json["PHOTO"];
+    }
+
+    if (json["FILENAME"] == null) {
+      this.FILENAME = null;
+    } else if (json["FILENAME"].runtimeType.toString() == "String") {
+      this.FILENAME = jsonDecode(json["FILENAME"]);
+    } else {
+      this.FILENAME = json["FILENAME"];
     }
 
     if (json["FILE"] == null) {

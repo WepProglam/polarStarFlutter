@@ -977,7 +977,9 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "${convertFileName(model.value.FILE[0])}",
+                                            model.value.FILENAME != null
+                                                ? "${convertFileName(model.value.FILENAME[0])}"
+                                                : "unknown",
                                             style: const TextStyle(
                                                 color: const Color(0xff6f6e6e),
                                                 fontWeight: FontWeight.w700,
