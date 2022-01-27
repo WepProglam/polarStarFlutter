@@ -5,12 +5,14 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class BannerWidget extends StatelessWidget {
-  const BannerWidget({
-    Key key,
-  }) : super(key: key);
+  BannerWidget({Key key, this.isScrollAble}) : super(key: key);
 
+  bool isScrollAble;
   @override
   Widget build(BuildContext context) {
+    if (isScrollAble == null) {
+      isScrollAble = true;
+    }
     final PageController outsidePageController = PageController();
 
     return Column(
@@ -31,25 +33,27 @@ class BannerWidget extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               physics: PageScrollPhysics(),
               controller: outsidePageController,
-              itemCount: 5,
+              itemCount: isScrollAble ? 5 : 1,
               itemBuilder: (context, index) {
                 return OutsidePreview();
               },
             ),
           ),
         ),
-        Center(
-          child: SmoothPageIndicator(
-            controller: outsidePageController,
-            count: 5,
-            effect: ExpandingDotsEffect(
-                dotWidth: 6,
-                dotHeight: 6,
-                expansionFactor: 2,
-                dotColor: const Color(0xffcecece),
-                activeDotColor: const Color(mainColor)),
-          ),
-        ),
+        isScrollAble
+            ? Center(
+                child: SmoothPageIndicator(
+                  controller: outsidePageController,
+                  count: 5,
+                  effect: ExpandingDotsEffect(
+                      dotWidth: 6,
+                      dotHeight: 6,
+                      expansionFactor: 2,
+                      dotColor: const Color(0xffcecece),
+                      activeDotColor: const Color(mainColor)),
+                ),
+              )
+            : Container(),
       ],
     );
   }

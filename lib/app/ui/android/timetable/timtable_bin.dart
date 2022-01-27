@@ -48,8 +48,12 @@ class TimeTableBin extends StatelessWidget {
                   onTap: () {
                     Get.toNamed(Routes.TIMETABLE_ADDTIMETABLE);
                   },
-                  child: Image.asset(
-                    "assets/images/icn_plus.png",
+                  child: Ink(
+                    width: 52,
+                    padding: const EdgeInsets.only(left: 8.0, right: 20.0),
+                    child: Image.asset(
+                      "assets/images/icn_plus.png",
+                    ),
                   ),
                 ),
               ],
