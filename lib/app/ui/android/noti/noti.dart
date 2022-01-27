@@ -64,9 +64,9 @@ class Noti extends StatelessWidget {
                 floating: true,
                 snap: false,
                 elevation: 1,
-                expandedHeight: 48 + 24.0 * 2 + 100 + 18,
+                expandedHeight: 48 + 24.0 * 2 + 100 + 12,
                 bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(48 + 24.0 * 2 + 100 + 18),
+                  preferredSize: Size.fromHeight(48 + 24.0 * 2 + 100 + 12),
                   child: Container(
                     color: const Color(0xffffffff),
                     child: Column(children: [
@@ -109,7 +109,7 @@ class Noti extends StatelessWidget {
                       // * 정보제공
                       Container(
                         margin: const EdgeInsets.only(bottom: 24),
-                        child: BannerWidget(),
+                        child: BannerWidget(isScrollAble: false),
                       ),
                     ]),
                   ),
