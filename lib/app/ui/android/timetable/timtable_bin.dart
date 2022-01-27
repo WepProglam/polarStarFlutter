@@ -20,64 +20,100 @@ class TimeTableBin extends StatelessWidget {
         child: Scaffold(
             backgroundColor: const Color(0xffffffff),
             appBar: AppBar(
-              toolbarHeight: 56,
-              backgroundColor: Get.theme.primaryColor,
-              titleSpacing: 0,
+              backgroundColor: const Color(0xff4570ff),
+              foregroundColor: Colors.white,
               automaticallyImplyLeading: false,
-              title: Container(
-                  width: Get.mediaQuery.size.width,
-                  margin: const EdgeInsets.only(top: 16, bottom: 16),
-                  child: Stack(children: [
-                    Center(
-                      child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: (92 + 24.0)),
-                        child: Obx(() {
-                          if (!timeTableController.isReady.value) {
-                            return Container();
-                          }
-                          return Text("时间表",
-                              style: const TextStyle(
-                                  color: const Color(0xffffffff),
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: "NotoSansSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 16.0),
-                              textAlign: TextAlign.left);
-                        }),
-                      ),
-                    ),
-                    Positioned(
-                      left: 20,
-                      child: Ink(
-                        child: InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Image.asset(
-                            "assets/images/back_icon.png",
-                            width: 24,
-                            height: 24,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 20,
-                      child: Ink(
-                        child: InkWell(
-                          onTap: () {
-                            Get.toNamed(Routes.TIMETABLE_ADDTIMETABLE);
-                          },
-                          child: Image.asset(
-                            "assets/images/icn_plus.png",
-                            width: 24,
-                            height: 24,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ])),
+              leading: InkWell(
+                child: Image.asset("assets/images/icn_back_white.png"),
+                onTap: () => Get.back(),
+              ),
+              elevation: 0,
+              titleSpacing: 0,
+              centerTitle: true,
+              title: Obx(() {
+                if (!timeTableController.isReady.value) {
+                  return Container();
+                }
+                return Text("时间表",
+                    style: const TextStyle(
+                        color: const Color(0xffffffff),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 16.0),
+                    textAlign: TextAlign.left);
+              }),
+              actions: [
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(Routes.TIMETABLE_ADDTIMETABLE);
+                  },
+                  child: Image.asset(
+                    "assets/images/icn_plus.png",
+                  ),
+                ),
+              ],
             ),
+
+            // AppBar(
+            //   toolbarHeight: 56,
+            //   backgroundColor: Get.theme.primaryColor,
+            //   titleSpacing: 0,
+            //   automaticallyImplyLeading: false,
+            //   title: Container(
+            //       width: Get.mediaQuery.size.width,
+            //       margin: const EdgeInsets.only(top: 16, bottom: 16),
+            //       child: Stack(children: [
+            //         Center(
+            //           child: Container(
+            //             margin: EdgeInsets.symmetric(horizontal: (92 + 24.0)),
+            //             child: Obx(() {
+            //               if (!timeTableController.isReady.value) {
+            //                 return Container();
+            //               }
+            //               return Text("时间表",
+            //                   style: const TextStyle(
+            //                       color: const Color(0xffffffff),
+            //                       fontWeight: FontWeight.w500,
+            //                       fontFamily: "NotoSansSC",
+            //                       fontStyle: FontStyle.normal,
+            //                       fontSize: 16.0),
+            //                   textAlign: TextAlign.left);
+            //             }),
+            //           ),
+            //         ),
+            //         Positioned(
+            //           left: 20,
+            //           child: Ink(
+            //             child: InkWell(
+            //               onTap: () {
+            //                 Get.back();
+            //               },
+            //               child: Image.asset(
+            //                 "assets/images/back_icon.png",
+            //                 width: 24,
+            //                 height: 24,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //         Positioned(
+            //           right: 20,
+            //           child: Ink(
+            //             child: InkWell(
+            //               onTap: () {
+            //                 Get.toNamed(Routes.TIMETABLE_ADDTIMETABLE);
+            //               },
+            //               child: Image.asset(
+            //                 "assets/images/icn_plus.png",
+            //                 width: 24,
+            //                 height: 24,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ])),
+            // ),
             body: Column(
               children: [
                 Expanded(
@@ -136,8 +172,8 @@ class TimeTableBin extends StatelessWidget {
                                           Rx<TimeTableModel> item =
                                               items[index];
                                           return Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 5),
+                                            // margin: const EdgeInsets.only(
+                                            //     bottom: 5),
                                             child: TimeTableBinItem(
                                                 timeTableController:
                                                     timeTableController,
@@ -181,14 +217,17 @@ class TimeTableBinItem extends StatelessWidget {
                       item.value.TIMETABLE_ID;
                   Get.back();
                 },
-                child: Text("- ${item.value.NAME}",
-                    style: const TextStyle(
-                        color: const Color(0xff9b9b9b),
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "Roboto",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14.0),
-                    textAlign: TextAlign.left),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 2.5, 2.0, 2.5),
+                  child: Text("- ${item.value.NAME}",
+                      style: const TextStyle(
+                          color: const Color(0xff9b9b9b),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14.0),
+                      textAlign: TextAlign.left),
+                ),
               ),
             ),
           ),
