@@ -52,7 +52,7 @@ class SaveNotiModel {
 
 class ChatBoxModel {
   String BOX_NAME, CLASS_PROFESSOR, LAST_CHAT;
-  int BOX_ID, CHAT_ID, AMOUNT;
+  int BOX_ID, CHAT_ID, AMOUNT, LAST_READ_CHAT_ID;
   DateTime TIME_LAST_CHAT_SENDED;
   RxList<Rx<ChatModel>> ChatList;
 
@@ -83,6 +83,7 @@ class ChatBoxModel {
     print("class_id: ${json["CLASS_ID"]}");
     this.CHAT_ID = nullCheck(json["CHAT_ID"]);
     this.BOX_ID = json["BOX_ID"];
+    this.LAST_READ_CHAT_ID = nullCheck(json["LAST_READ_CHAT_ID"]);
     this.LAST_CHAT = json["LAST_CHAT"];
     print(json["LAST_CHAT"]);
     this.TIME_LAST_CHAT_SENDED = json["TIME_LAST_CHAT_SENDED"] == null

@@ -18,6 +18,7 @@ import 'package:polarstar_flutter/app/ui/android/noti/widgets/notiBox.dart';
 import 'package:polarstar_flutter/app/ui/android/noti/widgets/noti_appbar.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/banner_widget.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
+import 'package:string_validator/string_validator.dart';
 
 final box = GetStorage();
 
@@ -373,7 +374,7 @@ class ChatWidget extends StatelessWidget {
                       classChatController.classChatBox[index];
 
                   // * 채팅방 UI
-                  return ChatItem(model: model);
+                  return ChatItem(model: model, isClass: 1);
                 }),
             // * 전공별 단톡방
             Container(
@@ -410,7 +411,7 @@ class ChatWidget extends StatelessWidget {
                       classChatController.majorChatBox[index];
 
                   // * 채팅방 UI
-                  return ChatItem(model: model);
+                  return ChatItem(model: model, isClass: 0);
                 })
           ],
         ),
@@ -473,11 +474,9 @@ class NotiWidget extends StatelessWidget {
 }
 
 class ChatItem extends StatelessWidget {
-  const ChatItem({
-    Key key,
-    @required this.model,
-  }) : super(key: key);
-
+  const ChatItem({Key key, @required this.model, this.isClass})
+      : super(key: key);
+  final isClass;
   final Rx<ChatBoxModel> model;
 
   @override
@@ -487,6 +486,7 @@ class ChatItem extends StatelessWidget {
         color: model.value.AMOUNT == 0 ? Color(0xfffafbff) : Color(0xffffffff),
         child: InkWell(
           onTap: () async {
+            final ClassChatController classChatController = Get.find();
             await Get.toNamed(Routes.CLASSCHAT,
                     arguments: {"roomID": "${model.value.BOX_ID}"})
                 .then((value) async {
@@ -496,6 +496,11 @@ class ChatItem extends StatelessWidget {
                     model.value.ChatList.last.value.CHAT_ID);
               }
 
+              if (isClass == 1) {
+                classChatController.readClassChat(model.value.BOX_ID);
+              } else {
+                classChatController.readMajorChat(model.value.BOX_ID);
+              }
               MainUpdateModule.updateNotiPage(1,
                   curClassID: model.value.BOX_ID);
             });
