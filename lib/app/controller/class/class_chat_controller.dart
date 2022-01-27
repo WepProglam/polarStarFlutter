@@ -47,6 +47,16 @@ class ClassChatController extends GetxController {
     // downloadFileList.indexOf(TID) == -1 ? false : true;
   }
 
+  Rx<ChatModel> fileFindCurChat(String tid) {
+    ChatBoxModel curBox = findCurBox.value;
+    for (Rx<ChatModel> item in curBox.ChatList) {
+      if (item.value.FILE_TID == tid) {
+        return item;
+      }
+    }
+    return findCurBox.value.ChatList.first;
+  }
+
   String findFileTID(String url) {
     if (isFileDownloaded(url)) {
       return box.read(url);

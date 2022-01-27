@@ -99,6 +99,8 @@ class ChatModel {
   String CONTENT, PROFILE_NICKNAME, PROFILE_PHOTO;
   List<dynamic> PHOTO, FILE;
   bool FILE_DOWNLOADED, FILE_DOWNLOADING;
+  int FILE_PROGRESS;
+  String FILE_TID;
   DateTime TIME_CREATED;
   int CHAT_ID, BOX_ID;
   bool MY_SELF;
@@ -156,6 +158,8 @@ class ChatModel {
       }
     }
     this.FILE_DOWNLOADING = false;
+    this.FILE_PROGRESS = 0;
+    this.FILE_TID = null;
 
     this.PROFILE_NICKNAME = nullCheck(json["PROFILE_NICKNAME"]);
     this.PROFILE_PHOTO = nullCheck(json["PROFILE_PHOTO"]);

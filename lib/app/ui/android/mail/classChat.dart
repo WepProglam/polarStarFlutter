@@ -74,7 +74,16 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
       String id = data[0];
       DownloadTaskStatus status = data[1];
       int progress = data[2];
-      setState(() {});
+      controller.fileFindCurChat(id).update((val) {
+        val.FILE_PROGRESS = progress;
+
+        // * 완료
+        if (status.value == 3) {
+          val.FILE_DOWNLOADING = false;
+          val.FILE_DOWNLOADED = true;
+        }
+      });
+      // setState(() {});
     });
 
     FlutterDownloader.registerCallback(downloadCallback);
@@ -837,8 +846,7 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
           saveInPublicStorage: true);
 
       model.update((val) {
-        val.FILE_DOWNLOADED = true;
-        val.FILE_DOWNLOADING = false;
+        val.FILE_TID = taskID;
       });
 
       box.write(url, taskID);
@@ -879,6 +887,15 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                 : Container()
             : Container(),
         Obx(() {
+          // if (model.value.FILE_DOWNLOADING &&
+          //     model.value.FILE_PROGRESS) {
+          //   print("????");
+          //   model.update((val) {
+          //     val.FILE_DOWNLOADED = true;
+          //     val.FILE_DOWNLOADING = false;
+          //   });
+          //   print("다운 !!!!!!!!!!!!!!!!!!!!!! 완료");
+          // }
           return Container(
               constraints: BoxConstraints(maxWidth: 260),
               decoration: isPhotoExist || isFileExist
@@ -928,7 +945,18 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                               color: Get.theme.primaryColor,
                                             )
                                           : FILE_DOWNLOADING
-                                              ? CircularProgressIndicator()
+                                              ? CircularProgressIndicator(
+                                                  backgroundColor: Colors.white,
+                                                  value: model
+                                                          .value.FILE_PROGRESS
+                                                          .toDouble() /
+                                                      100,
+                                                  valueColor:
+                                                      new AlwaysStoppedAnimation<
+                                                              Color>(
+                                                          Get.theme
+                                                              .primaryColor),
+                                                )
                                               : Icon(
                                                   Icons.file_download,
                                                   size: 25,
