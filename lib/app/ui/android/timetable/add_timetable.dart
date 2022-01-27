@@ -40,82 +40,135 @@ class TimeTableAdd extends StatelessWidget {
             elevation: 0,
             toolbarHeight: 56,
             automaticallyImplyLeading: false,
-            titleSpacing: 0,
-            title: Container(
-              child: Container(
-                child: Stack(children: [
-                  Row(
-                    children: [
-                      Ink(
-                        child: InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Image.asset(
-                                "assets/images/back_icon.png",
-                                width: 24,
-                                height: 24,
-                              )),
-                        ),
-                      ),
-                      Spacer(),
-
-                      // 사각형 4
-                      Container(
-                          width: 52,
-                          height: 28,
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Ink(
-                            child: InkWell(
-                              onTap: () async {
-                                int year = int.parse(
-                                    timeTableController.createYear.value);
-                                int sem = flutterToServerSemChanger(int.parse(
-                                    timeTableController.createSemester.value));
-
-                                await timeTableController.createTimeTable(year,
-                                    sem, timeTableController.createName.value);
-
-                                Get.until((route) =>
-                                    Get.currentRoute == Routes.MAIN_PAGE);
-                              },
-                              child: Center(
-                                child: Text("添加",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: Get.theme.primaryColor,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: "NotoSansSC",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 12.0),
-                                    textAlign: TextAlign.right),
-                              ),
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(14)),
-                              border: Border.all(
-                                  color: const Color(0xff99bbf9), width: 1),
-                              color: const Color(0xffffffff))),
-                    ],
-                  ),
-                  Center(
-                    child: Text("新时间表",
-                        style: const TextStyle(
-                            color: const Color(0xffffffff),
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "NotoSansSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
-                        textAlign: TextAlign.center),
-                  )
-                ]),
+            leading: InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Image.asset(
+                "assets/images/back_icon.png",
               ),
             ),
+            titleSpacing: 0,
+            title: Text("新时间表",
+                style: const TextStyle(
+                    color: const Color(0xffffffff),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "NotoSansSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 16.0),
+                textAlign: TextAlign.center),
+            centerTitle: true,
+            actions: [
+              Container(
+                  margin: const EdgeInsets.fromLTRB(0.0, 14.0, 20.0, 14.0),
+                  width: 52,
+                  // height: 28,
+                  child: InkWell(
+                    onTap: () async {
+                      int year =
+                          int.parse(timeTableController.createYear.value);
+                      int sem = flutterToServerSemChanger(
+                          int.parse(timeTableController.createSemester.value));
+
+                      await timeTableController.createTimeTable(
+                          year, sem, timeTableController.createName.value);
+
+                      Get.until(
+                          (route) => Get.currentRoute == Routes.MAIN_PAGE);
+                    },
+                    child: Center(
+                      child: Text("添加",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Get.theme.primaryColor,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0),
+                          textAlign: TextAlign.right),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(14)),
+                      border:
+                          Border.all(color: const Color(0xff99bbf9), width: 1),
+                      color: const Color(0xffffffff))),
+            ],
+
+            // Container(
+            //   child: Container(
+            //     child: Stack(children: [
+            //       Row(
+            //         children: [
+            //           Ink(
+            //             child: InkWell(
+            //               onTap: () {
+            //                 Get.back();
+            //               },
+            //               child: Container(
+            //                   padding:
+            //                       const EdgeInsets.symmetric(horizontal: 20),
+            //                   child: Image.asset(
+            //                     "assets/images/back_icon.png",
+            //                     width: 24,
+            //                     height: 24,
+            //                   )),
+            //             ),
+            //           ),
+            //           Spacer(),
+
+            //           // 사각형 4
+            //           Container(
+            //               width: 52,
+            //               height: 28,
+            //               margin: const EdgeInsets.symmetric(horizontal: 20),
+            //               child: Ink(
+            //                 child: InkWell(
+            //                   onTap: () async {
+            //                     int year = int.parse(
+            //                         timeTableController.createYear.value);
+            //                     int sem = flutterToServerSemChanger(int.parse(
+            //                         timeTableController.createSemester.value));
+
+            //                     await timeTableController.createTimeTable(year,
+            //                         sem, timeTableController.createName.value);
+
+            //                     Get.until((route) =>
+            //                         Get.currentRoute == Routes.MAIN_PAGE);
+            //                   },
+            //                   child: Center(
+            //                     child: Text("添加",
+            //                         overflow: TextOverflow.ellipsis,
+            //                         style: TextStyle(
+            //                             color: Get.theme.primaryColor,
+            //                             fontWeight: FontWeight.w500,
+            //                             fontFamily: "NotoSansSC",
+            //                             fontStyle: FontStyle.normal,
+            //                             fontSize: 12.0),
+            //                         textAlign: TextAlign.right),
+            //                   ),
+            //                 ),
+            //               ),
+            //               decoration: BoxDecoration(
+            //                   borderRadius:
+            //                       BorderRadius.all(Radius.circular(14)),
+            //                   border: Border.all(
+            //                       color: const Color(0xff99bbf9), width: 1),
+            //                   color: const Color(0xffffffff))),
+            //         ],
+            //       ),
+            //       Center(
+            //         child: Text("新时间表",
+            //             style: const TextStyle(
+            //                 color: const Color(0xffffffff),
+            //                 fontWeight: FontWeight.w500,
+            //                 fontFamily: "NotoSansSC",
+            //                 fontStyle: FontStyle.normal,
+            //                 fontSize: 16.0),
+            //             textAlign: TextAlign.center),
+            //       )
+            //     ]),
+            //   ),
           ),
           backgroundColor: const Color(0xffffffff),
           body: SingleChildScrollView(
