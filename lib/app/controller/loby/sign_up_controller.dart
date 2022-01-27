@@ -15,14 +15,19 @@ class SignUpController extends GetxController {
 
   SignUpController({@required this.repository}) : assert(repository != null);
 
+  RxBool majorSelected = false.obs;
+
+  // ! 나중엔 신학기 3월마다 숫자 바꾸는 로직 추가해야할듯
+  RxInt admissionYear = 2022.obs;
   Future signUp(String id, String pw, String nickname, String studentID,
-      int CLASS_INDEX_ID) async {
+      int CLASS_INDEX_ID, int ADMISSION_YEAR) async {
     Map<String, String> data = {
       "id": id,
       "pw": pw,
       "nickname": nickname,
       "studentID": studentID,
-      "CLASS_INDEX_ID": "${CLASS_INDEX_ID}"
+      "CLASS_INDEX_ID": "${CLASS_INDEX_ID}",
+      "ADMISSION_YEAR": "${ADMISSION_YEAR}"
     };
 
     final response = await repository.signUp(data);

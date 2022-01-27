@@ -419,7 +419,7 @@ class MainPageScroll extends StatelessWidget {
                                                     fontWeight: FontWeight.w500,
                                                     fontFamily: "NotoSansSC",
                                                     fontStyle: FontStyle.normal,
-                                                    fontSize: 18.0),
+                                                    fontSize: 16.0),
                                                 textAlign: TextAlign.left),
                                             InkWell(
                                               onTap: () async {
