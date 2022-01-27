@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
 import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
@@ -17,6 +18,8 @@ import 'package:polarstar_flutter/app/ui/android/noti/widgets/notiBox.dart';
 import 'package:polarstar_flutter/app/ui/android/noti/widgets/noti_appbar.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/banner_widget.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
+
+final box = GetStorage();
 
 class Noti extends StatelessWidget {
   Noti({

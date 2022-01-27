@@ -15,6 +15,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 
 class InitController extends GetxController {
   final LoginRepository repository;
@@ -102,7 +103,10 @@ class InitController extends GetxController {
   void onInit() async {
     super.onInit();
     await ManagePermission.getPermission();
-
+    WidgetsFlutterBinding.ensureInitialized();
+    await FlutterDownloader.initialize(
+        debug: true // optional: set false to disable printing logs to console
+        );
     // SchedulerBinding.instance.addPostFrameCallback((_) {
     //   chatScrollController
     //       .jumpTo(chatScrollController.position.maxScrollExtent);

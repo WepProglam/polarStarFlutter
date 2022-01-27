@@ -1,6 +1,9 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'dart:convert';
+
+final box = GetStorage();
 
 class NotiModel {
   String URL, CONTENT, TITLE;
@@ -95,6 +98,7 @@ class ChatBoxModel {
 class ChatModel {
   String CONTENT, PROFILE_NICKNAME, PROFILE_PHOTO;
   List<dynamic> PHOTO, FILE;
+  bool FILE_DOWNLOADED, FILE_DOWNLOADING;
   DateTime TIME_CREATED;
   int CHAT_ID, BOX_ID;
   bool MY_SELF;
@@ -137,11 +141,21 @@ class ChatModel {
 
     if (json["FILE"] == null) {
       this.FILE = null;
-    } else if (json["FILE"].runtimeType.toString() == "String") {
-      this.FILE = jsonDecode(json["FILE"]);
+      this.FILE_DOWNLOADED = false;
     } else {
-      this.FILE = json["FILE"];
+      if (json["FILE"].runtimeType.toString() == "String") {
+        this.FILE = jsonDecode(json["FILE"]);
+      } else {
+        this.FILE = json["FILE"];
+      }
+
+      if (this.FILE.length > 0) {
+        this.FILE_DOWNLOADED = box.read(this.FILE[0]) == null ? false : true;
+      } else {
+        this.FILE_DOWNLOADED = false;
+      }
     }
+    this.FILE_DOWNLOADING = false;
 
     this.PROFILE_NICKNAME = nullCheck(json["PROFILE_NICKNAME"]);
     this.PROFILE_PHOTO = nullCheck(json["PROFILE_PHOTO"]);

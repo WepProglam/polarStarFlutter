@@ -40,6 +40,20 @@ class ClassChatController extends GetxController {
   List<AssetEntity> photos = <AssetEntity>[].obs;
   final FocusNode chatFocusNode = new FocusNode();
 
+  Map<String, Rx<String>> downloadFileList = {};
+
+  bool isFileDownloaded(String url) {
+    return box.read(url) == null ? false : true;
+    // downloadFileList.indexOf(TID) == -1 ? false : true;
+  }
+
+  String findFileTID(String url) {
+    if (isFileDownloaded(url)) {
+      return box.read(url);
+    }
+    return null;
+  }
+
   Rx<ChatBoxModel> get findCurBox {
     for (Rx<ChatBoxModel> item in classChatBox) {
       if (item.value.BOX_ID == currentBoxID.value) {

@@ -76,6 +76,9 @@ dependencies:
 
   permission_handler: ^8.3.0
 
+  flutter_downloader: ^1.7.2
+  device_info_plus: ^3.2.1
+
   
 dependency_overrides:
   meta: ^1.7.0
