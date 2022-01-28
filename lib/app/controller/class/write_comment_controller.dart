@@ -21,6 +21,12 @@ class WriteCommentController extends GetxController {
   final assignmentRate = 5.obs;
   final gradeRate = 5.obs;
 
+  final languageExplain = ["非常差", "较差", "一般", "较好", "非常好"];
+  final attitudeExplain = ["非常差", "较差", "一般", "较好", "非常好"];
+  final examExplain = ["非常难", "较难", "一般", "较简单", "非常简单"];
+  final assignmentExplain = ["非常多", "较多", "一般", "较少", "非常少"];
+  final gradeExplain = ["非常差", "较差", "一般", "较好", "非常好"];
+
   var currentYearSem;
 
   int writeCommentIndex;
