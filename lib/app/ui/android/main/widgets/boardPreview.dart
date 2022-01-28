@@ -122,6 +122,7 @@ class BoardPreviewItem_boardContent extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
+                overflow: TextOverflow.ellipsis,
                 color: const Color(0xff999999),
                 fontWeight: FontWeight.w400,
                 fontFamily: "PingFangSC",
@@ -149,7 +150,9 @@ class BoardPreviewItem_boardTop extends StatelessWidget {
         children: [
           Container(
             child: Text("${boardInfo.value.COMMUNITY_NAME}",
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     color: const Color(0xff333333),
                     fontWeight: FontWeight.w900,
                     fontFamily: "PingFangSC",
@@ -181,7 +184,9 @@ class BoardPreviewItem_top extends StatelessWidget {
         height: 24,
         child: // 公告事項
             Text("论坛分区",
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     color: const Color(0xff2f2f2f),
                     fontWeight: FontWeight.w500,
                     fontFamily: "NotoSansSC",

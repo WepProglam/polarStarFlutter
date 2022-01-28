@@ -53,46 +53,33 @@ class MainPageScroll extends StatelessWidget {
           elevation: 0,
           toolbarHeight: 56,
           automaticallyImplyLeading: false,
-          titleSpacing: 0,
-          title: Container(
-            width: size.width,
-            child: Container(
-              height: 24,
-              child: Row(
-                children: [
-                  Container(
-                      margin: const EdgeInsets.only(left: 20),
-                      child: // 폴라스타
-                          Text("北北上学堂",
-                              style: const TextStyle(
-                                  color: const Color(whiteColor),
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: "NotoSansSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 16.0),
-                              textAlign: TextAlign.center)),
-                  Spacer(),
-                  Container(
-                    child: Ink(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: InkWell(
-                          onTap: () async {
-                            await mainScrollController.animateTo(0.0,
-                                duration: Duration(milliseconds: 100),
-                                curve: Curves.fastOutSlowIn);
-                            searchFocusNode.requestFocus();
-                          },
-                          child: Image.asset(
-                            "assets/images/icn_search.png",
-                            width: 24,
-                            height: 24,
-                          )),
-                    ),
-                  ),
-                ],
+          titleSpacing: 20,
+          title: Text("北北上学堂",
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                  color: const Color(whiteColor),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "NotoSansSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 16.0),
+              textAlign: TextAlign.center),
+          actions: [
+            InkWell(
+              onTap: () async {
+                await mainScrollController.animateTo(0.0,
+                    duration: Duration(milliseconds: 100),
+                    curve: Curves.fastOutSlowIn);
+                searchFocusNode.requestFocus();
+              },
+              child: Ink(
+                width: 65.6,
+                child: Image.asset(
+                  "assets/images/icn_search.png",
+                ),
               ),
             ),
-          ),
+          ],
         ),
         body: Obx(() {
           if (!mainController.dataAvailalbe) {
@@ -112,7 +99,9 @@ class MainPageScroll extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("成均馆大学",
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
                                     color: const Color(whiteColor),
                                     fontWeight: FontWeight.w500,
                                     fontFamily: "NotoSansSC",
@@ -120,7 +109,9 @@ class MainPageScroll extends StatelessWidget {
                                     fontSize: 16.0),
                                 textAlign: TextAlign.center),
                             Text("=====学院 ===专业",
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
                                     color: const Color(subColor),
                                     fontWeight: FontWeight.w500,
                                     fontFamily: "NotoSansSC",
@@ -299,49 +290,49 @@ class MainPageScroll extends StatelessWidget {
                                                   // );
                                                 }),
                                           )
-                                        : Container(
-                                            height: 77,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(7)),
-                                                border: Border.all(
-                                                    color:
-                                                        const Color(0xffeaeaea),
-                                                    width: 1),
-                                                boxShadow: [
-                                                  BoxShadow(
+                                        : InkWell(
+                                            onTap: () async {
+                                              searchText.clear();
+                                              searchFocusNode.unfocus();
+                                              await Get.toNamed(
+                                                      "/board/boardList")
+                                                  .then((value) async {
+                                                await MainUpdateModule
+                                                    .updateMainPage();
+                                              });
+                                            },
+                                            child: Container(
+                                              height: 77,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(7)),
+                                                  border: Border.all(
                                                       color: const Color(
-                                                          0x0f000000),
-                                                      offset: Offset(0, 3),
-                                                      blurRadius: 10,
-                                                      spreadRadius: 0)
-                                                ],
-                                                color: const Color(0xffffffff)),
-                                            child: Center(
-                                              child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              bottom: 1),
-                                                      child: Ink(
-                                                        width: 24,
-                                                        height: 24,
-                                                        child: InkWell(
-                                                          onTap: () async {
-                                                            searchText.clear();
-                                                            searchFocusNode
-                                                                .unfocus();
-                                                            await Get.toNamed(
-                                                                    "/board/boardList")
-                                                                .then(
-                                                                    (value) async {
-                                                              await MainUpdateModule
-                                                                  .updateMainPage();
-                                                            });
-                                                          },
+                                                          0xffeaeaea),
+                                                      width: 1),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: const Color(
+                                                            0x0f000000),
+                                                        offset: Offset(0, 3),
+                                                        blurRadius: 10,
+                                                        spreadRadius: 0)
+                                                  ],
+                                                  color:
+                                                      const Color(0xffffffff)),
+                                              child: Center(
+                                                child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Container(
+                                                        margin: const EdgeInsets
+                                                            .only(bottom: 1),
+                                                        child: Ink(
+                                                          width: 24,
+                                                          height: 24,
                                                           child: Icon(
                                                             Icons
                                                                 .add_circle_outline_outlined,
@@ -351,21 +342,28 @@ class MainPageScroll extends StatelessWidget {
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Text("跟踪社区",
-                                                        style: const TextStyle(
-                                                            color: const Color(
-                                                                0xffd6d4d4),
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            fontFamily:
-                                                                "NotoSansSC",
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontSize: 10.0),
-                                                        textAlign:
-                                                            TextAlign.center)
-                                                  ]),
+                                                      Text("跟踪社区",
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: const TextStyle(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              color: const Color(
+                                                                  0xffd6d4d4),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontFamily:
+                                                                  "NotoSansSC",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: 10.0),
+                                                          textAlign:
+                                                              TextAlign.center)
+                                                    ]),
+                                              ),
                                             ),
                                           ),
                                   ],
@@ -413,7 +411,10 @@ class MainPageScroll extends StatelessWidget {
                                           children: [
                                             // 热榜
                                             Text("帖子推荐",
+                                                overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     color:
                                                         const Color(textColor),
                                                     fontWeight: FontWeight.w500,
@@ -668,7 +669,10 @@ void CreateNewTimetable(
         titlePadding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
         contentPadding: EdgeInsets.only(top: 10.0),
         content: Column(children: [
-          Text("2022년 1학기 시간표를 생성하시겠습니까?"),
+          Text(
+            "2022년 1학기 시간표를 생성하시겠습니까?",
+            overflow: TextOverflow.ellipsis,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -683,12 +687,18 @@ void CreateNewTimetable(
                       await MainUpdateModule.updateMainPage();
                     });
                   },
-                  child: Text("YES")),
+                  child: Text(
+                    "YES",
+                    overflow: TextOverflow.ellipsis,
+                  )),
               TextButton(
                   onPressed: () {
                     Get.back();
                   },
-                  child: Text("NO")),
+                  child: Text(
+                    "NO",
+                    overflow: TextOverflow.ellipsis,
+                  )),
             ],
           ),
         ]));
@@ -784,7 +794,9 @@ class NormalSearchBar extends StatelessWidget {
                 child: Center(
                   child: // 搜索
                       Text("搜索",
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
                               color: const Color(whiteColor),
                               fontWeight: FontWeight.w500,
                               fontFamily: "NotoSansSC",
@@ -816,7 +828,9 @@ class NewIcon extends StatelessWidget {
         child: // New
             Center(
           child: Text("New",
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
+                  overflow: TextOverflow.ellipsis,
                   color: const Color(whiteColor),
                   fontWeight: FontWeight.w500,
                   fontFamily: "Roboto",
@@ -842,7 +856,9 @@ class SeeMore extends StatelessWidget {
       children: [
         // 更多
         Text("更多",
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
+                overflow: TextOverflow.ellipsis,
                 color: const Color(mainColor),
                 fontWeight: FontWeight.w400,
                 fontFamily: "NotoSansSC",
