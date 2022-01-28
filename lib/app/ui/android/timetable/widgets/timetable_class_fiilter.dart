@@ -240,13 +240,13 @@ class TimetableClassSearch extends StatelessWidget {
               titleSpacing: 0,
               title: Container(
                 margin: const EdgeInsets.only(
-                    left: 20, top: 12, bottom: 12, right: 20),
+                    left: 20, top: 12, bottom: 12, right: 12),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
                         width: Get.mediaQuery.size.width - 20 - 62,
-                        margin: const EdgeInsets.only(right: 14),
+                        margin: const EdgeInsets.only(right: 6),
                         height: 32,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -314,23 +314,25 @@ class TimetableClassSearch extends StatelessWidget {
                             borderRadius: BorderRadius.all(Radius.circular(16)),
                             color: const Color(0xffffffff))),
                     Container(
-                      child: Ink(
-                        child: InkWell(
-                          onTap: () async {
-                            String text = searchText.text.trim();
-                            controller.search_name.value = text;
-                            await controller.getClass(0);
-                            // //통합 검색 X
-                            // if (text.isEmpty ||
-                            //     controller.INDEX_COLLEGE_MAJOR == -1) {
-                            //   await controller.getSearchedClass(0);
-                            // } else {
-                            //   await controller.getFilterAndSearch(0);
-                            // }
-                            FocusScope.of(context).unfocus();
-                            Get.back();
-                          },
+                      child: InkWell(
+                        onTap: () async {
+                          String text = searchText.text.trim();
+                          controller.search_name.value = text;
+                          await controller.getClass(0);
+                          // //통합 검색 X
+                          // if (text.isEmpty ||
+                          //     controller.INDEX_COLLEGE_MAJOR == -1) {
+                          //   await controller.getSearchedClass(0);
+                          // } else {
+                          //   await controller.getFilterAndSearch(0);
+                          // }
+                          FocusScope.of(context).unfocus();
+                          Get.back();
+                        },
+                        child: Ink(
+                          padding: EdgeInsets.all(8.0),
                           child: Text("取消",
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                   color: const Color(0xfff5f6ff),
                                   fontWeight: FontWeight.w500,

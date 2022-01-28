@@ -67,60 +67,43 @@ class TimetableAddClassMain extends StatelessWidget {
           elevation: 0,
           toolbarHeight: 56,
           automaticallyImplyLeading: false,
+          leading: InkWell(
+            onTap: () {
+              Get.back();
+            },
+            child: Image.asset("assets/images/back_icon.png"),
+          ),
+          centerTitle: true,
           titleSpacing: 0,
-          title: Container(
-            width: size.width,
-            child: Container(
-              child: Row(
-                children: [
-                  Ink(
-                    child: InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Image.asset(
-                            "assets/images/back_icon.png",
-                            width: 24,
-                            height: 24,
-                          )),
+          actions: [
+            Container(
+                width: 72,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                child: Ink(
+                  child: InkWell(
+                    onTap: () {
+                      Get.toNamed(Routes.TIMETABLE_ADDCLASS_DIRECT);
+                    },
+                    child: Center(
+                      child: Text("直接输入",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Get.theme.primaryColor,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0),
+                          textAlign: TextAlign.right),
                     ),
                   ),
-                  Spacer(),
-
-                  // 사각형 4
-                  Container(
-                      width: 72,
-                      height: 26,
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Ink(
-                        child: InkWell(
-                          onTap: () {
-                            Get.toNamed(Routes.TIMETABLE_ADDCLASS_DIRECT);
-                          },
-                          child: Center(
-                            child: Text("直接输入",
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    color: Get.theme.primaryColor,
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 12.0),
-                                textAlign: TextAlign.right),
-                          ),
-                        ),
-                      ),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(13)),
-                          border: Border.all(
-                              color: const Color(0xff99bbf9), width: 1),
-                          color: const Color(0xffffffff))),
-                ],
-              ),
-            ),
-          ),
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(13)),
+                    border:
+                        Border.all(color: const Color(0xff99bbf9), width: 1),
+                    color: const Color(0xffffffff))),
+          ],
         ),
         body: Container(
           child: Container(

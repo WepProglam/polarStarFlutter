@@ -50,6 +50,7 @@ class TimeTableAdd extends StatelessWidget {
             ),
             titleSpacing: 0,
             title: Text("新时间表",
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                     color: const Color(0xffffffff),
                     fontWeight: FontWeight.w500,
@@ -185,6 +186,7 @@ class TimeTableAdd extends StatelessWidget {
                       Container(
                         child: // 时间表名称
                             Text("时间表名称",
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     color: const Color(0xff6f6e6e),
                                     fontWeight: FontWeight.w500,
@@ -223,6 +225,7 @@ class TimeTableAdd extends StatelessWidget {
                       Container(
                         child: // 教学名
                             Text("学期",
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     color: const Color(0xff6f6e6e),
                                     fontWeight: FontWeight.w500,
@@ -307,6 +310,7 @@ class SelectSem extends StatelessWidget {
             }
           },
           hint: Text("请选择学期",
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   color: const Color(0xff9b9b9b),
                   fontWeight: FontWeight.w400,
@@ -319,6 +323,7 @@ class SelectSem extends StatelessWidget {
                     child: FittedBox(
                         child: Text(
                       "${element}",
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                           color: const Color(0xff9b9b9b),
                           fontWeight: FontWeight.w400,
