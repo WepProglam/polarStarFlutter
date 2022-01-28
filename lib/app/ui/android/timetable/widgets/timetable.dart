@@ -60,7 +60,9 @@ class TimeTableBin extends StatelessWidget {
                           decoration: tableBoxDecoration,
                           child: Center(
                             child: Text("${startTime - 1 + index}",
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
                                     color: const Color(0xff2f2f2f),
                                     fontWeight: FontWeight.w700,
                                     fontFamily: "Roboto",
@@ -284,7 +286,10 @@ class TimeTableItem extends StatelessWidget {
                             Container(
                               margin: const EdgeInsets.only(left: 10),
                               child: Container(
-                                child: Text("${classItemModel.CLASS_NAME}"),
+                                child: Text(
+                                  "${classItemModel.CLASS_NAME}",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             )
                           ],
@@ -302,7 +307,10 @@ class TimeTableItem extends StatelessWidget {
                             Container(
                               margin: const EdgeInsets.only(left: 20),
                               child: Container(
-                                child: Text("${classItemModel.PROFESSOR}"),
+                                child: Text(
+                                  "${classItemModel.PROFESSOR}",
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             )
                           ],
@@ -324,6 +332,7 @@ class TimeTableItem extends StatelessWidget {
                                 child: FittedBox(
                                   child: Text(
                                     "${timeString}",
+                                    overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style: TextStyle(fontSize: 14),
                                   ),
@@ -348,6 +357,7 @@ class TimeTableItem extends StatelessWidget {
                                 child: FittedBox(
                                   child: Text(
                                     "${classItemModel.CLASS_NUMBER}",
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ),
@@ -408,7 +418,10 @@ class TimeTableItem extends StatelessWidget {
                                     child: FittedBox(
                                       child: Text(
                                         "삭제",
-                                        style: TextStyle(color: Colors.red),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            color: Colors.red),
                                       ),
                                     ),
                                   ),
@@ -449,6 +462,7 @@ class TimeTableItem extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
                               color: const Color(0xffffffff),
                               fontWeight: FontWeight.w700,
                               fontFamily: "Roboto",
@@ -464,6 +478,7 @@ class TimeTableItem extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
                                 color: const Color(0xfffff8dd),
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "Roboto",
@@ -477,6 +492,7 @@ class TimeTableItem extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
                                 color: const Color(0xfffff8dd),
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "Roboto",
@@ -527,7 +543,9 @@ class TimeTableDays extends StatelessWidget {
                     child: Center(
                       child: Text(
                         "${days[i - 1]}",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(0xff2f2f2f),
                             fontWeight: FontWeight.w700,
                             fontFamily: "Roboto",

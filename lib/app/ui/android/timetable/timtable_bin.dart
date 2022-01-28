@@ -35,7 +35,9 @@ class TimeTableBin extends StatelessWidget {
                   return Container();
                 }
                 return Text("时间表",
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
                         color: const Color(0xffffffff),
                         fontWeight: FontWeight.w500,
                         fontFamily: "NotoSansSC",
@@ -156,7 +158,9 @@ class TimeTableBin extends StatelessWidget {
                                     margin: const EdgeInsets.only(top: 20),
                                     child: Text(
                                         "${timetableSemChanger(items[0].value.YEAR, items[0].value.SEMESTER)}",
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis,
                                             color: const Color(0xff000000),
                                             fontWeight: FontWeight.w500,
                                             fontFamily: "NotoSansCJKKR",
@@ -224,7 +228,9 @@ class TimeTableBinItem extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0.0, 2.5, 2.0, 2.5),
                   child: Text("- ${item.value.NAME}",
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           color: const Color(0xff9b9b9b),
                           fontWeight: FontWeight.w400,
                           fontFamily: "Roboto",
@@ -248,7 +254,9 @@ class TimeTableBinItem extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Center(
                         child: Text("基本",
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
                                 color: const Color(0xffffffff),
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "NotoSansSC",

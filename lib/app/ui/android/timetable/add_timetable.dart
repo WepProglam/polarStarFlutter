@@ -52,6 +52,7 @@ class TimeTableAdd extends StatelessWidget {
             title: Text("新时间表",
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     color: const Color(0xffffffff),
                     fontWeight: FontWeight.w500,
                     fontFamily: "NotoSansSC",
@@ -81,6 +82,7 @@ class TimeTableAdd extends StatelessWidget {
                       child: Text("添加",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
                               color: Get.theme.primaryColor,
                               fontWeight: FontWeight.w500,
                               fontFamily: "NotoSansSC",
@@ -188,6 +190,7 @@ class TimeTableAdd extends StatelessWidget {
                             Text("时间表名称",
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
                                     color: const Color(0xff6f6e6e),
                                     fontWeight: FontWeight.w500,
                                     fontFamily: "NotoSansSC",
@@ -227,6 +230,7 @@ class TimeTableAdd extends StatelessWidget {
                             Text("学期",
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
                                     color: const Color(0xff6f6e6e),
                                     fontWeight: FontWeight.w500,
                                     fontFamily: "NotoSansSC",
@@ -312,6 +316,7 @@ class SelectSem extends StatelessWidget {
           hint: Text("请选择学期",
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
+                  overflow: TextOverflow.ellipsis,
                   color: const Color(0xff9b9b9b),
                   fontWeight: FontWeight.w400,
                   fontFamily: "NotoSansSC",
@@ -325,6 +330,7 @@ class SelectSem extends StatelessWidget {
                       "${element}",
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           color: const Color(0xff9b9b9b),
                           fontWeight: FontWeight.w400,
                           fontFamily: "NotoSansSC",

@@ -27,6 +27,7 @@ var inputDecoration = (hint) => InputDecoration(
     disabledBorder: InputBorder.none,
     contentPadding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
     hintStyle: const TextStyle(
+        overflow: TextOverflow.ellipsis,
         color: const Color(0xff999999),
         fontWeight: FontWeight.w400,
         fontFamily: "PingFangSC",
@@ -35,6 +36,7 @@ var inputDecoration = (hint) => InputDecoration(
     hintText: "Please enter the ${hint} name");
 
 const textStyle = const TextStyle(
+    overflow: TextOverflow.ellipsis,
     color: Colors.black,
     fontWeight: FontWeight.w400,
     fontFamily: "Roboto",
@@ -89,6 +91,7 @@ class TimetableAddClassMain extends StatelessWidget {
                       child: Text("直接输入",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
                               color: Get.theme.primaryColor,
                               fontWeight: FontWeight.w500,
                               fontFamily: "NotoSansSC",
@@ -281,6 +284,8 @@ class classSearchBottomSheet extends StatelessWidget {
                                             child: Text("${model.CLASS_NAME}",
                                                 overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     color:
                                                         const Color(0xff000000),
                                                     fontWeight: FontWeight.w500,
@@ -314,6 +319,7 @@ class classSearchBottomSheet extends StatelessWidget {
                                       Text("${model.PROFESSOR}",
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
+                                              overflow: TextOverflow.ellipsis,
                                               color: const Color(0xff9b9b9b),
                                               fontWeight: FontWeight.w700,
                                               fontFamily: "NotoSansKR",
@@ -325,6 +331,7 @@ class classSearchBottomSheet extends StatelessWidget {
                                       Text("已选人数 ${model.NUMBER_OF_STUDENTS}",
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
+                                              overflow: TextOverflow.ellipsis,
                                               color: const Color(0xff9b9b9b),
                                               fontWeight: FontWeight.w400,
                                               fontFamily: "NotoSansKR",
@@ -338,6 +345,7 @@ class classSearchBottomSheet extends StatelessWidget {
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 2,
                                             style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
                                                 color: const Color(0xff9b9b9b),
                                                 fontWeight: FontWeight.w400,
                                                 fontFamily: "NotoSansKR",
@@ -352,7 +360,10 @@ class classSearchBottomSheet extends StatelessWidget {
                                                 model.CLASS_TIME.length == 0
                                                     ? "null"
                                                     : "${model.CLASS_TIME[0].class_room}",
+                                                overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     color:
                                                         const Color(0xff9b9b9b),
                                                     fontWeight: FontWeight.w400,
@@ -371,6 +382,8 @@ class classSearchBottomSheet extends StatelessWidget {
                                                 "${model.CLASS_SECTOR_TOTAL} ${model.CREDIT.floor() == model.CREDIT ? model.CREDIT.floor() : model.CREDIT}학점 ${model.CLASS_NUMBER}",
                                                 overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     color:
                                                         const Color(0xff9b9b9b),
                                                     fontWeight: FontWeight.w400,
@@ -417,7 +430,12 @@ class classSearchBottomSheet extends StatelessWidget {
                                                                 vertical: 4.5),
                                                         child: Center(
                                                             child: Text("添加",
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                                 style: TextStyle(
+                                                                    overflow: TextOverflow
+                                                                        .ellipsis,
                                                                     color: Get
                                                                         .theme
                                                                         .primaryColor,
@@ -507,6 +525,8 @@ class searchClassSliverAppBar extends StatelessWidget {
                                               "专业/教养领域: ${controller.college_major.value.isEmpty ? "所有" : controller.college_major.value}",
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   color:
                                                       const Color(0xffffffff),
                                                   fontWeight: FontWeight.w500,
@@ -564,6 +584,7 @@ class searchClassSliverAppBar extends StatelessWidget {
                                       "课程名: ${controller.search_name.isEmpty ? "无" : controller.search_name}",
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
+                                          overflow: TextOverflow.ellipsis,
                                           color: const Color(0xffffffff),
                                           fontWeight: FontWeight.w500,
                                           fontFamily: "NotoSansSC",
@@ -639,7 +660,9 @@ class ClassInfoTPO extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 14.3),
                           child: Text(
                             "요일과 시간을 설정해주세요",
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
                                 color: const Color(0xff999999),
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "PingFangSC",
@@ -695,7 +718,9 @@ class ClassInfoTPO extends StatelessWidget {
                   child: // complete
                       Center(
                     child: Text("장소 및 시간 추가",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: Colors.white,
                             fontWeight: FontWeight.w900,
                             fontFamily: "PingFangSC",
@@ -861,7 +886,10 @@ class SelectDay extends StatelessWidget {
               .map((e) => DropdownMenuItem(
                   child: Padding(
                     padding: const EdgeInsets.only(right: 12.7),
-                    child: Text(e),
+                    child: Text(
+                      e,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   value: e))
               .toList());
@@ -936,7 +964,9 @@ class SelectStartTime extends StatelessWidget {
         return Row(children: [
           Container(
             child: Text("${timeFormatter(newClass.value.start_time)}",
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     color: const Color(0xff333333),
                     fontWeight: FontWeight.w400,
                     fontFamily: "PingFangSC",
@@ -1040,6 +1070,7 @@ class SelectEndTime extends StatelessWidget {
             child: Text("${timeFormatter(newClass.value.end_time)}",
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     color: const Color(0xff333333),
                     fontWeight: FontWeight.w400,
                     fontFamily: "PingFangSC",

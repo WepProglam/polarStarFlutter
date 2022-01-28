@@ -41,7 +41,9 @@ class TimeTableAppBar extends StatelessWidget {
         }
         return Text(
             "${timetableSemChanger(timeTableController.selectTable.value.YEAR, timeTableController.selectTable.value.SEMESTER)}",
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
+                overflow: TextOverflow.ellipsis,
                 color: const Color(0xffffffff),
                 fontWeight: FontWeight.w500,
                 fontFamily: "NotoSansSC",

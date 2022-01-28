@@ -56,14 +56,19 @@ class TopIcon extends StatelessWidget {
                                 child: Row(children: [
                                   Container(
                                     // padding: const EdgeInsets.all(8.0),
-                                    child: Text("${yearSemester}"),
+                                    child: Text(
+                                      "${yearSemester}",
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                   Container(
                                     // padding: const EdgeInsets.all(8.0),
                                     margin: const EdgeInsets.only(left: 15),
                                     // width: 100,
                                     child: Text(
-                                        "${timeTableController.selectYearSemester[index].value.NAME}"),
+                                      "${timeTableController.selectYearSemester[index].value.NAME}",
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                   // Spacer(),
                                   Container(
@@ -71,7 +76,10 @@ class TopIcon extends StatelessWidget {
                                     margin: const EdgeInsets.only(left: 15),
                                     child: Text(
                                       "DEFAULT",
-                                      style: TextStyle(color: Colors.red),
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          overflow: TextOverflow.ellipsis,
+                                          color: Colors.red),
                                     ),
                                   ),
                                 ])),
@@ -90,6 +98,7 @@ class TopIcon extends StatelessWidget {
                     child: Text("${selectedModel.value.NAME}",
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(0xff333333),
                             fontWeight: FontWeight.w700,
                             fontFamily: "PingFangSC",
@@ -312,7 +321,12 @@ void showSetting(
                                                   child: Center(
                                                     child: FittedBox(
                                                       child: Text("Cancel",
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                           style: const TextStyle(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
                                                               color: const Color(
                                                                   0xff1a4678),
                                                               fontWeight:
@@ -399,7 +413,12 @@ void showSetting(
                                                   child: Center(
                                                     child: FittedBox(
                                                       child: Text("Confirm",
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                           style: const TextStyle(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
                                                               color: const Color(
                                                                   0xff1a4678),
                                                               fontWeight:
@@ -561,7 +580,9 @@ class TimeTableSettingItem extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(top: 11.05),
           child: Text("${title}",
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
+                  overflow: TextOverflow.ellipsis,
                   color: const Color(0xff9b9b9b),
                   fontWeight: FontWeight.w400,
                   fontFamily: "NotoSansSC",
@@ -612,8 +633,10 @@ class TableList extends StatelessWidget {
                           // margin: const EdgeInsets.fromLTRB(6.5, 12.5, 5.5, 13),
                           child: Text(
                               "${timeTableController.otherTable["${timeTableController.yearSem}"][index].value.NAME}",
+                              overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
                                   color: model.TIMETABLE_ID ==
                                           timeTableController
                                               .selectedTimeTableId.value
@@ -709,6 +732,7 @@ class SubjectList extends StatelessWidget {
                                     "${model.value.CLASSES[i].CLASS_NAME}",
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
                                         color: const Color(0xff000000),
                                         fontWeight: FontWeight.w400,
                                         fontFamily: "NotoSansSC",
@@ -720,7 +744,9 @@ class SubjectList extends StatelessWidget {
                                 margin: const EdgeInsets.only(bottom: 8),
                                 child: // 이연희
                                     Text("${model.value.CLASSES[i].PROFESSOR}",
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
+                                            overflow: TextOverflow.ellipsis,
                                             color: const Color(0xff6f6e6e),
                                             fontWeight: FontWeight.w400,
                                             fontFamily: "NotoSansSC",
@@ -801,7 +827,9 @@ class SubjectPreviewList extends StatelessWidget {
           // ),
           // 90 marks
           Text("${text}",
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
+                  overflow: TextOverflow.ellipsis,
                   color: const Color(0xff2f2f2f),
                   fontWeight: FontWeight.w400,
                   fontFamily: "NotoSansSC",

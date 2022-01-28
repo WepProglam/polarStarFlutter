@@ -22,6 +22,7 @@ var inputDecoration = (hint) => InputDecoration(
     disabledBorder: InputBorder.none,
     contentPadding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
     hintStyle: const TextStyle(
+        overflow: TextOverflow.ellipsis,
         color: const Color(0xff9b9b9b),
         fontWeight: FontWeight.w500,
         fontFamily: "NotoSansSC",
@@ -38,6 +39,7 @@ var addTimetablenputDecoration = (hint) => InputDecoration(
     disabledBorder: InputBorder.none,
     contentPadding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
     hintStyle: const TextStyle(
+        overflow: TextOverflow.ellipsis,
         color: const Color(0xff9b9b9b),
         fontWeight: FontWeight.w400,
         fontFamily: "NotoSansSC",
@@ -46,6 +48,7 @@ var addTimetablenputDecoration = (hint) => InputDecoration(
     hintText: "${hint}");
 
 const textStyle = const TextStyle(
+    overflow: TextOverflow.ellipsis,
     color: Colors.black,
     fontWeight: FontWeight.w400,
     fontFamily: "PingFangSC",
@@ -82,7 +85,9 @@ class TimetableAddClass extends StatelessWidget {
             titleSpacing: 0,
             title: Text(
               "输入日程",
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
+                  overflow: TextOverflow.ellipsis,
                   color: const Color(0xffffffff),
                   fontWeight: FontWeight.w500,
                   fontFamily: "NotoSansSC",
@@ -122,6 +127,7 @@ class TimetableAddClass extends StatelessWidget {
                         child: Text("添加",
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
                                 color: Get.theme.primaryColor,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "NotoSansSC",
@@ -219,7 +225,9 @@ class TimetableAddClass extends StatelessWidget {
                                     margin: const EdgeInsets.only(left: 6),
                                     child: // 课名
                                         Text("新日程",
+                                            overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
                                                 color: const Color(0xff9b9b9b),
                                                 fontWeight: FontWeight.w500,
                                                 fontFamily: "NotoSansSC",
@@ -283,7 +291,9 @@ class TimetableAddClass extends StatelessWidget {
                                     Container(
                                       margin: const EdgeInsets.only(left: 6),
                                       child: Text("教授名",
+                                          overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
+                                              overflow: TextOverflow.ellipsis,
                                               color: const Color(0xff9b9b9b),
                                               fontWeight: FontWeight.w500,
                                               fontFamily: "NotoSansSC",
@@ -396,7 +406,9 @@ class ClassInfoTPO extends StatelessWidget {
                   margin: const EdgeInsets.only(left: 6),
                   child: // 钟点
                       Text("时间",
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
                               color: const Color(0xff9b9b9b),
                               fontWeight: FontWeight.w500,
                               fontFamily: "NotoSansSC",
@@ -451,7 +463,9 @@ class ClassInfoTPO extends StatelessWidget {
                     Center(
                   child: // 添加时间
                       Text("添加时间",
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
                               color: const Color(0xff4570ff),
                               fontWeight: FontWeight.w700,
                               fontFamily: "Roboto",
@@ -614,7 +628,9 @@ class SelectDay extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 4),
                     child: // 星期一
                         Text("${dayConverter(e)}",
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
                                 color: const Color(0xff9b9b9b),
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "NotoSansSC",
@@ -694,7 +710,9 @@ class SelectStartTime extends StatelessWidget {
         return Row(children: [
           Container(
             child: Text("${timeFormatter(newClass.value.start_time)}",
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     color: const Color(0xff9b9b9b),
                     fontWeight: FontWeight.w400,
                     fontFamily: "Roboto",
@@ -796,7 +814,9 @@ class SelectEndTime extends StatelessWidget {
         return Row(children: [
           Container(
             child: Text("${timeFormatter(newClass.value.end_time)}",
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     color: const Color(0xff9b9b9b),
                     fontWeight: FontWeight.w400,
                     fontFamily: "Roboto",

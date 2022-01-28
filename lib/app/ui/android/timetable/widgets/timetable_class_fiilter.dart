@@ -52,7 +52,9 @@ class TimetableClassFilter extends StatelessWidget {
                     Center(
                       child: // 专业 / 领域
                           Text("专业 / 教养领域",
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
                                   color: const Color(0xffffffff),
                                   fontWeight: FontWeight.w500,
                                   fontFamily: "NotoSansSC",
@@ -94,7 +96,9 @@ class TimetableClassFilter extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(vertical: 11.5),
                           child: Text(
                             "${controller.college_name_list[index].COLLEGE_NAME}",
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
                                 color: const Color(0xff6f6e6e),
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "NotoSansKR",
@@ -154,7 +158,9 @@ class TimetableClassMajor extends StatelessWidget {
                     Center(
                       child: // 专业 / 领域
                           Text("专业 / 领域",
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
                                   color: const Color(0xffffffff),
                                   fontWeight: FontWeight.w500,
                                   fontFamily: "NotoSansSC",
@@ -198,7 +204,9 @@ class TimetableClassMajor extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 11.5),
                             child: Text(
                               "${controller.college_major_list[index].NAME}",
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
                                   color: const Color(0xff6f6e6e),
                                   fontWeight: FontWeight.w500,
                                   fontFamily: "NotoSansKR",
@@ -334,6 +342,7 @@ class TimetableClassSearch extends StatelessWidget {
                           child: Text("取消",
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
                                   color: const Color(0xfff5f6ff),
                                   fontWeight: FontWeight.w500,
                                   fontFamily: "NotoSansSC",
