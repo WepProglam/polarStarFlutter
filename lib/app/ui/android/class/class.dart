@@ -494,6 +494,7 @@ class ClassItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(0xff2f2f2f),
                             fontWeight: FontWeight.w500,
                             fontFamily: "NotoSansKR",
@@ -507,6 +508,7 @@ class ClassItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(0xff6f6e6e),
                             fontWeight: FontWeight.w400,
                             fontFamily: "NotoSansKR",
@@ -524,7 +526,26 @@ class ClassItem extends StatelessWidget {
                   Container(
                 width: 76,
                 height: 32,
-                child: RateStarRow(rate: model.RATE),
+                child: Container(
+                  width: 78,
+                  height: 32,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: const Color(0xff4570ff)),
+                  child: Center(
+                    child: Text("去评价",
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
+                  ),
+                ),
+                // child: RateStarRow(rate: model.RATE),
               ),
             )
           ]),
