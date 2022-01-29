@@ -67,6 +67,7 @@ class CoursePreview extends StatelessWidget {
                           child: Text("${classModel.CLASS_NAME}",
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
                                   color: const Color(0xff333333),
                                   fontWeight: FontWeight.w700,
                                   // fontFamily: "PingFangSC",
@@ -79,7 +80,9 @@ class CoursePreview extends StatelessWidget {
                             margin: const EdgeInsets.only(top: 7.0),
                             child: // Li Ming   A++
                                 Text("${classModel.PROFESSOR}",
+                                    overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
                                         color: const Color(0xff999999),
                                         fontWeight: FontWeight.w400,
                                         fontStyle: FontStyle.normal,
@@ -126,7 +129,9 @@ class CoursePreview extends StatelessWidget {
                       color: const Color(0xff1a4678)),
                   child: Center(
                     child: Text("Evaluate",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(0xffffffff),
                             fontWeight: FontWeight.w700,
                             // fontFamily: "PingFangSC",
@@ -165,7 +170,9 @@ class CommentPreview extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 12, top: 10.5),
                   child: // Ideological and moral
                       Text(classReviewModel.CLASS_NAME,
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
                               color: const Color(0xff333333),
                               fontWeight: FontWeight.w700,
                               fontStyle: FontStyle.normal,
@@ -199,7 +206,9 @@ class CommentPreview extends StatelessWidget {
               padding: const EdgeInsets.only(top: 13, left: 14.5),
               child: // teacher:   Li Ming
                   Text("Professor:   ${classReviewModel.PROFESSOR}",
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           color: const Color(0xff333333),
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,
@@ -210,7 +219,9 @@ class CommentPreview extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.5, left: 14.5),
                 child: Text(
                     "Semester:   ${classReviewModel.CLASS_YEAR}년 ${classReviewModel.CLASS_SEMESTER}학기",
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
                         color: const Color(0xff333333),
                         fontWeight: FontWeight.w400,
                         fontStyle: FontStyle.normal,
@@ -227,7 +238,9 @@ class CommentPreview extends StatelessWidget {
                 child: SizedBox(
                   width: size.width - 28 - 27.5,
                   child: Text(classReviewModel.CONTENT,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           color: const Color(0xff707070),
                           fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.normal,

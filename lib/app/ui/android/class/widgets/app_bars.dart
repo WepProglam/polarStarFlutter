@@ -18,7 +18,9 @@ class AppBars {
       titleSpacing: 0,
       centerTitle: true,
       title: Text("课程评价",
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(
+              overflow: TextOverflow.ellipsis,
               color: const Color(0xffffffff),
               fontWeight: FontWeight.w500,
               fontFamily: "NotoSansTC",
