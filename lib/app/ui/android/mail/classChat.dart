@@ -537,19 +537,24 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                 keyboardType: TextInputType.multiline,
                                 focusNode: controller.chatFocusNode,
                                 onTap: () async {
-                                  controller.tapTextField.value = true;
                                   controller.canChatFileShow.value = false;
+
+                                  if (!controller.tapTextField.value) {
+                                    controller.tapTextField.value = true;
+
+                                    double target_pos =
+                                        controller.chatScrollController.offset +
+                                            getKeyboardHeight();
+
+                                    controller.chatScrollController
+                                        .jumpTo(target_pos);
+                                  }
                                   if (controller.chatScrollController.position
                                           .maxScrollExtent ==
                                       0) {
                                     return;
                                   }
-                                  double target_pos =
-                                      controller.chatScrollController.offset +
-                                          getKeyboardHeight();
 
-                                  controller.chatScrollController
-                                      .jumpTo(target_pos);
                                   // Timer(
                                   //     Duration(
                                   //       milliseconds: 100,
@@ -636,13 +641,26 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                         shape: BoxShape.circle,
                                       )),
                               onTap: () async {
-                                controller.tapTextField.value = true;
-                                // controller.canChatFileShow.value = true;
-                                if (controller.canChatFileShow.value) {
-                                  controller.chatFocusNode.requestFocus();
+                                if (controller.tapTextField.value) {
+                                  if (controller.canChatFileShow.value) {
+                                    controller.chatFocusNode.requestFocus();
+                                  } else {
+                                    FocusScope.of(context).unfocus();
+                                  }
                                 } else {
-                                  FocusScope.of(context).unfocus();
+                                  if (controller.canChatFileShow.value) {
+                                    controller.chatFocusNode.requestFocus();
+                                  } else {
+                                    FocusScope.of(context).unfocus();
+                                    double target_pos =
+                                        controller.chatScrollController.offset +
+                                            getKeyboardHeight();
+
+                                    controller.chatScrollController
+                                        .jumpTo(target_pos);
+                                  }
                                 }
+                                controller.tapTextField.value = true;
 
                                 controller.canChatFileShow.value =
                                     !controller.canChatFileShow.value;
@@ -709,6 +727,10 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                             child: Container(
                                                 width: containerSize,
                                                 height: containerSize,
+                                                child: Center(
+                                                    child: Image.asset(
+                                                  "assets/images/file_send_camera.png",
+                                                )),
                                                 decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.all(
@@ -752,6 +774,10 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                             child: Container(
                                                 width: containerSize,
                                                 height: containerSize,
+                                                child: Center(
+                                                  child: Image.asset(
+                                                      "assets/images/file_send_gallery.png"),
+                                                ),
                                                 decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.all(
@@ -803,6 +829,10 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                             child: Container(
                                                 width: containerSize,
                                                 height: containerSize,
+                                                child: Center(
+                                                  child: Image.asset(
+                                                      "assets/images/file_send_etc.png"),
+                                                ),
                                                 decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.all(
@@ -1004,75 +1034,94 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                               //     openFileFromNotification: true);
                             },
                             child: Container(
-                                width: 260,
-                                height: 60,
+                                width: 236,
+                                height: 70,
                                 decoration: BoxDecoration(
-                                    color: const Color(0xffe6f1ff)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20)),
+                                    color: model.value.MY_SELF
+                                        ? Color(0xffe6f1ff)
+                                        : Color(0xfff5f5f5)),
                                 child: Row(
                                   children: [
                                     Container(
-                                      margin: const EdgeInsets.only(left: 14),
-                                      width: 25,
-                                      height: 25,
-                                      child: FILE_DOWNLOADED
-                                          ? Icon(
-                                              Icons.open_in_browser_sharp,
-                                              size: 25,
-                                              color: Get.theme.primaryColor,
-                                            )
-                                          : FILE_DOWNLOADING
-                                              ? CircularProgressIndicator(
-                                                  backgroundColor: Colors.white,
-                                                  value: model
-                                                          .value.FILE_PROGRESS
-                                                          .toDouble() /
-                                                      100,
-                                                  valueColor:
-                                                      new AlwaysStoppedAnimation<
-                                                              Color>(
-                                                          Get.theme
-                                                              .primaryColor),
+                                      margin: const EdgeInsets.only(left: 16),
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: const Color(0xffffffff)),
+                                          width: 38,
+                                          height: 38,
+                                          child: FILE_DOWNLOADED
+                                              ? Image.asset(
+                                                  "assets/images/file_after_download.png",
+                                                  height: 25,
+                                                  width: 25,
                                                 )
-                                              : Icon(
-                                                  Icons.file_download,
-                                                  size: 25,
-                                                  color: Get.theme.primaryColor,
-                                                ),
+                                              : FILE_DOWNLOADING
+                                                  ? Container(
+                                                      height: 25,
+                                                      width: 25,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        value: model.value
+                                                                .FILE_PROGRESS
+                                                                .toDouble() /
+                                                            100,
+                                                        valueColor:
+                                                            new AlwaysStoppedAnimation<
+                                                                    Color>(
+                                                                Get.theme
+                                                                    .primaryColor),
+                                                      ),
+                                                    )
+                                                  : Image.asset(
+                                                      "assets/images/file_before_download.png",
+                                                      height: 25,
+                                                      width: 25,
+                                                    )),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.only(left: 20),
+                                      margin: const EdgeInsets.only(left: 12),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             model.value.FILENAME != null
                                                 ? "${convertFileName(model.value.FILENAME[0])}"
                                                 : "unknown",
                                             style: const TextStyle(
-                                                color: const Color(0xff6f6e6e),
-                                                fontWeight: FontWeight.w700,
-                                                fontFamily: "NotoSansKR",
+                                                color: const Color(0xff2f2f2f),
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: "Roboto",
                                                 fontStyle: FontStyle.normal,
-                                                fontSize: 14.0),
+                                                fontSize: 12.0),
+                                            textAlign: TextAlign.left,
                                           ),
                                           Text(
                                             "유효기간: ",
                                             style: const TextStyle(
-                                                color: const Color(0xff6f6e6e),
+                                                color: const Color(0xff9b9b9b),
                                                 fontWeight: FontWeight.w400,
                                                 fontFamily: "NotoSansKR",
                                                 fontStyle: FontStyle.normal,
                                                 fontSize: 10.0),
+                                            textAlign: TextAlign.left,
                                           ),
                                           Text(
                                             "용량: ",
                                             style: const TextStyle(
-                                                color: const Color(0xff6f6e6e),
+                                                color: const Color(0xff9b9b9b),
                                                 fontWeight: FontWeight.w400,
                                                 fontFamily: "NotoSansKR",
                                                 fontStyle: FontStyle.normal,
                                                 fontSize: 10.0),
+                                            textAlign: TextAlign.left,
                                           ),
                                         ],
                                       ),

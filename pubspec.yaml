@@ -305,6 +305,11 @@ flutter:
     - assets/images/chat_input_send.png
     - assets/images/file_plus.png
     - assets/images/banner_deco.png
+    - assets/images/file_before_download.png
+    - assets/images/file_after_download.png
+    - assets/images/file_send_camera.png
+    - assets/images/file_send_gallery.png
+    - assets/images/file_send_etc.png
 
 
     
