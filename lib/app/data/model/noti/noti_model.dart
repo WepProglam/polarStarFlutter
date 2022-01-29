@@ -59,6 +59,7 @@ class ChatBoxModel {
   int BOX_ID, CHAT_ID, AMOUNT, LAST_READ_CHAT_ID;
   DateTime TIME_LAST_CHAT_SENDED;
   RxList<Rx<ChatModel>> ChatList;
+  RxList<Rx<ChatModel>> LoadingChatList;
 
   ChatBoxModel(
       {BOX_NAME,
@@ -97,6 +98,7 @@ class ChatBoxModel {
         ? json["ChatList"].map((e) => ChatModel.fromJson(e).obs).toList().obs
         : <Rx<ChatModel>>[].obs;
     this.AMOUNT = 0;
+    this.LoadingChatList = <Rx<ChatModel>>[].obs;
   }
 }
 
@@ -110,7 +112,7 @@ class ChatModel {
   String FILE_TID;
   DateTime TIME_CREATED;
   int CHAT_ID, BOX_ID;
-  bool MY_SELF;
+  bool MY_SELF, IS_PRE_SEND;
 
   ChatModel(
       {BOX_ID,
@@ -139,7 +141,6 @@ class ChatModel {
   }
 
   ChatModel.fromJson(Map<String, dynamic> json) {
-    print("chatmodel from json!!!");
     this.BOX_ID = nullCheck(json["BOX_ID"]);
     this.CONTENT = nullCheck("${json["CONTENT"]}");
     if (json["PHOTO"] == null) {
@@ -153,7 +154,7 @@ class ChatModel {
       if (this.PHOTO.length > 0) {
         this.PRE_IMAGE = [
           Image(
-            image: CachedNetworkImageProvider(this.PHOTO[0]),
+            image: CachedNetworkImageProvider(this.PHOTO[0], scale: 0.1),
             gaplessPlayback: true,
           )
         ];
@@ -165,7 +166,6 @@ class ChatModel {
         // ];
       }
     }
-    print(json);
 
     if (json["FILENAME"] == null || json["FILENAME"].isEmpty) {
       this.FILENAME = null;
@@ -205,6 +205,7 @@ class ChatModel {
     this.CHAT_ID = nullCheck(json["CHAT_ID"]);
 
     this.MY_SELF = json["MY_SELF"] == null ? false : nullCheck(json["MY_SELF"]);
+    this.IS_PRE_SEND = json["IS_PRE_SEND"] == null ? false : true;
   }
 }
 

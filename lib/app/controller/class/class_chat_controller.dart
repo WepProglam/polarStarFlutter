@@ -38,6 +38,7 @@ class ClassChatController extends GetxController {
   RxBool canChatFileShow = false.obs;
   RxBool tapTextField = false.obs;
   List<File> files = <File>[].obs;
+  RxBool isNewMessage = false.obs;
   List<AssetEntity> photos = <AssetEntity>[].obs;
   RxList<ChatPrifileModel> chatProfileList = <ChatPrifileModel>[].obs;
   final FocusNode chatFocusNode = new FocusNode();
@@ -137,32 +138,84 @@ class ClassChatController extends GetxController {
     }
   }
 
+  void sendMessage(String text) {
+    if (text.trim().isEmpty) {
+      return;
+    }
+    ChatModel item = ChatModel.fromJson({
+      "BOX_ID": currentBoxID.value,
+      "MY_SELF": true,
+      "TIME_CREATED": "${DateTime.now()}",
+      "CONTENT": text,
+      "IS_PRE_SEND": true
+    });
+    findCurBox.update((val) {
+      val.LoadingChatList.add(item.obs);
+    });
+    isNewMessage.value = true;
+    classChatSocket
+        .emit("sendMessage", {"content": text, "roomId": currentBoxID.value});
+  }
+
   Future<void> sendFile() async {
     List<Map> sendFileObj = [];
     for (int i = 0; i < files.length; i++) {
+      ChatModel item = ChatModel.fromJson({
+        "BOX_ID": currentBoxID.value,
+        "MY_SELF": true,
+        "FILENAME": [basename(files[i].path)],
+        "FILE": ["sibal"],
+        "TIME_CREATED": "${DateTime.now()}",
+        "IS_PRE_SEND": true
+      });
+      findCurBox.update((val) {
+        val.LoadingChatList.add(item.obs);
+      });
+      print("add!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      print(findCurBox.value.LoadingChatList.first.toJson());
+      isNewMessage.value = true;
+
       //print(item);
       Map tmp = {};
       tmp["content"] = await files[i].readAsBytes();
       tmp["fileName"] = basename(files[i].path);
-      sendFileObj.add(tmp);
+
+      classChatSocket.emitWithBinary("sendFile", {
+        "sendFileObj": [tmp],
+        "roomId": currentBoxID.value
+      });
     }
 
-    classChatSocket.emitWithBinary(
-        "sendFile", {"sendFileObj": sendFileObj, "roomId": currentBoxID.value});
     files = [];
   }
 
   Future<void> sendPhoto() async {
     List<Map> sendFileObj = [];
     for (int i = 0; i < photos.length; i++) {
+      // ! 사진 구별 필요
+      ChatModel item = ChatModel.fromJson({
+        "BOX_ID": currentBoxID.value,
+        "MY_SELF": true,
+        "FILENAME": [basename(photos[i].title)],
+        "PHOTO": ["fuckfuck"],
+        "TIME_CREATED": "${DateTime.now()}",
+        "IS_PRE_SEND": true
+      });
+      findCurBox.update((val) {
+        val.LoadingChatList.add(item.obs);
+      });
+      print("add!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      print(findCurBox.value.LoadingChatList.first.toJson());
+      isNewMessage.value = true;
       Map tmp = {};
       tmp["content"] = await photos[i].originBytes;
       tmp["fileName"] = basename(photos[i].title);
-      sendFileObj.add(tmp);
+      classChatSocket.emitWithBinary("sendPhoto", {
+        "sendFileObj": [tmp],
+        "roomId": currentBoxID.value
+      });
     }
 
-    classChatSocket.emitWithBinary("sendPhoto",
-        {"sendFileObj": sendFileObj, "roomId": currentBoxID.value});
     photos = [];
   }
 
@@ -277,6 +330,74 @@ class ClassChatController extends GetxController {
     return;
   }
 
+  void removeLoadingChatFile(Rx<ChatModel> chat) {
+    findCurBox.update((val) {
+      RxList<Rx<ChatModel>> tempList = <Rx<ChatModel>>[].obs;
+      tempList.value = val.LoadingChatList.value;
+      tempList.removeWhere((element) {
+        if (element.value.FILENAME != null &&
+            element.value.FILENAME.length > 0) {
+          if (element.value.FILENAME.first == chat.value.FILENAME.first) {
+            print("remove!!");
+
+            return true;
+          }
+        }
+        return false;
+      });
+      print(tempList);
+      val.LoadingChatList.value = tempList.value;
+
+      val.LoadingChatList.refresh();
+    });
+  }
+
+  void removeLoadingChatPhoto(Rx<ChatModel> chat) {
+    findCurBox.update((val) {
+      RxList<Rx<ChatModel>> tempList = <Rx<ChatModel>>[].obs;
+      tempList.value = val.LoadingChatList.value;
+      tempList.removeWhere((element) {
+        if (element.value.FILENAME != null &&
+            element.value.FILENAME.length > 0) {
+          if (element.value.FILENAME.first == chat.value.FILENAME.first) {
+            print("remove!!");
+
+            return true;
+          }
+        }
+        return false;
+      });
+      print(tempList);
+      val.LoadingChatList.value = tempList.value;
+
+      val.LoadingChatList.refresh();
+    });
+  }
+
+  void removeLoadingChatMessage(Rx<ChatModel> chat) {
+    findCurBox.update((val) {
+      RxList<Rx<ChatModel>> tempList = <Rx<ChatModel>>[].obs;
+      tempList.value = val.LoadingChatList.value;
+      int index = tempList.indexWhere((element) {
+        if (element.value.CONTENT != null) {
+          if (element.value.CONTENT == chat.value.CONTENT) {
+            print("remove!!");
+            return true;
+          }
+        }
+        return false;
+      });
+      if (index == -1) {
+        return;
+      }
+      tempList.removeAt(index);
+
+      val.LoadingChatList.value = tempList.value;
+
+      val.LoadingChatList.refresh();
+    });
+  }
+
   Future<void> socketting() async {
     classChatSocket.on("viewRecentMessage", (data) {
       // print(data);
@@ -323,10 +444,27 @@ class ClassChatController extends GetxController {
           item.update((val) {
             // * 채팅방 수정
             val.ChatList.add(chat.value.obs);
+            if (chat.value.MY_SELF) {
+              // * 파일 미리 보낸거 삭제
+              if (chat.value.FILE != null && chat.value.FILE.length > 0) {
+                removeLoadingChatFile(chat);
+              }
+              // * 사진 미리 보낸거 삭제
+              // ! 실제 사진 넣어서 기다리다가 받으면 끝내야할듯
+              else if (chat.value.PHOTO != null &&
+                  chat.value.PHOTO.length > 0) {
+                removeLoadingChatPhoto(chat);
+              }
+              // * 메세지 미리 보낸거 삭제
+              else {
+                removeLoadingChatMessage(chat);
+              }
+            }
             print(chat.value.CONTENT);
             // * 단톡방 미리보기 수정
             val.LAST_CHAT = chat.value.CONTENT;
             val.TIME_LAST_CHAT_SENDED = chat.value.TIME_CREATED;
+            isNewMessage.value = true;
           });
         }
       }
@@ -362,20 +500,11 @@ class ClassChatController extends GetxController {
     return BOX_ID > 10000 ? true : false;
   }
 
-  void sendMessage(String text) {
-    if (text.trim().isEmpty) {
-      return;
-    }
-    classChatSocket
-        .emit("sendMessage", {"content": text, "roomId": currentBoxID.value});
-  }
-
   Future<void> registerSocket() async {
     await socketting();
   }
 
   Future<void> getChatBox() async {
-    print("getChatBox called!!!!!!!!!!!!!!!!!!!!!!!!!");
     var response = await Session().getX("/chat/chatBox");
     var jsonResponse = jsonDecode(response.body);
     print(jsonResponse);
@@ -454,6 +583,14 @@ class ClassChatController extends GetxController {
         return item.value.ChatList;
       }
     }
+  }
+
+  int get chatLength {
+    if (findCurBox.value.LoadingChatList == null) {
+      return findCurBox.value.ChatList.length;
+    }
+    return findCurBox.value.ChatList.length +
+        findCurBox.value.LoadingChatList.length;
   }
 
   @override

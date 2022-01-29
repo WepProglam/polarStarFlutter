@@ -356,239 +356,306 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                 child: SingleChildScrollView(
                   controller: controller.chatScrollController,
                   child: Column(children: [
-                    ListView.separated(
-                      separatorBuilder: (BuildContext context, int index) {
-                        Rx<ChatModel> model = isClass
-                            ? box_model.value.ChatList[index]
-                            : box_model.value.ChatList[index];
-                        Rx<ChatModel> prevModel;
-                        Rx<ChatModel> nextModel;
-                        if (index - 1 < 0) {
-                          prevModel = null;
-                        } else {
-                          prevModel = box_model.value.ChatList[index - 1];
+                    Obx(() {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (controller.isNewMessage.value) {
+                          controller.chatScrollController.jumpTo(controller
+                              .chatScrollController.position.maxScrollExtent);
+                          controller.isNewMessage.value = false;
                         }
+                      });
+                      print("re build!!");
+                      return ListView.separated(
+                        separatorBuilder: (BuildContext context, int index) {
+                          Rx<ChatModel> model;
 
-                        if (index + 1 >= box_model.value.ChatList.length) {
-                          nextModel = null;
-                        } else {
-                          nextModel = box_model.value.ChatList[index + 1];
-                        }
-                        bool showLine = ((nextModel != null) &&
-                            (nextModel.value.TIME_CREATED.day !=
-                                model.value.TIME_CREATED.day));
-                        // print(
-                        //     "${index} => ${model.value.TIME_CREATED.toString()}");
-                        return showLine
-                            ? Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      // 선 77
-                                      Container(
-                                          height: 1,
-                                          width: Get.mediaQuery.size.width,
-                                          decoration: BoxDecoration(
-                                              color: const Color(0xffeaeaea))),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 14.5),
-                                        color: Colors.white,
-                                        child: Text(
-                                            "${model.value.TIME_CREATED.year}年${model.value.TIME_CREATED.month}月${model.value.TIME_CREATED.day}日",
-                                            style: const TextStyle(
-                                                color: const Color(0xff9b9b9b),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "NotoSansSC",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 10.0),
-                                            textAlign: TextAlign.center),
-                                      ),
-                                    ]),
-                              )
-                            : Container();
-                      },
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: box_model.value.ChatList.length,
-                      scrollDirection: Axis.vertical,
-                      padding: EdgeInsets.only(
-                          top: 24,
-                          bottom: controller.tapTextField.value
-                              ? 60 + 6.0 + getKeyboardHeight()
-                              : 60 + 6.0),
-                      itemBuilder: (context, index) {
-                        Rx<ChatModel> model = box_model.value.ChatList[index];
+                          Rx<ChatModel> prevModel;
+                          Rx<ChatModel> nextModel;
 
-                        Rx<ChatModel> prevModel;
-                        Rx<ChatModel> nextModel;
-                        if (index - 1 < 0) {
-                          prevModel = null;
-                        } else {
-                          prevModel = box_model.value.ChatList[index - 1];
-                        }
+                          if (index <= box_model.value.ChatList.length - 1) {
+                            model = box_model.value.ChatList[index];
+                            if (index - 1 < 0) {
+                              prevModel = null;
+                            } else {
+                              prevModel = box_model.value.ChatList[index - 1];
+                            }
 
-                        if (index + 1 >= box_model.value.ChatList.length) {
-                          nextModel = null;
-                        } else {
-                          nextModel = box_model.value.ChatList[index + 1];
-                        }
+                            if (index + 1 >= box_model.value.ChatList.length) {
+                              nextModel = null;
+                            } else {
+                              nextModel = box_model.value.ChatList[index + 1];
+                            }
+                          } else {
+                            int loadingIndex =
+                                index - box_model.value.ChatList.length;
+                            model =
+                                box_model.value.LoadingChatList[loadingIndex];
 
-                        bool MY_SELF = model.value.MY_SELF;
+                            if (loadingIndex - 1 < 0) {
+                              prevModel = null;
+                            } else {
+                              prevModel = box_model
+                                  .value.LoadingChatList[loadingIndex - 1];
+                            }
 
-                        bool isContinueSame = (prevModel != null &&
-                            prevModel.value.PROFILE_NICKNAME ==
-                                model.value.PROFILE_NICKNAME &&
-                            prevModel.value.PROFILE_PHOTO ==
-                                model.value.PROFILE_PHOTO);
+                            if (loadingIndex + 1 >=
+                                box_model.value.LoadingChatList.length) {
+                              nextModel = null;
+                            } else {
+                              nextModel = box_model
+                                  .value.LoadingChatList[loadingIndex + 1];
+                            }
+                          }
 
-                        bool isContinueDifferent = (prevModel != null &&
-                            prevModel.value.PROFILE_NICKNAME !=
-                                model.value.PROFILE_NICKNAME &&
-                            prevModel.value.PROFILE_PHOTO !=
-                                model.value.PROFILE_PHOTO);
-
-                        /**
-                         * displayTime: 시간 표시 boolean
-                         * 앞 사람이 다른 사람일때 - isContinueDifferent
-                         * 앞 사람이 같은 사람이고 이 채팅이 해당 시간에 쓴 마지막일때
-                         * 맨 마지막 톡 일때
-                         */
-                        bool isChatSamePersonEnd = (nextModel != null &&
-                                nextModel.value.PROFILE_NICKNAME !=
-                                    model.value.PROFILE_NICKNAME &&
-                                nextModel.value.PROFILE_PHOTO !=
-                                    model.value.PROFILE_PHOTO) ||
-                            nextModel == null;
-
-                        bool lastChatInTime = (nextModel != null &&
-                                (nextModel.value.TIME_CREATED.day !=
-                                        model.value.TIME_CREATED.day ||
-                                    nextModel.value.TIME_CREATED.hour !=
-                                        model.value.TIME_CREATED.hour ||
-                                    nextModel.value.TIME_CREATED.minute !=
-                                        model.value.TIME_CREATED.minute)) ||
-                            nextModel == null;
-
-                        bool firstChatInTime = (prevModel != null &&
-                                (prevModel.value.TIME_CREATED.day !=
-                                        model.value.TIME_CREATED.day ||
-                                    prevModel.value.TIME_CREATED.hour !=
-                                        model.value.TIME_CREATED.hour ||
-                                    prevModel.value.TIME_CREATED.minute !=
-                                        model.value.TIME_CREATED.minute)) ||
-                            prevModel == null;
-
-                        bool displayTime =
-                            isChatSamePersonEnd || lastChatInTime;
-
-                        bool showProfile = prevModel == null ||
-                            isContinueDifferent ||
-                            firstChatInTime;
-
-                        // bool isTimeDifferent = (isContinueSame &&
-                        //         (prevModel.value.TIME_CREATED.day !=
-                        //                 model.value.TIME_CREATED.day ||
-                        //             prevModel.value.TIME_CREATED.hour !=
-                        //                 model.value.TIME_CREATED.hour ||
-                        //             prevModel.value.TIME_CREATED.minute !=
-                        //                 model.value.TIME_CREATED.minute)) ||
-                        //     isContinueDifferent ||
-                        //     prevModel == null;
-
-                        return Container(
-                            padding: (prevModel == null
-                                ? MY_SELF
-                                    ? EdgeInsets.only(right: 20, top: 0)
-                                    : EdgeInsets.only(left: 20, top: 0)
-                                : MY_SELF
-                                    ? EdgeInsets.only(
-                                        right: 20, top: isContinueSame ? 6 : 24)
-                                    : EdgeInsets.only(
-                                        left: 20, top: showProfile ? 24 : 6)),
-                            child: Align(
-                              alignment: (MY_SELF
-                                  ? Alignment.topRight
-                                  : Alignment.topLeft),
-                              child: (MY_SELF
-                                  ? Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                          bool showLine = ((nextModel != null) &&
+                              (nextModel.value.TIME_CREATED.day !=
+                                  model.value.TIME_CREATED.day));
+                          // print(
+                          //     "${index} => ${model.value.TIME_CREATED.toString()}");
+                          return showLine
+                              ? Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  child: Stack(
+                                      alignment: Alignment.center,
                                       children: [
-                                          Obx(() {
-                                            return MAIL_CONTENT_ITEM(
-                                              model: model,
-                                              FILE_DOWNLOADED:
-                                                  model.value.FILE_DOWNLOADED,
-                                              FILE_DOWNLOADING:
-                                                  model.value.FILE_DOWNLOADING,
-                                              classChatController: controller,
-                                              isTimeDifferent: displayTime,
-                                            );
-                                          })
-                                        ])
-                                  : Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                          showProfile
-                                              ? MAIL_PROFILE_ITEM(
-                                                  model: model.value,
-                                                  FROM_ME: MY_SELF,
-                                                )
-                                              : Container(
-                                                  width: 42,
-                                                ),
-                                          Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                showProfile
-                                                    ? Container(
-                                                        margin: const EdgeInsets
-                                                            .only(bottom: 4),
-                                                        child: Text(
-                                                            "${model.value.PROFILE_NICKNAME}",
-                                                            style: const TextStyle(
-                                                                color: const Color(
-                                                                    0xff6f6e6e),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontFamily:
-                                                                    "NotoSansSC",
-                                                                fontStyle:
-                                                                    FontStyle
-                                                                        .normal,
-                                                                fontSize: 10.0),
-                                                            textAlign:
-                                                                TextAlign.left),
-                                                      )
-                                                    : Container(),
-                                                Obx(() {
-                                                  return MAIL_CONTENT_ITEM(
-                                                      FILE_DOWNLOADED: model
-                                                          .value
-                                                          .FILE_DOWNLOADED,
-                                                      FILE_DOWNLOADING: model
-                                                          .value
-                                                          .FILE_DOWNLOADING,
-                                                      model: model,
-                                                      classChatController:
-                                                          controller,
-                                                      isTimeDifferent:
-                                                          displayTime);
-                                                }),
-                                              ]),
-                                        ])),
-                            ));
-                      },
-                    ),
+                                        // 선 77
+                                        Container(
+                                            height: 1,
+                                            width: Get.mediaQuery.size.width,
+                                            decoration: BoxDecoration(
+                                                color:
+                                                    const Color(0xffeaeaea))),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 14.5),
+                                          color: Colors.white,
+                                          child: Text(
+                                              "${model.value.TIME_CREATED.year}年${model.value.TIME_CREATED.month}月${model.value.TIME_CREATED.day}日",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff9b9b9b),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "NotoSansSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 10.0),
+                                              textAlign: TextAlign.center),
+                                        ),
+                                      ]),
+                                )
+                              : Container();
+                        },
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: box_model.value.ChatList.length +
+                            box_model.value.LoadingChatList.length,
+                        scrollDirection: Axis.vertical,
+                        padding: EdgeInsets.only(
+                            top: 24,
+                            bottom: controller.tapTextField.value
+                                ? 60 + 6.0 + getKeyboardHeight()
+                                : 60 + 6.0),
+                        itemBuilder: (context, index) {
+                          Rx<ChatModel> model;
+
+                          Rx<ChatModel> prevModel;
+                          Rx<ChatModel> nextModel;
+
+                          if (index <= box_model.value.ChatList.length - 1) {
+                            model = box_model.value.ChatList[index];
+                            if (index - 1 < 0) {
+                              prevModel = null;
+                            } else {
+                              prevModel = box_model.value.ChatList[index - 1];
+                            }
+
+                            if (index + 1 >= box_model.value.ChatList.length) {
+                              nextModel = null;
+                            } else {
+                              nextModel = box_model.value.ChatList[index + 1];
+                            }
+                          } else {
+                            int loadingIndex =
+                                index - box_model.value.ChatList.length;
+                            model =
+                                box_model.value.LoadingChatList[loadingIndex];
+
+                            if (loadingIndex - 1 < 0) {
+                              prevModel = null;
+                            } else {
+                              prevModel = box_model
+                                  .value.LoadingChatList[loadingIndex - 1];
+                            }
+
+                            if (loadingIndex + 1 >=
+                                box_model.value.LoadingChatList.length) {
+                              nextModel = null;
+                            } else {
+                              nextModel = box_model
+                                  .value.LoadingChatList[loadingIndex + 1];
+                            }
+                          }
+
+                          bool MY_SELF = model.value.MY_SELF;
+
+                          bool isContinueSame = (prevModel != null &&
+                              prevModel.value.PROFILE_NICKNAME ==
+                                  model.value.PROFILE_NICKNAME &&
+                              prevModel.value.PROFILE_PHOTO ==
+                                  model.value.PROFILE_PHOTO);
+
+                          bool isContinueDifferent = (prevModel != null &&
+                              prevModel.value.PROFILE_NICKNAME !=
+                                  model.value.PROFILE_NICKNAME &&
+                              prevModel.value.PROFILE_PHOTO !=
+                                  model.value.PROFILE_PHOTO);
+
+                          /**
+                             * displayTime: 시간 표시 boolean
+                             * 앞 사람이 다른 사람일때 - isContinueDifferent
+                             * 앞 사람이 같은 사람이고 이 채팅이 해당 시간에 쓴 마지막일때
+                             * 맨 마지막 톡 일때
+                             */
+                          bool isChatSamePersonEnd = (nextModel != null &&
+                                  nextModel.value.PROFILE_NICKNAME !=
+                                      model.value.PROFILE_NICKNAME &&
+                                  nextModel.value.PROFILE_PHOTO !=
+                                      model.value.PROFILE_PHOTO) ||
+                              nextModel == null;
+
+                          bool lastChatInTime = (nextModel != null &&
+                                  (nextModel.value.TIME_CREATED.day !=
+                                          model.value.TIME_CREATED.day ||
+                                      nextModel.value.TIME_CREATED.hour !=
+                                          model.value.TIME_CREATED.hour ||
+                                      nextModel.value.TIME_CREATED.minute !=
+                                          model.value.TIME_CREATED.minute)) ||
+                              nextModel == null;
+
+                          bool firstChatInTime = (prevModel != null &&
+                                  (prevModel.value.TIME_CREATED.day !=
+                                          model.value.TIME_CREATED.day ||
+                                      prevModel.value.TIME_CREATED.hour !=
+                                          model.value.TIME_CREATED.hour ||
+                                      prevModel.value.TIME_CREATED.minute !=
+                                          model.value.TIME_CREATED.minute)) ||
+                              prevModel == null;
+
+                          bool displayTime =
+                              isChatSamePersonEnd || lastChatInTime;
+
+                          bool showProfile = prevModel == null ||
+                              isContinueDifferent ||
+                              firstChatInTime;
+
+                          // bool isTimeDifferent = (isContinueSame &&
+                          //         (prevModel.value.TIME_CREATED.day !=
+                          //                 model.value.TIME_CREATED.day ||
+                          //             prevModel.value.TIME_CREATED.hour !=
+                          //                 model.value.TIME_CREATED.hour ||
+                          //             prevModel.value.TIME_CREATED.minute !=
+                          //                 model.value.TIME_CREATED.minute)) ||
+                          //     isContinueDifferent ||
+                          //     prevModel == null;
+
+                          return Container(
+                              padding: (prevModel == null
+                                  ? MY_SELF
+                                      ? EdgeInsets.only(right: 20, top: 0)
+                                      : EdgeInsets.only(left: 20, top: 0)
+                                  : MY_SELF
+                                      ? EdgeInsets.only(
+                                          right: 20,
+                                          top: isContinueSame ? 6 : 24)
+                                      : EdgeInsets.only(
+                                          left: 20, top: showProfile ? 24 : 6)),
+                              child: Align(
+                                alignment: (MY_SELF
+                                    ? Alignment.topRight
+                                    : Alignment.topLeft),
+                                child: (MY_SELF
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                            Obx(() {
+                                              return MAIL_CONTENT_ITEM(
+                                                model: model,
+                                                FILE_DOWNLOADED:
+                                                    model.value.FILE_DOWNLOADED,
+                                                FILE_DOWNLOADING: model
+                                                    .value.FILE_DOWNLOADING,
+                                                classChatController: controller,
+                                                isTimeDifferent: displayTime,
+                                              );
+                                            })
+                                          ])
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                            showProfile
+                                                ? MAIL_PROFILE_ITEM(
+                                                    model: model.value,
+                                                    FROM_ME: MY_SELF,
+                                                  )
+                                                : Container(
+                                                    width: 42,
+                                                  ),
+                                            Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  showProfile
+                                                      ? Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 4),
+                                                          child: Text(
+                                                              "${model.value.PROFILE_NICKNAME}",
+                                                              style: const TextStyle(
+                                                                  color: const Color(
+                                                                      0xff6f6e6e),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  fontFamily:
+                                                                      "NotoSansSC",
+                                                                  fontStyle:
+                                                                      FontStyle
+                                                                          .normal,
+                                                                  fontSize:
+                                                                      10.0),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left),
+                                                        )
+                                                      : Container(),
+                                                  Obx(() {
+                                                    return MAIL_CONTENT_ITEM(
+                                                        FILE_DOWNLOADED: model
+                                                            .value
+                                                            .FILE_DOWNLOADED,
+                                                        FILE_DOWNLOADING: model
+                                                            .value
+                                                            .FILE_DOWNLOADING,
+                                                        model: model,
+                                                        classChatController:
+                                                            controller,
+                                                        isTimeDifferent:
+                                                            displayTime);
+                                                  }),
+                                                ]),
+                                          ])),
+                              ));
+                        },
+                      );
+                    }),
                   ]),
                 ),
               );
@@ -862,7 +929,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                               controller.photos.addAll(
                                                   await AssetPicker.pickAssets(
                                                       context,
-                                                      maxAssets: 1));
+                                                      maxAssets: 10));
                                               await controller.sendPhoto();
                                             },
                                             child: Container(
@@ -1064,14 +1131,16 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
       isPhotoExist = true;
     } else if (model.value.FILE != null && model.value.FILE.length != 0) {
       isFileExist = true;
-      TID = classChatController.findFileTID(model.value.FILE[0]);
+      try {
+        TID = classChatController.findFileTID(model.value.FILE[0]);
+      } catch (e) {}
     }
 
     // print("${isTimeDifferent} ${prettyChatDate(model.value.TIME_CREATED)}");
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        model.value.MY_SELF
+        model.value.MY_SELF && !model.value.IS_PRE_SEND
             ? isTimeDifferent
                 ? Container(
                     margin: const EdgeInsets.only(right: 8),
@@ -1096,193 +1165,204 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
           //   });
           //   print("다운 !!!!!!!!!!!!!!!!!!!!!! 완료");
           // }
-          return Container(
-              constraints: BoxConstraints(maxWidth: 260),
-              decoration: isPhotoExist || isFileExist
-                  ? null
-                  : BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: model.value.MY_SELF
-                              ? Radius.circular(36)
-                              : Radius.circular(0),
-                          topRight: model.value.MY_SELF
-                              ? Radius.circular(0)
-                              : Radius.circular(36),
-                          bottomRight: Radius.circular(36),
-                          bottomLeft: Radius.circular(36)),
-                      color: model.value.MY_SELF
-                          ? const Color(0xffe6f1ff)
-                          : const Color(0xfff5f5f5)),
-              child: Container(
-                  child: (isFileExist)
-                      ? Ink(
-                          child: InkWell(
-                            onTap: () async {
-                              FILE_DOWNLOADED
-                                  ? FlutterDownloader.open(taskId: TID)
-                                  : download(model.value.FILE[0]);
-                              // final taskID = await FlutterDownloader.enqueue(
-                              //     url: model.value.FILE[0],
-                              //     savedDir: "./",
-                              //     showNotification: true,
-                              //     openFileFromNotification: true);
-                            },
-                            child: Container(
-                                width: 236,
-                                height: 70,
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)),
-                                    color: model.value.MY_SELF
-                                        ? Color(0xffe6f1ff)
-                                        : Color(0xfff5f5f5)),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 16),
-                                      child: Container(
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: const Color(0xffffffff)),
-                                          width: 38,
-                                          height: 38,
-                                          child: FILE_DOWNLOADED
-                                              ? Center(
-                                                  child: Image.asset(
-                                                    "assets/images/file_before_download.png",
-                                                    height: 25,
-                                                    width: 25,
-                                                  ),
-                                                )
-                                              : FILE_DOWNLOADING
-                                                  ? Container(
-                                                      height: 25,
-                                                      width: 25,
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        value: model.value
-                                                                .FILE_PROGRESS
-                                                                .toDouble() /
-                                                            100,
-                                                        valueColor:
-                                                            new AlwaysStoppedAnimation<
-                                                                    Color>(
-                                                                Get.theme
-                                                                    .primaryColor),
-                                                      ),
-                                                    )
-                                                  : Center(
-                                                      child: Image.asset(
-                                                        "assets/images/file_after_download.png",
-                                                        height: 25,
-                                                        width: 25,
-                                                      ),
-                                                    )),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 12),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            model.value.FILENAME != null
-                                                ? "${convertFileName(model.value.FILENAME[0])}"
-                                                : "unknown",
-                                            style: const TextStyle(
-                                                color: const Color(0xff2f2f2f),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "Roboto",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 12.0),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          Text(
-                                            "유효기간: ",
-                                            style: const TextStyle(
-                                                color: const Color(0xff9b9b9b),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "NotoSansKR",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 10.0),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          Text(
-                                            "용량: ",
-                                            style: const TextStyle(
-                                                color: const Color(0xff9b9b9b),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "NotoSansKR",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 10.0),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ],
+          return Opacity(
+            opacity: model.value.IS_PRE_SEND ? 0.1 : 1.0,
+            child: Container(
+                constraints: BoxConstraints(maxWidth: 260),
+                decoration: isPhotoExist || isFileExist
+                    ? null
+                    : BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: model.value.MY_SELF
+                                ? Radius.circular(36)
+                                : Radius.circular(0),
+                            topRight: model.value.MY_SELF
+                                ? Radius.circular(0)
+                                : Radius.circular(36),
+                            bottomRight: Radius.circular(36),
+                            bottomLeft: Radius.circular(36)),
+                        color: model.value.MY_SELF
+                            ? const Color(0xffe6f1ff)
+                            : const Color(0xfff5f5f5)),
+                child: Container(
+                    child: (isFileExist)
+                        ? Ink(
+                            child: InkWell(
+                              onTap: () async {
+                                FILE_DOWNLOADED
+                                    ? FlutterDownloader.open(taskId: TID)
+                                    : download(model.value.FILE[0]);
+                                // final taskID = await FlutterDownloader.enqueue(
+                                //     url: model.value.FILE[0],
+                                //     savedDir: "./",
+                                //     showNotification: true,
+                                //     openFileFromNotification: true);
+                              },
+                              child: Container(
+                                  width: 236,
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
+                                      color: model.value.MY_SELF
+                                          ? Color(0xffe6f1ff)
+                                          : Color(0xfff5f5f5)),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(left: 16),
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: const Color(0xffffffff)),
+                                            width: 38,
+                                            height: 38,
+                                            child: model.value.IS_PRE_SEND
+                                                ? CircularProgressIndicator()
+                                                : FILE_DOWNLOADED
+                                                    ? Center(
+                                                        child: Image.asset(
+                                                          "assets/images/file_before_download.png",
+                                                          height: 25,
+                                                          width: 25,
+                                                        ),
+                                                      )
+                                                    : FILE_DOWNLOADING
+                                                        ? Container(
+                                                            height: 25,
+                                                            width: 25,
+                                                            child:
+                                                                CircularProgressIndicator(
+                                                              backgroundColor:
+                                                                  Colors.white,
+                                                              value: model.value
+                                                                      .FILE_PROGRESS
+                                                                      .toDouble() /
+                                                                  100,
+                                                              valueColor:
+                                                                  new AlwaysStoppedAnimation<
+                                                                          Color>(
+                                                                      Get.theme
+                                                                          .primaryColor),
+                                                            ),
+                                                          )
+                                                        : Center(
+                                                            child: Image.asset(
+                                                              "assets/images/file_after_download.png",
+                                                              height: 25,
+                                                              width: 25,
+                                                            ),
+                                                          )),
                                       ),
-                                    )
-                                  ],
-                                )),
-                          ),
-                        )
+                                      Container(
+                                        margin: const EdgeInsets.only(left: 12),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              model.value.FILENAME != null
+                                                  ? "${convertFileName(model.value.FILENAME[0])}"
+                                                  : "unknown",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff2f2f2f),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "Roboto",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 12.0),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                            Text(
+                                              "유효기간: ",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff9b9b9b),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "NotoSansKR",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 10.0),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                            Text(
+                                              "용량: ",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff9b9b9b),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "NotoSansKR",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 10.0),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                            ),
+                          )
 
-                      // CachedNetworkImage(imageUrl: model.value.FILE[0])
+                        // CachedNetworkImage(imageUrl: model.value.FILE[0])
 
-                      // Text("파일입니다",
-                      //     style: const TextStyle(
-                      //         color: const Color(0xff2f2f2f),
-                      //         fontWeight: FontWeight.w400,
-                      //         fontFamily: "NotoSansSC",
-                      //         fontStyle: FontStyle.normal,
-                      //         fontSize: 14.0),
-                      //     textAlign: TextAlign.left)
-                      : (isPhotoExist
-                          ? Ink(
-                              child: InkWell(
-                                  onTap: () {
-                                    Get.to(SeePhoto(
-                                        photo: [model.value.PHOTO[0]],
-                                        index: 0));
-                                  },
-                                  child: Container(
-                                      height: model.value.PRE_IMAGE[0].height,
-                                      // child: ImageP
-                                      // child: model.value.PRE_CACHE_IMAGE[0]
-                                      child: model.value.PRE_IMAGE[0]
-                                      // Image(image: model.value.PRE_IMAGE[0]),
-                                      // child: CachedNetworkImage(
-                                      //     alignment: model.value.MY_SELF
-                                      //         ? Alignment.topRight
-                                      //         : Alignment.topLeft,
-                                      //         imageBuilder: (context, imageProvider) => model.value.PRE_IMAGE,
-                                      //     imageUrl: model.value.PHOTO[0]),
-                                      )))
+                        // Text("파일입니다",
+                        //     style: const TextStyle(
+                        //         color: const Color(0xff2f2f2f),
+                        //         fontWeight: FontWeight.w400,
+                        //         fontFamily: "NotoSansSC",
+                        //         fontStyle: FontStyle.normal,
+                        //         fontSize: 14.0),
+                        //     textAlign: TextAlign.left)
+                        : (isPhotoExist
+                            ? model.value.IS_PRE_SEND
+                                ? Container()
+                                : Ink(
+                                    child: InkWell(
+                                        onTap: () {
+                                          Get.to(SeePhoto(
+                                              photo: [model.value.PHOTO[0]],
+                                              index: 0));
+                                        },
+                                        child: Container(
+                                            height:
+                                                model.value.PRE_IMAGE[0].height,
+                                            // child: ImageP
+                                            // child: model.value.PRE_CACHE_IMAGE[0]
+                                            child: model.value.PRE_IMAGE[0]
+                                            // Image(image: model.value.PRE_IMAGE[0]),
+                                            // child: CachedNetworkImage(
+                                            //     alignment: model.value.MY_SELF
+                                            //         ? Alignment.topRight
+                                            //         : Alignment.topLeft,
+                                            //         imageBuilder: (context, imageProvider) => model.value.PRE_IMAGE,
+                                            //     imageUrl: model.value.PHOTO[0]),
+                                            )))
 
-                          // Text("사진입니다",
-                          //     style: const TextStyle(
-                          //         color: const Color(0xff2f2f2f),
-                          //         fontWeight: FontWeight.w400,
-                          //         fontFamily: "NotoSansSC",
-                          //         fontStyle: FontStyle.normal,
-                          //         fontSize: 14.0),
-                          //     textAlign: TextAlign.left)
-                          : Container(
-                              padding: EdgeInsets.only(
-                                  left: 16, top: 10, right: 24, bottom: 10),
-                              child: Text("${model.value.CONTENT}",
-                                  style: const TextStyle(
-                                      color: const Color(0xff2f2f2f),
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "NotoSansSC",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 14.0),
-                                  textAlign: TextAlign.left),
-                            ))));
+                            // Text("사진입니다",
+                            //     style: const TextStyle(
+                            //         color: const Color(0xff2f2f2f),
+                            //         fontWeight: FontWeight.w400,
+                            //         fontFamily: "NotoSansSC",
+                            //         fontStyle: FontStyle.normal,
+                            //         fontSize: 14.0),
+                            //     textAlign: TextAlign.left)
+                            : Container(
+                                padding: EdgeInsets.only(
+                                    left: 16, top: 10, right: 24, bottom: 10),
+                                child: Text("${model.value.CONTENT}",
+                                    style: const TextStyle(
+                                        color: const Color(0xff2f2f2f),
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14.0),
+                                    textAlign: TextAlign.left),
+                              )))),
+          );
         }),
-        model.value.MY_SELF
+        model.value.MY_SELF || model.value.IS_PRE_SEND
             ? Container()
             : isTimeDifferent
                 ? Container(
