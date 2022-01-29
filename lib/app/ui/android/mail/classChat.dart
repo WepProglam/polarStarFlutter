@@ -64,6 +64,12 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
           }
         });
       }
+      if (!event && (controller.tapTextField.value)) {
+        print("fffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        double target_pos =
+            controller.chatScrollController.offset - getKeyboardHeight();
+        controller.chatScrollController.jumpTo(target_pos);
+      }
       if (!event && !controller.canChatFileShow.value) {
         controller.tapTextField.value = false;
       }
