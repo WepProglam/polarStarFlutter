@@ -284,6 +284,9 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
       }
       return BoardInfo.fromJson(e);
     }).toList();
+    // boardInfoList.forEach((element) {
+    //   print(element.toJson());
+    // });
     return boardInfoList;
   }
 
@@ -334,10 +337,26 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
         followAmount.value = 0;
         return;
       }
-      List<Rx<BoardInfo>> follwing = boardInfoList.map((e) => e.obs).toList();
+      List<Rx<BoardInfo>> follwing = boardInfoList.map((e) {
+        e.isFollowed = true;
+        e.isChecked = true;
+        return e.obs;
+      }).toList();
       followAmount.value = follwing.length;
       followingCommunity.value =
           follwing.map((e) => "${e.value.COMMUNITY_ID}").toList();
+
+      for (Rx<BoardInfo> item in boardInfo) {
+        for (BoardInfo box in boardInfoList) {
+          if (box.COMMUNITY_ID == item.value.COMMUNITY_ID) {
+            item.update((val) {
+              val.isFollowed = true;
+              val.isChecked = true;
+            });
+            break;
+          }
+        }
+      }
     }
   }
 
@@ -349,6 +368,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
       bool isFollowed,
       bool isNew) async {
     if (box.read("followingCommunity") == null) {
+      print("null ??? ");
       BoardInfo a = BoardInfo.fromJson({
         "COMMUNITY_ID": COMMUNITY_ID,
         "COMMUNITY_NAME": COMMUNITY_NAME,
