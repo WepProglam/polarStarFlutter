@@ -40,36 +40,31 @@ class Class extends StatelessWidget {
           backgroundColor: Get.theme.primaryColor,
           titleSpacing: 0,
           automaticallyImplyLeading: false,
-          title: Stack(children: [
-            Center(
-              child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 18),
-                child: Text(
-                  "成均馆大学",
-                  style: const TextStyle(
-                      color: const Color(whiteColor),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                ),
+          centerTitle: true,
+          title: Text(
+            "成均馆大学",
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+                overflow: TextOverflow.ellipsis,
+                color: const Color(whiteColor),
+                fontWeight: FontWeight.w500,
+                fontFamily: "NotoSansSC",
+                fontStyle: FontStyle.normal,
+                fontSize: 14.0),
+          ),
+          actions: [
+            InkWell(
+              onTap: () async {
+                await classScrollController.animateTo(0.0,
+                    duration: Duration(milliseconds: 100),
+                    curve: Curves.fastOutSlowIn);
+                searchFocusNode.requestFocus();
+              },
+              child: Ink(
+                child: Image.asset("assets/images/icn_search.png"),
               ),
             ),
-            Positioned(
-                top: 16,
-                right: 20,
-                child: Ink(
-                    child: InkWell(
-                        onTap: () async {
-                          await classScrollController.animateTo(0.0,
-                              duration: Duration(milliseconds: 100),
-                              curve: Curves.fastOutSlowIn);
-                          searchFocusNode.requestFocus();
-                        },
-                        child: Image.asset("assets/images/icn_search.png"))),
-                width: 24,
-                height: 24)
-          ]),
+          ],
         ),
 
         // AppBar(
@@ -141,7 +136,9 @@ class Class extends StatelessWidget {
                               children: [
                                 Container(
                                   child: Text("我的课程",
+                                      overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
+                                          overflow: TextOverflow.ellipsis,
                                           color: const Color(textColor),
                                           fontWeight: FontWeight.w500,
                                           fontFamily: "NotoSansSC",
@@ -194,7 +191,12 @@ class Class extends StatelessWidget {
                                               Center(
                                                   child: // 补课
                                                       Text("补课",
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
                                                           style: const TextStyle(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
                                                               color: const Color(
                                                                   0xffd6d4d4),
                                                               fontWeight:
@@ -270,7 +272,9 @@ class Class extends StatelessWidget {
                             child: // 最新课程评价
                                 Row(children: [
                               Text("最新评价",
+                                  overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
                                       color: const Color(textColor),
                                       fontWeight: FontWeight.w500,
                                       fontFamily: "NotoSansSC",
@@ -327,7 +331,9 @@ class ClassRecentReview extends StatelessWidget {
               child: Row(
                 children: [
                   Text("${model.CLASS_NAME}",
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           color: const Color(0xff2f2f2f),
                           fontWeight: FontWeight.w500,
                           fontFamily: "NotoSansKR",
@@ -347,7 +353,9 @@ class ClassRecentReview extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(top: 4, left: 20, right: 20),
               child: Text("听课学期：${model.PROFESSOR}",
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
+                      overflow: TextOverflow.ellipsis,
                       color: const Color(0xff2f2f2f),
                       fontWeight: FontWeight.w500,
                       fontFamily: "NotoSansSC",
@@ -359,7 +367,9 @@ class ClassRecentReview extends StatelessWidget {
               margin: const EdgeInsets.only(left: 20, right: 20),
               child: Text(
                   "授课学期：${timetableSemChanger(model.CLASS_YEAR, model.CLASS_SEMESTER)}",
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
+                      overflow: TextOverflow.ellipsis,
                       color: const Color(0xff2f2f2f),
                       fontWeight: FontWeight.w500,
                       fontFamily: "NotoSansSC",
@@ -373,6 +383,7 @@ class ClassRecentReview extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
+                      overflow: TextOverflow.ellipsis,
                       color: const Color(0xff6f6e6e),
                       fontWeight: FontWeight.w500,
                       fontFamily: "NotoSansSC",
@@ -599,6 +610,7 @@ class ClassSearchBar extends StatelessWidget {
                 isDense: true,
                 hintText: "请输入搜索内容",
                 hintStyle: const TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     color: const Color(0xffcecece),
                     fontWeight: FontWeight.w500,
                     fontFamily: "NotoSansSC",
@@ -614,6 +626,9 @@ class ClassSearchBar extends StatelessWidget {
           InkWell(
             onTap: () async {
               String text = searchText.text;
+              if (text.isEmpty) {
+                return;
+              }
               searchText.clear();
               searchFocusNode.unfocus();
 
@@ -629,7 +644,9 @@ class ClassSearchBar extends StatelessWidget {
                 child: Center(
                   child: // 搜索
                       Text("搜索",
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
                               color: const Color(0xffffffff),
                               fontWeight: FontWeight.w500,
                               fontFamily: "NotoSansSC",

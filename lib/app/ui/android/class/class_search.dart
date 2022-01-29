@@ -25,35 +25,28 @@ class ClassSearch extends StatelessWidget {
           backgroundColor: Get.theme.primaryColor,
           titleSpacing: 0,
           automaticallyImplyLeading: false,
-          title: Stack(children: [
-            Center(
-              child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 18),
-                child: Text(
-                  "讲义评价",
-                  style: const TextStyle(
-                      color: const Color(0xffffffff),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                ),
+          leading: InkWell(
+            onTap: () {
+              Get.back();
+            },
+            child: Ink(
+              child: Image.asset(
+                'assets/images/back_icon.png',
               ),
             ),
-            Positioned(
-                top: 16,
-                left: 20,
-                child: Ink(
-                    child: InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Image.asset(
-                          'assets/images/back_icon.png',
-                        ))),
-                width: 24,
-                height: 24)
-          ]),
+          ),
+          centerTitle: true,
+          title: Text(
+            "讲义评价",
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+                overflow: TextOverflow.ellipsis,
+                color: const Color(0xffffffff),
+                fontWeight: FontWeight.w500,
+                fontFamily: "NotoSansSC",
+                fontStyle: FontStyle.normal,
+                fontSize: 14.0),
+          ),
         ),
         body: RefreshIndicator(
           onRefresh: controller.refreshPage,

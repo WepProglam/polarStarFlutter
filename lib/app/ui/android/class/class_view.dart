@@ -312,9 +312,14 @@ class ClassView extends StatelessWidget {
                                           child: Text(
                                             "写讲义评价",
                                             textScaleFactor: 1.2,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.normal),
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              overflow: TextOverflow.ellipsis,
+                                              color: const Color(0xffffffff),
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: "NotoSansSC",
+                                              fontStyle: FontStyle.normal,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -396,11 +401,17 @@ class ClassView extends StatelessWidget {
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
                                                 "写考试信息",
+                                                overflow: TextOverflow.ellipsis,
                                                 textScaleFactor: 1.2,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.normal),
+                                                style: const TextStyle(
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  color:
+                                                      const Color(0xffffffff),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "NotoSansSC",
+                                                  fontStyle: FontStyle.normal,
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -608,7 +619,9 @@ class ClassViewInfo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("${classInfoModel.CLASS_NAME}",
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           color: const Color(0xffffffff),
                           fontWeight: FontWeight.w500,
                           fontFamily: "NotoSansKR",
@@ -616,7 +629,9 @@ class ClassViewInfo extends StatelessWidget {
                           fontSize: 14.0),
                       textAlign: TextAlign.left),
                   Text("${classInfoModel.PROFESSOR}",
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           color: const Color(0xff6f6e6e),
                           fontWeight: FontWeight.w500,
                           fontFamily: "NotoSansKR",
@@ -641,7 +656,9 @@ class ClassViewInfo extends StatelessWidget {
                             classInfoModel.AVG_RATE != null
                                 ? "(${classInfoModel.AVG_RATE})"
                                 : "",
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
                                 color: const Color(0xffffffff),
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "Roboto",
@@ -666,7 +683,9 @@ class ClassViewInfo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("作业量",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(categoryColor),
                             fontWeight: FontWeight.w400,
                             fontFamily: "NotoSansTC",
@@ -675,7 +694,9 @@ class ClassViewInfo extends StatelessWidget {
                         textAlign: TextAlign.left),
                     Text(
                       "${classInfoModel.CLASS_SECTOR_1}",
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           color: const Color(0xff333333),
                           fontWeight: FontWeight.bold,
                           fontFamily: "NotoSansTC",
@@ -693,7 +714,9 @@ class ClassViewInfo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("教授语速、方言等",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(categoryColor),
                             fontWeight: FontWeight.w400,
                             fontFamily: "NㅋotoSansTC",
@@ -721,7 +744,9 @@ class ClassViewInfo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("教授对留学生的态度",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(categoryColor),
                             fontWeight: FontWeight.w400,
                             fontFamily: "NotoSansTC",
@@ -749,7 +774,9 @@ class ClassViewInfo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("考试难度",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(categoryColor),
                             fontWeight: FontWeight.w400,
                             fontFamily: "NotoSansTC",
@@ -779,7 +806,9 @@ class ClassViewInfo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("作业量",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(0xff2f2f2f),
                             fontWeight: FontWeight.w400,
                             fontFamily: "NotoSansTC",
@@ -807,7 +836,9 @@ class ClassViewInfo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("给分",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(0xff2f2f2f),
                             fontWeight: FontWeight.w400,
                             fontFamily: "NotoSansTC",
@@ -870,7 +901,9 @@ class ClassViewReview extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: rate_star(classReviewModel.RATE, 12))),
                       Text("(${classReviewModel.RATE})",
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
                               color: const Color(0xffd6d4d4),
                               fontWeight: FontWeight.w500,
                               fontFamily: "Roboto",
@@ -895,7 +928,9 @@ class ClassViewReview extends StatelessWidget {
                           Icon(Icons.thumb_up, size: 12.0, color: Colors.cyan),
                           Text(
                             classReviewModel.LIKES.toString(),
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
                                 color: Colors.cyan,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "Roboto",
@@ -927,7 +962,9 @@ class ClassViewReview extends StatelessWidget {
           // * 수강 학기: 데이터 안 날라옴
           Text(
               "${timetableSemChanger(classReviewModel.CLASS_YEAR, classReviewModel.CLASS_SEMESTER)}",
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
+                  overflow: TextOverflow.ellipsis,
                   color: const Color(0xff9b9b9b),
                   fontWeight: FontWeight.w300,
                   fontFamily: "NotoSansSC",
@@ -943,8 +980,10 @@ class ClassViewReview extends StatelessWidget {
               //     borderRadius: BorderRadius.circular(10)),
               child: Text(
                 classReviewModel.CONTENT,
+                overflow: TextOverflow.ellipsis,
                 // maxLines: 2,
                 style: TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     color: const Color(0xff707070),
                     fontWeight: FontWeight.normal,
                     fontStyle: FontStyle.normal,
@@ -994,12 +1033,15 @@ class ClassExamInfo extends StatelessWidget {
                               classExamModel.CLASS_ID,
                               classExamModel.CLASS_EXAM_ID);
                         },
-                        child: Text("네")),
+                        child: Text("네", overflow: TextOverflow.ellipsis)),
                     TextButton(
                         onPressed: () {
                           Get.back();
                         },
-                        child: Text("아니요")),
+                        child: Text(
+                          "아니요",
+                          overflow: TextOverflow.ellipsis,
+                        )),
                   ]);
             }
           },
@@ -1019,7 +1061,9 @@ class ClassExamInfo extends StatelessWidget {
                         classExamModel.MID_FINAL != null
                             ? "${classExamModel.MID_FINAL}"
                             : "Unknown",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(0xff2f2f2f),
                             fontWeight: FontWeight.w500,
                             fontFamily: "NotoSansSC",
@@ -1047,7 +1091,9 @@ class ClassExamInfo extends StatelessWidget {
                             ),
                             Text(
                               classExamModel.LIKES.toString(),
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
                                   color: const Color(0xff4570ff),
                                   fontWeight: FontWeight.w400,
                                   fontFamily: "Roboto",
@@ -1064,7 +1110,9 @@ class ClassExamInfo extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Text(
                         "${timetableSemChanger(classExamModel.CLASS_EXAM_YEAR, classExamModel.CLASS_EXAM_SEMESTER)}",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(0xff6f6e6e),
                             fontWeight: FontWeight.w400,
                             fontFamily: "NotoSansSC",
@@ -1081,7 +1129,9 @@ class ClassExamInfo extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(right: 8.0),
                           child: Text("考试攻略 :",
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
                                   color: const Color(0xff2f2f2f),
                                   fontWeight: FontWeight.w500,
                                   fontFamily: "NotoSansSC",
@@ -1092,7 +1142,9 @@ class ClassExamInfo extends StatelessWidget {
                         classExamModel.TEST_STRATEGY != null
                             ? Text(
                                 classExamModel.TEST_STRATEGY,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
                                     color: const Color(0xff6f6e6e),
                                     fontWeight: FontWeight.w400,
                                     fontFamily: "NotoSansSC",
@@ -1112,7 +1164,9 @@ class ClassExamInfo extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 8.0),
                           child: Text(
                             "考试类型 :",
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
                                 color: const Color(0xff2f2f2f),
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "NotoSansSC",
@@ -1123,7 +1177,9 @@ class ClassExamInfo extends StatelessWidget {
                         classExamModel.TEST_TYPE != null
                             ? Text(
                                 classExamModel.TEST_TYPE,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
                                     color: const Color(0xff6f6e6e),
                                     fontWeight: FontWeight.w400,
                                     fontFamily: "NotoSansSC",
@@ -1144,7 +1200,9 @@ class ClassExamInfo extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 8.0),
                           child: Text(
                             "考试真题 :",
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
                                 color: const Color(0xff2f2f2f),
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "NotoSansSC",
@@ -1171,7 +1229,10 @@ class ClassExamInfo extends StatelessWidget {
                                             ? Text(
                                                 classExamModel
                                                     .TEST_EXAMPLE[index],
+                                                overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     color:
                                                         const Color(0xff6f6e6e),
                                                     fontWeight: FontWeight.w400,
@@ -1185,7 +1246,10 @@ class ClassExamInfo extends StatelessWidget {
                                     })
                                 : Padding(
                                     padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: Text("There are no examples"),
+                                    child: Text(
+                                      "There are no examples",
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                           ),
                         )
@@ -1207,8 +1271,10 @@ class ClassExamInfo extends StatelessWidget {
                     ? ""
                     : '시험 정보를 구매해야 열람할 수 있습니다!\n' +
                         '현재 내 포인트 : ${classInfoModel.MY_CLASS_POINT}',
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
+                    overflow: TextOverflow.ellipsis,
                     color: const Color(0xff2f2f2f),
                     fontWeight: FontWeight.w500,
                     fontFamily: "NotoSansSC",
