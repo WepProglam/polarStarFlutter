@@ -407,6 +407,10 @@ class ClassChatController extends GetxController {
 
     chatScrollController = ScrollController(initialScrollOffset: 0.0);
 
+    ever(dataAvailble, (_) {
+      print("dataavailable : ${dataAvailble.value}");
+    });
+
     ever(classChatBox, (_) {
       print("char box ${classChatBox}");
     });
@@ -415,7 +419,6 @@ class ClassChatController extends GetxController {
       print("???????!!!!!!!!!!!!!!!!");
       print(chatFocusNode.hasFocus);
     });
-    dataAvailble.value = true;
   }
 
   RxList<Rx<ChatModel>> get getClassHistory {

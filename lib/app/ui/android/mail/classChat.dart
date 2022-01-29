@@ -90,8 +90,10 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
     FlutterDownloader.registerCallback(downloadCallback);
   }
 
+  bool isPreCacheNeeded = true;
+
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
     Map<String, dynamic> chatMeta = controller.findChatHistory();
     int chatIndex = chatMeta["index"];
@@ -100,18 +102,30 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
     Rx<ChatBoxModel> model = isClass
         ? controller.classChatBox[chatIndex]
         : controller.majorChatBox[chatIndex];
-    // int chatIndex = model.value.BOX_ID;
-    // bool isClass = model.value.;
-    // Rx<ChatBoxModel> box_model = isClass
-    //     ? classChatController.classChatBox[chatIndex]
-    //     : classChatController.majorChatBox[chatIndex];
-    controller.dataAvailble.value = false;
+
+    if (isPreCacheNeeded) {
+      controller.dataAvailble.value = false;
+
+      await preCacheImage(model);
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        controller.chatScrollController
+            .jumpTo(controller.chatScrollController.position.maxScrollExtent);
+      });
+
+      controller.dataAvailble.value = true;
+      isPreCacheNeeded = false;
+    }
+  }
+
+  Future<void> preCacheImage(Rx<ChatBoxModel> model) async {
     for (Rx<ChatModel> item in model.value.ChatList) {
       if (item.value.PHOTO != null && item.value.PHOTO.length > 0) {
-        precacheImage(item.value.PRE_IMAGE[0], context);
+        await precacheImage(item.value.PRE_IMAGE[0].image, context);
+        // await precacheImage(item.value.PRE_CACHE_IMAGE[0].image, context);
       }
     }
-    controller.dataAvailble.value = true;
+    return;
   }
 
   @override
@@ -141,13 +155,13 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
     // Rx<ChatBoxModel> box_model = isClass
     //     ? classChatController.classChatBox[chatIndex]
     //     : classChatController.majorChatBox[chatIndex];
-    controller.dataAvailble.value = false;
-    for (Rx<ChatModel> item in model.value.ChatList) {
-      if (item.value.PHOTO != null && item.value.PHOTO.length > 0) {
-        precacheImage(item.value.PRE_IMAGE[0], context);
-      }
-    }
-    controller.dataAvailble.value = true;
+    // controller.dataAvailble.value = false;
+    // for (Rx<ChatModel> item in model.value.ChatList) {
+    //   if (item.value.PHOTO != null && item.value.PHOTO.length > 0) {
+    //     precacheImage(item.value.PRE_IMAGE[0], context);
+    //   }
+    // }
+    // controller.dataAvailble.value = true;
 
     return WillPopScope(
       onWillPop: () async {
@@ -158,6 +172,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
         }
         controller.canChatFileShow.value = false;
         controller.tapTextField.value = false;
+        controller.dataAvailble.value = false;
         return true;
       },
       child: SafeArea(
@@ -212,11 +227,10 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
             ),
           ),
           body: Obx(() {
+            print(controller.dataAvailble.value);
             if (controller.dataAvailble.value) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                controller.chatScrollController.jumpTo(
-                    controller.chatScrollController.position.maxScrollExtent);
-              });
+              print("data available");
+
               // WidgetsBinding.instance.addPostFrameCallback((_) {
               //   controller.chatScrollController.jumpTo(
               //       controller.chatScrollController.position.maxScrollExtent);
@@ -225,11 +239,21 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
               //   controller.chatScrollController.jumpTo(
               //       controller.chatScrollController.position.maxScrollExtent);
               // }
+              // WidgetsBinding.instance.addPostFrameCallback((_) {
+              //   controller.chatScrollController.jumpTo(
+              //       controller.chatScrollController.position.maxScrollExtent);
+              // });
               Rx<ChatBoxModel> box_model = isClass
                   ? controller.classChatBox[chatIndex]
                   : controller.majorChatBox[chatIndex];
               return GestureDetector(
                 onTap: () {
+                  if (controller.tapTextField.value) {
+                    double target_pos = controller.chatScrollController.offset -
+                        getKeyboardHeight();
+                    controller.chatScrollController.jumpTo(target_pos);
+                  }
+
                   controller.canChatFileShow.value = false;
                   controller.tapTextField.value = false;
                   controller.chatFocusNode.unfocus();
@@ -474,6 +498,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                 ),
               );
             } else {
+              print("data not available");
               return Container(
                 color: Colors.white,
                 child: Center(child: CircularProgressIndicator()),
@@ -522,6 +547,9 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                   double target_pos =
                                       controller.chatScrollController.offset +
                                           getKeyboardHeight();
+
+                                  controller.chatScrollController
+                                      .jumpTo(target_pos);
                                   // Timer(
                                   //     Duration(
                                   //       milliseconds: 100,
@@ -1073,16 +1101,18 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                         index: 0));
                                   },
                                   child: Container(
-                                    // child: ImageP
-                                    child:
-                                        Image(image: model.value.PRE_IMAGE[0]),
-                                    // child: CachedNetworkImage(
-                                    //     alignment: model.value.MY_SELF
-                                    //         ? Alignment.topRight
-                                    //         : Alignment.topLeft,
-                                    //         imageBuilder: (context, imageProvider) => model.value.PRE_IMAGE,
-                                    //     imageUrl: model.value.PHOTO[0]),
-                                  )))
+                                      height: model.value.PRE_IMAGE[0].height,
+                                      // child: ImageP
+                                      // child: model.value.PRE_CACHE_IMAGE[0]
+                                      child: model.value.PRE_IMAGE[0]
+                                      // Image(image: model.value.PRE_IMAGE[0]),
+                                      // child: CachedNetworkImage(
+                                      //     alignment: model.value.MY_SELF
+                                      //         ? Alignment.topRight
+                                      //         : Alignment.topLeft,
+                                      //         imageBuilder: (context, imageProvider) => model.value.PRE_IMAGE,
+                                      //     imageUrl: model.value.PHOTO[0]),
+                                      )))
 
                           // Text("사진입니다",
                           //     style: const TextStyle(

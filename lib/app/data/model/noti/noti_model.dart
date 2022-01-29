@@ -103,7 +103,8 @@ class ChatBoxModel {
 class ChatModel {
   String CONTENT, PROFILE_NICKNAME, PROFILE_PHOTO;
   List<dynamic> PHOTO, FILE, FILENAME;
-  List<CachedNetworkImageProvider> PRE_IMAGE;
+  List<Image> PRE_IMAGE;
+  // List<Image> PRE_CACHE_IMAGE;
   bool FILE_DOWNLOADED, FILE_DOWNLOADING;
   int FILE_PROGRESS;
   String FILE_TID;
@@ -150,13 +151,25 @@ class ChatModel {
         this.PHOTO = json["PHOTO"];
       }
       if (this.PHOTO.length > 0) {
-        this.PRE_IMAGE = [CachedNetworkImageProvider(this.PHOTO[0])];
+        this.PRE_IMAGE = [
+          Image(
+            image: CachedNetworkImageProvider(this.PHOTO[0]),
+            gaplessPlayback: true,
+          )
+        ];
+        // this.PRE_CACHE_IMAGE = [
+        //   Image.network(
+        //     this.PHOTO[0],
+        //     gaplessPlayback: true,
+        //   )
+        // ];
       }
     }
+    print(json);
 
-    if (json["FILENAME"] == null) {
+    if (json["FILENAME"] == null || json["FILENAME"].isEmpty) {
       this.FILENAME = null;
-    } else if (json["FILENAME"].runtimeType.toString() == "String") {
+    } else if (json["FILENAME"].runtimeType == String) {
       this.FILENAME = jsonDecode(json["FILENAME"]);
     } else {
       this.FILENAME = json["FILENAME"];
@@ -166,16 +179,20 @@ class ChatModel {
       this.FILE = null;
       this.FILE_DOWNLOADED = false;
     } else {
-      if (json["FILE"].runtimeType.toString() == "String") {
-        this.FILE = jsonDecode(json["FILE"]);
-      } else {
-        this.FILE = json["FILE"];
-      }
+      try {
+        if (json["FILE"].runtimeType.toString() == "String") {
+          this.FILE = jsonDecode(json["FILE"]);
+        } else {
+          this.FILE = json["FILE"];
+        }
 
-      if (this.FILE.length > 0) {
-        this.FILE_DOWNLOADED = box.read(this.FILE[0]) == null ? false : true;
-      } else {
-        this.FILE_DOWNLOADED = false;
+        if (this.FILE.length > 0) {
+          this.FILE_DOWNLOADED = box.read(this.FILE[0]) == null ? false : true;
+        } else {
+          this.FILE_DOWNLOADED = false;
+        }
+      } catch (e) {
+        this.FILE = null;
       }
     }
     this.FILE_DOWNLOADING = false;
