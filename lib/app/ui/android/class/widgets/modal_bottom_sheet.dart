@@ -75,6 +75,7 @@ class WriteComment extends StatelessWidget {
                 child: Text("${classInfoModel.CLASS_NAME}",
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
                         color: const Color(0xff6f6e6e),
                         fontWeight: FontWeight.w500,
                         fontFamily: "NotoSansSC",
@@ -113,6 +114,7 @@ class WriteComment extends StatelessWidget {
                           "(${writeCommentController.commentRate}.0)",
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
                               color: const Color(0xff9b9b9b),
                               fontWeight: FontWeight.w500,
                               fontFamily: "Roboto",
@@ -134,7 +136,9 @@ class WriteComment extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
                 child: Text("课程评分",
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
                         color: const Color(0xff6f6e6e),
                         fontWeight: FontWeight.w500,
                         fontFamily: "NotoSansSC",
@@ -417,7 +421,9 @@ class WriteComment extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("课程评价",
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           color: const Color(0xff6f6e6e),
                           fontWeight: FontWeight.w500,
                           fontFamily: "NotoSansSC",
@@ -436,7 +442,9 @@ class WriteComment extends StatelessWidget {
                       ),
                       isExpanded: false,
                       hint: Text("请选择听课学期",
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
                               color: const Color(0xff9b9b9b),
                               fontWeight: FontWeight.w400,
                               fontFamily: "NotoSansSC",
@@ -601,7 +609,9 @@ class WriteComment extends StatelessWidget {
                           },
                           child: Center(
                               child: Text("写考试攻略",
+                                  overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
                                       color: const Color(0xffffffff),
                                       fontWeight: FontWeight.w500,
                                       fontFamily: "NotoSansSC",
@@ -674,7 +684,9 @@ class WriteExamInfo extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Text("${classViewController.classInfo.value.CLASS_NAME}",
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
                         color: const Color(0xff6f6e6e),
                         fontWeight: FontWeight.w500,
                         fontFamily: "NotoSansKR",
@@ -692,7 +704,9 @@ class WriteExamInfo extends StatelessWidget {
               //* 시험 학기 선택
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text("听课学期",
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
                         color: const Color(0xff6f6e6e),
                         fontWeight: FontWeight.w500,
                         fontFamily: "NotoSansSC",
@@ -711,7 +725,9 @@ class WriteExamInfo extends StatelessWidget {
                     ),
                     isExpanded: false,
                     hint: Text("请选择听课学期",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(0xff9b9b9b),
                             fontWeight: FontWeight.w400,
                             fontFamily: "NotoSansSC",
@@ -856,7 +872,9 @@ class WriteExamInfo extends StatelessWidget {
                                     child: Center(
                                         child: Text(
                                             classViewController.examList[index],
+                                            overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
+                                                overflow: TextOverflow.ellipsis,
                                                 color: index ==
                                                         classViewController
                                                             .examIndex.value
@@ -884,7 +902,9 @@ class WriteExamInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("考试类型",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(0xff9b9b9b),
                             fontWeight: FontWeight.w400,
                             fontFamily: "NotoSansSC",
@@ -924,7 +944,9 @@ class WriteExamInfo extends StatelessWidget {
                                         child: Text(
                                             classViewController
                                                 .questionTypeList[index],
+                                            overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
+                                                overflow: TextOverflow.ellipsis,
                                                 color: index ==
                                                         classViewController
                                                             .questionTypeIndex
@@ -951,7 +973,9 @@ class WriteExamInfo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("考试攻略",
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           color: const Color(0xff9b9b9b),
                           fontWeight: FontWeight.w400,
                           fontFamily: "NotoSansSC",
@@ -1030,7 +1054,9 @@ class WriteExamInfo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("考试真题",
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           color: const Color(0xff9b9b9b),
                           fontWeight: FontWeight.w400,
                           fontFamily: "NotoSansSC",
@@ -1068,6 +1094,7 @@ class WriteExamInfo extends StatelessWidget {
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
                                       color: const Color(0xff9b9b9b),
                                       fontWeight: FontWeight.w400,
                                       fontFamily: "NotoSansSC",
@@ -1233,7 +1260,9 @@ class WriteExamInfo extends StatelessWidget {
                         },
                         child: Center(
                             child: Text("发布",
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
                                     color: const Color(0xffffffff),
                                     fontWeight: FontWeight.w500,
                                     fontFamily: "NotoSansSC",
