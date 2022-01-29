@@ -41,13 +41,11 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
   }
 
   ReceivePort _port = ReceivePort();
-  bool isPreCacheNeeded;
 
   StreamSubscription<bool> keyboardSubscription;
   @override
   void initState() {
     super.initState();
-    isPreCacheNeeded = true;
 
     var keyboardVisibilityController = KeyboardVisibilityController();
 
@@ -92,6 +90,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
     FlutterDownloader.registerCallback(downloadCallback);
   }
 
+  bool isPreCacheNeeded = true;
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
@@ -173,7 +172,6 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
         }
         controller.canChatFileShow.value = false;
         controller.tapTextField.value = false;
-        controller.dataAvailble.value = false;
         return true;
       },
       child: SafeArea(
@@ -318,7 +316,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                         textAlign: TextAlign.center)),
           ),
           body: Obx(() {
-            print(controller.dataAvailble.value);
+            print("???????? ${controller.dataAvailble.value}");
             if (controller.dataAvailble.value) {
               print("data available");
 

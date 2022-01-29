@@ -504,6 +504,8 @@ class ChatItem extends StatelessWidget {
             await Get.toNamed(Routes.CLASSCHAT,
                     arguments: {"roomID": "${model.value.BOX_ID}"})
                 .then((value) async {
+              classChatController.dataAvailble.value = false;
+
               // * 가장 마지막으로 읽은 class_id 등록
               if (model.value.ChatList.length != 0) {
                 await box.write("LastChat_${model.value.BOX_ID}",
