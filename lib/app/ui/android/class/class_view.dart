@@ -300,26 +300,26 @@ class ClassView extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(
-                                            Icons.post_add,
-                                            color: Colors.white,
-                                          ),
-                                        ),
+                                        // Padding(
+                                        //   padding: const EdgeInsets.all(8.0),
+                                        //   child: Icon(
+                                        //     Icons.post_add,
+                                        //     color: Colors.white,
+                                        //   ),
+                                        // ),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text(
                                             "写讲义评价",
-                                            textScaleFactor: 1.2,
+                                            // textScaleFactor: 1.2,
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
-                                              overflow: TextOverflow.ellipsis,
-                                              color: const Color(0xffffffff),
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: "NotoSansSC",
-                                              fontStyle: FontStyle.normal,
-                                            ),
+                                                overflow: TextOverflow.ellipsis,
+                                                color: const Color(0xffffffff),
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: "NotoSansSC",
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 14.0),
                                           ),
                                         ),
                                       ],
@@ -388,30 +388,30 @@ class ClassView extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Icon(
-                                                Icons.add_circle_outline,
-                                                color: Colors.white,
-                                              ),
-                                            ),
+                                            // Padding(
+                                            //   padding:
+                                            //       const EdgeInsets.all(8.0),
+                                            //   child: Icon(
+                                            //     Icons.add_circle_outline,
+                                            //     color: Colors.white,
+                                            //   ),
+                                            // ),
                                             Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
                                                 "写考试信息",
                                                 overflow: TextOverflow.ellipsis,
-                                                textScaleFactor: 1.2,
+                                                // textScaleFactor: 1.2,
                                                 style: const TextStyle(
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  color:
-                                                      const Color(0xffffffff),
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: "NotoSansSC",
-                                                  fontStyle: FontStyle.normal,
-                                                ),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    color:
+                                                        const Color(0xffffffff),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: "NotoSansSC",
+                                                    fontStyle: FontStyle.normal,
+                                                    fontSize: 14.0),
                                               ),
                                             ),
                                           ],
