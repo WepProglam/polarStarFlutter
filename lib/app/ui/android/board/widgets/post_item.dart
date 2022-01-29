@@ -545,22 +545,25 @@ class CommnetTopIcons extends StatelessWidget {
             await c.totalSend('/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
                 '좋아요', index);
           },
-          child: Container(
-              width: CommentIconSize,
-              height: CommentIconSize,
-              child: mainController.isLiked(item)
-                  ? Image.asset("assets/images/icn_like_selected.png")
-                  : Image.asset("assets/images/icn_like_normal.png")),
+          child: Ink(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: Container(
+                width: CommentIconSize,
+                height: CommentIconSize,
+                child: mainController.isLiked(item)
+                    ? Image.asset("assets/images/icn_like_selected.png")
+                    : Image.asset("assets/images/icn_like_normal.png")),
+          ),
         ),
 
         // * 댓글
-        Container(
-          margin: const EdgeInsets.only(left: 12),
-          child: InkWell(
-              onTap: () {
-                // TODO 댓글 작성 -> 대댓글 작성으로 변경
-                writeCCFunc(item, c, cidUrl);
-              },
+        InkWell(
+            onTap: () {
+              // TODO 댓글 작성 -> 대댓글 작성으로 변경
+              writeCCFunc(item, c, cidUrl);
+            },
+            child: Ink(
+              padding: const EdgeInsets.symmetric(horizontal: 6.0),
               child: Container(
                 width: CommentIconSize,
                 height: CommentIconSize,
@@ -572,57 +575,55 @@ class CommnetTopIcons extends StatelessWidget {
                           : Image.asset(
                               'assets/images/icn_reply_comment_normal.png')),
                 ),
-              )),
-        ),
+              ),
+            )),
 
         // * 메뉴
-        Container(
-          margin: const EdgeInsets.only(left: 12),
-          child: PopupMenuButton(
-              child: Container(
-                width: CommentIconSize,
-                height: CommentIconSize,
-                child: Image.asset("assets/images/icn_more.png"),
-              ),
-              onSelected: (value) async {
-                if (value == "댓글 수정") {
-                  // TODO 댓글 작성 -> 댓글 수정으로 변경
-                  await updateCommentFunc(c, cidUrl);
-                } else if (value == "댓글 삭제") {
-                  await deleteCommentFunc(item, c);
-                } else if (value == "댓글 신고") {
-                  await arrestCommentFunc(c, item, index);
-                } else if (value == "쪽지 보내기") {
-                  await sendMailCommentFunc(
-                      item, mailWriteController, mailController);
-                }
-              },
-              itemBuilder: (context) {
-                if (item.MYSELF) {
-                  return [
-                    PopupMenuItem(
-                      child: Text("댓글 수정"),
-                      value: "댓글 수정",
-                    ),
-                    PopupMenuItem(
-                      child: Text("댓글 삭제"),
-                      value: "댓글 삭제",
-                    ),
-                  ];
-                } else {
-                  return [
-                    PopupMenuItem(
-                      child: Text("댓글 신고"),
-                      value: "댓글 신고",
-                    ),
-                    PopupMenuItem(
-                      child: Text("쪽지 보내기"),
-                      value: "쪽지 보내기",
-                    ),
-                  ];
-                }
-              }),
-        ),
+        PopupMenuButton(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 6.0),
+              width: CommentIconSize,
+              height: CommentIconSize,
+              child: Image.asset("assets/images/icn_more.png"),
+            ),
+            onSelected: (value) async {
+              if (value == "댓글 수정") {
+                // TODO 댓글 작성 -> 댓글 수정으로 변경
+                await updateCommentFunc(c, cidUrl);
+              } else if (value == "댓글 삭제") {
+                await deleteCommentFunc(item, c);
+              } else if (value == "댓글 신고") {
+                await arrestCommentFunc(c, item, index);
+              } else if (value == "쪽지 보내기") {
+                await sendMailCommentFunc(
+                    item, mailWriteController, mailController);
+              }
+            },
+            itemBuilder: (context) {
+              if (item.MYSELF) {
+                return [
+                  PopupMenuItem(
+                    child: Text("댓글 수정"),
+                    value: "댓글 수정",
+                  ),
+                  PopupMenuItem(
+                    child: Text("댓글 삭제"),
+                    value: "댓글 삭제",
+                  ),
+                ];
+              } else {
+                return [
+                  PopupMenuItem(
+                    child: Text("댓글 신고"),
+                    value: "댓글 신고",
+                  ),
+                  PopupMenuItem(
+                    child: Text("쪽지 보내기"),
+                    value: "쪽지 보내기",
+                  ),
+                ];
+              }
+            }),
       ],
     );
   }

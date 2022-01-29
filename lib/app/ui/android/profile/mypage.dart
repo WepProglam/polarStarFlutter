@@ -22,69 +22,42 @@ class Mypage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
           backgroundColor: const Color(0xffffffff),
-          body: Stack(children: [
-            Obx(
-              () {
-                if (myPageController.dataAvailableMypage) {
-                  return NestedScrollView(
-                    controller: myPageController.scrollController,
-                    headerSliverBuilder: (context, innerBoxIsScrolled) {
-                      return [
-                        MyPageProfile(myPageController: myPageController)
-                      ];
-                    },
-                    body: Container(
-                      margin: const EdgeInsets.only(top: 14),
-                      child: TabBarView(
-                          controller: myPageController.tabController,
-                          children: [
-                            MyPagePostList(
-                                mainController: mainController,
-                                myPageController: myPageController,
-                                index: 0,
-                                postList: myPageController.myBoardWrite),
-                            MyPagePostList(
-                                mainController: mainController,
-                                myPageController: myPageController,
-                                index: 1,
-                                postList: myPageController.myBoardScrap),
-                            MyPagePostList(
-                                mainController: mainController,
-                                myPageController: myPageController,
-                                index: 2,
-                                postList: myPageController.myBoardLike),
-                          ]),
-                    ),
-                  );
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              },
-            ),
-            Positioned(
-              right: 16,
-              top: 20,
-              child: Ink(
-                child: InkWell(
-                  onTap: () async {
-                    LoginController loginController = Get.find();
-                    loginController.logout();
-
-                    await Get.offAllNamed('/login');
+          body: Obx(
+            () {
+              if (myPageController.dataAvailableMypage) {
+                return NestedScrollView(
+                  controller: myPageController.scrollController,
+                  headerSliverBuilder: (context, innerBoxIsScrolled) {
+                    return [MyPageProfile(myPageController: myPageController)];
                   },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Icon(
-                      Icons.logout,
-                      color: const Color(0xffffffff),
-                      size: 24,
-                      // color: Colors.white,
-                    ),
+                  body: Container(
+                    margin: const EdgeInsets.only(top: 14),
+                    child: TabBarView(
+                        controller: myPageController.tabController,
+                        children: [
+                          MyPagePostList(
+                              mainController: mainController,
+                              myPageController: myPageController,
+                              index: 0,
+                              postList: myPageController.myBoardWrite),
+                          MyPagePostList(
+                              mainController: mainController,
+                              myPageController: myPageController,
+                              index: 1,
+                              postList: myPageController.myBoardScrap),
+                          MyPagePostList(
+                              mainController: mainController,
+                              myPageController: myPageController,
+                              index: 2,
+                              postList: myPageController.myBoardLike),
+                        ]),
                   ),
-                ),
-              ),
-            )
-          ])),
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          )),
     );
   }
 }
@@ -210,11 +183,37 @@ class MyPageProfile extends StatelessWidget {
                 borderRadius:
                     BorderRadius.only(bottomRight: Radius.circular(20))),
             child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 6.0, bottom: 11.0),
+                child: Row(
+                  children: [
+                    Spacer(),
+                    InkWell(
+                      onTap: () async {
+                        LoginController loginController = Get.find();
+                        loginController.logout();
+
+                        await Get.offAllNamed('/login');
+                      },
+                      child: Ink(
+                        padding: const EdgeInsets.all(14.0),
+                        child: Container(
+                          child: Icon(
+                            Icons.logout,
+                            color: const Color(0xffffffff),
+                            size: 24,
+                            // color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Container(
                   width: 80,
                   height: 80,
-                  margin: EdgeInsets.only(top: 20),
                   child: CachedNetworkImage(
                       imageUrl:
                           '${myPageController.myProfile.value.PROFILE_PHOTO}',

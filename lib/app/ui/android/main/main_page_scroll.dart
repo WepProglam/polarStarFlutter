@@ -445,7 +445,11 @@ class MainPageScroll extends StatelessWidget {
                                                       .updateMainPage();
                                                 });
                                               },
-                                              child: SeeMore(),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 6.0),
+                                                child: SeeMore(),
+                                              ),
                                             ),
                                           ],
                                         ),

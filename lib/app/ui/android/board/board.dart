@@ -29,85 +29,59 @@ class Board extends StatelessWidget {
               titleSpacing: 0,
               // elevation: 0,
               automaticallyImplyLeading: false,
-
-              title: Stack(
-                children: [
-                  Center(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 16.5),
-                      child: RichText(
-                          text: TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: "成均馆大学",
-                                style: const TextStyle(
-                                    color: const Color(0xffffffff),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                              )
-                            ],
-                            text: communityBoardName(
-                                        controller.COMMUNITY_ID.value) ==
-                                    null
-                                ? ""
-                                : '${communityBoardName(controller.COMMUNITY_ID.value)} / ',
-                            style: const TextStyle(
-                                color: const Color(0xffffffff),
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0),
-                          ),
-                          textAlign: TextAlign.left),
-                    ),
+              leading: InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: Ink(
+                  child: Image.asset(
+                    'assets/images/back_icon.png',
+                    // fit: BoxFit.fitWidth,
                   ),
-                  Positioned(
-                    // left: 20,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 20),
-                      child: Ink(
-                        child: InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Image.asset(
-                            'assets/images/back_icon.png',
-                            // fit: BoxFit.fitWidth,
-                            width: 24,
-                            height: 24,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 20),
-                      child: Ink(
-                        child: InkWell(
-                          onTap: () async {
-                            await Get.toNamed(Routes.SEARCH)
-                                .then((value) async {
-                              await MainUpdateModule.updateBoard();
-                            });
-                          },
-                          child: Image.asset(
-                            'assets/images/icn_search.png',
-                            // fit: BoxFit.fitWidth,
-                            width: 24,
-                            height: 24,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
+              centerTitle: true,
+
+              title: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "成均馆大学",
+                        style: const TextStyle(
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                      )
+                    ],
+                    text: communityBoardName(controller.COMMUNITY_ID.value) ==
+                            null
+                        ? ""
+                        : '${communityBoardName(controller.COMMUNITY_ID.value)} / ',
+                    style: const TextStyle(
+                        color: const Color(0xffffffff),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 16.0),
+                  ),
+                  textAlign: TextAlign.left),
+              actions: [
+                InkWell(
+                  onTap: () async {
+                    await Get.toNamed(Routes.SEARCH).then((value) async {
+                      await MainUpdateModule.updateBoard();
+                    });
+                  },
+                  child: Ink(
+                    child: Image.asset(
+                      'assets/images/icn_search.png',
+                      // fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                ),
+              ],
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
