@@ -108,16 +108,28 @@ class MainPageScroll extends StatelessWidget {
                                     fontStyle: FontStyle.normal,
                                     fontSize: 16.0),
                                 textAlign: TextAlign.center),
-                            Text("=====学院 ===专业",
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
+                            (mainController.profile.value != {})
+                                ? Text(
+                                    "성균관대학교 ${mainController.profile["COLLEGE_NAME"]} ${mainController.profile["MAJOR_NAME"]}",
                                     overflow: TextOverflow.ellipsis,
-                                    color: const Color(subColor),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 12.0),
-                                textAlign: TextAlign.center),
+                                    style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        color: const Color(subColor),
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 12.0),
+                                    textAlign: TextAlign.center)
+                                : Text("UNKNOWN COLLEGE",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        color: const Color(subColor),
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 12.0),
+                                    textAlign: TextAlign.center),
                           ],
                         ),
                       ),

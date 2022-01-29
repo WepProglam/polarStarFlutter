@@ -44,7 +44,8 @@ class MainApiClient {
       "scrapList": listScrapList,
       "classList": listClassList,
       "year_sem": jsonResponse["YEAR_SEM"],
-      "MAX_BOARDS_LIMIT": jsonResponse["MAX_BOARDS_LIMIT"]
+      "MAX_BOARDS_LIMIT": jsonResponse["MAX_BOARDS_LIMIT"],
+      "PROFILE": jsonResponse["PROFILE"]
     };
   }
 
