@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
@@ -99,6 +103,7 @@ class ChatBoxModel {
 class ChatModel {
   String CONTENT, PROFILE_NICKNAME, PROFILE_PHOTO;
   List<dynamic> PHOTO, FILE, FILENAME;
+  List<CachedNetworkImageProvider> PRE_IMAGE;
   bool FILE_DOWNLOADED, FILE_DOWNLOADING;
   int FILE_PROGRESS;
   String FILE_TID;
@@ -133,14 +138,20 @@ class ChatModel {
   }
 
   ChatModel.fromJson(Map<String, dynamic> json) {
+    print("chatmodel from json!!!");
     this.BOX_ID = nullCheck(json["BOX_ID"]);
     this.CONTENT = nullCheck("${json["CONTENT"]}");
     if (json["PHOTO"] == null) {
       this.PHOTO = null;
-    } else if (json["PHOTO"].runtimeType.toString() == "String") {
-      this.PHOTO = jsonDecode(json["PHOTO"]);
     } else {
-      this.PHOTO = json["PHOTO"];
+      if (json["PHOTO"].runtimeType.toString() == "String") {
+        this.PHOTO = jsonDecode(json["PHOTO"]);
+      } else {
+        this.PHOTO = json["PHOTO"];
+      }
+      if (this.PHOTO.length > 0) {
+        this.PRE_IMAGE = [CachedNetworkImageProvider(this.PHOTO[0])];
+      }
     }
 
     if (json["FILENAME"] == null) {

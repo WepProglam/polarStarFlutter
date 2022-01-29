@@ -46,6 +46,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
   @override
   void initState() {
     super.initState();
+
     var keyboardVisibilityController = KeyboardVisibilityController();
 
     keyboardSubscription =
@@ -90,6 +91,30 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Map<String, dynamic> chatMeta = controller.findChatHistory();
+    int chatIndex = chatMeta["index"];
+    bool isClass = chatMeta["isClass"];
+
+    Rx<ChatBoxModel> model = isClass
+        ? controller.classChatBox[chatIndex]
+        : controller.majorChatBox[chatIndex];
+    // int chatIndex = model.value.BOX_ID;
+    // bool isClass = model.value.;
+    // Rx<ChatBoxModel> box_model = isClass
+    //     ? classChatController.classChatBox[chatIndex]
+    //     : classChatController.majorChatBox[chatIndex];
+    controller.dataAvailble.value = false;
+    for (Rx<ChatModel> item in model.value.ChatList) {
+      if (item.value.PHOTO != null && item.value.PHOTO.length > 0) {
+        precacheImage(item.value.PRE_IMAGE[0], context);
+      }
+    }
+    controller.dataAvailble.value = true;
+  }
+
+  @override
   void dispose() {
     IsolateNameServer.removePortNameMapping('downloader_send_port');
     super.dispose();
@@ -105,9 +130,24 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> chatMeta = controller.findChatHistory();
-
     int chatIndex = chatMeta["index"];
     bool isClass = chatMeta["isClass"];
+
+    Rx<ChatBoxModel> model = isClass
+        ? controller.classChatBox[chatIndex]
+        : controller.majorChatBox[chatIndex];
+    // int chatIndex = model.value.BOX_ID;
+    // bool isClass = model.value.;
+    // Rx<ChatBoxModel> box_model = isClass
+    //     ? classChatController.classChatBox[chatIndex]
+    //     : classChatController.majorChatBox[chatIndex];
+    controller.dataAvailble.value = false;
+    for (Rx<ChatModel> item in model.value.ChatList) {
+      if (item.value.PHOTO != null && item.value.PHOTO.length > 0) {
+        precacheImage(item.value.PRE_IMAGE[0], context);
+      }
+    }
+    controller.dataAvailble.value = true;
 
     return WillPopScope(
       onWillPop: () async {
@@ -436,6 +476,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
             } else {
               return Container(
                 color: Colors.white,
+                child: Center(child: CircularProgressIndicator()),
               );
             }
           }),
@@ -1032,11 +1073,15 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                         index: 0));
                                   },
                                   child: Container(
-                                    child: CachedNetworkImage(
-                                        alignment: model.value.MY_SELF
-                                            ? Alignment.topRight
-                                            : Alignment.topLeft,
-                                        imageUrl: model.value.PHOTO[0]),
+                                    // child: ImageP
+                                    child:
+                                        Image(image: model.value.PRE_IMAGE[0]),
+                                    // child: CachedNetworkImage(
+                                    //     alignment: model.value.MY_SELF
+                                    //         ? Alignment.topRight
+                                    //         : Alignment.topLeft,
+                                    //         imageBuilder: (context, imageProvider) => model.value.PRE_IMAGE,
+                                    //     imageUrl: model.value.PHOTO[0]),
                                   )))
 
                           // Text("사진입니다",

@@ -64,6 +64,14 @@ class ClassChatController extends GetxController {
     return null;
   }
 
+  // RxList<ChatModel> getChatList() {
+  //   Map<String, dynamic> chatMeta = findChatHistory();
+  //   int chatIndex = chatMeta["index"];
+  //   bool isClass = chatMeta["isClass"];
+  //   Rx<ChatBoxModel> box_model =
+  //       isClass ? classChatBox[chatIndex] : majorChatBox[chatIndex];
+  // }
+
   Rx<ChatBoxModel> get findCurBox {
     for (Rx<ChatBoxModel> item in classChatBox) {
       if (item.value.BOX_ID == currentBoxID.value) {

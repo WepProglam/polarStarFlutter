@@ -487,6 +487,19 @@ class ChatItem extends StatelessWidget {
         child: InkWell(
           onTap: () async {
             final ClassChatController classChatController = Get.find();
+            // Map<String, dynamic> chatMeta =
+            //     classChatController.findChatHistory();
+
+            // // int chatIndex = model.value.BOX_ID;
+            // // bool isClass = model.value.;
+            // // Rx<ChatBoxModel> box_model = isClass
+            // //     ? classChatController.classChatBox[chatIndex]
+            // //     : classChatController.majorChatBox[chatIndex];
+            // for (Rx<ChatModel> item in model.value.ChatList) {
+            //   if (item.value.PHOTO != null && item.value.PHOTO.length > 0) {
+            //     await precacheImage(item.value.PRE_IMAGE[0], context);
+            //   }
+            // }
             await Get.toNamed(Routes.CLASSCHAT,
                     arguments: {"roomID": "${model.value.BOX_ID}"})
                 .then((value) async {
