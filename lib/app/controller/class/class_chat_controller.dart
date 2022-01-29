@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
@@ -38,6 +39,7 @@ class ClassChatController extends GetxController {
   RxBool tapTextField = false.obs;
   List<File> files = <File>[].obs;
   List<AssetEntity> photos = <AssetEntity>[].obs;
+  RxList<ChatPrifileModel> chatProfileList = <ChatPrifileModel>[].obs;
   final FocusNode chatFocusNode = new FocusNode();
 
   Map<String, Rx<String>> downloadFileList = {};
@@ -45,6 +47,28 @@ class ClassChatController extends GetxController {
   bool isFileDownloaded(String url) {
     return box.read(url) == null ? false : true;
     // downloadFileList.indexOf(TID) == -1 ? false : true;
+  }
+
+  Future<void> getChatProfileList(int BOX_ID) async {
+    var response = await Session().getX("/chat/chatBox/${BOX_ID}/profile");
+    Iterable jsonResponse = jsonDecode(response.body);
+    chatProfileList.value =
+        jsonResponse.map((e) => ChatPrifileModel.fromJson(e)).toList();
+    ChatPrifileModel MINE;
+    for (ChatPrifileModel item in chatProfileList) {
+      if (item.MY_SELF) {
+        MINE = item;
+        break;
+      }
+    }
+    chatProfileList.removeWhere((element) => element.MY_SELF);
+    chatProfileList.insert(0, MINE);
+    // chatProfileList.sort((a, b) {
+    //   if (a.MY_SELF) {
+    //     return 0;
+    //   }
+    //   return 1;
+    // });
   }
 
   Rx<ChatModel> fileFindCurChat(String tid) {

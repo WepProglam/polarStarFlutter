@@ -265,13 +265,14 @@ class Profile extends StatelessWidget {
                                               child: Container(
                                                   margin: EdgeInsets.only(
                                                       right: 20),
-                                                  child: Text("成均馆大学",
+                                                  child: Text("성균관대학교",
                                                       style: const TextStyle(
                                                           color: const Color(
                                                               0xff9b9b9b),
                                                           fontWeight:
                                                               FontWeight.w400,
-                                                          fontFamily: "Roboto",
+                                                          fontFamily:
+                                                              "NotoSansKR",
                                                           fontStyle:
                                                               FontStyle.normal,
                                                           fontSize: 14.0),
@@ -319,7 +320,8 @@ class Profile extends StatelessWidget {
                                                               0xff9b9b9b),
                                                           fontWeight:
                                                               FontWeight.w400,
-                                                          fontFamily: "Roboto",
+                                                          fontFamily:
+                                                              "NotoSansKR",
                                                           fontStyle:
                                                               FontStyle.normal,
                                                           fontSize: 14.0),

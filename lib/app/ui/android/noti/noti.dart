@@ -500,6 +500,7 @@ class ChatItem extends StatelessWidget {
             //     await precacheImage(item.value.PRE_IMAGE[0], context);
             //   }
             // }
+
             await Get.toNamed(Routes.CLASSCHAT,
                     arguments: {"roomID": "${model.value.BOX_ID}"})
                 .then((value) async {

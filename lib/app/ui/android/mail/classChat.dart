@@ -41,11 +41,13 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
   }
 
   ReceivePort _port = ReceivePort();
+  bool isPreCacheNeeded;
 
   StreamSubscription<bool> keyboardSubscription;
   @override
   void initState() {
     super.initState();
+    isPreCacheNeeded = true;
 
     var keyboardVisibilityController = KeyboardVisibilityController();
 
@@ -90,8 +92,6 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
     FlutterDownloader.registerCallback(downloadCallback);
   }
 
-  bool isPreCacheNeeded = true;
-
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
@@ -108,13 +108,14 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
 
       await preCacheImage(model);
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        controller.chatScrollController
-            .jumpTo(controller.chatScrollController.position.maxScrollExtent);
+      await Timer(Duration(milliseconds: 100), () {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          controller.chatScrollController
+              .jumpTo(controller.chatScrollController.position.maxScrollExtent);
+        });
+        controller.dataAvailble.value = true;
+        isPreCacheNeeded = false;
       });
-
-      controller.dataAvailble.value = true;
-      isPreCacheNeeded = false;
     }
   }
 
@@ -177,6 +178,93 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
       },
       child: SafeArea(
         child: Scaffold(
+          endDrawer: Drawer(
+              // Add a ListView to the drawer. This ensures the user can scroll
+              // through the options in the drawer if there isn't enough vertical
+              // space to fit everything.
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 51, left: 20),
+                child: Text("대화상대",
+                    style: const TextStyle(
+                        color: const Color(0xff2f2f2f),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "NotoSansKR",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0),
+                    textAlign: TextAlign.left),
+              ),
+              Container(
+                  margin: const EdgeInsets.only(
+                      top: 9, left: 10, right: 10, bottom: 14),
+                  height: 1,
+                  decoration: BoxDecoration(color: const Color(0xffeaeaea))),
+              Expanded(
+                child: Obx(() {
+                  return ListView.builder(
+                      itemCount: controller.chatProfileList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        ChatPrifileModel prifileModel =
+                            controller.chatProfileList[index];
+                        print(prifileModel.PROFILE_PHOTO);
+                        return Container(
+                          height: 32,
+                          margin: const EdgeInsets.only(left: 20, bottom: 10),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 32,
+                                width: 32,
+                                child: CachedNetworkImage(
+                                    imageUrl: prifileModel.PROFILE_PHOTO),
+                              ),
+                              prifileModel.MY_SELF
+                                  ? Container(
+                                      margin: const EdgeInsets.only(left: 10),
+                                      width: 16,
+                                      height: 16,
+                                      child: Center(
+                                        child: Text("나",
+                                            style: const TextStyle(
+                                                color: const Color(0xffffffff),
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: "NotoSansKR-Medium",
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 10.0),
+                                            textAlign: TextAlign.center),
+                                      ),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(4)),
+                                          color: const Color(0xff91bbff)))
+                                  : Container(
+                                      margin: const EdgeInsets.only(left: 10)),
+                              Container(
+                                margin: const EdgeInsets.only(left: 4),
+                                child: Text("${prifileModel.PROFILE_NICKNAME}",
+                                    style: const TextStyle(
+                                        color: const Color(0xff6f6e6e),
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 12.0),
+                                    textAlign: TextAlign.left),
+                              )
+                            ],
+                          ),
+                        );
+                      });
+                }),
+              ),
+              // ! 알림 끄기 기능 구현 후 장착 필요
+              // // 사각형 62
+              // Container(
+              //     height: 75,
+              //     decoration: BoxDecoration(color: const Color(0xffe6f1ff)))
+            ],
+          )),
           backgroundColor: const Color(0xffffffff),
           resizeToAvoidBottomInset: false,
 
@@ -187,44 +275,47 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
             titleSpacing: 0,
             // elevation: 0,
             automaticallyImplyLeading: false,
-
-            title: Stack(
-              children: [
-                Center(
-                  child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 16.5),
-                      child: // 设置
-                          Text("设置",
-                              style: const TextStyle(
-                                  color: const Color(0xffffffff),
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: "NotoSansSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 16.0),
-                              textAlign: TextAlign.center)),
-                ),
-                Positioned(
-                  // left: 20,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 16, horizontal: 20),
-                    child: Ink(
-                      child: InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Image.asset(
-                          'assets/images/891.png',
-                          color: const Color(0xffffffff),
-                          width: 12,
-                          height: 24,
-                        ),
-                      ),
-                    ),
+            // actions: [
+            //   InkWell(
+            //     onTap: () {
+            //       Get.toNamed("/timetable/bin");
+            //     },
+            //     child: Image.asset(
+            //       "assets/images/menu.png",
+            //     ),
+            //   ),
+            // ],
+            leading: Container(
+              width: 12,
+              height: 24,
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+              child: Ink(
+                child: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Image.asset(
+                    'assets/images/891.png',
+                    color: const Color(0xffffffff),
+                    width: 12,
+                    height: 24,
                   ),
                 ),
-              ],
+              ),
             ),
+            centerTitle: true,
+
+            title: Container(
+                margin: const EdgeInsets.symmetric(vertical: 16.5),
+                child: // 设置
+                    Text("设置",
+                        style: const TextStyle(
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 16.0),
+                        textAlign: TextAlign.center)),
           ),
           body: Obx(() {
             print(controller.dataAvailble.value);
@@ -619,7 +710,6 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                 onFieldSubmitted: (value) {},
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
-                                  hintText: "你好吗，麦克斯？",
                                   border: InputBorder.none,
                                   hintStyle: const TextStyle(
                                       color: const Color(0xff9b9b9b),
@@ -1053,10 +1143,12 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                           width: 38,
                                           height: 38,
                                           child: FILE_DOWNLOADED
-                                              ? Image.asset(
-                                                  "assets/images/file_after_download.png",
-                                                  height: 25,
-                                                  width: 25,
+                                              ? Center(
+                                                  child: Image.asset(
+                                                    "assets/images/file_before_download.png",
+                                                    height: 25,
+                                                    width: 25,
+                                                  ),
                                                 )
                                               : FILE_DOWNLOADING
                                                   ? Container(
@@ -1077,10 +1169,12 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                                                     .primaryColor),
                                                       ),
                                                     )
-                                                  : Image.asset(
-                                                      "assets/images/file_before_download.png",
-                                                      height: 25,
-                                                      width: 25,
+                                                  : Center(
+                                                      child: Image.asset(
+                                                        "assets/images/file_after_download.png",
+                                                        height: 25,
+                                                        width: 25,
+                                                      ),
                                                     )),
                                     ),
                                     Container(

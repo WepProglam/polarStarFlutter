@@ -529,7 +529,7 @@ void showSetting(
             ],
           ),
           decoration: BoxDecoration(
-              color: const Color(0xfff7fbff),
+              color: const Color(0xffffffff),
               borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(30),
                   topRight: const Radius.circular(30))),

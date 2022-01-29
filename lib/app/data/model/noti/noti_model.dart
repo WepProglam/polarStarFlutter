@@ -207,3 +207,16 @@ class ChatModel {
     this.MY_SELF = json["MY_SELF"] == null ? false : nullCheck(json["MY_SELF"]);
   }
 }
+
+class ChatPrifileModel {
+  String PROFILE_NICKNAME, PROFILE_PHOTO;
+  bool MY_SELF;
+
+  ChatPrifileModel({this.PROFILE_NICKNAME, this.PROFILE_PHOTO, this.MY_SELF});
+
+  ChatPrifileModel.fromJson(Map<String, dynamic> json) {
+    this.PROFILE_NICKNAME = json["PROFILE_NICKNAME"];
+    this.PROFILE_PHOTO = json["PROFILE_PHOTO"];
+    this.MY_SELF = json["MY_SELF"];
+  }
+}

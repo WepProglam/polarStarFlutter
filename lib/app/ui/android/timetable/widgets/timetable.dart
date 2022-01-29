@@ -254,62 +254,71 @@ class TimeTableItem extends StatelessWidget {
         onTap: () {
           List<String> times = classItemModel.CLASS_TIME
               .map((e) =>
-                  "${e.day} ${timeFormatter(e.start_time)}~${timeFormatter(e.end_time)}\n")
+                  "${e.day} ${timeFormatter(e.start_time)}~${timeFormatter(e.end_time)} / ")
               .toList();
+
+          print(times);
 
           String timeString = "";
           for (String item in times) {
             timeString += item;
           }
+          timeString = timeString.substring(0, timeString.length - 2);
           Get.defaultDialog(
               contentPadding: EdgeInsets.zero,
               titlePadding: EdgeInsets.zero,
               title: "",
               content: Container(
-                // height: 300,
-                width: 300,
-                color: Colors.white,
+                width: 320,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: const Color(0xffffffff)),
                 child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
                       Container(
                         child: Row(
                           children: [
                             Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                  color: classItem["color"],
-                                  borderRadius: BorderRadius.circular(10)),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 10),
                               child: Container(
                                 child: Text(
                                   "${classItemModel.CLASS_NAME}",
                                   overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      color: const Color(0xff2f2f2f),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "NotoSansKR",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 16.0),
                                 ),
                               ),
-                            )
+                            ),
+                            Spacer(),
                           ],
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 40),
+                        margin: const EdgeInsets.only(top: 24),
                         child: Row(
                           children: [
                             Container(
-                              height: 20,
-                              width: 20,
-                              child: Icon(Icons.person),
-                            ),
+                                height: 20,
+                                width: 20,
+                                child: Image.asset(
+                                    "assets/images/timetable_direct_professr.png")),
                             Container(
-                              margin: const EdgeInsets.only(left: 20),
+                              margin: const EdgeInsets.only(left: 8),
                               child: Container(
                                 child: Text(
                                   "${classItemModel.PROFESSOR}",
                                   overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      color: const Color(0xff9b9b9b),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "NotoSansKR",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
                                 ),
                               ),
                             )
@@ -318,24 +327,28 @@ class TimeTableItem extends StatelessWidget {
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 20),
+                        // height: 20,
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              height: 20,
-                              width: 20,
-                              child: Icon(Icons.lock_clock),
-                            ),
+                                height: 20,
+                                width: 20,
+                                child: Image.asset(
+                                    "assets/images/timetable_direct_clock.png")),
                             Container(
-                              margin: const EdgeInsets.only(left: 20),
+                              margin: const EdgeInsets.only(left: 8),
                               child: Container(
-                                // width: 300 - 30.0 - 40,
-                                child: FittedBox(
-                                  child: Text(
-                                    "${timeString}",
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                    style: TextStyle(fontSize: 14),
-                                  ),
+                                child: Text(
+                                  "${timeString}",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                      color: const Color(0xff9b9b9b),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "NotoSansKR",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
                                 ),
                               ),
                             )
@@ -347,17 +360,23 @@ class TimeTableItem extends StatelessWidget {
                         child: Row(
                           children: [
                             Container(
-                              height: 20,
-                              width: 20,
-                              child: Icon(Icons.location_city),
-                            ),
+                                height: 20,
+                                width: 20,
+                                child: Image.asset(
+                                    "assets/images/timetable_direct_location.png")),
                             Container(
-                              margin: const EdgeInsets.only(left: 20),
+                              margin: const EdgeInsets.only(left: 8),
                               child: Container(
                                 child: FittedBox(
                                   child: Text(
                                     "${classItemModel.CLASS_NUMBER}",
                                     overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        color: const Color(0xff9b9b9b),
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "NotoSansKR",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14.0),
                                   ),
                                 ),
                               ),
@@ -366,69 +385,63 @@ class TimeTableItem extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 20, bottom: 10),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 20,
-                              width: 20,
-                              child: Icon(
-                                Icons.delete,
-                                color: Colors.red,
-                              ),
-                            ),
-                            Ink(
-                              child: InkWell(
-                                onTap: () async {
-                                  var statusCode =
-                                      await timeTableController.deleteClass(
-                                          timeTableController
-                                              .selectTable.value.TIMETABLE_ID,
-                                          classItemModel.CLASS_NAME);
-                                  switch (statusCode) {
-                                    case 200:
-                                      for (TimeTableClassModel model
-                                          in timeTableController
-                                              .selectTable.value.CLASSES) {
-                                        print(
-                                            "${model.CLASS_NAME} => ${classItemModel.CLASS_NAME} : ${model.CLASS_NAME == classItemModel.CLASS_NAME}");
-                                      }
-
-                                      timeTableController.selectTable
-                                          .update((val) {
-                                        val.CLASSES.removeWhere((element) =>
-                                            (element.CLASS_NAME ==
-                                                classItemModel.CLASS_NAME) &&
-                                            (element.CLASS_ID ==
-                                                classItemModel.CLASS_ID));
-                                      });
-
-                                      timeTableController.initShowTimeTable();
-                                      timeTableController.makeShowTimeTable();
-
-                                      break;
-                                    default:
+                        margin: const EdgeInsets.only(top: 20, bottom: 14),
+                        child: Ink(
+                          child: InkWell(
+                            onTap: () async {
+                              var statusCode =
+                                  await timeTableController.deleteClass(
+                                      timeTableController
+                                          .selectTable.value.TIMETABLE_ID,
+                                      classItemModel.CLASS_NAME);
+                              switch (statusCode) {
+                                case 200:
+                                  for (TimeTableClassModel model
+                                      in timeTableController
+                                          .selectTable.value.CLASSES) {
+                                    print(
+                                        "${model.CLASS_NAME} => ${classItemModel.CLASS_NAME} : ${model.CLASS_NAME == classItemModel.CLASS_NAME}");
                                   }
 
-                                  Get.back();
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(left: 20),
-                                  child: Container(
-                                    child: FittedBox(
-                                      child: Text(
-                                        "삭제",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            overflow: TextOverflow.ellipsis,
-                                            color: Colors.red),
-                                      ),
-                                    ),
-                                  ),
+                                  timeTableController.selectTable.update((val) {
+                                    val.CLASSES.removeWhere((element) =>
+                                        (element.CLASS_NAME ==
+                                            classItemModel.CLASS_NAME) &&
+                                        (element.CLASS_ID ==
+                                            classItemModel.CLASS_ID));
+                                  });
+
+                                  timeTableController.initShowTimeTable();
+                                  timeTableController.makeShowTimeTable();
+
+                                  break;
+                                default:
+                              }
+
+                              Get.back();
+                            },
+                            child: Row(
+                              children: [
+                                Container(
+                                    height: 20,
+                                    width: 20,
+                                    child: Image.asset(
+                                        "assets/images/timetable_direct_delete.png")),
+                                Container(
+                                  margin: const EdgeInsets.only(left: 8),
+                                  child: // 한국문화와언어
+                                      Text("삭제",
+                                          style: const TextStyle(
+                                              color: const Color(0xff6ea5ff),
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: "NotoSansKR",
+                                              fontStyle: FontStyle.normal,
+                                              fontSize: 14.0),
+                                          textAlign: TextAlign.left),
                                 ),
-                              ),
-                            )
-                          ],
+                              ],
+                            ),
+                          ),
                         ),
                       )
                     ],
@@ -462,10 +475,9 @@ class TimeTableItem extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
                               color: const Color(0xffffffff),
                               fontWeight: FontWeight.w700,
-                              fontFamily: "Roboto",
+                              fontFamily: "NotoSansKR",
                               fontStyle: FontStyle.normal,
                               fontSize: 10.0),
                           textAlign: TextAlign.center,
@@ -478,27 +490,28 @@ class TimeTableItem extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                color: const Color(0xfffff8dd),
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "Roboto",
+                                color: const Color(0xffffffff),
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "NotoSansKR",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 10.0),
+                                fontSize: 8.0),
                             textAlign: TextAlign.center),
                       ),
-                      Container(
-                        width: 60,
-                        child: Text("${current_class_room}",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                color: const Color(0xfffff8dd),
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "Roboto",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 10.0),
-                            textAlign: TextAlign.center),
+                      Opacity(
+                        opacity: 0.5,
+                        child: Container(
+                          width: 60,
+                          child: Text("${current_class_room}",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: const Color(0xffffffff),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansKR",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 8.0),
+                              textAlign: TextAlign.center),
+                        ),
                       ),
                     ]),
               );
