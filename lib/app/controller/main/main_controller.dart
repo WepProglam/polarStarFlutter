@@ -38,6 +38,8 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   RxInt newBoardIndex = 0.obs;
   RxInt followAmount = 0.obs;
   Rx<Color> statusBarColor = Colors.white.obs;
+  bool isAlreadyRunned;
+  RxMap profile = {}.obs;
 
   RxList<BoardInfo> boardListInfo = <BoardInfo>[].obs;
 
@@ -101,6 +103,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   }
 
   void checkBoard(String text) {
+    print("checkBoard?!");
     for (Rx<BoardInfo> item in boardInfo) {
       if (text == "") {
         item.update((val) {
@@ -200,6 +203,8 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
 
   Future<void> getBoardInfo() async {
     final value = await repository.getBoardInfo(followingCommunity);
+    print("############### ${isAlreadyRunned}");
+
     await getNewBoard();
     boardListInfo.clear();
     boardInfo.clear();
@@ -211,6 +216,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     likeList.value = value["likeList"];
     scrapList.value = value["scrapList"];
     classList.value = value["classList"];
+    profile.value = value["PROFILE"];
 
     box.write("year_sem", value["year_sem"]);
     box.write("MAX_BOARDS_LIMIT", value["MAX_BOARDS_LIMIT"]);
@@ -232,9 +238,20 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     // 선택된 보드에 넣기
     selectedBoard.clear();
     for (Rx<BoardInfo> item in boardInfo) {
+      print(
+          "${item.value.IS_DEFAULT} ${!isAlreadyRunned}  ${item.value.IS_DEFAULT && !isAlreadyRunned}!!!!!!!!!!!");
       if (item.value.isChecked) {
         selectedBoard.add(item);
       }
+
+      // else if (item.value.IS_DEFAULT && (!isAlreadyRunned)) {
+      //   print("add ${item}");
+      //   item.update((val) {
+      //     val.isFollowed = true;
+      //     // val.isChecked = true;
+      //   });
+      //   selectedBoard.add(item);
+      // }
     }
 
     box.write("boardInfo", boardListInfo);
@@ -267,21 +284,80 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
       }
       return BoardInfo.fromJson(e);
     }).toList();
+    // boardInfoList.forEach((element) {
+    //   print(element.toJson());
+    // });
     return boardInfoList;
   }
 
   Future<void> getFollowingCommunity() async {
-    List<BoardInfo> boardInfoList = await fetchCommunityInfoFromBox();
-    print(boardInfoList);
-    if (boardInfoList == null) {
-      followAmount.value = 0;
-      return;
-    }
+    if (!isAlreadyRunned) {
+      List<BoardInfo> temp = [];
+      followingCommunity.value = [];
+      for (var item in boardInfo) {
+        if (item.value.IS_DEFAULT) {
+          followingCommunity.add("${item.value.COMMUNITY_ID}");
+          item.update((val) {
+            val.isFollowed = true;
+            val.isChecked = true;
+          });
+          temp.add(item.value);
 
-    List<Rx<BoardInfo>> follwing = boardInfoList.map((e) => e.obs).toList();
-    followAmount.value = follwing.length;
-    followingCommunity.value =
-        follwing.map((e) => "${e.value.COMMUNITY_ID}").toList();
+          // setFollowingCommunity(
+          //     item.value.COMMUNITY_ID,
+          //     item.value.COMMUNITY_NAME,
+          //     item.value.RECENT_TITLE,
+          //     "${item.value.RECENT_TIME}",
+          //     item.value.isFollowed,
+          //     item.value.isNew);
+        }
+      }
+      box.write("followingCommunity", temp);
+      isAlreadyRunned = true;
+      box.write("alreadyRunned", isAlreadyRunned);
+      // followingCommunity.value = boardInfo.map((element) {
+      //   print(" @@@@@@@@@@  ${element.value.COMMUNITY_ID}");
+      //   if (element.value.IS_DEFAULT) {
+      //     BoardInfo item = element.value;
+      //     setFollowingCommunity(
+      //         item.COMMUNITY_ID,
+      //         item.COMMUNITY_NAME,
+      //         item.RECENT_TITLE,
+      //         "${item.RECENT_TIME}",
+      //         item.isFollowed,
+      //         item.isNew);
+      //     return "${element.value.COMMUNITY_ID}";
+      //   }
+      // }).toList();
+      followAmount.value = followingCommunity.length;
+    } else {
+      List<BoardInfo> boardInfoList = await fetchCommunityInfoFromBox();
+
+      if (boardInfoList == null) {
+        followAmount.value = 0;
+        return;
+      }
+      List<Rx<BoardInfo>> follwing = boardInfoList.map((e) {
+        e.isFollowed = true;
+        e.isChecked = true;
+        return e.obs;
+      }).toList();
+      followAmount.value = follwing.length;
+      followingCommunity.value =
+          follwing.map((e) => "${e.value.COMMUNITY_ID}").toList();
+
+      for (Rx<BoardInfo> item in boardInfo) {
+        for (BoardInfo box in boardInfoList) {
+          if (box.COMMUNITY_ID == item.value.COMMUNITY_ID) {
+            item.update((val) {
+              val.isFollowed = true;
+              val.isChecked = true;
+            });
+            break;
+          }
+        }
+      }
+    }
   }
 
   Future<void> setFollowingCommunity(
@@ -292,6 +368,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
       bool isFollowed,
       bool isNew) async {
     if (box.read("followingCommunity") == null) {
+      print("null ??? ");
       BoardInfo a = BoardInfo.fromJson({
         "COMMUNITY_ID": COMMUNITY_ID,
         "COMMUNITY_NAME": COMMUNITY_NAME,
@@ -375,8 +452,9 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   void onInit() async {
     // tabController = TabController(vsync: this, length: 2);
     super.onInit();
-    await getFollowingCommunity();
+    isAlreadyRunned = box.read("alreadyRunned") == null ? false : true;
     await getBoardInfo();
+    await getFollowingCommunity();
     // await getCurSemTimetableExist();
 
     hotNewTabController = await TabController(vsync: this, length: 2);

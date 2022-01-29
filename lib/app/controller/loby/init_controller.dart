@@ -104,19 +104,8 @@ class InitController extends GetxController {
     super.onInit();
     await ManagePermission.getPermission();
     WidgetsFlutterBinding.ensureInitialized();
-    await FlutterDownloader.initialize(
-        debug: true // optional: set false to disable printing logs to console
-        );
-    // SchedulerBinding.instance.addPostFrameCallback((_) {
-    //   chatScrollController
-    //       .jumpTo(chatScrollController.position.maxScrollExtent);
-    // });
-
-    // ever(chatScrollController, (_) {
-    //   print("has client!");
-    // });
-
-    // firebaseCloudMessaging_Listeners();
+    await FlutterDownloader.initialize(debug: true);
+    // box.remove("alreadyRunned");
   }
 
   // @override
