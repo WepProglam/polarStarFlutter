@@ -26,6 +26,7 @@ class ClassChatController extends GetxController {
   final box = GetStorage();
   RxString roomID = "".obs;
   RxBool dataAvailble = false.obs;
+  RxBool frameComplete = false.obs;
   RxList<ChatModel> chatHistory = <ChatModel>[].obs;
 
   RxList<Rx<ChatModel>> tempChatHistory = <Rx<ChatModel>>[].obs;
