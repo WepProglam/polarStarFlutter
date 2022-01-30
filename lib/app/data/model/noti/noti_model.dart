@@ -125,7 +125,8 @@ class ChatModel {
       TIME_CREATED,
       CHAT_ID,
       MY_SELF,
-      FILENAME,
+      FILE_META,
+      PHOTO_META,
       FILE});
 
   Map<String, dynamic> toJson() {
@@ -137,6 +138,8 @@ class ChatModel {
       'PROFILE_PHOTO': PROFILE_PHOTO,
       'TIME_CREATED': TIME_CREATED,
       'CHAT_ID': CHAT_ID,
+      'FILE_META': FILE_META,
+      'PHOTO_META': PHOTO_META,
       'MY_SELF': MY_SELF,
       "FILE": FILE,
     };

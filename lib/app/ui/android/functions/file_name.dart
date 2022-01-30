@@ -17,6 +17,14 @@ String convertFileName(String url) {
   return file_name;
 }
 
+String preventOverflow(String filename) {
+  if (filename.length >= 25) {
+    return filename.substring(0, 25) + "...";
+  } else {
+    return filename;
+  }
+}
+
 String getFileSize(int bytes) {
   if (bytes == null) {
     return "unknown size";

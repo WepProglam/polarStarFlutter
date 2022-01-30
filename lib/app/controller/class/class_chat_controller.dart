@@ -360,8 +360,8 @@ class ClassChatController extends GetxController {
       tempList.removeWhere((element) {
         if (element.value.FILE_META != null &&
             element.value.FILE_META.length > 0) {
-          if (element.value.FILE_META.first["file_name"] ==
-              chat.value.FILE_META.first["file_name"]) {
+          if (element.value.FILE_META[0]["file_name"] ==
+              chat.value.FILE_META[0]["file_name"]) {
             print("remove!!");
 
             return true;

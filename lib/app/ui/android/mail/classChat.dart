@@ -1274,7 +1274,7 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                           children: [
                                             Text(
                                               model.value.FILE_META != null
-                                                  ? "${model.value.FILE_META[0]["file_name"]}"
+                                                  ? "${preventOverflow(model.value.FILE_META[0]["file_name"])}"
                                                   : "unknown",
                                               style: const TextStyle(
                                                   color:
