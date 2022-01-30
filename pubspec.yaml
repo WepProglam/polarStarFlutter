@@ -79,6 +79,7 @@ dependencies:
   flutter_downloader: ^1.7.2
   device_info_plus: ^3.2.1
   image_size_getter: ^1.0.0
+  package_info: ^2.0.2
 
   
 dependency_overrides:

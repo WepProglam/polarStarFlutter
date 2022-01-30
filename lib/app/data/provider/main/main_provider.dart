@@ -64,6 +64,17 @@ class MainApiClient {
     return {"status": response.statusCode, "listBoard": listBoard};
   }
 
+  Future<Map<String, String>> versionCheck() async {
+    final response = await Session().getX('/versionCheck');
+    final jsonResponse = jsonDecode(response.body);
+
+    return {
+      "status": response.statusCode.toString(),
+      "min_version": jsonResponse["min_version"],
+      "latest_version": jsonResponse["latest_version"]
+    };
+  }
+
   Future<List<dynamic>> refreshLikeList() async {
     final response = await Session().getX('/main/refresh/like');
     final jsonResponse = jsonDecode(response.body);
