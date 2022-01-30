@@ -4,6 +4,7 @@ import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/search/search_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
+import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
@@ -11,6 +12,7 @@ import 'package:polarstar_flutter/app/ui/android/search/search_board.dart';
 import 'package:polarstar_flutter/app/ui/android/search/widgets/search_bar.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/app_bar.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/board_name.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/banner_widget.dart';
 
 class Board extends StatelessWidget {
   Board({Key key}) : super(key: key);
@@ -101,123 +103,180 @@ class Board extends StatelessWidget {
             ),
             body: RefreshIndicator(
               onRefresh: MainUpdateModule.updateBoard,
-              child: Stack(
+              child: Column(
                 children: [
-                  Column(
-                    children: [
-                      // ToDo: 쓸데없는 빈칸 삭제
-                      /* Container(
+                  // ToDo: 쓸데없는 빈칸 삭제
+                  /* Container(
                         height: 0,
                         width: Get.mediaQuery.size.width,
                       ), */
-                      // Container(
-                      //   height: 30,
-                      //   color: const Color(0x1a1a4678),
-                      //   child: BoardAnnounce(),
-                      // ),
-
-                      Container(
-                        margin: const EdgeInsets.only(top: 16),
-                      ),
-                      // 게시글 프리뷰 리스트
-                      Expanded(
-                        child: Obx(() {
-                          if (controller.dataAvailablePostPreview.value) {
-                            return ListView.builder(
-                                physics: AlwaysScrollableScrollPhysics(),
-                                controller: controller.scrollController.value,
-                                itemCount: controller.page.value ==
-                                        controller.searchMaxPage.value
-                                    ? controller.postBody.length
-                                    : controller.postBody.length + 1,
-                                itemBuilder: (BuildContext context, int index) {
-                                  if (index == controller.postBody.length) {
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        color: Get.theme.primaryColor,
-                                      ),
-                                    );
-                                  }
-                                  return Ink(
-                                    child: InkWell(
-                                      onTap: () async {
-                                        await Get.toNamed(
-                                            "/board/${controller.postBody[index].value.COMMUNITY_ID}/read/${controller.postBody[index].value.BOARD_ID}",
-                                            arguments: {
-                                              "type": 2
-                                            }).then((value) async {
-                                          await MainUpdateModule.updateBoard();
-                                        });
-                                      },
-                                      child: PostWidget(
-                                        item: controller.postBody[index],
-                                        index: index,
-                                        mainController: mainController,
-                                      ),
-                                    ),
-                                  );
-                                });
-                          } else if (controller.httpStatus != 200) {
-                            return Text("아직 게시글이 없습니다.");
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: Get.theme.primaryColor,
+                  // Container(
+                  //   height: 30,
+                  //   color: const Color(0x1a1a4678),
+                  //   child: BoardAnnounce(),
+                  // ),
+                  // Rectangle 54
+                  Obx(() {
+                    bool isExist = true;
+                    BoardInfo boardInfo = mainController.boardInfo.firstWhere(
+                        (element) =>
+                            element.value.COMMUNITY_ID ==
+                            controller.COMMUNITY_ID.value, orElse: () {
+                      print("error!");
+                      isExist = false;
+                      return mainController.boardInfo.first;
+                    }).value;
+                    return isExist
+                        ? Container(
+                            height: boardInfo.IS_DEFAULT ? 0 : 73,
+                            child: Row(children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                        left: 20, right: 20, top: 0),
+                                    width: Get.mediaQuery.size.width - 20.0 * 2,
+                                    child: Text(
+                                        "${boardInfo.COMMUNITY_NAME}에 오신 것을 환영합니다！",
+                                        style: const TextStyle(
+                                            color: const Color(0xffffffff),
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: "NotoSansKR",
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 12.0),
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                        left: 20, right: 20, top: 2),
+                                    width: Get.mediaQuery.size.width - 20.0 * 2,
+                                    child: Text(
+                                        "${boardInfo.COMMUNITY_DESCRIPTION}",
+                                        style: const TextStyle(
+                                            color: const Color(0xff6f6e6e),
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: "NotoSansSC",
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 10.0),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.left),
+                                  )
+                                ],
                               ),
-                            );
-                          }
-                        }),
-                      ),
-                    ],
+                            ]),
+                            decoration:
+                                BoxDecoration(color: const Color(0xff2f2f2f)))
+                        : Container();
+                  }),
+
+                  Container(
+                    margin: const EdgeInsets.only(top: 24),
+                    child: BannerWidget(isScrollAble: true),
                   ),
-                  // ToDo: Search Bar 제거
-                  /* SearchBar(
+                  Container(
+                    height: 24,
+                  ),
+                  // 게시글 프리뷰 리스트
+                  Expanded(
+                    child: Obx(() {
+                      if (controller.dataAvailablePostPreview.value) {
+                        return ListView.builder(
+                            physics: AlwaysScrollableScrollPhysics(),
+                            controller: controller.scrollController.value,
+                            itemCount: controller.page.value ==
+                                    controller.searchMaxPage.value
+                                ? controller.postBody.length
+                                : controller.postBody.length + 1,
+                            itemBuilder: (BuildContext context, int index) {
+                              if (index == controller.postBody.length) {
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: Get.theme.primaryColor,
+                                  ),
+                                );
+                              }
+                              return Ink(
+                                child: InkWell(
+                                  onTap: () async {
+                                    await Get.toNamed(
+                                        "/board/${controller.postBody[index].value.COMMUNITY_ID}/read/${controller.postBody[index].value.BOARD_ID}",
+                                        arguments: {
+                                          "type": 2
+                                        }).then((value) async {
+                                      await MainUpdateModule.updateBoard();
+                                    });
+                                  },
+                                  child: PostWidget(
+                                    item: controller.postBody[index],
+                                    index: index,
+                                    mainController: mainController,
+                                  ),
+                                ),
+                              );
+                            });
+                      } else if (controller.httpStatus != 200) {
+                        return Text("아직 게시글이 없습니다.");
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Get.theme.primaryColor,
+                          ),
+                        );
+                      }
+                    }),
+                  ),
+                ],
+              ),
+              // ToDo: Search Bar 제거
+              /* SearchBar(
                       // controller: searchController,
                       ), */
 
-                  // ! 글쓰기 아이콘 변경
-                  // Positioned(
-                  //     bottom: 151.5,
-                  //     right: 0,
-                  //     child: GestureDetector(
-                  //       onTap: () {
-                  //         Get.toNamed(
-                  //             '/board/${Get.parameters["COMMUNITY_ID"]}');
-                  //       },
-                  //       child: Container(
-                  //         width: 72,
-                  //         height: 47,
-                  //         decoration: BoxDecoration(
-                  //             borderRadius: BorderRadius.only(
-                  //                 topLeft: Radius.circular(47),
-                  //                 bottomLeft: Radius.circular(47)),
-                  //             boxShadow: [
-                  //               BoxShadow(
-                  //                   color: const Color(0x24111111),
-                  //                   offset: Offset(0, 8),
-                  //                   blurRadius: 20,
-                  //                   spreadRadius: 0)
-                  //             ],
-                  //             color: const Color(0xffffffff)),
-                  //         child: Container(
-                  //           width: 39,
-                  //           height: 39,
-                  //           margin: const EdgeInsets.fromLTRB(6, 4, 27, 4),
-                  //           child: Center(
-                  //             child: Container(
-                  //                 width: 17,
-                  //                 height: 17,
-                  //                 child: Image.asset(
-                  //                     "assets/images/write_pencil.png")),
-                  //           ),
-                  //           decoration: BoxDecoration(
-                  //               color: const Color(0xff1a4678),
-                  //               shape: BoxShape.circle),
-                  //         ),
-                  //       ),
-                  //     ))
-                ],
-              ),
+              // ! 글쓰기 아이콘 변경
+              // Positioned(
+              //     bottom: 151.5,
+              //     right: 0,
+              //     child: GestureDetector(
+              //       onTap: () {
+              //         Get.toNamed(
+              //             '/board/${Get.parameters["COMMUNITY_ID"]}');
+              //       },
+              //       child: Container(
+              //         width: 72,
+              //         height: 47,
+              //         decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.only(
+              //                 topLeft: Radius.circular(47),
+              //                 bottomLeft: Radius.circular(47)),
+              //             boxShadow: [
+              //               BoxShadow(
+              //                   color: const Color(0x24111111),
+              //                   offset: Offset(0, 8),
+              //                   blurRadius: 20,
+              //                   spreadRadius: 0)
+              //             ],
+              //             color: const Color(0xffffffff)),
+              //         child: Container(
+              //           width: 39,
+              //           height: 39,
+              //           margin: const EdgeInsets.fromLTRB(6, 4, 27, 4),
+              //           child: Center(
+              //             child: Container(
+              //                 width: 17,
+              //                 height: 17,
+              //                 child: Image.asset(
+              //                     "assets/images/write_pencil.png")),
+              //           ),
+              //           decoration: BoxDecoration(
+              //               color: const Color(0xff1a4678),
+              //               shape: BoxShape.circle),
+              //         ),
+              //       ),
+              //     ))
             )));
   }
 }

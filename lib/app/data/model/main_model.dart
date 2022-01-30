@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:string_validator/string_validator.dart';
 
 class BoardInfo {
-  String COMMUNITY_NAME, RECENT_TITLE;
+  String COMMUNITY_NAME, RECENT_TITLE, COMMUNITY_DESCRIPTION;
   DateTime RECENT_TIME;
   int COMMUNITY_ID;
   bool isFollowed, isChecked, isNew, IS_DEFAULT;
@@ -14,7 +14,8 @@ class BoardInfo {
       RECENT_TIME,
       isNew,
       isFollowed,
-      IS_DEFAULT});
+      IS_DEFAULT,
+      COMMUNITY_DESCRIPTION});
 
   BoardInfo.fromJson(Map<String, dynamic> json) {
     this.COMMUNITY_NAME = json['COMMUNITY_NAME'];
@@ -26,6 +27,7 @@ class BoardInfo {
     this.isFollowed = toBoolean("${json["isFollowed"]}");
     this.IS_DEFAULT = toBoolean("${json["IS_DEFAULT"]}");
     this.isChecked = true;
+    this.COMMUNITY_DESCRIPTION = json["COMMUNITY_DESCRIPTION"];
 
     this.isNew = DateTime.now()
         .subtract(const Duration(hours: 15))
@@ -43,6 +45,7 @@ class BoardInfo {
     data["RECENT_TITLE"] = "${this.RECENT_TITLE}";
     data["RECENT_TIME"] = "${this.RECENT_TIME}";
     data["isFollowed"] = "${this.isFollowed}";
+    data["COMMUNITY_DESCRIPTION"] = "${this.COMMUNITY_DESCRIPTION}";
     return data;
   }
 }

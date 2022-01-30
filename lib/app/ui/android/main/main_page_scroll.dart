@@ -94,7 +94,7 @@ class MainPageScroll extends StatelessWidget {
                     children: [
                       Container(
                         margin:
-                            const EdgeInsets.only(top: 24, left: 20, right: 20),
+                            const EdgeInsets.only(top: 10, left: 20, right: 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -135,14 +135,14 @@ class MainPageScroll extends StatelessWidget {
                       ),
                       Container(
                         margin:
-                            const EdgeInsets.only(top: 9, left: 20, right: 20),
+                            const EdgeInsets.only(top: 15, left: 20, right: 20),
                         child: NormalSearchBar(
                             searchText: searchText,
                             searchFocusNode: searchFocusNode,
                             mainController: mainController),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 198),
+                        margin: const EdgeInsets.only(top: 170),
                         decoration: BoxDecoration(
                             color: const Color(whiteColor),
                             borderRadius: BorderRadius.only(
@@ -651,7 +651,7 @@ class MainPageScroll extends StatelessWidget {
                 ),
                 Positioned(
                     right: 20.0,
-                    top: 163.6,
+                    top: 163.6 - 20,
                     child: Image.asset(
                       "assets/images/378.png",
                       // width: 272,

@@ -65,7 +65,7 @@ class Noti extends StatelessWidget {
                 floating: true,
                 snap: false,
                 elevation: 1,
-                expandedHeight: 48 + 24.0 * 2 + 100 + 12,
+                expandedHeight: 48 + 24.0 * 2 + 100,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
                     color: const Color(0xffffffff),
@@ -108,7 +108,7 @@ class Noti extends StatelessWidget {
                       ),
                       // * 정보제공
                       Container(
-                        margin: const EdgeInsets.only(bottom: 24),
+                        margin: const EdgeInsets.only(bottom: 12),
                         child: BannerWidget(isScrollAble: false),
                       ),
                     ]),
@@ -122,28 +122,31 @@ class Noti extends StatelessWidget {
                 )),
           ];
         },
-        body: TabBarView(
-          controller: notiController.tabController,
-          children: [
-            RefreshIndicator(
-              onRefresh: () async {
-                await MainUpdateModule.updateNotiPage(0);
-              },
-              child: NotiWidget(notiController: notiController),
-            ),
-            RefreshIndicator(
+        body: Container(
+          margin: const EdgeInsets.only(top: 12),
+          child: TabBarView(
+            controller: notiController.tabController,
+            children: [
+              RefreshIndicator(
                 onRefresh: () async {
-                  await MainUpdateModule.updateNotiPage(1);
+                  await MainUpdateModule.updateNotiPage(0);
                 },
-                child: ChatWidget(
-                    notiController: notiController,
-                    classChatController: classChatController)),
-            RefreshIndicator(
-                onRefresh: () async {
-                  await MainUpdateModule.updateNotiPage(2);
-                },
-                child: MailWidget(notiController: notiController))
-          ],
+                child: NotiWidget(notiController: notiController),
+              ),
+              RefreshIndicator(
+                  onRefresh: () async {
+                    await MainUpdateModule.updateNotiPage(1);
+                  },
+                  child: ChatWidget(
+                      notiController: notiController,
+                      classChatController: classChatController)),
+              RefreshIndicator(
+                  onRefresh: () async {
+                    await MainUpdateModule.updateNotiPage(2);
+                  },
+                  child: MailWidget(notiController: notiController))
+            ],
+          ),
         ),
       ),
     );
