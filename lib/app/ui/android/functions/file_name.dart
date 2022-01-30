@@ -17,17 +17,25 @@ String convertFileName(String url) {
   return file_name;
 }
 
-String preventOverflow(String filename) {
+String trimFileName(String filename) {
   if (filename == null) {
     return "unknown file";
-  } else if (filename.length >= 25) {
-    return filename.substring(0, 25) + "...";
+  } else if (filename.length >= 20) {
+    return filename.substring(0, 20) + "...";
   } else {
     return filename;
   }
 }
 
-String getFileSize(int bytes) {
+String trimExpire(String expire) {
+  if (expire == null) {
+    return "unknown date";
+  } else {
+    return expire;
+  }
+}
+
+String trimFileSize(int bytes) {
   if (bytes == null) {
     return "unknown size";
   }
