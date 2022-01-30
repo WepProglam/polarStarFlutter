@@ -118,9 +118,13 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
       // });
       controller.dataAvailble.value = true;
       isPreCacheNeeded = false;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        controller.chatScrollController
-            .jumpTo(controller.chatScrollController.position.maxScrollExtent);
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        Future.delayed(_).then((value) async {
+          controller.frameComplete(true);
+          await Future.delayed(Duration(seconds: 1));
+          controller.chatScrollController
+              .jumpTo(controller.chatScrollController.position.maxScrollExtent);
+        });
       });
     }
   }
@@ -324,7 +328,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
           ),
           body: Obx(() {
             print("???????? ${controller.dataAvailble.value}");
-            if (controller.dataAvailble.value) {
+            if (controller.dataAvailble.value ||
+                controller.frameComplete.value) {
               print("data available");
 
               // WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -358,11 +363,15 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                   controller: controller.chatScrollController,
                   child: Column(children: [
                     Obx(() {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) async {
                         if (controller.isNewMessage.value) {
-                          controller.chatScrollController.jumpTo(controller
-                              .chatScrollController.position.maxScrollExtent);
-                          controller.isNewMessage.value = false;
+                          Future.delayed(_).then((value) async {
+                            controller.frameComplete(true);
+                            await Future.delayed(Duration(seconds: 1));
+                            controller.chatScrollController.jumpTo(controller
+                                .chatScrollController.position.maxScrollExtent);
+                            controller.isNewMessage.value = false;
+                          });
                         }
                       });
                       print("re build!!");

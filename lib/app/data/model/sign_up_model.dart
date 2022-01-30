@@ -17,17 +17,15 @@ class SignUpModel {
 }
 
 class CollegeMajorModel {
-  String NAME;
-  int CLASS_INDEX_ID, INDEX_COLLEGE_NAME, INDEX_TYPE, INDEX;
+  String COLLEGE_NAME, MAJOR_NAME;
+  int COLLEGE_ID, MAJOR_ID;
 
-  CollegeMajorModel(
-      {NAME, CLASS_INDEX_ID, INDEX_COLLEGE_NAME, INDEX_TYPE, INDEX});
+  CollegeMajorModel({COLLEGE_NAME, MAJOR_NAME, COLLEGE_ID, MAJOR_ID});
 
   CollegeMajorModel.fromJson(Map<String, dynamic> json) {
-    this.NAME = json["NAME"];
-    this.CLASS_INDEX_ID = json["CLASS_INDEX_ID"];
-    this.INDEX_COLLEGE_NAME = json["INDEX_COLLEGE_NAME"];
-    this.INDEX_TYPE = json["INDEX_TYPE"];
-    this.INDEX = json["INDEX"];
+    this.COLLEGE_NAME = json["COLLEGE_NAME"];
+    this.MAJOR_NAME = json["MAJOR_NAME"];
+    this.COLLEGE_ID = json["COLLEGE_ID"];
+    this.MAJOR_ID = json["MAJOR_ID"];
   }
 }

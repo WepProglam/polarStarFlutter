@@ -35,6 +35,7 @@ class ClassModel {
       CREDIT});
 
   ClassModel.fromJson(Map<String, dynamic> json) {
+    print(json);
     this.CLASS_ID = nullCheck(json["CLASS_ID"]);
     this.HEAD_COUNT = nullCheck(json["HEAD_COUNT"]);
 
@@ -44,7 +45,7 @@ class ClassModel {
     this.CREDIT = nullCheck(
         json["CREDIT"] == null ? null : double.parse("${json["CREDIT"]}"));
     this.CLASS_SECTOR_1 = nullCheck(json["CLASS_SECTOR_1"]);
-    this.CLASS_SECTOR_TOTAL = nullCheck(json["CLASS_SECTOR_TOTAL"]);
+    this.CLASS_SECTOR_TOTAL = nullCheck(json["CLASS_SECTOR_2"]);
     this.COLLEGE_NAME = nullCheck(json["COLLEGE_NAME"]);
     this.RATE = json["AVG(RATE)"] == null ? "0" : json["AVG(RATE)"];
     this.COLLEGE_MAJOR = nullCheck(json["COLLEGE_MAJOR"]);
