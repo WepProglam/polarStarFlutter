@@ -111,7 +111,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
     if (isPreCacheNeeded) {
       controller.dataAvailble.value = false;
 
-      await preCacheImage(model);
+      preCacheImage(model);
 
       // await Timer(Duration(milliseconds: 100), () {
 
@@ -125,10 +125,10 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
     }
   }
 
-  Future<void> preCacheImage(Rx<ChatBoxModel> model) async {
+  void preCacheImage(Rx<ChatBoxModel> model) {
     for (Rx<ChatModel> item in model.value.ChatList) {
       if (item.value.PHOTO != null && item.value.PHOTO.length > 0) {
-        await precacheImage(item.value.PRE_IMAGE[0].image, context);
+        precacheImage(item.value.PRE_IMAGE[0].image, context);
         // await precacheImage(item.value.PRE_CACHE_IMAGE[0].image, context);
       }
     }
