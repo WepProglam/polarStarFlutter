@@ -106,7 +106,8 @@ class ChatBoxModel {
 class ChatModel {
   String CONTENT, PROFILE_NICKNAME, PROFILE_PHOTO;
   List<dynamic> PHOTO, FILE;
-  List<dynamic> FILE_META, PHOTO_META;
+  List<FileMetalModel> FILE_META;
+  List<PhotoMetaModel> PHOTO_META;
   List<Image> PRE_IMAGE;
   // List<Image> PRE_CACHE_IMAGE;
   bool FILE_DOWNLOADED, FILE_DOWNLOADING;
@@ -146,6 +147,8 @@ class ChatModel {
   }
 
   ChatModel.fromJson(Map<String, dynamic> json) {
+    this.IS_PRE_SEND = json["IS_PRE_SEND"] == null ? false : true;
+
     this.BOX_ID = nullCheck(json["BOX_ID"]);
     this.CONTENT = nullCheck("${json["CONTENT"]}");
     if (json["PHOTO"] == null) {
@@ -156,27 +159,48 @@ class ChatModel {
       } else {
         this.PHOTO = json["PHOTO"];
       }
+
+      if (json["PHOTO_META"] == null || json["PHOTO_META"].isEmpty) {
+        this.PHOTO_META = null;
+      } else {
+        List<dynamic> temp = [];
+        if (json["PHOTO_META"].runtimeType == String) {
+          temp = jsonDecode(json["PHOTO_META"]);
+        } else {
+          temp = json["PHOTO_META"];
+        }
+        print(temp);
+        this.PHOTO_META = [PhotoMetaModel.fromJson(temp[0])];
+      }
+
       if (this.PHOTO.length > 0) {
-        this.PRE_IMAGE = [
-          Image(
-            image: CachedNetworkImageProvider(this.PHOTO[0],
-                scale: 0.1, maxHeight: 260),
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress == null) {
-                return Container(
-                  height: 260,
-                  child: child,
-                );
-              } else {
-                return Container(
-                  height: 260,
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
-            },
-            gaplessPlayback: true,
-          )
-        ];
+        if (this.IS_PRE_SEND) {
+          this.PRE_IMAGE = json["PRE_IMAGE"];
+          print("pre send!");
+        } else {
+          print(this.PHOTO_META.first.PHOTO_NAME);
+          print(this.PHOTO_META.first.PIXEL_HEIGHT);
+          print(this.PHOTO_META.first.PIXEL_WIDTH);
+          this.PRE_IMAGE = [
+            Image(
+              image: CachedNetworkImageProvider(this.PHOTO[0], scale: 0.1),
+              // loadingBuilder: (context, child, loadingProgress) {
+              //   if (loadingProgress == null) {
+              //     return Container(
+              //       child: child,
+              //     );
+              //   } else {
+              //     return Container(
+              //       height: this.PHOTO_META.first.PIXEL_HEIGHT.toDouble(),
+              //       child: Center(child: CircularProgressIndicator()),
+              //     );
+              //   }
+              // },
+              gaplessPlayback: true,
+            )
+          ];
+        }
+
         // this.PRE_CACHE_IMAGE = [
         //   Image.network(
         //     this.PHOTO[0],
@@ -186,22 +210,26 @@ class ChatModel {
       }
     }
 
-    if (json["PHOTO_META"] == null || json["PHOTO_META"].isEmpty) {
-      this.PHOTO_META = null;
-    } else if (json["PHOTO_META"].runtimeType == String) {
-      this.PHOTO_META = jsonDecode(json["PHOTO_META"]);
-    } else {
-      this.PHOTO_META = json["PHOTO_META"];
-    }
+    // else if (json["PHOTO_META"].runtimeType == String) {
+    //   this.PHOTO_META = jsonDecode(json["PHOTO_META"]);
+    // } else {
+    //   this.PHOTO_META = json["PHOTO_META"];
+    // }
 
-    if (json["FILE_META"] == null || json["FILE_META"].isEmpty) {
+    if (json["FILE_META"] == null ||
+        json["FILE_META"].isEmpty ||
+        json["FILE_META"] == "[]") {
       this.FILE_META = null;
-    } else if (json["FILE_META"].runtimeType == String) {
-      this.FILE_META = jsonDecode(json["FILE_META"]);
     } else {
+      List<dynamic> temp = [];
+      if (json["FILE_META"].runtimeType == String) {
+        temp = jsonDecode(json["FILE_META"]);
+      } else {
+        temp = json["FILE_META"];
+      }
       print(json["FILE_META"]);
-      print(json["FILE_META"].runtimeType);
-      this.FILE_META = json["FILE_META"];
+      print(temp);
+      this.FILE_META = [FileMetalModel.fromJson(temp[0])];
     }
 
     if (json["FILE"] == null) {
@@ -234,7 +262,19 @@ class ChatModel {
     this.CHAT_ID = nullCheck(json["CHAT_ID"]);
 
     this.MY_SELF = json["MY_SELF"] == null ? false : nullCheck(json["MY_SELF"]);
-    this.IS_PRE_SEND = json["IS_PRE_SEND"] == null ? false : true;
+  }
+}
+
+class FileMetalModel {
+  String FILE_NAME, EXPIRE;
+  int FILE_SIZE;
+
+  FileMetalModel({this.FILE_NAME, this.EXPIRE, this.FILE_SIZE});
+
+  FileMetalModel.fromJson(Map<String, dynamic> json) {
+    this.FILE_NAME = json["file_name"];
+    this.FILE_SIZE = json["file_size"];
+    this.EXPIRE = json["expire"];
   }
 }
 
@@ -248,5 +288,19 @@ class ChatPrifileModel {
     this.PROFILE_NICKNAME = json["PROFILE_NICKNAME"];
     this.PROFILE_PHOTO = json["PROFILE_PHOTO"];
     this.MY_SELF = json["MY_SELF"];
+  }
+}
+
+class PhotoMetaModel {
+  int PIXEL_HEIGHT, PIXEL_WIDTH;
+  String PHOTO_NAME;
+
+  PhotoMetaModel({this.PIXEL_HEIGHT, this.PIXEL_WIDTH, this.PHOTO_NAME});
+
+  PhotoMetaModel.fromJson(Map<String, dynamic> json) {
+    print(json);
+    this.PIXEL_HEIGHT = json["pixel_height"];
+    this.PIXEL_WIDTH = json["pixel_width"];
+    this.PHOTO_NAME = json["photo_name"];
   }
 }

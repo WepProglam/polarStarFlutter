@@ -18,6 +18,7 @@ import 'package:http/http.dart' as http;
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:polarstar_flutter/firebase/firebase_config.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'app/controller/loby/init_controller.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -71,6 +72,7 @@ IO.Socket classChatSocket;
 
 void main() async {
   await GetStorage.init();
+  AssetPicker.themeData(Color(0xff4570ff));
 
   await Firebase.initializeApp();
 

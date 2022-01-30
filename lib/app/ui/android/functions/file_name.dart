@@ -4,10 +4,10 @@ String convertFileName(String url) {
   String aws = "/";
   String file_name = url.split(aws).last;
   int file_extend_length = file_name.split(".").last.length + 1;
-  int length_limit = 5 + 5 + file_extend_length;
+  int length_limit = 6 + 6 + file_extend_length;
   if (file_name.length > length_limit) {
-    int last_start = file_name.length - 5 - file_extend_length;
-    String first_string = file_name.substring(0, 5);
+    int last_start = file_name.length - 6 - file_extend_length;
+    String first_string = file_name.substring(0, 6);
     String middle_string = "...";
     print(file_name);
     String last_string = file_name.substring(last_start);
@@ -31,7 +31,8 @@ String trimExpire(String expire) {
   if (expire == null) {
     return "unknown date";
   } else {
-    return expire;
+    DateTime expire_date = DateTime.parse(expire);
+    return "${expire_date}".split(" ")[0];
   }
 }
 

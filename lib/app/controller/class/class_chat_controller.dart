@@ -10,6 +10,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
@@ -202,10 +203,16 @@ class ClassChatController extends GetxController {
 
   Future<void> sendPhoto() async {
     List<Map> sendFileObj = [];
+    String dirloc = "";
+    if (Platform.isAndroid) {
+      dirloc = "/sdcard/download/";
+    } else {
+      dirloc = (await getApplicationDocumentsDirectory()).path;
+    }
     for (int i = 0; i < photos.length; i++) {
-      final size = ImageSizeGetter.getSize(
-          FileInput(File(photos[i].relativePath + "/" + photos[i].title)));
-
+      final size =
+          ImageSizeGetter.getSize(FileInput(File(dirloc + photos[i].title)));
+      print(photos[i].relativePath + photos[i].title);
       // ! 사진 구별 필요
       ChatModel item = ChatModel.fromJson({
         "BOX_ID": currentBoxID.value,
@@ -217,6 +224,35 @@ class ClassChatController extends GetxController {
             "pixel_width": size.width
           }
         ],
+        "PRE_IMAGE": [
+          Image.file(
+            File(dirloc + photos[i].title),
+            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+              if (wasSynchronouslyLoaded) {
+                print("wasSynchronouslyLoaded : ${wasSynchronouslyLoaded}");
+                isNewMessage.value = true;
+                return child;
+              }
+              return Container();
+            },
+          )
+          // Image(
+          //   image: AssetImage(photos[i].relativePath + photos[i].title),
+          //   loadingBuilder: (context, child, loadingProgress) {
+          //     if (loadingProgress == null) {
+          //       return Container(
+          //         child: child,
+          //       );
+          //     } else {
+          //       return Container(
+          //         height: 260,
+          //         child: Center(child: CircularProgressIndicator()),
+          //       );
+          //     }
+          //   },
+          //   gaplessPlayback: true,
+          // ),
+        ],
         "PHOTO": ["fuckfuck"],
         "TIME_CREATED": "${DateTime.now()}",
         "IS_PRE_SEND": true
@@ -226,7 +262,7 @@ class ClassChatController extends GetxController {
       });
       print("add!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       print(findCurBox.value.LoadingChatList.first.toJson());
-      isNewMessage.value = true;
+
       Map tmp = {};
       tmp["content"] = await photos[i].originBytes;
       tmp["fileName"] = basename(photos[i].title);
@@ -360,8 +396,8 @@ class ClassChatController extends GetxController {
       tempList.removeWhere((element) {
         if (element.value.FILE_META != null &&
             element.value.FILE_META.length > 0) {
-          if (element.value.FILE_META[0]["file_name"] ==
-              chat.value.FILE_META[0]["file_name"]) {
+          if (element.value.FILE_META[0].FILE_NAME ==
+              chat.value.FILE_META[0].FILE_NAME) {
             print("remove!!");
 
             return true;
@@ -381,10 +417,10 @@ class ClassChatController extends GetxController {
       RxList<Rx<ChatModel>> tempList = <Rx<ChatModel>>[].obs;
       tempList.value = val.LoadingChatList.value;
       tempList.removeWhere((element) {
-        if (element.value.FILE_META != null &&
-            element.value.FILE_META.length > 0) {
-          if (element.value.FILE_META.first["file_name"] ==
-              chat.value.FILE_META.first["file_name"]) {
+        if (element.value.PHOTO_META != null &&
+            element.value.PHOTO_META.length > 0) {
+          if (element.value.PHOTO_META.first.PHOTO_NAME ==
+              chat.value.PHOTO_META.first.PHOTO_NAME) {
             print("remove!!");
 
             return true;

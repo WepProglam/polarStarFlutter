@@ -119,12 +119,13 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
       controller.dataAvailble.value = true;
       isPreCacheNeeded = false;
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        Future.delayed(_).then((value) async {
-          controller.frameComplete(true);
-          await Future.delayed(Duration(seconds: 1));
-          controller.chatScrollController
-              .jumpTo(controller.chatScrollController.position.maxScrollExtent);
-        });
+        // Future.delayed(_).then((value) async {
+        //   controller.frameComplete(true);
+        //   await Future.delayed(Duration(seconds: 1));
+
+        // });
+        controller.chatScrollController
+            .jumpTo(controller.chatScrollController.position.maxScrollExtent);
       });
     }
   }
@@ -350,8 +351,14 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
               return GestureDetector(
                 onTap: () {
                   if (controller.tapTextField.value) {
+                    print(controller
+                        .chatScrollController.position.maxScrollExtent);
                     double target_pos = controller.chatScrollController.offset -
-                        getKeyboardHeight();
+                                getKeyboardHeight() <
+                            0
+                        ? 0
+                        : controller.chatScrollController.offset -
+                            getKeyboardHeight();
                     controller.chatScrollController.jumpTo(target_pos);
                   }
 
@@ -365,13 +372,16 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                     Obx(() {
                       WidgetsBinding.instance.addPostFrameCallback((_) async {
                         if (controller.isNewMessage.value) {
-                          Future.delayed(_).then((value) async {
-                            controller.frameComplete(true);
-                            await Future.delayed(Duration(seconds: 1));
-                            controller.chatScrollController.jumpTo(controller
-                                .chatScrollController.position.maxScrollExtent);
-                            controller.isNewMessage.value = false;
-                          });
+                          controller.chatScrollController.jumpTo(controller
+                              .chatScrollController.position.maxScrollExtent);
+                          controller.isNewMessage.value = false;
+                          // Future.delayed(_).then((value) async {
+                          //   controller.frameComplete(true);
+                          //   await Future.delayed(Duration(seconds: 1));
+                          //   controller.chatScrollController.jumpTo(controller
+                          //       .chatScrollController.position.maxScrollExtent);
+                          //   controller.isNewMessage.value = false;
+                          // });
                         }
                       });
                       print("re build!!");
@@ -713,18 +723,27 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
 
                                   if (!controller.tapTextField.value) {
                                     controller.tapTextField.value = true;
+                                    Future.delayed(Duration(milliseconds: 100),
+                                        () {
+                                      double max_extent = controller
+                                          .chatScrollController
+                                          .position
+                                          .maxScrollExtent;
+                                      double offset_height = controller
+                                              .chatScrollController.offset +
+                                          getKeyboardHeight();
 
-                                    double target_pos =
-                                        controller.chatScrollController.offset +
-                                            getKeyboardHeight();
+                                      print(
+                                          "off_set : ${offset_height} - max_extent : ${max_extent}");
 
-                                    controller.chatScrollController
-                                        .jumpTo(target_pos);
-                                  }
-                                  if (controller.chatScrollController.position
-                                          .maxScrollExtent ==
-                                      0) {
-                                    return;
+                                      double target_pos =
+                                          offset_height > max_extent
+                                              ? max_extent
+                                              : offset_height;
+
+                                      controller.chatScrollController
+                                          .jumpTo(target_pos);
+                                    });
                                   }
 
                                   // Timer(
@@ -792,6 +811,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
+                                  hintText: "",
                                   hintStyle: const TextStyle(
                                       color: const Color(0xff9b9b9b),
                                       fontWeight: FontWeight.w400,
@@ -992,7 +1012,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                 controller.files = result.paths
                                                     .map((path) => File(path))
                                                     .toList();
-                                                await controller.sendFile();
+                                                controller.sendFile();
                                               } else {
                                                 // User canceled the picker
                                               }
@@ -1178,7 +1198,7 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
           return Opacity(
             opacity: model.value.IS_PRE_SEND ? 0.1 : 1.0,
             child: Container(
-                constraints: BoxConstraints(maxWidth: 260),
+                constraints: BoxConstraints(maxWidth: 200),
                 decoration: isPhotoExist || isFileExist
                     ? null
                     : BoxDecoration(
@@ -1209,7 +1229,6 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                 //     openFileFromNotification: true);
                               },
                               child: Container(
-                                  width: 236,
                                   height: 70,
                                   decoration: BoxDecoration(
                                       borderRadius:
@@ -1266,49 +1285,60 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                       ),
                                       Container(
                                         margin: const EdgeInsets.only(left: 12),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              model.value.FILE_META != null
-                                                  ? "${trimFileName(model.value.FILE_META[0]["file_name"])}"
-                                                  : "unknown",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff2f2f2f),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "Roboto",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 12.0),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                            Text(
-                                              "유효기간: ${trimExpire(model.value.FILE_META[0]["expire"])}",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff9b9b9b),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "NotoSansKR",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 10.0),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                            Text(
-                                              "용량: ${trimFileSize(model.value.FILE_META[0]["file_size"])}",
-                                              style: const TextStyle(
-                                                  color:
-                                                      const Color(0xff9b9b9b),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: "NotoSansKR",
-                                                  fontStyle: FontStyle.normal,
-                                                  fontSize: 10.0),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                          ],
-                                        ),
+                                        child: model.value.IS_PRE_SEND
+                                            ? Container()
+                                            : Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    model.value.FILE_META !=
+                                                            null
+                                                        ? "${convertFileName(model.value.FILE_META[0].FILE_NAME)}"
+                                                        : "unknown",
+                                                    style: const TextStyle(
+                                                        color: const Color(
+                                                            0xff2f2f2f),
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontFamily: "Roboto",
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        fontSize: 12.0),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                  Text(
+                                                    "유효기간: ${trimExpire(model.value.FILE_META[0].EXPIRE)}",
+                                                    style: const TextStyle(
+                                                        color: const Color(
+                                                            0xff9b9b9b),
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontFamily:
+                                                            "NotoSansKR",
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        fontSize: 10.0),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                  Text(
+                                                    "용량: ${trimFileSize(model.value.FILE_META[0].FILE_SIZE)}",
+                                                    style: const TextStyle(
+                                                        color: const Color(
+                                                            0xff9b9b9b),
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontFamily:
+                                                            "NotoSansKR",
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        fontSize: 10.0),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                ],
+                                              ),
                                       )
                                     ],
                                   )),
@@ -1326,29 +1356,33 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                         //         fontSize: 14.0),
                         //     textAlign: TextAlign.left)
                         : (isPhotoExist
-                            ? model.value.IS_PRE_SEND
-                                ? Container()
-                                : Ink(
-                                    child: InkWell(
-                                        onTap: () {
-                                          Get.to(SeePhoto(
-                                              photo: [model.value.PHOTO[0]],
-                                              index: 0));
-                                        },
-                                        child: Container(
-                                            height:
-                                                model.value.PRE_IMAGE[0].height,
-                                            // child: ImageP
-                                            // child: model.value.PRE_CACHE_IMAGE[0]
-                                            child: model.value.PRE_IMAGE[0]
-                                            // Image(image: model.value.PRE_IMAGE[0]),
-                                            // child: CachedNetworkImage(
-                                            //     alignment: model.value.MY_SELF
-                                            //         ? Alignment.topRight
-                                            //         : Alignment.topLeft,
-                                            //         imageBuilder: (context, imageProvider) => model.value.PRE_IMAGE,
-                                            //     imageUrl: model.value.PHOTO[0]),
-                                            )))
+                            ? Ink(
+                                child: InkWell(
+                                    // onTap: () {
+                                    //   if (!model.value.IS_PRE_SEND) {
+                                    //     Get.to(SeePhoto(
+                                    //         photo: [model.value.PHOTO[0]],
+                                    //         index: 0));
+                                    //   }
+                                    // },
+                                    child: Container(
+                                        height: (200 *
+                                                model.value.PHOTO_META[0]
+                                                    .PIXEL_HEIGHT) /
+                                            model
+                                                .value.PHOTO_META[0].PIXEL_WIDTH
+                                                .toDouble(),
+                                        // child: ImageP
+                                        // child: model.value.PRE_CACHE_IMAGE[0]
+                                        child: model.value.PRE_IMAGE[0]
+                                        // Image(image: model.value.PRE_IMAGE[0]),
+                                        // child: CachedNetworkImage(
+                                        //     alignment: model.value.MY_SELF
+                                        //         ? Alignment.topRight
+                                        //         : Alignment.topLeft,
+                                        //         imageBuilder: (context, imageProvider) => model.value.PRE_IMAGE,
+                                        //     imageUrl: model.value.PHOTO[0]),
+                                        )))
 
                             // Text("사진입니다",
                             //     style: const TextStyle(
