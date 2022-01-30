@@ -59,13 +59,16 @@ class Noti extends StatelessWidget {
       body: NestedScrollView(
         floatHeaderSlivers: false,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
+          bool isScrollAble = true;
           return [
             SliverAppBar(
                 pinned: true,
                 floating: true,
                 snap: false,
                 elevation: 1,
-                expandedHeight: 48 + 24.0 * 2 + 100,
+                expandedHeight: isScrollAble
+                    ? 48 + 24.0 * 2 + 100 + 6
+                    : 48 + 24.0 * 2 + 100,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
                     color: const Color(0xffffffff),
@@ -109,7 +112,7 @@ class Noti extends StatelessWidget {
                       // * 정보제공
                       Container(
                         margin: const EdgeInsets.only(bottom: 12),
-                        child: BannerWidget(isScrollAble: false),
+                        child: BannerWidget(isScrollAble: isScrollAble),
                       ),
                     ]),
                   ),
@@ -346,6 +349,7 @@ class ChatWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // * 전공별 단톡방
             Container(
               margin: const EdgeInsets.only(left: 20),
               child: Text("专业群聊",
@@ -357,7 +361,44 @@ class ChatWidget extends StatelessWidget {
                       fontSize: 16.0),
                   textAlign: TextAlign.left),
             ),
+            ListView.builder(
+                itemCount: classChatController.majorChatBox.isEmpty
+                    ? 1
+                    : classChatController.majorChatBox.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  if (classChatController.majorChatBox.length == 0) {
+                    return Center(
+                      child: Text(
+                        "아직 채팅이 없습니다.",
+                        style: const TextStyle(
+                            color: const Color(0xff6f6e6e),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansKR",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                      ),
+                    );
+                  }
+                  Rx<ChatBoxModel> model =
+                      classChatController.majorChatBox[index];
+
+                  // * 채팅방 UI
+                  return ChatItem(model: model, isClass: 0);
+                }),
+
             // * 강의별 단톡방
+            Container(
+                margin: const EdgeInsets.only(left: 20, top: 35.5),
+                child: Text("课程群聊",
+                    style: const TextStyle(
+                        color: const Color(0xff2f2f2f),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 16.0),
+                    textAlign: TextAlign.left)),
             ListView.builder(
                 itemCount: classChatController.classChatBox.isEmpty
                     ? 1
@@ -384,43 +425,6 @@ class ChatWidget extends StatelessWidget {
                   // * 채팅방 UI
                   return ChatItem(model: model, isClass: 1);
                 }),
-            // * 전공별 단톡방
-            Container(
-                margin: const EdgeInsets.only(left: 20, top: 35.5),
-                child: Text("课程群聊",
-                    style: const TextStyle(
-                        color: const Color(0xff2f2f2f),
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "NotoSansSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 16.0),
-                    textAlign: TextAlign.left)),
-            ListView.builder(
-                itemCount: classChatController.majorChatBox.isEmpty
-                    ? 1
-                    : classChatController.majorChatBox.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  if (classChatController.majorChatBox.length == 0) {
-                    return Center(
-                      child: Text(
-                        "아직 채팅이 없습니다.",
-                        style: const TextStyle(
-                            color: const Color(0xff6f6e6e),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "NotoSansKR",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
-                      ),
-                    );
-                  }
-                  Rx<ChatBoxModel> model =
-                      classChatController.majorChatBox[index];
-
-                  // * 채팅방 UI
-                  return ChatItem(model: model, isClass: 0);
-                })
           ],
         ),
       );

@@ -318,14 +318,22 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
             title: Container(
                 margin: const EdgeInsets.symmetric(vertical: 16.5),
                 child: // 设置
-                    Text("设置",
-                        style: const TextStyle(
-                            color: const Color(0xffffffff),
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "NotoSansSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
-                        textAlign: TextAlign.center)),
+                    Obx(() {
+                  Rx<ChatBoxModel> box_model = isClass
+                      ? controller.classChatBox[chatIndex]
+                      : controller.majorChatBox[chatIndex];
+                  return Text(
+                      box_model.value.CLASS_PROFESSOR != null
+                          ? "${box_model.value.BOX_NAME}-${box_model.value.CLASS_PROFESSOR}"
+                          : "${box_model.value.BOX_NAME}",
+                      style: const TextStyle(
+                          color: const Color(0xffffffff),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "NotoSansSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16.0),
+                      textAlign: TextAlign.center);
+                })),
           ),
           body: Obx(() {
             print("???????? ${controller.dataAvailble.value}");

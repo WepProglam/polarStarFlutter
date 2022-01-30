@@ -11,7 +11,7 @@ class ClassSearchController extends GetxController {
   ClassSearchController({@required this.repository});
 
   final classSearchListAvailable = false.obs;
-  RxList classSearchList = <ClassModel>[].obs;
+  RxList<ClassModel> classSearchList = <ClassModel>[].obs;
   final ScrollController scrollController =
       ScrollController(initialScrollOffset: 0);
   RxInt page = 0.obs;

@@ -190,7 +190,7 @@ class Class extends StatelessWidget {
                                               ),
                                               Center(
                                                   child: // 补课
-                                                      Text("补课",
+                                                      Text("添加课程",
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           style: const TextStyle(

@@ -502,7 +502,7 @@ void showSetting(
                     ),
                     TimeTableSettingItem(
                       imagePath: "timetable_set_default.png",
-                      title: "设为基本",
+                      title: "设为基本课程表",
                       onTap: () async {
                         Get.back();
 

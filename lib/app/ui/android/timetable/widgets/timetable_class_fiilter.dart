@@ -76,11 +76,10 @@ class TimetableClassFilter extends StatelessWidget {
                   return Ink(
                     child: InkWell(
                       onTap: () async {
-                        int INDEX_COLLEGE_NAME = controller
-                            .college_name_list[index].INDEX_COLLEGE_NAME;
+                        int COLLEGE_ID =
+                            controller.college_name_list[index].COLLEGE_ID;
 
-                        controller.INDEX_COLLEGE_NAME.value =
-                            INDEX_COLLEGE_NAME;
+                        controller.COLLEGE_ID.value = COLLEGE_ID;
 
                         await controller.getMajorInfo();
 
@@ -182,10 +181,10 @@ class TimetableClassMajor extends StatelessWidget {
                   return Ink(
                     child: InkWell(
                       onTap: () async {
-                        controller.INDEX_COLLEGE_MAJOR.value = controller
-                            .college_major_list[index].INDEX_COLLEGE_MAJOR;
+                        controller.MAJOR_ID.value =
+                            controller.college_major_list[index].MAJOR_ID;
                         controller.college_major.value =
-                            controller.college_major_list[index].NAME;
+                            controller.college_major_list[index].MAJOR_NAME;
 
                         String text = controller.search_name.value.trim();
                         await controller.getClass(0);
@@ -203,7 +202,7 @@ class TimetableClassMajor extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(vertical: 11.5),
                             child: Text(
-                              "${controller.college_major_list[index].NAME}",
+                              "${controller.college_major_list[index].MAJOR_NAME}",
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                   overflow: TextOverflow.ellipsis,
@@ -281,7 +280,7 @@ class TimetableClassSearch extends StatelessWidget {
                                   await controller.getClass(0);
                                   // //통합 검색 X
                                   // if (text.isEmpty ||
-                                  //     controller.INDEX_COLLEGE_MAJOR == -1) {
+                                  //     controller.MAJOR_ID == -1) {
                                   //   await controller.getSearchedClass(0);
                                   // } else {
                                   //   await controller.getFilterAndSearch(0);
@@ -329,7 +328,7 @@ class TimetableClassSearch extends StatelessWidget {
                           await controller.getClass(0);
                           // //통합 검색 X
                           // if (text.isEmpty ||
-                          //     controller.INDEX_COLLEGE_MAJOR == -1) {
+                          //     controller.MAJOR_ID == -1) {
                           //   await controller.getSearchedClass(0);
                           // } else {
                           //   await controller.getFilterAndSearch(0);

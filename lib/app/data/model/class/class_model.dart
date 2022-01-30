@@ -5,18 +5,18 @@ import 'dart:developer';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 
 class ClassModel {
-  int CLASS_ID, HEAD_COUNT;
+  int CLASS_ID, CLASS_PART, YEAR, SEMESTER;
   String CLASS_NUMBER,
       CLASS_NAME,
+      CAMPUS,
       PROFESSOR,
       CLASS_SECTOR_1,
-      CLASS_SECTOR_TOTAL,
+      CLASS_SECTOR_2,
       COLLEGE_NAME,
       RATE,
       COLLEGE_MAJOR;
 
   List CLASS_TIME;
-  List OPEN_TIME;
   double CREDIT;
 
   ClassModel(
@@ -30,27 +30,22 @@ class ClassModel {
       COLLEGE_NAME,
       COLLEGE_MAJOR,
       CLASS_TIME,
-      OPEN_TIME,
       RATE,
       CREDIT});
 
   ClassModel.fromJson(Map<String, dynamic> json) {
-    print(json);
     this.CLASS_ID = nullCheck(json["CLASS_ID"]);
-    this.HEAD_COUNT = nullCheck(json["HEAD_COUNT"]);
 
     this.CLASS_NUMBER = nullCheck(json["CLASS_NUMBER"]);
     this.CLASS_NAME = nullCheck(json["CLASS_NAME"]);
-    this.PROFESSOR = nullCheck(json["PROFESSOR"]);
+    this.PROFESSOR = json["PROFESSOR"] == null ? "" : (json["PROFESSOR"]);
     this.CREDIT = nullCheck(
         json["CREDIT"] == null ? null : double.parse("${json["CREDIT"]}"));
     this.CLASS_SECTOR_1 = nullCheck(json["CLASS_SECTOR_1"]);
-    this.CLASS_SECTOR_TOTAL = nullCheck(json["CLASS_SECTOR_2"]);
     this.COLLEGE_NAME = nullCheck(json["COLLEGE_NAME"]);
     this.RATE = json["AVG(RATE)"] == null ? "0" : json["AVG(RATE)"];
     this.COLLEGE_MAJOR = nullCheck(json["COLLEGE_MAJOR"]);
     this.CLASS_TIME = nullCheck(json["CLASS_TIME"]);
-    this.OPEN_TIME = nullCheck(json["OPEN_TIME"]);
   }
 }
 

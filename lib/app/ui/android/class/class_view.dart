@@ -979,15 +979,15 @@ class ClassViewReview extends StatelessWidget {
               //     color: Colors.grey[200],
               //     borderRadius: BorderRadius.circular(10)),
               child: Text(
-                classReviewModel.CONTENT,
+                "${classReviewModel.CONTENT}",
                 overflow: TextOverflow.ellipsis,
-                // maxLines: 2,
-                style: TextStyle(
+                style: const TextStyle(
                     overflow: TextOverflow.ellipsis,
-                    color: const Color(0xff707070),
-                    fontWeight: FontWeight.normal,
+                    color: const Color(0xff2f2f2f),
+                    fontWeight: FontWeight.w300,
+                    fontFamily: "NotoSansSC",
                     fontStyle: FontStyle.normal,
-                    fontSize: 14.0),
+                    fontSize: 10.0),
               ))
         ],
       ),

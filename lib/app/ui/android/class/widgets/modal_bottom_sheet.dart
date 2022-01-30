@@ -504,14 +504,14 @@ class WriteComment extends StatelessWidget {
                           color: const Color(0xffffffff)),
                       child: TextField(
                         onTap: () async {
-                          await Future.delayed(Duration(milliseconds: 500));
+                          await Future.delayed(Duration(milliseconds: 100));
                           writeCommentController.writeCommentScrollController
                               .animateTo(
                                   writeCommentController
                                       .writeCommentScrollController
                                       .position
                                       .maxScrollExtent,
-                                  duration: Duration(milliseconds: 500),
+                                  duration: Duration(milliseconds: 100),
                                   curve: Curves.fastOutSlowIn);
                         },
                         maxLines: 6,
@@ -603,6 +603,8 @@ class WriteComment extends StatelessWidget {
                             print(writeCommentController.gradeRate.value
                                 .toDouble()
                                 .toString());
+                            print(reviewTextController.text);
+                            reviewTextController.clear();
 
                             await writeCommentController.postComment(
                                 CLASS_ID, data);
@@ -1003,14 +1005,14 @@ class WriteExamInfo extends StatelessWidget {
                         return checkEmpty(value);
                       },
                       onTap: () async {
-                        await Future.delayed(Duration(milliseconds: 500));
+                        await Future.delayed(Duration(milliseconds: 100));
                         classViewController.writeExamInfoScrollController
                             .animateTo(
                                 classViewController
                                     .writeExamInfoScrollController
                                     .position
                                     .maxScrollExtent,
-                                duration: Duration(milliseconds: 500),
+                                duration: Duration(milliseconds: 100),
                                 curve: Curves.fastOutSlowIn);
                       },
                       maxLines: 1,

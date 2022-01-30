@@ -11,6 +11,7 @@ import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/timetable_daytoindex.dart';
+import 'package:polarstar_flutter/app/ui/android/class/functions/rating.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/timetable.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
@@ -299,19 +300,21 @@ class classSearchBottomSheet extends StatelessWidget {
                                             margin: const EdgeInsets.only(
                                                 top: 17.5),
                                             child: Row(
-                                              children: [
-                                                for (var i = 0; i < 5; i++)
-                                                  Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            right: 2),
-                                                    height: 12,
-                                                    width: 12,
-                                                    child: Image.asset(
-                                                        "assets/images/star_100.png"),
-                                                  )
-                                              ],
-                                            ),
+                                                children:
+                                                    // [
+                                                    rate_star(model.RATE, 12)
+                                                // for (var i = 0; i < 5; i++)
+                                                //   Container(
+                                                //     margin:
+                                                //         const EdgeInsets.only(
+                                                //             right: 2),
+                                                //     height: 12,
+                                                //     width: 12,
+                                                //     child: Image.asset(
+                                                //         "assets/images/star_100.png"),
+                                                // )
+                                                // ],
+                                                ),
                                           )
                                         ]),
                                     Container(
@@ -379,7 +382,7 @@ class classSearchBottomSheet extends StatelessWidget {
                                                 const EdgeInsets.only(top: 2),
                                             child: Text(
                                                 // * 버림해서 (3.0 -> 3) 같은 값이면 버림
-                                                "${model.CLASS_SECTOR_TOTAL} ${model.CREDIT.floor() == model.CREDIT ? model.CREDIT.floor() : model.CREDIT}학점 ${model.CLASS_NUMBER}",
+                                                "${model.CLASS_SECTOR_2} ${model.CREDIT.floor() == model.CREDIT ? model.CREDIT.floor() : model.CREDIT}학점 ${model.CLASS_NUMBER}",
                                                 overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
                                                     overflow:

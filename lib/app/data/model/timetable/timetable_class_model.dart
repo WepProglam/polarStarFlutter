@@ -3,52 +3,64 @@ import 'dart:convert';
 import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
 
 class TimeTableClassModel {
-  int CLASS_ID, HEAD_COUNT, NUMBER_OF_STUDENTS;
+  int CLASS_ID,
+      CLASS_PART,
+      NUMBER_OF_STUDENTS,
+      YEAR,
+      SEMESTER,
+      COLLEGE_ID,
+      MAJOR_ID;
   String CLASS_NUMBER,
       CLASS_NAME,
       PROFESSOR,
+      RATE,
+      CAMPUS,
       CLASS_SECTOR_1,
-      CLASS_SECTOR_TOTAL,
-      COLLEGE_NAME,
-      COLLEGE_MAJOR;
+      CLASS_SECTOR_2;
 
   List<AddClassModel> CLASS_TIME;
-  List OPEN_TIME;
   double CREDIT;
 
   TimeTableClassModel(
       {CLASS_ID,
-      HEAD_COUNT,
+      CLASS_PART,
+      NUMBER_OF_STUDENTS,
+      YEAR,
+      SEMESTER,
+      COLLEGE_ID,
+      MAJOR_ID,
       CLASS_NUMBER,
       CLASS_NAME,
+      RATE,
       PROFESSOR,
+      CAMPUS,
       CLASS_SECTOR_1,
-      CLASS_SECTOR_TOTAL,
-      COLLEGE_NAME,
-      COLLEGE_MAJOR,
+      CLASS_SECTOR_2,
       CLASS_TIME,
-      OPEN_TIME,
       CREDIT});
 
   TimeTableClassModel.fromJson(Map<String, dynamic> json) {
     this.CLASS_ID = json["CLASS_ID"];
-    this.HEAD_COUNT = json["HEAD_COUNT"];
+    this.CLASS_PART = json["CLASS_PART"];
     this.NUMBER_OF_STUDENTS = json["NUMBER_OF_STUDENTS"];
-
+    this.YEAR = json["YEAR"];
+    this.SEMESTER = json["SEMESTER"];
+    this.COLLEGE_ID = json["COLLEGE_ID"];
+    this.MAJOR_ID = json["MAJOR_ID"];
+    this.CLASS_NUMBER = json["CLASS_NUMBER"];
+    this.CLASS_NAME = json["CLASS_NAME"];
+    this.CAMPUS = json["CAMPUS"];
+    this.CLASS_SECTOR_1 = json["CLASS_SECTOR_1"];
+    this.CLASS_SECTOR_2 = json["CLASS_SECTOR_2"];
     this.CLASS_NUMBER = json["CLASS_NUMBER"];
     this.CLASS_NAME = json["CLASS_NAME"];
     this.PROFESSOR = json["PROFESSOR"];
+    this.RATE = json["AVG(RATE)"] == null ? "0" : json["AVG(RATE)"];
     if (json['CREDIT'] == null) {
       this.CREDIT = null;
     } else {
       this.CREDIT = double.parse("${json['CREDIT']}");
     }
-    this.CLASS_SECTOR_1 = json["CLASS_SECTOR_1"];
-    this.CLASS_SECTOR_TOTAL = json["CLASS_SECTOR_TOTAL"];
-    this.COLLEGE_NAME = json["COLLEGE_NAME"];
-
-    this.COLLEGE_MAJOR = json["COLLEGE_MAJOR"];
-    this.OPEN_TIME = json["OPEN_TIME"];
 
     Iterable tempClassJson = json["CLASS_TIME"];
 
@@ -105,17 +117,19 @@ class TimeTableClassModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.CLASS_ID != null) {
       data['CLASS_ID'] = this.CLASS_ID;
-      data['HEAD_COUNT'] = this.HEAD_COUNT;
+      data['CLASS_PART'] = this.CLASS_PART;
       data['NUMBER_OF_STUDENTS'] = this.NUMBER_OF_STUDENTS;
+      data['YEAR'] = this.YEAR;
+      data['SEMESTER'] = this.SEMESTER;
+      data['COLLEGE_ID'] = this.COLLEGE_ID;
+      data['MAJOR_ID'] = this.MAJOR_ID;
       data['CLASS_NUMBER'] = this.CLASS_NUMBER;
       data['CLASS_NAME'] = this.CLASS_NAME;
       data['PROFESSOR'] = this.PROFESSOR;
-      data['CREDIT'] = this.CREDIT;
+      data['CAMPUS'] = this.CAMPUS;
       data['CLASS_SECTOR_1'] = this.CLASS_SECTOR_1;
-      data['CLASS_SECTOR_TOTAL'] = this.CLASS_SECTOR_TOTAL;
-      data["COLLEGE_NAME"] = this.COLLEGE_NAME;
-      data["COLLEGE_MAJOR"] = this.COLLEGE_MAJOR;
-      data["OPEN_TIME"] = this.OPEN_TIME;
+      data['CLASS_SECTOR_2'] = this.CLASS_SECTOR_2;
+      data['CREDIT'] = this.CREDIT;
       data["CLASS_TIME"] =
           jsonEncode(this.CLASS_TIME.map((e) => e.toJson()).toList());
     } else {
@@ -178,26 +192,27 @@ class AddClassModel {
 
 class CollegeNameModel {
   String COLLEGE_NAME;
-  int INDEX_COLLEGE_NAME;
+  int COLLEGE_ID;
 
-  CollegeNameModel({COLLEGE_NAME, INDEX_COLLEGE_NAME});
+  CollegeNameModel({COLLEGE_NAME, COLLEGE_ID});
 
   CollegeNameModel.fromJson(Map<String, dynamic> json) {
-    this.COLLEGE_NAME = json["NAME"];
-    this.INDEX_COLLEGE_NAME = json["INDEX"];
+    this.COLLEGE_NAME = json["COLLEGE_NAME"];
+    this.COLLEGE_ID = json["COLLEGE_ID"];
   }
 }
 
 class CollegeMajorModel {
-  int INDEX_COLLEGE_MAJOR, INDEX_COLLEGE_NAME;
-  String NAME;
+  int COLLEGE_ID, MAJOR_ID;
+  String COLLEGE_NAME, MAJOR_NAME;
 
   CollegeMajorModel(
-      {this.INDEX_COLLEGE_MAJOR, this.INDEX_COLLEGE_NAME, this.NAME});
+      {this.COLLEGE_ID, this.MAJOR_ID, this.COLLEGE_NAME, this.MAJOR_NAME});
 
   CollegeMajorModel.fromJson(Map<String, dynamic> json) {
-    this.INDEX_COLLEGE_MAJOR = json["INDEX"];
-    this.INDEX_COLLEGE_NAME = json["INDEX_COLLEGE_NAME"];
-    this.NAME = json["NAME"];
+    this.COLLEGE_ID = json["COLLEGE_ID"];
+    this.MAJOR_ID = json["MAJOR_ID"];
+    this.COLLEGE_NAME = json["COLLEGE_NAME"];
+    this.MAJOR_NAME = json["MAJOR_NAME"];
   }
 }

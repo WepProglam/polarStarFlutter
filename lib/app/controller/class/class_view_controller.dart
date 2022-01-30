@@ -277,6 +277,7 @@ class ClassViewController extends GetxController
 
   @override
   void onInit() async {
+    print(Get.parameters["CLASS_ID"]);
     getClassView(int.parse(Get.parameters["CLASS_ID"]));
     getExamInfo(int.parse(Get.parameters["CLASS_ID"]));
     tabController = TabController(vsync: this, length: 2);

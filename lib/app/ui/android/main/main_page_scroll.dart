@@ -94,7 +94,7 @@ class MainPageScroll extends StatelessWidget {
                     children: [
                       Container(
                         margin:
-                            const EdgeInsets.only(top: 10, left: 20, right: 20),
+                            const EdgeInsets.only(top: 16, left: 20, right: 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

@@ -46,7 +46,19 @@ class ClassRepository {
       // Map List를 Class model List로 만듦
       Iterable jsonResponse = json.decode(response.body);
 
-      List classList = jsonResponse.map((e) => ClassModel.fromJson(e)).toList();
+      List<ClassModel> tempClassList =
+          jsonResponse.map((e) => ClassModel.fromJson(e)).toList();
+      List<ClassModel> classList =
+          jsonResponse.map((e) => ClassModel.fromJson(e)).toList();
+
+      // ! 검색 시 중복된 값 나오는거 해결 필요
+      // for (ClassModel element in tempClassList) {
+      //   tempClassList.firstWhere((element) => false)
+      //   for (ClassModel item in classList) {
+      //     if (element.PROFESSOR == item.PROFESSOR &&
+      //         element.CLASS_NUMBER == item.CLASS_NUMBER) {}
+      //   }
+      // }
 
       return {"statusCode": 200, "classList": classList};
     }

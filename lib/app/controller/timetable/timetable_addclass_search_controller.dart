@@ -38,8 +38,8 @@ class TimeTableAddClassSearchController extends GetxController {
   RxString college_major = "".obs;
   RxString search_name = "".obs;
 
-  RxInt INDEX_COLLEGE_NAME = (-1).obs;
-  RxInt INDEX_COLLEGE_MAJOR = (-1).obs;
+  RxInt COLLEGE_ID = (-1).obs;
+  RxInt MAJOR_ID = (-1).obs;
 
   // 초기값 (실제로 받을 때 변경)
   int MAX_CLASS_LIMIT = 30;
@@ -154,7 +154,7 @@ class TimeTableAddClassSearchController extends GetxController {
   }
 
   Future<void> getFilteredClass(int page) async {
-    if (INDEX_COLLEGE_NAME.value == -1 || INDEX_COLLEGE_MAJOR.value == -1) {
+    if (COLLEGE_ID.value == -1 || MAJOR_ID.value == -1) {
       CLASS_SEARCH.value = initModel;
       return;
     }
@@ -163,7 +163,7 @@ class TimeTableAddClassSearchController extends GetxController {
       return;
     }
     var response = await Session().getX(
-        "/class/timetable/filter/page/$page/year/${timeTableController.selectedYear}/semester/${timeTableController.selectedSemester}?INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
+        "/class/timetable/filter/page/$page/year/${timeTableController.selectedYear}/semester/${timeTableController.selectedSemester}?COLLEGE_ID=${COLLEGE_ID.value}&MAJOR_ID=${MAJOR_ID.value}");
     Iterable class_list = jsonDecode(response.body);
     print("${CLASS_SEARCH.length} page: $page");
     List<TimeTableClassModel> tempClasses =
@@ -206,7 +206,7 @@ class TimeTableAddClassSearchController extends GetxController {
 
   Future<void> getFilterAndSearch(int page) async {
     var response = await Session().getX(
-        "/class/search/page/$page/year/${timeTableController.selectedYear}/semester/${timeTableController.selectedSemester}?search=${search_name.value}&INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}&INDEX_COLLEGE_MAJOR=${INDEX_COLLEGE_MAJOR.value}");
+        "/class/search/page/$page/year/${timeTableController.selectedYear}/semester/${timeTableController.selectedSemester}?search=${search_name.value}&COLLEGE_ID=${COLLEGE_ID.value}&MAJOR_ID=${MAJOR_ID.value}");
     Iterable class_list = jsonDecode(response.body);
 
     List<TimeTableClassModel> tempClasses =
@@ -224,8 +224,8 @@ class TimeTableAddClassSearchController extends GetxController {
   }
 
   Future<void> getMajorInfo() async {
-    var response = await Session().getX(
-        "/class/timetable/major?INDEX_COLLEGE_NAME=${INDEX_COLLEGE_NAME.value}");
+    var response = await Session()
+        .getX("/class/timetable/major?COLLEGE_ID=${COLLEGE_ID.value}");
     Iterable majorList = jsonDecode(response.body);
     college_major_list.value =
         majorList.map((e) => CollegeMajorModel.fromJson(e)).toList();
@@ -238,8 +238,8 @@ class TimeTableAddClassSearchController extends GetxController {
 
   void initMajor() {
     college_major.value = "";
-    INDEX_COLLEGE_NAME.value = -1;
-    INDEX_COLLEGE_MAJOR.value = -1;
+    COLLEGE_ID.value = -1;
+    MAJOR_ID.value = -1;
     scrollController.value.jumpTo(0.0);
   }
 
@@ -256,8 +256,7 @@ class TimeTableAddClassSearchController extends GetxController {
 
   Future<void> getClass(int page) async {
     bool searchNameEmpty = search_name.value.isEmpty;
-    bool searchMajorEmpty =
-        (INDEX_COLLEGE_NAME.value == -1 || INDEX_COLLEGE_MAJOR.value == -1);
+    bool searchMajorEmpty = (COLLEGE_ID.value == -1 || MAJOR_ID.value == -1);
     // * getClass - 이것도 계속 로드?
     if (searchNameEmpty && searchMajorEmpty) {
       print("1");
