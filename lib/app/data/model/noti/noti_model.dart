@@ -181,9 +181,12 @@ class ChatModel {
           print(this.PHOTO_META.first.PHOTO_NAME);
           print(this.PHOTO_META.first.PIXEL_HEIGHT);
           print(this.PHOTO_META.first.PIXEL_WIDTH);
+          String httpUrl = this.PHOTO[0].split("s://")[0] +
+              "://" +
+              this.PHOTO[0].split("s://")[1];
           this.PRE_IMAGE = [
             Image(
-              image: CachedNetworkImageProvider(this.PHOTO[0], scale: 0.1),
+              image: CachedNetworkImageProvider(httpUrl, scale: 1.0),
               // loadingBuilder: (context, child, loadingProgress) {
               //   if (loadingProgress == null) {
               //     return Container(
@@ -298,7 +301,6 @@ class PhotoMetaModel {
   PhotoMetaModel({this.PIXEL_HEIGHT, this.PIXEL_WIDTH, this.PHOTO_NAME});
 
   PhotoMetaModel.fromJson(Map<String, dynamic> json) {
-    print(json);
     this.PIXEL_HEIGHT = json["pixel_height"];
     this.PIXEL_WIDTH = json["pixel_width"];
     this.PHOTO_NAME = json["photo_name"];

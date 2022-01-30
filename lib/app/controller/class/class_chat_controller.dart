@@ -117,8 +117,7 @@ class ClassChatController extends GetxController {
   Future<void> readClassChat(int BOX_ID) async {
     for (Rx<ChatBoxModel> item in classChatBox) {
       if (item.value.BOX_ID == BOX_ID) {
-        int LAST_READ_CHAT_ID =
-            item.value.ChatList[item.value.ChatList.length - 1].value.CHAT_ID;
+        int LAST_READ_CHAT_ID = item.value.ChatList.last.value.CHAT_ID;
         item.update((val) {
           val.AMOUNT = 0;
         });
@@ -131,8 +130,7 @@ class ClassChatController extends GetxController {
   Future<void> readMajorChat(int BOX_ID) async {
     for (Rx<ChatBoxModel> item in majorChatBox) {
       if (item.value.BOX_ID == BOX_ID) {
-        int LAST_READ_CHAT_ID =
-            item.value.ChatList[item.value.ChatList.length - 1].value.CHAT_ID;
+        int LAST_READ_CHAT_ID = item.value.ChatList.last.value.CHAT_ID;
         item.update((val) {
           val.AMOUNT = 0;
         });
@@ -203,16 +201,24 @@ class ClassChatController extends GetxController {
 
   Future<void> sendPhoto() async {
     List<Map> sendFileObj = [];
-    String dirloc = "";
-    if (Platform.isAndroid) {
-      dirloc = "/sdcard/download/";
-    } else {
-      dirloc = (await getApplicationDocumentsDirectory()).path;
-    }
+
     for (int i = 0; i < photos.length; i++) {
-      final size =
-          ImageSizeGetter.getSize(FileInput(File(dirloc + photos[i].title)));
-      print(photos[i].relativePath + photos[i].title);
+      File imageFile = await photos[i].file;
+      // final Size size = ImageSizeGetter.getSize(FileInput(imageFile));
+      var width;
+      var height;
+      var decodedImage = await decodeImageFromList(imageFile.readAsBytesSync());
+      if (Platform.isAndroid) {
+        width = decodedImage.width;
+        height = decodedImage.height;
+      } else {
+        width = photos[i].width;
+        height = photos[i].height;
+      }
+
+      print(height);
+      print(width);
+      print("@@@@@@@@@@@@@@@@@@@@@");
       // ! 사진 구별 필요
       ChatModel item = ChatModel.fromJson({
         "BOX_ID": currentBoxID.value,
@@ -220,13 +226,13 @@ class ClassChatController extends GetxController {
         "PHOTO_META": [
           {
             "photo_name": basename(photos[i].title),
-            "pixel_height": size.height,
-            "pixel_width": size.width
+            "pixel_height": height,
+            "pixel_width": width
           }
         ],
         "PRE_IMAGE": [
           Image.file(
-            File(dirloc + photos[i].title),
+            imageFile,
             frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
               if (wasSynchronouslyLoaded) {
                 print("wasSynchronouslyLoaded : ${wasSynchronouslyLoaded}");
@@ -266,9 +272,8 @@ class ClassChatController extends GetxController {
       Map tmp = {};
       tmp["content"] = await photos[i].originBytes;
       tmp["fileName"] = basename(photos[i].title);
-      print('size = $size');
-      tmp["pixel_height"] = size.height;
-      tmp["pixel_width"] = size.width;
+      tmp["pixel_height"] = height;
+      tmp["pixel_width"] = width;
       classChatSocket.emitWithBinary("sendPhoto", {
         "sendFileObj": [tmp],
         "roomId": currentBoxID.value

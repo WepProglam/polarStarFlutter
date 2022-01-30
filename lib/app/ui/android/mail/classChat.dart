@@ -65,9 +65,10 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
         });
       }
       if (!event && (controller.tapTextField.value)) {
-        print("fffffffffffffffffffffffffffffffffffffffffffffffffffff");
         double target_pos =
-            controller.chatScrollController.offset - getKeyboardHeight();
+            controller.chatScrollController.offset - getKeyboardHeight() < 0
+                ? 0
+                : controller.chatScrollController.offset - getKeyboardHeight();
         controller.chatScrollController.jumpTo(target_pos);
       }
       if (!event && !controller.canChatFileShow.value) {
@@ -968,7 +969,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                   await AssetPicker.pickAssets(
                                                       context,
                                                       maxAssets: 10));
-                                              await controller.sendPhoto();
+                                              controller.sendPhoto();
                                             },
                                             child: Container(
                                                 width: containerSize,
@@ -1364,33 +1365,51 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                         //         fontSize: 14.0),
                         //     textAlign: TextAlign.left)
                         : (isPhotoExist
-                            ? Ink(
-                                child: InkWell(
-                                    // onTap: () {
-                                    //   if (!model.value.IS_PRE_SEND) {
-                                    //     Get.to(SeePhoto(
-                                    //         photo: [model.value.PHOTO[0]],
-                                    //         index: 0));
-                                    //   }
-                                    // },
-                                    child: Container(
-                                        height: (200 *
-                                                model.value.PHOTO_META[0]
-                                                    .PIXEL_HEIGHT) /
-                                            model
-                                                .value.PHOTO_META[0].PIXEL_WIDTH
-                                                .toDouble(),
-                                        // child: ImageP
-                                        // child: model.value.PRE_CACHE_IMAGE[0]
-                                        child: model.value.PRE_IMAGE[0]
-                                        // Image(image: model.value.PRE_IMAGE[0]),
-                                        // child: CachedNetworkImage(
-                                        //     alignment: model.value.MY_SELF
-                                        //         ? Alignment.topRight
-                                        //         : Alignment.topLeft,
-                                        //         imageBuilder: (context, imageProvider) => model.value.PRE_IMAGE,
-                                        //     imageUrl: model.value.PHOTO[0]),
-                                        )))
+                            ? Builder(builder: (context) {
+                                print(model.value.PHOTO_META[0].PIXEL_HEIGHT);
+                                print(model.value.PHOTO_META[0].PIXEL_WIDTH);
+                                print(model.value.PHOTO_META[0].PHOTO_NAME);
+                                double image_height = (200 *
+                                        model
+                                            .value.PHOTO_META[0].PIXEL_HEIGHT) /
+                                    model.value.PHOTO_META[0].PIXEL_WIDTH
+                                        .toDouble();
+
+                                bool isHeightNormal = !image_height.isNaN;
+                                // (model.value.PHOTO_META[0].PIXEL_HEIGHT > 0 &&
+                                //     model.value.PHOTO_META[0].PIXEL_WIDTH > 0);
+                                if (!isHeightNormal) {
+                                  print("!!!!!!!!!!!!!!!!!!!!!!!!!");
+                                  print(image_height);
+                                }
+
+                                return Ink(
+                                    child: InkWell(
+                                        // onTap: () {
+                                        //   if (!model.value.IS_PRE_SEND) {
+                                        //     Get.to(SeePhoto(
+                                        //         photo: [model.value.PHOTO[0]],
+                                        //         index: 0));
+                                        //   }
+                                        // },
+                                        child: isHeightNormal
+                                            ? Container(
+                                                height: image_height,
+                                                // child: ImageP
+                                                // child: model.value.PRE_CACHE_IMAGE[0]
+                                                child: model.value.PRE_IMAGE[0]
+                                                // Image(image: model.value.PRE_IMAGE[0]),
+                                                // child: CachedNetworkImage(
+                                                //     alignment: model.value.MY_SELF
+                                                //         ? Alignment.topRight
+                                                //         : Alignment.topLeft,
+                                                //         imageBuilder: (context, imageProvider) => model.value.PRE_IMAGE,
+                                                //     imageUrl: model.value.PHOTO[0]),
+                                                )
+                                            : Container(
+                                                child:
+                                                    model.value.PRE_IMAGE[0])));
+                              })
 
                             // Text("사진입니다",
                             //     style: const TextStyle(
