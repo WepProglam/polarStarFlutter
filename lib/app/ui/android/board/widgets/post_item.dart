@@ -540,21 +540,29 @@ class CommnetTopIcons extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         // * 좋아요 버튼
-        InkWell(
-          onTap: () async {
-            await c.totalSend('/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
-                '좋아요', index);
-          },
-          child: Ink(
-            padding: const EdgeInsets.symmetric(horizontal: 6.0),
-            child: Container(
-                width: CommentIconSize,
-                height: CommentIconSize,
-                child: mainController.isLiked(item)
-                    ? Image.asset("assets/images/icn_like_selected.png")
-                    : Image.asset("assets/images/icn_like_normal.png")),
-          ),
-        ),
+        item.MYSELF
+            ? Container()
+            : InkWell(
+                onTap: () async {
+                  if (item.MYSELF) {
+                    return;
+                  } else {
+                    await c.totalSend(
+                        '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
+                        '좋아요',
+                        index);
+                  }
+                },
+                child: Ink(
+                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                  child: Container(
+                      width: CommentIconSize,
+                      height: CommentIconSize,
+                      child: mainController.isLiked(item)
+                          ? Image.asset("assets/images/icn_like_selected.png")
+                          : Image.asset("assets/images/icn_like_normal.png")),
+                ),
+              ),
 
         // * 댓글
         InkWell(
