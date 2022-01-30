@@ -105,7 +105,8 @@ class ChatBoxModel {
 
 class ChatModel {
   String CONTENT, PROFILE_NICKNAME, PROFILE_PHOTO;
-  List<dynamic> PHOTO, FILE, FILENAME;
+  List<dynamic> PHOTO, FILE;
+  List<dynamic> FILE_META, PHOTO_META;
   List<Image> PRE_IMAGE;
   // List<Image> PRE_CACHE_IMAGE;
   bool FILE_DOWNLOADED, FILE_DOWNLOADING;
@@ -124,7 +125,8 @@ class ChatModel {
       TIME_CREATED,
       CHAT_ID,
       MY_SELF,
-      FILENAME,
+      FILE_META,
+      PHOTO_META,
       FILE});
 
   Map<String, dynamic> toJson() {
@@ -136,6 +138,8 @@ class ChatModel {
       'PROFILE_PHOTO': PROFILE_PHOTO,
       'TIME_CREATED': TIME_CREATED,
       'CHAT_ID': CHAT_ID,
+      'FILE_META': FILE_META,
+      'PHOTO_META': PHOTO_META,
       'MY_SELF': MY_SELF,
       "FILE": FILE,
     };
@@ -182,12 +186,22 @@ class ChatModel {
       }
     }
 
-    if (json["FILENAME"] == null || json["FILENAME"].isEmpty) {
-      this.FILENAME = null;
-    } else if (json["FILENAME"].runtimeType == String) {
-      this.FILENAME = jsonDecode(json["FILENAME"]);
+    if (json["PHOTO_META"] == null || json["PHOTO_META"].isEmpty) {
+      this.PHOTO_META = null;
+    } else if (json["PHOTO_META"].runtimeType == String) {
+      this.PHOTO_META = jsonDecode(json["PHOTO_META"]);
     } else {
-      this.FILENAME = json["FILENAME"];
+      this.PHOTO_META = json["PHOTO_META"];
+    }
+
+    if (json["FILE_META"] == null || json["FILE_META"].isEmpty) {
+      this.FILE_META = null;
+    } else if (json["FILE_META"].runtimeType == String) {
+      this.FILE_META = jsonDecode(json["FILE_META"]);
+    } else {
+      print(json["FILE_META"]);
+      print(json["FILE_META"].runtimeType);
+      this.FILE_META = json["FILE_META"];
     }
 
     if (json["FILE"] == null) {
