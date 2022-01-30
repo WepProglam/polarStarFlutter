@@ -155,6 +155,11 @@ class ChatModel {
         this.PRE_IMAGE = [
           Image(
             image: CachedNetworkImageProvider(this.PHOTO[0], scale: 0.1),
+            loadingBuilder: (context, child, loadingProgress) {
+              return Container(
+                height: 260,
+              );
+            },
             gaplessPlayback: true,
           )
         ];
