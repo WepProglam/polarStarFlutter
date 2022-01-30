@@ -13,9 +13,11 @@ import 'package:http/http.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
+import 'package:image_size_getter/image_size_getter.dart';
 
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/keyboard_visibility.dart';
+import 'package:image_size_getter/file_input.dart';
 import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -163,7 +165,13 @@ class ClassChatController extends GetxController {
       ChatModel item = ChatModel.fromJson({
         "BOX_ID": currentBoxID.value,
         "MY_SELF": true,
-        "FILENAME": [basename(files[i].path)],
+        "FILE_META": [
+          {
+            "file_name": basename(files[i].path),
+            "file_size": files[i].lengthSync(),
+            "expire": "${DateTime.now()}"
+          }
+        ],
         "FILE": ["sibal"],
         "TIME_CREATED": "${DateTime.now()}",
         "IS_PRE_SEND": true
@@ -179,6 +187,8 @@ class ClassChatController extends GetxController {
       Map tmp = {};
       tmp["content"] = await files[i].readAsBytes();
       tmp["fileName"] = basename(files[i].path);
+      tmp["fileSize"] = files[i].lengthSync();
+      print(tmp["fileSize"]);
 
       classChatSocket.emitWithBinary("sendFile", {
         "sendFileObj": [tmp],
@@ -192,11 +202,20 @@ class ClassChatController extends GetxController {
   Future<void> sendPhoto() async {
     List<Map> sendFileObj = [];
     for (int i = 0; i < photos.length; i++) {
+      final size = ImageSizeGetter.getSize(
+          FileInput(File(photos[i].relativePath + "/" + photos[i].title)));
+
       // ! 사진 구별 필요
       ChatModel item = ChatModel.fromJson({
         "BOX_ID": currentBoxID.value,
         "MY_SELF": true,
-        "FILENAME": [basename(photos[i].title)],
+        "PHOTO_META": [
+          {
+            "photo_name": basename(photos[i].title),
+            "pixel_height": size.height,
+            "pixel_width": size.width
+          }
+        ],
         "PHOTO": ["fuckfuck"],
         "TIME_CREATED": "${DateTime.now()}",
         "IS_PRE_SEND": true
@@ -210,6 +229,9 @@ class ClassChatController extends GetxController {
       Map tmp = {};
       tmp["content"] = await photos[i].originBytes;
       tmp["fileName"] = basename(photos[i].title);
+      print('size = $size');
+      tmp["pixel_height"] = size.height;
+      tmp["pixel_width"] = size.width;
       classChatSocket.emitWithBinary("sendPhoto", {
         "sendFileObj": [tmp],
         "roomId": currentBoxID.value
@@ -335,9 +357,10 @@ class ClassChatController extends GetxController {
       RxList<Rx<ChatModel>> tempList = <Rx<ChatModel>>[].obs;
       tempList.value = val.LoadingChatList.value;
       tempList.removeWhere((element) {
-        if (element.value.FILENAME != null &&
-            element.value.FILENAME.length > 0) {
-          if (element.value.FILENAME.first == chat.value.FILENAME.first) {
+        if (element.value.FILE_META != null &&
+            element.value.FILE_META.length > 0) {
+          if (element.value.FILE_META.first["file_name"] ==
+              chat.value.FILE_META.first["file_name"]) {
             print("remove!!");
 
             return true;
@@ -357,9 +380,10 @@ class ClassChatController extends GetxController {
       RxList<Rx<ChatModel>> tempList = <Rx<ChatModel>>[].obs;
       tempList.value = val.LoadingChatList.value;
       tempList.removeWhere((element) {
-        if (element.value.FILENAME != null &&
-            element.value.FILENAME.length > 0) {
-          if (element.value.FILENAME.first == chat.value.FILENAME.first) {
+        if (element.value.FILE_META != null &&
+            element.value.FILE_META.length > 0) {
+          if (element.value.FILE_META.first["file_name"] ==
+              chat.value.FILE_META.first["file_name"]) {
             print("remove!!");
 
             return true;

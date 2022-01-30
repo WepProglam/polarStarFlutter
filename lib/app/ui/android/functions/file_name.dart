@@ -1,3 +1,5 @@
+import 'dart:math';
+
 String convertFileName(String url) {
   String aws = "/";
   String file_name = url.split(aws).last;
@@ -13,4 +15,13 @@ String convertFileName(String url) {
   }
 
   return file_name;
+}
+
+String getFileSize(int bytes) {
+  if (bytes == null) {
+    return "unknown size";
+  }
+  const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  var i = (log(bytes) / log(1024)).floor();
+  return ((bytes / pow(1024, i)).toStringAsFixed(1)) + ' ' + suffixes[i];
 }

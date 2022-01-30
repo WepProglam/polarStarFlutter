@@ -1264,8 +1264,8 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              model.value.FILENAME != null
-                                                  ? "${convertFileName(model.value.FILENAME[0])}"
+                                              model.value.FILE_META != null
+                                                  ? "${model.value.FILE_META[0]["file_name"]}"
                                                   : "unknown",
                                               style: const TextStyle(
                                                   color:
@@ -1277,7 +1277,7 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                               textAlign: TextAlign.left,
                                             ),
                                             Text(
-                                              "유효기간: ",
+                                              "유효기간: ${model.value.FILE_META[0]["expire"]}",
                                               style: const TextStyle(
                                                   color:
                                                       const Color(0xff9b9b9b),
@@ -1288,7 +1288,7 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                               textAlign: TextAlign.left,
                                             ),
                                             Text(
-                                              "용량: ",
+                                              "용량: ${getFileSize(model.value.FILE_META[0]["file_size"])}",
                                               style: const TextStyle(
                                                   color:
                                                       const Color(0xff9b9b9b),
