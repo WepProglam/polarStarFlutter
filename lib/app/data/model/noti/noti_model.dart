@@ -155,15 +155,20 @@ class ChatModel {
       if (this.PHOTO.length > 0) {
         this.PRE_IMAGE = [
           Image(
-            image: CachedNetworkImageProvider(this.PHOTO[0], scale: 0.1),
+            image: CachedNetworkImageProvider(this.PHOTO[0],
+                scale: 0.1, maxHeight: 260),
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) {
-                return child;
+                return Container(
+                  height: 260,
+                  child: child,
+                );
+              } else {
+                return Container(
+                  height: 260,
+                  child: Center(child: CircularProgressIndicator()),
+                );
               }
-              return Container(
-                height: 260,
-                child: Center(child: CircularProgressIndicator()),
-              );
             },
             gaplessPlayback: true,
           )
