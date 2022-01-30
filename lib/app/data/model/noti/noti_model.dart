@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
@@ -156,8 +157,12 @@ class ChatModel {
           Image(
             image: CachedNetworkImageProvider(this.PHOTO[0], scale: 0.1),
             loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              }
               return Container(
                 height: 260,
+                child: Center(child: CircularProgressIndicator()),
               );
             },
             gaplessPlayback: true,
