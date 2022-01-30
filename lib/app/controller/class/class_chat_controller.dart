@@ -170,7 +170,7 @@ class ClassChatController extends GetxController {
           {
             "file_name": basename(files[i].path),
             "file_size": files[i].lengthSync(),
-            "expire": "${DateTime.now()}"
+            "expire": "${DateTime.now().add(Duration(days: 7))}"
           }
         ],
         "FILE": ["sibal"],

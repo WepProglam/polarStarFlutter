@@ -18,7 +18,9 @@ String convertFileName(String url) {
 }
 
 String preventOverflow(String filename) {
-  if (filename.length >= 25) {
+  if (filename == null) {
+    return "unknown file";
+  } else if (filename.length >= 25) {
     return filename.substring(0, 25) + "...";
   } else {
     return filename;
