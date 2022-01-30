@@ -1,4 +1,5 @@
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
@@ -488,7 +489,16 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
 
       if (current_buildNumber < min_buildNumber) {
         //업데이트 해야함(필수)
-        await Get.defaultDialog(content: Text("업데이트를 하셔야 이용이 가능합니다"));
+        await Get.defaultDialog(
+            title: "업데이트를 하셔야 이용이 가능합니다",
+            middleText: "업데이트를 하셔야 이용이 가능합니다",
+            actions: [
+              TextButton(
+                  onPressed: () async {
+                    SystemNavigator.pop();
+                  },
+                  child: Text("네"))
+            ]);
       } else if (current_buildNumber > latest_buildNumber) {
         //이건 오류(build number 잘못 입력됨)
         print("versionCheck failed");
