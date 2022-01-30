@@ -217,6 +217,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     scrapList.value = value["scrapList"];
     classList.value = value["classList"];
     profile.value = value["PROFILE"];
+    print(profile);
 
     box.write("year_sem", value["year_sem"]);
     box.write("MAX_BOARDS_LIMIT", value["MAX_BOARDS_LIMIT"]);

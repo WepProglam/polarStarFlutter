@@ -357,7 +357,7 @@ class SignUpInputs extends StatelessWidget {
                         } else {
                           signUpController.searchedMajorList(signUpController
                               .majorList
-                              .where((major) => major.NAME
+                              .where((major) => major.MAJOR_NAME
                                   .toLowerCase()
                                   .contains(string.toLowerCase()))
                               .toList());
@@ -390,15 +390,17 @@ class SignUpInputs extends StatelessWidget {
                                         signUpController.majorSelected.value =
                                             true;
                                         majorController.text = signUpController
-                                            .searchedMajorList[index].NAME;
+                                            .searchedMajorList[index]
+                                            .MAJOR_NAME;
                                         signUpController.selectedMajor(
                                             signUpController
                                                 .searchedMajorList[index]
-                                                .INDEX);
+                                                .MAJOR_ID);
                                       },
                                       child: Text(
                                         signUpController
-                                            .searchedMajorList[index].NAME,
+                                            .searchedMajorList[index]
+                                            .MAJOR_NAME,
                                         style: const TextStyle(
                                             color: const Color(0xff2f2f2f),
                                             fontWeight: FontWeight.w500,
