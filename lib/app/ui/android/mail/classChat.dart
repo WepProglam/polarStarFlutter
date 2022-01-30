@@ -114,14 +114,14 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
       await preCacheImage(model);
 
       // await Timer(Duration(milliseconds: 100), () {
-        
+
       // });
+      controller.dataAvailble.value = true;
+      isPreCacheNeeded = false;
       WidgetsBinding.instance.addPostFrameCallback((_) {
-          controller.chatScrollController
-              .jumpTo(controller.chatScrollController.position.maxScrollExtent);
-        });
-        controller.dataAvailble.value = true;
-        isPreCacheNeeded = false;
+        controller.chatScrollController
+            .jumpTo(controller.chatScrollController.position.maxScrollExtent);
+      });
     }
   }
 
@@ -235,7 +235,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                             style: const TextStyle(
                                                 color: const Color(0xffffffff),
                                                 fontWeight: FontWeight.w500,
-                                                fontFamily: "NotoSansKR-Medium",
+                                                fontFamily: "NotoSansKR",
                                                 fontStyle: FontStyle.normal,
                                                 fontSize: 10.0),
                                             textAlign: TextAlign.center),

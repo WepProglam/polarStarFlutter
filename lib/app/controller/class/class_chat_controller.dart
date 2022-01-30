@@ -558,7 +558,12 @@ class ClassChatController extends GetxController {
   void onInit() async {
     super.onInit();
 
-    chatScrollController = ScrollController(initialScrollOffset: 0.0);
+    chatScrollController =
+        ScrollController(initialScrollOffset: 0.0, keepScrollOffset: false);
+    // chatScrollController.addListener(() {
+    //   chatScrollController
+    //       .jumpTo(chatScrollController.position.maxScrollExtent);
+    // });
 
     ever(dataAvailble, (_) {
       print("dataavailable : ${dataAvailble.value}");

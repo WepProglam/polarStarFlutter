@@ -66,9 +66,8 @@ class Noti extends StatelessWidget {
                 snap: false,
                 elevation: 1,
                 expandedHeight: 48 + 24.0 * 2 + 100 + 12,
-                bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(48 + 24.0 * 2 + 100 + 12),
-                  child: Container(
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Container(
                     color: const Color(0xffffffff),
                     child: Column(children: [
                       Container(
@@ -113,6 +112,12 @@ class Noti extends StatelessWidget {
                         child: BannerWidget(isScrollAble: false),
                       ),
                     ]),
+                  ),
+                ),
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(0.0),
+                  child: Container(
+                    color: const Color(0xffffffff),
                   ),
                 )),
           ];
