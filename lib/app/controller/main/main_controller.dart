@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 
+import 'package:package_info/package_info.dart';
+
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
@@ -449,10 +451,66 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     return false;
   }
 
+  Future<void> versionCheck() async {
+    try {
+      //현재 앱 버전
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      String current_version = packageInfo.version;
+      print("current_version: ${current_version}");
+      int current_buildNumber = int.tryParse(packageInfo.buildNumber);
+
+      Map<String, String> response = await repository.versionCheck();
+      print(response);
+      final int status = int.parse(response["status"]);
+
+      if (status != 200) {
+        print("versionCheck failed");
+        return;
+      }
+
+      final String latest_version = response["latest_version"];
+      int latest_buildNumber = int.tryParse(latest_version.split("+")[1]);
+
+      print("latest_version: ${latest_version}");
+
+      final String min_version = response["min_version"];
+      int min_buildNumber = int.tryParse(min_version.split("+")[1]);
+
+      print("min_version: ${min_version}");
+
+      //version check 실패
+      if (!(current_buildNumber != null &&
+          latest_buildNumber != null &&
+          min_buildNumber != null)) {
+        print("versionCheck failed");
+        return;
+      }
+
+      if (current_buildNumber < min_buildNumber) {
+        //업데이트 해야함(필수)
+        await Get.defaultDialog(content: Text("업데이트를 하셔야 이용이 가능합니다"));
+      } else if (current_buildNumber > latest_buildNumber) {
+        //이건 오류(build number 잘못 입력됨)
+        print("versionCheck failed");
+        return;
+      } else if (current_buildNumber < latest_buildNumber) {
+        //업데이트 권장
+        await Get.defaultDialog(content: Text("업데이트를 권장합니다"));
+      } else {
+        //버전 잘 맞음 (current_buildNumber == latest_buildNumber)
+        print("LATEST VERSION");
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
+
   @override
   void onInit() async {
     // tabController = TabController(vsync: this, length: 2);
     super.onInit();
+    //버전 확인
+    await versionCheck();
     isAlreadyRunned = box.read("alreadyRunned") == null ? false : true;
     await getBoardInfo();
     await getFollowingCommunity();
