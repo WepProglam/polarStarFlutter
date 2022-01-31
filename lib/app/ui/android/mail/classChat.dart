@@ -307,9 +307,9 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                 Get.back();
               },
               child: Ink(
-                padding: const EdgeInsets.symmetric(vertical: 17.0),
+                // padding: const EdgeInsets.symmetric(vertical: 17.0),
                 child: Image.asset(
-                  'assets/images/891.png',
+                  'assets/images/icn_back_white.png',
                   color: const Color(0xffffffff),
                 ),
               ),
