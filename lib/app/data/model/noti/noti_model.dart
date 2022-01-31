@@ -105,6 +105,7 @@ class ChatBoxModel {
 
 class ChatModel {
   String CONTENT, PROFILE_NICKNAME, PROFILE_PHOTO;
+  String ENTRY_CHAT;
   List<dynamic> PHOTO, FILE;
   List<FileMetalModel> FILE_META;
   List<PhotoMetaModel> PHOTO_META;
@@ -128,6 +129,7 @@ class ChatModel {
       MY_SELF,
       FILE_META,
       PHOTO_META,
+      ENTRY_CHAT,
       FILE});
 
   Map<String, dynamic> toJson() {
@@ -143,11 +145,13 @@ class ChatModel {
       'PHOTO_META': PHOTO_META,
       'MY_SELF': MY_SELF,
       "FILE": FILE,
+      "ENTRY_CHAT": ENTRY_CHAT
     };
   }
 
   ChatModel.fromJson(Map<String, dynamic> json) {
     this.IS_PRE_SEND = json["IS_PRE_SEND"] == null ? false : true;
+    this.ENTRY_CHAT = nullCheck(json["ENTRY_CHAT"]);
 
     this.BOX_ID = nullCheck(json["BOX_ID"]);
     this.CONTENT = nullCheck("${json["CONTENT"]}");
@@ -176,29 +180,34 @@ class ChatModel {
       if (this.PHOTO.length > 0) {
         if (this.IS_PRE_SEND) {
           this.PRE_IMAGE = json["PRE_IMAGE"];
-          print("pre send!");
         } else {
-          print(this.PHOTO_META.first.PHOTO_NAME);
-          print(this.PHOTO_META.first.PIXEL_HEIGHT);
-          print(this.PHOTO_META.first.PIXEL_WIDTH);
+          double image_height = (200 * this.PHOTO_META[0].PIXEL_HEIGHT) /
+              this.PHOTO_META[0].PIXEL_WIDTH.toDouble();
+
+          bool isHeightNormal = !image_height.isNaN;
+          image_height = isHeightNormal ? image_height : 200;
           String httpUrl = this.PHOTO[0].split("s://")[0] +
               "://" +
               this.PHOTO[0].split("s://")[1];
           this.PRE_IMAGE = [
             Image(
               image: CachedNetworkImageProvider(httpUrl, scale: 1.0),
-              // loadingBuilder: (context, child, loadingProgress) {
-              //   if (loadingProgress == null) {
-              //     return Container(
-              //       child: child,
-              //     );
-              //   } else {
-              //     return Container(
-              //       height: this.PHOTO_META.first.PIXEL_HEIGHT.toDouble(),
-              //       child: Center(child: CircularProgressIndicator()),
-              //     );
-              //   }
-              // },
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return Container(height: image_height, child: child);
+                }
+                return Container(
+                  height: image_height,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes
+                          : null,
+                    ),
+                  ),
+                );
+              },
               gaplessPlayback: true,
             )
           ];

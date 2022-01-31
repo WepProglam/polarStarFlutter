@@ -15,6 +15,7 @@ import 'package:polarstar_flutter/app/ui/android/functions/file_name.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/see_photo.dart';
+import 'package:polarstar_flutter/main.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
@@ -587,101 +588,115 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                           //     isContinueDifferent ||
                           //     prevModel == null;
 
-                          return Container(
-                              padding: (prevModel == null
-                                  ? MY_SELF
-                                      ? EdgeInsets.only(right: 20, top: 0)
-                                      : EdgeInsets.only(left: 20, top: 0)
-                                  : MY_SELF
-                                      ? EdgeInsets.only(
-                                          right: 20,
-                                          top: isContinueSame ? 6 : 24)
-                                      : EdgeInsets.only(
-                                          left: 20, top: showProfile ? 24 : 6)),
-                              child: Align(
-                                alignment: (MY_SELF
-                                    ? Alignment.topRight
-                                    : Alignment.topLeft),
-                                child: (MY_SELF
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                            Obx(() {
-                                              return MAIL_CONTENT_ITEM(
-                                                model: model,
-                                                FILE_DOWNLOADED:
-                                                    model.value.FILE_DOWNLOADED,
-                                                FILE_DOWNLOADING: model
-                                                    .value.FILE_DOWNLOADING,
-                                                classChatController: controller,
-                                                isTimeDifferent: displayTime,
-                                              );
-                                            })
-                                          ])
-                                    : Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                            showProfile
-                                                ? MAIL_PROFILE_ITEM(
-                                                    model: model.value,
-                                                    FROM_ME: MY_SELF,
-                                                  )
-                                                : Container(
-                                                    width: 42,
-                                                  ),
-                                            Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  showProfile
-                                                      ? Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 4),
-                                                          child: Text(
-                                                              "${model.value.PROFILE_NICKNAME}",
-                                                              style: const TextStyle(
-                                                                  color: const Color(
-                                                                      0xff6f6e6e),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  fontFamily:
-                                                                      "NotoSansSC",
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .normal,
-                                                                  fontSize:
-                                                                      10.0),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left),
-                                                        )
-                                                      : Container(),
-                                                  Obx(() {
-                                                    return MAIL_CONTENT_ITEM(
-                                                        FILE_DOWNLOADED: model
-                                                            .value
-                                                            .FILE_DOWNLOADED,
-                                                        FILE_DOWNLOADING: model
-                                                            .value
-                                                            .FILE_DOWNLOADING,
-                                                        model: model,
-                                                        classChatController:
-                                                            controller,
-                                                        isTimeDifferent:
-                                                            displayTime);
-                                                  }),
-                                                ]),
-                                          ])),
-                              ));
+                          bool isEntryChat = false;
+                          if (model.value.ENTRY_CHAT != null) {
+                            isEntryChat = true;
+                          }
+
+                          return isEntryChat
+                              ? Center(
+                                  child: Text("${model.value.ENTRY_CHAT}"),
+                                )
+                              : Container(
+                                  padding: (prevModel == null
+                                      ? MY_SELF
+                                          ? EdgeInsets.only(right: 20, top: 0)
+                                          : EdgeInsets.only(left: 20, top: 0)
+                                      : MY_SELF
+                                          ? EdgeInsets.only(
+                                              right: 20,
+                                              top: isContinueSame ? 6 : 24)
+                                          : EdgeInsets.only(
+                                              left: 20,
+                                              top: showProfile ? 24 : 6)),
+                                  child: Align(
+                                    alignment: (MY_SELF
+                                        ? Alignment.topRight
+                                        : Alignment.topLeft),
+                                    child: (MY_SELF
+                                        ? Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                                Obx(() {
+                                                  return MAIL_CONTENT_ITEM(
+                                                    model: model,
+                                                    FILE_DOWNLOADED: model
+                                                        .value.FILE_DOWNLOADED,
+                                                    FILE_DOWNLOADING: model
+                                                        .value.FILE_DOWNLOADING,
+                                                    classChatController:
+                                                        controller,
+                                                    isTimeDifferent:
+                                                        displayTime,
+                                                  );
+                                                })
+                                              ])
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                                showProfile
+                                                    ? MAIL_PROFILE_ITEM(
+                                                        model: model.value,
+                                                        FROM_ME: MY_SELF,
+                                                      )
+                                                    : Container(
+                                                        width: 42,
+                                                      ),
+                                                Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      showProfile
+                                                          ? Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      bottom:
+                                                                          4),
+                                                              child: Text(
+                                                                  "${model.value.PROFILE_NICKNAME}",
+                                                                  style: const TextStyle(
+                                                                      color: const Color(
+                                                                          0xff6f6e6e),
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      fontFamily:
+                                                                          "NotoSansSC",
+                                                                      fontStyle:
+                                                                          FontStyle
+                                                                              .normal,
+                                                                      fontSize:
+                                                                          10.0),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left),
+                                                            )
+                                                          : Container(),
+                                                      Obx(() {
+                                                        return MAIL_CONTENT_ITEM(
+                                                            FILE_DOWNLOADED: model
+                                                                .value
+                                                                .FILE_DOWNLOADED,
+                                                            FILE_DOWNLOADING: model
+                                                                .value
+                                                                .FILE_DOWNLOADING,
+                                                            model: model,
+                                                            classChatController:
+                                                                controller,
+                                                            isTimeDifferent:
+                                                                displayTime);
+                                                      }),
+                                                    ]),
+                                              ])),
+                                  ));
                         },
                       );
                     }),
@@ -732,7 +747,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
 
                                   if (!controller.tapTextField.value) {
                                     controller.tapTextField.value = true;
-                                    Future.delayed(Duration(milliseconds: 100),
+                                    Future.delayed(Duration(milliseconds: 10),
                                         () {
                                       double max_extent = controller
                                           .chatScrollController
@@ -1205,7 +1220,7 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
           //   print("다운 !!!!!!!!!!!!!!!!!!!!!! 완료");
           // }
           return Opacity(
-            opacity: model.value.IS_PRE_SEND ? 0.1 : 1.0,
+            opacity: model.value.IS_PRE_SEND ? 0.4 : 1.0,
             child: Container(
                 constraints: BoxConstraints(maxWidth: 200),
                 decoration: isPhotoExist || isFileExist
@@ -1366,9 +1381,6 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                         //     textAlign: TextAlign.left)
                         : (isPhotoExist
                             ? Builder(builder: (context) {
-                                print(model.value.PHOTO_META[0].PIXEL_HEIGHT);
-                                print(model.value.PHOTO_META[0].PIXEL_WIDTH);
-                                print(model.value.PHOTO_META[0].PHOTO_NAME);
                                 double image_height = (200 *
                                         model
                                             .value.PHOTO_META[0].PIXEL_HEIGHT) /
@@ -1376,22 +1388,21 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                         .toDouble();
 
                                 bool isHeightNormal = !image_height.isNaN;
-                                // (model.value.PHOTO_META[0].PIXEL_HEIGHT > 0 &&
-                                //     model.value.PHOTO_META[0].PIXEL_WIDTH > 0);
-                                if (!isHeightNormal) {
-                                  print("!!!!!!!!!!!!!!!!!!!!!!!!!");
-                                  print(image_height);
-                                }
 
                                 return Ink(
                                     child: InkWell(
-                                        // onTap: () {
-                                        //   if (!model.value.IS_PRE_SEND) {
-                                        //     Get.to(SeePhoto(
-                                        //         photo: [model.value.PHOTO[0]],
-                                        //         index: 0));
-                                        //   }
-                                        // },
+                                        onTap: () {
+                                          if (!model.value.IS_PRE_SEND) {
+                                            Get.to(SeePhotoDirect(
+                                                    photo: model
+                                                        .value.PRE_IMAGE[0],
+                                                    index: 0))
+                                                .then((value) =>
+                                                    changeStatusBarColor(
+                                                        Get.theme.primaryColor,
+                                                        Brightness.dark));
+                                          }
+                                        },
                                         child: isHeightNormal
                                             ? Container(
                                                 height: image_height,
