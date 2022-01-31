@@ -278,8 +278,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
             ],
           )),
           backgroundColor: const Color(0xffffffff),
-          resizeToAvoidBottomInset: false,
-
+          // resizeToAvoidBottomInset: false,
           appBar: AppBar(
             toolbarHeight: 56,
 
@@ -708,18 +707,18 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
           //입력창
           bottomSheet: Obx(() {
             return Container(
-              height: controller.tapTextField.value
-                  ? 60.0 + getKeyboardHeight()
-                  : 60,
+              // height: controller.tapTextField.value
+              //     ? 60.0 + getKeyboardHeight()
+              //     : 60,
               decoration: BoxDecoration(color: const Color(0xffe6f1ff)),
-              child: Column(children: [
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
                 Container(
                   margin: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        height: 40,
+                        // height: 40,
                         width: Get.mediaQuery.size.width - 20 - 20,
                         margin: const EdgeInsets.only(left: 20, right: 20),
                         decoration: BoxDecoration(
@@ -817,7 +816,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                   // controller.chatScrollController.value
                                   //     .jumpTo(max_hight);
                                 },
-                                maxLines: null,
+                                minLines: 1,
+                                maxLines: 5,
                                 controller: commentWriteController,
                                 style: const TextStyle(
                                     color: const Color(0xff2f2f2f),
@@ -1076,6 +1076,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                 BoxDecoration(color: const Color(0xfff4f9ff)));
                       })
                     : Container(
+                        height: 0.0,
                         decoration:
                             BoxDecoration(color: const Color(0xfff4f9ff)))
               ]),
