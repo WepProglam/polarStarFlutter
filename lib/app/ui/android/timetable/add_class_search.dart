@@ -282,6 +282,9 @@ class classSearchBottomSheet extends StatelessWidget {
                                           Container(
                                             margin: const EdgeInsets.only(
                                                 top: 13.5),
+                                            width: Get.mediaQuery.size.width -
+                                                100 -
+                                                20,
                                             child: Text("${model.CLASS_NAME}",
                                                 overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
@@ -293,7 +296,7 @@ class classSearchBottomSheet extends StatelessWidget {
                                                     fontFamily: "NotoSansKR",
                                                     fontStyle: FontStyle.normal,
                                                     fontSize: 14.0),
-                                                textAlign: TextAlign.center),
+                                                textAlign: TextAlign.left),
                                           ),
                                           Spacer(),
                                           Container(

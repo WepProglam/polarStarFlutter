@@ -40,6 +40,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   RxInt hotBoardIndex = 0.obs;
   RxInt newBoardIndex = 0.obs;
   RxInt followAmount = 0.obs;
+  RxInt MIN_CLASS_REVIEW_LENGTH = 30.obs;
   Rx<Color> statusBarColor = Colors.white.obs;
   bool isAlreadyRunned;
   RxMap profile = {}.obs;
@@ -220,8 +221,9 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     scrapList.value = value["scrapList"];
     classList.value = value["classList"];
     profile.value = value["PROFILE"];
+    MIN_CLASS_REVIEW_LENGTH.value = value["MIN_CLASS_REVIEW_LENGTH"];
     // print(profile);
-
+    print("MIN_CLASS_REVIEW_LENGTH : ${MIN_CLASS_REVIEW_LENGTH.value}");
     box.write("year_sem", value["year_sem"]);
     box.write("MAX_BOARDS_LIMIT", value["MAX_BOARDS_LIMIT"]);
 

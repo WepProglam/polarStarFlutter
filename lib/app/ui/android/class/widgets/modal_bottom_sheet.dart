@@ -111,7 +111,9 @@ class WriteComment extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 2.0),
                       child: Obx(() => Text(
-                          "(${writeCommentController.commentRate}.0)",
+                          writeCommentController.commentRate.value == 0
+                              ? ""
+                              : "(${writeCommentController.commentRate.value}.0)",
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -166,8 +168,11 @@ class WriteComment extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 4.0),
                       child: Obx(() => Text(
-                          writeCommentController.languageExplain[
-                              writeCommentController.languageRate.value - 1],
+                          writeCommentController.languageRate.value == 0
+                              ? ""
+                              : writeCommentController.languageExplain[
+                                  writeCommentController.languageRate.value -
+                                      1],
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -218,8 +223,11 @@ class WriteComment extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 4.0),
                       child: Obx(() => Text(
-                          writeCommentController.attitudeExplain[
-                              writeCommentController.attitudeRate.value - 1],
+                          writeCommentController.attitudeRate.value == 0
+                              ? ""
+                              : writeCommentController.attitudeExplain[
+                                  writeCommentController.attitudeRate.value -
+                                      1],
                           style: const TextStyle(
                               color: const Color(0xffd6d4d4),
                               fontWeight: FontWeight.w400,
@@ -270,8 +278,10 @@ class WriteComment extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 4.0),
                       child: Obx(() => Text(
-                          writeCommentController.examExplain[
-                              writeCommentController.examRate.value - 1],
+                          writeCommentController.examRate.value == 0
+                              ? ""
+                              : writeCommentController.examExplain[
+                                  writeCommentController.examRate.value - 1],
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -322,8 +332,11 @@ class WriteComment extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 4.0),
                       child: Obx(() => Text(
-                          writeCommentController.assignmentExplain[
-                              writeCommentController.assignmentRate.value - 1],
+                          writeCommentController.assignmentRate.value == 0
+                              ? ""
+                              : writeCommentController.assignmentExplain[
+                                  writeCommentController.assignmentRate.value -
+                                      1],
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -376,8 +389,10 @@ class WriteComment extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 4.0),
                       child: Obx(() => Text(
-                          writeCommentController.gradeExplain[
-                              writeCommentController.gradeRate.value - 1],
+                          writeCommentController.gradeRate.value == 0
+                              ? ""
+                              : writeCommentController.gradeExplain[
+                                  writeCommentController.gradeRate.value - 1],
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -603,11 +618,9 @@ class WriteComment extends StatelessWidget {
                             print(writeCommentController.gradeRate.value
                                 .toDouble()
                                 .toString());
-                            print(reviewTextController.text);
-                            reviewTextController.clear();
 
                             await writeCommentController.postComment(
-                                CLASS_ID, data);
+                                CLASS_ID, data, reviewTextController);
                           },
                           child: Center(
                               child: Text("写考试攻略",

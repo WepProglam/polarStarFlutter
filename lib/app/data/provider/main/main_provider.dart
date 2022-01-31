@@ -45,7 +45,8 @@ class MainApiClient {
       "classList": listClassList,
       "year_sem": jsonResponse["YEAR_SEM"],
       "MAX_BOARDS_LIMIT": jsonResponse["MAX_BOARDS_LIMIT"],
-      "PROFILE": jsonResponse["PROFILE"]
+      "PROFILE": jsonResponse["PROFILE"],
+      "MIN_CLASS_REVIEW_LENGTH": jsonResponse["MIN_CLASS_REVIEW_LENGTH"]
     };
   }
 

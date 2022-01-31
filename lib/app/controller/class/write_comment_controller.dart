@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 import 'package:polarstar_flutter/app/controller/class/class_view_controller.dart';
@@ -13,13 +14,12 @@ class WriteCommentController extends GetxController {
   WriteCommentController({@required this.repository});
 
   final box = GetStorage();
-
-  final commentRate = 5.obs;
-  final languageRate = 5.obs;
-  final attitudeRate = 5.obs;
-  final examRate = 5.obs;
-  final assignmentRate = 5.obs;
-  final gradeRate = 5.obs;
+  final commentRate = 0.obs;
+  final languageRate = 0.obs;
+  final attitudeRate = 0.obs;
+  final examRate = 0.obs;
+  final assignmentRate = 0.obs;
+  final gradeRate = 0.obs;
 
   final languageExplain = ["非常差", "较差", "一般", "较好", "非常好"];
   final attitudeExplain = ["非常差", "较差", "一般", "较好", "非常好"];
@@ -37,7 +37,18 @@ class WriteCommentController extends GetxController {
 
   List<DropdownMenuItem> yearSemItem = [];
 
-  Future postComment(int CLASS_ID, Map<String, String> data) async {
+  Future postComment(int CLASS_ID, Map<String, String> data,
+      TextEditingController reviewTextController) async {
+    MainController mc = Get.find();
+    if (data["content"].length < mc.MIN_CLASS_REVIEW_LENGTH.value) {
+      Get.snackbar("강의 평가 작성 실패", "강의 평가 정보가 너무 짧습니다.",
+          duration: Duration(seconds: 2),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.white,
+          colorText: Colors.black);
+      return;
+    }
+    print("??");
     final jsonResponse = await repository.postComment(CLASS_ID, data);
 
     switch (jsonResponse["statusCode"]) {
@@ -48,6 +59,7 @@ class WriteCommentController extends GetxController {
           ClassViewController classViewController = Get.find();
           classViewController.refreshPage();
         }
+        reviewTextController.clear();
 
         // Get.snackbar("강평 작성 완료", "강의평가 작성이 완료되었습니다.",
         //     duration: Duration(seconds: 2),
@@ -57,8 +69,9 @@ class WriteCommentController extends GetxController {
 
         break;
       default:
+        print(data["content"].length);
         // print(jsonResponse["statusCode"]);
-        Get.snackbar("강평 작성 실패", "Failed",
+        Get.snackbar("강의 평가 작성 실패", "이미 작성한 강의 평가입니다.",
             duration: Duration(seconds: 2),
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
@@ -74,7 +87,7 @@ class WriteCommentController extends GetxController {
       for (var i = 0; i < 5; i++) {
         yearSemItem.add(DropdownMenuItem(
           child: Text(
-            "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}년도 ${i % 2 + 1}학기",
+            "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}学年度 第${i % 2 + 1}学期",
             style: const TextStyle(
                 color: const Color(0xff6f6e6e),
                 fontWeight: FontWeight.w400,
@@ -90,7 +103,7 @@ class WriteCommentController extends GetxController {
       for (var i = 0; i < 6; i++) {
         yearSemItem.add(DropdownMenuItem(
           child: Text(
-            "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}년도 ${(i + 1) % 2 + 1}학기",
+            "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}学年度 第${(i + 1) % 2 + 1}学期",
             style: const TextStyle(
                 color: const Color(0xff6f6e6e),
                 fontWeight: FontWeight.w400,

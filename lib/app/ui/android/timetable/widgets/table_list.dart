@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
@@ -697,6 +698,13 @@ class SubjectList extends StatelessWidget {
                     margin: const EdgeInsets.only(right: 8),
                     child: Ink(
                       child: InkWell(
+                        onTap: () async {
+                          await Get.toNamed(
+                                  "/class/view/${model.value.CLASSES[i].CLASS_ID}")
+                              .then((value) async {
+                            // await MainUpdateModule.updateClassPage();
+                          });
+                        },
                         // onTap: () async {
                         //   // box.remove("classSocket");
                         //   if (box.hasData("classSocket")) {
@@ -737,23 +745,24 @@ class SubjectList extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                         overflow: TextOverflow.ellipsis,
-                                        color: const Color(0xff000000),
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: "NotoSansSC",
+                                        color: const Color(0xff2f2f2f),
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "NotoSansKR",
                                         fontStyle: FontStyle.normal,
                                         fontSize: 14.0),
                                     textAlign: TextAlign.center),
                               ),
                               Container(
-                                margin: const EdgeInsets.only(bottom: 8),
+                                margin:
+                                    const EdgeInsets.only(bottom: 8, top: 1),
                                 child: // 이연희
                                     Text("${model.value.CLASSES[i].PROFESSOR}",
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                             overflow: TextOverflow.ellipsis,
-                                            color: const Color(0xff6f6e6e),
+                                            color: const Color(0xff9b9b9b),
                                             fontWeight: FontWeight.w400,
-                                            fontFamily: "NotoSansSC",
+                                            fontFamily: "NotoSansKR",
                                             fontStyle: FontStyle.normal,
                                             fontSize: 12.0),
                                         textAlign: TextAlign.center),
