@@ -56,8 +56,10 @@ class SignUpInputs extends StatelessWidget {
     final _formKey = GlobalKey<FormState>();
     final _idKey = GlobalKey<FormState>();
     final _pwConfirmKey = GlobalKey<FormState>();
+    final _nicknameKey = GlobalKey<FormState>();
 
     final _idFocusNode = FocusNode();
+    final _nicknameFocusNode = FocusNode();
 
     final signUpScrollController = ScrollController(initialScrollOffset: 0.0);
 
@@ -254,16 +256,25 @@ class SignUpInputs extends StatelessWidget {
               Stack(children: [
                 Container(
                   margin: const EdgeInsets.only(top: 10.0, bottom: 4.0),
-                  child: SignUpTextForm(
-                    onchange: (value) {
-                      signUpController.nicknameOK.value = false;
-                    },
-                    textEditingController: signUpController.nicknameController,
-                    obscureText: false,
-                    hint: "请设置昵称",
-                    funcValidator: (value) {
-                      return checkEmpty(value);
-                    },
+                  child: Form(
+                    key: _nicknameKey,
+                    child: SignUpTextForm(
+                      focusNode: _nicknameFocusNode,
+                      onchange: (String value) {
+                        signUpController.nicknameOK.value = false;
+                      },
+                      textEditingController:
+                          signUpController.nicknameController,
+                      obscureText: false,
+                      hint: "请设置昵称",
+                      funcValidator: (String value) {
+                        if (value.isEmpty ||
+                            signUpController.nicknameOK.value == false) {
+                          return "此昵称已被注册，换一个再试试吧!";
+                        }
+                        // return checkEmpty(value);
+                      },
+                    ),
                   ),
                 ),
                 Positioned(
@@ -271,8 +282,10 @@ class SignUpInputs extends StatelessWidget {
                   top: 20,
                   child: InkWell(
                     onTap: () async {
-                      signUpController.nicknameTest(
+                      _nicknameFocusNode.unfocus();
+                      await signUpController.nicknameTest(
                           signUpController.nicknameController.text);
+                      _nicknameKey.currentState.validate();
                     },
                     child: Ink(
                       height: 24.0,
@@ -295,23 +308,21 @@ class SignUpInputs extends StatelessWidget {
                   ),
                 ),
               ]),
-              Container(
-                  margin: const EdgeInsets.only(top: 0.0, bottom: 0.0),
-                  child: Obx(() {
-                    return Text(
-                        signUpController.nicknameOK.value
-                            ? "此昵称未被注册，可以使用!"
-                            : "此昵称已被注册，换一个再试试吧!",
-                        style: TextStyle(
-                            color: signUpController.nicknameOK.value
-                                ? Colors.blue
-                                : Colors.red,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "NotoSansSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 10.0),
-                        textAlign: TextAlign.left);
-                  })),
+              Obx(() {
+                return signUpController.nicknameOK.value
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 10.0, top: 6.0),
+                        child: Text("此昵称未被注册，可以使用!",
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 10.0),
+                            textAlign: TextAlign.left),
+                      )
+                    : Container();
+              }),
 
               // Container(
               //   margin: const EdgeInsets.only(top: 18),
@@ -648,7 +659,12 @@ class SignUpInputs extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 48.0, bottom: 12.0),
                 child: InkWell(
                   onTap: () async {
-                    if (_formKey.currentState.validate()) {
+                    if (_formKey.currentState.validate() &&
+                        _idKey.currentState.validate() &&
+                        _pwConfirmKey.currentState.validate() &&
+                        _nicknameKey.currentState.validate() &&
+                        signUpController.idOK.value &&
+                        signUpController.nicknameOK.value) {
                       if (signUpController.selectIndexPK(
                               signUpController.selectedMajor.value) ==
                           null) {
@@ -713,7 +729,8 @@ class SignUpInputs extends StatelessWidget {
                         fontSize: 10.0),
                     text: "登录",
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () => Get.back(),
+                      ..onTap = () =>
+                          Get.until((route) => Get.currentRoute == '/login'),
                   )
                 ])),
               )

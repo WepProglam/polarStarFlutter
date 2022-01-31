@@ -44,9 +44,8 @@ class SignUpController extends GetxController {
       case 200:
         print("회원가입 완료");
 
-        Get.back();
+        Get.until((route) => Get.currentRoute == '/login');
         await Get.snackbar("회원가입 성공", "회원가입 성공");
-
         break;
       default:
         print("회원가입 실패");

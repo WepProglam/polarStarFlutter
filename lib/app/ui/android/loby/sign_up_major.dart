@@ -347,7 +347,8 @@ class MajorInputs extends StatelessWidget {
                         fontSize: 10.0),
                     text: "登录",
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () => Get.back(),
+                      ..onTap = () =>
+                          Get.until((route) => Get.currentRoute == '/login'),
                   )
                 ])),
               )
