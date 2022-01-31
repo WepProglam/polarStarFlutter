@@ -31,7 +31,7 @@ class ClassChatController extends GetxController {
   RxBool dataAvailble = false.obs;
   RxBool frameComplete = false.obs;
   RxList<ChatModel> chatHistory = <ChatModel>[].obs;
-  RxInt CHAT_MAX = 20.obs;
+  RxInt CHAT_MAX = 100.obs;
 
   RxList<Rx<ChatModel>> tempChatHistory = <Rx<ChatModel>>[].obs;
 
@@ -470,6 +470,12 @@ class ClassChatController extends GetxController {
   RxBool isFirstEnter = true.obs;
   RxInt chatEnterAmouunt = 0.obs;
 
+  Rx<bool> isPageEnd = false.obs;
+  int searchIndex = 0;
+  bool checkPageEnded(List<dynamic> ChatList) {
+    return ChatList.length < CHAT_MAX.value ? true : false;
+  }
+
   Future<void> socketting() async {
     classChatSocket.on("viewRecentMessage", (data) {
       Iterable cc = data;
@@ -487,9 +493,13 @@ class ClassChatController extends GetxController {
       bool isClass = checkClassOrMajor(curBoxID);
       // * 채팅 박스 모델에 최근 채팅 내역 가져옴
       print("val.ChatList ${findCurBox.value.ChatList.length}");
+      if (chatScrollController.hasClients) {
+        print(chatScrollController.offset);
+      }
       findCurBox.update((val) {
-        val.ChatList.addAll(tempChatHistory);
+        val.ChatList.insertAll(0, tempChatHistory);
       });
+
       // for (Rx<ChatBoxModel> item in isClass ? classChatBox : majorChatBox) {
       //   if (item.value.BOX_ID == curBoxID) {
       //     print(" val.ChatList ${item.value.ChatList.length}");
@@ -499,7 +509,13 @@ class ClassChatController extends GetxController {
       //   }
       // }
 
+      isPageEnd.value = checkPageEnded(tempChatHistory);
+
       chatDownloaed(true);
+
+      if (chatScrollController.hasClients) {
+        print(chatScrollController.offset);
+      }
       print("chatDownloaed33 :${chatDownloaed.value}");
       // // * 현재 들어가있을때
       // if (currentBoxID.value == curBoxID) {
@@ -658,7 +674,8 @@ class ClassChatController extends GetxController {
   }
 
   Future<void> getChatLog(int BOX_ID) async {
-    await classChatSocket.emit("getChatLog", [BOX_ID, 0]);
+    await classChatSocket.emit("getChatLog", [BOX_ID, searchIndex]);
+    searchIndex += 1;
     return;
   }
 
@@ -676,6 +693,21 @@ class ClassChatController extends GetxController {
     //   chatScrollController
     //       .jumpTo(chatScrollController.position.maxScrollExtent);
     // });
+
+    chatScrollController.addListener(() async {
+      print("isPageEnd : ${isPageEnd} offset : ${chatScrollController.offset}");
+      if (!isPageEnd.value && chatScrollController.offset == 0) {
+        getChatLog(currentBoxID.value);
+        // await chatScrollController.animateTo(
+        //     chatScrollController.position.maxScrollExtent,
+        //     duration: Duration(milliseconds: 100),
+        //     curve: Curves.ease);
+        print("offset : ${chatScrollController.offset}");
+        print("emitt!!");
+      }
+
+      print(chatScrollController.offset);
+    });
 
     ever(dataAvailble, (_) {
       // print("dataavailable : ${dataAvailble.value}");

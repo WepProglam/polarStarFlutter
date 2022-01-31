@@ -411,7 +411,11 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                     });
                     print("re build!!");
                     return ListView.separated(
-                      separatorBuilder: (BuildContext context, int index) {
+                      separatorBuilder: (BuildContext context, int ii) {
+                        int index = ii - 1;
+                        if (ii == 0) {
+                          return Container();
+                        }
                         Rx<ChatModel> model;
 
                         Rx<ChatModel> prevModel;
@@ -488,16 +492,26 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                             : Container();
                       },
                       shrinkWrap: true,
+                      // reverse: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: box_model.value.ChatList.length +
-                          box_model.value.LoadingChatList.length,
+                          box_model.value.LoadingChatList.length +
+                          1,
                       scrollDirection: Axis.vertical,
                       padding: EdgeInsets.only(
                           top: 24,
                           bottom: controller.tapTextField.value
                               ? 60 + 6.0 + getKeyboardHeight()
                               : 60 + 6.0),
-                      itemBuilder: (context, index) {
+                      itemBuilder: (context, ii) {
+                        int index = ii - 1;
+                        if (ii == 0) {
+                          return controller.isPageEnd.value
+                              ? Container()
+                              : Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                        }
                         Rx<ChatModel> model;
 
                         Rx<ChatModel> prevModel;
@@ -754,7 +768,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
 
                                     if (!controller.tapTextField.value) {
                                       controller.tapTextField.value = true;
-                                      Future.delayed(Duration(milliseconds: 10),
+                                      Future.delayed(Duration(milliseconds: 50),
                                           () {
                                         double max_extent = controller
                                             .chatScrollController
