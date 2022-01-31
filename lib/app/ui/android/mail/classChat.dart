@@ -718,7 +718,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
               decoration: BoxDecoration(color: const Color(0xffe6f1ff)),
               child: Container(
                 margin: EdgeInsets.only(
-                    bottom: controller.tapTextField.value
+                    bottom: controller.tapTextField.value &&
+                            !controller.canChatFileShow.value
                         ? getKeyboardHeight()
                         : 0.0),
                 // height: 60.0,
