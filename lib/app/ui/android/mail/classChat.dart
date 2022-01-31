@@ -296,21 +296,15 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
             //     ),
             //   ),
             // ],
-            leading: Container(
-              width: 12,
-              height: 24,
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+            leading: InkWell(
+              onTap: () {
+                Get.back();
+              },
               child: Ink(
-                child: InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Image.asset(
-                    'assets/images/891.png',
-                    color: const Color(0xffffffff),
-                    width: 12,
-                    height: 24,
-                  ),
+                padding: const EdgeInsets.symmetric(vertical: 17.0),
+                child: Image.asset(
+                  'assets/images/891.png',
+                  color: const Color(0xffffffff),
                 ),
               ),
             ),
