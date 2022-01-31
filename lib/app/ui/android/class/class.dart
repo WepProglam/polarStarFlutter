@@ -330,16 +330,19 @@ class ClassRecentReview extends StatelessWidget {
               margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: Row(
                 children: [
-                  Text("${model.CLASS_NAME}",
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          color: const Color(0xff2f2f2f),
-                          fontWeight: FontWeight.w500,
-                          fontFamily: "NotoSansKR",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14.0),
-                      textAlign: TextAlign.left),
+                  Expanded(
+                    flex: 5,
+                    child: Text("${model.CLASS_NAME}",
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            color: const Color(0xff2f2f2f),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansKR",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
+                  ),
                   Spacer(),
                   Container(
                     margin: const EdgeInsets.symmetric(
