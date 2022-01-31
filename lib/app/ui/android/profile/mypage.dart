@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/loby/login_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
@@ -193,8 +194,11 @@ class MyPageProfile extends StatelessWidget {
                       onTap: () async {
                         LoginController loginController = Get.find();
                         loginController.logout();
+                        InitController initController = Get.find();
+                        initController.dispose();
 
                         await Get.offAllNamed('/login');
+                        // initController.mainPageIndex.value = 0;
                       },
                       child: Ink(
                         padding: const EdgeInsets.all(14.0),

@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/bindings/loby/login_binding.dart';
 import 'package:polarstar_flutter/app/bindings/loby/init_binding.dart';
 import 'package:polarstar_flutter/app/bindings/main/main_binding.dart';
+import 'package:polarstar_flutter/app/controller/loby/login_controller.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
@@ -76,13 +78,17 @@ void main() async {
 
   await Firebase.initializeApp();
 
-  await Get.put(
-      InitController(repository: LoginRepository(apiClient: LoginApiClient())));
-  InitController initController = Get.find();
+  await Get.put(LoginController(
+      repository: LoginRepository(apiClient: LoginApiClient())));
+  LoginController loginController = Get.find();
 
-  bool isLogined = await initController.checkLogin();
+  bool isLogined = await loginController.checkLogin();
 
   if (isLogined) {}
+
+  await ManagePermission.getPermission();
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterDownloader.initialize(debug: true);
 
   await runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want

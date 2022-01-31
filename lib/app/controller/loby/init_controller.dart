@@ -55,56 +55,10 @@ class InitController extends GetxController {
     return;
   }
 
-  Future autoLogin(String id, String pw) async {
-    String user_id = id;
-    String user_pw = pw;
-
-    Map<String, String> data = {
-      'id': user_id,
-      'pw': user_pw,
-    };
-
-    final response = await repository.login(data);
-
-    switch (response["statusCode"]) {
-      case 200:
-        Get.snackbar("로그인 성공", "로그인 성공");
-
-        break;
-      default:
-        Get.snackbar("로그인 실패", "로그인 실패");
-    }
-    return response;
-  }
-
-  Future<bool> checkLogin() async {
-    //print(box.read("id"));
-    if (box.hasData('isAutoLogin') && box.hasData('id') && box.hasData('pw')) {
-      var res = await autoLogin(box.read('id'), box.read('pw'));
-      // print(box.read('id'));
-      //  print("login!!");
-
-      switch (res["statusCode"]) {
-        case 200:
-          return true;
-          break;
-        default:
-          return false;
-      }
-    }
-    // print("no login");
-    // print(box.hasData('isAutoLogin'));
-    // print(box.hasData('id'));
-    // print(box.hasData('pw'));
-    return false;
-  }
-
   @override
   void onInit() async {
     super.onInit();
-    await ManagePermission.getPermission();
-    WidgetsFlutterBinding.ensureInitialized();
-    await FlutterDownloader.initialize(debug: true);
+
     // box.remove("alreadyRunned");
   }
 

@@ -116,7 +116,9 @@ class ClassChatController extends GetxController {
 
   Future<void> readClassChat(int BOX_ID) async {
     for (Rx<ChatBoxModel> item in classChatBox) {
+      print("??");
       if (item.value.BOX_ID == BOX_ID) {
+        print("?!");
         int LAST_READ_CHAT_ID = item.value.ChatList.last.value.CHAT_ID;
         item.update((val) {
           val.AMOUNT = 0;
@@ -466,7 +468,6 @@ class ClassChatController extends GetxController {
 
   Future<void> socketting() async {
     classChatSocket.on("viewRecentMessage", (data) {
-      // print(data);
       Iterable cc = data;
       //print(data);
       tempChatHistory.clear();
@@ -604,12 +605,13 @@ class ClassChatController extends GetxController {
   List<int> joinedRooms = [];
 
   Future<void> joinAndEmit(int BOX_ID) async {
-    // print("joinRoom! ${BOX_ID}");
     if (joinedRooms.indexOf(BOX_ID) != -1) {
-      // print("이미 조인함");
+      print("이미 조인함");
       await classChatSocket.emit("getChatLog", [BOX_ID, 0]);
       return;
     }
+    print("joinRoom! ${BOX_ID}");
+
     classChatSocket.emit("joinRoom", [BOX_ID, "fuckfuck"]);
     await classChatSocket.emit("getChatLog", [BOX_ID, 0]);
     joinedRooms.add(BOX_ID);
@@ -666,6 +668,18 @@ class ClassChatController extends GetxController {
 
   @override
   void onClose() async {
+    // * 강의별 톡방
+    for (Rx<ChatBoxModel> item in classChatBox) {
+      await classChatSocket.emit("leaveRoom", [item.value.BOX_ID]);
+      print("leaveroom ${item.value.BOX_ID} ");
+    }
+
+    // * 전공별 톡방
+    for (Rx<ChatBoxModel> item in majorChatBox) {
+      await classChatSocket.emit("leaveRoom", [item.value.BOX_ID]);
+      print("leaveroom ${item.value.BOX_ID} ");
+    }
+
     classChatSocket.disconnect();
     // print("contoller close : ${roomID.value}");
     // await classChatSocket.emit("leaveRoom", roomID.value);
