@@ -513,6 +513,12 @@ class ChatItem extends StatelessWidget {
             //   }
             // }
 
+            if (isClass == 1) {
+              await classChatController.readClassChat(model.value.BOX_ID);
+            } else {
+              await classChatController.readMajorChat(model.value.BOX_ID);
+            }
+
             await Get.toNamed(Routes.CLASSCHAT,
                     arguments: {"roomID": "${model.value.BOX_ID}"})
                 .then((value) async {
@@ -524,11 +530,6 @@ class ChatItem extends StatelessWidget {
                     model.value.ChatList.last.value.CHAT_ID);
               }
 
-              if (isClass == 1) {
-                classChatController.readClassChat(model.value.BOX_ID);
-              } else {
-                classChatController.readMajorChat(model.value.BOX_ID);
-              }
               MainUpdateModule.updateNotiPage(1,
                   curClassID: model.value.BOX_ID);
             });
