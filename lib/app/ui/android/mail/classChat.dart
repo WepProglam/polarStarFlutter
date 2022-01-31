@@ -112,15 +112,14 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
 
     if (isPreCacheNeeded) {
       controller.dataAvailble.value = false;
-
       await preCacheImage(model);
-
       // await Timer(Duration(milliseconds: 100), () {
-
       // });
       controller.dataAvailble.value = true;
       isPreCacheNeeded = false;
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
         // Future.delayed(_).then((value) async {
         //   controller.frameComplete(true);
         //   await Future.delayed(Duration(seconds: 1));
@@ -129,7 +128,6 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
         controller.chatScrollController
             .jumpTo(controller.chatScrollController.position.maxScrollExtent);
       });
-    }
   }
 
   void preCacheImage(Rx<ChatBoxModel> model) {
