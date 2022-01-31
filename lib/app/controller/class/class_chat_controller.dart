@@ -117,9 +117,7 @@ class ClassChatController extends GetxController {
 
   Future<void> readClassChat(int BOX_ID) async {
     for (Rx<ChatBoxModel> item in classChatBox) {
-      print("??");
       if (item.value.BOX_ID == BOX_ID) {
-        print("?!");
         int LAST_READ_CHAT_ID = item.value.ChatList.last.value.CHAT_ID;
         item.update((val) {
           val.UNREAD_AMOUNT = 0;
@@ -468,6 +466,8 @@ class ClassChatController extends GetxController {
   }
 
   RxBool chatDownloaed = false.obs;
+  RxBool imagePreCached = false.obs;
+  RxBool isFirstEnter = true.obs;
 
   Future<void> socketting() async {
     classChatSocket.on("viewRecentMessage", (data) {
@@ -485,15 +485,21 @@ class ClassChatController extends GetxController {
 
       bool isClass = checkClassOrMajor(curBoxID);
       // * 채팅 박스 모델에 최근 채팅 내역 가져옴
-      for (Rx<ChatBoxModel> item in isClass ? classChatBox : majorChatBox) {
-        if (item.value.BOX_ID == curBoxID) {
-          item.update((val) {
-            val.ChatList.addAll(tempChatHistory);
-          });
-        }
-      }
+      print("val.ChatList ${findCurBox.value.ChatList.length}");
+      findCurBox.update((val) {
+        val.ChatList.addAll(tempChatHistory);
+      });
+      // for (Rx<ChatBoxModel> item in isClass ? classChatBox : majorChatBox) {
+      //   if (item.value.BOX_ID == curBoxID) {
+      //     print(" val.ChatList ${item.value.ChatList.length}");
+      //     item.update((val) {
+      //       val.ChatList.addAll(tempChatHistory);
+      //     });
+      //   }
+      // }
 
       chatDownloaed(true);
+      print("chatDownloaed33 :${chatDownloaed.value}");
       // // * 현재 들어가있을때
       // if (currentBoxID.value == curBoxID) {
       //   box.write("LastChat_${tempChatHistory.last.value.BOX_ID}",
@@ -504,9 +510,6 @@ class ClassChatController extends GetxController {
     });
 
     classChatSocket.on("newMessage", (data) async {
-      print("????");
-      print(data);
-
       Rx<ChatModel> chat = ChatModel.fromJson(data).obs;
       bool isClass = checkClassOrMajor(chat.value.BOX_ID);
       // findCurBox.update((val) {
@@ -545,7 +548,6 @@ class ClassChatController extends GetxController {
             isNewMessage.value = true;
 
             // * 내가 보낸 채팅이 아니면 +1
-            print("chat.value.MY_SELF ${chat.value.MY_SELF}");
             if (!chat.value.MY_SELF) {
               val.UNREAD_AMOUNT += 1;
             }
@@ -594,12 +596,33 @@ class ClassChatController extends GetxController {
     //print(jsonResponse);
     Iterable classChatBoxList = jsonResponse["classChatBox"];
     Iterable majorChatBoxList = jsonResponse["majorChatBox"];
-    CHAT_MAX.value = jsonResponse["CHAT_MAX"];
-    classChatBox.value =
-        classChatBoxList.map((e) => ChatBoxModel.fromJson(e).obs).toList().obs;
 
-    majorChatBox.value =
-        majorChatBoxList.map((e) => ChatBoxModel.fromJson(e).obs).toList().obs;
+    CHAT_MAX.value = jsonResponse["CHAT_MAX"];
+    // classChatBox.value =
+
+    classChatBox.value = classChatBoxList.map((e) {
+      ChatBoxModel temp = ChatBoxModel.fromJson(e);
+      for (Rx<ChatBoxModel> item in classChatBox) {
+        if (temp.BOX_ID == item.value.BOX_ID) {
+          print("??!@#!!@!@  ${item.value.ChatList.length}");
+          temp.ChatList = item.value.ChatList;
+        }
+      }
+      return temp.obs;
+    }).toList();
+
+    // classChatBox.value = tempList;
+
+    majorChatBox.value = majorChatBoxList.map((e) {
+      ChatBoxModel temp = ChatBoxModel.fromJson(e);
+      for (Rx<ChatBoxModel> item in majorChatBox) {
+        if (temp.BOX_ID == item.value.BOX_ID) {
+          print("??!@#!!@!@  ${item.value.ChatList.length}");
+          temp.ChatList = item.value.ChatList;
+        }
+      }
+      return temp.obs;
+    }).toList();
     print("unread amount :  ${majorChatBox.first.value.UNREAD_AMOUNT}");
 
     box.remove("classSocket");
@@ -628,7 +651,6 @@ class ClassChatController extends GetxController {
       print("이미 조인함");
       return;
     }
-    print("joinRoom! ${BOX_ID}");
     classChatSocket.emit("joinRoom", [BOX_ID, "fuckfuck"]);
     joinedRooms.add(BOX_ID);
     return;

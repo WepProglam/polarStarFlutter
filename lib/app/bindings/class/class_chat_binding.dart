@@ -10,11 +10,21 @@ import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
 
 class ClassChatBinding implements Bindings {
   @override
-  void dependencies() {
+  void dependencies() async {
     putController<ClassChatController>();
     ClassChatController classChatController = Get.find();
+
     classChatController.currentBoxID.value = int.parse(Get.arguments["roomID"]);
+    print(
+        "classChatController.findCurBox.value.ChatList.length : ${classChatController.findCurBox.value.ChatList.length}");
+
     classChatController.getChatProfileList(int.parse(Get.arguments["roomID"]));
-    classChatController.getChatLog(int.parse(Get.arguments["roomID"]));
+    classChatController.isFirstEnter.value = true;
+
+    if (classChatController.findCurBox.value.ChatList.length == 0) {
+      classChatController.chatDownloaed(false);
+      classChatController.imagePreCached(false);
+      await classChatController.getChatLog(int.parse(Get.arguments["roomID"]));
+    }
   }
 }
