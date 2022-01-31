@@ -225,52 +225,67 @@ class BoardListItem extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text("${boardInfo.value.COMMUNITY_NAME}",
-                            style: const TextStyle(
-                                color: const Color(0xff2f2f2f),
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14.0),
-                            textAlign: TextAlign.left),
-                        Ink(
-                          child: InkWell(
-                            onTap: enableFollowTab
-                                ? () async {
-                                    if (!checkFollow(
-                                        boardInfo.value.COMMUNITY_ID,
-                                        mainController.boardInfo)) {
-                                      await mainController
-                                          .setFollowingCommunity(
+                        Expanded(
+                          flex: 4,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text("${boardInfo.value.COMMUNITY_NAME}",
+                                  style: const TextStyle(
+                                      color: const Color(0xff2f2f2f),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "NotoSansSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  textAlign: TextAlign.left),
+                              Ink(
+                                child: InkWell(
+                                  onTap: enableFollowTab
+                                      ? () async {
+                                          if (!checkFollow(
                                               boardInfo.value.COMMUNITY_ID,
-                                              boardInfo.value.COMMUNITY_NAME,
-                                              boardInfo.value.RECENT_TITLE,
-                                              boardInfo.value.RECENT_TIME
-                                                  .toString(),
-                                              boardInfo.value.isFollowed,
-                                              boardInfo.value.isNew);
-                                    } else {
-                                      await mainController
-                                          .deleteFollowingCommunity(
-                                              boardInfo.value.COMMUNITY_ID);
-                                    }
-                                    boardInfo.update((val) {
-                                      val.isFollowed = !val.isFollowed;
-                                    });
+                                              mainController.boardInfo)) {
+                                            await mainController
+                                                .setFollowingCommunity(
+                                                    boardInfo
+                                                        .value.COMMUNITY_ID,
+                                                    boardInfo
+                                                        .value.COMMUNITY_NAME,
+                                                    boardInfo
+                                                        .value.RECENT_TITLE,
+                                                    boardInfo.value.RECENT_TIME
+                                                        .toString(),
+                                                    boardInfo.value.isFollowed,
+                                                    boardInfo.value.isNew);
+                                          } else {
+                                            await mainController
+                                                .deleteFollowingCommunity(
+                                                    boardInfo
+                                                        .value.COMMUNITY_ID);
+                                          }
+                                          boardInfo.update((val) {
+                                            val.isFollowed = !val.isFollowed;
+                                          });
 
-                                    mainController.sortBoard();
-                                  }
-                                : null,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
+                                          mainController.sortBoard();
+                                        }
+                                      : null,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                    ),
+                                    child: Image.asset(boardInfo
+                                            .value.isFollowed
+                                        ? "assets/images/bookmark_followed.png"
+                                        : "assets/images/bookmark_none.png"),
+                                  ),
+                                ),
                               ),
-                              child: Image.asset(boardInfo.value.isFollowed
-                                  ? "assets/images/bookmark_followed.png"
-                                  : "assets/images/bookmark_none.png"),
-                            ),
+                            ],
                           ),
                         ),
+
                         Spacer(),
                         // Rectangle 7
                         boardInfo.value.isNew
@@ -301,6 +316,7 @@ class BoardListItem extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                             color: const Color(0xff6f6e6e),
                             fontWeight: FontWeight.w400,
                             fontFamily: "NotoSansSC",
