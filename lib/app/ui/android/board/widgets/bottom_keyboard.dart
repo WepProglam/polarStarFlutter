@@ -21,7 +21,7 @@ class BottomKeyboard extends StatelessWidget {
       decoration: BoxDecoration(color: const Color(0xff4570ff)),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
-        height: BOTTOM_SHEET_HEIGHT.toDouble() - 10 * 2,
+        // height: BOTTOM_SHEET_HEIGHT.toDouble() - 10 * 2,
         decoration: BoxDecoration(
             color: const Color(0xffffffff),
             border: Border.all(color: const Color(0xffffffff)),
