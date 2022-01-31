@@ -802,7 +802,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                   // controller.chatScrollController.value
                                   //     .jumpTo(max_hight);
                                 },
-                                maxLines: 5,
+                                maxLines: null,
                                 controller: commentWriteController,
                                 style: const TextStyle(
                                     color: const Color(0xff2f2f2f),
@@ -813,6 +813,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                 onFieldSubmitted: (value) {},
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
+                                  isDense: true,
                                   border: InputBorder.none,
                                   hintText: "",
                                   hintStyle: const TextStyle(
