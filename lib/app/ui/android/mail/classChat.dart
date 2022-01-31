@@ -473,11 +473,10 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                         itemCount: box_model.value.ChatList.length +
                             box_model.value.LoadingChatList.length,
                         scrollDirection: Axis.vertical,
-                        padding: EdgeInsets.only(
-                            top: 24,
-                            bottom: controller.tapTextField.value
-                                ? 60 + 6.0 + getKeyboardHeight()
-                                : 60 + 6.0),
+                        padding: EdgeInsets.only(top: 24, bottom: 60 + 6.0),
+                        // bottom: controller.tapTextField.value
+                        //     ? 60 + 6.0 + getKeyboardHeight()
+                        //     : 60 + 6.0),
                         itemBuilder: (context, index) {
                           Rx<ChatModel> model;
 
