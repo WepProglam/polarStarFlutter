@@ -20,6 +20,7 @@ class ClassChatBinding implements Bindings {
 
     classChatController.getChatProfileList(int.parse(Get.arguments["roomID"]));
     classChatController.isFirstEnter.value = true;
+    classChatController.chatEnterAmouunt.value = 0;
 
     if (classChatController.findCurBox.value.ChatList.length == 0) {
       classChatController.chatDownloaed(false);

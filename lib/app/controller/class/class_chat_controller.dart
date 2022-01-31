@@ -468,6 +468,7 @@ class ClassChatController extends GetxController {
   RxBool chatDownloaed = false.obs;
   RxBool imagePreCached = false.obs;
   RxBool isFirstEnter = true.obs;
+  RxInt chatEnterAmouunt = 0.obs;
 
   Future<void> socketting() async {
     classChatSocket.on("viewRecentMessage", (data) {
