@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
@@ -413,6 +414,11 @@ class TimeTableItem extends StatelessWidget {
 
                                   timeTableController.initShowTimeTable();
                                   timeTableController.makeShowTimeTable();
+
+                                  // * 시간표 수업 추가 시 noti page 업데이트(채팅 방)
+                                  await MainUpdateModule.updateNotiPage(
+                                    1,
+                                  );
 
                                   break;
                                 default:

@@ -31,6 +31,7 @@ class ClassChatController extends GetxController {
   RxBool dataAvailble = false.obs;
   RxBool frameComplete = false.obs;
   RxList<ChatModel> chatHistory = <ChatModel>[].obs;
+  RxInt CHAT_MAX = 20.obs;
 
   RxList<Rx<ChatModel>> tempChatHistory = <Rx<ChatModel>>[].obs;
 
@@ -577,8 +578,10 @@ class ClassChatController extends GetxController {
     //print(jsonResponse);
     Iterable classChatBoxList = jsonResponse["classChatBox"];
     Iterable majorChatBoxList = jsonResponse["majorChatBox"];
+    CHAT_MAX.value = jsonResponse["CHAT_MAX"];
     classChatBox.value =
         classChatBoxList.map((e) => ChatBoxModel.fromJson(e).obs).toList().obs;
+    print(classChatBox.value);
 
     majorChatBox.value =
         majorChatBoxList.map((e) => ChatBoxModel.fromJson(e).obs).toList().obs;

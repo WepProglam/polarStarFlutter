@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_addclass_repository.dart';
@@ -66,6 +67,11 @@ class TimeTableAddClassSearchController extends GetxController {
       selectedIndex.value = -1;
       timeTableController.initShowTimeTable();
       timeTableController.makeShowTimeTable();
+
+      // * 시간표 수업 추가 시 noti page 업데이트(채팅 방)
+      await MainUpdateModule.updateNotiPage(
+        1,
+      );
     } else if (response.statusCode == 404) {
       Get.snackbar("404", "1. 다른 학기 수업을 등록하려고 했습니다\n2. 없는 class_id입니다");
     } else {
