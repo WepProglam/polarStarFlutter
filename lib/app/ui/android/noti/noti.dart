@@ -513,22 +513,23 @@ class ChatItem extends StatelessWidget {
             //   }
             // }
 
-            if (isClass == 1) {
-              await classChatController.readClassChat(model.value.BOX_ID);
-            } else {
-              await classChatController.readMajorChat(model.value.BOX_ID);
-            }
-
             await Get.toNamed(Routes.CLASSCHAT,
                     arguments: {"roomID": "${model.value.BOX_ID}"})
                 .then((value) async {
               classChatController.dataAvailble.value = false;
 
-              // * 가장 마지막으로 읽은 class_id 등록
-              if (model.value.ChatList.length != 0) {
-                await box.write("LastChat_${model.value.BOX_ID}",
-                    model.value.ChatList.last.value.CHAT_ID);
+              // * 채팅방 나갈때 보내는걸로 수정
+              if (isClass == 1) {
+                await classChatController.readClassChat(model.value.BOX_ID);
+              } else {
+                await classChatController.readMajorChat(model.value.BOX_ID);
               }
+
+              // // * 가장 마지막으로 읽은 class_id 등록
+              // if (model.value.ChatList.length != 0) {
+              //   await box.write("LastChat_${model.value.BOX_ID}",
+              //       model.value.ChatList.last.value.CHAT_ID);
+              // }
 
               MainUpdateModule.updateNotiPage(1,
                   curClassID: model.value.BOX_ID);
