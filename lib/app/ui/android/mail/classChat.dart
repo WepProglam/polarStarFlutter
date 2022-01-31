@@ -802,7 +802,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                   // controller.chatScrollController.value
                                   //     .jumpTo(max_hight);
                                 },
-                                maxLines: 1,
+                                maxLines: 5,
                                 controller: commentWriteController,
                                 style: const TextStyle(
                                     color: const Color(0xff2f2f2f),

@@ -546,40 +546,46 @@ class ChatItem extends StatelessWidget {
                         child:
                             Image.asset("assets/images/class_chat_profile.png"),
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: Get.mediaQuery.size.width - 135,
-                              child: Text(
-                                  model.value.CLASS_PROFESSOR == null
-                                      ? "${model.value.BOX_NAME}"
-                                      : "${model.value.BOX_NAME}-${model.value.CLASS_PROFESSOR}",
-                                  overflow: TextOverflow.clip,
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                      color: const Color(0xff2f2f2f),
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: "NotoSansKR",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 14.0),
-                                  textAlign: TextAlign.left),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 3),
-                              child: // 在校生交流区
-                                  Text("${model.value.LAST_CHAT}",
-                                      style: const TextStyle(
-                                          color: const Color(0xff9b9b9b),
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: "NotoSansSC",
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 12.0),
-                                      textAlign: TextAlign.left),
-                            )
-                          ],
+                      Expanded(
+                        flex: 10,
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: Get.mediaQuery.size.width - 135,
+                                child: Text(
+                                    model.value.CLASS_PROFESSOR == null
+                                        ? "${model.value.BOX_NAME}"
+                                        : "${model.value.BOX_NAME}-${model.value.CLASS_PROFESSOR}",
+                                    overflow: TextOverflow.clip,
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                        color: const Color(0xff2f2f2f),
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "NotoSansKR",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14.0),
+                                    textAlign: TextAlign.left),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 3),
+                                child: // 在校生交流区
+                                    Text("${model.value.LAST_CHAT}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.clip,
+                                        style: const TextStyle(
+                                            overflow: TextOverflow.clip,
+                                            color: const Color(0xff9b9b9b),
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: "NotoSansSC",
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 12.0),
+                                        textAlign: TextAlign.left),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       Spacer(),
