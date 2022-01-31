@@ -1361,9 +1361,9 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                         //     textAlign: TextAlign.left)
                         : (isPhotoExist
                             ? Builder(builder: (context) {
-                                print(model.value.PHOTO_META[0].PIXEL_HEIGHT);
-                                print(model.value.PHOTO_META[0].PIXEL_WIDTH);
-                                print(model.value.PHOTO_META[0].PHOTO_NAME);
+                                // print(model.value.PHOTO_META[0].PIXEL_HEIGHT);
+                                // print(model.value.PHOTO_META[0].PIXEL_WIDTH);
+                                // print(model.value.PHOTO_META[0].PHOTO_NAME);
                                 double image_height = (200 *
                                         model
                                             .value.PHOTO_META[0].PIXEL_HEIGHT) /
@@ -1374,8 +1374,8 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                 // (model.value.PHOTO_META[0].PIXEL_HEIGHT > 0 &&
                                 //     model.value.PHOTO_META[0].PIXEL_WIDTH > 0);
                                 if (!isHeightNormal) {
-                                  print("!!!!!!!!!!!!!!!!!!!!!!!!!");
-                                  print(image_height);
+                                  // print("!!!!!!!!!!!!!!!!!!!!!!!!!");
+                                  // print(image_height);
                                 }
 
                                 return Ink(

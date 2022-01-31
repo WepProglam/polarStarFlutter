@@ -57,7 +57,7 @@ class WriteCommentController extends GetxController {
 
         break;
       default:
-        print(jsonResponse["statusCode"]);
+        // print(jsonResponse["statusCode"]);
         Get.snackbar("강평 작성 실패", "Failed",
             duration: Duration(seconds: 2),
             snackPosition: SnackPosition.BOTTOM,
@@ -69,7 +69,7 @@ class WriteCommentController extends GetxController {
   @override
   void onInit() {
     currentYearSem = box.read("year_sem");
-    print(currentYearSem);
+    //print(currentYearSem);
     if (currentYearSem["TIMETABLE_SEMESTER_FROM_DATE"] == 1) {
       for (var i = 0; i < 5; i++) {
         yearSemItem.add(DropdownMenuItem(

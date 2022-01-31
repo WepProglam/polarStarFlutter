@@ -65,9 +65,9 @@ class ClassViewController extends GetxController
   }
 
   Future getClassView(int CLASS_ID) async {
-    print("asdfasdfasdfadfasdf");
+    // print("asdfasdfasdfadfasdf");
     final jsonResponse = await repository.getClassView(CLASS_ID);
-    print(jsonResponse["statusCode"]);
+    // print(jsonResponse["statusCode"]);
 
     switch (jsonResponse["statusCode"]) {
       case 200:
@@ -245,7 +245,7 @@ class ClassViewController extends GetxController
         //     duration: Duration(seconds: 2));
         break;
       default:
-        print(jsonResponse["statusCode"]);
+        //  print(jsonResponse["statusCode"]);
         Get.snackbar("시험정보 작성 실패", "Failed",
             duration: Duration(seconds: 2),
             snackPosition: SnackPosition.BOTTOM,
@@ -277,7 +277,7 @@ class ClassViewController extends GetxController
 
   @override
   void onInit() async {
-    print(Get.parameters["CLASS_ID"]);
+    //print(Get.parameters["CLASS_ID"]);
     getClassView(int.parse(Get.parameters["CLASS_ID"]));
     getExamInfo(int.parse(Get.parameters["CLASS_ID"]));
     tabController = TabController(vsync: this, length: 2);

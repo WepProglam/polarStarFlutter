@@ -86,12 +86,12 @@ class ChatBoxModel {
   ChatBoxModel.fromJson(Map<String, dynamic> json) {
     this.BOX_NAME = json["BOX_NAME"];
     this.CLASS_PROFESSOR = json["CLASS_PROFESSOR"];
-    print("class_id: ${json["CLASS_ID"]}");
+    //print("class_id: ${json["CLASS_ID"]}");
     this.CHAT_ID = nullCheck(json["CHAT_ID"]);
     this.BOX_ID = json["BOX_ID"];
     this.LAST_READ_CHAT_ID = nullCheck(json["LAST_READ_CHAT_ID"]);
     this.LAST_CHAT = json["LAST_CHAT"];
-    print(json["LAST_CHAT"]);
+    //print(json["LAST_CHAT"]);
     this.TIME_LAST_CHAT_SENDED = json["TIME_LAST_CHAT_SENDED"] == null
         ? null
         : DateTime.parse(json["TIME_LAST_CHAT_SENDED"]);
@@ -169,18 +169,18 @@ class ChatModel {
         } else {
           temp = json["PHOTO_META"];
         }
-        print(temp);
+        //print(temp);
         this.PHOTO_META = [PhotoMetaModel.fromJson(temp[0])];
       }
 
       if (this.PHOTO.length > 0) {
         if (this.IS_PRE_SEND) {
           this.PRE_IMAGE = json["PRE_IMAGE"];
-          print("pre send!");
+          //print("pre send!");
         } else {
-          print(this.PHOTO_META.first.PHOTO_NAME);
-          print(this.PHOTO_META.first.PIXEL_HEIGHT);
-          print(this.PHOTO_META.first.PIXEL_WIDTH);
+          // print(this.PHOTO_META.first.PHOTO_NAME);
+          // print(this.PHOTO_META.first.PIXEL_HEIGHT);
+          // print(this.PHOTO_META.first.PIXEL_WIDTH);
           String httpUrl = this.PHOTO[0].split("s://")[0] +
               "://" +
               this.PHOTO[0].split("s://")[1];
@@ -230,8 +230,8 @@ class ChatModel {
       } else {
         temp = json["FILE_META"];
       }
-      print(json["FILE_META"]);
-      print(temp);
+      // print(json["FILE_META"]);
+      // print(temp);
       this.FILE_META = [FileMetalModel.fromJson(temp[0])];
     }
 

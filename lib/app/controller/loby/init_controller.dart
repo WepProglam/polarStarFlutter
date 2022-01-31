@@ -35,14 +35,14 @@ class InitController extends GetxController {
 
   bool needRefreshToken(String curFcmToken) {
     String oldFcmToken = box.read("FcmToken");
-    print(curFcmToken);
-    print(oldFcmToken);
+    //print(curFcmToken);
+    //print(oldFcmToken);
     return (oldFcmToken != curFcmToken);
   }
 
   Future<void> tokenRefresh(String FcmToken) async {
     Map<String, String> data = {"FcmToken": FcmToken};
-    print(data);
+    //print(data);
     final int response = await repository.tokenRefresh(data);
     switch (response) {
       case 200:
@@ -51,7 +51,7 @@ class InitController extends GetxController {
     }
     box.write("FcmToken", FcmToken);
 
-    print("fcm return : ${response}");
+    //print("fcm return : ${response}");
     return;
   }
 
@@ -78,11 +78,11 @@ class InitController extends GetxController {
   }
 
   Future<bool> checkLogin() async {
-    print(box.read("id"));
+    //print(box.read("id"));
     if (box.hasData('isAutoLogin') && box.hasData('id') && box.hasData('pw')) {
       var res = await autoLogin(box.read('id'), box.read('pw'));
-      print(box.read('id'));
-      print("login!!");
+      // print(box.read('id'));
+      //  print("login!!");
 
       switch (res["statusCode"]) {
         case 200:
@@ -92,10 +92,10 @@ class InitController extends GetxController {
           return false;
       }
     }
-    print("no login");
-    print(box.hasData('isAutoLogin'));
-    print(box.hasData('id'));
-    print(box.hasData('pw'));
+    // print("no login");
+    // print(box.hasData('isAutoLogin'));
+    // print(box.hasData('id'));
+    // print(box.hasData('pw'));
     return false;
   }
 
@@ -122,10 +122,10 @@ class ManagePermission {
 
     PermissionStatus permissionStorage = statuses[Permission.storage];
     // PermissionStatus permissionCamera = statuses[Permission.camera];
-    print(permissionStorage.toString());
-    print(permissionStorage.isGranted);
+    // print(permissionStorage.toString());
+    // print(permissionStorage.isGranted);
     if (permissionStorage.isGranted) {
-      print("????");
+      // print("????");
       return true;
     } else {
       openAppSettings();
