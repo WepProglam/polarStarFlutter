@@ -327,7 +327,7 @@ class LoginInputs extends GetView<LoginController> {
               padding: const EdgeInsets.only(top: 14.0),
               child: InkWell(
                 onTap: () {
-                  Get.toNamed("/signUp");
+                  Get.toNamed("/signUpMajor");
                 },
                 child: Ink(
                   height: 40.0,

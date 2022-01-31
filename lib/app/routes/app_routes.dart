@@ -4,6 +4,7 @@ abstract class Routes {
   static const INITIAL = '/';
   static const LOGIN = '/login';
   static const SIGNUP = '/signUp';
+  static const SIGNUPMAJOR = '/signUpMajor';
   static const FINDPW = "/findPw";
   static const MAIN_PAGE = '/main';
   static const MAIN_PAGE_SEARCH = "/main/search";

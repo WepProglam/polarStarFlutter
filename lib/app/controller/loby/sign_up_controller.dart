@@ -17,6 +17,14 @@ class SignUpController extends GetxController {
 
   RxBool majorSelected = false.obs;
 
+  final idController = TextEditingController();
+  final pwController = TextEditingController();
+  final pwConfirmController = TextEditingController();
+  //final emailController = TextEditingController();
+  final nicknameController = TextEditingController();
+  final studentIDController = TextEditingController();
+  final majorController = TextEditingController();
+
   // ! 나중엔 신학기 3월마다 숫자 바꾸는 로직 추가해야할듯
   RxInt admissionYear = 2022.obs;
   Future signUp(String id, String pw, String nickname, String studentID,

@@ -45,7 +45,8 @@ class SignUpTextForm extends StatelessWidget {
       @required this.hint,
       @required this.funcValidator,
       @required this.obscureText,
-      this.onchange})
+      this.onchange,
+      this.focusNode})
       : super(key: key);
 
   final TextEditingController textEditingController;
@@ -53,11 +54,13 @@ class SignUpTextForm extends StatelessWidget {
   final funcValidator;
   final bool obscureText;
   final Function onchange;
+  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       onChanged: onchange,
+      focusNode: focusNode,
       controller: textEditingController,
       validator: funcValidator,
       obscureText: obscureText,
@@ -84,7 +87,18 @@ class SignUpTextForm extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(color: const Color(0xffeaeaea), width: 1)),
-          border: InputBorder.none),
+          errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: const Color(0xffeaeaea), width: 1)),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: const Color(0xffeaeaea), width: 1)),
+          errorStyle: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.w500,
+              fontFamily: "NotoSansSC",
+              fontStyle: FontStyle.normal,
+              fontSize: 10.0)),
     );
   }
 }
