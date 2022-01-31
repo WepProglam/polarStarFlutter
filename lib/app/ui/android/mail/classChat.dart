@@ -297,21 +297,15 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
             //     ),
             //   ),
             // ],
-            leading: Container(
-              width: 12,
-              height: 24,
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+            leading: InkWell(
+              onTap: () {
+                Get.back();
+              },
               child: Ink(
-                child: InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Image.asset(
-                    'assets/images/891.png',
-                    color: const Color(0xffffffff),
-                    width: 12,
-                    height: 24,
-                  ),
+                padding: const EdgeInsets.symmetric(vertical: 17.0),
+                child: Image.asset(
+                  'assets/images/891.png',
+                  color: const Color(0xffffffff),
                 ),
               ),
             ),
@@ -823,7 +817,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                   // controller.chatScrollController.value
                                   //     .jumpTo(max_hight);
                                 },
-                                maxLines: 1,
+                                maxLines: null,
                                 controller: commentWriteController,
                                 style: const TextStyle(
                                     color: const Color(0xff2f2f2f),
@@ -834,6 +828,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                 onFieldSubmitted: (value) {},
                                 textInputAction: TextInputAction.done,
                                 decoration: InputDecoration(
+                                  isDense: true,
                                   border: InputBorder.none,
                                   hintText: "",
                                   hintStyle: const TextStyle(
@@ -1381,6 +1376,9 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                         //     textAlign: TextAlign.left)
                         : (isPhotoExist
                             ? Builder(builder: (context) {
+                                // print(model.value.PHOTO_META[0].PIXEL_HEIGHT);
+                                // print(model.value.PHOTO_META[0].PIXEL_WIDTH);
+                                // print(model.value.PHOTO_META[0].PHOTO_NAME);
                                 double image_height = (200 *
                                         model
                                             .value.PHOTO_META[0].PIXEL_HEIGHT) /
@@ -1388,6 +1386,12 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                         .toDouble();
 
                                 bool isHeightNormal = !image_height.isNaN;
+                                // (model.value.PHOTO_META[0].PIXEL_HEIGHT > 0 &&
+                                //     model.value.PHOTO_META[0].PIXEL_WIDTH > 0);
+                                if (!isHeightNormal) {
+                                  // print("!!!!!!!!!!!!!!!!!!!!!!!!!");
+                                  // print(image_height);
+                                }
 
                                 return Ink(
                                     child: InkWell(

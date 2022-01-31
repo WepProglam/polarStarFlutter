@@ -631,22 +631,26 @@ class TableList extends StatelessWidget {
                         },
                         child: Center(
                           // margin: const EdgeInsets.fromLTRB(6.5, 12.5, 5.5, 13),
-                          child: Text(
-                              "${timeTableController.otherTable["${timeTableController.yearSem}"][index].value.NAME}",
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  color: model.TIMETABLE_ID ==
-                                          timeTableController
-                                              .selectedTimeTableId.value
-                                      ? const Color(0xffffffff)
-                                      : const Color(0xff9b9b9b),
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "NotoSansSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14.0),
-                              textAlign: TextAlign.center),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 6.0),
+                            child: Text(
+                                "${timeTableController.otherTable["${timeTableController.yearSem}"][index].value.NAME}",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    color: model.TIMETABLE_ID ==
+                                            timeTableController
+                                                .selectedTimeTableId.value
+                                        ? const Color(0xffffffff)
+                                        : const Color(0xff9b9b9b),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "NotoSansSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0),
+                                textAlign: TextAlign.center),
+                          ),
                         ),
                       ),
                       decoration: BoxDecoration(

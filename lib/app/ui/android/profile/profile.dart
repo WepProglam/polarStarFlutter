@@ -58,37 +58,52 @@ class Profile extends StatelessWidget {
                                       margin: EdgeInsets.only(top: 72),
                                       decoration: BoxDecoration(
                                           color: const Color(0xff4570ff)),
-                                      child: CachedNetworkImage(
-                                          imageUrl:
-                                              '${myPageController.myProfile.value.PROFILE_PHOTO}',
-                                          imageBuilder: (context,
-                                                  imageProvider) =>
-                                              Container(
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                          image: imageProvider,
-                                                          fit: BoxFit.fill))),
-                                          fadeInDuration:
-                                              Duration(milliseconds: 0),
-                                          progressIndicatorBuilder: (context,
-                                                  url, downloadProgress) =>
-                                              Image(
-                                                  image: AssetImage(
-                                                      'assets/images/spinner.gif')),
-                                          errorWidget: (context, url, error) {
-                                            print(error);
-                                            return Icon(Icons.error);
-                                          }))),
+                                      child: InkWell(
+                                        onTap: () async {
+                                          await myPageController
+                                              .getMultipleGallertImage(context);
+                                          await myPageController.upload();
+                                        },
+                                        child: CachedNetworkImage(
+                                            imageUrl:
+                                                '${myPageController.myProfile.value.PROFILE_PHOTO}',
+                                            imageBuilder: (context,
+                                                    imageProvider) =>
+                                                Container(
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                            image:
+                                                                imageProvider,
+                                                            fit: BoxFit.fill))),
+                                            fadeInDuration:
+                                                Duration(milliseconds: 0),
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                Image(
+                                                    image: AssetImage(
+                                                        'assets/images/spinner.gif')),
+                                            errorWidget: (context, url, error) {
+                                              print(error);
+                                              return Icon(Icons.error);
+                                            }),
+                                      ))),
                               Align(
                                 alignment: Alignment.topCenter,
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 132, left: 62),
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: const Color(0xffffffff)),
+                                child: InkWell(
+                                  onTap: () async {
+                                    await myPageController
+                                        .getMultipleGallertImage(context);
+                                    await myPageController.upload();
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 132, left: 62),
+                                    width: 20,
+                                    height: 20,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: const Color(0xffffffff)),
+                                  ),
                                 ),
                               ),
                               Align(

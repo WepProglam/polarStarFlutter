@@ -39,23 +39,27 @@ class MainBinding implements Bindings {
 
     Get.put(ClassChatController());
     ClassChatController classChatController = Get.find();
-    if (classChatSocket == null || classChatSocket.disconnected) {
-      print("disconnected!!!");
-      classChatSocket = await IO.io(
-          'http://13.209.5.161:3000',
-          IO.OptionBuilder()
-              .setTransports(['websocket'])
-              .disableAutoConnect()
-              .setExtraHeaders({'cookie': Session.headers["Cookie"]})
-              .build());
-      classChatSocket.connect();
-    } else {
-      print("disconnect!!");
-      classChatSocket.disconnect();
-    }
+    // if (classChatSocket == null || classChatSocket.disconnected) {
+    print("disconnected!!!");
+    classChatSocket = await IO.io(
+        'http://13.209.5.161:3000',
+        IO.OptionBuilder()
+            .setTransports(['websocket'])
+            .disableAutoConnect()
+            .setExtraHeaders({'cookie': Session.headers["Cookie"]})
+            .build());
+
+    print(Session.headers["Cookie"]);
+    print("====================================");
+    classChatSocket.connect();
+    // } else {
+    //   print("disconnect!!");
+    //   classChatSocket.disconnect();
+
+    // }
 
     await classChatController.registerSocket();
     await classChatController.getChatBox();
-    print(" !!!!  ${classChatController.classChatBox}");
+    // print(" !!!!  ${classChatController.classChatBox}");
   }
 }
