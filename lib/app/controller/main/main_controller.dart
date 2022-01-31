@@ -102,11 +102,11 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
       default:
         Get.snackbar("이미 생성되어있는 게시판입니다.", "이미 생성되어있는 게시판입니다.");
     }
-    print(status["status"]);
+    //print(status["status"]);
   }
 
   void checkBoard(String text) {
-    print("checkBoard?!");
+    //print("checkBoard?!");
     for (Rx<BoardInfo> item in boardInfo) {
       if (text == "") {
         item.update((val) {
@@ -206,7 +206,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
 
   Future<void> getBoardInfo() async {
     final value = await repository.getBoardInfo(followingCommunity);
-    print("############### ${isAlreadyRunned}");
+    //print("############### ${isAlreadyRunned}");
 
     await getNewBoard();
     boardListInfo.clear();
@@ -220,12 +220,12 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     scrapList.value = value["scrapList"];
     classList.value = value["classList"];
     profile.value = value["PROFILE"];
-    print(profile);
+    // print(profile);
 
     box.write("year_sem", value["year_sem"]);
     box.write("MAX_BOARDS_LIMIT", value["MAX_BOARDS_LIMIT"]);
 
-    print("MAX_BOARDS_LIMIT : ${value["MAX_BOARDS_LIMIT"]}");
+    // print("MAX_BOARDS_LIMIT : ${value["MAX_BOARDS_LIMIT"]}");
 
     // print(value["year_sem"]["TIMETABLE_YEAR_FROM_DATE"]);
     // for (MainClassModel model in classList) {
@@ -242,8 +242,8 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     // 선택된 보드에 넣기
     selectedBoard.clear();
     for (Rx<BoardInfo> item in boardInfo) {
-      print(
-          "${item.value.IS_DEFAULT} ${!isAlreadyRunned}  ${item.value.IS_DEFAULT && !isAlreadyRunned}!!!!!!!!!!!");
+      // print(
+      //     "${item.value.IS_DEFAULT} ${!isAlreadyRunned}  ${item.value.IS_DEFAULT && !isAlreadyRunned}!!!!!!!!!!!");
       if (item.value.isChecked) {
         selectedBoard.add(item);
       }
@@ -277,7 +277,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     if (aa == null || aa.length == 0) {
       return [];
     }
-    print(aa.runtimeType);
+    //print(aa.runtimeType);
     if (aa[0].runtimeType == BoardInfo) {
       return aa;
     }
@@ -372,7 +372,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
       bool isFollowed,
       bool isNew) async {
     if (box.read("followingCommunity") == null) {
-      print("null ??? ");
+      // print("null ??? ");
       BoardInfo a = BoardInfo.fromJson({
         "COMMUNITY_ID": COMMUNITY_ID,
         "COMMUNITY_NAME": COMMUNITY_NAME,
@@ -457,7 +457,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
       //현재 앱 버전
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       String current_version = packageInfo.version;
-      print("current_version: ${current_version}");
+      //print("current_version: ${current_version}");
       int current_buildNumber = int.tryParse(packageInfo.buildNumber);
 
       Map<String, String> response = await repository.versionCheck();
@@ -472,12 +472,12 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
       final String latest_version = response["latest_version"];
       int latest_buildNumber = int.tryParse(latest_version.split("+")[1]);
 
-      print("latest_version: ${latest_version}");
+      // print("latest_version: ${latest_version}");
 
       final String min_version = response["min_version"];
       int min_buildNumber = int.tryParse(min_version.split("+")[1]);
 
-      print("min_version: ${min_version}");
+      // print("min_version: ${min_version}");
 
       //version check 실패
       if (!(current_buildNumber != null &&

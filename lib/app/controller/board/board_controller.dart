@@ -63,9 +63,9 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
     }
     httpStatus.value = status;
 
-    print("CM : ${COMMUNITY_ID.value} PAGE : ${page.value}");
+    //print("CM : ${COMMUNITY_ID.value} PAGE : ${page.value}");
 
-    print(listBoard);
+    //print(listBoard);
 
     switch (status) {
       case 200:
@@ -109,9 +109,9 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
 
         for (int i = 0; i < listBoard.length; i++) {
           NewBody.add(listBoard[i]);
-          print("${NewBody[i].value.CONTENT}  |  ${NewBody[i].value.TITLE}");
-          print(
-              "${NewBody[i].value.COMMUNITY_ID}  |  ${NewBody[i].value.UNIQUE_ID}");
+          // print("${NewBody[i].value.CONTENT}  |  ${NewBody[i].value.TITLE}");
+          // print(
+          //     "${NewBody[i].value.COMMUNITY_ID}  |  ${NewBody[i].value.UNIQUE_ID}");
         }
         dataAvailablePostPreview.value = true;
         break;
@@ -158,7 +158,7 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
         dataAvailablePostPreview.value = false;
         break;
     }
-    print(HotBody);
+    //print(HotBody);
   }
 
   Future<void> getSearchBoard(String searchText) async {
@@ -235,7 +235,7 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
     super.onInit();
     MAX_BOARDS_LIMIT = await box.read("MAX_BOARDS_LIMIT");
 
-    print("MAX_BOARDS_LIMIT : ${MAX_BOARDS_LIMIT}");
+    // print("MAX_BOARDS_LIMIT : ${MAX_BOARDS_LIMIT}");
     boardIndex.value = 0;
     COMMUNITY_ID.value = initCommunityId;
     page.value = initPage;
@@ -244,9 +244,9 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
 
     tabController.addListener(() {
       if (tabController.indexIsChanging) {
-        print("changing!!");
+        // print("changing!!");
       }
-      print(tabController.index);
+      // print(tabController.index);
     });
 
     hotScrollController.value.addListener(() async {

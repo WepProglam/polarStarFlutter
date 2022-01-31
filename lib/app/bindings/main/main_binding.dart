@@ -17,6 +17,7 @@ import 'package:polarstar_flutter/app/data/repository/mail/mail_repository.dart'
 import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/noti/noti_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/profile/mypage_repository.dart';
+import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
 import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -24,7 +25,9 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 class MainBinding implements Bindings {
   @override
   void dependencies() async {
-    print("MAINBINDING");
+    print("MAINBINDING!!!!!!!!!!!@##@%@#%#%#%#%");
+    print("MAINBINDING!!!!!!!!!!@##@%@#%#%#%#%");
+    print("MAINBINDING!!!!!!!!!@##@%@#%#%#%#%");
     Get.lazyPut<MainController>(() =>
         MainController(repository: MainRepository(apiClient: MainApiClient())));
 
@@ -37,25 +40,28 @@ class MainBinding implements Bindings {
     Get.lazyPut<MyPageController>(() => MyPageController(
         repository: MyPageRepository(apiClient: MyPageApiClient())));
 
+    print(Get.isRegistered<ClassChatController>());
     Get.put(ClassChatController());
+
     ClassChatController classChatController = Get.find();
-    if (classChatSocket == null || classChatSocket.disconnected) {
-      print("disconnected!!!");
-      classChatSocket = await IO.io(
-          'http://13.209.5.161:3000',
-          IO.OptionBuilder()
-              .setTransports(['websocket'])
-              .disableAutoConnect()
-              .setExtraHeaders({'cookie': Session.headers["Cookie"]})
-              .build());
-      classChatSocket.connect();
-    } else {
-      print("disconnect!!");
-      classChatSocket.disconnect();
-    }
+
+    classChatSocket = await IO.io(
+        'http://13.209.5.161:3000',
+        IO.OptionBuilder()
+            .setTransports(['websocket'])
+            .disableAutoConnect()
+            .setExtraHeaders(Session.headers)
+            .build());
+
+    classChatSocket.connect();
+    // } else {
+    //   print("disconnect!!");
+    //   classChatSocket.disconnect();
+
+    // }
 
     await classChatController.registerSocket();
     await classChatController.getChatBox();
-    print(" !!!!  ${classChatController.classChatBox}");
+    // print(" !!!!  ${classChatController.classChatBox}");
   }
 }

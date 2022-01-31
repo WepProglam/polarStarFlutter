@@ -116,7 +116,9 @@ class ClassChatController extends GetxController {
 
   Future<void> readClassChat(int BOX_ID) async {
     for (Rx<ChatBoxModel> item in classChatBox) {
+      print("??");
       if (item.value.BOX_ID == BOX_ID) {
+        print("?!");
         int LAST_READ_CHAT_ID = item.value.ChatList.last.value.CHAT_ID;
         item.update((val) {
           val.AMOUNT = 0;
@@ -179,8 +181,8 @@ class ClassChatController extends GetxController {
       findCurBox.update((val) {
         val.LoadingChatList.add(item.obs);
       });
-      print("add!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-      print(findCurBox.value.LoadingChatList.first.toJson());
+      // print("add!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      // print(findCurBox.value.LoadingChatList.first.toJson());
       isNewMessage.value = true;
 
       //print(item);
@@ -188,7 +190,7 @@ class ClassChatController extends GetxController {
       tmp["content"] = await files[i].readAsBytes();
       tmp["fileName"] = basename(files[i].path);
       tmp["fileSize"] = files[i].lengthSync();
-      print(tmp["fileSize"]);
+      //   print(tmp["fileSize"]);
 
       classChatSocket.emitWithBinary("sendFile", {
         "sendFileObj": [tmp],
@@ -216,9 +218,9 @@ class ClassChatController extends GetxController {
         height = photos[i].height;
       }
 
-      print(height);
-      print(width);
-      print("@@@@@@@@@@@@@@@@@@@@@");
+      //  print(height);
+      // print(width);
+      // print("@@@@@@@@@@@@@@@@@@@@@");
       // ! 사진 구별 필요
       ChatModel item = ChatModel.fromJson({
         "BOX_ID": currentBoxID.value,
@@ -235,7 +237,7 @@ class ClassChatController extends GetxController {
             imageFile,
             frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
               if (wasSynchronouslyLoaded) {
-                print("wasSynchronouslyLoaded : ${wasSynchronouslyLoaded}");
+                // print("wasSynchronouslyLoaded : ${wasSynchronouslyLoaded}");
                 isNewMessage.value = true;
                 return child;
               }
@@ -266,8 +268,8 @@ class ClassChatController extends GetxController {
       findCurBox.update((val) {
         val.LoadingChatList.add(item.obs);
       });
-      print("add!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-      print(findCurBox.value.LoadingChatList.first.toJson());
+      //print("add!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      //print(findCurBox.value.LoadingChatList.first.toJson());
 
       Map tmp = {};
       tmp["content"] = await photos[i].originBytes;
@@ -310,7 +312,7 @@ class ClassChatController extends GetxController {
     // * 최근 메시지가 같이 왔을 때 카운팅
     bool isExist = false;
     for (Rx<ChatBoxModel> item in classChatBox) {
-      print("${item.value.BOX_ID} : ${curClassID}");
+      //print("${item.value.BOX_ID} : ${curClassID}");
       if (item.value.BOX_ID == curClassID) {
         int index = item.value.ChatList.length - 1;
         int last_cid = item.value.LAST_READ_CHAT_ID;
@@ -350,7 +352,7 @@ class ClassChatController extends GetxController {
     // * 최근 메시지가 같이 왔을 때 카운팅
     bool isExist = false;
     for (Rx<ChatBoxModel> item in majorChatBox) {
-      print("${item.value.BOX_ID} : ${curMajorID}");
+      // print("${item.value.BOX_ID} : ${curMajorID}");
       if (item.value.BOX_ID == curMajorID) {
         int index = item.value.ChatList.length - 1;
         int last_cid = item.value.LAST_READ_CHAT_ID;
@@ -366,7 +368,7 @@ class ClassChatController extends GetxController {
             break;
           }
           index--;
-          print(index);
+          // print(index);
         }
       }
     }
@@ -403,14 +405,14 @@ class ClassChatController extends GetxController {
             element.value.FILE_META.length > 0) {
           if (element.value.FILE_META[0].FILE_NAME ==
               chat.value.FILE_META[0].FILE_NAME) {
-            print("remove!!");
+            //print("remove!!");
 
             return true;
           }
         }
         return false;
       });
-      print(tempList);
+      //print(tempList);
       val.LoadingChatList.value = tempList.value;
 
       val.LoadingChatList.refresh();
@@ -426,14 +428,14 @@ class ClassChatController extends GetxController {
             element.value.PHOTO_META.length > 0) {
           if (element.value.PHOTO_META.first.PHOTO_NAME ==
               chat.value.PHOTO_META.first.PHOTO_NAME) {
-            print("remove!!");
+            //print("remove!!");
 
             return true;
           }
         }
         return false;
       });
-      print(tempList);
+      // print(tempList);
       val.LoadingChatList.value = tempList.value;
 
       val.LoadingChatList.refresh();
@@ -447,7 +449,7 @@ class ClassChatController extends GetxController {
       int index = tempList.indexWhere((element) {
         if (element.value.CONTENT != null) {
           if (element.value.CONTENT == chat.value.CONTENT) {
-            print("remove!!");
+            //  print("remove!!");
             return true;
           }
         }
@@ -466,9 +468,8 @@ class ClassChatController extends GetxController {
 
   Future<void> socketting() async {
     classChatSocket.on("viewRecentMessage", (data) {
-      // print(data);
       Iterable cc = data;
-      print(data);
+      //print(data);
       tempChatHistory.clear();
       tempChatHistory.value = cc.map((e) => ChatModel.fromJson(e).obs).toList();
 
@@ -526,7 +527,7 @@ class ClassChatController extends GetxController {
                 removeLoadingChatMessage(chat);
               }
             }
-            print(chat.value.CONTENT);
+            //print(chat.value.CONTENT);
             // * 단톡방 미리보기 수정
             val.LAST_CHAT = chat.value.CONTENT;
             val.TIME_LAST_CHAT_SENDED = chat.value.TIME_CREATED;
@@ -573,7 +574,7 @@ class ClassChatController extends GetxController {
   Future<void> getChatBox() async {
     var response = await Session().getX("/chat/chatBox");
     var jsonResponse = jsonDecode(response.body);
-    print(jsonResponse);
+    //print(jsonResponse);
     Iterable classChatBoxList = jsonResponse["classChatBox"];
     Iterable majorChatBoxList = jsonResponse["majorChatBox"];
     classChatBox.value =
@@ -604,12 +605,13 @@ class ClassChatController extends GetxController {
   List<int> joinedRooms = [];
 
   Future<void> joinAndEmit(int BOX_ID) async {
-    print("joinRoom! ${BOX_ID}");
     if (joinedRooms.indexOf(BOX_ID) != -1) {
       print("이미 조인함");
       await classChatSocket.emit("getChatLog", [BOX_ID, 0]);
       return;
     }
+    print("joinRoom! ${BOX_ID}");
+
     classChatSocket.emit("joinRoom", [BOX_ID, "fuckfuck"]);
     await classChatSocket.emit("getChatLog", [BOX_ID, 0]);
     joinedRooms.add(BOX_ID);
@@ -632,24 +634,24 @@ class ClassChatController extends GetxController {
     // });
 
     ever(dataAvailble, (_) {
-      print("dataavailable : ${dataAvailble.value}");
+      // print("dataavailable : ${dataAvailble.value}");
     });
 
     ever(classChatBox, (_) {
-      print("char box ${classChatBox}");
+      //print("char box ${classChatBox}");
     });
 
     chatFocusNode.addListener(() {
-      print("???????!!!!!!!!!!!!!!!!");
-      print(chatFocusNode.hasFocus);
+      // print("???????!!!!!!!!!!!!!!!!");
+      //print(chatFocusNode.hasFocus);
     });
   }
 
   RxList<Rx<ChatModel>> get getClassHistory {
-    print("!!!!");
-    print(classChatBox);
+    //  print("!!!!");
+    //  print(classChatBox);
     for (Rx<ChatBoxModel> item in classChatBox) {
-      print("${item.value.BOX_ID} - ${currentBoxID.value}");
+      //  print("${item.value.BOX_ID} - ${currentBoxID.value}");
       if (item.value.BOX_ID == currentBoxID.value) {
         return item.value.ChatList;
       }
@@ -666,8 +668,20 @@ class ClassChatController extends GetxController {
 
   @override
   void onClose() async {
+    // * 강의별 톡방
+    for (Rx<ChatBoxModel> item in classChatBox) {
+      await classChatSocket.emit("leaveRoom", [item.value.BOX_ID]);
+      print("leaveroom ${item.value.BOX_ID} ");
+    }
+
+    // * 전공별 톡방
+    for (Rx<ChatBoxModel> item in majorChatBox) {
+      await classChatSocket.emit("leaveRoom", [item.value.BOX_ID]);
+      print("leaveroom ${item.value.BOX_ID} ");
+    }
+
     classChatSocket.disconnect();
-    print("contoller close : ${roomID.value}");
+    // print("contoller close : ${roomID.value}");
     // await classChatSocket.emit("leaveRoom", roomID.value);
     // chatHistory.clear();
   }
