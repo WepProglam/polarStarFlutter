@@ -57,7 +57,7 @@ class SaveNotiModel {
 
 class ChatBoxModel {
   String BOX_NAME, CLASS_PROFESSOR, LAST_CHAT;
-  int BOX_ID, CHAT_ID, AMOUNT, LAST_READ_CHAT_ID;
+  int BOX_ID, CHAT_ID, LAST_READ_CHAT_ID, UNREAD_AMOUNT;
   DateTime TIME_LAST_CHAT_SENDED;
   RxList<Rx<ChatModel>> ChatList;
   RxList<Rx<ChatModel>> LoadingChatList;
@@ -66,6 +66,7 @@ class ChatBoxModel {
       {BOX_NAME,
       CLASS_PROFESSOR,
       LAST_CHAT,
+      UNREAD_AMOUNT,
       BOX_ID,
       CHAT_ID,
       TIME_LAST_CHAT_SENDED});
@@ -86,6 +87,7 @@ class ChatBoxModel {
   ChatBoxModel.fromJson(Map<String, dynamic> json) {
     this.BOX_NAME = json["BOX_NAME"];
     this.CLASS_PROFESSOR = json["CLASS_PROFESSOR"];
+    this.UNREAD_AMOUNT = nullCheck(json["UNREAD_AMOUNT"]);
     //print("class_id: ${json["CLASS_ID"]}");
     this.CHAT_ID = nullCheck(json["CHAT_ID"]);
     this.BOX_ID = json["BOX_ID"];
@@ -98,7 +100,7 @@ class ChatBoxModel {
     this.ChatList = json["ChatList"] != null
         ? json["ChatList"].map((e) => ChatModel.fromJson(e).obs).toList().obs
         : <Rx<ChatModel>>[].obs;
-    this.AMOUNT = 0;
+
     this.LoadingChatList = <Rx<ChatModel>>[].obs;
   }
 }

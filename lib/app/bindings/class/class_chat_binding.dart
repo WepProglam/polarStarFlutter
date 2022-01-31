@@ -15,5 +15,6 @@ class ClassChatBinding implements Bindings {
     ClassChatController classChatController = Get.find();
     classChatController.currentBoxID.value = int.parse(Get.arguments["roomID"]);
     classChatController.getChatProfileList(int.parse(Get.arguments["roomID"]));
+    classChatController.getChatLog(int.parse(Get.arguments["roomID"]));
   }
 }

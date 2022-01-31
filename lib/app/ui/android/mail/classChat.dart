@@ -113,7 +113,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
     if (isPreCacheNeeded) {
       controller.dataAvailble.value = false;
 
-      preCacheImage(model);
+      await preCacheImage(model);
 
       // await Timer(Duration(milliseconds: 100), () {
 
@@ -215,6 +215,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                   decoration: BoxDecoration(color: const Color(0xffeaeaea))),
               Expanded(
                 child: Obx(() {
+                  controller.chatScrollController.jumpTo(
+                      controller.chatScrollController.position.maxScrollExtent);
                   return ListView.builder(
                       itemCount: controller.chatProfileList.length,
                       itemBuilder: (BuildContext context, int index) {
@@ -331,7 +333,6 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                 })),
           ),
           body: Obx(() {
-            print("???????? ${controller.dataAvailble.value}");
             if (controller.dataAvailble.value ||
                 controller.frameComplete.value) {
               print("data available");

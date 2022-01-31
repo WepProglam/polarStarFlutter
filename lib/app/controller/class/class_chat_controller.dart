@@ -122,7 +122,7 @@ class ClassChatController extends GetxController {
         print("?!");
         int LAST_READ_CHAT_ID = item.value.ChatList.last.value.CHAT_ID;
         item.update((val) {
-          val.AMOUNT = 0;
+          val.UNREAD_AMOUNT = 0;
         });
         classChatSocket.emit("readChat", [BOX_ID, LAST_READ_CHAT_ID]);
         break;
@@ -135,7 +135,7 @@ class ClassChatController extends GetxController {
       if (item.value.BOX_ID == BOX_ID) {
         int LAST_READ_CHAT_ID = item.value.ChatList.last.value.CHAT_ID;
         item.update((val) {
-          val.AMOUNT = 0;
+          val.UNREAD_AMOUNT = 0;
         });
         classChatSocket.emit("readChat", [BOX_ID, LAST_READ_CHAT_ID]);
         break;
@@ -307,95 +307,95 @@ class ClassChatController extends GetxController {
     return null;
   }
 
-  void countingAmountClassChat(int curClassID) {
-    //int last_cid = box.read("LastChat_${curClassID}");
+  // void countingAmountClassChat(int curClassID) {
+  //   //int last_cid = box.read("LastChat_${curClassID}");
 
-    // * 최근 메시지가 같이 왔을 때 카운팅
-    bool isExist = false;
-    for (Rx<ChatBoxModel> item in classChatBox) {
-      //print("${item.value.BOX_ID} : ${curClassID}");
-      if (item.value.BOX_ID == curClassID) {
-        int index = item.value.ChatList.length - 1;
-        int last_cid = item.value.LAST_READ_CHAT_ID;
-        if (last_cid == null) {
-          break;
-        }
-        for (Rx<ChatModel> it in item.value.ChatList) {
-          if (it.value.CHAT_ID == last_cid) {
-            item.update((val) {
-              val.AMOUNT = index;
-            });
-            isExist = true;
-            break;
-          }
-          index--;
-        }
-      }
-    }
-    // * 최근 메시지가 없을 때 카운팅
-    if (!isExist) {
-      for (Rx<ChatBoxModel> item in classChatBox) {
-        if (item.value.BOX_ID == curClassID) {
-          item.update((val) {
-            val.AMOUNT = item.value.ChatList.length > 100
-                ? 100
-                : item.value.ChatList.length;
-          });
-          break;
-        }
-      }
-    }
-  }
+  //   // * 최근 메시지가 같이 왔을 때 카운팅
+  //   bool isExist = false;
+  //   for (Rx<ChatBoxModel> item in classChatBox) {
+  //     //print("${item.value.BOX_ID} : ${curClassID}");
+  //     if (item.value.BOX_ID == curClassID) {
+  //       int index = item.value.ChatList.length - 1;
+  //       int last_cid = item.value.LAST_READ_CHAT_ID;
+  //       if (last_cid == null) {
+  //         break;
+  //       }
+  //       for (Rx<ChatModel> it in item.value.ChatList) {
+  //         if (it.value.CHAT_ID == last_cid) {
+  //           item.update((val) {
+  //             val.UNREAD_AMOUNT = index;
+  //           });
+  //           isExist = true;
+  //           break;
+  //         }
+  //         index--;
+  //       }
+  //     }
+  //   }
+  //   // * 최근 메시지가 없을 때 카운팅
+  //   if (!isExist) {
+  //     for (Rx<ChatBoxModel> item in classChatBox) {
+  //       if (item.value.BOX_ID == curClassID) {
+  //         item.update((val) {
+  //           val.UNREAD_AMOUNT = item.value.ChatList.length > 100
+  //               ? 100
+  //               : item.value.ChatList.length;
+  //         });
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }
 
-  void countingAmountMajorChat(int curMajorID) {
-    //int last_cid = box.read("LastChat_${curMajorID}");
+  // void countingAmountMajorChat(int curMajorID) {
+  //   //int last_cid = box.read("LastChat_${curMajorID}");
 
-    // * 최근 메시지가 같이 왔을 때 카운팅
-    bool isExist = false;
-    for (Rx<ChatBoxModel> item in majorChatBox) {
-      // print("${item.value.BOX_ID} : ${curMajorID}");
-      if (item.value.BOX_ID == curMajorID) {
-        int index = item.value.ChatList.length - 1;
-        int last_cid = item.value.LAST_READ_CHAT_ID;
-        if (last_cid == null) {
-          break;
-        }
-        for (Rx<ChatModel> it in item.value.ChatList) {
-          if (it.value.CHAT_ID == last_cid) {
-            item.update((val) {
-              val.AMOUNT = index;
-            });
-            isExist = true;
-            break;
-          }
-          index--;
-          // print(index);
-        }
-      }
-    }
-    // * 최근 메시지가 없을 때 카운팅
-    if (!isExist) {
-      for (Rx<ChatBoxModel> item in majorChatBox) {
-        if (item.value.BOX_ID == curMajorID) {
-          item.update((val) {
-            val.AMOUNT = item.value.ChatList.length > 100
-                ? 100
-                : item.value.ChatList.length;
-          });
-          break;
-        }
-      }
-    }
-  }
+  //   // * 최근 메시지가 같이 왔을 때 카운팅
+  //   bool isExist = false;
+  //   for (Rx<ChatBoxModel> item in majorChatBox) {
+  //     // print("${item.value.BOX_ID} : ${curMajorID}");
+  //     if (item.value.BOX_ID == curMajorID) {
+  //       int index = item.value.ChatList.length - 1;
+  //       int last_cid = item.value.LAST_READ_CHAT_ID;
+  //       if (last_cid == null) {
+  //         break;
+  //       }
+  //       for (Rx<ChatModel> it in item.value.ChatList) {
+  //         if (it.value.CHAT_ID == last_cid) {
+  //           item.update((val) {
+  //             val.UNREAD_AMOUNT = index;
+  //           });
+  //           isExist = true;
+  //           break;
+  //         }
+  //         index--;
+  //         // print(index);
+  //       }
+  //     }
+  //   }
+  //   // * 최근 메시지가 없을 때 카운팅
+  //   if (!isExist) {
+  //     for (Rx<ChatBoxModel> item in majorChatBox) {
+  //       if (item.value.BOX_ID == curMajorID) {
+  //         item.update((val) {
+  //           val.UNREAD_AMOUNT = item.value.ChatList.length > 100
+  //               ? 100
+  //               : item.value.ChatList.length;
+  //         });
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }
 
-  void countTotal(int BOX_ID, bool isClass) {
-    if (isClass) {
-      countingAmountClassChat(BOX_ID);
-    } else {
-      countingAmountMajorChat(BOX_ID);
-    }
-    return;
-  }
+  // void countTotal(int BOX_ID, bool isClass) {
+  //   if (isClass) {
+  //     countingAmountClassChat(BOX_ID);
+  //   } else {
+  //     countingAmountMajorChat(BOX_ID);
+  //   }
+  //   return;
+  // }
 
   void removeLoadingChatFile(Rx<ChatModel> chat) {
     findCurBox.update((val) {
@@ -467,6 +467,8 @@ class ClassChatController extends GetxController {
     });
   }
 
+  RxBool chatDownloaed = false.obs;
+
   Future<void> socketting() async {
     classChatSocket.on("viewRecentMessage", (data) {
       Iterable cc = data;
@@ -490,18 +492,26 @@ class ClassChatController extends GetxController {
           });
         }
       }
-      // * 현재 들어가있을때
-      if (currentBoxID.value == curBoxID) {
-        box.write("LastChat_${tempChatHistory.last.value.BOX_ID}",
-            tempChatHistory.last.value.CHAT_ID);
-      }
-      // * 안 읽은 개수 체크
-      countTotal(curBoxID, isClass);
+
+      chatDownloaed(true);
+      // // * 현재 들어가있을때
+      // if (currentBoxID.value == curBoxID) {
+      //   box.write("LastChat_${tempChatHistory.last.value.BOX_ID}",
+      //       tempChatHistory.last.value.CHAT_ID);
+      // }
+      // // * 안 읽은 개수 체크
+      // countTotal(curBoxID, isClass);
     });
 
     classChatSocket.on("newMessage", (data) async {
+      print("????");
+      print(data);
+
       Rx<ChatModel> chat = ChatModel.fromJson(data).obs;
       bool isClass = checkClassOrMajor(chat.value.BOX_ID);
+      // findCurBox.update((val) {
+      //   val.UNREAD_AMOUNT += 1;
+      // });
       for (Rx<ChatBoxModel> item in isClass ? classChatBox : majorChatBox) {
         if (item.value.BOX_ID == chat.value.BOX_ID) {
           // if (item.value.ChatList.length != 0 &&
@@ -533,6 +543,12 @@ class ClassChatController extends GetxController {
             val.LAST_CHAT = chat.value.CONTENT;
             val.TIME_LAST_CHAT_SENDED = chat.value.TIME_CREATED;
             isNewMessage.value = true;
+
+            // * 내가 보낸 채팅이 아니면 +1
+            print("chat.value.MY_SELF ${chat.value.MY_SELF}");
+            if (!chat.value.MY_SELF) {
+              val.UNREAD_AMOUNT += 1;
+            }
           });
         }
       }
@@ -549,8 +565,8 @@ class ClassChatController extends GetxController {
         }
       }
 
-      // * 안 읽은 개수 체크
-      countTotal(chat.value.BOX_ID, isClass);
+      // // * 안 읽은 개수 체크
+      // countTotal(chat.value.BOX_ID, isClass);
     });
 
     classChatSocket.on('leaveRoom', (_) {
@@ -581,25 +597,25 @@ class ClassChatController extends GetxController {
     CHAT_MAX.value = jsonResponse["CHAT_MAX"];
     classChatBox.value =
         classChatBoxList.map((e) => ChatBoxModel.fromJson(e).obs).toList().obs;
-    print(classChatBox.value);
 
     majorChatBox.value =
         majorChatBoxList.map((e) => ChatBoxModel.fromJson(e).obs).toList().obs;
+    print("unread amount :  ${majorChatBox.first.value.UNREAD_AMOUNT}");
 
     box.remove("classSocket");
 
     // * 강의별 톡방
     List<ChatBoxModel> tempClassList = [];
     for (Rx<ChatBoxModel> item in classChatBox) {
-      joinAndEmit(item.value.BOX_ID);
-      countTotal(item.value.BOX_ID, true);
+      joinRooms(item.value.BOX_ID);
+      // countTotal(item.value.BOX_ID, true);
     }
 
     // * 전공별 톡방
     tempClassList.clear();
     for (Rx<ChatBoxModel> item in majorChatBox) {
-      joinAndEmit(item.value.BOX_ID);
-      countTotal(item.value.BOX_ID, false);
+      joinRooms(item.value.BOX_ID);
+      // countTotal(item.value.BOX_ID, false);
     }
 
     return;
@@ -607,17 +623,19 @@ class ClassChatController extends GetxController {
 
   List<int> joinedRooms = [];
 
-  Future<void> joinAndEmit(int BOX_ID) async {
+  Future<void> joinRooms(int BOX_ID) async {
     if (joinedRooms.indexOf(BOX_ID) != -1) {
       print("이미 조인함");
-      await classChatSocket.emit("getChatLog", [BOX_ID, 0]);
       return;
     }
     print("joinRoom! ${BOX_ID}");
-
     classChatSocket.emit("joinRoom", [BOX_ID, "fuckfuck"]);
-    await classChatSocket.emit("getChatLog", [BOX_ID, 0]);
     joinedRooms.add(BOX_ID);
+    return;
+  }
+
+  Future<void> getChatLog(int BOX_ID) async {
+    await classChatSocket.emit("getChatLog", [BOX_ID, 0]);
     return;
   }
 

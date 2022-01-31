@@ -495,7 +495,9 @@ class ChatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Ink(
-        color: model.value.AMOUNT == 0 ? Color(0xfffafbff) : Color(0xffffffff),
+        color: model.value.UNREAD_AMOUNT == 0
+            ? Color(0xfffafbff)
+            : Color(0xffffffff),
         child: InkWell(
           onTap: () async {
             final ClassChatController classChatController = Get.find();
@@ -607,7 +609,7 @@ class ChatItem extends StatelessWidget {
                                       fontStyle: FontStyle.normal,
                                       fontSize: 10.0),
                                   textAlign: TextAlign.right),
-                              model.value.AMOUNT == 0
+                              model.value.UNREAD_AMOUNT == 0
                                   ? Container(
                                       margin: const EdgeInsets.only(top: 9),
                                       child: Image.asset(
@@ -620,7 +622,7 @@ class ChatItem extends StatelessWidget {
                                       child: Center(
                                         child: FittedBox(
                                           child: Text(
-                                            "${model.value.AMOUNT}",
+                                            "${model.value.UNREAD_AMOUNT}",
                                             style: const TextStyle(
                                                 color: const Color(0xffffffff),
                                                 fontWeight: FontWeight.w500,
