@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
+import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
 
 class Profile extends StatelessWidget {
@@ -25,12 +26,7 @@ class Profile extends StatelessWidget {
       child: Scaffold(
           resizeToAvoidBottomInset: false,
           extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            elevation: 0,
-            toolbarHeight: 56,
-            automaticallyImplyLeading: false,
-            titleSpacing: 0,
-          ),
+          appBar: AppBars().profileAppBar(),
           body: RefreshIndicator(
             onRefresh: myPageController.getMineWrite,
             child: Stack(

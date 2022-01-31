@@ -29,4 +29,21 @@ class AppBars {
           textAlign: TextAlign.left),
     );
   }
+
+  AppBar profileAppBar() {
+    const mainColor = 0xff4570ff;
+
+    return AppBar(
+      backgroundColor: const Color(mainColor),
+      foregroundColor: Colors.white,
+      automaticallyImplyLeading: false,
+      leading: InkWell(
+        child: Image.asset("assets/images/icn_back_white.png"),
+        onTap: () => Get.back(),
+      ),
+      elevation: 0,
+      titleSpacing: 0,
+      centerTitle: true,
+    );
+  }
 }
