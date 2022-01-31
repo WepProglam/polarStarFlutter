@@ -768,59 +768,16 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                           .jumpTo(target_pos);
                                     });
                                   }
-
-                                  // Timer(
-                                  //     Duration(
-                                  //       milliseconds: 100,
-                                  //     ), () {
-                                  //   double keyBoardHeight =
-                                  //       MediaQuery.of(context)
-                                  //           .viewInsets
-                                  //           .bottom;
-                                  //   box.write("keyBoardHeight", keyBoardHeight);
-                                  //   print("keyboard : ${keyBoardHeight}");
-                                  // });
-
-                                  // Timer(Duration(milliseconds: 100), () {
-                                  //   controller.chatScrollController
-                                  //       .jumpTo(target_pos);
-                                  // });
-
-                                  // controller.tapTextField.value = true;
-                                  // controller.canChatFileShow.value =
-                                  //     false;
-
-                                  // Timer(Duration(milliseconds: 100), () {
-                                  //   controller.chatScrollController
-                                  //       .jumpTo(
-                                  //     controller.chatScrollController
-                                  //             .position.pixels +
-                                  //         box.read("keyBoardHeight"),
-                                  //   );
-                                  //   // controller.chatScrollController.animateTo(
-                                  //   //     controller.chatScrollController.position
-                                  //   //         .maxScrollExtent,
-                                  //   //     duration: Duration(milliseconds: 100),
-                                  //   //     curve: Curves.fastOutSlowIn);
-                                  // });
-                                  // controller.chatScrollController.jumpTo(
-                                  //   controller.chatScrollController
-                                  //       .position.maxScrollExtent,
-                                  // );
                                 },
                                 onEditingComplete: () async {
-                                  // controller
-                                  //     .sendMessage(commentWriteController.text);
-                                  // commentWriteController.clear();
-
-                                  // double max_hight = controller
-                                  //     .chatScrollController
-                                  //     .value
-                                  //     .position
-                                  //     .maxScrollExtent;
-
-                                  // controller.chatScrollController.value
-                                  //     .jumpTo(max_hight);
+                                  String textNewLine =
+                                      commentWriteController.value.text + "\n";
+                                  commentWriteController.value =
+                                      TextEditingValue(
+                                    text: commentWriteController.text + "\n",
+                                    selection: TextSelection.collapsed(
+                                        offset: textNewLine.length),
+                                  );
                                 },
                                 minLines: 1,
                                 maxLines: 5,
