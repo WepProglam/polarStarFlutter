@@ -198,6 +198,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
       child: SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
+
           endDrawer: Drawer(
               // Add a ListView to the drawer. This ensures the user can scroll
               // through the options in the drawer if there isn't enough vertical
@@ -777,7 +778,41 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                             ),
                           ),
                         ))
-                    : Container()
+                    : Container(),
+                Positioned(
+                  right: 10,
+                  bottom: controller.tapTextField.value &&
+                          !controller.canChatFileShow.value
+                      ? getKeyboardHeight() + 60 + 10.0
+                      : 60 + 10.0,
+                  child: AnimatedOpacity(
+                    duration: Duration(milliseconds: 500),
+                    opacity: controller.toBottomButton.value ? 1 : 0,
+                    child: Ink(
+                      child: InkWell(
+                        onTap: () {
+                          controller.chatScrollController.jumpTo(controller
+                              .chatScrollController.position.maxScrollExtent);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Get.theme.primaryColor,
+                              border:
+                                  Border.all(color: Get.theme.primaryColor)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.downhill_skiing,
+                              color: const Color(0xffffffff),
+                              size: 30,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
               ]),
             );
           }),

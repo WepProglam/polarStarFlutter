@@ -701,7 +701,8 @@ class ClassChatController extends GetxController {
   }
 
   RxDouble past_totalHeightListView = 0.0.obs;
-  RxDouble current_totalHeightListView = 0.0.obs;
+  double current_totalHeightListView = 0.0;
+  RxBool toBottomButton = false.obs;
 
   @override
   void onInit() async {
@@ -715,8 +716,15 @@ class ClassChatController extends GetxController {
     // });
 
     chatScrollController.addListener(() async {
-      // print("isPageEnd : ${isPageEnd} offset : ${chatScrollController.offset}");
-
+      print("isPageEnd : ${isPageEnd} offset : ${chatScrollController.offset}");
+      current_totalHeightListView = chatScrollController.offset;
+      if (chatScrollController.position.maxScrollExtent -
+              current_totalHeightListView >=
+          300) {
+        toBottomButton.value = true;
+      } else {
+        toBottomButton.value = false;
+      }
       // print(
       //     "totalHeightListView : ${chatScrollController.position.maxScrollExtent} min : ${chatScrollController.position.minScrollExtent}");
       if (!isPageEnd.value && chatScrollController.offset == 0) {

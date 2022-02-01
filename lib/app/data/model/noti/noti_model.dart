@@ -199,7 +199,7 @@ class ChatModel {
                       child: child);
                 }
                 return Container(
-                  color: Colors.black,
+                  color: Colors.white12,
                   width: this.PHOTO_META[0].IMAGE_WIDTH,
                   height: this.PHOTO_META[0].IMAGE_HIEGHT,
                   child: Center(
