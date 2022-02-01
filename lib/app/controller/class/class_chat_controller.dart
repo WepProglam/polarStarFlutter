@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -204,11 +205,14 @@ class ClassChatController extends GetxController {
     List<Map> sendFileObj = [];
 
     for (int i = 0; i < photos.length; i++) {
-      File imageFile = await photos[i].file;
-      // final Size size = ImageSizeGetter.getSize(FileInput(imageFile));
+      Uint8List temp = await photos[i].originBytes;
+      print(temp.lengthInBytes);
+      temp = await FlutterImageCompress.compressWithList(temp, quality: 10);
+      print(temp.lengthInBytes);
+
       var width;
       var height;
-      var decodedImage = await decodeImageFromList(imageFile.readAsBytesSync());
+      var decodedImage = await decodeImageFromList(temp);
       if (Platform.isAndroid) {
         width = decodedImage.width;
         height = decodedImage.height;
@@ -232,8 +236,8 @@ class ClassChatController extends GetxController {
           }
         ],
         "PRE_IMAGE": [
-          Image.file(
-            imageFile,
+          Image.memory(
+            temp,
             frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
               if (wasSynchronouslyLoaded) {
                 // print("wasSynchronouslyLoaded : ${wasSynchronouslyLoaded}");
@@ -271,7 +275,7 @@ class ClassChatController extends GetxController {
       //print(findCurBox.value.LoadingChatList.first.toJson());
 
       Map tmp = {};
-      tmp["content"] = await photos[i].originBytes;
+      tmp["content"] = temp;
       tmp["fileName"] = basename(photos[i].title);
       tmp["pixel_height"] = height;
       tmp["pixel_width"] = width;
@@ -474,7 +478,7 @@ class ClassChatController extends GetxController {
   RxInt chatEnterAmouunt = 0.obs;
   RxBool additionalChatLoading = false.obs;
 
-  Rx<bool> isPageEnd = false.obs;
+  Rx<bool> isPageEnd = true.obs;
   int searchIndex = 0;
   bool checkPageEnded(List<dynamic> ChatList) {
     return ChatList.length < CHAT_MAX.value ? true : false;

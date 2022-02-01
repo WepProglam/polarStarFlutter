@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ import 'package:polarstar_flutter/main.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 final box = GetStorage();
 
@@ -1062,6 +1064,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                   themeColor:
                                                       Get.theme.primaryColor,
                                                 ));
+
                                                 controller.sendPhoto();
                                               },
                                               child: Container(

@@ -23,7 +23,7 @@ class ClassChatBinding implements Bindings {
     classChatController.chatEnterAmouunt.value = 0;
     classChatController.searchIndex = 0;
     classChatController.past_totalHeightListView.value = 0;
-    classChatController.isPageEnd.value = false;
+    classChatController.isPageEnd.value = true;
 
     if (classChatController.findCurBox.value.ChatList.length == 0) {
       classChatController.chatDownloaed(false);
