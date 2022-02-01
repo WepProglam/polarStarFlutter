@@ -35,7 +35,6 @@ class ClassChatController extends GetxController {
 
   RxList<Rx<ChatModel>> tempChatHistory = <Rx<ChatModel>>[].obs;
 
-  bool readFirstRecent = true;
   ScrollController chatScrollController;
   RxList<Rx<ChatBoxModel>> classChatBox = <Rx<ChatBoxModel>>[].obs;
   RxList<Rx<ChatBoxModel>> majorChatBox = <Rx<ChatBoxModel>>[].obs;
@@ -478,11 +477,12 @@ class ClassChatController extends GetxController {
 
   Future<void> socketting() async {
     classChatSocket.on("viewRecentMessage", (data) {
+      print("viewRecentMessage");
       Iterable cc = data;
       //print(data);
       tempChatHistory.clear();
       tempChatHistory.value = cc.map((e) => ChatModel.fromJson(e).obs).toList();
-
+      print(tempChatHistory);
       // * 서버에서 역순으로 보내므로 다시 정렬
       tempChatHistory.value = tempChatHistory.reversed.toList();
       if (tempChatHistory.length == 0) {
