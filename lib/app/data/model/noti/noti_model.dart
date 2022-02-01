@@ -188,7 +188,6 @@ class ChatModel {
               this.PHOTO[0].split("s://")[1];
           this.PRE_IMAGE = [
             Image(
-              fit: BoxFit.cover,
               width: this.PHOTO_META[0].IMAGE_WIDTH,
               height: this.PHOTO_META[0].IMAGE_HIEGHT,
               image: CachedNetworkImageProvider(httpUrl, scale: 1.0),
