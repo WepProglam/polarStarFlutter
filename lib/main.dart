@@ -103,7 +103,7 @@ void main() async {
     // initialBinding: isLogined ? MainBinding() : LoginBinding(),
     initialRoute: isLogined ? Routes.MAIN_PAGE : Routes.LOGIN,
     // theme: appThemeData,
-    defaultTransition: Transition.cupertino,
+    // defaultTransition: Transition.cupertino,
     getPages: AppPages.pages,
     locale: Locale('pt', 'BR'),
     // translationsKeys: AppTranslation.translations,

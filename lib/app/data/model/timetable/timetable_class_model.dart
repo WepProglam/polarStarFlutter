@@ -17,7 +17,7 @@ class TimeTableClassModel {
       CAMPUS,
       CLASS_SECTOR_1,
       CLASS_SECTOR_2;
-  bool IS_ICAMPUS;
+  bool IS_ICAMPUS, IS_NOT_DETERMINED;
 
   List<AddClassModel> CLASS_TIME;
   double CREDIT;
@@ -39,12 +39,14 @@ class TimeTableClassModel {
       CLASS_SECTOR_2,
       CLASS_TIME,
       IS_ICAMPUS,
+      IS_NOT_DETERMINED,
       CREDIT});
 
   TimeTableClassModel.fromJson(Map<String, dynamic> json) {
     this.CLASS_ID = json["CLASS_ID"];
     this.CLASS_PART = json["CLASS_PART"];
     this.NUMBER_OF_STUDENTS = json["NUMBER_OF_STUDENTS"];
+
     this.YEAR = json["YEAR"];
     this.SEMESTER = json["SEMESTER"];
     this.COLLEGE_ID = json["COLLEGE_ID"];
@@ -55,8 +57,10 @@ class TimeTableClassModel {
     this.CLASS_SECTOR_1 = json["CLASS_SECTOR_1"];
     this.CLASS_SECTOR_2 = json["CLASS_SECTOR_2"];
     this.CLASS_NUMBER = json["CLASS_NUMBER"];
-    this.CLASS_NAME = json["CLASS_NAME"];
-    this.PROFESSOR = json["PROFESSOR"];
+    this.PROFESSOR =
+        json["PROFESSOR"] == null || json["PROFESSOR"].toString().isEmpty
+            ? "미지정"
+            : json["PROFESSOR"];
     this.RATE = json["AVG(RATE)"] == null ? "0" : json["AVG(RATE)"];
     if (json['CREDIT'] == null) {
       this.CREDIT = null;
@@ -65,10 +69,15 @@ class TimeTableClassModel {
     }
 
     Iterable tempClassJson = json["CLASS_TIME"];
-
-    if (tempClassJson.first["day"] == "【iCampus 수업】") {
+    print(tempClassJson.first["day"]);
+    if (tempClassJson.first["day"].toString().contains("【iCampus 수업】")) {
       this.CLASS_TIME = [];
       this.IS_ICAMPUS = true;
+      this.IS_NOT_DETERMINED = false;
+    } else if (tempClassJson.first["day"].toString().contains("미지정")) {
+      this.IS_NOT_DETERMINED = true;
+      this.CLASS_TIME = [];
+      this.IS_ICAMPUS = false;
     } else {
       List<AddClassModel> tempClasses =
           tempClassJson.map((e) => AddClassModel.fromJson(e)).toList();
@@ -85,6 +94,7 @@ class TimeTableClassModel {
 
       this.CLASS_TIME = CLASS_TIME_UNION;
       this.IS_ICAMPUS = false;
+      this.IS_NOT_DETERMINED = false;
     }
   }
 

@@ -350,13 +350,12 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
               //   children: [CircularProgressIndicator(), Text("waiting...")],
               // );
             }
-
             // else if (!controller.imagePreCached.value) {
             //   return CircularProgressIndicator();
             // }
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              // preCacheImage(model);
-            });
+            // WidgetsBinding.instance.addPostFrameCallback((_) {
+            //   // preCacheImage(model);
+            // });
 
             print(
                 "controller.imagePreCached.value : ${controller.imagePreCached.value}");

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
+import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
+import 'package:polarstar_flutter/app/ui/android/timetable/functions/showClassDetail.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/appBar.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/table_list.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/widgets/timetable.dart';
@@ -49,6 +51,13 @@ class TimeTableBody extends StatelessWidget {
           child: CircularProgressIndicator(),
         );
       }
+      // int icampusOrUndeterminedCount = 0;
+      // for (TimeTableClassModel item
+      //     in timeTableController.selectTable.value.CLASSES) {
+      //   if (item.IS_ICAMPUS || item.IS_NOT_DETERMINED) {
+      //     icampusOrUndeterminedCount += 1;
+      //   }
+      // }
       return SingleChildScrollView(
           controller: timeTableController.scrollController,
           child: Column(
@@ -59,6 +68,25 @@ class TimeTableBody extends StatelessWidget {
                       timeTableController: timeTableController,
                       size: size,
                       scrollable: false)),
+
+              ListView.builder(
+                  padding: const EdgeInsets.only(left: 20),
+                  itemCount:
+                      timeTableController.getIcampusOrUndetermined.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    TimeTableClassModel model =
+                        timeTableController.getIcampusOrUndetermined[index];
+                    return Ink(
+                      child: InkWell(
+                        onTap: () async {
+                          await ShowClassDetail(model, timeTableController);
+                        },
+                        child: Text("${model.CLASS_NAME}"),
+                      ),
+                    );
+                  }),
+
               Obx(() {
                 bool isHidden = timeTableController.isHidden.value;
                 if (isHidden) {

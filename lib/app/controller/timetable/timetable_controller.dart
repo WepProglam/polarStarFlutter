@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_repository.dart';
@@ -160,6 +161,16 @@ class TimeTableController extends GetxController {
       return true;
     }
     return false;
+  }
+
+  List<TimeTableClassModel> get getIcampusOrUndetermined {
+    List<TimeTableClassModel> tempList = [];
+    for (TimeTableClassModel item in selectTable.value.CLASSES) {
+      if (item.IS_ICAMPUS || item.IS_NOT_DETERMINED) {
+        tempList.add(item);
+      }
+    }
+    return tempList;
   }
 
   Future<bool> canGoClassSearchPage(int year, int semester) async {

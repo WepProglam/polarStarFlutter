@@ -205,7 +205,7 @@ class AppPages {
         name: Routes.TIMETABLE_BIN,
         page: () => TimeTableBin(),
         binding: TimetableBinBinding(),
-        transition: Transition.cupertino),
+        transition: Transition.leftToRight),
     GetPage(
         name: Routes.TIMETABLE_ADDTIMETABLE,
         page: () => TimeTableAdd(),

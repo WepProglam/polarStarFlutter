@@ -347,7 +347,11 @@ class classSearchBottomSheet extends StatelessWidget {
                                     ])),
                                     Container(
                                         child: Text(
-                                            "${classTimePretty(model.CLASS_TIME)}",
+                                            model.IS_NOT_DETERMINED
+                                                ? "미지정"
+                                                : model.IS_ICAMPUS
+                                                    ? "[iCampus 수업]"
+                                                    : "${classTimePretty(model.CLASS_TIME)}",
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 2,
                                             style: const TextStyle(
@@ -361,28 +365,28 @@ class classSearchBottomSheet extends StatelessWidget {
                                     Container(
                                       child: Row(
                                         children: [
-                                          Container(
-                                            child: Text(
-                                                model.CLASS_TIME.length == 0
-                                                    ? "null"
-                                                    : "${model.CLASS_TIME[0].class_room}",
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    color:
-                                                        const Color(0xff9b9b9b),
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: "NotoSansKR",
-                                                    fontStyle: FontStyle.normal,
-                                                    fontSize: 12.0),
-                                                textAlign: TextAlign.center),
-                                          ),
-                                          Spacer(),
+                                          // Container(
+                                          //   child: Text(
+                                          //       model.CLASS_TIME.length == 0
+                                          //           ? "null"
+                                          //           : "${model.CLASS_TIME[0].class_room}",
+                                          //       overflow: TextOverflow.ellipsis,
+                                          //       style: const TextStyle(
+                                          //           overflow:
+                                          //               TextOverflow.ellipsis,
+                                          //           color:
+                                          //               const Color(0xff9b9b9b),
+                                          //           fontWeight: FontWeight.w400,
+                                          //           fontFamily: "NotoSansKR",
+                                          //           fontStyle: FontStyle.normal,
+                                          //           fontSize: 12.0),
+                                          //       textAlign: TextAlign.center),
+                                          // ),
+                                          // Spacer(),
                                           // 전공
                                           Container(
                                             margin:
-                                                const EdgeInsets.only(top: 2),
+                                                const EdgeInsets.only(top: 1),
                                             child: Text(
                                                 // * 버림해서 (3.0 -> 3) 같은 값이면 버림
                                                 "${model.CLASS_SECTOR_2} ${model.CREDIT.floor() == model.CREDIT ? model.CREDIT.floor() : model.CREDIT}학점 ${model.CLASS_NUMBER}",
@@ -397,7 +401,47 @@ class classSearchBottomSheet extends StatelessWidget {
                                                     fontStyle: FontStyle.normal,
                                                     fontSize: 10.0),
                                                 textAlign: TextAlign.center),
-                                          )
+                                          ),
+                                          Spacer(),
+                                          Container(
+                                            margin:
+                                                const EdgeInsets.only(top: 2),
+                                            child: Text(
+                                                (model.CAMPUS == null ||
+                                                        model.CAMPUS.isEmpty)
+                                                    ? ""
+                                                    : "${model.CAMPUS}",
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    color:
+                                                        const Color(0xff9b9b9b),
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: "NotoSansKR",
+                                                    fontStyle: FontStyle.normal,
+                                                    fontSize: 12.0),
+                                                textAlign: TextAlign.center),
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                left: 2, top: 2),
+                                            child: Text(
+                                                model.CLASS_TIME.length == 0
+                                                    ? "[미지정]"
+                                                    : "[${model.CLASS_TIME[0].class_room}]",
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    color:
+                                                        const Color(0xff9b9b9b),
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: "NotoSansKR",
+                                                    fontStyle: FontStyle.normal,
+                                                    fontSize: 12.0),
+                                                textAlign: TextAlign.center),
+                                          ),
                                         ],
                                       ),
                                     ),

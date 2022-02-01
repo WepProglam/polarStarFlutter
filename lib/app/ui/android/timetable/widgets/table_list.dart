@@ -794,8 +794,13 @@ class SubjectList extends StatelessWidget {
                                           ),
                                           FittedBox(
                                             child: SubjectPreviewList(
-                                                text:
-                                                    "- ${model.value.CLASSES[i].CLASS_TIME.first.class_room}"),
+                                                text: model.value.CLASSES[i]
+                                                        .IS_NOT_DETERMINED
+                                                    ? "- 미지정"
+                                                    : model.value.CLASSES[i]
+                                                            .IS_ICAMPUS
+                                                        ? "- [iCampus 수업]"
+                                                        : "- ${model.value.CLASSES[i].CLASS_TIME.first.class_room}"),
                                           ),
                                         ]),
                             ],
