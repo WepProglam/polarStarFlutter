@@ -45,6 +45,7 @@ class ClassChatController extends GetxController {
   RxBool isNewMessage = false.obs;
   List<AssetEntity> photos = <AssetEntity>[].obs;
   RxList<ChatPrifileModel> chatProfileList = <ChatPrifileModel>[].obs;
+  RxDouble totalHeightListView = 0.0.obs;
   final FocusNode chatFocusNode = new FocusNode();
 
   Map<String, Rx<String>> downloadFileList = {};
@@ -696,8 +697,20 @@ class ClassChatController extends GetxController {
 
     chatScrollController.addListener(() async {
       print("isPageEnd : ${isPageEnd} offset : ${chatScrollController.offset}");
+
+      print(
+          "totalHeightListView : ${chatScrollController.position.maxScrollExtent} min : ${chatScrollController.position.minScrollExtent}");
       if (!isPageEnd.value && chatScrollController.offset == 0) {
-        getChatLog(currentBoxID.value);
+        double past_totalHeightListView =
+            chatScrollController.position.maxScrollExtent;
+        await getChatLog(currentBoxID.value);
+        double current_totalHeightListView =
+            chatScrollController.position.maxScrollExtent;
+        print(current_totalHeightListView - past_totalHeightListView);
+
+        chatScrollController
+            .jumpTo(current_totalHeightListView - past_totalHeightListView);
+
         // await chatScrollController.animateTo(
         //     chatScrollController.position.maxScrollExtent,
         //     duration: Duration(milliseconds: 100),

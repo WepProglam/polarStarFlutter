@@ -410,6 +410,9 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                       }
                     });
                     print("re build!!");
+
+                    print(controller
+                        .chatScrollController.position.maxScrollExtent);
                     return ListView.separated(
                       separatorBuilder: (BuildContext context, int ii) {
                         int index = ii - 1;
