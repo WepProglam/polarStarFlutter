@@ -17,6 +17,7 @@ class TimeTableClassModel {
       CAMPUS,
       CLASS_SECTOR_1,
       CLASS_SECTOR_2;
+  bool IS_ICAMPUS;
 
   List<AddClassModel> CLASS_TIME;
   double CREDIT;
@@ -37,6 +38,7 @@ class TimeTableClassModel {
       CLASS_SECTOR_1,
       CLASS_SECTOR_2,
       CLASS_TIME,
+      IS_ICAMPUS,
       CREDIT});
 
   TimeTableClassModel.fromJson(Map<String, dynamic> json) {
@@ -64,19 +66,26 @@ class TimeTableClassModel {
 
     Iterable tempClassJson = json["CLASS_TIME"];
 
-    List<AddClassModel> tempClasses =
-        tempClassJson.map((e) => AddClassModel.fromJson(e)).toList();
+    if (tempClassJson.first["day"] == "【iCampus 수업】") {
+      this.CLASS_TIME = [];
+      this.IS_ICAMPUS = true;
+    } else {
+      List<AddClassModel> tempClasses =
+          tempClassJson.map((e) => AddClassModel.fromJson(e)).toList();
 
-    Map<String, List<AddClassModel>> unionClassMap = unionClasses(tempClasses);
+      Map<String, List<AddClassModel>> unionClassMap =
+          unionClasses(tempClasses);
 
-    List<AddClassModel> CLASS_TIME_UNION = [];
-    unionClassMap.forEach((key, value) {
-      for (AddClassModel item in value) {
-        CLASS_TIME_UNION.add(item);
-      }
-    });
+      List<AddClassModel> CLASS_TIME_UNION = [];
+      unionClassMap.forEach((key, value) {
+        for (AddClassModel item in value) {
+          CLASS_TIME_UNION.add(item);
+        }
+      });
 
-    this.CLASS_TIME = CLASS_TIME_UNION;
+      this.CLASS_TIME = CLASS_TIME_UNION;
+      this.IS_ICAMPUS = false;
+    }
   }
 
   Map<String, List<AddClassModel>> unionClasses(
