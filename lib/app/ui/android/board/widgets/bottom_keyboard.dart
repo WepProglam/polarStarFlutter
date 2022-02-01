@@ -33,6 +33,7 @@ class BottomKeyboard extends StatelessWidget {
             TextFormField(
               autofocus: false,
               controller: commentWriteController,
+              focusNode: c.focusNode,
               // autofocus: c.autoFocusTextForm.value,
               // scrollPadding: const EdgeInsets.all(),
 

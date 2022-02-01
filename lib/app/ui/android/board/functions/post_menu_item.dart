@@ -38,8 +38,12 @@ Future<void> deletePostFunc(Rx<Post> item, PostController c) async {
 }
 
 Future<void> arrestPostFunc(PostController c, Rx<Post> item, int index) async {
+  var ARREST_TYPE = await c.getArrestType();
+  if (ARREST_TYPE == null) {
+    return;
+  }
   await c.totalSend(
-      '/arrest/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}?ARREST_TYPE=',
+      '/arrest/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}?ARREST_TYPE=$ARREST_TYPE',
       '신고',
       index);
 }
@@ -55,6 +59,7 @@ Future<void> sendMailPostFunc(
 
 // * 댓글 수정
 void updateCommentFunc(PostController c, String cidUrl) {
+  c.focusNode.requestFocus();
   if (c.autoFocusTextForm.value) {
     c.autoFocusTextForm(false);
   } else {
@@ -71,7 +76,10 @@ Future<void> deleteCommentFunc(Post item, PostController c) async {
 // * 댓글 신고
 Future<void> arrestCommentFunc(PostController c, Post item, int index) async {
   var ARREST_TYPE = await c.getArrestType();
-  print(ARREST_TYPE);
+  if (ARREST_TYPE == null) {
+    return;
+  }
+
   if (ARREST_TYPE != null) {
     await c.totalSend(
         '/arrest/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}?ARREST_TYPE=$ARREST_TYPE',
@@ -98,6 +106,7 @@ void writeCCFunc(Post item, PostController c, String cidUrl) async {
 
 // * 대댓글 수정
 void updateCCFunc(PostController c, Post item) {
+  c.focusNode.requestFocus();
   String putUrl = '/board/${item.COMMUNITY_ID}/ccid/${item.UNIQUE_ID}';
   if (c.autoFocusTextForm.value && c.putUrl.value == putUrl) {
     c.autoFocusTextForm.value = false;
@@ -116,6 +125,9 @@ Future<void> deleteCCFunc(Post item, PostController c) async {
 // * 대댓글 신고
 Future<void> arrestCCFunc(PostController c, Post item, int index) async {
   var ARREST_TYPE = await c.getArrestType();
+  if (ARREST_TYPE == null) {
+    return;
+  }
   await c.totalSend(
       '/arrest/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}?ARREST_TYPE=$ARREST_TYPE',
       '신고',

@@ -12,6 +12,7 @@ class Post extends StatelessWidget {
   final BOTTOM_SHEET_HEIGHT = 60;
   final commentWriteController = TextEditingController();
   final PostController c = Get.find();
+  final focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {

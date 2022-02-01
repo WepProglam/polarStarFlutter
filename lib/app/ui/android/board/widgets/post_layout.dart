@@ -61,6 +61,24 @@ class PostLayout extends StatelessWidget {
                           mainController: mainController,
                         );
                       } else if (c.sortedList[index].value.DEPTH == 1) {
+                        if (index == 1) {
+                          return Column(
+                            children: [
+                              // * 구분선
+                              Container(
+                                  width: Get.mediaQuery.size.width,
+                                  height: 1,
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xffeaeaea))),
+                              CommentWidget(
+                                  c: c,
+                                  mailWriteController: mailWriteController,
+                                  mailController: mailController,
+                                  item: c.sortedList[index],
+                                  index: index),
+                            ],
+                          );
+                        }
                         return CommentWidget(
                             c: c,
                             mailWriteController: mailWriteController,
@@ -113,12 +131,6 @@ class CCWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // * 구분선
-            Container(
-                width: Get.mediaQuery.size.width - 40,
-                height: 1,
-                decoration: BoxDecoration(color: const Color(0xffeaeaea))),
-
             // * 닉네임, 프사, 시간, 좋아요, 댓글, 옵션
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 8),
@@ -133,7 +145,7 @@ class CCWidget extends StatelessWidget {
 
             // * 대댓 내용
             Padding(
-              padding: const EdgeInsets.only(left: 0.0, bottom: 11),
+              padding: const EdgeInsets.only(left: 0.0, bottom: 0),
               child: Text(item.CONTENT,
                   style: const TextStyle(
                       color: const Color(0xff242424),
@@ -143,6 +155,13 @@ class CCWidget extends StatelessWidget {
                       fontSize: 12.0),
                   textAlign: TextAlign.justify),
             ),
+
+            // * 구분선
+            Container(
+                margin: const EdgeInsets.only(top: 14),
+                width: Get.mediaQuery.size.width - 40,
+                height: 1,
+                decoration: BoxDecoration(color: const Color(0xffeaeaea))),
           ],
         ),
       ),
@@ -181,12 +200,6 @@ class CommentWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // * 구분선
-            Container(
-                width: Get.mediaQuery.size.width - 40,
-                height: 1,
-                decoration: BoxDecoration(color: const Color(0xffeaeaea))),
-
             // * 닉네임, 프사, 시간, 좋아요, 댓글, 옵션
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 8),
@@ -201,7 +214,6 @@ class CommentWidget extends StatelessWidget {
 
             // * 댓글 내용
             Container(
-              margin: const EdgeInsets.only(bottom: 10),
               child: Text(item.value.CONTENT,
                   style: const TextStyle(
                       color: const Color(0xff242424),
@@ -211,6 +223,13 @@ class CommentWidget extends StatelessWidget {
                       fontSize: 12.0),
                   textAlign: TextAlign.justify),
             ),
+
+            // * 구분선
+            Container(
+                margin: const EdgeInsets.only(top: 14),
+                width: Get.mediaQuery.size.width - 40,
+                height: 1,
+                decoration: BoxDecoration(color: const Color(0xffeaeaea))),
           ],
         ),
       ),
@@ -239,7 +258,7 @@ class PostWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(20, 0, 20, 14),
+      margin: const EdgeInsets.fromLTRB(20, 0, 20, 18),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           border: Border.all(color: const Color(0xffeaeaea), width: 1),

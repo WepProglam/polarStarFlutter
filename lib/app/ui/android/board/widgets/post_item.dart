@@ -255,49 +255,54 @@ class PostTop extends StatelessWidget {
           ),
         ),
         Spacer(),
-        PopupMenuButton(
-            child: Container(
-              width: 24,
-              height: 24,
-              child: Image.asset("assets/images/icn_more.png"),
-            ),
-            onSelected: (value) async {
-              if (value == "게시글 수정") {
-                await updatePostFunc(item);
-              } else if (value == "게시글 삭제") {
-                await deletePostFunc(item, c);
-              } else if (value == "게시글 신고") {
-                await arrestPostFunc(c, item, index);
-              } else if (value == "쪽지 보내기") {
-                await sendMailPostFunc(
-                    c, item, mailWriteController, mailController);
-              }
-            },
-            itemBuilder: (context) {
-              if (item.value.MYSELF) {
-                return [
-                  PopupMenuItem(
-                    child: Text("게시글 수정"),
-                    value: "게시글 수정",
-                  ),
-                  PopupMenuItem(
-                    child: Text("게시글 삭제"),
-                    value: "게시글 삭제",
-                  ),
-                ];
-              } else {
-                return [
-                  PopupMenuItem(
-                    child: Text("게시글 신고"),
-                    value: "게시글 신고",
-                  ),
-                  PopupMenuItem(
-                    child: Text("쪽지 보내기"),
-                    value: "쪽지 보내기",
-                  ),
-                ];
-              }
-            }),
+        c == null
+            ? Container(
+                width: 24,
+                height: 24,
+              )
+            : PopupMenuButton(
+                child: Container(
+                  width: 24,
+                  height: 24,
+                  child: Image.asset("assets/images/icn_more.png"),
+                ),
+                onSelected: (value) async {
+                  if (value == "게시글 수정") {
+                    await updatePostFunc(item);
+                  } else if (value == "게시글 삭제") {
+                    await deletePostFunc(item, c);
+                  } else if (value == "게시글 신고") {
+                    await arrestPostFunc(c, item, index);
+                  } else if (value == "쪽지 보내기") {
+                    await sendMailPostFunc(
+                        c, item, mailWriteController, mailController);
+                  }
+                },
+                itemBuilder: (context) {
+                  if (item.value.MYSELF) {
+                    return [
+                      PopupMenuItem(
+                        child: Text("게시글 수정"),
+                        value: "게시글 수정",
+                      ),
+                      PopupMenuItem(
+                        child: Text("게시글 삭제"),
+                        value: "게시글 삭제",
+                      ),
+                    ];
+                  } else {
+                    return [
+                      PopupMenuItem(
+                        child: Text("게시글 신고"),
+                        value: "게시글 신고",
+                      ),
+                      PopupMenuItem(
+                        child: Text("쪽지 보내기"),
+                        value: "쪽지 보내기",
+                      ),
+                    ];
+                  }
+                }),
       ],
     );
   }
@@ -449,18 +454,22 @@ class CCTopIcons extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         // * 좋아요 버튼
-        InkWell(
-          onTap: () async {
-            await c.totalSend('/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
-                '좋아요', index);
-          },
-          child: Container(
-              width: CommentIconSize,
-              height: CommentIconSize,
-              child: mainController.isLiked(item)
-                  ? Image.asset("assets/images/icn_like_selected.png")
-                  : Image.asset("assets/images/icn_like_normal.png")),
-        ),
+        item.MYSELF
+            ? Container()
+            : InkWell(
+                onTap: () async {
+                  await c.totalSend(
+                      '/like/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}',
+                      '좋아요',
+                      index);
+                },
+                child: Container(
+                    width: CommentIconSize,
+                    height: CommentIconSize,
+                    child: mainController.isLiked(item)
+                        ? Image.asset("assets/images/icn_like_selected.png")
+                        : Image.asset("assets/images/icn_like_normal.png")),
+              ),
 
         // * 메뉴
         Container(
@@ -569,6 +578,11 @@ class CommnetTopIcons extends StatelessWidget {
             onTap: () {
               // TODO 댓글 작성 -> 대댓글 작성으로 변경
               writeCCFunc(item, c, cidUrl);
+              if (c.focusNode.hasFocus) {
+                c.focusNode.unfocus();
+              } else {
+                c.focusNode.requestFocus();
+              }
             },
             child: Ink(
               padding: const EdgeInsets.symmetric(horizontal: 6.0),
