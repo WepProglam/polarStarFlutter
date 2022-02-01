@@ -16,8 +16,10 @@ class WritePost extends StatelessWidget {
   final TextEditingController photoName = TextEditingController();
 
   getMultipleGallertImage(BuildContext context) async {
-    c.photoAssets.clear();
-    c.photoAssets.addAll(await AssetPicker.pickAssets(context, maxAssets: 10));
+    // c.photoAssets.clear();
+    List<AssetEntity> temp = c.photoAssets.value;
+    c.photoAssets.addAll(await AssetPicker.pickAssets(context,
+        maxAssets: 10, themeColor: Get.theme.primaryColor));
   }
 
   // getGalleryImage() async {
