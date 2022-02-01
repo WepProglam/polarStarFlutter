@@ -145,7 +145,6 @@ class _SeePhotoDirectState extends State<SeePhotoDirect> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    changeStatusBarColor(Color(0xffffffff), Brightness.dark);
   }
 
   @override
