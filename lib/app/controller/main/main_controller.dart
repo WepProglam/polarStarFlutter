@@ -454,12 +454,13 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     return false;
   }
 
+  String current_version = "1.0";
   Future<void> versionCheck() async {
     try {
       //현재 앱 버전
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      String current_version = packageInfo.version;
-      //print("current_version: ${current_version}");
+      current_version = packageInfo.version;
+      print("current_version: ${current_version}");
       int current_buildNumber = int.tryParse(packageInfo.buildNumber);
 
       Map<String, String> response = await repository.versionCheck();

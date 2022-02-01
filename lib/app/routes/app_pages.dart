@@ -60,6 +60,7 @@ class AppPages {
       page: () => InitPage(),
       binding: InitBinding(),
     ),
+    GetPage(name: Routes.SETTING, page: () => Setting()),
     GetPage(
         name: Routes.LOGIN,
         page: () => LoginPage(),

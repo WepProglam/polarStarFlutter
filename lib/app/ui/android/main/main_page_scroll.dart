@@ -398,7 +398,6 @@ class MainPageScroll extends StatelessWidget {
                                                 duration:
                                                     Duration(milliseconds: 500),
                                                 curve: Curves.fastOutSlowIn);
-                                        print("??");
                                         // Right Swipe
                                       } else if (details.delta.dx <
                                           -sensitivity) {
@@ -408,7 +407,6 @@ class MainPageScroll extends StatelessWidget {
                                                 duration:
                                                     Duration(milliseconds: 500),
                                                 curve: Curves.fastOutSlowIn);
-                                        print("!!");
                                         //Left Swipe
                                       }
                                     },

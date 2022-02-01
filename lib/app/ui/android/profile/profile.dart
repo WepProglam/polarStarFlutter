@@ -246,7 +246,8 @@ class Profile extends StatelessWidget {
                                     Container(
                                         height: 54.6,
                                         width:
-                                            MediaQuery.of(context).size.width,
+                                            MediaQuery.of(context).size.width -
+                                                40,
                                         decoration: BoxDecoration(
                                             border: Border(
                                                 bottom: BorderSide(
@@ -258,7 +259,7 @@ class Profile extends StatelessWidget {
                                               alignment: Alignment.centerLeft,
                                               child: Container(
                                                   margin:
-                                                      EdgeInsets.only(left: 21),
+                                                      EdgeInsets.only(left: 0),
                                                   child: Text("学校",
                                                       style: const TextStyle(
                                                           color: const Color(
@@ -274,8 +275,8 @@ class Profile extends StatelessWidget {
                                           Align(
                                               alignment: Alignment.centerRight,
                                               child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 20),
+                                                  margin:
+                                                      EdgeInsets.only(right: 0),
                                                   child: Text("성균관대학교",
                                                       style: const TextStyle(
                                                           color: const Color(
@@ -293,7 +294,8 @@ class Profile extends StatelessWidget {
                                     Container(
                                         height: 54.6,
                                         width:
-                                            MediaQuery.of(context).size.width,
+                                            MediaQuery.of(context).size.width -
+                                                40,
                                         decoration: BoxDecoration(
                                             border: Border(
                                                 bottom: BorderSide(
@@ -305,7 +307,7 @@ class Profile extends StatelessWidget {
                                               alignment: Alignment.centerLeft,
                                               child: Container(
                                                   margin:
-                                                      EdgeInsets.only(left: 21),
+                                                      EdgeInsets.only(left: 0),
                                                   child: Text("专业",
                                                       style: const TextStyle(
                                                           color: const Color(
@@ -322,8 +324,8 @@ class Profile extends StatelessWidget {
                                           Align(
                                               alignment: Alignment.centerRight,
                                               child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 20),
+                                                  margin:
+                                                      EdgeInsets.only(right: 0),
                                                   child: Text(
                                                       "${myPageController.myProfile.value.MAJOR_NAME}",
                                                       style: const TextStyle(
@@ -342,7 +344,8 @@ class Profile extends StatelessWidget {
                                     Container(
                                         height: 54.6,
                                         width:
-                                            MediaQuery.of(context).size.width,
+                                            MediaQuery.of(context).size.width -
+                                                40,
                                         decoration: BoxDecoration(
                                             border: Border(
                                                 bottom: BorderSide(
@@ -354,7 +357,7 @@ class Profile extends StatelessWidget {
                                               alignment: Alignment.centerLeft,
                                               child: Container(
                                                   margin:
-                                                      EdgeInsets.only(left: 21),
+                                                      EdgeInsets.only(left: 0),
                                                   child: Text("ID",
                                                       style: const TextStyle(
                                                           color: const Color(
@@ -370,8 +373,8 @@ class Profile extends StatelessWidget {
                                           Align(
                                               alignment: Alignment.centerRight,
                                               child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 20),
+                                                  margin:
+                                                      EdgeInsets.only(right: 0),
                                                   child: Text(
                                                       "${myPageController.myProfile.value.LOGIN_ID}",
                                                       style: const TextStyle(
@@ -471,8 +474,9 @@ class Profile extends StatelessWidget {
                                         child: Container(
                                             height: 54.6,
                                             width: MediaQuery.of(context)
-                                                .size
-                                                .width,
+                                                    .size
+                                                    .width -
+                                                40,
                                             decoration: BoxDecoration(
                                                 border: Border(
                                                     bottom: BorderSide(
@@ -485,7 +489,7 @@ class Profile extends StatelessWidget {
                                                       Alignment.centerLeft,
                                                   child: Container(
                                                       margin: EdgeInsets.only(
-                                                          left: 21),
+                                                          left: 0),
                                                       child: Text("NICKNAME",
                                                           style: const TextStyle(
                                                               color: const Color(
@@ -506,7 +510,7 @@ class Profile extends StatelessWidget {
                                                       Alignment.centerRight,
                                                   child: Container(
                                                       margin: EdgeInsets.only(
-                                                          right: 20),
+                                                          right: 0),
                                                       child: Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment

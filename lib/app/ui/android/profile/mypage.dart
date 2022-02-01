@@ -9,6 +9,7 @@ import 'package:polarstar_flutter/app/controller/loby/login_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
 
@@ -111,18 +112,17 @@ class MyPagePostList extends StatelessWidget {
                 print(i);
                 print(postList.length);
                 print(i >= postList.length);
-                return Ink(
-                  child: InkWell(
-                    onTap: () {
-                      Get.toNamed(
-                        '/board/${postList[i].value.COMMUNITY_ID}/read/${postList[i].value.BOARD_ID}',
-                      ).then((value) {
-                        MainUpdateModule.updateMyPage(index);
-                      });
-                    },
-                    child: Container(
-                      margin:
-                          const EdgeInsets.only(bottom: 5), //자체 패딩 10 + 5 = 15
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 5), //자체 패딩 10 + 5 = 15
+                  child: Ink(
+                    child: InkWell(
+                      onTap: () {
+                        Get.toNamed(
+                          '/board/${postList[i].value.COMMUNITY_ID}/read/${postList[i].value.BOARD_ID}',
+                        ).then((value) {
+                          MainUpdateModule.updateMyPage(index);
+                        });
+                      },
                       child: PostWidget(
                         index: index,
                         mainController: mainController,
@@ -269,7 +269,7 @@ class MyPageProfile extends StatelessWidget {
                       children: [
                         InkWell(
                             onTap: () async {
-                              await Get.toNamed('/myPage/profile');
+                              await Get.toNamed(Routes.MYPROFILE);
                             },
                             child: Container(
                                 height: 30,
@@ -294,7 +294,7 @@ class MyPageProfile extends StatelessWidget {
                         Container(width: 8),
                         InkWell(
                             onTap: () async {
-                              await Get.toNamed('/myPage/setting');
+                              await Get.toNamed(Routes.SETTING);
                             },
                             child: Container(
                                 height: 30,
@@ -344,145 +344,145 @@ class MenuTabBar extends Container implements PreferredSizeWidget {
   }
 }
 
-class MyPageProfilePostIndex extends StatelessWidget {
-  const MyPageProfilePostIndex({
-    Key key,
-    @required this.myPageController,
-  }) : super(key: key);
+// class MyPageProfilePostIndex extends StatelessWidget {
+//   const MyPageProfilePostIndex({
+//     Key key,
+//     @required this.myPageController,
+//   }) : super(key: key);
 
-  final MyPageController myPageController;
+//   final MyPageController myPageController;
 
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() {
-      return Container(
-          child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Ink(
-            child: InkWell(
-              onTap: () {
-                myPageController.profilePostIndex.value = 0;
-                myPageController.pageController.jumpToPage(0);
+//   @override
+//   Widget build(BuildContext context) {
+//     return Obx(() {
+//       return Container(
+//           child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceAround,
+//         children: [
+//           Ink(
+//             child: InkWell(
+//               onTap: () {
+//                 myPageController.profilePostIndex.value = 0;
+//                 myPageController.pageController.jumpToPage(0);
 
-                // myPageController.pageController.animateToPage(0,
-                //     duration: Duration(milliseconds: 300),
-                //     curve: Curves.fastOutSlowIn);
-              },
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        margin: EdgeInsets.only(top: 14),
-                        child: Text("Posted",
-                            style: TextStyle(
-                                color:
-                                    myPageController.profilePostIndex.value == 0
-                                        ? Color(0xff1a4678)
-                                        : Color(0xff666666),
-                                fontWeight: FontWeight.w700,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 18.0),
-                            textAlign: TextAlign.left)),
-                    Container(
-                        margin: EdgeInsets.only(top: 14),
-                        width: 46.5,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(3)),
-                          color: myPageController.profilePostIndex.value == 0
-                              ? Color(0xff1a4678)
-                              : Color(0xffffffff),
-                        ))
-                  ]),
-            ),
-          ),
-          Ink(
-            child: InkWell(
-              onTap: () {
-                myPageController.profilePostIndex.value = 1;
-                myPageController.pageController.jumpToPage(1);
+//                 // myPageController.pageController.animateToPage(0,
+//                 //     duration: Duration(milliseconds: 300),
+//                 //     curve: Curves.fastOutSlowIn);
+//               },
+//               child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   children: [
+//                     Container(
+//                         margin: EdgeInsets.only(top: 14),
+//                         child: Text("Posted",
+//                             style: TextStyle(
+//                                 color:
+//                                     myPageController.profilePostIndex.value == 0
+//                                         ? Color(0xff1a4678)
+//                                         : Color(0xff666666),
+//                                 fontWeight: FontWeight.w700,
+//                                 fontStyle: FontStyle.normal,
+//                                 fontSize: 18.0),
+//                             textAlign: TextAlign.left)),
+//                     Container(
+//                         margin: EdgeInsets.only(top: 14),
+//                         width: 46.5,
+//                         height: 3,
+//                         decoration: BoxDecoration(
+//                           borderRadius: BorderRadius.all(Radius.circular(3)),
+//                           color: myPageController.profilePostIndex.value == 0
+//                               ? Color(0xff1a4678)
+//                               : Color(0xffffffff),
+//                         ))
+//                   ]),
+//             ),
+//           ),
+//           Ink(
+//             child: InkWell(
+//               onTap: () {
+//                 myPageController.profilePostIndex.value = 1;
+//                 myPageController.pageController.jumpToPage(1);
 
-                // myPageController.pageController.animateToPage(1,
-                //     duration: Duration(milliseconds: 300),
-                //     curve: Curves.fastOutSlowIn);
-              },
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        margin: EdgeInsets.only(left: 68.5, top: 14),
-                        child: Text("Scraped",
-                            style: TextStyle(
-                                color:
-                                    myPageController.profilePostIndex.value == 1
-                                        ? Color(0xff1a4678)
-                                        : Color(0xff666666),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 18.0),
-                            textAlign: TextAlign.left)),
-                    Container(
-                        margin: EdgeInsets.only(left: 68.5, top: 14),
-                        width: 46.5,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(3)),
-                          color: myPageController.profilePostIndex.value == 1
-                              ? Color(0xff1a4678)
-                              : Color(0xffffffff),
-                        ))
-                  ]),
-            ),
-          ),
-          Ink(
-            child: InkWell(
-              onTap: () {
-                myPageController.profilePostIndex.value = 2;
-                myPageController.pageController.jumpToPage(2);
+//                 // myPageController.pageController.animateToPage(1,
+//                 //     duration: Duration(milliseconds: 300),
+//                 //     curve: Curves.fastOutSlowIn);
+//               },
+//               child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   children: [
+//                     Container(
+//                         margin: EdgeInsets.only(left: 68.5, top: 14),
+//                         child: Text("Scraped",
+//                             style: TextStyle(
+//                                 color:
+//                                     myPageController.profilePostIndex.value == 1
+//                                         ? Color(0xff1a4678)
+//                                         : Color(0xff666666),
+//                                 fontWeight: FontWeight.w700,
+//                                 fontFamily: "PingFangSC",
+//                                 fontStyle: FontStyle.normal,
+//                                 fontSize: 18.0),
+//                             textAlign: TextAlign.left)),
+//                     Container(
+//                         margin: EdgeInsets.only(left: 68.5, top: 14),
+//                         width: 46.5,
+//                         height: 3,
+//                         decoration: BoxDecoration(
+//                           borderRadius: BorderRadius.all(Radius.circular(3)),
+//                           color: myPageController.profilePostIndex.value == 1
+//                               ? Color(0xff1a4678)
+//                               : Color(0xffffffff),
+//                         ))
+//                   ]),
+//             ),
+//           ),
+//           Ink(
+//             child: InkWell(
+//               onTap: () {
+//                 myPageController.profilePostIndex.value = 2;
+//                 myPageController.pageController.jumpToPage(2);
 
-                // myPageController.pageController.animateToPage(2,
-                //     duration: Duration(milliseconds: 300),
-                //     curve: Curves.fastOutSlowIn);
-              },
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        margin: EdgeInsets.only(left: 71, top: 14),
-                        child: Text("Liked",
-                            style: TextStyle(
-                                color:
-                                    myPageController.profilePostIndex.value == 2
-                                        ? Color(0xff1a4678)
-                                        : Color(0xff666666),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "PingFangSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 18.0),
-                            textAlign: TextAlign.left)),
-                    Container(
-                        margin: EdgeInsets.only(left: 71, top: 14),
-                        width: 46.5,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(3)),
-                          color: myPageController.profilePostIndex.value == 2
-                              ? Color(0xff1a4678)
-                              : Color(0xffffffff),
-                        ))
-                  ]),
-            ),
-          )
-        ],
-      ));
-    });
-  }
-}
+//                 // myPageController.pageController.animateToPage(2,
+//                 //     duration: Duration(milliseconds: 300),
+//                 //     curve: Curves.fastOutSlowIn);
+//               },
+//               child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   crossAxisAlignment: CrossAxisAlignment.center,
+//                   children: [
+//                     Container(
+//                         margin: EdgeInsets.only(left: 71, top: 14),
+//                         child: Text("Liked",
+//                             style: TextStyle(
+//                                 color:
+//                                     myPageController.profilePostIndex.value == 2
+//                                         ? Color(0xff1a4678)
+//                                         : Color(0xff666666),
+//                                 fontWeight: FontWeight.w700,
+//                                 fontFamily: "PingFangSC",
+//                                 fontStyle: FontStyle.normal,
+//                                 fontSize: 18.0),
+//                             textAlign: TextAlign.left)),
+//                     Container(
+//                         margin: EdgeInsets.only(left: 71, top: 14),
+//                         width: 46.5,
+//                         height: 3,
+//                         decoration: BoxDecoration(
+//                           borderRadius: BorderRadius.all(Radius.circular(3)),
+//                           color: myPageController.profilePostIndex.value == 2
+//                               ? Color(0xff1a4678)
+//                               : Color(0xffffffff),
+//                         ))
+//                   ]),
+//             ),
+//           )
+//         ],
+//       ));
+//     });
+//   }
+// }
 
 class ProfileIndex extends StatelessWidget {
   const ProfileIndex({Key key}) : super(key: key);

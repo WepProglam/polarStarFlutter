@@ -30,8 +30,9 @@ class HotBoardMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Ink> hotList = [];
-    int max =
-        mainController.hotBoard.length > 5 ? 5 : mainController.hotBoard.length;
+    int max = mainController.hotBoard.length > 10
+        ? 10
+        : mainController.hotBoard.length;
     for (var index = 0; index < max; index++) {
       hotList.add(Ink(
         child: InkWell(
@@ -415,8 +416,9 @@ class NewBoardMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Ink> newList = [];
-    int max =
-        mainController.hotBoard.length > 5 ? 5 : mainController.hotBoard.length;
+    int max = mainController.hotBoard.length > 10
+        ? 10
+        : mainController.hotBoard.length;
     for (var index = 0; index < max; index++) {
       newList.add(Ink(
         child: InkWell(
