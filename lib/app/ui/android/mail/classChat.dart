@@ -99,9 +99,11 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
   }
 
   bool isPreCacheNeeded = true;
+
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
+    print("didChangeDependencies didChangeDependencies didChangeDependencies");
 
     // print("didChangeDependencie!!!!!!!!s");
     // Map<String, dynamic> chatMeta = controller.findChatHistory();
@@ -226,7 +228,6 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                       itemBuilder: (BuildContext context, int index) {
                         ChatPrifileModel prifileModel =
                             controller.chatProfileList[index];
-                        print(prifileModel.PROFILE_PHOTO);
                         return Container(
                           height: 32,
                           margin: const EdgeInsets.only(left: 20, bottom: 10),
@@ -342,11 +343,19 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
             print(
                 "controller.imagePreCached.value : ${controller.imagePreCached.value}");
             if (!controller.chatDownloaed.value) {
-              preCacheImage(model);
               return Container();
-            } else if (!controller.imagePreCached.value) {
-              return CircularProgressIndicator();
+
+              // Column(
+              //   children: [CircularProgressIndicator(), Text("waiting...")],
+              // );
             }
+
+            // else if (!controller.imagePreCached.value) {
+            //   return CircularProgressIndicator();
+            // }
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              // preCacheImage(model);
+            });
 
             print(
                 "controller.imagePreCached.value : ${controller.imagePreCached.value}");
@@ -385,18 +394,16 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                 controller.tapTextField.value = false;
                 controller.chatFocusNode.unfocus();
               },
-              child: SingleChildScrollView(
-                controller: controller.chatScrollController,
-                child: Column(children: [
-                  Obx(() {
+              child: Stack(children: [
+                SingleChildScrollView(
+                  controller: controller.chatScrollController,
+                  child: Obx(() {
                     WidgetsBinding.instance.addPostFrameCallback((_) async {
                       if (controller.isFirstEnter.value) {
                         controller.chatScrollController.jumpTo(controller
                             .chatScrollController.position.maxScrollExtent);
                         controller.isFirstEnter.value = false;
-                      }
-
-                      if (controller.isNewMessage.value) {
+                      } else if (controller.isNewMessage.value) {
                         controller.chatScrollController.jumpTo(controller
                             .chatScrollController.position.maxScrollExtent);
                         controller.isNewMessage.value = false;
@@ -407,18 +414,48 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                         //       .chatScrollController.position.maxScrollExtent);
                         //   controller.isNewMessage.value = false;
                         // });
+                      } else if (controller.additionalChatLoading.value) {
+                        // await sleep(const Duration(milliseconds: 100));
+                        // await preCacheImage(model);
+
+                        // print("precache 끝");
+
+                        double current_totalHeightListView = controller
+                            .chatScrollController.position.maxScrollExtent;
+
+                        controller.chatScrollController.jumpTo(
+                            current_totalHeightListView -
+                                controller.past_totalHeightListView.value);
+                        print(
+                            "current_totalHeightListView : ${current_totalHeightListView}");
+                        controller.additionalChatLoading.value = false;
+
+                        // await Future.delayed(Duration(milliseconds: 1000),
+                        //     () {
+                        //   double current_totalHeightListView = controller
+                        //       .chatScrollController.position.maxScrollExtent;
+
+                        //   controller.chatScrollController.jumpTo(
+                        //       current_totalHeightListView -
+                        //           controller.past_totalHeightListView.value);
+                        //   print(
+                        //       "current_totalHeightListView : ${current_totalHeightListView}");
+                        //   controller.additionalChatLoading.value = false;
+                        // });
+                        // else if (controller.chatDownloaed.value) {
+
                       }
+                      // }
                     });
                     print("re build!!");
 
-                    print(controller
-                        .chatScrollController.position.maxScrollExtent);
                     return ListView.separated(
                       separatorBuilder: (BuildContext context, int ii) {
                         int index = ii - 1;
-                        if (ii == 0) {
-                          return Container();
-                        }
+                        index += 1;
+                        // if (ii == 0) {
+                        //   return Container();
+                        // }
                         Rx<ChatModel> model;
 
                         Rx<ChatModel> prevModel;
@@ -499,7 +536,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: box_model.value.ChatList.length +
                           box_model.value.LoadingChatList.length +
-                          1,
+                          0,
                       scrollDirection: Axis.vertical,
                       padding: EdgeInsets.only(
                           top: 24,
@@ -508,13 +545,14 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                               : 60 + 6.0),
                       itemBuilder: (context, ii) {
                         int index = ii - 1;
-                        if (ii == 0) {
-                          return controller.isPageEnd.value
-                              ? Container()
-                              : Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                        }
+                        index += 1;
+                        // if (ii == 0) {
+                        //   return controller.isPageEnd.value
+                        //       ? Container()
+                        //       : Center(
+                        //           child: CircularProgressIndicator(),
+                        //         );
+                        // }
                         Rx<ChatModel> model;
 
                         Rx<ChatModel> prevModel;
@@ -569,11 +607,11 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                 model.value.PROFILE_PHOTO);
 
                         /**
-                             * displayTime: 시간 표시 boolean
-                             * 앞 사람이 다른 사람일때 - isContinueDifferent
-                             * 앞 사람이 같은 사람이고 이 채팅이 해당 시간에 쓴 마지막일때
-                             * 맨 마지막 톡 일때
-                             */
+                               * displayTime: 시간 표시 boolean
+                               * 앞 사람이 다른 사람일때 - isContinueDifferent
+                               * 앞 사람이 같은 사람이고 이 채팅이 해당 시간에 쓴 마지막일때
+                               * 맨 마지막 톡 일때
+                               */
                         bool isChatSamePersonEnd = (nextModel != null &&
                                 nextModel.value.PROFILE_NICKNAME !=
                                     model.value.PROFILE_NICKNAME &&
@@ -725,8 +763,22 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                       },
                     );
                   }),
-                ]),
-              ),
+                ),
+                controller.additionalChatLoading.value
+                    ? Positioned(
+                        top: 10,
+                        left: (Get.mediaQuery.size.width - 20) / 2.0,
+                        child: Center(
+                          child: Container(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        ))
+                    : Container()
+              ]),
             );
           }),
           //입력창
@@ -1375,24 +1427,10 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                         //     textAlign: TextAlign.left)
                         : (isPhotoExist
                             ? Builder(builder: (context) {
-                                // print(model.value.PHOTO_META[0].PIXEL_HEIGHT);
-                                // print(model.value.PHOTO_META[0].PIXEL_WIDTH);
-                                // print(model.value.PHOTO_META[0].PHOTO_NAME);
-                                double image_height = (200 *
-                                        model
-                                            .value.PHOTO_META[0].PIXEL_HEIGHT) /
-                                    model.value.PHOTO_META[0].PIXEL_WIDTH
-                                        .toDouble();
-
-                                bool isHeightNormal = !image_height.isNaN;
-                                // (model.value.PHOTO_META[0].PIXEL_HEIGHT > 0 &&
-                                //     model.value.PHOTO_META[0].PIXEL_WIDTH > 0);
-                                if (!isHeightNormal) {
-                                  // print("!!!!!!!!!!!!!!!!!!!!!!!!!");
-                                  // print(image_height);
-                                }
-
                                 return Ink(
+                                    width:
+                                        model.value.PHOTO_META[0].IMAGE_WIDTH,
+                                    // height: 100,
                                     child: InkWell(
                                         onTap: () {
                                           if (!model.value.IS_PRE_SEND) {
@@ -1406,23 +1444,12 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                                         Brightness.dark));
                                           }
                                         },
-                                        child: isHeightNormal
-                                            ? Container(
-                                                height: image_height,
-                                                // child: ImageP
-                                                // child: model.value.PRE_CACHE_IMAGE[0]
-                                                child: model.value.PRE_IMAGE[0]
-                                                // Image(image: model.value.PRE_IMAGE[0]),
-                                                // child: CachedNetworkImage(
-                                                //     alignment: model.value.MY_SELF
-                                                //         ? Alignment.topRight
-                                                //         : Alignment.topLeft,
-                                                //         imageBuilder: (context, imageProvider) => model.value.PRE_IMAGE,
-                                                //     imageUrl: model.value.PHOTO[0]),
-                                                )
-                                            : Container(
-                                                child:
-                                                    model.value.PRE_IMAGE[0])));
+                                        child: Container(
+                                            width: model.value.PHOTO_META[0]
+                                                .IMAGE_WIDTH,
+                                            height: model.value.PHOTO_META[0]
+                                                .IMAGE_HIEGHT,
+                                            child: model.value.PRE_IMAGE[0])));
                               })
 
                             // Text("사진입니다",

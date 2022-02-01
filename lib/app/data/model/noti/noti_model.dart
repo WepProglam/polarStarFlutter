@@ -183,23 +183,26 @@ class ChatModel {
         if (this.IS_PRE_SEND) {
           this.PRE_IMAGE = json["PRE_IMAGE"];
         } else {
-          double image_height = (200 * this.PHOTO_META[0].PIXEL_HEIGHT) /
-              this.PHOTO_META[0].PIXEL_WIDTH.toDouble();
-
-          bool isHeightNormal = !image_height.isNaN;
-          image_height = isHeightNormal ? image_height : 200;
           String httpUrl = this.PHOTO[0].split("s://")[0] +
               "://" +
               this.PHOTO[0].split("s://")[1];
           this.PRE_IMAGE = [
             Image(
+              fit: BoxFit.cover,
+              width: this.PHOTO_META[0].IMAGE_WIDTH,
+              height: this.PHOTO_META[0].IMAGE_HIEGHT,
               image: CachedNetworkImageProvider(httpUrl, scale: 1.0),
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) {
-                  return Container(height: image_height, child: child);
+                  return Container(
+                      width: this.PHOTO_META[0].IMAGE_WIDTH,
+                      height: this.PHOTO_META[0].IMAGE_HIEGHT,
+                      child: child);
                 }
                 return Container(
-                  height: image_height,
+                  color: Colors.black,
+                  width: this.PHOTO_META[0].IMAGE_WIDTH,
+                  height: this.PHOTO_META[0].IMAGE_HIEGHT,
                   child: Center(
                     child: CircularProgressIndicator(
                       value: loadingProgress.expectedTotalBytes != null
@@ -308,6 +311,7 @@ class ChatPrifileModel {
 class PhotoMetaModel {
   int PIXEL_HEIGHT, PIXEL_WIDTH;
   String PHOTO_NAME;
+  double IMAGE_HIEGHT, IMAGE_WIDTH;
 
   PhotoMetaModel({this.PIXEL_HEIGHT, this.PIXEL_WIDTH, this.PHOTO_NAME});
 
@@ -315,5 +319,18 @@ class PhotoMetaModel {
     this.PIXEL_HEIGHT = json["pixel_height"];
     this.PIXEL_WIDTH = json["pixel_width"];
     this.PHOTO_NAME = json["photo_name"];
+    double image_height, image_width;
+    if (this.PIXEL_WIDTH > 200) {
+      image_height = (200 * this.PIXEL_HEIGHT) / this.PIXEL_WIDTH.toDouble();
+      image_width = 200;
+      bool isHeightNormal = !image_height.isNaN;
+      image_height = isHeightNormal ? image_height : 200;
+    } else {
+      image_height = this.PIXEL_HEIGHT * 1.0;
+      image_width = this.PIXEL_WIDTH * 1.0;
+    }
+
+    this.IMAGE_HIEGHT = image_height;
+    this.IMAGE_WIDTH = image_width;
   }
 }

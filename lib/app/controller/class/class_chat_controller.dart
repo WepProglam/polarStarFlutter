@@ -33,7 +33,7 @@ class ClassChatController extends GetxController {
   RxList<ChatModel> chatHistory = <ChatModel>[].obs;
   RxInt CHAT_MAX = 100.obs;
 
-  RxList<Rx<ChatModel>> tempChatHistory = <Rx<ChatModel>>[].obs;
+  List<Rx<ChatModel>> tempChatHistory = <Rx<ChatModel>>[].obs;
 
   ScrollController chatScrollController;
   RxList<Rx<ChatBoxModel>> classChatBox = <Rx<ChatBoxModel>>[].obs;
@@ -469,6 +469,7 @@ class ClassChatController extends GetxController {
   RxBool imagePreCached = false.obs;
   RxBool isFirstEnter = true.obs;
   RxInt chatEnterAmouunt = 0.obs;
+  RxBool additionalChatLoading = false.obs;
 
   Rx<bool> isPageEnd = false.obs;
   int searchIndex = 0;
@@ -477,28 +478,39 @@ class ClassChatController extends GetxController {
   }
 
   Future<void> socketting() async {
-    classChatSocket.on("viewRecentMessage", (data) {
+    classChatSocket.on("viewRecentMessage", (data) async {
       print("viewRecentMessage");
       Iterable cc = data;
       //print(data);
       tempChatHistory.clear();
-      tempChatHistory.value = cc.map((e) => ChatModel.fromJson(e).obs).toList();
+      tempChatHistory = cc.map((e) => ChatModel.fromJson(e).obs).toList();
       print(tempChatHistory);
       // * 서버에서 역순으로 보내므로 다시 정렬
-      tempChatHistory.value = tempChatHistory.reversed.toList();
+      tempChatHistory = tempChatHistory.reversed.toList();
       if (tempChatHistory.length == 0) {
         return;
       }
-      int curBoxID = tempChatHistory[0].value.BOX_ID;
+      // int curBoxID = tempChatHistory[0].value.BOX_ID;
 
-      bool isClass = checkClassOrMajor(curBoxID);
+      // bool isClass = checkClassOrMajor(curBoxID);
       // * 채팅 박스 모델에 최근 채팅 내역 가져옴
       print("val.ChatList ${findCurBox.value.ChatList.length}");
       if (chatScrollController.hasClients) {
         print(chatScrollController.offset);
       }
       findCurBox.update((val) {
+        if (searchIndex > 1) {
+          additionalChatLoading.value = true;
+          // double current_totalHeightListView =
+          //     chatScrollController.position.maxScrollExtent;
+
+          // chatScrollController.jumpTo(
+          //     current_totalHeightListView - past_totalHeightListView.value);
+        }
         val.ChatList.insertAll(0, tempChatHistory);
+
+        chatDownloaed(true);
+        isPageEnd.value = checkPageEnded(tempChatHistory);
       });
 
       // for (Rx<ChatBoxModel> item in isClass ? classChatBox : majorChatBox) {
@@ -510,13 +522,16 @@ class ClassChatController extends GetxController {
       //   }
       // }
 
-      isPageEnd.value = checkPageEnded(tempChatHistory);
+      // if (chatScrollController.hasClients) {
+      //   await Future.delayed(Duration(milliseconds: 100), () {
+      //     chatScrollController.jumpTo(
+      //         chatScrollController.position.maxScrollExtent -
+      //             past_totalHeightListView.value);
+      //     print("jump!");
+      //     additionalChatLoading.value = false;
+      //   });
+      // }
 
-      chatDownloaed(true);
-
-      if (chatScrollController.hasClients) {
-        print(chatScrollController.offset);
-      }
       print("chatDownloaed33 :${chatDownloaed.value}");
       // // * 현재 들어가있을때
       // if (currentBoxID.value == curBoxID) {
@@ -675,6 +690,7 @@ class ClassChatController extends GetxController {
   }
 
   Future<void> getChatLog(int BOX_ID) async {
+    // chatDownloaed(false);
     await classChatSocket.emit("getChatLog", [BOX_ID, searchIndex]);
     searchIndex += 1;
     return;
@@ -683,6 +699,9 @@ class ClassChatController extends GetxController {
   void setcurrentBoxID(int id) {
     currentBoxID.value = id;
   }
+
+  RxDouble past_totalHeightListView = 0.0.obs;
+  RxDouble current_totalHeightListView = 0.0.obs;
 
   @override
   void onInit() async {
@@ -696,20 +715,26 @@ class ClassChatController extends GetxController {
     // });
 
     chatScrollController.addListener(() async {
-      print("isPageEnd : ${isPageEnd} offset : ${chatScrollController.offset}");
+      // print("isPageEnd : ${isPageEnd} offset : ${chatScrollController.offset}");
 
-      print(
-          "totalHeightListView : ${chatScrollController.position.maxScrollExtent} min : ${chatScrollController.position.minScrollExtent}");
+      // print(
+      //     "totalHeightListView : ${chatScrollController.position.maxScrollExtent} min : ${chatScrollController.position.minScrollExtent}");
       if (!isPageEnd.value && chatScrollController.offset == 0) {
-        double past_totalHeightListView =
+        past_totalHeightListView.value =
             chatScrollController.position.maxScrollExtent;
-        await getChatLog(currentBoxID.value);
-        double current_totalHeightListView =
-            chatScrollController.position.maxScrollExtent;
-        print(current_totalHeightListView - past_totalHeightListView);
 
-        chatScrollController
-            .jumpTo(current_totalHeightListView - past_totalHeightListView);
+        await getChatLog(currentBoxID.value);
+
+        // double current_totalHeightListView =
+        //     chatScrollController.position.maxScrollExtent;
+
+        // await Future.delayed(Duration(milliseconds: 5000), () {
+        //   current_totalHeightListView =
+        //       chatScrollController.position.maxScrollExtent;
+        //   print("past_totalHeightListView : ${past_totalHeightListView}");
+        //   print(
+        //       "current_totalHeightListView222 : ${current_totalHeightListView}");
+        // });
 
         // await chatScrollController.animateTo(
         //     chatScrollController.position.maxScrollExtent,
@@ -719,7 +744,7 @@ class ClassChatController extends GetxController {
         print("emitt!!");
       }
 
-      print(chatScrollController.offset);
+      // print(chatScrollController.offset);
     });
 
     ever(dataAvailble, (_) {
