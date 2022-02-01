@@ -1057,8 +1057,12 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                 print('사진추가');
                                                 controller.photos.addAll(
                                                     await AssetPicker
-                                                        .pickAssets(context,
-                                                            maxAssets: 10));
+                                                        .pickAssets(
+                                                  context,
+                                                  maxAssets: 10,
+                                                  themeColor:
+                                                      Get.theme.primaryColor,
+                                                ));
                                                 controller.sendPhoto();
                                               },
                                               child: Container(
