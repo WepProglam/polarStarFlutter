@@ -207,7 +207,7 @@ class ClassChatController extends GetxController {
     for (int i = 0; i < photos.length; i++) {
       Uint8List temp = await photos[i].originBytes;
       print(temp.lengthInBytes);
-      temp = await FlutterImageCompress.compressWithList(temp, quality: 10);
+      temp = await FlutterImageCompress.compressWithList(temp, quality: 50);
       print(temp.lengthInBytes);
 
       var width;
