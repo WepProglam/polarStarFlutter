@@ -189,51 +189,58 @@ class HotBoard extends StatelessWidget {
                             ),
                             Container(
                               margin: const EdgeInsets.only(top: 0),
-                              child: ListView.builder(
-                                  controller:
-                                      controller.newScrollController.value,
-                                  itemCount:
-                                      controller.newSearchMaxPage.value ==
-                                              controller.newPage.value
-                                          ? controller.NewBody.length
-                                          : controller.NewBody.length + 1,
-                                  physics: AlwaysScrollableScrollPhysics(),
-                                  cacheExtent: 100,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    if (index == controller.NewBody.length) {
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          color: Get.theme.primaryColor,
+                              child: RefreshIndicator(
+                                onRefresh: () async {
+                                  await MainUpdateModule.updateHotMain(
+                                      controller.tabController.index);
+                                },
+                                child: ListView.builder(
+                                    controller:
+                                        controller.newScrollController.value,
+                                    itemCount:
+                                        controller.newSearchMaxPage.value ==
+                                                controller.newPage.value
+                                            ? controller.NewBody.length
+                                            : controller.NewBody.length + 1,
+                                    physics: AlwaysScrollableScrollPhysics(),
+                                    cacheExtent: 100,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      if (index == controller.NewBody.length) {
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            color: Get.theme.primaryColor,
+                                          ),
+                                        );
+                                      }
+                                      Rx<Post> model =
+                                          controller.NewBody[index];
+                                      return Ink(
+                                        child: InkWell(
+                                          onTap: () async {
+                                            await Get.toNamed(
+                                                "/board/${model.value.COMMUNITY_ID}/read/${model.value.BOARD_ID}",
+                                                arguments: {
+                                                  "type": 0
+                                                }).then((value) async {
+                                              await MainUpdateModule
+                                                  .updateHotMain(controller
+                                                      .tabController.index);
+                                            });
+                                          },
+                                          child: PostWidget(
+                                            item: model,
+                                            index: index,
+                                            mainController: mainController,
+                                          ),
                                         ),
                                       );
-                                    }
-                                    Rx<Post> model = controller.NewBody[index];
-                                    return Ink(
-                                      child: InkWell(
-                                        onTap: () async {
-                                          await Get.toNamed(
-                                              "/board/${model.value.COMMUNITY_ID}/read/${model.value.BOARD_ID}",
-                                              arguments: {
-                                                "type": 0
-                                              }).then((value) async {
-                                            await MainUpdateModule
-                                                .updateHotMain(controller
-                                                    .tabController.index);
-                                          });
-                                        },
-                                        child: PostWidget(
-                                          item: model,
-                                          index: index,
-                                          mainController: mainController,
-                                        ),
-                                      ),
-                                    );
 
-                                    // PostPreview(
-                                    //   item: model,
-                                    // );
-                                  }),
+                                      // PostPreview(
+                                      //   item: model,
+                                      // );
+                                    }),
+                              ),
                             ),
                           ]),
                     ),
