@@ -967,6 +967,15 @@ class ClassViewReview extends StatelessWidget {
                     ],
                   ),
                   InkWell(
+                      splashColor: Colors.cyan[100].withOpacity(0.6),
+                      onTap: () async {
+                        await classViewController.arrestClassCommentFunc(index);
+                      },
+                      child: Container(
+                          width: 30.0,
+                          margin: EdgeInsets.only(left: 160),
+                          child: Text("신고"))),
+                  InkWell(
                     splashColor: Colors.cyan[100].withOpacity(0.6),
                     onTap: () async {
                       await classViewController.getCommentLike(

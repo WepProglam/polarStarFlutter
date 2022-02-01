@@ -36,6 +36,14 @@ class ClassRepository {
     }
   }
 
+  Future<Map<String, dynamic>> arrestClassComment(
+      int CLASS_ID, int CLASS_COMMENT_ID, int ARREST_TYPE) async {
+    final response = await apiClient.arrestClassComment(
+        CLASS_ID, CLASS_COMMENT_ID, ARREST_TYPE);
+
+    return {"statusCode": response.statusCode};
+  }
+
   Future<Map<String, dynamic>> getClassSearchList(
       String searchText, int page) async {
     final response = await apiClient.getClassSearchList(searchText, page);

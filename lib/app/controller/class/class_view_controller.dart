@@ -64,6 +64,85 @@ class ClassViewController extends GetxController
     await getExamInfo(int.parse(Get.parameters["CLASS_ID"]));
   }
 
+  Future<void> arrestClassCommentFunc(int index) async {
+    var ARREST_TYPE = await getArrestType();
+
+    if (ARREST_TYPE == null) {
+      return;
+    }
+    var response = await repository.arrestClassComment(
+        classReviewList[index].CLASS_ID,
+        classReviewList[index].CLASS_COMMENT_ID,
+        ARREST_TYPE);
+
+    switch (response["statusCode"]) {
+      case 200:
+        Get.defaultDialog(title: "신고 완료");
+        break;
+      case 400:
+        Get.defaultDialog(title: "신고 안됨 - 본인 신고");
+        break;
+      case 401:
+        Get.defaultDialog(title: "신고 안됨 - 로그인 안됨");
+        break;
+      case 403:
+        Get.defaultDialog(title: "신고 안됨 - 이미 신고");
+        break;
+      case 404:
+        Get.defaultDialog(title: "신고 안됨 - 신고하려는 강평 없음");
+        break;
+      default:
+        Get.defaultDialog(title: "신고 안됨 - ${response["statusCode"]}");
+        break;
+    }
+  }
+
+  Future<int> getArrestType() async {
+    var response = await Get.defaultDialog(
+        title: "신고 사유 선택",
+        content: Column(
+          children: [
+            InkWell(
+              child: Text("게시판 성격에 안맞는 글"),
+              onTap: () {
+                Get.back(result: 0);
+              },
+            ),
+            InkWell(
+              child: Text("광고"),
+              onTap: () {
+                Get.back(result: 1);
+              },
+            ),
+            InkWell(
+              child: Text("허위 사실"),
+              onTap: () {
+                Get.back(result: 2);
+              },
+            ),
+            InkWell(
+              child: Text("욕설/비난"),
+              onTap: () {
+                Get.back(result: 3);
+              },
+            ),
+            InkWell(
+              child: Text("저작권"),
+              onTap: () {
+                Get.back(result: 4);
+              },
+            ),
+            InkWell(
+              child: Text("풍기문란"),
+              onTap: () {
+                Get.back(result: 5);
+              },
+            ),
+          ],
+        ));
+    return response;
+  }
+
   Future getClassView(int CLASS_ID) async {
     // print("asdfasdfasdfadfasdf");
     final jsonResponse = await repository.getClassView(CLASS_ID);
