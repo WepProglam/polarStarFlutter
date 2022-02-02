@@ -355,7 +355,7 @@ class ClassRecentReview extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(top: 4, left: 20, right: 20),
-              child: Text("听课学期：${model.PROFESSOR}",
+              child: Text("教授名：${model.PROFESSOR}",
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                       overflow: TextOverflow.ellipsis,
@@ -369,7 +369,7 @@ class ClassRecentReview extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(left: 20, right: 20),
               child: Text(
-                  "授课学期：${timetableSemChanger(model.CLASS_YEAR, model.CLASS_SEMESTER)}",
+                  "听课学期：${timetableSemChanger(model.CLASS_YEAR, model.CLASS_SEMESTER)}",
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                       overflow: TextOverflow.ellipsis,
