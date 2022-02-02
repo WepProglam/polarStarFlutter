@@ -151,7 +151,7 @@ class MajorInputs extends StatelessWidget {
                             contentPadding:
                                 EdgeInsets.fromLTRB(10.0, 11.0, 10.0, 11.0),
                             isDense: true,
-                            hintText: "Search Your Major",
+                            hintText: "请用韩语输入您的专业",
                             hintStyle: const TextStyle(
                                 color: const Color(0xffd6d4d4),
                                 fontWeight: FontWeight.w400,

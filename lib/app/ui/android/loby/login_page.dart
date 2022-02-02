@@ -272,22 +272,23 @@ class LoginInputs extends GetView<LoginController> {
                         )),
                   ),
                   Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      // ! 우선 막음
-                      // ! email 인증 사용할 때부터
-                      // Get.toNamed("/findPw");
-                    },
-                    child: Text(
-                      "找回密码",
-                      style: const TextStyle(
-                          color: const Color(0xffffffff),
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "NotoSansSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 10.0),
-                    ),
-                  ),
+                  //! 비번찾기 버튼
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     // ! 우선 막음
+                  //     // ! email 인증 사용할 때부터
+                  //     // Get.toNamed("/findPw");
+                  //   },
+                  //   child: Text(
+                  //     "找回密码",
+                  //     style: const TextStyle(
+                  //         color: const Color(0xffffffff),
+                  //         fontWeight: FontWeight.w400,
+                  //         fontFamily: "NotoSansSC",
+                  //         fontStyle: FontStyle.normal,
+                  //         fontSize: 10.0),
+                  //   ),
+                  // ),
                 ]),
 
             // 로그인 버튼
