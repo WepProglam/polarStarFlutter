@@ -1152,6 +1152,25 @@ class ClassExamInfo extends StatelessWidget {
                       ),
                       Spacer(),
                       InkWell(
+                          splashColor: Colors.cyan[100].withOpacity(0.6),
+                          onTap: () async {
+                            await classViewController
+                                .arrestClassExamFunc(index);
+                          },
+                          child: Container(
+                              width: 30.0,
+                              margin: EdgeInsets.only(right: 10),
+                              child: Text(
+                                "举报",
+                                style: const TextStyle(
+                                    overflow: TextOverflow.ellipsis,
+                                    color: Colors.cyan,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "Roboto",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 12.0),
+                              ))),
+                      InkWell(
                         onTap: () async {
                           await classViewController.getExamLike(
                               classExamModel.CLASS_ID,

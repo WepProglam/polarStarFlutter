@@ -97,6 +97,42 @@ class ClassViewController extends GetxController
     }
   }
 
+  Future<void> arrestClassExamFunc(int index) async {
+    var ARREST_TYPE = await getArrestType();
+
+    if (ARREST_TYPE == null) {
+      return;
+    }
+    var response = await repository.arrestClassExam(
+        classExamList[index].CLASS_ID,
+        classExamList[index].CLASS_EXAM_ID,
+        ARREST_TYPE);
+
+    print(classExamList[index].CLASS_ID);
+    print(classExamList[index].CLASS_EXAM_ID);
+
+    switch (response["statusCode"]) {
+      case 200:
+        Get.defaultDialog(title: "신고 완료");
+        break;
+      case 400:
+        Get.defaultDialog(title: "신고 안됨 - 본인 신고");
+        break;
+      case 401:
+        Get.defaultDialog(title: "신고 안됨 - 로그인 안됨");
+        break;
+      case 403:
+        Get.defaultDialog(title: "신고 안됨 - 이미 신고");
+        break;
+      case 404:
+        Get.defaultDialog(title: "신고 안됨 - 신고하려는 강평 없음");
+        break;
+      default:
+        Get.defaultDialog(title: "신고 안됨 - ${response["statusCode"]}");
+        break;
+    }
+  }
+
   Future<int> getArrestType() async {
     var response = await Get.defaultDialog(
         title: "신고 사유 선택",
