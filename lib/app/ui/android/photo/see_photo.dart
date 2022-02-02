@@ -21,7 +21,7 @@ class _SeePhotoState extends State<SeePhoto> {
   Widget build(BuildContext context) {
     final PageController controller =
         PageController(initialPage: widget.index, viewportFraction: 1.0);
-
+    DownloadProgress downloadProgress;
     final Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -56,11 +56,10 @@ class _SeePhotoState extends State<SeePhoto> {
                                 fit: BoxFit.fitWidth,
                                 fadeInDuration: Duration(milliseconds: 0),
                                 progressIndicatorBuilder:
-                                    (context, url, downloadProgress) =>
-                                        Container(
-                                          child: Image(
-                                              image: AssetImage(
-                                                  'assets/images/spinner.gif')),
+                                    (context, url, downloadProgress) => Center(
+                                          child: CircularProgressIndicator(
+                                            value: downloadProgress.progress,
+                                          ),
                                         ),
                                 errorWidget: (context, url, error) {
                                   return Icon(Icons.error);
