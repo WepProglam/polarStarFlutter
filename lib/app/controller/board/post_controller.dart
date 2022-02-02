@@ -219,11 +219,19 @@ class PostController extends GetxController {
         case 200:
           break;
         case 403:
-          Get.snackbar(
-              '无效操作', '1. 이미 $what 한 게시글입니다\n2. 본인의 글 / 댓글에 $what 할 수 없습니다',
-              colorText: Colors.white,
-              backgroundColor: Colors.black,
-              snackPosition: SnackPosition.BOTTOM);
+          if (what == "좋아요") {
+            Get.snackbar('无效操作', '1. 您已经给帖子点过赞了\n2. 不能给本人的帖子或评论点赞哦',
+                colorText: Colors.white,
+                backgroundColor: Colors.black,
+                snackPosition: SnackPosition.BOTTOM);
+          } else {
+            Get.snackbar(
+                '无效操作', '1. 이미 $what 한 게시글입니다\n2. 본인의 글 / 댓글에 $what 할 수 없습니다',
+                colorText: Colors.white,
+                backgroundColor: Colors.black,
+                snackPosition: SnackPosition.BOTTOM);
+          }
+
           break;
         default:
           Get.snackbar('${value.statusCode}', '$what 실패',
@@ -246,7 +254,8 @@ class PostController extends GetxController {
         case 200:
           break;
         case 403:
-          Get.snackbar('부적절한 접근', '이미 스크랩 취소한 게시글입니다',
+          // *  부적절한 접근, 이미 스크랩 취소한 게시글입니다.
+          Get.snackbar('无效操作', '无效操作',
               colorText: Colors.white,
               backgroundColor: Colors.black,
               snackPosition: SnackPosition.BOTTOM);

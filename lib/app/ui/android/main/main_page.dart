@@ -66,7 +66,7 @@ class MainPage extends StatelessWidget {
         pre_backpress = DateTime.now();
         if (cantExit) {
           final snack = SnackBar(
-            content: Text('确认要结束的话请再按一次返回键'),
+            content: Text('确认要结束的话 请再按一次返回键'),
             duration: Duration(seconds: 2),
             backgroundColor: Colors.black,
           );

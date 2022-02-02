@@ -244,7 +244,7 @@ class SignUpInputs extends StatelessWidget {
                         funcValidator: (String value) {
                           if (signUpController.pwController.text !=
                               signUpController.pwConfirmController.text) {
-                            return "password not equal";
+                            return "密码不一致";
                           }
                           // return checkEmpty(value);
                         },

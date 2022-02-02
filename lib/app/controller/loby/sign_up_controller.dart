@@ -42,9 +42,8 @@ class SignUpController extends GetxController {
 
     switch (response["statusCode"]) {
       case 200:
-        print("회원가입 완료");
-
         Get.until((route) => Get.currentRoute == '/login');
+        // * 회원가입 성공
         await Get.snackbar(
           "会员注册成功",
           "会员注册成功",
@@ -54,7 +53,6 @@ class SignUpController extends GetxController {
         );
         break;
       default:
-        print("회원가입 실패");
         Get.snackbar("회원가입 실패", "회원가입 실패",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.black.withOpacity(0.0),
@@ -63,6 +61,7 @@ class SignUpController extends GetxController {
   }
 
   RxBool idOK = false.obs;
+  RxBool pwOK = false.obs;
 
   Future IDTest(String id) async {
     Map<String, String> data = {"id": id};

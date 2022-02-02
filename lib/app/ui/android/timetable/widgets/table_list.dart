@@ -639,10 +639,10 @@ void showSetting(
                     ),
                     TimeTableSettingItem(
                       imagePath: "timetable_set_default.png",
-                      title: "设为基本课程表",
+                      title: "设为基本时间表",
                       onTap: () async {
                         await Get.defaultDialog(
-                            title: "您要将其设置成默认课程表吗？",
+                            title: "您要将其设置成默认时间表吗？",
                             titlePadding: const EdgeInsets.only(top: 15.5),
                             contentPadding: const EdgeInsets.all(0),
                             titleStyle: const TextStyle(
