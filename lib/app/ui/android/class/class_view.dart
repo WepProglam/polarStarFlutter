@@ -974,7 +974,16 @@ class ClassViewReview extends StatelessWidget {
                       child: Container(
                           width: 30.0,
                           margin: EdgeInsets.only(left: 160),
-                          child: Text("신고"))),
+                          child: Text(
+                            "举报",
+                            style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                color: Colors.cyan,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "Roboto",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.0),
+                          ))),
                   InkWell(
                     splashColor: Colors.cyan[100].withOpacity(0.6),
                     onTap: () async {
