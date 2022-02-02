@@ -17,6 +17,13 @@ class ClassApiClient {
     return response;
   }
 
+  Future arrestClassExam(
+      int CLASS_ID, int CLASS_EXAM_ID, int ARREST_TYPE) async {
+    final response = await Session().getX(
+        '/class/exam/arrest/class_id/${CLASS_ID}/exam_id/${CLASS_EXAM_ID}?ARREST_TYPE=${ARREST_TYPE}');
+    return response;
+  }
+
   Future getRecentClassComment() async {
     final response = await Session().getX('/class/recentClassComment');
     return response;
