@@ -45,7 +45,10 @@ class SignUpController extends GetxController {
         print("회원가입 완료");
 
         Get.until((route) => Get.currentRoute == '/login');
-        await Get.snackbar("회원가입 성공", "회원가입 성공");
+        await Get.snackbar("会员注册成功", "会员注册成功",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.black,
+            colorText: Colors.white);
         break;
       default:
         print("회원가입 실패");

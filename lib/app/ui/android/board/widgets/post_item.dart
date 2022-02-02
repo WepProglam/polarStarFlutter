@@ -282,22 +282,22 @@ class PostTop extends StatelessWidget {
                   if (item.value.MYSELF) {
                     return [
                       PopupMenuItem(
-                        child: Text("게시글 수정"),
+                        child: Text("修改帖子内容"),
                         value: "게시글 수정",
                       ),
                       PopupMenuItem(
-                        child: Text("게시글 삭제"),
+                        child: Text("删除帖子"),
                         value: "게시글 삭제",
                       ),
                     ];
                   } else {
                     return [
                       PopupMenuItem(
-                        child: Text("게시글 신고"),
+                        child: Text("举报"),
                         value: "게시글 신고",
                       ),
                       PopupMenuItem(
-                        child: Text("쪽지 보내기"),
+                        child: Text("私信"),
                         value: "쪽지 보내기",
                       ),
                     ];

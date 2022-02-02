@@ -26,7 +26,7 @@ class NotiNotiBox extends StatelessWidget {
               ListView(),
               Center(
                 child: Text(
-                  "아직 알림이 없습니다.",
+                  "目前还没有新的通知",
                   style: TextStyle(fontSize: 20),
                 ),
               ),

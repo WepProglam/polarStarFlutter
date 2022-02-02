@@ -290,8 +290,8 @@ void showSetting(
                                                     courseNameController,
                                                 style: textStyle,
                                                 textAlign: TextAlign.left,
-                                                decoration: inputDecoration(
-                                                    "timetable name")),
+                                                decoration:
+                                                    inputDecoration("课程表名称")),
                                           ),
                                           margin: const EdgeInsets.symmetric(
                                               horizontal: 18.5),
@@ -321,7 +321,7 @@ void showSetting(
                                                           width: 0.3)),
                                                   child: Center(
                                                     child: FittedBox(
-                                                      child: Text("Cancel",
+                                                      child: Text("取消",
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           style: const TextStyle(
@@ -413,7 +413,7 @@ void showSetting(
                                                           width: 0.3)),
                                                   child: Center(
                                                     child: FittedBox(
-                                                      child: Text("Confirm",
+                                                      child: Text("确定",
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                           style: const TextStyle(
@@ -453,61 +453,307 @@ void showSetting(
                       title: "删除",
                       onTap: () async {
                         Get.back();
-                        String yearSem = timeTableController.yearSem;
+                        await Get.defaultDialog(
+                            title: "시간표를 삭제하시겠습니까？",
+                            titlePadding: const EdgeInsets.only(top: 15.5),
+                            contentPadding: const EdgeInsets.all(0),
+                            titleStyle: const TextStyle(
+                                color: const Color(0xff333333),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 18.0),
+                            content: Container(
+                              width: formSize.width - 30,
+                              height: 175,
+                              child: Container(
+                                margin: const EdgeInsets.only(top: 31),
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: 55.5,
+                                        margin: const EdgeInsets.only(top: 44),
+                                        // width: formSize.width - 30,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 1,
+                                              child: // Cancel
+                                                  InkWell(
+                                                onTap: () {
+                                                  Get.back();
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: const Color(
+                                                              0xffdedede),
+                                                          width: 0.3)),
+                                                  child: Center(
+                                                    child: FittedBox(
+                                                      child: Text("否",
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: const TextStyle(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              color: const Color(
+                                                                  0xff1a4678),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontFamily:
+                                                                  "PingFangSC",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: 18.0),
+                                                          textAlign:
+                                                              TextAlign.center),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: // Confirm
+                                                  InkWell(
+                                                onTap: () async {
+                                                  String yearSem =
+                                                      timeTableController
+                                                          .yearSem;
 
-                        print(yearSem);
+                                                  print(yearSem);
 
-                        //시간표 하나일때 삭제 방지
-                        if (timeTableController
-                                    .otherTable["${yearSem}"].length -
-                                1 <=
-                            0) {
-                          Get.snackbar(
-                              "시간표가 하나일때는 지울 수 없습니다.", "시간표가 하나일때는 지울 수 없습니다.");
-                          return;
-                        }
+                                                  //시간표 하나일때 삭제 방지
+                                                  if (timeTableController
+                                                              .otherTable[
+                                                                  "${yearSem}"]
+                                                              .length -
+                                                          1 <=
+                                                      0) {
+                                                    Get.snackbar(
+                                                        "시간표가 하나일때는 지울 수 없습니다.",
+                                                        "시간표가 하나일때는 지울 수 없습니다.");
+                                                    return;
+                                                  }
 
-                        //디폴트 시간표 삭제 방지
-                        for (var item
-                            in timeTableController.otherTable["${yearSem}"]) {
-                          if (item.value.TIMETABLE_ID ==
-                              timeTableController
-                                  .selectTable.value.TIMETABLE_ID) {
-                            if (item.value.IS_DEFAULT == 1) {
-                              Get.snackbar("디폴트 시간표는 삭제할 수 없습니다.",
-                                  "디폴트 시간표는 삭제할 수 없습니다.",
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: Colors.black,
-                                  colorText: Colors.white);
-                              return;
-                            }
-                          }
-                        }
+                                                  //디폴트 시간표 삭제 방지
+                                                  for (var item
+                                                      in timeTableController
+                                                              .otherTable[
+                                                          "${yearSem}"]) {
+                                                    if (item.value
+                                                            .TIMETABLE_ID ==
+                                                        timeTableController
+                                                            .selectTable
+                                                            .value
+                                                            .TIMETABLE_ID) {
+                                                      if (item.value
+                                                              .IS_DEFAULT ==
+                                                          1) {
+                                                        Get.snackbar(
+                                                            "디폴트 시간표는 삭제할 수 없습니다.",
+                                                            "디폴트 시간표는 삭제할 수 없습니다.",
+                                                            snackPosition:
+                                                                SnackPosition
+                                                                    .BOTTOM,
+                                                            backgroundColor:
+                                                                Colors.black,
+                                                            colorText:
+                                                                Colors.white);
+                                                        return;
+                                                      }
+                                                    }
+                                                  }
 
-                        await Session().deleteX(
-                            "/timetable/table/tid/${selectedModel.value.TIMETABLE_ID}");
+                                                  await Session().deleteX(
+                                                      "/timetable/table/tid/${selectedModel.value.TIMETABLE_ID}");
 
-                        //other에서 삭제
-                        timeTableController.otherTable["${yearSem}"]
-                            .removeWhere((element) =>
-                                element.value.TIMETABLE_ID ==
-                                selectedModel.value.TIMETABLE_ID);
+                                                  //other에서 삭제
+                                                  timeTableController
+                                                      .otherTable["${yearSem}"]
+                                                      .removeWhere((element) =>
+                                                          element.value
+                                                              .TIMETABLE_ID ==
+                                                          selectedModel.value
+                                                              .TIMETABLE_ID);
 
-                        //디폴트를 SELECTED로 설정
-                        timeTableController.selectedTimeTableId.value =
-                            timeTableController.defaultTableList["${yearSem}"]
-                                .value.TIMETABLE_ID;
+                                                  //디폴트를 SELECTED로 설정
+                                                  timeTableController
+                                                          .selectedTimeTableId
+                                                          .value =
+                                                      timeTableController
+                                                          .defaultTableList[
+                                                              "${yearSem}"]
+                                                          .value
+                                                          .TIMETABLE_ID;
 
-                        print("Delete");
+                                                  print("Delete");
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: const Color(
+                                                              0xffdedede),
+                                                          width: 0.3)),
+                                                  child: Center(
+                                                    child: FittedBox(
+                                                      child: Text("是",
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: const TextStyle(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              color: const Color(
+                                                                  0xff1a4678),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontFamily:
+                                                                  "PingFangSC",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: 18.0),
+                                                          textAlign:
+                                                              TextAlign.center),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ));
                       },
                     ),
                     TimeTableSettingItem(
                       imagePath: "timetable_set_default.png",
                       title: "设为基本课程表",
                       onTap: () async {
-                        Get.back();
-
-                        await timeTableController.setDefaultTable();
+                        await Get.defaultDialog(
+                            title: "您要将其设置成默认课程表吗？",
+                            titlePadding: const EdgeInsets.only(top: 15.5),
+                            contentPadding: const EdgeInsets.all(0),
+                            titleStyle: const TextStyle(
+                                color: const Color(0xff333333),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 18.0),
+                            content: Container(
+                              width: formSize.width - 30,
+                              height: 175,
+                              child: Container(
+                                margin: const EdgeInsets.only(top: 31),
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: 55.5,
+                                        margin: const EdgeInsets.only(top: 44),
+                                        // width: formSize.width - 30,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 1,
+                                              child: // Cancel
+                                                  InkWell(
+                                                onTap: () {
+                                                  Get.back();
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: const Color(
+                                                              0xffdedede),
+                                                          width: 0.3)),
+                                                  child: Center(
+                                                    child: FittedBox(
+                                                      child: Text("否",
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: const TextStyle(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              color: const Color(
+                                                                  0xff1a4678),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontFamily:
+                                                                  "PingFangSC",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: 18.0),
+                                                          textAlign:
+                                                              TextAlign.center),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: // Confirm
+                                                  InkWell(
+                                                onTap: () async {
+                                                  await timeTableController
+                                                      .setDefaultTable();
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          color: const Color(
+                                                              0xffdedede),
+                                                          width: 0.3)),
+                                                  child: Center(
+                                                    child: FittedBox(
+                                                      child: Text("是",
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: const TextStyle(
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              color: const Color(
+                                                                  0xff1a4678),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              fontFamily:
+                                                                  "PingFangSC",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: 18.0),
+                                                          textAlign:
+                                                              TextAlign.center),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ));
                       },
                     ),
                     // TimeTableSettingItem(

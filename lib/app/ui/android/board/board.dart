@@ -219,7 +219,7 @@ class Board extends StatelessWidget {
                               );
                             });
                       } else if (controller.httpStatus != 200) {
-                        return Text("아직 게시글이 없습니다.");
+                        return Text("目前没有帖子");
                       } else {
                         return Center(
                           child: CircularProgressIndicator(

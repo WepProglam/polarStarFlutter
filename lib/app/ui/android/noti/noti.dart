@@ -175,7 +175,7 @@ class MailWidget extends StatelessWidget {
           if (notiController.mailBox.isEmpty) {
             return Center(
               child: Text(
-                "아직 쪽지가 없습니다.",
+                "目前还没有新的私信",
                 style: const TextStyle(
                     color: const Color(0xff6f6e6e),
                     fontWeight: FontWeight.w400,
@@ -371,7 +371,7 @@ class ChatWidget extends StatelessWidget {
                   if (classChatController.majorChatBox.length == 0) {
                     return Center(
                       child: Text(
-                        "아직 채팅이 없습니다.",
+                        "目前还没有已加入的群聊",
                         style: const TextStyle(
                             color: const Color(0xff6f6e6e),
                             fontWeight: FontWeight.w400,
@@ -409,7 +409,7 @@ class ChatWidget extends StatelessWidget {
                   if (classChatController.classChatBox.length == 0) {
                     return Center(
                       child: Text(
-                        "아직 채팅이 없습니다.",
+                        "目前还没有已加入的群聊",
                         style: const TextStyle(
                             color: const Color(0xff6f6e6e),
                             fontWeight: FontWeight.w400,
@@ -451,7 +451,7 @@ class NotiWidget extends StatelessWidget {
           if (notiController.noties.length == 0) {
             return Center(
               child: Text(
-                "아직 알림이 없습니다.",
+                "目前还没有新的通知",
                 style: const TextStyle(
                     color: const Color(0xff6f6e6e),
                     fontWeight: FontWeight.w400,

@@ -7,7 +7,8 @@ void createNewCommunity(MainController mainController) {
   final TextEditingController communityDescriptionController =
       TextEditingController();
   Get.defaultDialog(
-    title: "게시판 생성하기",
+    // * 게시판 생성하기
+    title: "创建论坛",
     barrierDismissible: true,
     content: Container(
       width: 300,
@@ -16,7 +17,7 @@ void createNewCommunity(MainController mainController) {
           TextFormField(
             controller: communityNameController,
             keyboardType: TextInputType.text,
-            decoration: InputDecoration(hintText: "게시판 이름"),
+            decoration: InputDecoration(hintText: "论坛名称"),
             maxLines: 1,
           ),
           SizedBox(
@@ -25,7 +26,7 @@ void createNewCommunity(MainController mainController) {
           TextFormField(
             controller: communityDescriptionController,
             keyboardType: TextInputType.text,
-            decoration: InputDecoration(hintText: "게시판 설명"),
+            decoration: InputDecoration(hintText: "论坛说明"),
             minLines: 1,
             maxLines: 5,
           ),
@@ -45,14 +46,14 @@ void createNewCommunity(MainController mainController) {
 
                 if (COMMUNITY_NAME.isEmpty ||
                     COMMUNITY_DESCRIPTION.trim().isEmpty) {
-                  Get.snackbar("텍스트를 작성해주세요", "텍스트를 작성해주세요");
+                  // Get.snackbar("텍스트를 작성해주세요", "텍스트를 작성해주세요");
                   return;
                 }
 
                 await mainController.createCommunity(
                     COMMUNITY_NAME, COMMUNITY_DESCRIPTION);
               },
-              child: Text("발송"))
+              child: Text("确认创建"))
         ],
       ),
     ),

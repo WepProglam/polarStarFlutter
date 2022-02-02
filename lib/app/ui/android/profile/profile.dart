@@ -490,7 +490,7 @@ class Profile extends StatelessWidget {
                                                   child: Container(
                                                       margin: EdgeInsets.only(
                                                           left: 0),
-                                                      child: Text("NICKNAME",
+                                                      child: Text("昵称",
                                                           style: const TextStyle(
                                                               color: const Color(
                                                                   0xff6f6e6e),
@@ -498,7 +498,7 @@ class Profile extends StatelessWidget {
                                                                   FontWeight
                                                                       .w500,
                                                               fontFamily:
-                                                                  "Roboto",
+                                                                  "NotoSansSC",
                                                               fontStyle:
                                                                   FontStyle
                                                                       .normal,

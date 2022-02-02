@@ -88,19 +88,23 @@ class SearchBar extends StatelessWidget {
             child: Ink(
               child: InkWell(
                 onTap: () async {
-                  String text = searchText.text.trim();
-                  controller.searchText(text);
-                  await controller.getSearchBoard(searchTextTemp: text);
-                  FocusScope.of(context).unfocus();
+                  Get.back();
+                  // String text = searchText.text.trim();
+                  // controller.searchText(text);
+                  // await controller.getSearchBoard(searchTextTemp: text);
+                  // FocusScope.of(context).unfocus();
                 },
-                child: Text("取消",
-                    style: const TextStyle(
-                        color: const Color(0xfff5f6ff),
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "NotoSansSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14.0),
-                    textAlign: TextAlign.left),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text("取消",
+                      style: const TextStyle(
+                          color: const Color(0xfff5f6ff),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "NotoSansSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14.0),
+                      textAlign: TextAlign.left),
+                ),
               ),
             ),
           ),

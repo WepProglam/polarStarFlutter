@@ -41,10 +41,10 @@ class SearchController extends GetxController {
 
     String checkText = searchText.value;
     if (checkText.trim().length < 2) {
-      Get.snackbar("검색 오류", "두 글자 이상 입력해주세요",
+      Get.snackbar("搜索失败", "请输入至少两个字以上",
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.black,
-          colorText: Colors.white);
+          backgroundColor: Colors.white,
+          colorText: Colors.black);
       return;
     }
 

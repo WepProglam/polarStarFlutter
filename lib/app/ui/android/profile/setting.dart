@@ -289,7 +289,7 @@ class SettingAppBars {
           text: TextSpan(
             children: <TextSpan>[
               TextSpan(
-                text: "设置",
+                text: "隐私",
                 style: const TextStyle(
                     color: const Color(0xffffffff),
                     fontWeight: FontWeight.w500,

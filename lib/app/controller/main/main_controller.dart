@@ -98,7 +98,11 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
 
     switch (status["status"]) {
       case 200:
-        Get.snackbar("생성 요청 성공", "생성 요청 성공");
+        // * 게시판 생성 요청 성공
+        Get.snackbar("论坛创建申请成功", "论坛创建申请成功",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.white,
+            colorText: Colors.black);
         break;
       default:
         Get.snackbar("이미 생성되어있는 게시판입니다.", "이미 생성되어있는 게시판입니다.");
@@ -621,9 +625,9 @@ class MainUpdateModule {
     if (index == 0) {
       await mc.getMineWrite();
     } else if (index == 1) {
-      await mc.getMineScrap();
-    } else {
       await mc.getMineLike();
+    } else {
+      await mc.getMineScrap();
     }
     return;
   }

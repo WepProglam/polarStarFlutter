@@ -46,12 +46,12 @@ class Mypage extends StatelessWidget {
                               mainController: mainController,
                               myPageController: myPageController,
                               index: 1,
-                              postList: myPageController.myBoardScrap),
+                              postList: myPageController.myBoardLike),
                           MyPagePostList(
                               mainController: mainController,
                               myPageController: myPageController,
                               index: 2,
-                              postList: myPageController.myBoardLike),
+                              postList: myPageController.myBoardScrap),
                         ]),
                   ),
                 );
@@ -87,7 +87,8 @@ class MyPagePostList extends StatelessWidget {
           return Stack(children: [
             ListView(),
             Center(
-              child: Text("아직 정보가 없습니다."),
+              // * 아직 정보가 없습니다.
+              child: Text("目前没有相关帖子"),
             ),
           ]);
         } else {
@@ -308,7 +309,7 @@ class MyPageProfile extends StatelessWidget {
                                         width: 1),
                                     color: const Color(mainColor)),
                                 child: Center(
-                                  child: Text("设置",
+                                  child: Text("隐私",
                                       style: const TextStyle(
                                           color: const Color(0xffffffff),
                                           fontWeight: FontWeight.w400,

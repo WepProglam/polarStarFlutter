@@ -220,7 +220,7 @@ class PostController extends GetxController {
           break;
         case 403:
           Get.snackbar(
-              '부적절한 접근', '1. 이미 $what 한 게시글입니다\n2. 본인의 글 / 댓글에 $what 할 수 없습니다',
+              '无效操作', '1. 이미 $what 한 게시글입니다\n2. 본인의 글 / 댓글에 $what 할 수 없습니다',
               colorText: Colors.white,
               backgroundColor: Colors.black,
               snackPosition: SnackPosition.BOTTOM);
@@ -261,41 +261,48 @@ class PostController extends GetxController {
 
   Future<int> getArrestType() async {
     var response = await Get.defaultDialog(
-        title: "신고 사유 선택",
+        // * 신고 사유 선택
+        title: "举报成功",
         content: Column(
           children: [
             InkWell(
-              child: Text("게시판 성격에 안맞는 글"),
+              // * 게시판 성격에 안 맞는 글
+              child: Text("不符合本论坛的帖子"),
               onTap: () {
                 Get.back(result: 0);
               },
             ),
             InkWell(
-              child: Text("광고"),
+              // * 광고
+              child: Text("广告"),
               onTap: () {
                 Get.back(result: 1);
               },
             ),
             InkWell(
-              child: Text("허위 사실"),
+              // * 허위 사실
+              child: Text("虚假事实"),
               onTap: () {
                 Get.back(result: 2);
               },
             ),
+            // * 욕설/비난
             InkWell(
-              child: Text("욕설/비난"),
+              child: Text("谩骂/诋毁"),
               onTap: () {
                 Get.back(result: 3);
               },
             ),
             InkWell(
-              child: Text("저작권"),
+              // * 저작권
+              child: Text("版权"),
               onTap: () {
                 Get.back(result: 4);
               },
             ),
             InkWell(
-              child: Text("풍기문란"),
+              // * 풍기문란
+              child: Text("扰乱风气"),
               onTap: () {
                 Get.back(result: 5);
               },

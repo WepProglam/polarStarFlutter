@@ -58,15 +58,11 @@ class Search extends StatelessWidget {
                           );
                         });
                   } else if (controller.httpStatus != 200) {
-                    return Stack(children: [
-                      ListView(),
-                      Center(child: Text("검색 결과가 없습니다."))
-                    ]);
+                    return Stack(
+                        children: [ListView(), Center(child: Text("没有搜索结果"))]);
                   } else {
-                    return Stack(children: [
-                      ListView(),
-                      Center(child: Text("검색 결과가 없습니다."))
-                    ]);
+                    return Stack(
+                        children: [ListView(), Center(child: Text("没有搜索结果"))]);
                   }
                 }),
               ),
