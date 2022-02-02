@@ -26,7 +26,7 @@ class ClassModel {
       CLASS_NAME,
       PROFESSOR,
       CLASS_SECTOR_1,
-      CLASS_SECTOR_TOTAL,
+      CLASS_SECTOR_2,
       COLLEGE_NAME,
       COLLEGE_MAJOR,
       CLASS_TIME,
@@ -42,6 +42,7 @@ class ClassModel {
     this.CREDIT = nullCheck(
         json["CREDIT"] == null ? null : double.parse("${json["CREDIT"]}"));
     this.CLASS_SECTOR_1 = nullCheck(json["CLASS_SECTOR_1"]);
+    this.CLASS_SECTOR_2 = nullCheck(json["CLASS_SECTOR_2"]);
     this.COLLEGE_NAME = nullCheck(json["COLLEGE_NAME"]);
     this.RATE = json["AVG(RATE)"] == null ? "0" : json["AVG(RATE)"];
     this.COLLEGE_MAJOR = nullCheck(json["COLLEGE_MAJOR"]);

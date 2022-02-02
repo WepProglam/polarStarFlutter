@@ -747,7 +747,7 @@ class ClassViewInfo extends StatelessWidget {
                             fontSize: 14.0),
                         textAlign: TextAlign.left),
                     Text(
-                      "${classInfoModel.CLASS_SECTOR_1}",
+                      "${classInfoModel.CLASS_SECTOR_2}",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           overflow: TextOverflow.ellipsis,

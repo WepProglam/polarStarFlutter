@@ -16,7 +16,7 @@ class ClassInfoModel {
       CLASS_NAME,
       PROFESSOR,
       CLASS_SECTOR_1,
-      CLASS_SECTOR_TOTAL,
+      CLASS_SECTOR_2,
       COLLEGE_NAME,
       COLLEGE_MAJOR;
 
@@ -38,7 +38,7 @@ class ClassInfoModel {
       SECTOR,
       CLASS_TIME,
       CLASS_SECTOR_1,
-      CLASS_SECTOR_TOTAL,
+      CLASS_SECTOR_2,
       COLLEGE_NAME,
       COLLEGE_MAJOR,
       MY_CLASS_POINT});
@@ -56,7 +56,7 @@ class ClassInfoModel {
     this.PROFESSOR = json["PROFESSOR"];
     this.CREDIT = double.parse("${json["CREDIT"]}");
     this.CLASS_SECTOR_1 = json["CLASS_SECTOR_1"];
-    this.CLASS_SECTOR_TOTAL = json["CLASS_SECTOR_TOTAL"];
+    this.CLASS_SECTOR_2 = json["CLASS_SECTOR_2"];
     this.COLLEGE_NAME = json["COLLEGE_NAME"];
     this.COLLEGE_MAJOR = json["COLLEGE_MAJOR"];
     this.CLASS_TIME = json["CLASSES"];
