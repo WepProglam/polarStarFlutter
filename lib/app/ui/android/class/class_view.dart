@@ -1080,37 +1080,41 @@ class ClassExamInfo extends StatelessWidget {
     return Stack(children: [
       Container(
           child: ImageFiltered(
-        imageFilter: classExamModel.IS_BUYED
-            ? ImageFilter.blur(sigmaX: 0, sigmaY: 0)
-            : ImageFilter.blur(
-                sigmaX: 5.0, sigmaY: 5.0, tileMode: TileMode.decal),
+        imageFilter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+
+        //! 구매 여부에 따른 블러 처리
+        // imageFilter: classExamModel.IS_BUYED
+        //     ? ImageFilter.blur(sigmaX: 0, sigmaY: 0)
+        //     : ImageFilter.blur(
+        //         sigmaX: 5.0, sigmaY: 5.0, tileMode: TileMode.decal),
         child: GestureDetector(
           onTap: () {
-            if (classExamModel.IS_BUYED) {
-              print("이미 구매한 정보");
-            } else {
-              Get.defaultDialog(
-                  title: "시험 정보 구매",
-                  middleText: "시험 정보를 구매하시겠습니까?",
-                  actions: [
-                    TextButton(
-                        onPressed: () async {
-                          Get.back();
-                          await classViewController.buyExamInfo(
-                              classExamModel.CLASS_ID,
-                              classExamModel.CLASS_EXAM_ID);
-                        },
-                        child: Text("네", overflow: TextOverflow.ellipsis)),
-                    TextButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: Text(
-                          "아니요",
-                          overflow: TextOverflow.ellipsis,
-                        )),
-                  ]);
-            }
+            //! 구매기능 제거
+            // if (classExamModel.IS_BUYED) {
+            //   print("이미 구매한 정보");
+            // } else {
+            //   Get.defaultDialog(
+            //       title: "시험 정보 구매",
+            //       middleText: "시험 정보를 구매하시겠습니까?",
+            //       actions: [
+            //         TextButton(
+            //             onPressed: () async {
+            //               Get.back();
+            //               await classViewController.buyExamInfo(
+            //                   classExamModel.CLASS_ID,
+            //                   classExamModel.CLASS_EXAM_ID);
+            //             },
+            //             child: Text("네", overflow: TextOverflow.ellipsis)),
+            //         TextButton(
+            //             onPressed: () {
+            //               Get.back();
+            //             },
+            //             child: Text(
+            //               "아니요",
+            //               overflow: TextOverflow.ellipsis,
+            //             )),
+            //       ]);
+            // }
           },
           child: Container(
             margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
@@ -1329,25 +1333,27 @@ class ClassExamInfo extends StatelessWidget {
           ),
         ),
       )),
-      Positioned.fill(
-          child: Align(
-              alignment: Alignment.center,
-              child: Container(
-                  child: Text(
-                classExamModel.IS_BUYED
-                    ? ""
-                    : '시험 정보를 구매해야 열람할 수 있습니다!\n' +
-                        '현재 내 포인트 : ${classInfoModel.MY_CLASS_POINT}',
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                    color: const Color(0xff2f2f2f),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "NotoSansSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 12.0),
-              ))))
+
+      //! 블러 위 텍스트 일단 제거
+      // Positioned.fill(
+      //     child: Align(
+      //         alignment: Alignment.center,
+      //         child: Container(
+      //             child: Text(
+      //           classExamModel.IS_BUYED
+      //               ? ""
+      //               : '시험 정보를 구매해야 열람할 수 있습니다!\n' +
+      //                   '현재 내 포인트 : ${classInfoModel.MY_CLASS_POINT}',
+      //           overflow: TextOverflow.ellipsis,
+      //           textAlign: TextAlign.center,
+      //           style: const TextStyle(
+      //               overflow: TextOverflow.ellipsis,
+      //               color: const Color(0xff2f2f2f),
+      //               fontWeight: FontWeight.w500,
+      //               fontFamily: "NotoSansSC",
+      //               fontStyle: FontStyle.normal,
+      //               fontSize: 12.0),
+      //         ))))
     ]);
   }
 }

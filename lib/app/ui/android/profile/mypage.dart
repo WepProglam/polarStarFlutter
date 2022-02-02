@@ -192,14 +192,29 @@ class MyPageProfile extends StatelessWidget {
                   children: [
                     Spacer(),
                     InkWell(
-                      onTap: () async {
-                        LoginController loginController = Get.find();
-                        loginController.logout();
-                        InitController initController = Get.find();
-                        initController.dispose();
+                      onTap: () {
+                        Get.defaultDialog(
+                            title: "Want Logout?",
+                            content: Text("Want Logout?"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () async {
+                                    LoginController loginController =
+                                        Get.find();
+                                    loginController.logout();
+                                    InitController initController = Get.find();
+                                    initController.dispose();
 
-                        await Get.offAllNamed('/login');
-                        // initController.mainPageIndex.value = 0;
+                                    await Get.offAllNamed('/login');
+                                    // initController.mainPageIndex.value = 0;
+                                  },
+                                  child: Text("YES")),
+                              TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: Text("NO"))
+                            ]);
                       },
                       child: Ink(
                         padding: const EdgeInsets.all(14.0),
