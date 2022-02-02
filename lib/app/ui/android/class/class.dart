@@ -320,93 +320,100 @@ class ClassRecentReview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 123,
-        margin: const EdgeInsets.only(bottom: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: Text("${model.CLASS_NAME}",
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            color: const Color(0xff2f2f2f),
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "NotoSansKR",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
-                        textAlign: TextAlign.left),
-                  ),
-                  Spacer(),
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 4.5,
+    return InkWell(
+      onTap: () {
+        Get.toNamed('/class/view/${model.CLASS_ID}').then((value) async {
+          await MainUpdateModule.updateClassPage();
+        });
+      },
+      child: Container(
+          height: 123,
+          margin: const EdgeInsets.only(bottom: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: Text("${model.CLASS_NAME}",
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              color: const Color(0xff2f2f2f),
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "NotoSansKR",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                          textAlign: TextAlign.left),
                     ),
-                    child: RateStarRow(rate: model.RATE),
-                  ),
-                ],
+                    Spacer(),
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 4.5,
+                      ),
+                      child: RateStarRow(rate: model.RATE),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 4, left: 20, right: 20),
-              child: Text("教授名：${model.PROFESSOR}",
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      color: const Color(0xff2f2f2f),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
-                  textAlign: TextAlign.left),
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 20, right: 20),
-              child: Text(
-                  "听课学期：${timetableSemChanger(model.CLASS_YEAR, model.CLASS_SEMESTER)}",
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      color: const Color(0xff2f2f2f),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
-                  textAlign: TextAlign.left),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 4, left: 20, right: 20),
-              child: Text("${model.CONTENT}",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      color: const Color(0xff6f6e6e),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
-                  textAlign: TextAlign.left),
-            )
-          ],
-        ),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            border: Border.all(color: const Color(0xffeaeaea), width: 1),
-            boxShadow: [
-              BoxShadow(
-                  color: const Color(0x0f000000),
-                  offset: Offset(0, 3),
-                  blurRadius: 10,
-                  spreadRadius: 0)
+              Container(
+                margin: const EdgeInsets.only(top: 4, left: 20, right: 20),
+                child: Text("教授名：${model.PROFESSOR}",
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        color: const Color(0xff2f2f2f),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 12.0),
+                    textAlign: TextAlign.left),
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 20, right: 20),
+                child: Text(
+                    "听课学期：${timetableSemChanger(model.CLASS_YEAR, model.CLASS_SEMESTER)}",
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        color: const Color(0xff2f2f2f),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 12.0),
+                    textAlign: TextAlign.left),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 4, left: 20, right: 20),
+                child: Text("${model.CONTENT}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        color: const Color(0xff6f6e6e),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 12.0),
+                    textAlign: TextAlign.left),
+              )
             ],
-            color: const Color(0xffffffff)));
+          ),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              border: Border.all(color: const Color(0xffeaeaea), width: 1),
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0x0f000000),
+                    offset: Offset(0, 3),
+                    blurRadius: 10,
+                    spreadRadius: 0)
+              ],
+              color: const Color(0xffffffff))),
+    );
   }
 }
 

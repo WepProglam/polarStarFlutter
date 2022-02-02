@@ -50,13 +50,14 @@ class ClassModel {
 }
 
 class ClassRecentReviewModel {
-  int CLASS_YEAR, CLASS_SEMESTER;
+  int CLASS_YEAR, CLASS_SEMESTER, CLASS_ID;
 
   String CONTENT, PROFESSOR, CLASS_NAME, RATE;
 
   ClassRecentReviewModel({
     CLASS_YEAR,
     CLASS_SEMESTER,
+    CLASS_ID,
     RATE,
     CONTENT,
     PROFESSOR,
@@ -66,6 +67,7 @@ class ClassRecentReviewModel {
   ClassRecentReviewModel.fromJson(Map<String, dynamic> json) {
     this.CLASS_YEAR = json["CLASS_YEAR"];
     this.CLASS_SEMESTER = json["CLASS_SEMESTER"];
+    this.CLASS_ID = json["CLASS_ID"];
     this.RATE = json["RATE"];
     this.CONTENT =
         (json["CONTENT"] as String).replaceAll('\\n', '\n').replaceAll('"', '');
