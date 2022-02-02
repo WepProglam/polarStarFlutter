@@ -211,7 +211,7 @@ class ClassChatController extends GetxController {
       int after_compress = temp.lengthInBytes;
 
       print(
-          "before : $before_compress | after : $after_compress | ${100 - (after_compress * 100 / before_compress)}% 압축");
+          "before : ${before_compress}B | after : ${after_compress}B | ${100 - (after_compress * 100 / before_compress)}% 압축");
 
       var width;
       var height;
