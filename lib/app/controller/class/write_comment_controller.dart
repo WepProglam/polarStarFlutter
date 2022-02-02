@@ -87,7 +87,7 @@ class WriteCommentController extends GetxController {
       for (var i = 0; i < 5; i++) {
         yearSemItem.add(DropdownMenuItem(
           child: Text(
-            "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}学年度 第${i % 2 + 1}学期",
+            "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - ((i + 1) ~/ 2)}学年度 第${i % 2 + 1}学期",
             style: const TextStyle(
                 color: const Color(0xff6f6e6e),
                 fontWeight: FontWeight.w400,
@@ -103,7 +103,7 @@ class WriteCommentController extends GetxController {
       for (var i = 0; i < 6; i++) {
         yearSemItem.add(DropdownMenuItem(
           child: Text(
-            "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - i}学年度 第${(i + 1) % 2 + 1}学期",
+            "${currentYearSem["TIMETABLE_YEAR_FROM_DATE"] - (i ~/ 2)}学年度 第${(i + 1) % 2 + 1}学期",
             style: const TextStyle(
                 color: const Color(0xff6f6e6e),
                 fontWeight: FontWeight.w400,

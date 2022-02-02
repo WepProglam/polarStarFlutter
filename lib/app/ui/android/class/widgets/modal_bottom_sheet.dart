@@ -476,7 +476,8 @@ class WriteComment extends StatelessWidget {
                           writeCommentController
                               .writeCommentYear = writeCommentController
                                   .currentYearSem["TIMETABLE_YEAR_FROM_DATE"] -
-                              writeCommentController.writeCommentIndex;
+                              ((writeCommentController.writeCommentIndex + 1) ~/
+                                  2);
                           writeCommentController.writeCommentSemester =
                               flutterToServerSemChanger(
                                   writeCommentController.writeCommentIndex % 2 +
@@ -485,7 +486,7 @@ class WriteComment extends StatelessWidget {
                           writeCommentController
                               .writeCommentYear = writeCommentController
                                   .currentYearSem["TIMETABLE_YEAR_FROM_DATE"] -
-                              writeCommentController.writeCommentIndex;
+                              (writeCommentController.writeCommentIndex ~/ 2);
                           writeCommentController.writeCommentSemester =
                               flutterToServerSemChanger(
                                   (writeCommentController.writeCommentIndex +
@@ -759,7 +760,7 @@ class WriteExamInfo extends StatelessWidget {
                         classViewController
                             .writeExamInfoYear = classViewController
                                 .currentYearSem["TIMETABLE_YEAR_FROM_DATE"] -
-                            classViewController.writeCommentIndex;
+                            ((classViewController.writeCommentIndex + 1) ~/ 2);
                         classViewController.writeExamInfoSemester =
                             flutterToServerSemChanger(
                                 classViewController.writeCommentIndex % 2 + 1);
@@ -767,7 +768,7 @@ class WriteExamInfo extends StatelessWidget {
                         classViewController
                             .writeExamInfoYear = classViewController
                                 .currentYearSem["TIMETABLE_YEAR_FROM_DATE"] -
-                            classViewController.writeCommentIndex;
+                            (classViewController.writeCommentIndex ~/ 2);
                         classViewController.writeExamInfoSemester =
                             flutterToServerSemChanger(
                                 (classViewController.writeCommentIndex + 1) %
