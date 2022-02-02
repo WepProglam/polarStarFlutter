@@ -728,16 +728,16 @@ class ClassChatController extends GetxController {
     chatScrollController.addListener(() async {
       print("isPageEnd : ${isPageEnd} offset : ${chatScrollController.offset}");
       current_totalHeightListView = chatScrollController.offset;
-      if (chatScrollController.position.maxScrollExtent -
-              current_totalHeightListView >=
-          300) {
+      if (current_totalHeightListView - 0.0 >= 300) {
         toBottomButton.value = true;
       } else {
         toBottomButton.value = false;
       }
       // print(
       //     "totalHeightListView : ${chatScrollController.position.maxScrollExtent} min : ${chatScrollController.position.minScrollExtent}");
-      if (!isPageEnd.value && chatScrollController.offset == 0) {
+      if (!isPageEnd.value &&
+          chatScrollController.offset ==
+              chatScrollController.position.maxScrollExtent) {
         past_totalHeightListView.value =
             chatScrollController.position.maxScrollExtent;
 

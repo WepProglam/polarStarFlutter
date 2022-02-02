@@ -389,7 +389,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                       ? 0
                       : controller.chatScrollController.offset -
                           getKeyboardHeight();
-                  controller.chatScrollController.jumpTo(target_pos);
+                  // controller.chatScrollController.jumpTo(target_pos);
                 }
 
                 controller.canChatFileShow.value = false;
@@ -399,55 +399,20 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
               child: Stack(children: [
                 SingleChildScrollView(
                   controller: controller.chatScrollController,
+                  reverse: true,
                   child: Obx(() {
                     WidgetsBinding.instance.addPostFrameCallback((_) async {
                       if (controller.isFirstEnter.value) {
-                        controller.chatScrollController.jumpTo(controller
-                            .chatScrollController.position.maxScrollExtent);
+                        controller.chatScrollController.jumpTo(0.0);
                         controller.isFirstEnter.value = false;
                       } else if (controller.isNewMessage.value) {
-                        controller.chatScrollController.jumpTo(controller
-                            .chatScrollController.position.maxScrollExtent);
+                        controller.chatScrollController.jumpTo(0.0);
                         controller.isNewMessage.value = false;
-                        // Future.delayed(_).then((value) async {
-                        //   controller.frameComplete(true);
-                        //   await Future.delayed(Duration(seconds: 1));
-                        //   controller.chatScrollController.jumpTo(controller
-                        //       .chatScrollController.position.maxScrollExtent);
-                        //   controller.isNewMessage.value = false;
-                        // });
                       } else if (controller.additionalChatLoading.value) {
-                        // await sleep(const Duration(milliseconds: 100));
-                        // await preCacheImage(model);
-
-                        // print("precache 끝");
-
-                        double current_totalHeightListView = controller
-                            .chatScrollController.position.maxScrollExtent;
-
-                        controller.chatScrollController.jumpTo(
-                            current_totalHeightListView -
-                                controller.past_totalHeightListView.value);
-                        print(
-                            "current_totalHeightListView : ${current_totalHeightListView}");
-                        controller.additionalChatLoading.value = false;
-
-                        // await Future.delayed(Duration(milliseconds: 1000),
-                        //     () {
-                        //   double current_totalHeightListView = controller
-                        //       .chatScrollController.position.maxScrollExtent;
-
-                        //   controller.chatScrollController.jumpTo(
-                        //       current_totalHeightListView -
-                        //           controller.past_totalHeightListView.value);
-                        //   print(
-                        //       "current_totalHeightListView : ${current_totalHeightListView}");
-                        //   controller.additionalChatLoading.value = false;
-                        // });
-                        // else if (controller.chatDownloaed.value) {
-
+                        await Future.delayed(Duration(milliseconds: 500), () {
+                          controller.additionalChatLoading.value = false;
+                        });
                       }
-                      // }
                     });
                     print("re build!!");
 
@@ -542,7 +507,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                       scrollDirection: Axis.vertical,
                       padding: EdgeInsets.only(
                           top: 24,
-                          bottom: controller.tapTextField.value
+                          bottom: controller.tapTextField.value ||
+                                  controller.canChatFileShow.value
                               ? 60 + 6.0 + getKeyboardHeight()
                               : 60 + 6.0),
                       itemBuilder: (context, ii) {
@@ -792,8 +758,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                     child: Ink(
                       child: InkWell(
                         onTap: () {
-                          controller.chatScrollController.jumpTo(controller
-                              .chatScrollController.position.maxScrollExtent);
+                          controller.chatScrollController.jumpTo(0.0);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -859,27 +824,27 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
 
                                     if (!controller.tapTextField.value) {
                                       controller.tapTextField.value = true;
-                                      Future.delayed(Duration(milliseconds: 50),
-                                          () {
-                                        double max_extent = controller
-                                            .chatScrollController
-                                            .position
-                                            .maxScrollExtent;
-                                        double offset_height = controller
-                                                .chatScrollController.offset +
-                                            getKeyboardHeight();
+                                      // Future.delayed(Duration(milliseconds: 50),
+                                      //     () {
+                                      //   double max_extent = controller
+                                      //       .chatScrollController
+                                      //       .position
+                                      //       .maxScrollExtent;
+                                      //   double offset_height = controller
+                                      //           .chatScrollController.offset +
+                                      //       getKeyboardHeight();
 
-                                        print(
-                                            "off_set : ${offset_height} - max_extent : ${max_extent}");
+                                      //   print(
+                                      //       "off_set : ${offset_height} - max_extent : ${max_extent}");
 
-                                        double target_pos =
-                                            offset_height > max_extent
-                                                ? max_extent
-                                                : offset_height;
+                                      //   double target_pos =
+                                      //       offset_height > max_extent
+                                      //           ? max_extent
+                                      //           : offset_height;
 
-                                        controller.chatScrollController
-                                            .jumpTo(target_pos);
-                                      });
+                                      //   // controller.chatScrollController
+                                      //   //     .jumpTo(offset_height);
+                                      // });
                                     }
                                   },
                                   onEditingComplete: () async {
@@ -930,29 +895,40 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                           shape: BoxShape.circle,
                                         )),
                                 onTap: () async {
-                                  if (controller.tapTextField.value) {
-                                    if (controller.canChatFileShow.value) {
-                                      controller.chatFocusNode.requestFocus();
-                                    } else {
-                                      FocusScope.of(context).unfocus();
-                                    }
+                                  if (controller.canChatFileShow.value) {
+                                    controller.chatFocusNode.requestFocus();
                                   } else {
-                                    if (controller.canChatFileShow.value) {
-                                      controller.chatFocusNode.requestFocus();
-                                    } else {
-                                      FocusScope.of(context).unfocus();
-                                      double target_pos = controller
-                                              .chatScrollController.offset +
-                                          getKeyboardHeight();
-
-                                      controller.chatScrollController
-                                          .jumpTo(target_pos);
-                                    }
+                                    controller.chatFocusNode.unfocus();
                                   }
-                                  controller.tapTextField.value = true;
 
+                                  controller.tapTextField.value =
+                                      !controller.tapTextField.value;
                                   controller.canChatFileShow.value =
                                       !controller.canChatFileShow.value;
+
+                                  // if (controller.tapTextField.value) {
+                                  //   // controller.tapTextField.value = false;
+
+                                  //   if (controller.canChatFileShow.value) {
+                                  //     controller.chatFocusNode.requestFocus();
+                                  //   } else {
+                                  //     FocusScope.of(context).unfocus();
+                                  //   }
+                                  // } else {
+                                  //   controller.tapTextField.value = true;
+
+                                  //   if (controller.canChatFileShow.value) {
+                                  //     controller.chatFocusNode.requestFocus();
+                                  //   } else {
+                                  //     FocusScope.of(context).unfocus();
+                                  //     // double target_pos = controller
+                                  //     //         .chatScrollController.offset +
+                                  //     //     getKeyboardHeight();
+
+                                  //     // controller.chatScrollController
+                                  //     //     .jumpTo(target_pos);
+                                  //   }
+                                  // }
                                 }),
                             InkWell(
                                 child: // 타원 20
