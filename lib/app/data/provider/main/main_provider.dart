@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
@@ -20,6 +21,7 @@ class MainApiClient {
     Iterable likeList = jsonResponse["LikeList"];
     Iterable scrapList = jsonResponse["ScrapList"];
     Iterable classList = jsonResponse["CLASSES"];
+    Iterable bannerList = jsonResponse["bannerList"];
 
     List<BoardInfo> listBoardInfo =
         boardInfo.map((model) => BoardInfo.fromJson(model)).toList();
@@ -36,12 +38,16 @@ class MainApiClient {
     List<ClassModel> listClassList =
         classList.map((e) => ClassModel.fromJson(e)).toList();
 
+    List<BannerListModel> listBannerList =
+        bannerList.map((e) => BannerListModel.fromJson(e)).toList();
+
     return {
       "statusCode": getResponse.statusCode,
       "boardInfo": listBoardInfo,
       "hotBoard": listHotBoard,
       "likeList": listLikeList,
       "scrapList": listScrapList,
+      "bannerList": listBannerList,
       "classList": listClassList,
       "year_sem": jsonResponse["YEAR_SEM"],
       "MAX_BOARDS_LIMIT": jsonResponse["MAX_BOARDS_LIMIT"],

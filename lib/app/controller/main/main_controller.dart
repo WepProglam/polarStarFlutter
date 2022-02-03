@@ -50,6 +50,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   RxList<LikeListModel> likeList = <LikeListModel>[].obs;
   RxList<ScrapListModel> scrapList = <ScrapListModel>[].obs;
   RxList<ClassModel> classList = <ClassModel>[].obs;
+  RxList<BannerListModel> bannerList = <BannerListModel>[].obs;
 
   RxBool isLikeScrapUpdate = false.obs;
   // RxBool isCurSemTimetableExist = false.obs;
@@ -228,6 +229,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     scrapList.value = value["scrapList"];
     classList.value = value["classList"];
     profile.value = value["PROFILE"];
+    bannerList.value = value["bannerList"];
     MIN_CLASS_REVIEW_LENGTH.value = value["MIN_CLASS_REVIEW_LENGTH"];
     // print(profile);
     print("MIN_CLASS_REVIEW_LENGTH : ${MIN_CLASS_REVIEW_LENGTH.value}");
