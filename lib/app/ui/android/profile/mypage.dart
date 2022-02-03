@@ -12,6 +12,7 @@ import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 
 const mainColor = 0xff4570ff;
 
@@ -192,8 +193,9 @@ class MyPageProfile extends StatelessWidget {
                   children: [
                     Spacer(),
                     InkWell(
-                      onTap: () {
+                      onTap: () async {
                         //! 번역 필요
+                        // await TFdialogue(context);
                         Get.defaultDialog(
                             title: "Want Logout?",
                             content: Text("Want Logout?"),
