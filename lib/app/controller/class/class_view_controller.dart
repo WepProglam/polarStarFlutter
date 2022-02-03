@@ -228,7 +228,7 @@ class ClassViewController extends GetxController
 
         break;
       case 400:
-        Get.snackbar("400 Error", "class Id가 유효하지 않습니다.",
+        Get.snackbar("400 Error", "강의 데이터가 유효하지 않습니다.",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
@@ -236,7 +236,7 @@ class ClassViewController extends GetxController
         printError(info: "Data Fetch ERROR!!");
         break;
       case 404:
-        Get.snackbar("400 Error", "없는 class Id 요청입니다.",
+        Get.snackbar("404 Error", "강의 데이터가 유효하지 않습니다.",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
@@ -285,7 +285,7 @@ class ClassViewController extends GetxController
 
         break;
       case 400:
-        Get.snackbar("400 Error", "class Id가 유효하지 않습니다.",
+        Get.snackbar("400 Error", "강의 데이터가 유효하지 않습니다.",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
@@ -293,7 +293,7 @@ class ClassViewController extends GetxController
         printError(info: "Data Fetch ERROR!!");
         break;
       case 401:
-        Get.snackbar("401 Error", "로그인 X",
+        Get.snackbar("401 Error", "로그인이 안되어있습니다.",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
@@ -321,31 +321,31 @@ class ClassViewController extends GetxController
         classReviewList[index].LIKES++;
         classReviewList[index].ALREADY_LIKED = true;
         classReviewList.refresh();
-        Get.snackbar('좋아요 Ok', 'good',
+        Get.snackbar('200', '강의 평가 좋아요 성공',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
         break;
       case 400:
-        Get.snackbar('400 Error', 'cid 유효하지 않음',
+        Get.snackbar('400 Error', '강의 데이터 유효하지 않음',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
         break;
       case 401:
-        Get.snackbar('401 Error', '로그인 안됨',
+        Get.snackbar('401 Error', '로그인 안되어있음',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
         break;
       case 403:
-        Get.snackbar('403 Error', '이미 좋아요 누른 강평입니다.',
+        Get.snackbar('403 Error', '이미 좋아요 누른 강의평가',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
         break;
       case 500:
-        Get.snackbar('500 Error', 'failed',
+        Get.snackbar('500 Error', '서버 오류',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
@@ -364,13 +364,13 @@ class ClassViewController extends GetxController
         classExamList[index].LIKES++;
         classExamList[index].ALREADY_LIKED = true;
         classExamList.refresh();
-        Get.snackbar('좋아요 Ok', 'good',
+        Get.snackbar('200', '강의 평가 좋아요 성공',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
         break;
       case 400:
-        Get.snackbar('400 Error', 'cid 유효하지 않음',
+        Get.snackbar('400 Error', '강의 데이터 유효하지 않음',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
@@ -382,7 +382,7 @@ class ClassViewController extends GetxController
             colorText: Colors.black);
         break;
       case 403:
-        Get.snackbar('403 Error', '이미 좋아요 누른 시험 정보입니다.',
+        Get.snackbar('403 Error', '이미 좋아요 누른 시험 정보',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
@@ -424,8 +424,7 @@ class ClassViewController extends GetxController
         //     duration: Duration(seconds: 2));
         break;
       default:
-        //  print(jsonResponse["statusCode"]);
-        Get.snackbar("시험정보 작성 실패", "Failed",
+        Get.snackbar("시험정보 작성 실패", "시험정보 작성 실패",
             duration: Duration(seconds: 2),
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
@@ -446,11 +445,11 @@ class ClassViewController extends GetxController
         refreshPage();
         break;
       default:
-        Get.snackbar("구매 실패", "시험정보 구매 실패",
-            duration: Duration(seconds: 2),
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.white,
-            colorText: Colors.black);
+      // Get.snackbar("구매 실패", "시험정보 구매 실패",
+      //     duration: Duration(seconds: 2),
+      //     snackPosition: SnackPosition.BOTTOM,
+      //     backgroundColor: Colors.white,
+      //     colorText: Colors.black);
     }
   }
 

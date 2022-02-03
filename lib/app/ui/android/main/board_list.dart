@@ -239,47 +239,40 @@ class BoardListItem extends StatelessWidget {
                                       fontStyle: FontStyle.normal,
                                       fontSize: 14.0),
                                   textAlign: TextAlign.left),
-                              Ink(
-                                child: InkWell(
-                                  onTap: enableFollowTab
-                                      ? () async {
-                                          if (!checkFollow(
-                                              boardInfo.value.COMMUNITY_ID,
-                                              mainController.boardInfo)) {
-                                            await mainController
-                                                .setFollowingCommunity(
-                                                    boardInfo
-                                                        .value.COMMUNITY_ID,
-                                                    boardInfo
-                                                        .value.COMMUNITY_NAME,
-                                                    boardInfo
-                                                        .value.RECENT_TITLE,
-                                                    boardInfo.value.RECENT_TIME
-                                                        .toString(),
-                                                    boardInfo.value.isFollowed,
-                                                    boardInfo.value.isNew);
-                                          } else {
-                                            await mainController
-                                                .deleteFollowingCommunity(
-                                                    boardInfo
-                                                        .value.COMMUNITY_ID);
-                                          }
-                                          boardInfo.update((val) {
-                                            val.isFollowed = !val.isFollowed;
-                                          });
-
-                                          mainController.sortBoard();
+                              InkWell(
+                                onTap: enableFollowTab
+                                    ? () async {
+                                        if (!checkFollow(
+                                            boardInfo.value.COMMUNITY_ID,
+                                            mainController.boardInfo)) {
+                                          await mainController
+                                              .setFollowingCommunity(
+                                                  boardInfo.value.COMMUNITY_ID,
+                                                  boardInfo
+                                                      .value.COMMUNITY_NAME,
+                                                  boardInfo.value.RECENT_TITLE,
+                                                  boardInfo.value.RECENT_TIME
+                                                      .toString(),
+                                                  boardInfo.value.isFollowed,
+                                                  boardInfo.value.isNew);
+                                        } else {
+                                          await mainController
+                                              .deleteFollowingCommunity(
+                                                  boardInfo.value.COMMUNITY_ID);
                                         }
-                                      : null,
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                    ),
-                                    child: Image.asset(boardInfo
-                                            .value.isFollowed
-                                        ? "assets/images/bookmark_followed.png"
-                                        : "assets/images/bookmark_none.png"),
-                                  ),
+                                        boardInfo.update((val) {
+                                          val.isFollowed = !val.isFollowed;
+                                        });
+
+                                        mainController.sortBoard();
+                                      }
+                                    : null,
+                                child: Ink(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 2.0),
+                                  child: Image.asset(boardInfo.value.isFollowed
+                                      ? "assets/images/bookmark_followed.png"
+                                      : "assets/images/bookmark_none.png"),
                                 ),
                               ),
                             ],

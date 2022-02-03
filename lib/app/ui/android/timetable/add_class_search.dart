@@ -990,8 +990,8 @@ class SelectStartTime extends StatelessWidget {
         if (cal_time >= fastest && cal_time < lastest) {
           timeInput = timeInput;
         } else {
-          Get.snackbar("9시부터 21시 사이로 골라주세요", "9시부터 21시 사이로 골라주세요",
-              snackPosition: SnackPosition.BOTTOM);
+          // Get.snackbar("9시부터 21시 사이로 골라주세요", "9시부터 21시 사이로 골라주세요",
+          //     snackPosition: SnackPosition.BOTTOM);
           return;
         }
 
@@ -1077,8 +1077,8 @@ class SelectEndTime extends StatelessWidget {
         if (cal_time > fastest && cal_time <= lastest) {
           timeInput = timeInput;
         } else {
-          Get.snackbar("9시부터 21시 사이로 골라주세요", "9시부터 21시 사이로 골라주세요",
-              snackPosition: SnackPosition.BOTTOM);
+          // Get.snackbar("9시부터 21시 사이로 골라주세요", "9시부터 21시 사이로 골라주세요",
+          //     snackPosition: SnackPosition.BOTTOM);
           return;
         }
 
