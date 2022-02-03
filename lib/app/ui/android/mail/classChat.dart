@@ -1528,7 +1528,7 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                             //     textAlign: TextAlign.left)
                             : Container(
                                 constraints: BoxConstraints(
-                                    maxWidth: Get.mediaQuery.size.width),
+                                    maxWidth: Get.mediaQuery.size.width - 110),
                                 padding: EdgeInsets.only(
                                     left: 16, top: 10, right: 24, bottom: 10),
                                 child: Text("${model.value.CONTENT}",
