@@ -243,6 +243,24 @@ class ClassView extends StatelessWidget {
                                 physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (BuildContext context, int index) {
                                   if (index == 0) {
+                                    if (index ==
+                                        classViewController
+                                                .classReviewList.length -
+                                            1) {
+                                      return Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 20.0),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8))),
+                                        child: ClassViewReview(
+                                          classReviewModel: classViewController
+                                              .classReviewList[index],
+                                          index: index,
+                                        ),
+                                      );
+                                    }
                                     return Container(
                                       margin: EdgeInsets.symmetric(
                                           horizontal: 20.0),
@@ -1088,9 +1106,9 @@ class ClassViewReview extends StatelessWidget {
               //     borderRadius: BorderRadius.circular(10)),
               child: Text(
                 "${classReviewModel.CONTENT}",
-                overflow: TextOverflow.ellipsis,
+                // overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                    overflow: TextOverflow.ellipsis,
+                    // overflow: TextOverflow.ellipsis,
                     color: const Color(0xff2f2f2f),
                     fontWeight: FontWeight.w300,
                     fontFamily: "NotoSansSC",
