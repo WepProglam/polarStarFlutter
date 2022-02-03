@@ -149,7 +149,7 @@ class ClassExamModel {
     this.TEST_TYPE = json["TEST_TYPE"];
     //ㅅㅂ 이거 해결해야 함
     if (json["TEST_EXAMPLE"] is String) {
-      this.TEST_EXAMPLE = [json["TEST_EXAMPLE"]];
+      this.TEST_EXAMPLE = json["TEST_EXAMPLE"].split('\n');
       // .replaceAll("[", "")
       // .replaceAll("]", "")
       // .split(",");

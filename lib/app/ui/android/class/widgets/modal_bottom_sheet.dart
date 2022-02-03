@@ -1248,9 +1248,9 @@ class WriteExamInfo extends StatelessWidget {
                           var str = "";
                           classViewController.exampleList.forEach((element) {
                             str += element;
-                            str += "\n\n";
+                            str += "\n";
                           });
-                          str = str.substring(0, str.length - 2);
+                          str = str.substring(0, str.length - 1);
 
                           Map<String, dynamic> data = {
                             "type": classViewController

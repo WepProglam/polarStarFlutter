@@ -266,17 +266,21 @@ class ClassView extends StatelessWidget {
                                         //   height: 1000,
                                         //   color: Colors.red,
                                         // );
-                                        Container(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.vertical(
-                                              bottom: Radius.circular(8))),
-                                      child: ClassViewReview(
-                                        classReviewModel: classViewController
-                                            .classReviewList[index],
-                                        index: index,
+                                        Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 60.0),
+                                      child: Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 20.0),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.vertical(
+                                                bottom: Radius.circular(8))),
+                                        child: ClassViewReview(
+                                          classReviewModel: classViewController
+                                              .classReviewList[index],
+                                          index: index,
+                                        ),
                                       ),
                                     );
                                   } else {
@@ -380,9 +384,28 @@ class ClassView extends StatelessWidget {
                                   Positioned.fill(
                                     child: ListView.separated(
                                         padding: const EdgeInsets.only(top: 20),
+                                        shrinkWrap: true,
                                         physics: NeverScrollableScrollPhysics(),
                                         itemBuilder:
                                             (BuildContext context, int index) {
+                                          if (index ==
+                                              classViewController
+                                                      .classExamList.length -
+                                                  1) {
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 60.0),
+                                              child: ClassExamInfo(
+                                                classExamModel:
+                                                    classViewController
+                                                        .classExamList[index],
+                                                classInfoModel:
+                                                    classViewController
+                                                        .classInfo.value,
+                                                index: index,
+                                              ),
+                                            );
+                                          }
                                           return ClassExamInfo(
                                             classExamModel: classViewController
                                                 .classExamList[index],
@@ -1315,10 +1338,34 @@ class ClassExamInfo extends StatelessWidget {
                             child: classExamModel.TEST_EXAMPLE != null
                                 ? ListView.builder(
                                     shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
                                     itemCount:
                                         classExamModel.TEST_EXAMPLE.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
+                                      print(classExamModel.TEST_EXAMPLE);
+                                      if (index ==
+                                          classExamModel.TEST_EXAMPLE.length -
+                                              1) {
+                                        return classExamModel
+                                                    .TEST_EXAMPLE[index] !=
+                                                null
+                                            ? Text(
+                                                classExamModel
+                                                    .TEST_EXAMPLE[index],
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    color:
+                                                        const Color(0xff6f6e6e),
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: "NotoSansSC",
+                                                    fontStyle: FontStyle.normal,
+                                                    fontSize: 12.0),
+                                              )
+                                            : Text('');
+                                      }
                                       return Padding(
                                         padding:
                                             const EdgeInsets.only(bottom: 8.0),
@@ -1341,7 +1388,6 @@ class ClassExamInfo extends StatelessWidget {
                                               )
                                             : Text(''),
                                       );
-                                      ;
                                     })
                                 : Padding(
                                     padding: const EdgeInsets.only(bottom: 8.0),
