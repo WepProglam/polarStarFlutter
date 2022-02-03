@@ -198,32 +198,31 @@ class _SeePhotoDirectState extends State<SeePhotoDirect> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          margin: const EdgeInsets.only(left: 20),
+                        InkWell(
+                          onTap: () {
+                            Get.back();
+                          },
                           child: Ink(
-                            child: InkWell(
-                                onTap: () {
-                                  Get.back();
-                                },
-                                child: Image.asset(
-                                  "assets/images/848.png",
-                                  color: Colors.white,
-                                  width: 12,
-                                  height: 24,
-                                )),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 16.0),
+                            child: Image.asset(
+                              "assets/images/848.png",
+                              color: Colors.white,
+                              width: 12,
+                              height: 24,
+                            ),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 20),
+                        InkWell(
+                          onTap: () {},
                           child: Ink(
-                            child: InkWell(
-                              onTap: () {},
-                              child: Image.asset(
-                                "assets/images/file_after_download.png",
-                                height: 24,
-                                width: 24,
-                                color: Colors.white,
-                              ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 16.0),
+                            child: Image.asset(
+                              "assets/images/file_after_download.png",
+                              height: 24,
+                              width: 24,
+                              color: Colors.white,
                             ),
                           ),
                         ),
