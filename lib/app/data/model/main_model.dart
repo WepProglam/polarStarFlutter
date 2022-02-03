@@ -122,6 +122,20 @@ class ScrapListModel {
   }
 }
 
+class BannerListModel {
+  int BANNER_ID;
+  String TITLE, CONTENT, URL;
+
+  BannerListModel({BANNER_ID, TITLE, CONTENT, URL});
+
+  BannerListModel.fromJson(Map<String, dynamic> json) {
+    this.BANNER_ID = nullCheck(json["BANNER_ID"]);
+    this.TITLE = nullCheck(json["TITLE"]);
+    this.CONTENT = nullCheck(json["CONTENT"]);
+    this.URL = nullCheck(json["URL"]);
+  }
+}
+
 class MainClassModel {
   String CLASS_NAME, PROFESSOR;
   int CLASS_ID;
