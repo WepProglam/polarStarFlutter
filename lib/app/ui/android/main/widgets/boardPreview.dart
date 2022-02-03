@@ -182,17 +182,16 @@ class BoardPreviewItem_top extends StatelessWidget {
     return Row(children: [
       Container(
         height: 24,
-        child: // 公告事項
-            Text("论坛分区",
+        child: Text("论坛分区",
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                    color: const Color(0xff2f2f2f),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "NotoSansSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 16.0),
-                textAlign: TextAlign.left),
+                color: const Color(0xff2f2f2f),
+                fontWeight: FontWeight.w500,
+                fontFamily: "NotoSansSC",
+                fontStyle: FontStyle.normal,
+                fontSize: 16.0),
+            textAlign: TextAlign.left),
       ),
       Spacer(),
       InkWell(
