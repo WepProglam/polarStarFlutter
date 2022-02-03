@@ -1188,54 +1188,62 @@ class ClassExamInfo extends StatelessWidget {
                       ),
                       Spacer(),
                       InkWell(
-                          splashColor: Colors.cyan[100].withOpacity(0.6),
-                          onTap: () async {
-                            await classViewController
-                                .arrestClassExamFunc(index);
-                          },
-                          child: Container(
-                              width: 30.0,
-                              margin: EdgeInsets.only(right: 10),
-                              child: Text(
-                                "举报",
-                                style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    color: Colors.cyan,
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "Roboto",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 12.0),
-                              ))),
-                      InkWell(
+                        splashColor: Colors.cyan[100].withOpacity(0.6),
                         onTap: () async {
                           await classViewController.getExamLike(
                               classExamModel.CLASS_ID,
                               classExamModel.CLASS_EXAM_ID,
                               index);
                         },
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 4.0),
-                              child: Image.asset(
-                                "assets/images/like_class.png",
-                                height: 12.0,
-                                width: 12.0,
-                              ),
-                            ),
-                            Text(
-                              classExamModel.LIKES.toString(),
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
+                        child: Container(
+                          width: 25.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Image.asset(
+                                  classExamModel.ALREADY_LIKED
+                                      ? "assets/images/414.png"
+                                      : "assets/images/icn_reply_like_color.png",
+                                  height: 12,
+                                  width: 12),
+                              Text(classExamModel.LIKES.toString(),
                                   overflow: TextOverflow.ellipsis,
-                                  color: const Color(0xff4570ff),
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "Roboto",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 12.0),
-                            )
-                          ],
+                                  style: const TextStyle(
+                                      color: const Color(0xff6ea5ff),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "NotoSansKR",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 10.0))
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          await classViewController.arrestClassExamFunc(index);
+                        },
+                        child: Container(
+                          width: 25.0,
+                          margin: EdgeInsets.only(left: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Image.asset(
+                                  classExamModel.ALREADY_ACCUSED
+                                      ? "assets/images/413.png"
+                                      : "assets/images/415.png",
+                                  height: 12,
+                                  width: 12),
+                              Text(classExamModel.ACCUSE_AMOUNT.toString(),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      color: const Color(0xff6ea5ff),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "NotoSansKR",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 10.0))
+                            ],
+                          ),
                         ),
                       ),
                     ],
