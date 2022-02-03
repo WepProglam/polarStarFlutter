@@ -8,6 +8,8 @@ import 'package:polarstar_flutter/app/data/model/board/write_post_model.dart';
 
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
+import 'package:permission_handler/permission_handler.dart';
+
 class WritePost extends StatelessWidget {
   final WritePostController c = Get.find();
 
@@ -283,8 +285,31 @@ class WritePost extends StatelessWidget {
                                 child: index == 0
                                     ? InkWell(
                                         onTap: () async {
-                                          await getMultipleGallertImage(
-                                              context);
+                                          bool permissionGranted =
+                                              await Permission
+                                                  .storage.isGranted;
+                                          if (permissionGranted) {
+                                            await getMultipleGallertImage(
+                                                context);
+                                          } else {
+                                            Get.defaultDialog(
+                                                title:
+                                                    "Storage 권한 설정을 위해 앱 설정으로 이동합니다.",
+                                                content: Text("앱 설정으로 이동합니다."),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () async {
+                                                        await openAppSettings();
+                                                        Get.back();
+                                                      },
+                                                      child: Text("네")),
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Get.back();
+                                                      },
+                                                      child: Text("아니요")),
+                                                ]);
+                                          }
                                         },
                                         child: Container(
                                             width: 120,

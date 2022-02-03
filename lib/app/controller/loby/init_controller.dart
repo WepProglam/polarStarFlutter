@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -82,7 +83,8 @@ class ManagePermission {
       // print("????");
       return true;
     } else {
-      openAppSettings();
+      // await openAppSettings();
+
       return false;
     }
   }
