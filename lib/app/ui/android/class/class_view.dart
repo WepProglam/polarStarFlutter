@@ -1414,10 +1414,9 @@ class ClassExamInfo extends StatelessWidget {
                                             ? Text(
                                                 classExamModel
                                                     .TEST_EXAMPLE[index],
-                                                overflow: TextOverflow.ellipsis,
+                                                // overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                    // overflow: TextOverflow.ellipsis,
                                                     color:
                                                         const Color(0xff6f6e6e),
                                                     fontWeight: FontWeight.w400,
