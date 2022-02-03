@@ -243,6 +243,24 @@ class ClassView extends StatelessWidget {
                                 physics: NeverScrollableScrollPhysics(),
                                 itemBuilder: (BuildContext context, int index) {
                                   if (index == 0) {
+                                    if (index ==
+                                        classViewController
+                                                .classReviewList.length -
+                                            1) {
+                                      return Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 20.0),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8))),
+                                        child: ClassViewReview(
+                                          classReviewModel: classViewController
+                                              .classReviewList[index],
+                                          index: index,
+                                        ),
+                                      );
+                                    }
                                     return Container(
                                       margin: EdgeInsets.symmetric(
                                           horizontal: 20.0),
@@ -759,24 +777,25 @@ class ClassViewInfo extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("作业量",
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            color: const Color(categoryColor),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "NotoSansTC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
-                        textAlign: TextAlign.left),
+                    // Text("作业量",
+                    //     overflow: TextOverflow.ellipsis,
+                    //     style: const TextStyle(
+                    //         overflow: TextOverflow.ellipsis,
+                    //         color: const Color(categoryColor),
+                    //         fontWeight: FontWeight.w400,
+                    //         fontFamily: "NotoSansTC",
+                    //         fontStyle: FontStyle.normal,
+                    //         fontSize: 14.0),
+                    //     textAlign: TextAlign.left),
+                    Spacer(),
                     Text(
                       "${classInfoModel.CLASS_SECTOR_2}",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           overflow: TextOverflow.ellipsis,
                           color: const Color(0xff333333),
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "NotoSansTC",
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "NotoSansKR",
                           fontStyle: FontStyle.normal,
                           fontSize: 14.0),
                       textAlign: TextAlign.left,
@@ -1088,9 +1107,9 @@ class ClassViewReview extends StatelessWidget {
               //     borderRadius: BorderRadius.circular(10)),
               child: Text(
                 "${classReviewModel.CONTENT}",
-                overflow: TextOverflow.ellipsis,
+                // overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                    overflow: TextOverflow.ellipsis,
+                    // overflow: TextOverflow.ellipsis,
                     color: const Color(0xff2f2f2f),
                     fontWeight: FontWeight.w300,
                     fontFamily: "NotoSansSC",
@@ -1285,9 +1304,9 @@ class ClassExamInfo extends StatelessWidget {
                         classExamModel.TEST_STRATEGY != null
                             ? Text(
                                 classExamModel.TEST_STRATEGY,
-                                overflow: TextOverflow.ellipsis,
+                                // overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
+                                    // overflow: TextOverflow.ellipsis,
                                     color: const Color(0xff6f6e6e),
                                     fontWeight: FontWeight.w400,
                                     fontFamily: "NotoSansSC",
@@ -1320,9 +1339,9 @@ class ClassExamInfo extends StatelessWidget {
                         classExamModel.TEST_TYPE != null
                             ? Text(
                                 classExamModel.TEST_TYPE,
-                                overflow: TextOverflow.ellipsis,
+                                // overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
+                                    // overflow: TextOverflow.ellipsis,
                                     color: const Color(0xff6f6e6e),
                                     fontWeight: FontWeight.w400,
                                     fontFamily: "NotoSansSC",
@@ -1396,10 +1415,9 @@ class ClassExamInfo extends StatelessWidget {
                                             ? Text(
                                                 classExamModel
                                                     .TEST_EXAMPLE[index],
-                                                overflow: TextOverflow.ellipsis,
+                                                // overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
+                                                    // overflow: TextOverflow.ellipsis,
                                                     color:
                                                         const Color(0xff6f6e6e),
                                                     fontWeight: FontWeight.w400,

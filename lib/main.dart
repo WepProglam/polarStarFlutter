@@ -90,7 +90,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterDownloader.initialize(debug: true);
 
-  await runApp(GetMaterialApp(
+  runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want
     theme: ThemeData(
         primaryColor: const Color(0xff4570ff),

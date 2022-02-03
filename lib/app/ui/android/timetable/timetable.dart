@@ -70,7 +70,7 @@ class TimeTableBody extends StatelessWidget {
                       scrollable: false)),
 
               ListView.builder(
-                  padding: const EdgeInsets.only(left: 20),
+                  // padding: const EdgeInsets.only(left: 20),
                   itemCount:
                       timeTableController.getIcampusOrUndetermined.length,
                   shrinkWrap: true,
@@ -82,7 +82,44 @@ class TimeTableBody extends StatelessWidget {
                         onTap: () async {
                           await ShowClassDetail(model, timeTableController);
                         },
-                        child: Text("${model.CLASS_NAME}"),
+                        child: Container(
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: const Color(0xffdedede),
+                                        width: 0.5))),
+                            child: Row(
+                              children: [
+                                Container(
+                                  height: timeTableController.timeHeight.value,
+                                  color: const Color(0xfff7fbff),
+                                  width: Get.mediaQuery.size.width / 12,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.add,
+                                      size: 20,
+                                      color: const Color(0xff9B9B9B),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(left: 20),
+                                  child: Center(
+                                      child: Container(
+                                          child: Text("${model.CLASS_NAME}",
+                                              style: const TextStyle(
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  color:
+                                                      const Color(0xff9b9b9b),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "NotoSansKR",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 12.0),
+                                              textAlign: TextAlign.left))),
+                                ),
+                              ],
+                            )),
                       ),
                     );
                   }),

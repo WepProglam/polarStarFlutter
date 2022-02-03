@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:polarstar_flutter/app/controller/board/write_post_controller.dart';
+import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/board/write_post_model.dart';
 
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+
+import 'package:permission_handler/permission_handler.dart';
 
 class WritePost extends StatelessWidget {
   final WritePostController c = Get.find();
@@ -283,8 +286,13 @@ class WritePost extends StatelessWidget {
                                 child: index == 0
                                     ? InkWell(
                                         onTap: () async {
-                                          await getMultipleGallertImage(
-                                              context);
+                                          if (await ManagePermission
+                                              .checkPermission()) {
+                                            await getMultipleGallertImage(
+                                                context);
+                                          } else {
+                                            ManagePermission.permissionDialog();
+                                          }
                                         },
                                         child: Container(
                                             width: 120,

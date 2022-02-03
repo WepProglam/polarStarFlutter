@@ -254,6 +254,9 @@ flutter:
     - assets/images/bookmark_followed.png
     - assets/images/bookmark_none.png
 
+    # login
+    - assets/images/polarstar_logo.png
+
     # Main Page Scroll
     - assets/images/378.png
     - assets/images/panda.png
@@ -317,6 +320,7 @@ flutter:
     - assets/images/file_send_camera.png
     - assets/images/file_send_gallery.png
     - assets/images/file_send_etc.png
+    - assets/images/chatting_down.png
 
 
     

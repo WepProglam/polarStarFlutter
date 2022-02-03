@@ -11,6 +11,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/file_name.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
@@ -410,7 +411,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                         controller.chatScrollController.jumpTo(0.0);
                         controller.isNewMessage.value = false;
                       } else if (controller.additionalChatLoading.value) {
-                        await Future.delayed(Duration(milliseconds: 500), () {
+                        await Future.delayed(Duration(milliseconds: 100), () {
                           controller.additionalChatLoading.value = false;
                         });
                       }
@@ -630,7 +631,32 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
 
                         return isEntryChat
                             ? Center(
-                                child: Text("${model.value.ENTRY_CHAT}"),
+                                child: Container(
+                                  constraints: BoxConstraints(
+                                      maxWidth:
+                                          Get.mediaQuery.size.width - 100),
+                                  margin: const EdgeInsets.only(
+                                      top: 20, bottom: 20),
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(11)),
+                                      border: Border.all(
+                                          color: const Color(0xffefefef),
+                                          width: 1)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 3.5),
+                                    child: Text("${model.value.ENTRY_CHAT}",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            color: const Color(0xff9b9b9b),
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: "NotoSansKR",
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 10.0),
+                                        textAlign: TextAlign.center),
+                                  ),
+                                ),
                               )
                             : Container(
                                 padding: (prevModel == null
@@ -748,13 +774,13 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                         ))
                     : Container(),
                 Positioned(
-                  right: 10,
+                  right: 18,
                   bottom: controller.tapTextField.value &&
                           !controller.canChatFileShow.value
-                      ? getKeyboardHeight() + 60 + 10.0
-                      : 60 + 10.0,
+                      ? getKeyboardHeight() + 60 + 18.0
+                      : 60 + 18.0,
                   child: AnimatedOpacity(
-                    duration: Duration(milliseconds: 500),
+                    duration: Duration(milliseconds: 200),
                     opacity: controller.toBottomButton.value ? 1 : 0,
                     child: Ink(
                       child: InkWell(
@@ -763,18 +789,15 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Get.theme.primaryColor,
-                              border:
-                                  Border.all(color: Get.theme.primaryColor)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.downhill_skiing,
-                              color: const Color(0xffffffff),
-                              size: 30,
-                            ),
+                            shape: BoxShape.circle,
+                            color: Get.theme.primaryColor,
                           ),
+                          child: Container(
+                              child: Image.asset(
+                            "assets/images/chatting_down.png",
+                            width: 36,
+                            height: 36,
+                          )),
                         ),
                       ),
                     ),
@@ -1032,17 +1055,23 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                           Ink(
                                             child: InkWell(
                                               onTap: () async {
-                                                print('사진추가');
-                                                controller.photos.addAll(
-                                                    await AssetPicker
-                                                        .pickAssets(
-                                                  context,
-                                                  maxAssets: 10,
-                                                  themeColor:
-                                                      Get.theme.primaryColor,
-                                                ));
+                                                if (await ManagePermission
+                                                    .checkPermission()) {
+                                                  print('사진추가');
+                                                  controller.photos.addAll(
+                                                      await AssetPicker
+                                                          .pickAssets(
+                                                    context,
+                                                    maxAssets: 10,
+                                                    themeColor:
+                                                        Get.theme.primaryColor,
+                                                  ));
 
-                                                controller.sendPhoto();
+                                                  controller.sendPhoto();
+                                                } else {
+                                                  ManagePermission
+                                                      .permissionDialog();
+                                                }
                                               },
                                               child: Container(
                                                   width: containerSize,
@@ -1085,21 +1114,28 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                           Ink(
                                             child: InkWell(
                                               onTap: () async {
-                                                print("File");
-                                                FilePickerResult result =
-                                                    await FilePicker.platform
-                                                        .pickFiles(
-                                                            allowMultiple:
-                                                                true);
+                                                if (await ManagePermission
+                                                    .checkPermission()) {
+                                                  print("File");
+                                                  FilePickerResult result =
+                                                      await FilePicker.platform
+                                                          .pickFiles(
+                                                              allowMultiple:
+                                                                  true);
 
-                                                if (result != null) {
-                                                  controller.files = result
-                                                      .paths
-                                                      .map((path) => File(path))
-                                                      .toList();
-                                                  controller.sendFile();
+                                                  if (result != null) {
+                                                    controller.files = result
+                                                        .paths
+                                                        .map((path) =>
+                                                            File(path))
+                                                        .toList();
+                                                    controller.sendFile();
+                                                  } else {
+                                                    // User canceled the picker
+                                                  }
                                                 } else {
-                                                  // User canceled the picker
+                                                  ManagePermission
+                                                      .permissionDialog();
                                                 }
                                               },
                                               child: Container(
@@ -1286,7 +1322,6 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
           return Opacity(
             opacity: model.value.IS_PRE_SEND ? 0.4 : 1.0,
             child: Container(
-                constraints: BoxConstraints(maxWidth: 200),
                 decoration: isPhotoExist || isFileExist
                     ? null
                     : BoxDecoration(
@@ -1304,132 +1339,140 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                             : const Color(0xfff5f5f5)),
                 child: Container(
                     child: (isFileExist)
-                        ? Ink(
-                            child: InkWell(
-                              onTap: () async {
-                                FILE_DOWNLOADED
-                                    ? FlutterDownloader.open(taskId: TID)
-                                    : download(model.value.FILE[0]);
-                                // final taskID = await FlutterDownloader.enqueue(
-                                //     url: model.value.FILE[0],
-                                //     savedDir: "./",
-                                //     showNotification: true,
-                                //     openFileFromNotification: true);
-                              },
-                              child: Container(
-                                  height: 70,
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                      color: model.value.MY_SELF
-                                          ? Color(0xffe6f1ff)
-                                          : Color(0xfff5f5f5)),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(left: 16),
-                                        child: Container(
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: const Color(0xffffffff)),
-                                            width: 38,
-                                            height: 38,
-                                            child: model.value.IS_PRE_SEND
-                                                ? CircularProgressIndicator()
-                                                : FILE_DOWNLOADED
-                                                    ? Center(
-                                                        child: Image.asset(
-                                                          "assets/images/file_before_download.png",
-                                                          height: 25,
-                                                          width: 25,
-                                                        ),
-                                                      )
-                                                    : FILE_DOWNLOADING
-                                                        ? Container(
+                        ? Container(
+                            constraints: BoxConstraints(maxWidth: 200),
+                            child: Ink(
+                              child: InkWell(
+                                onTap: () async {
+                                  FILE_DOWNLOADED
+                                      ? FlutterDownloader.open(taskId: TID)
+                                      : download(model.value.FILE[0]);
+                                  // final taskID = await FlutterDownloader.enqueue(
+                                  //     url: model.value.FILE[0],
+                                  //     savedDir: "./",
+                                  //     showNotification: true,
+                                  //     openFileFromNotification: true);
+                                },
+                                child: Container(
+                                    height: 70,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
+                                        color: model.value.MY_SELF
+                                            ? Color(0xffe6f1ff)
+                                            : Color(0xfff5f5f5)),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          margin:
+                                              const EdgeInsets.only(left: 16),
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color:
+                                                      const Color(0xffffffff)),
+                                              width: 38,
+                                              height: 38,
+                                              child: model.value.IS_PRE_SEND
+                                                  ? CircularProgressIndicator()
+                                                  : FILE_DOWNLOADED
+                                                      ? Center(
+                                                          child: Image.asset(
+                                                            "assets/images/file_before_download.png",
                                                             height: 25,
                                                             width: 25,
-                                                            child:
-                                                                CircularProgressIndicator(
-                                                              backgroundColor:
-                                                                  Colors.white,
-                                                              value: model.value
-                                                                      .FILE_PROGRESS
-                                                                      .toDouble() /
-                                                                  100,
-                                                              valueColor:
-                                                                  new AlwaysStoppedAnimation<
-                                                                          Color>(
-                                                                      Get.theme
-                                                                          .primaryColor),
-                                                            ),
-                                                          )
-                                                        : Center(
-                                                            child: Image.asset(
-                                                              "assets/images/file_after_download.png",
+                                                          ),
+                                                        )
+                                                      : FILE_DOWNLOADING
+                                                          ? Container(
                                                               height: 25,
                                                               width: 25,
-                                                            ),
-                                                          )),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.only(left: 12),
-                                        child: model.value.IS_PRE_SEND
-                                            ? Container()
-                                            : Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    model.value.FILE_META !=
-                                                            null
-                                                        ? "${convertFileName(model.value.FILE_META[0].FILE_NAME)}"
-                                                        : "unknown",
-                                                    style: const TextStyle(
-                                                        color: const Color(
-                                                            0xff2f2f2f),
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontFamily: "Roboto",
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontSize: 12.0),
-                                                    textAlign: TextAlign.left,
-                                                  ),
-                                                  Text(
-                                                    "유효기간: ${trimExpire(model.value.FILE_META[0].EXPIRE)}",
-                                                    style: const TextStyle(
-                                                        color: const Color(
-                                                            0xff9b9b9b),
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontFamily:
-                                                            "NotoSansKR",
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontSize: 10.0),
-                                                    textAlign: TextAlign.left,
-                                                  ),
-                                                  Text(
-                                                    "용량: ${trimFileSize(model.value.FILE_META[0].FILE_SIZE)}",
-                                                    style: const TextStyle(
-                                                        color: const Color(
-                                                            0xff9b9b9b),
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontFamily:
-                                                            "NotoSansKR",
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontSize: 10.0),
-                                                    textAlign: TextAlign.left,
-                                                  ),
-                                                ],
-                                              ),
-                                      )
-                                    ],
-                                  )),
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .white,
+                                                                value: model
+                                                                        .value
+                                                                        .FILE_PROGRESS
+                                                                        .toDouble() /
+                                                                    100,
+                                                                valueColor: new AlwaysStoppedAnimation<
+                                                                        Color>(
+                                                                    Get.theme
+                                                                        .primaryColor),
+                                                              ),
+                                                            )
+                                                          : Center(
+                                                              child:
+                                                                  Image.asset(
+                                                                "assets/images/file_after_download.png",
+                                                                height: 25,
+                                                                width: 25,
+                                                              ),
+                                                            )),
+                                        ),
+                                        Container(
+                                          margin:
+                                              const EdgeInsets.only(left: 12),
+                                          child: model.value.IS_PRE_SEND
+                                              ? Container()
+                                              : Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      model.value.FILE_META !=
+                                                              null
+                                                          ? "${convertFileName(model.value.FILE_META[0].FILE_NAME)}"
+                                                          : "unknown",
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xff2f2f2f),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily: "Roboto",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 12.0),
+                                                      textAlign: TextAlign.left,
+                                                    ),
+                                                    Text(
+                                                      "유효기간: ${trimExpire(model.value.FILE_META[0].EXPIRE)}",
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xff9b9b9b),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily:
+                                                              "NotoSansKR",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 10.0),
+                                                      textAlign: TextAlign.left,
+                                                    ),
+                                                    Text(
+                                                      "용량: ${trimFileSize(model.value.FILE_META[0].FILE_SIZE)}",
+                                                      style: const TextStyle(
+                                                          color: const Color(
+                                                              0xff9b9b9b),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily:
+                                                              "NotoSansKR",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 10.0),
+                                                      textAlign: TextAlign.left,
+                                                    ),
+                                                  ],
+                                                ),
+                                        )
+                                      ],
+                                    )),
+                              ),
                             ),
                           )
 
@@ -1445,29 +1488,34 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                         //     textAlign: TextAlign.left)
                         : (isPhotoExist
                             ? Builder(builder: (context) {
-                                return Ink(
-                                    width:
-                                        model.value.PHOTO_META[0].IMAGE_WIDTH,
-                                    // height: 100,
-                                    child: InkWell(
-                                        onTap: () {
-                                          if (!model.value.IS_PRE_SEND) {
-                                            Get.to(SeePhotoDirect(
-                                                    photo: model
-                                                        .value.PRE_IMAGE[0],
-                                                    index: 0))
-                                                .then((value) =>
-                                                    changeStatusBarColor(
-                                                        Get.theme.primaryColor,
-                                                        Brightness.dark));
-                                          }
-                                        },
-                                        child: Container(
-                                            width: model.value.PHOTO_META[0]
-                                                .IMAGE_WIDTH,
-                                            height: model.value.PHOTO_META[0]
-                                                .IMAGE_HIEGHT,
-                                            child: model.value.PRE_IMAGE[0])));
+                                return Container(
+                                  constraints: BoxConstraints(maxWidth: 200),
+                                  child: Ink(
+                                      width:
+                                          model.value.PHOTO_META[0].IMAGE_WIDTH,
+                                      // height: 100,
+                                      child: InkWell(
+                                          onTap: () {
+                                            if (!model.value.IS_PRE_SEND) {
+                                              Get.to(SeePhotoDirect(
+                                                      photo: model
+                                                          .value.PRE_IMAGE[0],
+                                                      index: 0))
+                                                  .then((value) =>
+                                                      changeStatusBarColor(
+                                                          Get.theme
+                                                              .primaryColor,
+                                                          Brightness.dark));
+                                            }
+                                          },
+                                          child: Container(
+                                              width: model.value.PHOTO_META[0]
+                                                  .IMAGE_WIDTH,
+                                              height: model.value.PHOTO_META[0]
+                                                  .IMAGE_HIEGHT,
+                                              child:
+                                                  model.value.PRE_IMAGE[0]))),
+                                );
                               })
 
                             // Text("사진입니다",
@@ -1479,6 +1527,8 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                             //         fontSize: 14.0),
                             //     textAlign: TextAlign.left)
                             : Container(
+                                constraints: BoxConstraints(
+                                    maxWidth: Get.mediaQuery.size.width),
                                 padding: EdgeInsets.only(
                                     left: 16, top: 10, right: 24, bottom: 10),
                                 child: Text("${model.value.CONTENT}",

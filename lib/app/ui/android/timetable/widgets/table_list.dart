@@ -1036,7 +1036,15 @@ class SubjectList extends StatelessWidget {
                                                             .CREDIT ==
                                                         null
                                                     ? "- 커스텀 시간표"
-                                                    : "- ${model.value.CLASSES[i].CREDIT}"),
+                                                    : model.value.CLASSES[i]
+                                                                .CREDIT
+                                                                .floor() ==
+                                                            model
+                                                                .value
+                                                                .CLASSES[i]
+                                                                .CREDIT
+                                                        ? "- ${model.value.CLASSES[i].CREDIT.floor()} 学分"
+                                                        : "- ${model.value.CLASSES[i].CREDIT} 学分"),
                                           ),
                                           FittedBox(
                                             child: SubjectPreviewList(

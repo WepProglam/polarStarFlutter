@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -82,8 +83,34 @@ class ManagePermission {
       // print("????");
       return true;
     } else {
-      openAppSettings();
+      // await openAppSettings();
+
       return false;
     }
+  }
+
+  static Future<bool> checkPermission() async {
+    bool permissionGranted = await Permission.storage.isGranted;
+
+    return permissionGranted;
+  }
+
+  static void permissionDialog() {
+    Get.defaultDialog(
+        title: "Storage 권한 설정을 위해 앱 설정으로 이동합니다.",
+        content: Text("앱 설정으로 이동합니다."),
+        actions: [
+          TextButton(
+              onPressed: () async {
+                await openAppSettings();
+                Get.back();
+              },
+              child: Text("네")),
+          TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text("아니요")),
+        ]);
   }
 }

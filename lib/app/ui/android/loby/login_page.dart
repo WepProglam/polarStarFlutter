@@ -44,29 +44,20 @@ class LoginInputs extends GetView<LoginController> {
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // 로고 이미지
-            // Center(
-            //   child: Container(
-            //       width: 281.2,
-            //       height: 232.4,
-            //       margin: EdgeInsets.fromLTRB(2.3, 35.1, 21.5, 20),
-            //       child: Image.asset("assets/images/636.png")),
-            // ),
+            Center(
+              child: Container(
+                  margin: const EdgeInsets.only(top: 179),
+                  child: Image.asset(
+                    "assets/images/polarstar_logo.png",
+                  )),
+            ),
 
             // 아이디 입력
             Padding(
-              padding: const EdgeInsets.only(top: 331.0, bottom: 14.0),
+              padding: const EdgeInsets.only(top: 42.5, bottom: 14.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Text(
-                  //   "Account",
-                  //   style: const TextStyle(
-                  //       color: const Color(0xff999999),
-                  //       fontWeight: FontWeight.normal,
-                  //       fontFamily: "PingFangSC",
-                  //       fontStyle: FontStyle.normal,
-                  //       fontSize: 13.5),
-                  // ),
                   Stack(
                     children: [
                       TextFormField(
@@ -75,7 +66,6 @@ class LoginInputs extends GetView<LoginController> {
                         textInputAction: TextInputAction.next,
                         onTap: () {},
                         onChanged: (e) {
-                          // print(MediaQuery.of(context).viewInsets.bottom);
                           // * 유저 키보드 사이즈 저장
                           box.write("keyBoardHeight",
                               MediaQuery.of(context).viewInsets.bottom);

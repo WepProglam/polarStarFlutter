@@ -24,6 +24,7 @@ import 'package:polarstar_flutter/app/data/repository/noti/noti_repository.dart'
 import 'package:polarstar_flutter/app/data/repository/profile/mypage_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
+import 'package:polarstar_flutter/app/ui/android/loby/splash.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page_scroll.dart';
 import 'package:polarstar_flutter/app/ui/android/noti/noti.dart';
 import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
@@ -80,19 +81,7 @@ class MainPage extends StatelessWidget {
         int index = initController.mainPageIndex.value;
         print(index);
         if (!mainController.initDataAvailable.value) {
-          changeStatusBarColor(const Color(whiteColor), Brightness.light);
-          return Scaffold(
-            body: Container(
-              color: Colors.white,
-              child: Center(
-                child: Image.asset(
-                  "assets/images/logo.png",
-                  width: 100,
-                  height: 100,
-                ),
-              ),
-            ),
-          );
+          return SplashPage();
         }
         changeStatusBarColor(const Color(mainColor), Brightness.light);
 

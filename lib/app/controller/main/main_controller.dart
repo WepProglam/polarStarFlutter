@@ -15,6 +15,7 @@ import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 import 'package:polarstar_flutter/app/controller/search/search_controller.dart';
+import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
@@ -527,25 +528,37 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     }
   }
 
+  final int SPLASH_LIMIT = 1500;
+
   @override
   void onInit() async {
     // tabController = TabController(vsync: this, length: 2);
+    DateTime pass = new DateTime.now();
     super.onInit();
     //버전 확인
     await versionCheck();
     isAlreadyRunned = box.read("alreadyRunned") == null ? false : true;
     await getBoardInfo();
     await getFollowingCommunity();
+    putController<TimeTableController>();
+    putController<ClassController>();
+    putController<NotiController>();
+    putController<MyPageController>();
+
     // await getCurSemTimetableExist();
 
     hotNewTabController = await TabController(vsync: this, length: 2);
-
-    // ever(hotOrNewIndex, (_) {
-    //   if (hotOrNewIndex.value == 0) {
-    //   } else if (hotOrNewIndex.value == 1) {}
-    // });
-
-    initDataAvailable.value = true;
+    DateTime cur = new DateTime.now();
+    print("cur.difference(pass) : ${cur.difference(pass)}");
+    Duration diff = cur.difference(pass);
+    Duration expected = Duration(milliseconds: SPLASH_LIMIT);
+    if (cur.difference(pass) > expected) {
+      initDataAvailable.value = true;
+    } else {
+      await Future.delayed(expected - diff, () {
+        initDataAvailable.value = true;
+      });
+    }
   }
 
   @override
