@@ -98,7 +98,7 @@ class PostBottom extends StatelessWidget {
         TextButton.icon(
           style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.black)),
-          onPressed: c == null || item.value.MYSELF
+          onPressed: c == null
               ? null
               : () async {
                   if (mainController.isScrapped(item.value)) {
