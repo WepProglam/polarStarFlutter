@@ -69,33 +69,34 @@ class BottomKeyboard extends StatelessWidget {
                 child: Container(
                   // height: BOTTOM_SHEET_HEIGHT.toDouble(),
                   // width: 70,
-                  child: GestureDetector(
-                    onTap: () {
-                      c.changeAnonymous(!c.anonymousCheck.value);
-                    },
-                    child: Container(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Obx(() => Container(
-                                width: 16,
-                                margin: const EdgeInsets.only(left: 14),
-                                child: Transform.scale(
-                                  scale: 1,
-                                  child: Checkbox(
-                                      value: c.anonymousCheck.value,
-                                      onChanged: (value) {
-                                        c.changeAnonymous(value);
-                                      },
-                                      checkColor: const Color(0xffffffff),
-                                      fillColor: MaterialStateProperty.all(
-                                          const Color(0xff4570ff))),
-                                ),
-                              )),
-                          // 匿名
-                          Container(
+                  child: Container(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Obx(() => Container(
+                              width: 16,
+                              margin: const EdgeInsets.only(left: 14),
+                              child: Transform.scale(
+                                scale: 1,
+                                child: Checkbox(
+                                    value: c.anonymousCheck.value,
+                                    onChanged: (value) {
+                                      c.changeAnonymous(value);
+                                    },
+                                    checkColor: const Color(0xffffffff),
+                                    fillColor: MaterialStateProperty.all(
+                                        const Color(0xff4570ff))),
+                              ),
+                            )),
+                        // 匿名
+                        InkWell(
+                          onTap: () {
+                            c.changeAnonymous(!c.anonymousCheck.value);
+                          },
+                          child: Padding(
                             // width: 24 + 6.0,
-                            margin: const EdgeInsets.only(left: 6, bottom: 1.5),
+                            padding:
+                                const EdgeInsets.only(left: 6, bottom: 1.5),
                             child: Text("匿名",
                                 style: const TextStyle(
                                     color: const Color(0xff4570ff),
@@ -104,9 +105,9 @@ class BottomKeyboard extends StatelessWidget {
                                     fontStyle: FontStyle.normal,
                                     fontSize: 12.0),
                                 textAlign: TextAlign.center),
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
