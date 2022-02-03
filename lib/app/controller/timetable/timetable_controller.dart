@@ -76,9 +76,9 @@ class TimeTableController extends GetxController {
   RxString addTimeTableYearSem = "".obs;
 
   List<String> addTimeTableYearSemList = [
-    "2021学年度 第2学期",
     //"2021년 겨울학기",
     "2022学年度 第1学期",
+    // "2022学年度 第2学期",
     // "2022년 여름학기",
     // "2022년 2학기",
     // "2022년 겨울학기",

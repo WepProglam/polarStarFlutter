@@ -16,8 +16,10 @@ class TimeTableAdd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final size = MediaQuery.of(context).size;
+
+    // ! 나중에 2학기되면 2학기가 디폴트로 뜨도록 변경해야할듯
     timeTableController.addTimeTableYearSem.value =
-        timeTableController.addTimeTableYearSemList.last;
+        timeTableController.addTimeTableYearSemList.first;
 
     timeTableController.createYear.value =
         timeTableController.addTimeTableYearSemList.last.split("学年度 ")[0];
@@ -69,8 +71,8 @@ class TimeTableAdd extends StatelessWidget {
                     onTap: () async {
                       int year =
                           int.parse(timeTableController.createYear.value);
-                      int sem = flutterToServerSemChanger(
-                          int.parse(timeTableController.createSemester.value));
+                      int sem =
+                          int.parse(timeTableController.createSemester.value);
 
                       await timeTableController.createTimeTable(
                           year, sem, timeTableController.createName.value);

@@ -5,13 +5,13 @@ String timetableSemChanger(int year, int semester) {
       sem = "1";
       break;
     case 2:
-      sem = "여름";
+      sem = "1";
       break;
     case 3:
       sem = "2";
       break;
     case 4:
-      sem = "겨울";
+      sem = "2";
       break;
     default:
   }
