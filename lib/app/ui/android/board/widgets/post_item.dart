@@ -564,7 +564,8 @@ class CommnetTopIcons extends StatelessWidget {
                   }
                 },
                 child: Ink(
-                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 6.0),
                   child: Container(
                       width: CommentIconSize,
                       height: CommentIconSize,
@@ -586,7 +587,8 @@ class CommnetTopIcons extends StatelessWidget {
               }
             },
             child: Ink(
-              padding: const EdgeInsets.symmetric(horizontal: 6.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
               child: Container(
                 width: CommentIconSize,
                 height: CommentIconSize,
@@ -604,7 +606,8 @@ class CommnetTopIcons extends StatelessWidget {
         // * 메뉴
         PopupMenuButton(
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 6.0),
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
               width: CommentIconSize,
               height: CommentIconSize,
               child: Image.asset("assets/images/icn_more.png"),
