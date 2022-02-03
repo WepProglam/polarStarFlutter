@@ -88,4 +88,28 @@ class ManagePermission {
       return false;
     }
   }
+
+  static Future<void> checkPermission(Function grantedFunc) async {
+    bool permissionGranted = await Permission.storage.isGranted;
+    if (permissionGranted) {
+      grantedFunc;
+    } else {
+      Get.defaultDialog(
+          title: "Storage 권한 설정을 위해 앱 설정으로 이동합니다.",
+          content: Text("앱 설정으로 이동합니다."),
+          actions: [
+            TextButton(
+                onPressed: () async {
+                  await openAppSettings();
+                  Get.back();
+                },
+                child: Text("네")),
+            TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: Text("아니요")),
+          ]);
+    }
+  }
 }

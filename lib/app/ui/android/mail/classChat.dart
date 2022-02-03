@@ -11,6 +11,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/file_name.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
@@ -1032,17 +1033,20 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                           Ink(
                                             child: InkWell(
                                               onTap: () async {
-                                                print('사진추가');
-                                                controller.photos.addAll(
-                                                    await AssetPicker
-                                                        .pickAssets(
-                                                  context,
-                                                  maxAssets: 10,
-                                                  themeColor:
-                                                      Get.theme.primaryColor,
-                                                ));
+                                                await ManagePermission
+                                                    .checkPermission(() async {
+                                                  print('사진추가');
+                                                  controller.photos.addAll(
+                                                      await AssetPicker
+                                                          .pickAssets(
+                                                    context,
+                                                    maxAssets: 10,
+                                                    themeColor:
+                                                        Get.theme.primaryColor,
+                                                  ));
 
-                                                controller.sendPhoto();
+                                                  controller.sendPhoto();
+                                                });
                                               },
                                               child: Container(
                                                   width: containerSize,
@@ -1085,22 +1089,26 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                           Ink(
                                             child: InkWell(
                                               onTap: () async {
-                                                print("File");
-                                                FilePickerResult result =
-                                                    await FilePicker.platform
-                                                        .pickFiles(
-                                                            allowMultiple:
-                                                                true);
+                                                await ManagePermission
+                                                    .checkPermission(() async {
+                                                  print("File");
+                                                  FilePickerResult result =
+                                                      await FilePicker.platform
+                                                          .pickFiles(
+                                                              allowMultiple:
+                                                                  true);
 
-                                                if (result != null) {
-                                                  controller.files = result
-                                                      .paths
-                                                      .map((path) => File(path))
-                                                      .toList();
-                                                  controller.sendFile();
-                                                } else {
-                                                  // User canceled the picker
-                                                }
+                                                  if (result != null) {
+                                                    controller.files = result
+                                                        .paths
+                                                        .map((path) =>
+                                                            File(path))
+                                                        .toList();
+                                                    controller.sendFile();
+                                                  } else {
+                                                    // User canceled the picker
+                                                  }
+                                                });
                                               },
                                               child: Container(
                                                   width: containerSize,
