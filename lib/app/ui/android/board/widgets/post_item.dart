@@ -42,7 +42,8 @@ class PostBottom extends StatelessWidget {
             foregroundColor:
                 MaterialStateProperty.all<Color>(Color(0xff6f6e6e)),
           ),
-          onPressed: mainController.isLiked(item.value) || c == null
+          onPressed: (mainController.isLiked(item.value) || c == null) ||
+                  item.value.MYSELF
               ? null
               : () async {
                   /*if (item.value.MYSELF) {
@@ -97,7 +98,7 @@ class PostBottom extends StatelessWidget {
         TextButton.icon(
           style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.black)),
-          onPressed: c == null
+          onPressed: c == null || item.value.MYSELF
               ? null
               : () async {
                   if (mainController.isScrapped(item.value)) {

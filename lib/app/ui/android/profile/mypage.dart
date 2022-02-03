@@ -193,6 +193,7 @@ class MyPageProfile extends StatelessWidget {
                     Spacer(),
                     InkWell(
                       onTap: () {
+                        //! 번역 필요
                         Get.defaultDialog(
                             title: "Want Logout?",
                             content: Text("Want Logout?"),
