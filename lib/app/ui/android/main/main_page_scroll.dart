@@ -443,11 +443,7 @@ class MainPageScroll extends StatelessWidget {
                                                       .updateMainPage();
                                                 });
                                               },
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 6.0),
-                                                child: SeeMore(),
-                                              ),
+                                              child: SeeMore(),
                                             ),
                                           ],
                                         ),
@@ -865,30 +861,33 @@ class SeeMore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        // 更多
-        Text("更多",
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-                overflow: TextOverflow.ellipsis,
-                color: const Color(mainColor),
-                fontWeight: FontWeight.w400,
-                fontFamily: "NotoSansSC",
-                fontStyle: FontStyle.normal,
-                fontSize: 12.0),
-            textAlign: TextAlign.left),
-        // icn/detail
-        Container(
-          width: 16,
-          height: 16,
-          child: Image.asset(
-            "assets/images/icn_detail.png",
-            fit: BoxFit.contain,
-            color: const Color(mainColor),
-          ),
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10.0, 3.0, 2.0, 3.0),
+      child: Row(
+        children: [
+          // 更多
+          Text("更多",
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                  color: const Color(mainColor),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "NotoSansSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0),
+              textAlign: TextAlign.left),
+          // icn/detail
+          Container(
+            width: 16,
+            height: 16,
+            child: Image.asset(
+              "assets/images/icn_detail.png",
+              fit: BoxFit.contain,
+              color: const Color(mainColor),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
