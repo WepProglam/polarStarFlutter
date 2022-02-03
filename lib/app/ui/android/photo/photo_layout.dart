@@ -4,17 +4,33 @@ import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/see_photo.dart';
 
-class PhotoLayout extends StatelessWidget {
+class PhotoLayout extends StatefulWidget {
   const PhotoLayout({
     Key key,
     @required this.model,
   }) : super(key: key);
-
   final model;
 
   @override
+  State<PhotoLayout> createState() => _PhotoLayoutState(model: model);
+}
+
+class _PhotoLayoutState extends State<PhotoLayout> {
+  _PhotoLayoutState({
+    @required this.model,
+  });
+  final model;
+  int photo_index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    photo_index = 0;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    PhotoController pc = Get.put(PhotoController());
+    // PhotoController pc = Get.put(PhotoController());
     final width = Get.mediaQuery.size.width - 34 * 2;
 
     print(width);
@@ -30,7 +46,10 @@ class PhotoLayout extends StatelessWidget {
             itemCount: model.PHOTO.length,
             allowImplicitScrolling: true,
             onPageChanged: (value) {
-              pc.index.value = value;
+              setState(() {
+                photo_index = value;
+              });
+              // pc.index.value = value;
             },
             itemBuilder: (BuildContext context, int index) {
               return Container(
@@ -77,16 +96,14 @@ class PhotoLayout extends StatelessWidget {
                   // height: width / 13,
                   child: // 1/5
                       Center(
-                    child: Obx(() {
-                      return Text("${pc.index.value + 1}/${model.PHOTO.length}",
-                          style: const TextStyle(
-                              color: const Color(0xffffffff),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left);
-                    }),
+                    child: Text("${photo_index + 1}/${model.PHOTO.length}",
+                        style: const TextStyle(
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "Roboto",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 12.0),
+                        textAlign: TextAlign.left),
                   ),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -144,6 +161,6 @@ class PhotoLayout extends StatelessWidget {
   }
 }
 
-class PhotoController extends GetxController {
-  RxInt index = 0.obs;
-}
+// class PhotoController extends GetxController {
+//   RxInt index = 0.obs;
+// }
