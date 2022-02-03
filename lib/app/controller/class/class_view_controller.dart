@@ -50,12 +50,12 @@ class ClassViewController extends GetxController
   // final typeIndex = 0.obs;
 
   final classInfo = ClassInfoModel().obs;
-  final classReviewList = <ClassReviewModel>[].obs;
-  final commentLikeList = <LikeModel>[].obs;
-  final examLikeList = <LikeModel>[].obs;
-  final commentAccuseList = <AccuseCommentModel>[].obs;
-  final examAccuseList = <AccuseExamModel>[].obs;
-  final classExamList = [].obs;
+  final RxList classReviewList = <ClassReviewModel>[].obs;
+  final RxList commentLikeList = <LikeModel>[].obs;
+  final RxList examLikeList = <LikeModel>[].obs;
+  final RxList commentAccuseList = <AccuseCommentModel>[].obs;
+  final RxList examAccuseList = <AccuseExamModel>[].obs;
+  final RxList<dynamic> classExamList = [].obs;
 
   final RxList<String> exampleList = <String>[].obs;
 
@@ -82,6 +82,9 @@ class ClassViewController extends GetxController
     switch (response["statusCode"]) {
       case 200:
         Get.defaultDialog(title: "신고 완료");
+        classReviewList[index].ACCUSE_AMOUNT++;
+        classReviewList[index].ALREADY_ACCUSED = true;
+        classReviewList.refresh();
         break;
       case 400:
         Get.defaultDialog(title: "신고 안됨 - 본인 신고");
@@ -118,6 +121,9 @@ class ClassViewController extends GetxController
     switch (response["statusCode"]) {
       case 200:
         Get.defaultDialog(title: "신고 완료");
+        classExamList[index].ACCUSE_AMOUNT++;
+        classExamList[index].ALREADY_ACCUSED = true;
+        classExamList.refresh();
         break;
       case 400:
         Get.defaultDialog(title: "신고 안됨 - 본인 신고");
@@ -196,6 +202,7 @@ class ClassViewController extends GetxController
         examLikeList(jsonResponse["examLikeList"]);
         commentAccuseList(jsonResponse["commentAccuseList"]);
         examAccuseList(jsonResponse["examAccuseList"]);
+        print(examLikeList);
 
 //이미 좋아요나 신고 했는지 체크
         for (int i = 0; i < classReviewList.length; i++) {
@@ -216,7 +223,7 @@ class ClassViewController extends GetxController
             }
           }
         }
-
+        classReviewList.refresh();
         classViewAvailable(true);
 
         break;
@@ -248,11 +255,19 @@ class ClassViewController extends GetxController
     switch (jsonResponse["statusCode"]) {
       case 200:
         classExamList(jsonResponse["classExamList"]);
+
+        print(classExamList.length);
+        print("===========================");
         for (int i = 0; i < classExamList.length; i++) {
           classExamList[i].ALREADY_LIKED = false;
           classExamList[i].ALREADY_ACCUSED = false;
+          print(classExamList[i].CLASS_EXAM_ID);
+          print("===========================");
+          print(examLikeList);
           for (int j = 0; j < examLikeList.length; j++) {
+            print(examLikeList[j].UNIQUE_ID);
             if (classExamList[i].CLASS_EXAM_ID == examLikeList[j].UNIQUE_ID) {
+              print("askdjhnaskjndkjansdasd");
               classExamList[i].ALREADY_LIKED = true;
               break;
             }
@@ -265,6 +280,7 @@ class ClassViewController extends GetxController
             }
           }
         }
+        classExamList.refresh();
         classExamAvailable(true);
 
         break;
@@ -303,6 +319,7 @@ class ClassViewController extends GetxController
     switch (jsonResponse["statusCode"]) {
       case 200:
         classReviewList[index].LIKES++;
+        classReviewList[index].ALREADY_LIKED = true;
         classReviewList.refresh();
         Get.snackbar('좋아요 Ok', 'good',
             snackPosition: SnackPosition.BOTTOM,
@@ -345,6 +362,7 @@ class ClassViewController extends GetxController
     switch (jsonResponse["statusCode"]) {
       case 200:
         classExamList[index].LIKES++;
+        classExamList[index].ALREADY_LIKED = true;
         classExamList.refresh();
         Get.snackbar('좋아요 Ok', 'good',
             snackPosition: SnackPosition.BOTTOM,
@@ -439,7 +457,7 @@ class ClassViewController extends GetxController
   @override
   void onInit() async {
     //print(Get.parameters["CLASS_ID"]);
-    getClassView(int.parse(Get.parameters["CLASS_ID"]));
+    await getClassView(int.parse(Get.parameters["CLASS_ID"]));
     getExamInfo(int.parse(Get.parameters["CLASS_ID"]));
     tabController = TabController(vsync: this, length: 2);
     // tabController.addListener(() {
