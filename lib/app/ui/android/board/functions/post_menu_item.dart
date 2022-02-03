@@ -17,19 +17,19 @@ import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 import 'package:polarstar_flutter/main.dart';
 
 Future<void> updatePostFunc(Rx<Post> item) async {
-  await Get.defaultDialog(title: "게시글 수정", middleText: "수정하시겠습니까?", actions: [
+  await Get.defaultDialog(title: "修改帖子", middleText: "确定要修改帖子吗？", actions: [
     TextButton(
         onPressed: () async {
           Get.offAndToNamed(
               '/board/${item.value.COMMUNITY_ID}/bid/${item.value.BOARD_ID}',
               arguments: item);
         },
-        child: Text("네")),
+        child: Text("是")),
     TextButton(
         onPressed: () {
           Get.back();
         },
-        child: Text("아니요"))
+        child: Text("否"))
   ]);
 }
 

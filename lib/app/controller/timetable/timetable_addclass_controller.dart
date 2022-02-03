@@ -80,7 +80,7 @@ class TimeTableAddClassController extends GetxController {
       timeTableController.initShowTimeTable();
       timeTableController.makeShowTimeTable();
     } else {
-      Get.snackbar("오류", "오류");
+      Get.snackbar("系统错误", "系统错误");
     }
   }
 

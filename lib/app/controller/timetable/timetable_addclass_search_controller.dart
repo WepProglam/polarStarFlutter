@@ -75,7 +75,7 @@ class TimeTableAddClassSearchController extends GetxController {
     } else if (response.statusCode == 404) {
       Get.snackbar("404", "1. 다른 학기 수업을 등록하려고 했습니다\n2. 없는 class_id입니다");
     } else {
-      Get.snackbar("오류", "오류");
+      Get.snackbar("系统错误", "系统错误");
     }
   }
 

@@ -361,8 +361,8 @@ void showSetting(
                                                           .value
                                                           .NAME
                                                           .trim()) {
-                                                    Get.snackbar("변경 사항이 없습니다.",
-                                                        "변경 사항이 없습니다.");
+                                                    // Get.snackbar("변경 사항이 없습니다.",
+                                                    //     "변경 사항이 없습니다.");
                                                     return;
                                                   }
                                                   var response = await Session()
@@ -401,8 +401,8 @@ void showSetting(
 
                                                       break;
                                                     default:
-                                                      Get.snackbar("이름 변경 실패",
-                                                          "이름 변경 실패");
+                                                      Get.snackbar(
+                                                          "系统错误", "系统错误");
                                                   }
                                                 },
                                                 child: Container(
@@ -535,9 +535,8 @@ void showSetting(
                                                               .length -
                                                           1 <=
                                                       0) {
-                                                    Get.snackbar(
-                                                        "시간표가 하나일때는 지울 수 없습니다.",
-                                                        "시간표가 하나일때는 지울 수 없습니다.");
+                                                    Get.snackbar("时间表只有一个时无法删除",
+                                                        "时间表只有一个时无法删除");
                                                     return;
                                                   }
 
@@ -556,8 +555,8 @@ void showSetting(
                                                               .IS_DEFAULT ==
                                                           1) {
                                                         Get.snackbar(
-                                                            "디폴트 시간표는 삭제할 수 없습니다.",
-                                                            "디폴트 시간표는 삭제할 수 없습니다.",
+                                                            "Default timetable cannot be deleted",
+                                                            "Default timetable cannot be deleted",
                                                             snackPosition:
                                                                 SnackPosition
                                                                     .BOTTOM,

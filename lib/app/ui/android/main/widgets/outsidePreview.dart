@@ -38,9 +38,11 @@ class OutsidePreview extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                        width: 250,
+                        constraints: BoxConstraints(
+                            maxWidth: Get.mediaQuery.size.width - 34 * 2 - 100),
                         child: Text(mainController.bannerList[index].TITLE,
                             style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
                                 color: const Color(whiteColor),
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "NotoSansSC",
@@ -48,9 +50,12 @@ class OutsidePreview extends StatelessWidget {
                                 fontSize: 14.0),
                             textAlign: TextAlign.left)),
                     Container(
-                        width: 250,
+                        constraints: BoxConstraints(
+                            maxWidth: Get.mediaQuery.size.width - 34 * 2 - 100),
                         child: Text(mainController.bannerList[index].CONTENT,
+                            maxLines: 2,
                             style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
                                 color: const Color(subColor),
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "NotoSansSC",

@@ -77,8 +77,7 @@ class PostController extends GetxController {
         _dataAvailable.value = true;
         break;
       default:
-        await Get.defaultDialog(
-            content: Text("삭제된 게시글입니다."), title: "유효하지 않은 접근");
+        await Get.defaultDialog(content: Text("帖子已被删除"), title: "无效操作");
         Get.back();
         isDeleted.value = true;
     }
@@ -103,7 +102,7 @@ class PostController extends GetxController {
   // }
 
   void deleteResource(int COMMUNITY_ID, int UNIQUE_ID, String tag) async {
-    Get.defaultDialog(title: "삭제", middleText: "정말 삭제하시겠습니까?", actions: [
+    Get.defaultDialog(title: "删除帖子", middleText: "确定要删除帖子吗？", actions: [
       TextButton(
           onPressed: () async {
             final status =
@@ -126,18 +125,18 @@ class PostController extends GetxController {
 
                 break;
               default:
-                Get.snackbar("시스템 오류", "삭제 실패하였습니다.",
+                Get.snackbar("系统错误", "系统错误",
                     colorText: Colors.white,
                     backgroundColor: Colors.black,
                     snackPosition: SnackPosition.BOTTOM);
             }
           },
-          child: Text("네")),
+          child: Text("是")),
       TextButton(
           onPressed: () {
             Get.back();
           },
-          child: Text("아니요"))
+          child: Text("否"))
     ]);
   }
 

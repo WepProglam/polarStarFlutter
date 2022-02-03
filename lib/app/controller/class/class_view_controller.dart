@@ -81,25 +81,25 @@ class ClassViewController extends GetxController
 
     switch (response["statusCode"]) {
       case 200:
-        Get.defaultDialog(title: "신고 완료");
+        Get.defaultDialog(title: "举报成功");
         classReviewList[index].ACCUSE_AMOUNT++;
         classReviewList[index].ALREADY_ACCUSED = true;
         classReviewList.refresh();
         break;
       case 400:
-        Get.defaultDialog(title: "신고 안됨 - 본인 신고");
+        Get.defaultDialog(title: "举报失败 - 无法举报本人");
         break;
       case 401:
-        Get.defaultDialog(title: "신고 안됨 - 로그인 안됨");
+        Get.defaultDialog(title: "举报失败 - 请先登录");
         break;
       case 403:
-        Get.defaultDialog(title: "신고 안됨 - 이미 신고");
+        Get.defaultDialog(title: "举报失败 - 无法重复举报");
         break;
       case 404:
-        Get.defaultDialog(title: "신고 안됨 - 신고하려는 강평 없음");
+        Get.defaultDialog(title: "举报失败 - 该内容已被删除");
         break;
       default:
-        Get.defaultDialog(title: "신고 안됨 - ${response["statusCode"]}");
+        Get.defaultDialog(title: "举报失败 - ${response["statusCode"]}");
         break;
     }
   }
@@ -120,25 +120,25 @@ class ClassViewController extends GetxController
 
     switch (response["statusCode"]) {
       case 200:
-        Get.defaultDialog(title: "신고 완료");
+        Get.defaultDialog(title: "举报成功");
         classExamList[index].ACCUSE_AMOUNT++;
         classExamList[index].ALREADY_ACCUSED = true;
         classExamList.refresh();
         break;
       case 400:
-        Get.defaultDialog(title: "신고 안됨 - 본인 신고");
+        Get.defaultDialog(title: "举报失败 - 无法举报本人");
         break;
       case 401:
-        Get.defaultDialog(title: "신고 안됨 - 로그인 안됨");
+        Get.defaultDialog(title: "举报失败 - 请先登录");
         break;
       case 403:
-        Get.defaultDialog(title: "신고 안됨 - 이미 신고");
+        Get.defaultDialog(title: "举报失败 - 无法重复举报");
         break;
       case 404:
-        Get.defaultDialog(title: "신고 안됨 - 신고하려는 강평 없음");
+        Get.defaultDialog(title: "举报失败 - 该内容已被删除");
         break;
       default:
-        Get.defaultDialog(title: "신고 안됨 - ${response["statusCode"]}");
+        Get.defaultDialog(title: "举报失败 - ${response["statusCode"]}");
         break;
     }
   }
@@ -228,7 +228,7 @@ class ClassViewController extends GetxController
 
         break;
       case 400:
-        Get.snackbar("400 Error", "강의 데이터가 유효하지 않습니다.",
+        Get.snackbar("400 Error", "该数据无效",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
@@ -236,7 +236,7 @@ class ClassViewController extends GetxController
         printError(info: "Data Fetch ERROR!!");
         break;
       case 404:
-        Get.snackbar("404 Error", "강의 데이터가 유효하지 않습니다.",
+        Get.snackbar("404 Error", "该数据无效",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
@@ -285,7 +285,7 @@ class ClassViewController extends GetxController
 
         break;
       case 400:
-        Get.snackbar("400 Error", "강의 데이터가 유효하지 않습니다.",
+        Get.snackbar("400 Error", "该数据无效",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
@@ -293,7 +293,7 @@ class ClassViewController extends GetxController
         printError(info: "Data Fetch ERROR!!");
         break;
       case 401:
-        Get.snackbar("401 Error", "로그인이 안되어있습니다.",
+        Get.snackbar("401 Error", "未登录",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
@@ -321,31 +321,31 @@ class ClassViewController extends GetxController
         classReviewList[index].LIKES++;
         classReviewList[index].ALREADY_LIKED = true;
         classReviewList.refresh();
-        Get.snackbar('200', '강의 평가 좋아요 성공',
+        Get.snackbar('200', '您已点赞成功',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
         break;
       case 400:
-        Get.snackbar('400 Error', '강의 데이터 유효하지 않음',
+        Get.snackbar('400 Error', '该数据无效',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
         break;
       case 401:
-        Get.snackbar('401 Error', '로그인 안되어있음',
+        Get.snackbar('401 Error', '未登录',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
         break;
       case 403:
-        Get.snackbar('403 Error', '이미 좋아요 누른 강의평가',
+        Get.snackbar('403 Error', '您已经点过赞了',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
         break;
       case 500:
-        Get.snackbar('500 Error', '서버 오류',
+        Get.snackbar('500 Error', '服务器错误',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
@@ -364,31 +364,31 @@ class ClassViewController extends GetxController
         classExamList[index].LIKES++;
         classExamList[index].ALREADY_LIKED = true;
         classExamList.refresh();
-        Get.snackbar('200', '강의 평가 좋아요 성공',
+        Get.snackbar('200', '您已点赞成功',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
         break;
       case 400:
-        Get.snackbar('400 Error', '강의 데이터 유효하지 않음',
+        Get.snackbar('400 Error', '该数据无效',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
         break;
       case 401:
-        Get.snackbar('401 Error', '로그인 안됨',
+        Get.snackbar('401 Error', '未登录',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
         break;
       case 403:
-        Get.snackbar('403 Error', '이미 좋아요 누른 시험 정보',
+        Get.snackbar('403 Error', '您已经点过赞了',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
         break;
       case 500:
-        Get.snackbar('500 Error', 'failed',
+        Get.snackbar('500 Error', '服务器错误',
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,
             colorText: Colors.black);
@@ -424,7 +424,7 @@ class ClassViewController extends GetxController
         //     duration: Duration(seconds: 2));
         break;
       default:
-        Get.snackbar("시험정보 작성 실패", "시험정보 작성 실패",
+        Get.snackbar("考试信息撰写失败", "考试信息撰写失败",
             duration: Duration(seconds: 2),
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,

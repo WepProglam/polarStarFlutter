@@ -126,25 +126,25 @@ void responseSwitchCase(int status) {
       // Get.snackbar("시스템 오류", "글쓰기 성공");
       break;
     case 401:
-      Get.snackbar("시스템 오류", "식별되지 않은 사용자입니다.",
+      Get.snackbar("系统错误", "无法识别用户",
           snackPosition: SnackPosition.BOTTOM,
           colorText: Colors.white,
           backgroundColor: Colors.black);
       break;
     case 403:
-      Get.snackbar("시스템 오류", "잘못된 접근입니다.",
+      Get.snackbar("系统错误", "错误访问",
           snackPosition: SnackPosition.BOTTOM,
           colorText: Colors.white,
           backgroundColor: Colors.black);
       break;
     case 404:
-      Get.snackbar("시스템 오류", "게시판이 존재하지 않습니다",
+      Get.snackbar("系统错误", "该论坛不存在",
           snackPosition: SnackPosition.BOTTOM,
           colorText: Colors.white,
           backgroundColor: Colors.black);
       break;
     default:
-      Get.snackbar("시스템 오류", "게시글이 작성되지 않았습니다.",
+      Get.snackbar("系统错误", "帖子发送失败",
           snackPosition: SnackPosition.BOTTOM,
           colorText: Colors.white,
           backgroundColor: Colors.black);

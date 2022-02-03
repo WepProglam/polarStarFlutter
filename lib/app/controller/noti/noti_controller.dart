@@ -75,7 +75,7 @@ class NotiController extends GetxController with SingleGetTickerProviderMixin {
     Map<String, dynamic> value = await repository.getMailBox();
 
     if (value["status"] != 200) {
-      Get.snackbar("오류", "오류");
+      Get.snackbar("系统错误", "系统错误");
       return;
     }
     mailBox.value = value["listMailBox"];

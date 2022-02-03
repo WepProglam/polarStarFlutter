@@ -53,7 +53,7 @@ class SignUpController extends GetxController {
         );
         break;
       default:
-        Get.snackbar("회원가입 실패", "회원가입 실패",
+        Get.snackbar("注册失败", "注册失败",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.black.withOpacity(0.0),
             colorText: Colors.white);

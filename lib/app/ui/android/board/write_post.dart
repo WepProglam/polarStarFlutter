@@ -137,7 +137,7 @@ class WritePost extends StatelessWidget {
                                       }
                                     },
                                     child: Text(
-                                      "네",
+                                      "是",
                                       style: const TextStyle(
                                           color: const Color(0xff2f2f2f),
                                           fontWeight: FontWeight.w500,
@@ -150,7 +150,7 @@ class WritePost extends StatelessWidget {
                                       Get.back();
                                     },
                                     child: Text(
-                                      "아니오",
+                                      "否",
                                       style: const TextStyle(
                                           color: const Color(0xff2f2f2f),
                                           fontWeight: FontWeight.w500,

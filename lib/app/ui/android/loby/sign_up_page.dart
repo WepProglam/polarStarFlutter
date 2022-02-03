@@ -682,7 +682,7 @@ class SignUpInputs extends StatelessWidget {
                         if (signUpController.selectIndexPK(
                                 signUpController.selectedMajor.value) ==
                             null) {
-                          Get.snackbar("회원 가입 오류", "전공이 잘못 선택되었습니다.",
+                          Get.snackbar("注册错误", "专业选择错误",
                               snackPosition: SnackPosition.BOTTOM,
                               backgroundColor: Colors.black.withOpacity(0.0),
                               colorText: Colors.white);

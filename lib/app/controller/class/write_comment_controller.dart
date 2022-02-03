@@ -41,7 +41,7 @@ class WriteCommentController extends GetxController {
       TextEditingController reviewTextController) async {
     MainController mc = Get.find();
     if (data["content"].length < mc.MIN_CLASS_REVIEW_LENGTH.value) {
-      Get.snackbar("강의 평가 작성 실패", "강의 평가 정보가 너무 짧습니다.",
+      Get.snackbar("讲义评价撰写失败", "您撰写的内容过短",
           duration: Duration(seconds: 2),
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.white,
@@ -71,7 +71,7 @@ class WriteCommentController extends GetxController {
       default:
         print(data["content"].length);
         // print(jsonResponse["statusCode"]);
-        Get.snackbar("강의 평가 작성 실패", "이미 작성한 강의 평가입니다.",
+        Get.snackbar("讲义评价撰写失败", "已经撰写过的讲义评价",
             duration: Duration(seconds: 2),
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.white,

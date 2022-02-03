@@ -46,8 +46,7 @@ class MailController extends GetxController {
   Future<void> sendMailIn(String content, ScrollController controller) async {
     if (content.trim().isEmpty) {
       //빈 값 보내면 snackBar 반환
-      Get.snackbar("텍스트를 입력해주세요", "텍스트를 입력해주세요",
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("请输入文本", "请输入文本", snackPosition: SnackPosition.BOTTOM);
       return;
     }
 
@@ -80,13 +79,13 @@ class MailController extends GetxController {
         break;
 
       default:
-        Get.snackbar("쪽지 보내기 실패", "쪽지 보내기 실패");
+        Get.snackbar("发送私信失败", "发送私信失败");
     }
   }
 
   void sendMailOut(int UNIQUE_ID, int COMMUNITY_ID, String content) async {
     if (content.trim().isEmpty) {
-      Get.snackbar("텍스트를 작성해주세요", "텍스트를 작성해주세요");
+      Get.snackbar("请输入文本", "请输入文本");
       return;
     }
 
@@ -96,7 +95,7 @@ class MailController extends GetxController {
     switch (value["status"]) {
       case 200:
         Get.back();
-        Get.snackbar("쪽지 전송 완료", "쪽지 전송 완료", snackPosition: SnackPosition.TOP);
+        // Get.snackbar("쪽지 전송 완료", "쪽지 전송 완료", snackPosition: SnackPosition.TOP);
 
         int targetMessageBoxID = value["MAIL_BOX_ID"];
         MAIL_BOX_ID.value = targetMessageBoxID;
@@ -106,13 +105,11 @@ class MailController extends GetxController {
 
         break;
       case 403:
-        Get.snackbar("다른 사람의 쪽지함입니다.", "다른 사람의 쪽지함입니다.",
-            snackPosition: SnackPosition.TOP);
+        Get.snackbar("系统错误", "系统错误", snackPosition: SnackPosition.TOP);
         break;
 
       default:
-        Get.snackbar("업데이트 되지 않았습니다.", "업데이트 되지 않았습니다.",
-            snackPosition: SnackPosition.TOP);
+        Get.snackbar("系统错误", "系统错误", snackPosition: SnackPosition.TOP);
     }
   }
 

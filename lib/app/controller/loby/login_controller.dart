@@ -51,11 +51,11 @@ class LoginController extends GetxController {
 
     switch (response["statusCode"]) {
       case 200:
-        Get.snackbar("로그인 성공", "로그인 성공");
+        Get.snackbar("登陆成功", "登陆成功");
 
         break;
       default:
-        Get.snackbar("로그인 실패", "로그인 실패");
+        Get.snackbar("登录失败", "登录失败");
     }
     return response;
   }
@@ -105,7 +105,7 @@ class LoginController extends GetxController {
           await box.remove('pw');
           // print("없어짐");
         }
-        Get.snackbar("로그인 성공", "로그인 성공");
+        Get.snackbar("登陆成功", "登陆成功");
 
         if (isAutoLogin.value) {
           await box.write('isAutoLogin', true);
@@ -129,7 +129,7 @@ class LoginController extends GetxController {
         Get.offAllNamed(Routes.MAIN_PAGE);
         break;
       default:
-        Get.snackbar("로그인 실패", "로그인 실패");
+        Get.snackbar("Failed to sign in", "Failed to sign in");
     }
   }
 
