@@ -513,26 +513,30 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
               : Container()
           : Container(),
       Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: MY_SELF ? Radius.circular(20) : Radius.circular(0),
-                  topRight: MY_SELF ? Radius.circular(0) : Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20)),
-              border: Border.all(
-                  color: MY_SELF ? Color(0xff6da3fc) : Color(0xffd6d4d4),
-                  width: 1)),
-          child: Container(
-              padding:
-                  EdgeInsets.only(left: 16, top: 10, right: 24, bottom: 10),
-              child: Text("${model.CONTENT}",
-                  style: const TextStyle(
-                      color: const Color(0xff2f2f2f),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                  textAlign: TextAlign.left))),
+        constraints: BoxConstraints(maxWidth: Get.mediaQuery.size.width - 110),
+        child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: MY_SELF ? Radius.circular(20) : Radius.circular(0),
+                    topRight:
+                        MY_SELF ? Radius.circular(0) : Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(20)),
+                border: Border.all(
+                    color: MY_SELF ? Color(0xff6da3fc) : Color(0xffd6d4d4),
+                    width: 1)),
+            child: Container(
+                padding:
+                    EdgeInsets.only(left: 16, top: 10, right: 24, bottom: 10),
+                child: Text("${model.CONTENT}",
+                    style: const TextStyle(
+                        color: const Color(0xff2f2f2f),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0),
+                    textAlign: TextAlign.left))),
+      ),
       MY_SELF
           ? Container()
           : isTimeDifferent
@@ -548,37 +552,6 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                       textAlign: TextAlign.right),
                 )
               : Container(),
-    ]
-
-        // [
-        //   Container(
-        //       decoration: BoxDecoration(
-        //           borderRadius: BorderRadius.only(
-        //               topLeft: Radius.circular(36),
-        //               topRight: Radius.circular(36),
-        //               bottomRight: model.FROM_ME == 0
-        //                   ? Radius.circular(36)
-        //                   : Radius.circular(0),
-        //               bottomLeft: model.FROM_ME == 0
-        //                   ? Radius.circular(0)
-        //                   : Radius.circular(36)),
-        //           border: Border.all(color: const Color(0xffdcdcdc), width: 1),
-        //           color:
-        //               model.FROM_ME == 0 ? Color(0xfff2f2f2) : Color(0xff1a4678)),
-        //       child: Container(
-        //           margin:
-        //               EdgeInsets.only(left: 11.5, top: 13, right: 13, bottom: 16),
-        //           child: Text("${model.CONTENT}",
-        //               style: TextStyle(
-        //                   color: model.FROM_ME == 0
-        //                       ? Color(0xff333333)
-        //                       : Color(0xffffffff),
-        //                   fontWeight: FontWeight.w700,
-        //                   fontFamily: "PingFangSC",
-        //                   fontStyle: FontStyle.normal,
-        //                   fontSize: 16.0),
-        //               textAlign: TextAlign.left))),
-        // ],
-        );
+    ]);
   }
 }
