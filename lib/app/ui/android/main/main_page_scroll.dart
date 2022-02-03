@@ -648,15 +648,14 @@ class MainPageScroll extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                    right: 20.0,
-                    top: 163.6 - 20,
-                    child: Image.asset(
-                      "assets/images/378.png",
-                      // width: 272,
-                      height: 164.2,
-                      // width: Get.mediaQuery.size.width,
-                      // height: 137,/
-                    ))
+                    right: 17.1,
+                    top: 158.6 - 20,
+                    child: Image.asset("assets/images/panda.png",
+                        // width: 272,
+                        height: 164.6
+                        // width: Get.mediaQuery.size.width,
+                        // height: 137,/
+                        ))
               ]),
             );
           }

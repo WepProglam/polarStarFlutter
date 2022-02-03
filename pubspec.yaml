@@ -256,6 +256,7 @@ flutter:
 
     # Main Page Scroll
     - assets/images/378.png
+    - assets/images/panda.png
 
     # Outside Preview
     - assets/images/371.png

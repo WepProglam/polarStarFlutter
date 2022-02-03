@@ -363,7 +363,7 @@ class TimeTableController extends GetxController {
 
     switch (status["statusCode"]) {
       case 200:
-        Get.snackbar("디폴트 변경 성공", "디폴트 변경 성공");
+        // Get.snackbar("디폴트 변경 성공", "디폴트 변경 성공");
         // if (!defaultTableList.containsKey("${year}년 ${semester}학기")) {
         //   defaultTableList["${year}년 ${semester}학기"] = selectTable;
         // } else {
@@ -402,7 +402,7 @@ class TimeTableController extends GetxController {
 
         break;
       default:
-        Get.snackbar("디폴트 변경 실패", "디폴트 변경 실패");
+        // Get.snackbar("디폴트 변경 실패", "디폴트 변경 실패");
         break;
     }
   }

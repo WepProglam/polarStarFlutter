@@ -309,8 +309,8 @@ class SelectSem extends StatelessWidget {
               timeTableController.createYear.value = value.split("学年度 ")[0];
               timeTableController.createSemester.value = "${sem}";
             } else {
-              Get.snackbar("1학기, 여름학기, 2학기, 겨울학기 중 선택해주세요",
-                  "1학기, 여름학기, 2학기, 겨울학기 중 선택해주세요");
+              // Get.snackbar("1학기, 여름학기, 2학기, 겨울학기 중 선택해주세요",
+              //     "1학기, 여름학기, 2학기, 겨울학기 중 선택해주세요");
             }
           },
           hint: Text("请选择学期",

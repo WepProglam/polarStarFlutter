@@ -597,7 +597,7 @@ class SelectDay extends StatelessWidget {
   }) : super(key: key);
 
   final Rx<AddClassModel> newClass;
-  final List<String> days;
+  List<String> days;
   final TimeTableController timeTableController = Get.find();
 
   @override
@@ -613,7 +613,7 @@ class SelectDay extends StatelessWidget {
             child: Image.asset("assets/images/940.png",
                 color: Get.theme.primaryColor),
           ),
-          value: dayConverter(newClass.value.day),
+          value: newClass.value.day,
           onChanged: (value) {
             newClass.update((val) {
               val.day = value;
@@ -638,7 +638,7 @@ class SelectDay extends StatelessWidget {
                                 fontSize: 14.0),
                             textAlign: TextAlign.left),
                   ),
-                  value: dayConverter(e)))
+                  value: e))
               .toList());
     });
   }
@@ -684,8 +684,8 @@ class SelectStartTime extends StatelessWidget {
         if (cal_time >= 0 && cal_time < 24) {
           timeInput = timeInput;
         } else {
-          Get.snackbar("0시부터 24시 사이로 골라주세요", "0시부터 24시 사이로 골라주세요",
-              snackPosition: SnackPosition.BOTTOM);
+          // Get.snackbar("0시부터 24시 사이로 골라주세요", "0시부터 24시 사이로 골라주세요",
+          //     snackPosition: SnackPosition.BOTTOM);
           return;
         }
 
@@ -772,8 +772,8 @@ class SelectEndTime extends StatelessWidget {
         if (cal_time > 0 && cal_time <= 24) {
           timeInput = timeInput;
         } else {
-          Get.snackbar("0시부터 24시 사이로 골라주세요", "0시부터 24시 사이로 골라주세요",
-              snackPosition: SnackPosition.BOTTOM);
+          // Get.snackbar("0시부터 24시 사이로 골라주세요", "0시부터 24시 사이로 골라주세요",
+          //     snackPosition: SnackPosition.BOTTOM);
           return;
         }
 

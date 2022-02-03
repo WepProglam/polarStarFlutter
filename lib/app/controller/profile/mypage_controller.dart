@@ -248,12 +248,12 @@ class MyPageController extends GetxController
           });
 
           Get.back();
-          Get.snackbar("변경 성공", "변경 성공");
+          // Get.snackbar("프로필 사진 변경 성공", "변경 성공");
 
           break;
 
         default:
-          Get.snackbar("변경 실패", "변경 실패");
+        // Get.snackbar("변경 실패", "변경 실패");
       }
     });
   }
@@ -268,16 +268,16 @@ class MyPageController extends GetxController
 
     switch (value["status"]) {
       case 200:
-        Get.snackbar("사진 변경 성공", "사진 변경 성공",
-            snackPosition: SnackPosition.BOTTOM);
+        // Get.snackbar("사진 변경 성공", "사진 변경 성공",
+        //     snackPosition: SnackPosition.BOTTOM);
 
         myProfile.update((val) {
           val.PROFILE_PHOTO = value["src"];
         });
         break;
       case 500:
-        Get.snackbar("사진 변경 실패", "사진 변경 실패",
-            snackPosition: SnackPosition.BOTTOM);
+        // Get.snackbar("사진 변경 실패", "사진 변경 실패",
+        //     snackPosition: SnackPosition.BOTTOM);
         break;
       default:
     }
