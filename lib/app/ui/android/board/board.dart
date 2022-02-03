@@ -128,7 +128,7 @@ class Board extends StatelessWidget {
                     }).value;
                     return isExist
                         ? Container(
-                            height: boardInfo.IS_DEFAULT ? 0 : 73,
+                            height: !boardInfo.IS_CUSTOM ? 0 : 73,
                             child: Row(children: [
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
