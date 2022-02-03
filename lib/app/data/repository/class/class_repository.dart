@@ -95,10 +95,34 @@ class ClassRepository {
       List classReview =
           classReviewList.map((e) => ClassReviewModel.fromJson(e)).toList();
 
+      Iterable commentLikeTmp = responseBody["commentLikeList"];
+
+      List commentLikeList =
+          commentLikeTmp.map((e) => LikeModel.fromJson(e)).toList();
+
+      Iterable commentAccuseTmp = responseBody["commentAccuseList"];
+
+      List commentAccuseList =
+          commentAccuseTmp.map((e) => AccuseCommentModel.fromJson(e)).toList();
+
+      Iterable examLikeTmp = responseBody["examLikeList"];
+
+      List examLikeList =
+          examLikeTmp.map((e) => LikeModel.fromJson(e)).toList();
+
+      Iterable examAccuseTmp = responseBody["examAccuseList"];
+
+      List examAccuseList =
+          examAccuseTmp.map((e) => AccuseExamModel.fromJson(e)).toList();
+
       return {
         "statusCode": 200,
         "classInfo": classInfo,
-        "classReview": classReview
+        "classReview": classReview,
+        "commentLikeList": commentLikeList,
+        "examLikeList": examLikeList,
+        "commentAccuseList": commentAccuseList,
+        "examAccuseList": examAccuseList
       };
     }
   }
