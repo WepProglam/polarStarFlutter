@@ -153,7 +153,7 @@ class Setting extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Container(
                             margin: EdgeInsets.only(left: 0),
-                            child: Text("앱 버전",
+                            child: Text("版本",
                                 style: const TextStyle(
                                     color: const Color(0xff6f6e6e),
                                     fontWeight: FontWeight.w500,
@@ -213,7 +213,7 @@ class Setting extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Container(
                             margin: EdgeInsets.only(left: 0),
-                            child: Text("앱 이용약관",
+                            child: Text("服务协议",
                                 style: const TextStyle(
                                     color: const Color(0xff6f6e6e),
                                     fontWeight: FontWeight.w500,
@@ -240,7 +240,7 @@ class Setting extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Container(
                             margin: EdgeInsets.only(left: 0),
-                            child: Text("개인정보 처리 방침",
+                            child: Text("隐私政策",
                                 style: const TextStyle(
                                     color: const Color(0xff6f6e6e),
                                     fontWeight: FontWeight.w500,
