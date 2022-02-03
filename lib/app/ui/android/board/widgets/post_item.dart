@@ -42,7 +42,8 @@ class PostBottom extends StatelessWidget {
             foregroundColor:
                 MaterialStateProperty.all<Color>(Color(0xff6f6e6e)),
           ),
-          onPressed: mainController.isLiked(item.value) || c == null
+          onPressed: (mainController.isLiked(item.value) || c == null) ||
+                  item.value.MYSELF
               ? null
               : () async {
                   /*if (item.value.MYSELF) {
@@ -563,7 +564,8 @@ class CommnetTopIcons extends StatelessWidget {
                   }
                 },
                 child: Ink(
-                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 6.0),
                   child: Container(
                       width: CommentIconSize,
                       height: CommentIconSize,
@@ -585,7 +587,8 @@ class CommnetTopIcons extends StatelessWidget {
               }
             },
             child: Ink(
-              padding: const EdgeInsets.symmetric(horizontal: 6.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
               child: Container(
                 width: CommentIconSize,
                 height: CommentIconSize,
@@ -603,7 +606,8 @@ class CommnetTopIcons extends StatelessWidget {
         // * 메뉴
         PopupMenuButton(
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 6.0),
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
               width: CommentIconSize,
               height: CommentIconSize,
               child: Image.asset("assets/images/icn_more.png"),

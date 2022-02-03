@@ -199,6 +199,10 @@ class PostController extends GetxController {
   Future<int> totalSend(String urlTemp, String what, int index) async {
     int statusCode = await _totalSend(urlTemp, what, index);
     await MainUpdateModule.updatePost(type: callType);
+    //! 걍 다 업데이트함
+    await MainUpdateModule.updateMyPage(0);
+    await MainUpdateModule.updateMyPage(1);
+    await MainUpdateModule.updateMyPage(2);
     return statusCode;
   }
 
@@ -206,6 +210,10 @@ class PostController extends GetxController {
   Future<int> scrap_cancel(String urlTemp) async {
     int statusCode = await _scrap_cancel(urlTemp);
     await MainUpdateModule.updatePost(type: callType);
+    //! 걍 다 업데이트함
+    await MainUpdateModule.updateMyPage(0);
+    await MainUpdateModule.updateMyPage(1);
+    await MainUpdateModule.updateMyPage(2);
     return statusCode;
   }
 

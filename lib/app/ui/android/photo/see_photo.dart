@@ -89,35 +89,35 @@ class _SeePhotoState extends State<SeePhoto> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          margin: const EdgeInsets.only(left: 20),
+                        InkWell(
+                          onTap: () {
+                            Get.back();
+                          },
                           child: Ink(
-                            child: InkWell(
-                                onTap: () {
-                                  Get.back();
-                                },
-                                child: Image.asset(
-                                  "assets/images/848.png",
-                                  color: Colors.white,
-                                  width: 12,
-                                  height: 24,
-                                )),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 20),
-                          child: Ink(
-                            child: InkWell(
-                              onTap: () {},
-                              child: Image.asset(
-                                "assets/images/file_after_download.png",
-                                height: 24,
-                                width: 24,
-                                color: Colors.white,
-                              ),
+                            padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+                            child: Image.asset(
+                              "assets/images/848.png",
+                              color: Colors.white,
+                              width: 12,
+                              height: 24,
                             ),
                           ),
                         ),
+                        //! 다운로드 일단 제거
+                        // Container(
+                        //   margin: const EdgeInsets.only(right: 20),
+                        //   child: Ink(
+                        //     child: InkWell(
+                        //       onTap: () {},
+                        //       child: Image.asset(
+                        //         "assets/images/file_after_download.png",
+                        //         height: 24,
+                        //         width: 24,
+                        //         color: Colors.white,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     )),
               ),
