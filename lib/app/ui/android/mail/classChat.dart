@@ -1033,8 +1033,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                           Ink(
                                             child: InkWell(
                                               onTap: () async {
-                                                await ManagePermission
-                                                    .checkPermission(() async {
+                                                if (await ManagePermission
+                                                    .checkPermission()) {
                                                   print('사진추가');
                                                   controller.photos.addAll(
                                                       await AssetPicker
@@ -1046,7 +1046,10 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                   ));
 
                                                   controller.sendPhoto();
-                                                });
+                                                } else {
+                                                  ManagePermission
+                                                      .permissionDialog();
+                                                }
                                               },
                                               child: Container(
                                                   width: containerSize,
@@ -1089,8 +1092,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                           Ink(
                                             child: InkWell(
                                               onTap: () async {
-                                                await ManagePermission
-                                                    .checkPermission(() async {
+                                                if (await ManagePermission
+                                                    .checkPermission()) {
                                                   print("File");
                                                   FilePickerResult result =
                                                       await FilePicker.platform
@@ -1108,7 +1111,10 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                   } else {
                                                     // User canceled the picker
                                                   }
-                                                });
+                                                } else {
+                                                  ManagePermission
+                                                      .permissionDialog();
+                                                }
                                               },
                                               child: Container(
                                                   width: containerSize,

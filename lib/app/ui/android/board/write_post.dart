@@ -286,11 +286,13 @@ class WritePost extends StatelessWidget {
                                 child: index == 0
                                     ? InkWell(
                                         onTap: () async {
-                                          ManagePermission.checkPermission(
-                                              () async {
+                                          if (await ManagePermission
+                                              .checkPermission()) {
                                             await getMultipleGallertImage(
                                                 context);
-                                          });
+                                          } else {
+                                            ManagePermission.permissionDialog();
+                                          }
                                         },
                                         child: Container(
                                             width: 120,
