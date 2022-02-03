@@ -153,6 +153,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
   @override
   void dispose() {
     IsolateNameServer.removePortNameMapping('downloader_send_port');
+    keyboardSubscription.pause();
     super.dispose();
   }
 
