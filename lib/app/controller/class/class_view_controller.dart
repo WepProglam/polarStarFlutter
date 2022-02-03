@@ -51,6 +51,10 @@ class ClassViewController extends GetxController
 
   final classInfo = ClassInfoModel().obs;
   final classReviewList = <ClassReviewModel>[].obs;
+  final commentLikeList = <LikeModel>[].obs;
+  final examLikeList = <LikeModel>[].obs;
+  final commentAccuseList = <AccuseCommentModel>[].obs;
+  final examAccuseList = <AccuseExamModel>[].obs;
   final classExamList = [].obs;
 
   final RxList<String> exampleList = <String>[].obs;
@@ -188,6 +192,31 @@ class ClassViewController extends GetxController
       case 200:
         classInfo(jsonResponse["classInfo"]);
         classReviewList(jsonResponse["classReview"]);
+        commentLikeList(jsonResponse["commentLikeList"]);
+        examLikeList(jsonResponse["examLikeList"]);
+        commentAccuseList(jsonResponse["commentAccuseList"]);
+        examAccuseList(jsonResponse["examAccuseList"]);
+
+//이미 좋아요나 신고 했는지 체크
+        for (int i = 0; i < classReviewList.length; i++) {
+          classReviewList[i].ALREADY_LIKED = false;
+          classReviewList[i].ALREADY_ACCUSED = false;
+          for (int j = 0; j < commentLikeList.length; j++) {
+            if (classReviewList[i].CLASS_COMMENT_ID ==
+                commentLikeList[j].UNIQUE_ID) {
+              classReviewList[i].ALREADY_LIKED = true;
+              break;
+            }
+          }
+          for (int j = 0; j < commentAccuseList.length; j++) {
+            if (classReviewList[i].CLASS_COMMENT_ID ==
+                commentAccuseList[j].CLASS_COMMENT_ID) {
+              classReviewList[i].ALREADY_ACCUSED = true;
+              break;
+            }
+          }
+        }
+
         classViewAvailable(true);
 
         break;
@@ -219,6 +248,23 @@ class ClassViewController extends GetxController
     switch (jsonResponse["statusCode"]) {
       case 200:
         classExamList(jsonResponse["classExamList"]);
+        for (int i = 0; i < classExamList.length; i++) {
+          classExamList[i].ALREADY_LIKED = false;
+          classExamList[i].ALREADY_ACCUSED = false;
+          for (int j = 0; j < examLikeList.length; j++) {
+            if (classExamList[i].CLASS_EXAM_ID == examLikeList[j].UNIQUE_ID) {
+              classExamList[i].ALREADY_LIKED = true;
+              break;
+            }
+          }
+          for (int j = 0; j < examAccuseList.length; j++) {
+            if (classExamList[i].CLASS_EXAM_ID ==
+                examAccuseList[j].CLASS_EXAM_ID) {
+              classExamList[i].ALREADY_ACCUSED = true;
+              break;
+            }
+          }
+        }
         classExamAvailable(true);
 
         break;

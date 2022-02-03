@@ -64,6 +64,42 @@ class ClassInfoModel {
   }
 }
 
+class LikeModel {
+  int LIKER_PID, LIKED_PID, UNIQUE_ID;
+
+  LikeModel({LIKER_PID, LIKED_PID, UNIQUE_ID});
+
+  LikeModel.fromJson(Map<String, dynamic> json) {
+    this.LIKER_PID = json["LIKER_PID"];
+    this.LIKED_PID = json["LIKED_PID"];
+    this.UNIQUE_ID = json["UNIQUE_ID"];
+  }
+}
+
+class AccuseCommentModel {
+  int ACCUSED_PID, ACCUSER_PID, CLASS_COMMENT_ID;
+
+  AccuseCommentModel({ACCUSED_PID, ACCUSER_PID, CLASS_COMMENT_ID});
+
+  AccuseCommentModel.fromJson(Map<String, dynamic> json) {
+    this.ACCUSED_PID = json["ACCUSED_PID"];
+    this.ACCUSER_PID = json["ACCUSER_PID"];
+    this.CLASS_COMMENT_ID = json["CLASS_COMMENT_ID"];
+  }
+}
+
+class AccuseExamModel {
+  int ACCUSED_PID, ACCUSER_PID, CLASS_EXAM_ID;
+
+  AccuseExamModel({ACCUSED_PID, ACCUSER_PID, CLASS_EXAM_ID});
+
+  AccuseExamModel.fromJson(Map<String, dynamic> json) {
+    this.ACCUSED_PID = json["ACCUSED_PID"];
+    this.ACCUSER_PID = json["ACCUSER_PID"];
+    this.CLASS_EXAM_ID = json["CLASS_EXAM_ID"];
+  }
+}
+
 class ClassReviewModel {
   int CLASS_COMMENT_ID,
       CLASS_ID,
@@ -73,6 +109,8 @@ class ClassReviewModel {
       ACCUSE_AMOUNT,
       CLASS_YEAR,
       CLASS_SEMESTER;
+
+  bool ALREADY_LIKED, ALREADY_ACCUSED;
 
   String TIME_CREATED,
       CONTENT,
@@ -122,7 +160,10 @@ class ClassExamModel {
       PROFILE_ID,
       CLASS_EXAM_YEAR,
       CLASS_EXAM_SEMESTER,
+      ACCUSE_AMOUNT,
       LIKES;
+
+  bool ALREADY_LIKED, ALREADY_ACCUSED;
   String TEST_STRATEGY, TEST_TYPE, TIME_CREATED, MID_FINAL;
   List TEST_EXAMPLE;
   bool IS_BUYED;
@@ -138,6 +179,7 @@ class ClassExamModel {
       CLASS_EXAM_YEAR,
       CLASS_EXAM_SEMESTER,
       LIKES,
+      ACCUSE_AMOUNT,
       MID_FINAL,
       IS_BUYED});
 
@@ -158,6 +200,7 @@ class ClassExamModel {
     }
     ;
     this.TIME_CREATED = json["TIME_CREATED"];
+    this.ACCUSE_AMOUNT = json["ACCUSE_AMOUNT"];
 
     this.PROFILE_ID = json["PROFILE_ID"];
     this.CLASS_EXAM_YEAR = json["CLASS_EXAM_YEAR"];

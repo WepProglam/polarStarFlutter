@@ -989,24 +989,7 @@ class ClassViewReview extends StatelessWidget {
                           textAlign: TextAlign.center),
                     ],
                   ),
-                  InkWell(
-                      splashColor: Colors.cyan[100].withOpacity(0.6),
-                      onTap: () async {
-                        await classViewController.arrestClassCommentFunc(index);
-                      },
-                      child: Container(
-                          width: 30.0,
-                          margin: EdgeInsets.only(left: 160),
-                          child: Text(
-                            "举报",
-                            style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                color: Colors.cyan,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Roboto",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 12.0),
-                          ))),
+                  Spacer(),
                   InkWell(
                     splashColor: Colors.cyan[100].withOpacity(0.6),
                     onTap: () async {
@@ -1020,18 +1003,48 @@ class ClassViewReview extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(Icons.thumb_up, size: 12.0, color: Colors.cyan),
-                          Text(
-                            classReviewModel.LIKES.toString(),
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                color: Colors.cyan,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "Roboto",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 12.0),
-                          )
+                          Image.asset(
+                              classReviewModel.ALREADY_LIKED
+                                  ? "assets/images/414.png"
+                                  : "assets/images/icn_reply_like_color.png",
+                              height: 12,
+                              width: 12),
+                          Text(classReviewModel.LIKES.toString(),
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: const Color(0xff6ea5ff),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansKR",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 10.0))
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      await classViewController.arrestClassCommentFunc(index);
+                    },
+                    child: Container(
+                      width: 25.0,
+                      margin: EdgeInsets.only(left: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Image.asset(
+                              classReviewModel.ALREADY_ACCUSED
+                                  ? "assets/images/413.png"
+                                  : "assets/images/415.png",
+                              height: 12,
+                              width: 12),
+                          Text(classReviewModel.ACCUSE_AMOUNT.toString(),
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: const Color(0xff6ea5ff),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansKR",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 10.0))
                         ],
                       ),
                     ),
