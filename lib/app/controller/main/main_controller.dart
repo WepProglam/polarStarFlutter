@@ -510,7 +510,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
                   onPressed: () async {
                     SystemNavigator.pop();
                   },
-                  child: Text("네"))
+                  child: Text("是"))
             ]);
       } else if (current_buildNumber > latest_buildNumber) {
         //이건 오류(build number 잘못 입력됨)

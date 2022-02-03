@@ -54,7 +54,7 @@ class Session extends GetConnect {
                   Session.session = updateCookie(val, 'connect.sid');
                   Get.back();
                   // Get.reloadAll();
-                  Get.snackbar('다시 로그인 됐습니다.', '다시 로그인 됐습니다');
+                  // Get.snackbar('다시 로그인 됐습니다.', '다시 로그인 됐습니다');
                   return val;
                   break;
                 default:

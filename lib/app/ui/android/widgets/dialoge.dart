@@ -31,13 +31,13 @@ Future<void> TFdialogue(BuildContext context) async {
 
           actions: <Widget>[
             TextButton(
-              child: new Text("아니오"),
+              child: new Text("否"),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
             TextButton(
-              child: new Text("확인"),
+              child: new Text("是"),
               onPressed: () {
                 Navigator.pop(context);
               },

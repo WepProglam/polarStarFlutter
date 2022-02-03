@@ -105,12 +105,12 @@ class ManagePermission {
                 await openAppSettings();
                 Get.back();
               },
-              child: Text("네")),
+              child: Text("是")),
           TextButton(
               onPressed: () {
                 Get.back();
               },
-              child: Text("아니요")),
+              child: Text("否")),
         ]);
   }
 }

@@ -108,14 +108,14 @@ class TimetableAddClass extends StatelessWidget {
                             timeTableAddClassController.TOTAL_CLASS.value;
                         if (postData.PROFESSOR == null ||
                             postData.PROFESSOR.isEmpty) {
-                          Get.snackbar("교강사명을 입력하세요", "교강사명을 입력하세요",
+                          Get.snackbar("请输入教师姓名", "请输入教师姓名",
                               snackPosition: SnackPosition.BOTTOM);
                         } else if (postData.CLASS_NAME == null ||
                             postData.CLASS_NAME.isEmpty) {
-                          Get.snackbar("강의명을 입력하세요", "강의명을 입력하세요",
+                          Get.snackbar("请输入课程名", "请输入课程名",
                               snackPosition: SnackPosition.BOTTOM);
                         } else if (!checkClasses) {
-                          Get.snackbar("시간이 중복되었습니다.", "시간이 중복되었습니다.",
+                          Get.snackbar("重复的时间表", "重复的时间表",
                               snackPosition: SnackPosition.BOTTOM);
                         } else {
                           timeTableAddClassController.addClass(
