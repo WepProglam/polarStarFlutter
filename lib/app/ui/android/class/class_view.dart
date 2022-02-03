@@ -1303,9 +1303,9 @@ class ClassExamInfo extends StatelessWidget {
                         classExamModel.TEST_STRATEGY != null
                             ? Text(
                                 classExamModel.TEST_STRATEGY,
-                                overflow: TextOverflow.ellipsis,
+                                // overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
+                                    // overflow: TextOverflow.ellipsis,
                                     color: const Color(0xff6f6e6e),
                                     fontWeight: FontWeight.w400,
                                     fontFamily: "NotoSansSC",
@@ -1338,9 +1338,9 @@ class ClassExamInfo extends StatelessWidget {
                         classExamModel.TEST_TYPE != null
                             ? Text(
                                 classExamModel.TEST_TYPE,
-                                overflow: TextOverflow.ellipsis,
+                                // overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
+                                    // overflow: TextOverflow.ellipsis,
                                     color: const Color(0xff6f6e6e),
                                     fontWeight: FontWeight.w400,
                                     fontFamily: "NotoSansSC",
