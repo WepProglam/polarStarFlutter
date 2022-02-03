@@ -777,24 +777,25 @@ class ClassViewInfo extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("作业量",
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            color: const Color(categoryColor),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: "NotoSansTC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
-                        textAlign: TextAlign.left),
+                    // Text("作业量",
+                    //     overflow: TextOverflow.ellipsis,
+                    //     style: const TextStyle(
+                    //         overflow: TextOverflow.ellipsis,
+                    //         color: const Color(categoryColor),
+                    //         fontWeight: FontWeight.w400,
+                    //         fontFamily: "NotoSansTC",
+                    //         fontStyle: FontStyle.normal,
+                    //         fontSize: 14.0),
+                    //     textAlign: TextAlign.left),
+                    Spacer(),
                     Text(
                       "${classInfoModel.CLASS_SECTOR_2}",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           overflow: TextOverflow.ellipsis,
                           color: const Color(0xff333333),
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "NotoSansTC",
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "NotoSansKR",
                           fontStyle: FontStyle.normal,
                           fontSize: 14.0),
                       textAlign: TextAlign.left,
