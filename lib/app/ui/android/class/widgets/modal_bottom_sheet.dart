@@ -520,15 +520,16 @@ class WriteComment extends StatelessWidget {
                           color: const Color(0xffffffff)),
                       child: TextField(
                         onTap: () async {
-                          await Future.delayed(Duration(milliseconds: 100));
-                          writeCommentController.writeCommentScrollController
-                              .animateTo(
-                                  writeCommentController
-                                      .writeCommentScrollController
-                                      .position
-                                      .maxScrollExtent,
-                                  duration: Duration(milliseconds: 100),
-                                  curve: Curves.fastOutSlowIn);
+                          Future.delayed(Duration(milliseconds: 200), () {
+                            writeCommentController.writeCommentScrollController
+                                .animateTo(
+                                    writeCommentController
+                                        .writeCommentScrollController
+                                        .position
+                                        .maxScrollExtent,
+                                    duration: Duration(milliseconds: 100),
+                                    curve: Curves.fastOutSlowIn);
+                          });
                         },
                         maxLines: 6,
                         keyboardType: TextInputType.multiline,
@@ -1157,16 +1158,18 @@ class WriteExamInfo extends StatelessWidget {
                         validator: (value) {
                           return checkEmpty(value);
                         },
-                        onTap: () async {
-                          await Future.delayed(Duration(milliseconds: 500));
-                          classViewController.writeExamInfoScrollController
-                              .animateTo(
-                                  classViewController
-                                      .writeExamInfoScrollController
-                                      .position
-                                      .maxScrollExtent,
-                                  duration: Duration(milliseconds: 500),
-                                  curve: Curves.fastOutSlowIn);
+                        onTap: () {
+                          // await Future.delayed(Duration(milliseconds: 500));
+                          Future.delayed(Duration(milliseconds: 200), () {
+                            classViewController.writeExamInfoScrollController
+                                .animateTo(
+                                    classViewController
+                                        .writeExamInfoScrollController
+                                        .position
+                                        .maxScrollExtent,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.fastOutSlowIn);
+                          });
                         },
                         textInputAction: TextInputAction.go,
                         maxLines: 1,
