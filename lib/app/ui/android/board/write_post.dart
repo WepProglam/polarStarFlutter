@@ -291,7 +291,8 @@ class WritePost extends StatelessWidget {
                                             await getMultipleGallertImage(
                                                 context);
                                           } else {
-                                            ManagePermission.permissionDialog();
+                                            ManagePermission.permissionDialog(
+                                                "Storage");
                                           }
                                         },
                                         child: Container(

@@ -1015,32 +1015,41 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                             child: InkWell(
                                               onTap: () async {
                                                 print("camera");
-                                                final pickedFile =
-                                                    await image_picker
-                                                        .pickImage(
-                                                            source: ImageSource
-                                                                .camera);
-                                                if (pickedFile != null) {
-                                                  Get.defaultDialog(
-                                                    title: "Photo Upload",
-                                                    middleText:
-                                                        "Want Upload this Photo?",
-                                                    actions: [
-                                                      TextButton(
-                                                          onPressed: () async {
-                                                            await controller
-                                                                .sendCameraPhoto(
-                                                                    pickedFile);
-                                                            Get.back();
-                                                          },
-                                                          child: Text("YES")),
-                                                      TextButton(
-                                                          onPressed: () {
-                                                            Get.back();
-                                                          },
-                                                          child: Text("NO")),
-                                                    ],
-                                                  );
+                                                if (await Permission
+                                                    .camera.isGranted) {
+                                                  final pickedFile =
+                                                      await image_picker
+                                                          .pickImage(
+                                                              source:
+                                                                  ImageSource
+                                                                      .camera);
+                                                  if (pickedFile != null) {
+                                                    Get.defaultDialog(
+                                                      title: "Photo Upload",
+                                                      middleText:
+                                                          "Want Upload this Photo?",
+                                                      actions: [
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              await controller
+                                                                  .sendCameraPhoto(
+                                                                      pickedFile);
+                                                              Get.back();
+                                                            },
+                                                            child: Text("YES")),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Get.back();
+                                                            },
+                                                            child: Text("NO")),
+                                                      ],
+                                                    );
+                                                  }
+                                                } else {
+                                                  ManagePermission
+                                                      .permissionDialog(
+                                                          "Camera");
                                                 }
                                               },
                                               child: Container(
@@ -1127,7 +1136,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                   }
                                                 } else {
                                                   ManagePermission
-                                                      .permissionDialog();
+                                                      .permissionDialog(
+                                                          "Storage");
                                                 }
                                               },
                                               child: Container(
@@ -1192,7 +1202,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                   }
                                                 } else {
                                                   ManagePermission
-                                                      .permissionDialog();
+                                                      .permissionDialog(
+                                                          "Storage");
                                                 }
                                               },
                                               child: Container(

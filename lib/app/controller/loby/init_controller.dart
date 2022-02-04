@@ -75,10 +75,11 @@ class ManagePermission {
         await [Permission.storage, Permission.camera].request();
 
     PermissionStatus permissionStorage = statuses[Permission.storage];
+    PermissionStatus permissionCamera = statuses[Permission.camera];
     // PermissionStatus permissionCamera = statuses[Permission.camera];
     // print(permissionStorage.toString());
     // print(permissionStorage.isGranted);
-    if (permissionStorage.isGranted) {
+    if (permissionStorage.isGranted && permissionCamera.isGranted) {
       // print("????");
       return true;
     } else {
@@ -94,10 +95,10 @@ class ManagePermission {
     return permissionGranted;
   }
 
-  static void permissionDialog() {
+  static void permissionDialog(String target) {
     Get.defaultDialog(
-        title: "Storage 권한 설정을 위해 앱 설정으로 이동합니다.",
-        content: Text("앱 설정으로 이동합니다."),
+        title: "Permission not Granted",
+        middleText: "$target 권한 설정을 위해 앱 설정으로 이동합니다.",
         actions: [
           TextButton(
               onPressed: () async {
