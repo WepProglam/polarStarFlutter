@@ -1260,7 +1260,7 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
       if (Platform.isAndroid) {
         dirloc = "/sdcard/download/";
       } else {
-        dirloc = (await getApplicationDocumentsDirectory()).path;
+        dirloc = (await getApplicationDocumentsDirectory()).absolute.path;
       }
 
       // final externalDir = await getExternalStorageDirectory();
@@ -1280,6 +1280,7 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
       });
 
       box.write(url, taskID);
+      print("downloaded!!");
     } else {
       print('Permission Denied');
     }
