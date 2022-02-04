@@ -71,7 +71,6 @@ IO.Socket classChatSocket;
 
 void main() async {
   await GetStorage.init();
-  AssetPicker.themeData(Color(0xff4570ff));
 
   // await Firebase.initializeApp();
 
@@ -85,7 +84,7 @@ void main() async {
 
   await ManagePermission.getPermission();
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterDownloader.initialize(debug: true);
+  await FlutterDownloader.initialize();
 
   runApp(GetMaterialApp(
     themeMode: ThemeMode.light, // Change it as you want
