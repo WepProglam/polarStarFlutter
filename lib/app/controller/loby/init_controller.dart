@@ -12,7 +12,6 @@ import 'package:polarstar_flutter/app/data/model/login_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:meta/meta.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -26,13 +25,13 @@ class InitController extends GetxController {
 
   RxInt mainPageIndex = 0.obs;
 
-  Future<String> checkFcmToken() async {
-    String FcmToken;
-    await FirebaseMessaging.instance.getToken().then((token) {
-      FcmToken = token;
-    });
-    return FcmToken;
-  }
+  // Future<String> checkFcmToken() async {
+  //   String FcmToken;
+  //   await FirebaseMessaging.instance.getToken().then((token) {
+  //     FcmToken = token;
+  //   });
+  //   return FcmToken;
+  // }
 
   bool needRefreshToken(String curFcmToken) {
     String oldFcmToken = box.read("FcmToken");
