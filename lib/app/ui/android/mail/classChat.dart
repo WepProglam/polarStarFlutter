@@ -1020,8 +1020,28 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                         .pickImage(
                                                             source: ImageSource
                                                                 .camera);
-                                                controller.sendCameraPhoto(
-                                                    pickedFile);
+                                                if (pickedFile != null) {
+                                                  Get.defaultDialog(
+                                                    title: "Photo Upload",
+                                                    middleText:
+                                                        "Want Upload this Photo?",
+                                                    actions: [
+                                                      TextButton(
+                                                          onPressed: () async {
+                                                            await controller
+                                                                .sendCameraPhoto(
+                                                                    pickedFile);
+                                                            Get.back();
+                                                          },
+                                                          child: Text("YES")),
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            Get.back();
+                                                          },
+                                                          child: Text("NO")),
+                                                    ],
+                                                  );
+                                                }
                                               },
                                               child: Container(
                                                   width: containerSize,
@@ -1067,16 +1087,44 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                 if (await ManagePermission
                                                     .checkPermission()) {
                                                   print('사진추가');
-                                                  controller.photos.addAll(
+
+                                                  List<AssetEntity>
+                                                      temp_photos =
                                                       await AssetPicker
                                                           .pickAssets(
                                                     context,
                                                     maxAssets: 10,
                                                     themeColor:
                                                         Get.theme.primaryColor,
-                                                  ));
+                                                  );
 
-                                                  controller.sendPhoto();
+                                                  if (temp_photos != null) {
+                                                    Get.defaultDialog(
+                                                      title: "Photo Upload",
+                                                      middleText:
+                                                          "Want Upload these Photos?",
+                                                      actions: [
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              controller.photos
+                                                                  .addAll(
+                                                                      temp_photos);
+                                                              await controller
+                                                                  .sendPhoto();
+                                                              Get.back();
+                                                            },
+                                                            child: Text("YES")),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              controller.photos
+                                                                  .clear();
+                                                              Get.back();
+                                                            },
+                                                            child: Text("NO")),
+                                                      ],
+                                                    );
+                                                  }
                                                 } else {
                                                   ManagePermission
                                                       .permissionDialog();
