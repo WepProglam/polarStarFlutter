@@ -22,6 +22,7 @@ import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:image_picker/image_picker.dart';
 
 final box = GetStorage();
 
@@ -170,6 +171,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
     Map<String, dynamic> chatMeta = controller.findChatHistory();
     int chatIndex = chatMeta["index"];
     bool isClass = chatMeta["isClass"];
+    final image_picker = ImagePicker();
 
     Rx<ChatBoxModel> model = isClass
         ? controller.classChatBox[chatIndex]
@@ -1011,8 +1013,15 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                         children: [
                                           Ink(
                                             child: InkWell(
-                                              onTap: () {
+                                              onTap: () async {
                                                 print("camera");
+                                                final pickedFile =
+                                                    await image_picker
+                                                        .pickImage(
+                                                            source: ImageSource
+                                                                .camera);
+                                                controller.sendCameraPhoto(
+                                                    pickedFile);
                                               },
                                               child: Container(
                                                   width: containerSize,

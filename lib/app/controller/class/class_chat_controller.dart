@@ -11,6 +11,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
@@ -289,6 +290,66 @@ class ClassChatController extends GetxController {
     }
 
     photos = [];
+  }
+
+  Future<void> sendCameraPhoto(XFile photo_file) async {
+    var temp = await photo_file.readAsBytes();
+    temp = await FlutterImageCompress.compressWithList(temp, quality: 70);
+
+    var width;
+    var height;
+    var decodedImage = await decodeImageFromList(temp);
+
+    if (Platform.isAndroid) {
+      width = decodedImage.width;
+      height = decodedImage.height;
+    } else {
+      width = Image.file(File(photo_file.path)).width;
+      height = Image.file(File(photo_file.path)).height;
+    }
+
+    ChatModel item = ChatModel.fromJson({
+      "BOX_ID": currentBoxID.value,
+      "MY_SELF": true,
+      "PHOTO_META": [
+        {
+          "photo_name": basename(photo_file.name),
+          "pixel_height": height,
+          "pixel_width": width
+        }
+      ],
+      "PRE_IMAGE": [
+        Image.memory(
+          temp,
+          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+            if (wasSynchronouslyLoaded) {
+              // print("wasSynchronouslyLoaded : ${wasSynchronouslyLoaded}");
+              isNewMessage.value = true;
+              return child;
+            }
+            return Container();
+          },
+        )
+      ],
+      "PHOTO": ["fuckfuck"],
+      "TIME_CREATED": "${DateTime.now()}",
+      "IS_PRE_SEND": true
+    });
+    findCurBox.update((val) {
+      val.LoadingChatList.add(item.obs);
+    });
+    //print("add!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    //print(findCurBox.value.LoadingChatList.first.toJson());
+
+    Map tmp = {};
+    tmp["content"] = temp;
+    tmp["fileName"] = basename(photo_file.name);
+    tmp["pixel_height"] = height;
+    tmp["pixel_width"] = width;
+    classChatSocket.emitWithBinary("sendPhoto", {
+      "sendFileObj": [tmp],
+      "roomId": currentBoxID.value
+    });
   }
 
   Map<String, dynamic> findChatHistory() {
