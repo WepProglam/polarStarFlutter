@@ -213,19 +213,20 @@ class _SeePhotoDirectState extends State<SeePhotoDirect> {
                             ),
                           ),
                         ),
-                        InkWell(
-                          onTap: () {},
-                          child: Ink(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 16.0),
-                            child: Image.asset(
-                              "assets/images/file_after_download.png",
-                              height: 24,
-                              width: 24,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+                        //! 사진 다운로드 일단 제거
+                        // InkWell(
+                        //   onTap: () {},
+                        //   child: Ink(
+                        //     padding: const EdgeInsets.symmetric(
+                        //         horizontal: 20, vertical: 16.0),
+                        //     child: Image.asset(
+                        //       "assets/images/file_after_download.png",
+                        //       height: 24,
+                        //       width: 24,
+                        //       color: Colors.white,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     )),
               ),

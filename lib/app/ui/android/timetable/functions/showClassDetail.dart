@@ -147,42 +147,43 @@ Future<void> ShowClassDetail(TimeTableClassModel classItemModel,
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 20, bottom: 14),
-                child: Ink(
-                  child: InkWell(
-                    onTap: () async {
-                      var statusCode = await timeTableController.deleteClass(
-                          timeTableController.selectTable.value.TIMETABLE_ID,
-                          classItemModel.CLASS_NAME);
-                      switch (statusCode) {
-                        case 200:
-                          for (TimeTableClassModel model in timeTableController
-                              .selectTable.value.CLASSES) {
-                            print(
-                                "${model.CLASS_NAME} => ${classItemModel.CLASS_NAME} : ${model.CLASS_NAME == classItemModel.CLASS_NAME}");
-                          }
+                margin: const EdgeInsets.only(top: 16, bottom: 10),
+                child: InkWell(
+                  onTap: () async {
+                    var statusCode = await timeTableController.deleteClass(
+                        timeTableController.selectTable.value.TIMETABLE_ID,
+                        classItemModel.CLASS_NAME);
+                    switch (statusCode) {
+                      case 200:
+                        for (TimeTableClassModel model
+                            in timeTableController.selectTable.value.CLASSES) {
+                          print(
+                              "${model.CLASS_NAME} => ${classItemModel.CLASS_NAME} : ${model.CLASS_NAME == classItemModel.CLASS_NAME}");
+                        }
 
-                          timeTableController.selectTable.update((val) {
-                            val.CLASSES.removeWhere((element) =>
-                                (element.CLASS_NAME ==
-                                    classItemModel.CLASS_NAME) &&
-                                (element.CLASS_ID == classItemModel.CLASS_ID));
-                          });
+                        timeTableController.selectTable.update((val) {
+                          val.CLASSES.removeWhere((element) =>
+                              (element.CLASS_NAME ==
+                                  classItemModel.CLASS_NAME) &&
+                              (element.CLASS_ID == classItemModel.CLASS_ID));
+                        });
 
-                          timeTableController.initShowTimeTable();
-                          timeTableController.makeShowTimeTable();
+                        timeTableController.initShowTimeTable();
+                        timeTableController.makeShowTimeTable();
 
-                          // * 시간표 수업 추가 시 noti page 업데이트(채팅 방)
-                          await MainUpdateModule.updateNotiPage(
-                            1,
-                          );
+                        // * 시간표 수업 추가 시 noti page 업데이트(채팅 방)
+                        await MainUpdateModule.updateNotiPage(
+                          1,
+                        );
 
-                          break;
-                        default:
-                      }
+                        break;
+                      default:
+                    }
 
-                      Get.back();
-                    },
+                    Get.back();
+                  },
+                  child: Ink(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
                     child: Row(
                       children: [
                         Container(
