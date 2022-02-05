@@ -195,29 +195,40 @@ class MyPageProfile extends StatelessWidget {
                     InkWell(
                       onTap: () async {
                         //! 번역 필요
-                        // await TFdialogue(context);
-                        Get.defaultDialog(
-                            title: "Want Logout?",
-                            content: Text("Want Logout?"),
-                            actions: [
-                              TextButton(
-                                  onPressed: () async {
-                                    LoginController loginController =
-                                        Get.find();
-                                    loginController.logout();
-                                    InitController initController = Get.find();
-                                    initController.dispose();
+                        Function onTapConfirm = () async {
+                          LoginController loginController = Get.find();
+                          loginController.logout();
+                          InitController initController = Get.find();
+                          initController.dispose();
 
-                                    await Get.offAllNamed('/login');
-                                    // initController.mainPageIndex.value = 0;
-                                  },
-                                  child: Text("YES")),
-                              TextButton(
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                  child: Text("NO"))
-                            ]);
+                          await Get.offAllNamed('/login');
+                          // initController.mainPageIndex.value = 0;
+                        };
+                        Function onTapCancel = () async {
+                          Get.back();
+                        };
+                        await TFdialogue(context, "Want Logout?",
+                            "Want Logout?", onTapConfirm, onTapCancel);
+
+                        //   // actions: [
+                        //   //   TextButton(
+                        //   //       onPressed: () async {
+                        //   //         LoginController loginController = Get.find();
+                        //   //         loginController.logout();
+                        //   //         InitController initController = Get.find();
+                        //   //         initController.dispose();
+
+                        //   //         await Get.offAllNamed('/login');
+                        //   //         // initController.mainPageIndex.value = 0;
+                        //   //       },
+                        //   //       child: Text("YES")),
+                        //   //   TextButton(
+                        //   //       onPressed: () {
+                        //   //         Get.back();
+                        //   //       },
+                        //   //       child: Text("NO"))
+                        //   // ],
+                        // );
                       },
                       child: Ink(
                         padding: const EdgeInsets.all(14.0),

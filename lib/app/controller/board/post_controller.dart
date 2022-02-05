@@ -8,6 +8,8 @@ import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/data/provider/board/board_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/board/board_repository.dart';
 import 'package:polarstar_flutter/app/data/repository/board/post_repository.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 import 'package:polarstar_flutter/session.dart';
 
 class PostController extends GetxController {
@@ -77,8 +79,8 @@ class PostController extends GetxController {
         _dataAvailable.value = true;
         break;
       default:
-        await Get.defaultDialog(content: Text("帖子已被删除"), title: "无效操作");
-        Get.back();
+        // await Get.defaultDialog(content: Text("帖子已被删除"), title: "无效操作");
+        // Get.back();
         isDeleted.value = true;
     }
     return status;
@@ -102,42 +104,81 @@ class PostController extends GetxController {
   // }
 
   void deleteResource(int COMMUNITY_ID, int UNIQUE_ID, String tag) async {
-    Get.defaultDialog(title: "删除帖子", middleText: "确定要删除帖子吗？", actions: [
-      TextButton(
-          onPressed: () async {
-            final status =
-                await repository.deleteResource(COMMUNITY_ID, UNIQUE_ID, tag);
-            Get.back();
-            switch (status) {
-              case 200:
-                // Get.snackbar("삭제 성공", "삭제 성공",
-                //     snackPosition: SnackPosition.BOTTOM);
-                // Todo: main api 호출 후 refresh 해야 함
-                // * offNamedUntil로 하면 현재 사용하고 있던 컨트롤러랑 새로 만들어진 컨트롤러랑 달라서 충돌 나는듯?
-                if (tag == "bid") {
-                  while (Get.currentRoute != "/board/$COMMUNITY_ID/page/1") {
-                    Get.back();
-                  }
-                } else {
-                  // await getPostData();
-                  await MainUpdateModule.updatePost(type: callType);
-                }
-
+    Function onTapConfirm = () async {
+      final status =
+          await repository.deleteResource(COMMUNITY_ID, UNIQUE_ID, tag);
+      Get.back();
+      switch (status) {
+        case 200:
+          // Get.snackbar("삭제 성공", "삭제 성공", snackPosition: SnackPosition.BOTTOM);
+          // Todo: main api 호출 후 refresh 해야 함
+          // * offNamedUntil로 하면 현재 사용하고 있던 컨트롤러랑 새로 만들어진 컨트롤러랑 달라서 충돌 나는듯?
+          if (tag == "bid") {
+            int i = 0;
+            while (Get.currentRoute != "/board/$COMMUNITY_ID/page/1" &&
+                Get.currentRoute != Routes.MAIN_PAGE) {
+              i++;
+              if (i > 100) {
                 break;
-              default:
-                Get.snackbar("系统错误", "系统错误",
-                    colorText: Colors.white,
-                    backgroundColor: Colors.black,
-                    snackPosition: SnackPosition.BOTTOM);
+              }
+              Get.back();
             }
-          },
-          child: Text("是")),
-      TextButton(
-          onPressed: () {
-            Get.back();
-          },
-          child: Text("否"))
-    ]);
+          } else {
+            await MainUpdateModule.updatePost(type: callType);
+          }
+          print("return");
+          return;
+
+          break;
+        default:
+          Get.snackbar("系统错误", "系统错误",
+              colorText: Colors.white,
+              backgroundColor: Colors.black,
+              snackPosition: SnackPosition.BOTTOM);
+          break;
+      }
+      return;
+    };
+    Function onTapCancel = () {
+      Get.back();
+    };
+    TFdialogue(Get.context, "删除帖子", "确定要删除帖子吗？", onTapConfirm, onTapCancel);
+    // Get.defaultDialog(title: "删除帖子", middleText: "确定要删除帖子吗？", actions: [
+    //   TextButton(
+    //       onPressed: () async {
+    //         final status =
+    //             await repository.deleteResource(COMMUNITY_ID, UNIQUE_ID, tag);
+    //         Get.back();
+    //         switch (status) {
+    //           case 200:
+    //             // Get.snackbar("삭제 성공", "삭제 성공",
+    //             //     snackPosition: SnackPosition.BOTTOM);
+    //             // Todo: main api 호출 후 refresh 해야 함
+    //             // * offNamedUntil로 하면 현재 사용하고 있던 컨트롤러랑 새로 만들어진 컨트롤러랑 달라서 충돌 나는듯?
+    //             if (tag == "bid") {
+    //               while (Get.currentRoute != "/board/$COMMUNITY_ID/page/1") {
+    //                 Get.back();
+    //               }
+    //             } else {
+    //               // await getPostData();
+    //               await MainUpdateModule.updatePost(type: callType);
+    //             }
+
+    //             break;
+    //           default:
+    //             Get.snackbar("系统错误", "系统错误",
+    //                 colorText: Colors.white,
+    //                 backgroundColor: Colors.black,
+    //                 snackPosition: SnackPosition.BOTTOM);
+    //         }
+    //       },
+    //       child: Text("是")),
+    //   TextButton(
+    //       onPressed: () {
+    //         Get.back();
+    //       },
+    //       child: Text("否"))
+    // ]);
   }
 
   void postComment(String url, var data) async {
@@ -273,59 +314,6 @@ class PostController extends GetxController {
       }
     });
     return status_code;
-  }
-
-  Future<int> getArrestType() async {
-    var response = await Get.defaultDialog(
-        // * 신고 사유 선택
-        title: "举报成功",
-        content: Column(
-          children: [
-            InkWell(
-              // * 게시판 성격에 안 맞는 글
-              child: Text("不符合本论坛的帖子"),
-              onTap: () {
-                Get.back(result: 0);
-              },
-            ),
-            InkWell(
-              // * 광고
-              child: Text("广告"),
-              onTap: () {
-                Get.back(result: 1);
-              },
-            ),
-            InkWell(
-              // * 허위 사실
-              child: Text("虚假事实"),
-              onTap: () {
-                Get.back(result: 2);
-              },
-            ),
-            // * 욕설/비난
-            InkWell(
-              child: Text("谩骂/诋毁"),
-              onTap: () {
-                Get.back(result: 3);
-              },
-            ),
-            InkWell(
-              // * 저작권
-              child: Text("版权"),
-              onTap: () {
-                Get.back(result: 4);
-              },
-            ),
-            InkWell(
-              // * 풍기문란
-              child: Text("扰乱风气"),
-              onTap: () {
-                Get.back(result: 5);
-              },
-            ),
-          ],
-        ));
-    return response;
   }
 
   changeAnonymous(bool value) {

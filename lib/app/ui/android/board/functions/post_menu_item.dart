@@ -14,6 +14,7 @@ import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_mail_dialog.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 import 'package:polarstar_flutter/main.dart';
 
 Future<void> updatePostFunc(Rx<Post> item) async {
@@ -38,7 +39,7 @@ Future<void> deletePostFunc(Rx<Post> item, PostController c) async {
 }
 
 Future<void> arrestPostFunc(PostController c, Rx<Post> item, int index) async {
-  var ARREST_TYPE = await c.getArrestType();
+  var ARREST_TYPE = await getArrestType();
   if (ARREST_TYPE == null) {
     return;
   }
@@ -75,7 +76,7 @@ Future<void> deleteCommentFunc(Post item, PostController c) async {
 
 // * 댓글 신고
 Future<void> arrestCommentFunc(PostController c, Post item, int index) async {
-  var ARREST_TYPE = await c.getArrestType();
+  var ARREST_TYPE = await getArrestType();
   if (ARREST_TYPE == null) {
     return;
   }
@@ -124,7 +125,7 @@ Future<void> deleteCCFunc(Post item, PostController c) async {
 
 // * 대댓글 신고
 Future<void> arrestCCFunc(PostController c, Post item, int index) async {
-  var ARREST_TYPE = await c.getArrestType();
+  var ARREST_TYPE = await getArrestType();
   if (ARREST_TYPE == null) {
     return;
   }

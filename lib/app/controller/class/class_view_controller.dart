@@ -8,6 +8,7 @@ import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
 import 'package:polarstar_flutter/app/controller/class/write_comment_controller.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/timetable_semester.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 
 class ClassViewController extends GetxController
     with SingleGetTickerProviderMixin {
@@ -141,52 +142,6 @@ class ClassViewController extends GetxController
         Get.defaultDialog(title: "举报失败 - ${response["statusCode"]}");
         break;
     }
-  }
-
-  Future<int> getArrestType() async {
-    var response = await Get.defaultDialog(
-        title: "신고 사유 선택",
-        content: Column(
-          children: [
-            InkWell(
-              child: Text("게시판 성격에 안맞는 글"),
-              onTap: () {
-                Get.back(result: 0);
-              },
-            ),
-            InkWell(
-              child: Text("광고"),
-              onTap: () {
-                Get.back(result: 1);
-              },
-            ),
-            InkWell(
-              child: Text("허위 사실"),
-              onTap: () {
-                Get.back(result: 2);
-              },
-            ),
-            InkWell(
-              child: Text("욕설/비난"),
-              onTap: () {
-                Get.back(result: 3);
-              },
-            ),
-            InkWell(
-              child: Text("저작권"),
-              onTap: () {
-                Get.back(result: 4);
-              },
-            ),
-            InkWell(
-              child: Text("풍기문란"),
-              onTap: () {
-                Get.back(result: 5);
-              },
-            ),
-          ],
-        ));
-    return response;
   }
 
   Future getClassView(int CLASS_ID) async {
