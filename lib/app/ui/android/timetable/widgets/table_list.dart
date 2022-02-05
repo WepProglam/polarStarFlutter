@@ -640,6 +640,8 @@ void showSetting(
                       imagePath: "timetable_set_default.png",
                       title: "设为基本时间表",
                       onTap: () async {
+                        Get.back();
+
                         await Get.defaultDialog(
                             title: "您要将其设置成默认时间表吗？",
                             titlePadding: const EdgeInsets.only(top: 15.5),
@@ -709,6 +711,7 @@ void showSetting(
                                               child: // Confirm
                                                   InkWell(
                                                 onTap: () async {
+                                                  Get.back();
                                                   await timeTableController
                                                       .setDefaultTable();
                                                 },

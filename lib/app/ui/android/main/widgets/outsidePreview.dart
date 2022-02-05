@@ -19,12 +19,15 @@ class OutsidePreview extends StatelessWidget {
     print(mainController.bannerList[index].URL);
     return InkWell(
         onTap: () {
-          Get.to(SafeArea(
-            child: WebView(
-              initialUrl: mainController.bannerList[index].URL,
-              javascriptMode: JavascriptMode.unrestricted,
-            ),
-          ));
+          mainController.bannerList[index].URL == null ||
+                  mainController.bannerList[index].URL.trim().isEmpty
+              ? print("null link")
+              : Get.to(SafeArea(
+                  child: WebView(
+                    initialUrl: mainController.bannerList[index].URL,
+                    javascriptMode: JavascriptMode.unrestricted,
+                  ),
+                ));
         },
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),

@@ -211,7 +211,7 @@ class MailWidget extends StatelessWidget {
                 return Container(
                   // height: 83,
                   color: model.value.isReaded
-                      ? const Color(0xfffafbff)
+                      ? const Color(0xfff7fbff)
                       : const Color(0xffffffff),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -496,7 +496,7 @@ class ChatItem extends StatelessWidget {
     return Obx(() {
       return Ink(
         color: model.value.UNREAD_AMOUNT == 0
-            ? Color(0xfffafbff)
+            ? const Color(0xfff7fbff)
             : Color(0xffffffff),
         child: InkWell(
           onTap: () async {

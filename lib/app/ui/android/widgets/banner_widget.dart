@@ -16,8 +16,6 @@ class BannerWidget extends StatelessWidget {
     }
     final PageController outsidePageController = PageController();
     final MainController mainController = Get.find();
-    print(mainController.bannerList.length);
-    print("============================");
     return Column(
       children: [
         Container(

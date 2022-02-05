@@ -23,13 +23,11 @@ class TimeTableAdd extends StatelessWidget {
 
     timeTableController.createYear.value =
         timeTableController.addTimeTableYearSemList.last.split("学年度 ")[0];
-    print(timeTableController.addTimeTableYearSemList.last.split("学年度 ")[0]);
+
     timeTableController.createSemester.value = setCreateNormal(
         timeTableController.addTimeTableYearSemList.last
-            .split("学年度 ")[1]
-            .substring(1, 1))[1];
-    ;
-
+            .split("学年度 第")[1]
+            .substring(0, 1))[1];
     print(timeTableController.createYear.value);
     print(timeTableController.createSemester.value);
 

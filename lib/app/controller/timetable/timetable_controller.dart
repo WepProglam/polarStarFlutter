@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
@@ -325,6 +326,11 @@ class TimeTableController extends GetxController {
   Future<int> deleteClass(int TIMETABLE_ID, String class_name) async {
     Response<dynamic> response = await Session()
         .deleteX("/timetable/tid/${TIMETABLE_ID}?className=${class_name}");
+
+    // * 시간표 수업 추가 시 noti page 업데이트(채팅 방)
+    await MainUpdateModule.updateNotiPage(
+      1,
+    );
     return response.statusCode;
   }
 
@@ -405,6 +411,11 @@ class TimeTableController extends GetxController {
         // Get.snackbar("디폴트 변경 실패", "디폴트 변경 실패");
         break;
     }
+
+    // * 시간표 수업 추가 시 noti page 업데이트(채팅 방)
+    await MainUpdateModule.updateNotiPage(
+      1,
+    );
   }
 
   Future getTableInfo() async {

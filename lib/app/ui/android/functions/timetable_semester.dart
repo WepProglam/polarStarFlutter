@@ -15,7 +15,7 @@ String timetableSemChanger(int year, int semester) {
       break;
     default:
   }
-  return "${year}学年度 第${sem}学期";
+  return "${year}学年度 第${semester}学期";
 }
 
 String dayConverter(String day) {

@@ -171,10 +171,10 @@ Future<void> ShowClassDetail(TimeTableClassModel classItemModel,
                         timeTableController.initShowTimeTable();
                         timeTableController.makeShowTimeTable();
 
-                        // * 시간표 수업 추가 시 noti page 업데이트(채팅 방)
-                        await MainUpdateModule.updateNotiPage(
-                          1,
-                        );
+                        // // * 시간표 수업 추가 시 noti page 업데이트(채팅 방)
+                        // await MainUpdateModule.updateNotiPage(
+                        //   1,
+                        // );
 
                         break;
                       default:
