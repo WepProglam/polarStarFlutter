@@ -88,13 +88,19 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
       String id = data[0];
       DownloadTaskStatus status = data[1];
       int progress = data[2];
+      print(progress);
       controller.fileFindCurChat(id).update((val) {
         val.FILE_PROGRESS = progress;
 
         // * 완료
-        if (status.value == 3) {
+        if (status.toString() == "DownloadTaskStatus(3)" &&
+            progress == 100 &&
+            status.value == 3 &&
+            id != null) {
           val.FILE_DOWNLOADING = false;
           val.FILE_DOWNLOADED = true;
+
+          box.write(val.FILE.first, id);
         }
       });
       // setState(() {});
@@ -685,6 +691,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                               CrossAxisAlignment.end,
                                           children: [
                                               Obx(() {
+                                                print(
+                                                    "model.value.FILE_DOWNLOADED ${model.value.FILE_DOWNLOADED}");
                                                 return MAIL_CONTENT_ITEM(
                                                   model: model,
                                                   FILE_DOWNLOADED: model
@@ -742,6 +750,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                           )
                                                         : Container(),
                                                     Obx(() {
+                                                      print(
+                                                          "model.value.FILE_DOWNLOADED ${model.value.FILE_DOWNLOADED}");
                                                       return MAIL_CONTENT_ITEM(
                                                           FILE_DOWNLOADED: model
                                                               .value
@@ -1334,10 +1344,11 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
       model.update((val) {
         val.FILE_DOWNLOADING = true;
       });
-
+      print(model.value.FILE_META.first.FILE_NAME);
       final String taskID = await FlutterDownloader.enqueue(
           url: url,
           savedDir: dirloc,
+          fileName: model.value.FILE_META.first.FILE_NAME,
           showNotification: true,
           openFileFromNotification: true,
           saveInPublicStorage: true);
@@ -1346,7 +1357,6 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
         val.FILE_TID = taskID;
       });
 
-      box.write(url, taskID);
       print("downloaded!!");
     } else {
       print('Permission Denied');

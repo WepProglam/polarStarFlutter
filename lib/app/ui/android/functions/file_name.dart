@@ -4,15 +4,19 @@ String convertFileName(String url) {
   String aws = "/";
   String file_name = url.split(aws).last;
   int file_extend_length = file_name.split(".").last.length + 1;
-  int length_limit = 6 + 6 + file_extend_length;
-  if (file_name.length > length_limit) {
-    int last_start = file_name.length - 6 - file_extend_length;
-    String first_string = file_name.substring(0, 6);
-    String middle_string = "...";
-    print(file_name);
-    String last_string = file_name.substring(last_start);
-    return first_string + middle_string + last_string;
+  int length_limit = 10;
+  if (file_extend_length > length_limit) {
+    return file_name.substring(0, 2) + "..." + file_name.split(".").last;
   }
+  int space = length_limit - file_extend_length;
+
+  // if (file_name.length > length_limit) {
+  int last_start = file_name.length - space ~/ 2 - file_extend_length;
+  String first_string = file_name.substring(0, space ~/ 2);
+  String middle_string = "...";
+  String last_string = file_name.substring(last_start);
+  return first_string + middle_string + last_string;
+  // }
 
   return file_name;
 }
