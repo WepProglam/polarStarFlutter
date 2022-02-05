@@ -1025,22 +1025,25 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                                   ImageSource
                                                                       .camera);
                                                   if (pickedFile != null) {
-                                                    Function ontapConfirm =
-                                                        () async {
-                                                      await controller
-                                                          .sendCameraPhoto(
-                                                              pickedFile);
-                                                      Get.back();
-                                                    };
-                                                    Function ontapCancel = () {
-                                                      Get.back();
-                                                    };
-                                                    TFdialogue(
-                                                        context,
-                                                        "Photo Upload",
-                                                        "Want Upload this Photo?",
-                                                        ontapConfirm,
-                                                        ontapCancel);
+                                                    // Function ontapConfirm =
+                                                    //     () async {
+                                                    //   await controller
+                                                    //       .sendCameraPhoto(
+                                                    //           pickedFile);
+                                                    //   Get.back();
+                                                    // };
+                                                    // Function ontapCancel = () {
+                                                    //   Get.back();
+                                                    // };
+                                                    await controller
+                                                        .sendCameraPhoto(
+                                                            pickedFile);
+                                                    // TFdialogue(
+                                                    //     context,
+                                                    //     "Photo Upload",
+                                                    //     "Want Upload this Photo?",
+                                                    //     ontapConfirm,
+                                                    //     ontapCancel);
                                                   }
                                                 } else {
                                                   // print("??");
