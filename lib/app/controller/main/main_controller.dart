@@ -533,6 +533,8 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   @override
   void onInit() async {
     // tabController = TabController(vsync: this, length: 2);
+    await ManagePermission.getPermission();
+
     DateTime pass = new DateTime.now();
     super.onInit();
     //버전 확인

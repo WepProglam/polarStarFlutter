@@ -287,7 +287,7 @@ class WritePost extends StatelessWidget {
                                     ? InkWell(
                                         onTap: () async {
                                           if (await ManagePermission
-                                              .checkPermission()) {
+                                              .checkPermission("storage")) {
                                             await getMultipleGallertImage(
                                                 context);
                                           } else {

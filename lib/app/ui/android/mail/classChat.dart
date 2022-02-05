@@ -1047,6 +1047,9 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                     );
                                                   }
                                                 } else {
+                                                  // print("??");
+                                                  // await [Permission.camera]
+                                                  //     .request();
                                                   ManagePermission
                                                       .permissionDialog(
                                                           "Camera");
@@ -1094,7 +1097,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                             child: InkWell(
                                               onTap: () async {
                                                 if (await ManagePermission
-                                                    .checkPermission()) {
+                                                    .checkPermission(
+                                                        "storage")) {
                                                   print('사진추가');
 
                                                   List<AssetEntity>
@@ -1137,7 +1141,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                 } else {
                                                   ManagePermission
                                                       .permissionDialog(
-                                                          "Storage");
+                                                          "storage");
                                                 }
                                               },
                                               child: Container(
@@ -1182,7 +1186,8 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                             child: InkWell(
                                               onTap: () async {
                                                 if (await ManagePermission
-                                                    .checkPermission()) {
+                                                    .checkPermission(
+                                                        "storage")) {
                                                   print("File");
                                                   FilePickerResult result =
                                                       await FilePicker.platform

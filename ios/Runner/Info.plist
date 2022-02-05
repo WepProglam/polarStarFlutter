@@ -60,8 +60,7 @@
 	<key>io.flutter.embedded_views_preview</key>
 	<string>YES</string>
 
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Photo Library Access Warning</string>
+	
 
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
@@ -78,6 +77,15 @@
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Explain why your app uses music</string>
 
+
+	<key>NSCameraUsageDescription</key>	
+	<string>Used to demonstrate image picker plugin</string>
+
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Used to capture audio for image picker plugin</string>
+	
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to demonstrate image picker plugin</string>
 	
 </dict>
 </plist>

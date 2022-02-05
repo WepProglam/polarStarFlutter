@@ -82,7 +82,6 @@ void main() async {
 
   if (isLogined) {}
 
-  await ManagePermission.getPermission();
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterDownloader.initialize();
 

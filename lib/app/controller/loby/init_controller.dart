@@ -81,22 +81,44 @@ class ManagePermission {
     // print(permissionStorage.isGranted);
     if (permissionStorage.isGranted && permissionCamera.isGranted) {
       // print("????");
+      print("all true!!");
       return true;
     } else {
       // await openAppSettings();
+      print("all false!!");
+      if (!permissionStorage.isGranted && !permissionCamera.isGranted) {
+        await permissionDialog("storage");
+        await permissionDialog("camera");
+      } else if (!permissionStorage.isGranted) {
+        await permissionDialog("storage");
+      } else if (!permissionCamera.isGranted) {
+        await permissionDialog("camera");
+        print("?!!!!");
+        print("?!!!!");
+      }
 
       return false;
     }
   }
 
-  static Future<bool> checkPermission() async {
-    bool permissionGranted = await Permission.storage.isGranted;
+  static Future<bool> checkPermission(String tag) async {
+    Map<Permission, PermissionStatus> statuses =
+        await [Permission.storage, Permission.camera].request();
+    PermissionStatus permissionStorage = statuses[Permission.storage];
+    PermissionStatus permissionCamera = statuses[Permission.camera];
+
+    bool permissionGranted = false;
+    if (tag == "storage") {
+      permissionGranted = permissionStorage.isGranted;
+    } else if (tag == "camera") {
+      permissionGranted = permissionCamera.isGranted;
+    }
 
     return permissionGranted;
   }
 
-  static void permissionDialog(String target) {
-    Get.defaultDialog(
+  static void permissionDialog(String target) async {
+    await Get.defaultDialog(
         title: "Permission not Granted",
         middleText: "$target 권한 설정을 위해 앱 설정으로 이동합니다.",
         actions: [
