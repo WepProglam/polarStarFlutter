@@ -24,6 +24,7 @@ class MyPageController extends GetxController
   MyPageController({@required this.repository}) : assert(repository != null);
 
   Rx<MyProfileModel> myProfile = new MyProfileModel().obs;
+  RxString PersonalInfoURL = "".obs;
   RxList<Rx<Post>> myBoardWrite = <Rx<Post>>[].obs;
   RxList<Rx<Post>> myBoardLike = <Rx<Post>>[].obs;
   RxList<Rx<Post>> myBoardScrap = <Rx<Post>>[].obs;
@@ -59,6 +60,7 @@ class MyPageController extends GetxController
     final response = await repository.getMineProfile();
 
     myProfile.value = response["myProfile"];
+    PersonalInfoURL.value = response["PersonalInfoURL"];
 
     _dataAvailableMypage.value = true;
   }

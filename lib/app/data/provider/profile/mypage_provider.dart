@@ -38,7 +38,11 @@ class MyPageApiClient {
 
     myProfile = MyProfileModel.fromJson(profileData);
 
-    return {"status": response.statusCode, "myProfile": myProfile};
+    return {
+      "status": response.statusCode,
+      "myProfile": myProfile,
+      "PersonalInfoURL": responseBody["PersonalInfoURL"]
+    };
   }
 
   Future<Map<String, dynamic>> getMineWrite(int page) async {

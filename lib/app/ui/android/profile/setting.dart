@@ -6,9 +6,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Setting extends StatelessWidget {
   final MainController mainController = Get.find();
+  final MyPageController myPageController = Get.find();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -201,60 +203,78 @@ class Setting extends StatelessWidget {
               //               child: Image.asset("assets/images/938.png",
               //                   height: 9.5, width: 5.4)))
               //     ])),
-              Container(
-                  height: 54.6,
-                  width: MediaQuery.of(context).size.width - 40,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              color: const Color(0xffdedede), width: 1))),
-                  child: Stack(children: [
-                    Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                            margin: EdgeInsets.only(left: 0),
-                            child: Text("服务协议",
-                                style: const TextStyle(
-                                    color: const Color(0xff6f6e6e),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "Roboto",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                textAlign: TextAlign.left))),
-                    Align(
-                        alignment: Alignment.centerRight,
-                        child: Container(
-                            margin: EdgeInsets.only(right: 0),
-                            child: Image.asset("assets/images/938.png",
-                                height: 9.5, width: 5.4)))
-                  ])),
-              Container(
-                  height: 54.6,
-                  width: MediaQuery.of(context).size.width - 40,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              color: const Color(0xffdedede), width: 1))),
-                  child: Stack(children: [
-                    Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                            margin: EdgeInsets.only(left: 0),
-                            child: Text("隐私政策",
-                                style: const TextStyle(
-                                    color: const Color(0xff6f6e6e),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "Roboto",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                textAlign: TextAlign.left))),
-                    Align(
-                        alignment: Alignment.centerRight,
-                        child: Container(
-                            margin: EdgeInsets.only(right: 0),
-                            child: Image.asset("assets/images/938.png",
-                                height: 9.5, width: 5.4)))
-                  ]))
+              // Container(
+              //     height: 54.6,
+              //     width: MediaQuery.of(context).size.width - 40,
+              //     decoration: BoxDecoration(
+              //         border: Border(
+              //             bottom: BorderSide(
+              //                 color: const Color(0xffdedede), width: 1))),
+              //     child: Stack(children: [
+              //       Align(
+              //           alignment: Alignment.centerLeft,
+              //           child: Container(
+              //               margin: EdgeInsets.only(left: 0),
+              //               child: Text("服务协议",
+              //                   style: const TextStyle(
+              //                       color: const Color(0xff6f6e6e),
+              //                       fontWeight: FontWeight.w500,
+              //                       fontFamily: "Roboto",
+              //                       fontStyle: FontStyle.normal,
+              //                       fontSize: 14.0),
+              //                   textAlign: TextAlign.left))),
+              //       Align(
+              //           alignment: Alignment.centerRight,
+              //           child: Container(
+              //               margin: EdgeInsets.only(right: 0),
+              //               child: Image.asset("assets/images/938.png",
+              //                   height: 9.5, width: 5.4)))
+              //     ])),
+              Ink(
+                child: InkWell(
+                  onTap: myPageController.PersonalInfoURL.value == null ||
+                          myPageController.PersonalInfoURL.value.isEmpty
+                      ? null
+                      : () {
+                          Get.to(Obx(() {
+                            return SafeArea(
+                              child: WebView(
+                                initialUrl:
+                                    myPageController.PersonalInfoURL.value,
+                                javascriptMode: JavascriptMode.unrestricted,
+                              ),
+                            );
+                          }));
+                        },
+                  child: Container(
+                      height: 54.6,
+                      width: MediaQuery.of(context).size.width - 40,
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                                  color: const Color(0xffdedede), width: 1))),
+                      child: Stack(children: [
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                                margin: EdgeInsets.only(left: 0),
+                                child: Text("隐私政策",
+                                    style: const TextStyle(
+                                        color: const Color(0xff6f6e6e),
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "Roboto",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14.0),
+                                    textAlign: TextAlign.left))),
+                        Align(
+                            alignment: Alignment.centerRight,
+                            child: Container(
+                                margin: EdgeInsets.only(right: 0),
+                                child: Image.asset("assets/images/938.png",
+                                    height: 9.5, width: 5.4)))
+                      ])),
+                ),
+              )
             ],
           )),
     );
