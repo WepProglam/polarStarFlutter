@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 
@@ -40,220 +41,291 @@ class ClassView extends StatelessWidget {
     final testStrategyController = TextEditingController();
     final pageController = PageController();
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color(backgroundColor),
-        appBar: AppBars().classBasicAppBar(),
-        // bottomSheet: Container(
-        //   height: 56,
-        //   child: TabBarView(
-        //       controller: classViewController.tabController,
-        //       children: [
-        //         Ink(
-        //           color: const Color(mainColor),
-        //           child: InkWell(
-        //             onTap: () {
-        //               showModalBottomSheet(
-        //                   shape: RoundedRectangleBorder(
-        //                       borderRadius: BorderRadius.only(
-        //                           topLeft: const Radius.circular(20),
-        //                           topRight: const Radius.circular(20))),
-        //                   isScrollControlled: true,
-        //                   context: context,
-        //                   builder: (BuildContext context) {
-        //                     return WriteComment(
-        //                       classInfoModel:
-        //                           classViewController.classInfo.value,
-        //                       // classViewController: classViewController,
-        //                       reviewTextController: reviewTextController,
-        //                       CLASS_ID:
-        //                           classViewController.classInfo.value.CLASS_ID,
-        //                     );
-        //                   });
-        //             },
-        //             child: Container(
-        //               height: 50,
-        //               width: Get.mediaQuery.size.width,
-        //               child: Row(
-        //                 mainAxisAlignment: MainAxisAlignment.center,
-        //                 children: [
-        //                   Padding(
-        //                     padding: const EdgeInsets.all(8.0),
-        //                     child: Icon(
-        //                       Icons.post_add,
-        //                       color: Colors.white,
-        //                     ),
-        //                   ),
-        //                   Padding(
-        //                     padding: const EdgeInsets.all(8.0),
-        //                     child: Text(
-        //                       "Writing Evaluation",
-        //                       textScaleFactor: 1.2,
-        //                       style: TextStyle(
-        //                           color: Colors.white,
-        //                           fontWeight: FontWeight.normal),
-        //                     ),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //           ),
-        //         ),
-        //         Ink(
-        //           color: const Color(mainColor),
-        //           child: InkWell(
-        //             onTap: () {
-        //               showModalBottomSheet(
-        //                   shape: RoundedRectangleBorder(
-        //                       borderRadius: BorderRadius.only(
-        //                           topLeft: const Radius.circular(30),
-        //                           topRight: const Radius.circular(30))),
-        //                   isScrollControlled: true,
-        //                   context: context,
-        //                   builder: (BuildContext context) {
-        //                     return WriteExamInfo(
-        //                         classViewController: classViewController,
-        //                         examInfoTextController: examInfoTextController,
-        //                         testStrategyController: testStrategyController);
-        //                   });
-        //             },
-        //             child: Container(
-        //               height: 50,
-        //               width: Get.mediaQuery.size.width,
-        //               child: Row(
-        //                 mainAxisAlignment: MainAxisAlignment.center,
-        //                 children: [
-        //                   Padding(
-        //                     padding: const EdgeInsets.all(8.0),
-        //                     child: Icon(
-        //                       Icons.add_circle_outline,
-        //                       color: Colors.white,
-        //                     ),
-        //                   ),
-        //                   Padding(
-        //                     padding: const EdgeInsets.all(8.0),
-        //                     child: Text(
-        //                       "Add Exam Information",
-        //                       textScaleFactor: 1.2,
-        //                       style: TextStyle(
-        //                           color: Colors.white,
-        //                           fontWeight: FontWeight.normal),
-        //                     ),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //           ),
-        //         ),
-        //       ]),
-        // ),
+    return WillPopScope(
+      onWillPop: () async {
+        await MainUpdateModule.updateClassPage();
+        await MainUpdateModule.updateClassSearchPage();
+        return true;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: const Color(backgroundColor),
+          appBar: AppBars().classBasicAppBar(),
+          // bottomSheet: Container(
+          //   height: 56,
+          //   child: TabBarView(
+          //       controller: classViewController.tabController,
+          //       children: [
+          //         Ink(
+          //           color: const Color(mainColor),
+          //           child: InkWell(
+          //             onTap: () {
+          //               showModalBottomSheet(
+          //                   shape: RoundedRectangleBorder(
+          //                       borderRadius: BorderRadius.only(
+          //                           topLeft: const Radius.circular(20),
+          //                           topRight: const Radius.circular(20))),
+          //                   isScrollControlled: true,
+          //                   context: context,
+          //                   builder: (BuildContext context) {
+          //                     return WriteComment(
+          //                       classInfoModel:
+          //                           classViewController.classInfo.value,
+          //                       // classViewController: classViewController,
+          //                       reviewTextController: reviewTextController,
+          //                       CLASS_ID:
+          //                           classViewController.classInfo.value.CLASS_ID,
+          //                     );
+          //                   });
+          //             },
+          //             child: Container(
+          //               height: 50,
+          //               width: Get.mediaQuery.size.width,
+          //               child: Row(
+          //                 mainAxisAlignment: MainAxisAlignment.center,
+          //                 children: [
+          //                   Padding(
+          //                     padding: const EdgeInsets.all(8.0),
+          //                     child: Icon(
+          //                       Icons.post_add,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                   Padding(
+          //                     padding: const EdgeInsets.all(8.0),
+          //                     child: Text(
+          //                       "Writing Evaluation",
+          //                       textScaleFactor: 1.2,
+          //                       style: TextStyle(
+          //                           color: Colors.white,
+          //                           fontWeight: FontWeight.normal),
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //         Ink(
+          //           color: const Color(mainColor),
+          //           child: InkWell(
+          //             onTap: () {
+          //               showModalBottomSheet(
+          //                   shape: RoundedRectangleBorder(
+          //                       borderRadius: BorderRadius.only(
+          //                           topLeft: const Radius.circular(30),
+          //                           topRight: const Radius.circular(30))),
+          //                   isScrollControlled: true,
+          //                   context: context,
+          //                   builder: (BuildContext context) {
+          //                     return WriteExamInfo(
+          //                         classViewController: classViewController,
+          //                         examInfoTextController: examInfoTextController,
+          //                         testStrategyController: testStrategyController);
+          //                   });
+          //             },
+          //             child: Container(
+          //               height: 50,
+          //               width: Get.mediaQuery.size.width,
+          //               child: Row(
+          //                 mainAxisAlignment: MainAxisAlignment.center,
+          //                 children: [
+          //                   Padding(
+          //                     padding: const EdgeInsets.all(8.0),
+          //                     child: Icon(
+          //                       Icons.add_circle_outline,
+          //                       color: Colors.white,
+          //                     ),
+          //                   ),
+          //                   Padding(
+          //                     padding: const EdgeInsets.all(8.0),
+          //                     child: Text(
+          //                       "Add Exam Information",
+          //                       textScaleFactor: 1.2,
+          //                       style: TextStyle(
+          //                           color: Colors.white,
+          //                           fontWeight: FontWeight.normal),
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       ]),
+          // ),
 
-        body: RefreshIndicator(
-          notificationPredicate: (notification) {
-            return notification.depth == 2;
-          },
-          onRefresh: classViewController.refreshPage,
-          child: Obx(() {
-            if (classViewController.classViewAvailable.value) {
-              return NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    return [
-                      SliverAppBar(
-                        automaticallyImplyLeading: false,
-                        pinned: false,
-                        floating: false,
-                        snap: false,
-                        forceElevated: false,
-                        elevation: 0,
-                        expandedHeight: 300.0,
-                        flexibleSpace: FlexibleSpaceBar(
-                          // collapseMode: CollapseMode.pin,
-                          background: ClassViewInfo(
-                              classInfoModel:
-                                  classViewController.classInfo.value),
+          body: RefreshIndicator(
+            notificationPredicate: (notification) {
+              return notification.depth == 2;
+            },
+            onRefresh: classViewController.refreshPage,
+            child: Obx(() {
+              if (classViewController.classViewAvailable.value) {
+                return NestedScrollView(
+                    headerSliverBuilder: (context, innerBoxIsScrolled) {
+                      return [
+                        SliverAppBar(
+                          automaticallyImplyLeading: false,
+                          pinned: false,
+                          floating: false,
+                          snap: false,
+                          forceElevated: false,
+                          elevation: 0,
+                          expandedHeight: 300.0,
+                          flexibleSpace: FlexibleSpaceBar(
+                            // collapseMode: CollapseMode.pin,
+                            background: ClassViewInfo(
+                                classInfoModel:
+                                    classViewController.classInfo.value),
+                          ),
+                          backgroundColor: const Color(backgroundColor),
                         ),
-                        backgroundColor: const Color(backgroundColor),
-                      ),
-                      // SliverPersistentHeader(
-                      //   pinned: true,
-                      //   delegate: MenuTabBar(
-                      //     classViewController: classViewController,
-                      //     tabBar: TabBar(
-                      //       controller: classViewController.tabController,
-                      //       labelColor: const Color(0xffffffff),
-                      //       unselectedLabelColor: const Color(0xff2f2f2f),
-                      //       labelStyle: const TextStyle(
-                      //           fontWeight: FontWeight.w500,
-                      //           fontFamily: "NotoSansSC",
-                      //           fontStyle: FontStyle.normal,
-                      //           fontSize: 14.0),
-                      //       indicator: BoxDecoration(
-                      //           borderRadius: BorderRadius.circular(8.0),
-                      //           color: const Color(mainColor)),
-                      //       tabs: <Tab>[
-                      //         Tab(
-                      //           text: "讲义评价",
-                      //         ),
-                      //         Tab(
-                      //           text: "考试信息",
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                    ];
-                  },
-                  body: Column(children: [
-                    Container(
-                      height: 44,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          color: const Color(0xffffffff)),
-                      margin: const EdgeInsets.only(
-                          top: 16, left: 20, right: 20, bottom: 0),
-                      child: TabBar(
-                        controller: classViewController.tabController,
-                        labelColor: const Color(0xffffffff),
-                        unselectedLabelColor: const Color(0xff2f2f2f),
-                        labelStyle: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "NotoSansSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
-                        indicator: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: const Color(mainColor)),
-                        tabs: <Tab>[
-                          Tab(
-                            text: "讲义评价",
-                          ),
-                          Tab(
-                            text: "考试信息",
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: TabBarView(
+                        // SliverPersistentHeader(
+                        //   pinned: true,
+                        //   delegate: MenuTabBar(
+                        //     classViewController: classViewController,
+                        //     tabBar: TabBar(
+                        //       controller: classViewController.tabController,
+                        //       labelColor: const Color(0xffffffff),
+                        //       unselectedLabelColor: const Color(0xff2f2f2f),
+                        //       labelStyle: const TextStyle(
+                        //           fontWeight: FontWeight.w500,
+                        //           fontFamily: "NotoSansSC",
+                        //           fontStyle: FontStyle.normal,
+                        //           fontSize: 14.0),
+                        //       indicator: BoxDecoration(
+                        //           borderRadius: BorderRadius.circular(8.0),
+                        //           color: const Color(mainColor)),
+                        //       tabs: <Tab>[
+                        //         Tab(
+                        //           text: "讲义评价",
+                        //         ),
+                        //         Tab(
+                        //           text: "考试信息",
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
+                      ];
+                    },
+                    body: Column(children: [
+                      Container(
+                        height: 44,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            color: const Color(0xffffffff)),
+                        margin: const EdgeInsets.only(
+                            top: 16, left: 20, right: 20, bottom: 0),
+                        child: TabBar(
                           controller: classViewController.tabController,
-                          children: [
-                            Stack(children: [
-                              ListView.builder(
-                                padding: const EdgeInsets.only(top: 20),
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (BuildContext context, int index) {
-                                  if (index == 0) {
-                                    if (index ==
-                                        classViewController
-                                                .classReviewList.length -
-                                            1) {
+                          labelColor: const Color(0xffffffff),
+                          unselectedLabelColor: const Color(0xff2f2f2f),
+                          labelStyle: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                          indicator: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: const Color(mainColor)),
+                          tabs: <Tab>[
+                            Tab(
+                              text: "讲义评价",
+                            ),
+                            Tab(
+                              text: "考试信息",
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                            controller: classViewController.tabController,
+                            children: [
+                              Stack(children: [
+                                ListView.builder(
+                                  padding: const EdgeInsets.only(top: 20),
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    if (index == 0) {
+                                      if (index ==
+                                          classViewController
+                                                  .classReviewList.length -
+                                              1) {
+                                        return Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(8))),
+                                          child: ClassViewReview(
+                                            classReviewModel:
+                                                classViewController
+                                                    .classReviewList[index],
+                                            index: index,
+                                          ),
+                                        );
+                                      }
                                       return Container(
                                         margin: EdgeInsets.symmetric(
                                             horizontal: 20.0),
                                         decoration: BoxDecoration(
                                             color: Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(8))),
+                                            borderRadius: BorderRadius.vertical(
+                                                top: Radius.circular(8))),
+                                        child: ClassViewReview(
+                                          classReviewModel: classViewController
+                                              .classReviewList[index],
+                                          index: index,
+                                        ),
+                                      );
+                                    } else if (index ==
+                                        classViewController
+                                                .classReviewList.length -
+                                            1) {
+                                      return
+
+                                          // Container(
+                                          //   height: 1000,
+                                          //   color: Colors.red,
+                                          // );
+                                          Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 60.0),
+                                        child: Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 20.0),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      bottom:
+                                                          Radius.circular(8))),
+                                          child: ClassViewReview(
+                                            classReviewModel:
+                                                classViewController
+                                                    .classReviewList[index],
+                                            index: index,
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      return
+
+                                          // Container(
+                                          //   height: 1000,
+                                          //   color: Colors.red,
+                                          // );
+                                          Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 20.0),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                        ),
                                         child: ClassViewReview(
                                           classReviewModel: classViewController
                                               .classReviewList[index],
@@ -261,426 +333,377 @@ class ClassView extends StatelessWidget {
                                         ),
                                       );
                                     }
-                                    return Container(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(8))),
-                                      child: ClassViewReview(
-                                        classReviewModel: classViewController
-                                            .classReviewList[index],
-                                        index: index,
-                                      ),
-                                    );
-                                  } else if (index ==
-                                      classViewController
-                                              .classReviewList.length -
-                                          1) {
-                                    return
-
-                                        // Container(
-                                        //   height: 1000,
-                                        //   color: Colors.red,
-                                        // );
-                                        Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 60.0),
-                                      child: Container(
-                                        margin: EdgeInsets.symmetric(
-                                            horizontal: 20.0),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.vertical(
-                                                bottom: Radius.circular(8))),
-                                        child: ClassViewReview(
-                                          classReviewModel: classViewController
-                                              .classReviewList[index],
-                                          index: index,
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    return
-
-                                        // Container(
-                                        //   height: 1000,
-                                        //   color: Colors.red,
-                                        // );
-                                        Container(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                      ),
-                                      child: ClassViewReview(
-                                        classReviewModel: classViewController
-                                            .classReviewList[index],
-                                        index: index,
-                                      ),
-                                    );
-                                  }
-                                },
-                                itemCount:
-                                    classViewController.classReviewList.length,
-                                // separatorBuilder: (context, index) {
-                                //   return ;
-                                // },
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                child: Container(
-                                  color: const Color(mainColor),
-                                  child: InkWell(
-                                    onTap: () {
-                                      showModalBottomSheet(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft:
-                                                      const Radius.circular(20),
-                                                  topRight:
-                                                      const Radius.circular(
-                                                          20))),
-                                          isScrollControlled: true,
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return WriteComment(
-                                              classInfoModel:
-                                                  classViewController
-                                                      .classInfo.value,
-                                              // classViewController: classViewController,
-                                              reviewTextController:
-                                                  reviewTextController,
-                                              CLASS_ID: classViewController
-                                                  .classInfo.value.CLASS_ID,
-                                            );
-                                          });
-                                    },
-                                    child: Container(
-                                        height: 50,
-                                        width: Get.mediaQuery.size.width,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            // Padding(
-                                            //   padding: const EdgeInsets.all(8.0),
-                                            //   child: Icon(
-                                            //     Icons.post_add,
-                                            //     color: Colors.white,
-                                            //   ),
-                                            // ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                "写讲义评价",
-                                                // textScaleFactor: 1.2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    color:
-                                                        const Color(0xffffffff),
-                                                    fontWeight: FontWeight.w500,
-                                                    fontFamily: "NotoSansSC",
-                                                    fontStyle: FontStyle.normal,
-                                                    fontSize: 14.0),
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                  ),
+                                  },
+                                  itemCount: classViewController
+                                      .classReviewList.length,
+                                  // separatorBuilder: (context, index) {
+                                  //   return ;
+                                  // },
                                 ),
-                              ),
-                            ]),
-                            Obx(() {
-                              if (classViewController
-                                  .classExamAvailable.value) {
-                                return Stack(children: [
-                                  Positioned.fill(
-                                    child: ListView.separated(
-                                        padding: const EdgeInsets.only(top: 20),
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          if (index ==
-                                              classViewController
-                                                      .classExamList.length -
-                                                  1) {
-                                            return Padding(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 60.0),
-                                              child: ClassExamInfo(
-                                                classExamModel:
-                                                    classViewController
-                                                        .classExamList[index],
+                                Positioned(
+                                  bottom: 0,
+                                  child: Container(
+                                    color: const Color(mainColor),
+                                    child: InkWell(
+                                      onTap: () {
+                                        showModalBottomSheet(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft:
+                                                        const Radius.circular(
+                                                            20),
+                                                    topRight:
+                                                        const Radius.circular(
+                                                            20))),
+                                            isScrollControlled: true,
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return WriteComment(
                                                 classInfoModel:
                                                     classViewController
                                                         .classInfo.value,
-                                                index: index,
-                                              ),
-                                            );
-                                          }
-                                          return ClassExamInfo(
-                                            classExamModel: classViewController
-                                                .classExamList[index],
-                                            classInfoModel: classViewController
-                                                .classInfo.value,
-                                            index: index,
-                                          );
-                                        },
-                                        itemCount: classViewController
-                                            .classExamList.length,
-                                        separatorBuilder: (context, index) {
-                                          return Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 34.5),
-                                              height: 1,
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      const Color(0xffeaeaea)));
-                                        }),
-                                  ),
-                                  Positioned(
-                                    bottom: 0,
-                                    child: Container(
-                                      color: const Color(mainColor),
-                                      child: InkWell(
-                                        onTap: () {
-                                          showModalBottomSheet(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                          topLeft: const Radius
-                                                              .circular(30),
-                                                          topRight: const Radius
-                                                              .circular(30))),
-                                              isScrollControlled: true,
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return WriteExamInfo(
-                                                    classViewController:
-                                                        classViewController,
-                                                    examInfoTextController:
-                                                        examInfoTextController,
-                                                    testStrategyController:
-                                                        testStrategyController);
-                                              });
-                                        },
-                                        child: Container(
-                                            height: 50,
-                                            width: Get.mediaQuery.size.width,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                // Padding(
-                                                //   padding:
-                                                //       const EdgeInsets.all(8.0),
-                                                //   child: Icon(
-                                                //     Icons.add_circle_outline,
-                                                //     color: Colors.white,
-                                                //   ),
-                                                // ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "写考试信息",
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    // textScaleFactor: 1.2,
-                                                    style: const TextStyle(
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        color: const Color(
-                                                            0xffffffff),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontFamily:
-                                                            "NotoSansSC",
-                                                        fontStyle:
-                                                            FontStyle.normal,
-                                                        fontSize: 14.0),
-                                                  ),
+                                                // classViewController: classViewController,
+                                                reviewTextController:
+                                                    reviewTextController,
+                                                CLASS_ID: classViewController
+                                                    .classInfo.value.CLASS_ID,
+                                              );
+                                            });
+                                      },
+                                      child: Container(
+                                          height: 50,
+                                          width: Get.mediaQuery.size.width,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              // Padding(
+                                              //   padding: const EdgeInsets.all(8.0),
+                                              //   child: Icon(
+                                              //     Icons.post_add,
+                                              //     color: Colors.white,
+                                              //   ),
+                                              // ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  "写讲义评价",
+                                                  // textScaleFactor: 1.2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      color: const Color(
+                                                          0xffffffff),
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontFamily: "NotoSansSC",
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontSize: 14.0),
                                                 ),
-                                              ],
-                                            )),
-                                      ),
+                                              ),
+                                            ],
+                                          )),
                                     ),
                                   ),
-                                ]);
-                              } else {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                            })
-                          ]),
-                    ),
-                  ]));
+                                ),
+                              ]),
+                              Obx(() {
+                                if (classViewController
+                                    .classExamAvailable.value) {
+                                  return Stack(children: [
+                                    Positioned.fill(
+                                      child: ListView.separated(
+                                          padding:
+                                              const EdgeInsets.only(top: 20),
+                                          shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            if (index ==
+                                                classViewController
+                                                        .classExamList.length -
+                                                    1) {
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 60.0),
+                                                child: ClassExamInfo(
+                                                  classExamModel:
+                                                      classViewController
+                                                          .classExamList[index],
+                                                  classInfoModel:
+                                                      classViewController
+                                                          .classInfo.value,
+                                                  index: index,
+                                                ),
+                                              );
+                                            }
+                                            return ClassExamInfo(
+                                              classExamModel:
+                                                  classViewController
+                                                      .classExamList[index],
+                                              classInfoModel:
+                                                  classViewController
+                                                      .classInfo.value,
+                                              index: index,
+                                            );
+                                          },
+                                          itemCount: classViewController
+                                              .classExamList.length,
+                                          separatorBuilder: (context, index) {
+                                            return Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 34.5),
+                                                height: 1,
+                                                decoration: BoxDecoration(
+                                                    color: const Color(
+                                                        0xffeaeaea)));
+                                          }),
+                                    ),
+                                    Positioned(
+                                      bottom: 0,
+                                      child: Container(
+                                        color: const Color(mainColor),
+                                        child: InkWell(
+                                          onTap: () {
+                                            showModalBottomSheet(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                            topLeft: const Radius
+                                                                .circular(30),
+                                                            topRight: const Radius
+                                                                .circular(30))),
+                                                isScrollControlled: true,
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return WriteExamInfo(
+                                                      classViewController:
+                                                          classViewController,
+                                                      examInfoTextController:
+                                                          examInfoTextController,
+                                                      testStrategyController:
+                                                          testStrategyController);
+                                                });
+                                          },
+                                          child: Container(
+                                              height: 50,
+                                              width: Get.mediaQuery.size.width,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  // Padding(
+                                                  //   padding:
+                                                  //       const EdgeInsets.all(8.0),
+                                                  //   child: Icon(
+                                                  //     Icons.add_circle_outline,
+                                                  //     color: Colors.white,
+                                                  //   ),
+                                                  // ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(
+                                                      "写考试信息",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      // textScaleFactor: 1.2,
+                                                      style: const TextStyle(
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          color: const Color(
+                                                              0xffffffff),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontFamily:
+                                                              "NotoSansSC",
+                                                          fontStyle:
+                                                              FontStyle.normal,
+                                                          fontSize: 14.0),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                      ),
+                                    ),
+                                  ]);
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              })
+                            ]),
+                      ),
+                    ]));
 
-              //     CustomScrollView(
-              //   slivers: <Widget>[
-              //     // 강의 정부
-              //     SliverToBoxAdapter(
-              //       child: ClassViewInfo(
-              //           classInfoModel: classViewController.classInfo.value),
-              //     ),
-              //     // Comment, Exam Info Tabbar
-              //     SliverPersistentHeader(
-              //         pinned: true,
-              //         delegate: MenuTabBar(
-              //           classViewController: classViewController,
-              //           tabBar: TabBar(
-              //             controller: classViewController.tabController,
-              //             labelColor: const Color(0xffffffff),
-              //             unselectedLabelColor: const Color(0xff2f2f2f),
-              //             labelStyle: const TextStyle(
-              //                 fontWeight: FontWeight.w500,
-              //                 fontFamily: "NotoSansSC",
-              //                 fontStyle: FontStyle.normal,
-              //                 fontSize: 14.0),
-              //             indicator: BoxDecoration(
-              //                 borderRadius: BorderRadius.circular(8.0),
-              //                 color: const Color(mainColor)),
-              //             tabs: <Tab>[
-              //               Tab(
-              //                 text: "在校生交流区",
-              //               ),
-              //               Tab(
-              //                 text: "考试攻略",
-              //               ),
-              //             ],
-              //           ),
-              //         )),
+                //     CustomScrollView(
+                //   slivers: <Widget>[
+                //     // 강의 정부
+                //     SliverToBoxAdapter(
+                //       child: ClassViewInfo(
+                //           classInfoModel: classViewController.classInfo.value),
+                //     ),
+                //     // Comment, Exam Info Tabbar
+                //     SliverPersistentHeader(
+                //         pinned: true,
+                //         delegate: MenuTabBar(
+                //           classViewController: classViewController,
+                //           tabBar: TabBar(
+                //             controller: classViewController.tabController,
+                //             labelColor: const Color(0xffffffff),
+                //             unselectedLabelColor: const Color(0xff2f2f2f),
+                //             labelStyle: const TextStyle(
+                //                 fontWeight: FontWeight.w500,
+                //                 fontFamily: "NotoSansSC",
+                //                 fontStyle: FontStyle.normal,
+                //                 fontSize: 14.0),
+                //             indicator: BoxDecoration(
+                //                 borderRadius: BorderRadius.circular(8.0),
+                //                 color: const Color(mainColor)),
+                //             tabs: <Tab>[
+                //               Tab(
+                //                 text: "在校生交流区",
+                //               ),
+                //               Tab(
+                //                 text: "考试攻略",
+                //               ),
+                //             ],
+                //           ),
+                //         )),
 
-              //     SliverFillRemaining(
+                //     SliverFillRemaining(
 
-              //       child: TabBarView(
-              //           controller: classViewController.tabController,
-              //           children: <Widget>[
-              //             ListView.separated(
-              //                 // physics: NeverScrollableScrollPhysics(),
-              //                 itemBuilder: (context, index) {
-              //                   return ClassViewReview(
-              //                     classReviewModel: classViewController
-              //                         .classReviewList[index],
-              //                     index: index,
-              //                   );
-              //                 },
-              //                 separatorBuilder: (context, index) {
-              //                   return Container(
-              //                       width: 292,
-              //                       height: 1,
-              //                       decoration: BoxDecoration(
-              //                           color: const Color(0xffeaeaea)));
-              //                 },
-              //                 itemCount:
-              //                     classViewController.classReviewList.length),
-              //             ListView.separated(
-              //                 // physics: NeverScrollableScrollPhysics(),
-              //                 itemBuilder: (context, index) {
-              //                   return ClassViewReview(
-              //                     classReviewModel: classViewController
-              //                         .classReviewList[index],
-              //                     index: index,
-              //                   );
-              //                 },
-              //                 separatorBuilder: (context, index) {
-              //                   return Container(
-              //                       width: 292,
-              //                       height: 1,
-              //                       decoration: BoxDecoration(
-              //                           color: const Color(0xffeaeaea)));
-              //                 },
-              //                 itemCount:
-              //                     classViewController.classReviewList.length),
-              //           ]),
-              //     ),
-              //     // SliverPersistentHeader(pinned: true, delegate: IndexButton()),
-              //     // SliverToBoxAdapter(
-              //     //   child: Container(
-              //     //     width: Get.mediaQuery.size.width,
-              //     //     height: 10,
-              //     //   ),
-              //     // ),
-              //     // Obx(() {
-              //     //   if (classViewController.typeIndex == 0) {
-              //     //     return SliverList(
-              //     //       delegate: SliverChildBuilderDelegate(
-              //     //           (BuildContext context, int index) {
-              //     //         return GestureDetector(
-              //     //           //* SWAPPING remove
-              //     //           /* onHorizontalDragEnd: (dragEnd) {
-              //     //             if (dragEnd.primaryVelocity < 0) {
-              //     //               classViewController.typeIndex(1);
-              //     //             }
-              //     //           }, */
-              //     //           child: ClassViewReview(
-              //     //             classReviewModel:
-              //     //                 classViewController.classReviewList[index],
-              //     //             index: index,
-              //     //           ),
-              //     //         );
-              //     //       },
-              //     //           childCount:
-              //     //               classViewController.classReviewList.length),
-              //     //     );
-              //     //   } else {
-              //     //     if (classViewController.classExamAvailable.value) {
-              //     //       return SliverList(
-              //     //         delegate: SliverChildBuilderDelegate(
-              //     //             (BuildContext context, int index) {
-              //     //           return GestureDetector(
-              //     //             //* SWAPPING remove
-              //     //             /* onHorizontalDragEnd: (dragEnd) {
-              //     //               if (dragEnd.primaryVelocity > 0) {
-              //     //                 classViewController.typeIndex(0);
-              //     //               }
-              //     //             }, */
-              //     //             child: ClassExamInfo(
-              //     //               classExamModel:
-              //     //                   classViewController.classExamList[index],
-              //     //               classInfoModel:
-              //     //                   classViewController.classInfo.value,
-              //     //               index: index,
-              //     //             ),
-              //     //           );
-              //     //         },
-              //     //             childCount:
-              //     //                 classViewController.classExamList.length),
-              //     //       );
-              //     //     } else {
-              //     //       return SliverToBoxAdapter(
-              //     //           child: GestureDetector(
-              //     //         onHorizontalDragEnd: (dragEnd) {
-              //     //           if (dragEnd.primaryVelocity > 0) {
-              //     //             classViewController.typeIndex(0);
-              //     //           }
-              //     //         },
-              //     //         child: Center(
-              //     //           child: CircularProgressIndicator(),
-              //     //         ),
-              //     //       ));
-              //     //     }
-              //     //   }
-              //     // }),
-              //     // SliverToBoxAdapter(
-              //     //     child: SizedBox(
-              //     //   height: 50,
-              //     // )),
-              //   ],
-              // );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
+                //       child: TabBarView(
+                //           controller: classViewController.tabController,
+                //           children: <Widget>[
+                //             ListView.separated(
+                //                 // physics: NeverScrollableScrollPhysics(),
+                //                 itemBuilder: (context, index) {
+                //                   return ClassViewReview(
+                //                     classReviewModel: classViewController
+                //                         .classReviewList[index],
+                //                     index: index,
+                //                   );
+                //                 },
+                //                 separatorBuilder: (context, index) {
+                //                   return Container(
+                //                       width: 292,
+                //                       height: 1,
+                //                       decoration: BoxDecoration(
+                //                           color: const Color(0xffeaeaea)));
+                //                 },
+                //                 itemCount:
+                //                     classViewController.classReviewList.length),
+                //             ListView.separated(
+                //                 // physics: NeverScrollableScrollPhysics(),
+                //                 itemBuilder: (context, index) {
+                //                   return ClassViewReview(
+                //                     classReviewModel: classViewController
+                //                         .classReviewList[index],
+                //                     index: index,
+                //                   );
+                //                 },
+                //                 separatorBuilder: (context, index) {
+                //                   return Container(
+                //                       width: 292,
+                //                       height: 1,
+                //                       decoration: BoxDecoration(
+                //                           color: const Color(0xffeaeaea)));
+                //                 },
+                //                 itemCount:
+                //                     classViewController.classReviewList.length),
+                //           ]),
+                //     ),
+                //     // SliverPersistentHeader(pinned: true, delegate: IndexButton()),
+                //     // SliverToBoxAdapter(
+                //     //   child: Container(
+                //     //     width: Get.mediaQuery.size.width,
+                //     //     height: 10,
+                //     //   ),
+                //     // ),
+                //     // Obx(() {
+                //     //   if (classViewController.typeIndex == 0) {
+                //     //     return SliverList(
+                //     //       delegate: SliverChildBuilderDelegate(
+                //     //           (BuildContext context, int index) {
+                //     //         return GestureDetector(
+                //     //           //* SWAPPING remove
+                //     //           /* onHorizontalDragEnd: (dragEnd) {
+                //     //             if (dragEnd.primaryVelocity < 0) {
+                //     //               classViewController.typeIndex(1);
+                //     //             }
+                //     //           }, */
+                //     //           child: ClassViewReview(
+                //     //             classReviewModel:
+                //     //                 classViewController.classReviewList[index],
+                //     //             index: index,
+                //     //           ),
+                //     //         );
+                //     //       },
+                //     //           childCount:
+                //     //               classViewController.classReviewList.length),
+                //     //     );
+                //     //   } else {
+                //     //     if (classViewController.classExamAvailable.value) {
+                //     //       return SliverList(
+                //     //         delegate: SliverChildBuilderDelegate(
+                //     //             (BuildContext context, int index) {
+                //     //           return GestureDetector(
+                //     //             //* SWAPPING remove
+                //     //             /* onHorizontalDragEnd: (dragEnd) {
+                //     //               if (dragEnd.primaryVelocity > 0) {
+                //     //                 classViewController.typeIndex(0);
+                //     //               }
+                //     //             }, */
+                //     //             child: ClassExamInfo(
+                //     //               classExamModel:
+                //     //                   classViewController.classExamList[index],
+                //     //               classInfoModel:
+                //     //                   classViewController.classInfo.value,
+                //     //               index: index,
+                //     //             ),
+                //     //           );
+                //     //         },
+                //     //             childCount:
+                //     //                 classViewController.classExamList.length),
+                //     //       );
+                //     //     } else {
+                //     //       return SliverToBoxAdapter(
+                //     //           child: GestureDetector(
+                //     //         onHorizontalDragEnd: (dragEnd) {
+                //     //           if (dragEnd.primaryVelocity > 0) {
+                //     //             classViewController.typeIndex(0);
+                //     //           }
+                //     //         },
+                //     //         child: Center(
+                //     //           child: CircularProgressIndicator(),
+                //     //         ),
+                //     //       ));
+                //     //     }
+                //     //   }
+                //     // }),
+                //     // SliverToBoxAdapter(
+                //     //     child: SizedBox(
+                //     //   height: 50,
+                //     // )),
+                //   ],
+                // );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }),
+          ),
         ),
       ),
     );

@@ -11,6 +11,7 @@ import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
 import 'package:polarstar_flutter/app/controller/class/class_controller.dart';
+import 'package:polarstar_flutter/app/controller/class/class_search_controller.dart';
 import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
@@ -636,6 +637,12 @@ class MainUpdateModule {
     putController<ClassController>();
     ClassController cc = Get.find();
     await cc.refreshPage();
+    return;
+  }
+
+  static Future<void> updateClassSearchPage() async {
+    ClassSearchController csc = Get.find();
+    await csc.refreshPage();
     return;
   }
 

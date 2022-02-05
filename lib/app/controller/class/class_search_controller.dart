@@ -30,6 +30,7 @@ class ClassSearchController extends GetxController {
 
     switch (jsonResponse["statusCode"]) {
       case 200:
+        classSearchList.clear();
         classSearchList.addAll(jsonResponse["classList"]);
         if (searchLength >= classSearchList.length) {
           fetchTilEnd = true;
