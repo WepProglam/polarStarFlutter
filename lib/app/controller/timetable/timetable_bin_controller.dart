@@ -32,9 +32,9 @@ class TimeTableBinController extends GetxController {
       }
     }
 
-    tempTimeTables.keys.forEach((element) {
-      timeTableController.otherTable.value = tempTimeTables.value;
-    });
+    // tempTimeTables.keys.forEach((element) {
+    //   timeTableController.otherTable.value = tempTimeTables.value;
+    // });
     print(timeTableController.otherTable.toString());
   }
 

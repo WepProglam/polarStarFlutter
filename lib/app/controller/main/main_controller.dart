@@ -46,6 +46,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   Rx<Color> statusBarColor = Colors.white.obs;
   bool isAlreadyRunned;
   RxMap profile = {}.obs;
+  RxBool splashTransparent = true.obs;
 
   RxList<BoardInfo> boardListInfo = <BoardInfo>[].obs;
 
@@ -537,6 +538,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     await ManagePermission.getPermission();
 
     DateTime pass = new DateTime.now();
+    splashTransparent.value = false;
     super.onInit();
     //버전 확인
     await versionCheck();

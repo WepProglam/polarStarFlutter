@@ -715,6 +715,11 @@ class ClassChatController extends GetxController {
       return temp.obs;
     }).toList();
 
+    classChatBox.sort((Rx<ChatBoxModel> a, Rx<ChatBoxModel> b) =>
+        a.value.TIME_LAST_CHAT_SENDED.isAfter(b.value.TIME_LAST_CHAT_SENDED)
+            ? 0
+            : 1);
+
     // classChatBox.value = tempList;
 
     majorChatBox.value = majorChatBoxList.map((e) {
@@ -727,6 +732,11 @@ class ClassChatController extends GetxController {
       }
       return temp.obs;
     }).toList();
+
+    majorChatBox.sort((Rx<ChatBoxModel> a, Rx<ChatBoxModel> b) =>
+        a.value.TIME_LAST_CHAT_SENDED.isAfter(b.value.TIME_LAST_CHAT_SENDED)
+            ? 0
+            : 1);
     print("unread amount :  ${majorChatBox.first.value.UNREAD_AMOUNT}");
 
     box.remove("classSocket");
