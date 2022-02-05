@@ -971,6 +971,7 @@ class SelectStartTime extends StatelessWidget {
         int fastest = 9 * 60;
         int lastest = 21 * 60;
 
+        // * 시간표에서 시간 고를 때
         await Get.defaultDialog(
             title: "Select Time",
             content: Container(
