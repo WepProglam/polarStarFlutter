@@ -972,18 +972,19 @@ class SelectStartTime extends StatelessWidget {
         int lastest = 21 * 60;
 
         await Get.defaultDialog(
+            title: "Select Time",
             content: Container(
-          height: 200,
-          width: Get.mediaQuery.size.width,
-          child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.time,
-              use24hFormat: true,
-              initialDateTime: start_time,
-              minuteInterval: 5,
-              onDateTimeChanged: (DateTime dateTime) {
-                timeInput = dateTime;
-              }),
-        ));
+              height: 200,
+              width: Get.mediaQuery.size.width,
+              child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.time,
+                  use24hFormat: true,
+                  initialDateTime: start_time,
+                  minuteInterval: 5,
+                  onDateTimeChanged: (DateTime dateTime) {
+                    timeInput = dateTime;
+                  }),
+            ));
 
         int cal_time = timeInput.hour * 60 + timeInput.minute;
         if (cal_time >= fastest && cal_time < lastest) {
@@ -1059,18 +1060,19 @@ class SelectEndTime extends StatelessWidget {
         int fastest = 9 * 60;
         int lastest = 21 * 60;
         await Get.defaultDialog(
+            title: "Select Time",
             content: Container(
-          height: 200,
-          width: Get.mediaQuery.size.width,
-          child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.time,
-              use24hFormat: true,
-              initialDateTime: newClass.value.end_time,
-              minuteInterval: 5,
-              onDateTimeChanged: (DateTime dateTime) {
-                timeInput = dateTime;
-              }),
-        ));
+              height: 200,
+              width: Get.mediaQuery.size.width,
+              child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.time,
+                  use24hFormat: true,
+                  initialDateTime: newClass.value.end_time,
+                  minuteInterval: 5,
+                  onDateTimeChanged: (DateTime dateTime) {
+                    timeInput = dateTime;
+                  }),
+            ));
 
         int cal_time = timeInput.hour * 60 + timeInput.minute;
         if (cal_time > fastest && cal_time <= lastest) {

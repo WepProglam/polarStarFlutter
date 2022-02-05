@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 
 class BottomKeyboard extends StatelessWidget {
   const BottomKeyboard({
@@ -130,24 +131,20 @@ class BottomKeyboard extends StatelessWidget {
                       //댓 대댓 수정
                       if (c.autoFocusTextForm.value) {
                         c.autoFocusTextForm.value = false;
+                        Function ontapConfirm = () async {
+                          await c.putComment(c.putUrl.value, commentData);
+                          Get.back();
+                        };
+                        Function ontapCancel = () {
+                          Get.back();
+                        };
                         // await c.putComment(c.putUrl.value, commentData);
-                        Get.defaultDialog(
-                            title: "댓글 수정",
-                            middleText: "${commentData['content']}로 수정하시겠습니까?",
-                            actions: [
-                              TextButton(
-                                  onPressed: () async {
-                                    await c.putComment(
-                                        c.putUrl.value, commentData);
-                                    Get.back();
-                                  },
-                                  child: Text("是")),
-                              TextButton(
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                  child: Text("否"))
-                            ]);
+                        TFdialogue(
+                            Get.context,
+                            "댓글 수정",
+                            "${commentData['content']}로 수정하시겠습니까?",
+                            ontapConfirm,
+                            ontapCancel);
                       }
 
                       //댓 대댓 작성

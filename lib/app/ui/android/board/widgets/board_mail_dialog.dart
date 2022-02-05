@@ -1,79 +1,170 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 
 void sendMail(int UNIQUE_ID, int COMMUNITY_ID,
     TextEditingController mailWriteController, MailController mailController) {
-  Get.defaultDialog(title: "发送私信 ", middleText: "确定要给对方发送私信吗?", actions: [
-    TextButton(
-        onPressed: () async {
-          await Get.defaultDialog(
-            title: "发送私信",
-            barrierDismissible: true,
-            content: Column(
-              children: [
-                TextFormField(
-                  controller: mailWriteController,
-                  keyboardType: TextInputType.text,
-                  maxLines: 1,
+  Function ontapConfirm = () async {
+    await Get.defaultDialog(
+      titlePadding: const EdgeInsets.only(top: 20.0),
+      title: "发送私信",
+      titleStyle: const TextStyle(
+          color: const Color(0xff6f6e6e),
+          fontWeight: FontWeight.w400,
+          fontFamily: "NotoSansSC",
+          fontStyle: FontStyle.normal,
+          fontSize: 12.0),
+      barrierDismissible: true,
+      content: Container(
+        margin: const EdgeInsets.only(left: 20, right: 20),
+        child: Column(
+          children: [
+            Container(
+              width: Get.mediaQuery.size.width - 40,
+              margin: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(left: 20, top: 12, bottom: 12),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(22)),
+                  color: const Color(0xfff5f5f5)),
+              child: TextFormField(
+                controller: mailWriteController,
+                keyboardType: TextInputType.multiline,
+                style: const TextStyle(
+                    color: const Color(0xff6f6e6e),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "NotoSansSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
+                decoration: InputDecoration(
+                  isDense: true,
+                  border: InputBorder.none,
+                  hintStyle: const TextStyle(
+                      color: const Color(0xff9b9b9b),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 12.0),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                minLines: 1,
+                maxLines: 5,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Container(
+                    height: 14,
+                    width: 14,
+                    child: Transform.scale(
+                      scale: 1,
+                      child: Obx(() {
+                        return Checkbox(
+                          value: mailController.mailAnonymous.value,
+                          onChanged: (value) {
+                            mailController.mailAnonymous.value = value;
+                          },
+                        );
+                      }),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 6),
+                    child: Text(
+                      '匿名',
+                      style: const TextStyle(
+                          color: const Color(0xff9b9b9b),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "NotoSansSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 10.0),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+                margin: const EdgeInsets.only(top: 20, right: 20, left: 20),
+                width: 280,
+                height: 1,
+                decoration: BoxDecoration(color: const Color(0xffd6d4d4))),
+            Container(
+              height: 50,
+              child: Stack(children: [
+                Container(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Container(
-                        height: 20,
-                        width: 20,
-                        child: Transform.scale(
-                          scale: 1,
-                          child: Obx(() {
-                            return Checkbox(
-                              value: mailController.mailAnonymous.value,
-                              onChanged: (value) {
-                                mailController.mailAnonymous.value = value;
-                              },
-                            );
-                          }),
+                      Ink(
+                        child: InkWell(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            child: // 한국문화와언어
+                                Text("否",
+                                    style: const TextStyle(
+                                        color: const Color(0xff4570ff),
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 16.0),
+                                    textAlign: TextAlign.center),
+                          ),
                         ),
                       ),
-                      Text('匿名'),
+                      Ink(
+                        child: InkWell(
+                          onTap: () async {
+                            String content = mailWriteController.text;
+                            if (content.trim().isEmpty) {
+                              return;
+                            }
+
+                            await mailController.sendMailOut(
+                                UNIQUE_ID, COMMUNITY_ID, content);
+                            mailWriteController.clear();
+                            Get.toNamed(
+                                "/mail/${mailController.MAIL_BOX_ID.value}");
+                          },
+                          child: Container(
+                              padding: const EdgeInsets.all(10),
+                              child: Text("是",
+                                  style: const TextStyle(
+                                      color: const Color(0xff4570ff),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "NotoSansSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 16.0),
+                                  textAlign: TextAlign.center)),
+                        ),
+                      )
                     ],
                   ),
                 ),
-                ElevatedButton(
-                    onPressed: () async {
-                      String content = mailWriteController.text;
-                      if (content.trim().isEmpty) {
-                        // Get.snackbar("텍스트를 작성해주세요", "텍스트를 작성해주세요");
-                        return;
-                      }
-
-                      await mailController.sendMailOut(
-                          UNIQUE_ID, COMMUNITY_ID, content);
-                      mailWriteController.clear();
-                      Get.toNamed("/mail/${mailController.MAIL_BOX_ID.value}");
-                    },
-                    child: Text("发送"))
-              ],
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                      width: 1,
+                      height: 20,
+                      decoration:
+                          BoxDecoration(color: const Color(0xffd6d4d4))),
+                )
+              ]),
             ),
-          ).then((value) {
-            Get.back();
-            Get.back();
-          });
-        },
-        child: Text("是")),
-    TextButton(
-        onPressed: () {
-          Get.back();
-        },
-        child: Text("否"))
-  ]);
-
-  mailWriteController.clear();
+          ],
+        ),
+      ),
+    );
+    Get.back();
+    mailWriteController.clear();
+  };
+  Function ontapCancel = () {
+    Get.back();
+    mailWriteController.clear();
+  };
+  TFdialogue(Get.context, "发送私信", "确定要给对方发送私信吗?", ontapConfirm, ontapCancel);
 }

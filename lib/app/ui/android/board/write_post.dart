@@ -6,6 +6,7 @@ import 'package:polarstar_flutter/app/controller/board/write_post_controller.dar
 import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/board/write_post_model.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
@@ -99,67 +100,40 @@ class WritePost extends StatelessWidget {
                                   unnamed: (c.anonymousCheck.value) ? '1' : '0')
                               .toJson();
 
-                          await Get.defaultDialog(
-                              title: "게시글 작성",
-                              middleText: "게시글을 작성하시겠습니까?",
-                              titleStyle: const TextStyle(
-                                  color: const Color(0xff2f2f2f),
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: "NotoSansTC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 16.0),
-                              middleTextStyle: const TextStyle(
-                                  color: const Color(0xff2f2f2f),
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: "NotoSansTC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 16.0),
-                              actions: [
-                                TextButton(
-                                    onPressed: () async {
-                                      Get.back();
-                                      if (c.putOrPost == "put") {
-                                        if (c.photoAssets.length > 0) {
-                                          await c.putPostImage(data);
-                                        } else {
-                                          await c.putPostNoImage(data);
-                                        }
-                                      }
-                                      //작성
-                                      else {
-                                        if (c.photoAssets.length > 0) {
-                                          print("이미지 포스트");
-                                          await c.postPostImage(data);
-                                        } else {
-                                          print("글 포스트");
-                                          await c.postPostNoImage(data);
-                                        }
-                                      }
-                                    },
-                                    child: Text(
-                                      "是",
-                                      style: const TextStyle(
-                                          color: const Color(0xff2f2f2f),
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: "Roboto",
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 14.0),
-                                    )),
-                                TextButton(
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                    child: Text(
-                                      "否",
-                                      style: const TextStyle(
-                                          color: const Color(0xff2f2f2f),
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: "Roboto",
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 14.0),
-                                    )),
-                              ]);
-                          //수정
+                          Function ontapConfirm = () async {
+                            Get.back();
+                            if (c.putOrPost == "put") {
+                              if (c.photoAssets.length > 0) {
+                                await c.putPostImage(data);
+                              } else {
+                                await c.putPostNoImage(data);
+                              }
+                            } else {
+                              //작성
+
+                              if (c.photoAssets.length > 0) {
+                                print("이미지 포스트");
+                                await c.postPostImage(data);
+                              } else {
+                                print("글 포스트");
+                                await c.postPostNoImage(data);
+                              }
+                            }
+                            ;
+                          };
+
+                          Function ontapCancel = () {
+                            Get.back();
+                          };
+
+                          await TFdialogue(
+                              Get.context,
+                              c.putOrPost == "put" ? "게시글 수정" : "게시글 작성",
+                              c.putOrPost == "put"
+                                  ? "게시글을 수정하시겠습니까?"
+                                  : "게시글을 작성하시겠습니까?",
+                              ontapConfirm,
+                              ontapCancel);
                         },
                         child: Container(
                             width: 52,

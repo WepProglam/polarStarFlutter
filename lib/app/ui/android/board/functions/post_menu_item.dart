@@ -18,20 +18,15 @@ import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 import 'package:polarstar_flutter/main.dart';
 
 Future<void> updatePostFunc(Rx<Post> item) async {
-  await Get.defaultDialog(title: "修改帖子", middleText: "确定要修改帖子吗？", actions: [
-    TextButton(
-        onPressed: () async {
-          Get.offAndToNamed(
-              '/board/${item.value.COMMUNITY_ID}/bid/${item.value.BOARD_ID}',
-              arguments: item);
-        },
-        child: Text("是")),
-    TextButton(
-        onPressed: () {
-          Get.back();
-        },
-        child: Text("否"))
-  ]);
+  Function ontapConfirm = () async {
+    Get.offAndToNamed(
+        '/board/${item.value.COMMUNITY_ID}/bid/${item.value.BOARD_ID}',
+        arguments: item);
+  };
+  Function ontapCancel = () {
+    Get.back();
+  };
+  await TFdialogue(Get.context, "修改帖子", "确定要修改帖子吗？", ontapConfirm, ontapCancel);
 }
 
 Future<void> deletePostFunc(Rx<Post> item, PostController c) async {

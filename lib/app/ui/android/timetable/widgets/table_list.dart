@@ -6,225 +6,226 @@ import 'package:polarstar_flutter/app/controller/timetable/timetable_controller.
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-class TopIcon extends StatelessWidget {
-  final TimeTableController timeTableController;
-  TopIcon({Key key, this.timeTableController, this.selectedModel})
-      : super(key: key);
-  final courseNameController = TextEditingController();
-  Rx<SelectedTimeTableModel> selectedModel;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        InkWell(
-          onTap: () {
-            for (var item in timeTableController.selectYearSemester) {
-              print(item.value.NAME);
-            }
+// class TopIcon extends StatelessWidget {
+//   final TimeTableController timeTableController;
+//   TopIcon({Key key, this.timeTableController, this.selectedModel})
+//       : super(key: key);
+//   final courseNameController = TextEditingController();
+//   Rx<SelectedTimeTableModel> selectedModel;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       children: [
+//         InkWell(
+//           onTap: () {
+//             for (var item in timeTableController.selectYearSemester) {
+//               print(item.value.NAME);
+//             }
 
-            Get.defaultDialog(
-                title: "학기 선택",
-                content: Container(
-                  width: 300,
-                  height: 40.0 * timeTableController.selectYearSemester.length,
-                  child: Obx(() {
-                    return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount:
-                            timeTableController.selectYearSemester.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          String yearSemester =
-                              "${timeTableController.selectYearSemester[index].value.YEAR}년 ${timeTableController.selectYearSemester[index].value.SEMESTER}학기";
+//             Get.defaultDialog(
+//                 title: "학기 선택",
+//                 content: Container(
+//                   width: 300,
+//                   height: 40.0 * timeTableController.selectYearSemester.length,
+//                   child: Obx(() {
+//                     return ListView.builder(
+//                         physics: NeverScrollableScrollPhysics(),
+//                         itemCount:
+//                             timeTableController.selectYearSemester.length,
+//                         itemBuilder: (BuildContext context, int index) {
+//                           String yearSemester =
+//                               "${timeTableController.selectYearSemester[index].value.YEAR}년 ${timeTableController.selectYearSemester[index].value.SEMESTER}학기";
 
-                          return InkWell(
-                            onTap: () async {
-                              await timeTableController.getSemesterTimeTable(
-                                  timeTableController
-                                      .selectYearSemester[index].value.YEAR,
-                                  timeTableController.selectYearSemester[index]
-                                      .value.SEMESTER);
-                              timeTableController.selectedTimeTableId.value =
-                                  timeTableController.selectYearSemester[index]
-                                      .value.TIMETABLE_ID;
-                              Get.back();
-                            },
-                            child: Container(
-                                height: 40,
-                                child: Row(children: [
-                                  Container(
-                                    // padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "${yearSemester}",
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  Container(
-                                    // padding: const EdgeInsets.all(8.0),
-                                    margin: const EdgeInsets.only(left: 15),
-                                    // width: 100,
-                                    child: Text(
-                                      "${timeTableController.selectYearSemester[index].value.NAME}",
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  // Spacer(),
-                                  Container(
-                                    // padding: const EdgeInsets.all(8.0),
-                                    margin: const EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      "DEFAULT",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                          color: Colors.red),
-                                    ),
-                                  ),
-                                ])),
-                          );
-                        });
-                  }),
-                ));
-          },
-          child: Obx(() {
-            return Container(
-              height: 28,
-              child: Row(
-                children: [
-                  Container(
-                    height: 28,
-                    child: Text("${selectedModel.value.NAME}",
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            color: const Color(0xff333333),
-                            fontWeight: FontWeight.w700,
-                            fontFamily: "PingFangSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 21.0),
-                        textAlign: TextAlign.left),
-                  ),
-                  Container(
-                    height: 28,
-                    margin:
-                        const EdgeInsets.only(left: 12, top: 14.8, bottom: 7.3),
-                    child: // 패스 940
-                        FittedBox(
-                      child: Container(
-                        width: 10.68267822265625,
-                        height: 5.931396484375,
-                        child: Image.asset(
-                          "assets/images/940.png",
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }),
-        ),
-        Spacer(),
-        Container(
-          width: 100,
-          height: 100,
-          child: InkWell(
-            onDoubleTap: () {
-              timeTableController.logoHidden.value =
-                  !timeTableController.logoHidden.value;
-              print("asdfasdfasdfsadf");
-            },
-          ),
-        ),
-        Obx(() {
-          return timeTableController.logoHidden.value
-              ? Container()
-              : Container(
-                  padding:
-                      const EdgeInsets.only(top: 9, bottom: 1.5, right: 13.3),
-                  child: // 패스 940
-                      InkWell(
-                    onTap: () {
-                      if (timeTableController.topHeight.value == 30.0) {
-                        timeTableController.topHeight.value = 44.0;
-                        timeTableController.timeHeight.value = 60.0;
-                      } else {
-                        timeTableController.topHeight.value = 30.0;
-                        timeTableController.timeHeight.value = 50.0;
-                      }
-                    },
-                    child: Container(
-                      width: 15.3,
-                      height: 17.5,
-                      child: Image.asset(
-                        "assets/images/logo.png",
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
-                  ),
-                );
-        }),
-        Container(
-          margin: const EdgeInsets.only(top: 9, bottom: 1.5, right: 13.3),
-          child: // 패스 940
-              InkWell(
-            onTap: () {
-              Get.toNamed(Routes.CLASS);
-              // Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
-            },
-            child: Container(
-              width: 15.3,
-              height: 17.5,
-              child: Image.asset(
-                "assets/images/person.png",
-                fit: BoxFit.fitHeight,
-              ),
-            ),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 9, bottom: 1.5, right: 13.3),
-          child: // 패스 940
-              InkWell(
-            onTap: () {
-              showSetting(context, courseNameController, selectedModel);
-            },
-            child: Container(
-              width: 15.3,
-              height: 17.5,
-              child: Image.asset(
-                "assets/images/17_2.png",
-                fit: BoxFit.fitHeight,
-              ),
-            ),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(
-              top: 9 + 1.7, bottom: 1.5 + 1.7, right: 13.3),
-          child: // 패스 940
-              InkWell(
-            onTap: () {
-              Get.toNamed("/timetable/bin");
-            },
-            child: Container(
-              width: 16.2,
-              height: 14,
-              child: Image.asset(
-                "assets/images/16_12.png",
-                fit: BoxFit.fitHeight,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
+//                           return InkWell(
+//                             onTap: () async {
+//                               await timeTableController.getSemesterTimeTable(
+//                                   timeTableController
+//                                       .selectYearSemester[index].value.YEAR,
+//                                   timeTableController.selectYearSemester[index]
+//                                       .value.SEMESTER);
+//                               timeTableController.selectedTimeTableId.value =
+//                                   timeTableController.selectYearSemester[index]
+//                                       .value.TIMETABLE_ID;
+//                               Get.back();
+//                             },
+//                             child: Container(
+//                                 height: 40,
+//                                 child: Row(children: [
+//                                   Container(
+//                                     // padding: const EdgeInsets.all(8.0),
+//                                     child: Text(
+//                                       "${yearSemester}",
+//                                       overflow: TextOverflow.ellipsis,
+//                                     ),
+//                                   ),
+//                                   Container(
+//                                     // padding: const EdgeInsets.all(8.0),
+//                                     margin: const EdgeInsets.only(left: 15),
+//                                     // width: 100,
+//                                     child: Text(
+//                                       "${timeTableController.selectYearSemester[index].value.NAME}",
+//                                       overflow: TextOverflow.ellipsis,
+//                                     ),
+//                                   ),
+//                                   // Spacer(),
+//                                   Container(
+//                                     // padding: const EdgeInsets.all(8.0),
+//                                     margin: const EdgeInsets.only(left: 15),
+//                                     child: Text(
+//                                       "DEFAULT",
+//                                       overflow: TextOverflow.ellipsis,
+//                                       style: TextStyle(
+//                                           overflow: TextOverflow.ellipsis,
+//                                           color: Colors.red),
+//                                     ),
+//                                   ),
+//                                 ])),
+//                           );
+//                         });
+//                   }),
+//                 ));
+//           },
+//           child: Obx(() {
+//             return Container(
+//               height: 28,
+//               child: Row(
+//                 children: [
+//                   Container(
+//                     height: 28,
+//                     child: Text("${selectedModel.value.NAME}",
+//                         overflow: TextOverflow.ellipsis,
+//                         style: const TextStyle(
+//                             overflow: TextOverflow.ellipsis,
+//                             color: const Color(0xff333333),
+//                             fontWeight: FontWeight.w700,
+//                             fontFamily: "PingFangSC",
+//                             fontStyle: FontStyle.normal,
+//                             fontSize: 21.0),
+//                         textAlign: TextAlign.left),
+//                   ),
+//                   Container(
+//                     height: 28,
+//                     margin:
+//                         const EdgeInsets.only(left: 12, top: 14.8, bottom: 7.3),
+//                     child: // 패스 940
+//                         FittedBox(
+//                       child: Container(
+//                         width: 10.68267822265625,
+//                         height: 5.931396484375,
+//                         child: Image.asset(
+//                           "assets/images/940.png",
+//                           fit: BoxFit.fitHeight,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             );
+//           }),
+//         ),
+//         Spacer(),
+//         Container(
+//           width: 100,
+//           height: 100,
+//           child: InkWell(
+//             onDoubleTap: () {
+//               timeTableController.logoHidden.value =
+//                   !timeTableController.logoHidden.value;
+//               print("asdfasdfasdfsadf");
+//             },
+//           ),
+//         ),
+//         Obx(() {
+//           return timeTableController.logoHidden.value
+//               ? Container()
+//               : Container(
+//                   padding:
+//                       const EdgeInsets.only(top: 9, bottom: 1.5, right: 13.3),
+//                   child: // 패스 940
+//                       InkWell(
+//                     onTap: () {
+//                       if (timeTableController.topHeight.value == 30.0) {
+//                         timeTableController.topHeight.value = 44.0;
+//                         timeTableController.timeHeight.value = 60.0;
+//                       } else {
+//                         timeTableController.topHeight.value = 30.0;
+//                         timeTableController.timeHeight.value = 50.0;
+//                       }
+//                     },
+//                     child: Container(
+//                       width: 15.3,
+//                       height: 17.5,
+//                       child: Image.asset(
+//                         "assets/images/logo.png",
+//                         fit: BoxFit.fitHeight,
+//                       ),
+//                     ),
+//                   ),
+//                 );
+//         }),
+//         Container(
+//           margin: const EdgeInsets.only(top: 9, bottom: 1.5, right: 13.3),
+//           child: // 패스 940
+//               InkWell(
+//             onTap: () {
+//               Get.toNamed(Routes.CLASS);
+//               // Get.toNamed(Routes.TIMETABLE_ADDCLASS_MAIN);
+//             },
+//             child: Container(
+//               width: 15.3,
+//               height: 17.5,
+//               child: Image.asset(
+//                 "assets/images/person.png",
+//                 fit: BoxFit.fitHeight,
+//               ),
+//             ),
+//           ),
+//         ),
+//         Container(
+//           margin: const EdgeInsets.only(top: 9, bottom: 1.5, right: 13.3),
+//           child: // 패스 940
+//               InkWell(
+//             onTap: () {
+//               showSetting(context, courseNameController, selectedModel);
+//             },
+//             child: Container(
+//               width: 15.3,
+//               height: 17.5,
+//               child: Image.asset(
+//                 "assets/images/17_2.png",
+//                 fit: BoxFit.fitHeight,
+//               ),
+//             ),
+//           ),
+//         ),
+//         Container(
+//           margin: const EdgeInsets.only(
+//               top: 9 + 1.7, bottom: 1.5 + 1.7, right: 13.3),
+//           child: // 패스 940
+//               InkWell(
+//             onTap: () {
+//               Get.toNamed("/timetable/bin");
+//             },
+//             child: Container(
+//               width: 16.2,
+//               height: 14,
+//               child: Image.asset(
+//                 "assets/images/16_12.png",
+//                 fit: BoxFit.fitHeight,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 void showSetting(
     BuildContext context,
@@ -254,198 +255,48 @@ void showSetting(
                       imagePath: "timetable_edit_name.png",
                       title: "编辑名称",
                       onTap: () async {
+                        Function ontapConfirm = () async {
+                          String newName = courseNameController.text.trim();
+
+                          if (newName ==
+                              timeTableController.selectTable.value.NAME
+                                  .trim()) {
+                            // Get.snackbar("변경 사항이 없습니다.",
+                            //     "변경 사항이 없습니다.");
+                            return;
+                          }
+                          var response = await Session().patchX(
+                              "/timetable/table/tid/${timeTableController.selectedTimeTableId.value}?name=${newName}",
+                              {});
+
+                          switch (response.statusCode) {
+                            case 200:
+                              timeTableController.selectTable.update((val) {
+                                val.NAME = courseNameController.text;
+                              });
+
+                              for (var item in timeTableController.otherTable[
+                                  "${timeTableController.yearSem}"]) {
+                                if (item.value.TIMETABLE_ID ==
+                                    timeTableController
+                                        .selectTable.value.TIMETABLE_ID) {
+                                  item.update((val) {
+                                    val.NAME = newName;
+                                  });
+                                }
+                              }
+                              courseNameController.clear();
+                              Get.back();
+
+                              break;
+                            default:
+                              Get.snackbar("系统错误", "系统错误");
+                          }
+                        };
                         Get.back();
-                        await Get.defaultDialog(
-                            title: "编辑名称",
-                            titlePadding: const EdgeInsets.only(top: 15.5),
-                            contentPadding: const EdgeInsets.all(0),
-                            titleStyle: const TextStyle(
-                                color: const Color(0xff333333),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 18.0),
-                            content: Container(
-                              width: formSize.width - 30,
-                              height: 175,
-                              child: Container(
-                                margin: const EdgeInsets.only(top: 31),
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      // 사각형 544
-                                      Container(
-                                          width: formSize.width - 30 - 18.5 * 2,
-                                          height: 41.5,
-                                          child: Container(
-                                            margin: const EdgeInsets.only(
-                                                left: 25.5,
-                                                top: 10,
-                                                bottom: 10),
-                                            padding: const EdgeInsets.only(
-                                                right: 25.5),
-                                            child: TextFormField(
-                                                maxLines: 1,
-                                                controller:
-                                                    courseNameController,
-                                                style: textStyle,
-                                                textAlign: TextAlign.left,
-                                                decoration:
-                                                    inputDecoration("课程表名称")),
-                                          ),
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 18.5),
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(20)),
-                                              color: const Color(0xfff0f0f0))),
 
-                                      Container(
-                                        height: 55.5,
-                                        margin: const EdgeInsets.only(top: 44),
-                                        // width: formSize.width - 30,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: // Cancel
-                                                  InkWell(
-                                                onTap: () {
-                                                  Get.back();
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: const Color(
-                                                              0xffdedede),
-                                                          width: 0.3)),
-                                                  child: Center(
-                                                    child: FittedBox(
-                                                      child: Text("取消",
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: const TextStyle(
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              color: const Color(
-                                                                  0xff1a4678),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              fontFamily:
-                                                                  "PingFangSC",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: 18.0),
-                                                          textAlign:
-                                                              TextAlign.center),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: // Confirm
-                                                  InkWell(
-                                                onTap: () async {
-                                                  String newName =
-                                                      courseNameController.text
-                                                          .trim();
-
-                                                  if (newName ==
-                                                      timeTableController
-                                                          .selectTable
-                                                          .value
-                                                          .NAME
-                                                          .trim()) {
-                                                    // Get.snackbar("변경 사항이 없습니다.",
-                                                    //     "변경 사항이 없습니다.");
-                                                    return;
-                                                  }
-                                                  var response = await Session()
-                                                      .patchX(
-                                                          "/timetable/table/tid/${timeTableController.selectedTimeTableId.value}?name=${newName}",
-                                                          {});
-
-                                                  switch (response.statusCode) {
-                                                    case 200:
-                                                      timeTableController
-                                                          .selectTable
-                                                          .update((val) {
-                                                        val.NAME =
-                                                            courseNameController
-                                                                .text;
-                                                      });
-
-                                                      for (var item
-                                                          in timeTableController
-                                                                  .otherTable[
-                                                              "${timeTableController.yearSem}"]) {
-                                                        if (item.value
-                                                                .TIMETABLE_ID ==
-                                                            timeTableController
-                                                                .selectTable
-                                                                .value
-                                                                .TIMETABLE_ID) {
-                                                          item.update((val) {
-                                                            val.NAME = newName;
-                                                          });
-                                                        }
-                                                      }
-                                                      courseNameController
-                                                          .clear();
-                                                      Get.back();
-
-                                                      break;
-                                                    default:
-                                                      Get.snackbar(
-                                                          "系统错误", "系统错误");
-                                                  }
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: const Color(
-                                                              0xffdedede),
-                                                          width: 0.3)),
-                                                  child: Center(
-                                                    child: FittedBox(
-                                                      child: Text("确定",
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: const TextStyle(
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              color: const Color(
-                                                                  0xff1a4678),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              fontFamily:
-                                                                  "PingFangSC",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: 18.0),
-                                                          textAlign:
-                                                              TextAlign.center),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ));
+                        await inputDialogue(
+                            "编辑名称", courseNameController, ontapConfirm);
                       },
                     ),
                     TimeTableSettingItem(
@@ -453,187 +304,59 @@ void showSetting(
                       title: "删除",
                       onTap: () async {
                         Get.back();
-                        await Get.defaultDialog(
-                            title: "시간표를 삭제하시겠습니까？",
-                            titlePadding: const EdgeInsets.only(top: 15.5),
-                            contentPadding: const EdgeInsets.all(0),
-                            titleStyle: const TextStyle(
-                                color: const Color(0xff333333),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 18.0),
-                            content: Container(
-                              width: formSize.width - 30,
-                              height: 175,
-                              child: Container(
-                                margin: const EdgeInsets.only(top: 31),
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 55.5,
-                                        margin: const EdgeInsets.only(top: 44),
-                                        // width: formSize.width - 30,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: // Cancel
-                                                  InkWell(
-                                                onTap: () {
-                                                  Get.back();
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: const Color(
-                                                              0xffdedede),
-                                                          width: 0.3)),
-                                                  child: Center(
-                                                    child: FittedBox(
-                                                      child: Text("否",
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: const TextStyle(
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              color: const Color(
-                                                                  0xff1a4678),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              fontFamily:
-                                                                  "PingFangSC",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: 18.0),
-                                                          textAlign:
-                                                              TextAlign.center),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: // Confirm
-                                                  InkWell(
-                                                onTap: () async {
-                                                  String yearSem =
-                                                      timeTableController
-                                                          .yearSem;
+                        Function ontapConfirm = () async {
+                          String yearSem = timeTableController.yearSem;
 
-                                                  print(yearSem);
+                          print(yearSem);
 
-                                                  //시간표 하나일때 삭제 방지
-                                                  if (timeTableController
-                                                              .otherTable[
-                                                                  "${yearSem}"]
-                                                              .length -
-                                                          1 <=
-                                                      0) {
-                                                    Get.snackbar("时间表只有一个时无法删除",
-                                                        "时间表只有一个时无法删除");
-                                                    return;
-                                                  }
+                          //시간표 하나일때 삭제 방지
+                          if (timeTableController
+                                      .otherTable["${yearSem}"].length -
+                                  1 <=
+                              0) {
+                            Get.snackbar("时间表只有一个时无法删除", "时间表只有一个时无法删除");
+                            return;
+                          }
 
-                                                  //디폴트 시간표 삭제 방지
-                                                  for (var item
-                                                      in timeTableController
-                                                              .otherTable[
-                                                          "${yearSem}"]) {
-                                                    if (item.value
-                                                            .TIMETABLE_ID ==
-                                                        timeTableController
-                                                            .selectTable
-                                                            .value
-                                                            .TIMETABLE_ID) {
-                                                      if (item.value
-                                                              .IS_DEFAULT ==
-                                                          1) {
-                                                        Get.snackbar(
-                                                            "Default timetable cannot be deleted",
-                                                            "Default timetable cannot be deleted",
-                                                            snackPosition:
-                                                                SnackPosition
-                                                                    .BOTTOM,
-                                                            backgroundColor:
-                                                                Colors.black,
-                                                            colorText:
-                                                                Colors.white);
-                                                        return;
-                                                      }
-                                                    }
-                                                  }
+                          //디폴트 시간표 삭제 방지
+                          for (var item
+                              in timeTableController.otherTable["${yearSem}"]) {
+                            if (item.value.TIMETABLE_ID ==
+                                timeTableController
+                                    .selectTable.value.TIMETABLE_ID) {
+                              if (item.value.IS_DEFAULT == 1) {
+                                Get.snackbar(
+                                    "Default timetable cannot be deleted",
+                                    "Default timetable cannot be deleted",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: Colors.black,
+                                    colorText: Colors.white);
+                                return;
+                              }
+                            }
+                          }
 
-                                                  await Session().deleteX(
-                                                      "/timetable/table/tid/${selectedModel.value.TIMETABLE_ID}");
+                          await Session().deleteX(
+                              "/timetable/table/tid/${selectedModel.value.TIMETABLE_ID}");
 
-                                                  //other에서 삭제
-                                                  timeTableController
-                                                      .otherTable["${yearSem}"]
-                                                      .removeWhere((element) =>
-                                                          element.value
-                                                              .TIMETABLE_ID ==
-                                                          selectedModel.value
-                                                              .TIMETABLE_ID);
+                          //other에서 삭제
+                          timeTableController.otherTable["${yearSem}"]
+                              .removeWhere((element) =>
+                                  element.value.TIMETABLE_ID ==
+                                  selectedModel.value.TIMETABLE_ID);
 
-                                                  //디폴트를 SELECTED로 설정
-                                                  timeTableController
-                                                          .selectedTimeTableId
-                                                          .value =
-                                                      timeTableController
-                                                          .defaultTableList[
-                                                              "${yearSem}"]
-                                                          .value
-                                                          .TIMETABLE_ID;
-
-                                                  print("Delete");
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: const Color(
-                                                              0xffdedede),
-                                                          width: 0.3)),
-                                                  child: Center(
-                                                    child: FittedBox(
-                                                      child: Text("是",
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: const TextStyle(
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              color: const Color(
-                                                                  0xff1a4678),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              fontFamily:
-                                                                  "PingFangSC",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: 18.0),
-                                                          textAlign:
-                                                              TextAlign.center),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ));
+                          //디폴트를 SELECTED로 설정
+                          timeTableController.selectedTimeTableId.value =
+                              timeTableController.defaultTableList["${yearSem}"]
+                                  .value.TIMETABLE_ID;
+                          Get.back();
+                          print("Delete");
+                        };
+                        Function ontapCancel = () {
+                          Get.back();
+                        };
+                        await TFdialogue(Get.context, "시간표를 삭제하시겠습니까？",
+                            "시간표를 삭제하시겠습니까？", ontapConfirm, ontapCancel);
                       },
                     ),
                     TimeTableSettingItem(
@@ -642,120 +365,16 @@ void showSetting(
                       onTap: () async {
                         Get.back();
 
-                        await Get.defaultDialog(
-                            title: "您要将其设置成默认时间表吗？",
-                            titlePadding: const EdgeInsets.only(top: 15.5),
-                            contentPadding: const EdgeInsets.all(0),
-                            titleStyle: const TextStyle(
-                                color: const Color(0xff333333),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 18.0),
-                            content: Container(
-                              width: formSize.width - 30,
-                              height: 175,
-                              child: Container(
-                                margin: const EdgeInsets.only(top: 31),
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 55.5,
-                                        margin: const EdgeInsets.only(top: 44),
-                                        // width: formSize.width - 30,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              flex: 1,
-                                              child: // Cancel
-                                                  InkWell(
-                                                onTap: () {
-                                                  Get.back();
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: const Color(
-                                                              0xffdedede),
-                                                          width: 0.3)),
-                                                  child: Center(
-                                                    child: FittedBox(
-                                                      child: Text("否",
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: const TextStyle(
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              color: const Color(
-                                                                  0xff1a4678),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              fontFamily:
-                                                                  "PingFangSC",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: 18.0),
-                                                          textAlign:
-                                                              TextAlign.center),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: // Confirm
-                                                  InkWell(
-                                                onTap: () async {
-                                                  Get.back();
-                                                  await timeTableController
-                                                      .setDefaultTable();
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: const Color(
-                                                              0xffdedede),
-                                                          width: 0.3)),
-                                                  child: Center(
-                                                    child: FittedBox(
-                                                      child: Text("是",
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style: const TextStyle(
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              color: const Color(
-                                                                  0xff1a4678),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              fontFamily:
-                                                                  "PingFangSC",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: 18.0),
-                                                          textAlign:
-                                                              TextAlign.center),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ));
+                        Function ontapConfirm = () async {
+                          Get.back();
+                          await timeTableController.setDefaultTable();
+                        };
+                        Function ontapCancel = () {
+                          Get.back();
+                        };
+
+                        await TFdialogue(Get.context, "您要将其设置成默认时间表吗？",
+                            "您要将其设置成默认时间表吗？", ontapConfirm, ontapCancel);
                       },
                     ),
                     // TimeTableSettingItem(

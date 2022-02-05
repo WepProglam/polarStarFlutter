@@ -10,6 +10,7 @@ import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 import 'package:polarstar_flutter/app/ui/android/main/board_list.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/banner_widget.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
@@ -673,44 +674,20 @@ void CreateNewTimetable(
     "${semester}",
   );
   if (stc != 200) {
-    await Get.defaultDialog(
-        title: "현재 학기의 시간표가 없습니다.",
-        titlePadding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
-        contentPadding: EdgeInsets.only(top: 10.0),
-        content: Column(children: [
-          Text(
-            "2022년 1학기 시간표를 생성하시겠습니까?",
-            overflow: TextOverflow.ellipsis,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                  onPressed: () async {
-                    Get.back();
-                    searchText.clear();
-                    searchFocusNode.unfocus();
+    Function ontapConfirm = () async {
+      Get.back();
+      searchText.clear();
+      searchFocusNode.unfocus();
 
-                    await Get.toNamed(Routes.TIMETABLE_ADDTIMETABLE)
-                        .then((value) async {
-                      await MainUpdateModule.updateMainPage();
-                    });
-                  },
-                  child: Text(
-                    "YES",
-                    overflow: TextOverflow.ellipsis,
-                  )),
-              TextButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  child: Text(
-                    "NO",
-                    overflow: TextOverflow.ellipsis,
-                  )),
-            ],
-          ),
-        ]));
+      await Get.toNamed(Routes.TIMETABLE_ADDTIMETABLE).then((value) async {
+        await MainUpdateModule.updateMainPage();
+      });
+    };
+    Function ontapCancel = () {
+      Get.back();
+    };
+    TFdialogue(Get.context, "현재 학기의 시간표가 없습니다.",
+        "${year}년 ${semester}학기 시간표를 생성하시겠습니까?", ontapConfirm, ontapCancel);
   } else {
     bool canGo = await tc.canGoClassSearchPage(year, semester);
     if (canGo) {

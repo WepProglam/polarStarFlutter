@@ -754,18 +754,19 @@ class SelectEndTime extends StatelessWidget {
         DateTime start_time = newClass.value.start_time;
 
         await Get.defaultDialog(
+            title: "Select Time",
             content: Container(
-          height: 200,
-          width: Get.mediaQuery.size.width,
-          child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.time,
-              use24hFormat: true,
-              initialDateTime: newClass.value.end_time,
-              minuteInterval: 5,
-              onDateTimeChanged: (DateTime dateTime) {
-                timeInput = dateTime;
-              }),
-        ));
+              height: 200,
+              width: Get.mediaQuery.size.width,
+              child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.time,
+                  use24hFormat: true,
+                  initialDateTime: newClass.value.end_time,
+                  minuteInterval: 5,
+                  onDateTimeChanged: (DateTime dateTime) {
+                    timeInput = dateTime;
+                  }),
+            ));
 
         int cal_time = timeInput.hour;
 

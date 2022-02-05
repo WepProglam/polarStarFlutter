@@ -17,6 +17,7 @@ import 'package:polarstar_flutter/app/ui/android/functions/file_name.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/see_photo.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 import 'package:polarstar_flutter/main.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -1024,27 +1025,22 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                                   ImageSource
                                                                       .camera);
                                                   if (pickedFile != null) {
-                                                    Get.defaultDialog(
-                                                      title: "Photo Upload",
-                                                      middleText:
-                                                          "Want Upload this Photo?",
-                                                      actions: [
-                                                        TextButton(
-                                                            onPressed:
-                                                                () async {
-                                                              await controller
-                                                                  .sendCameraPhoto(
-                                                                      pickedFile);
-                                                              Get.back();
-                                                            },
-                                                            child: Text("YES")),
-                                                        TextButton(
-                                                            onPressed: () {
-                                                              Get.back();
-                                                            },
-                                                            child: Text("NO")),
-                                                      ],
-                                                    );
+                                                    Function ontapConfirm =
+                                                        () async {
+                                                      await controller
+                                                          .sendCameraPhoto(
+                                                              pickedFile);
+                                                      Get.back();
+                                                    };
+                                                    Function ontapCancel = () {
+                                                      Get.back();
+                                                    };
+                                                    TFdialogue(
+                                                        context,
+                                                        "Photo Upload",
+                                                        "Want Upload this Photo?",
+                                                        ontapConfirm,
+                                                        ontapCancel);
                                                   }
                                                 } else {
                                                   // print("??");
@@ -1112,31 +1108,35 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                                   );
 
                                                   if (temp_photos != null) {
-                                                    Get.defaultDialog(
-                                                      title: "Photo Upload",
-                                                      middleText:
-                                                          "Want Upload these Photos?",
-                                                      actions: [
-                                                        TextButton(
-                                                            onPressed:
-                                                                () async {
-                                                              controller.photos
-                                                                  .addAll(
-                                                                      temp_photos);
-                                                              await controller
-                                                                  .sendPhoto();
-                                                              Get.back();
-                                                            },
-                                                            child: Text("YES")),
-                                                        TextButton(
-                                                            onPressed: () {
-                                                              controller.photos
-                                                                  .clear();
-                                                              Get.back();
-                                                            },
-                                                            child: Text("NO")),
-                                                      ],
-                                                    );
+                                                    controller.photos
+                                                        .addAll(temp_photos);
+                                                    await controller
+                                                        .sendPhoto();
+                                                    // Get.defaultDialog(
+                                                    //   title: "Photo Upload",
+                                                    //   middleText:
+                                                    //       "Want Upload these Photos?",
+                                                    //   actions: [
+                                                    //     TextButton(
+                                                    //         onPressed:
+                                                    //             () async {
+                                                    //           controller.photos
+                                                    //               .addAll(
+                                                    //                   temp_photos);
+                                                    //           await controller
+                                                    //               .sendPhoto();
+                                                    //           Get.back();
+                                                    //         },
+                                                    //         child: Text("YES")),
+                                                    //     TextButton(
+                                                    //         onPressed: () {
+                                                    //           controller.photos
+                                                    //               .clear();
+                                                    //           Get.back();
+                                                    //         },
+                                                    //         child: Text("NO")),
+                                                    //   ],
+                                                    // );
                                                   }
                                                 } else {
                                                   ManagePermission

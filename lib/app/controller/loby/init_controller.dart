@@ -12,6 +12,7 @@ import 'package:polarstar_flutter/app/data/model/login_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:meta/meta.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -118,21 +119,15 @@ class ManagePermission {
   }
 
   static void permissionDialog(String target) async {
-    await Get.defaultDialog(
-        title: "Permission not Granted",
-        middleText: "$target 권한 설정을 위해 앱 설정으로 이동합니다.",
-        actions: [
-          TextButton(
-              onPressed: () async {
-                await openAppSettings();
-                Get.back();
-              },
-              child: Text("是")),
-          TextButton(
-              onPressed: () {
-                Get.back();
-              },
-              child: Text("否")),
-        ]);
+    Function onTapConfirm = () async {
+      await openAppSettings();
+      Get.back();
+    };
+    Function onTapCancel = () {
+      Get.back();
+    };
+
+    await TFdialogue(Get.context, "Permission not Granted",
+        "$target 권한 설정을 위해 앱 설정으로 이동합니다.", onTapConfirm, onTapCancel);
   }
 }

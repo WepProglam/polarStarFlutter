@@ -9,6 +9,7 @@ import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/data/model/mail/mailBox_model.dart';
 import 'package:polarstar_flutter/app/data/model/mail/mailSend_model.dart';
 import 'package:polarstar_flutter/app/data/repository/mail/mail_repository.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 import 'package:polarstar_flutter/session.dart';
 
 class MailController extends GetxController {
@@ -118,7 +119,7 @@ class MailController extends GetxController {
 
     Map<String, dynamic> value = await repository.getMail(MAIL_BOX_ID.value);
     if (value["status"] != 200) {
-      await Get.defaultDialog(content: Text("삭제된 페이지입니다."));
+      await Textdialogue(Get.context, "삭제된 페이지입니다.", "삭제된 페이지입니다.");
       await Get.back();
       return;
     }

@@ -25,6 +25,7 @@ import 'package:polarstar_flutter/app/data/provider/sqflite/src/db_community.dar
 import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class.dart';
 import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 import 'package:polarstar_flutter/session.dart';
 
 class MainController extends GetxController with SingleGetTickerProviderMixin {
@@ -504,23 +505,18 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
 
       if (current_buildNumber < min_buildNumber) {
         //업데이트 해야함(필수)
-        await Get.defaultDialog(
-            title: "업데이트를 하셔야 이용이 가능합니다",
-            middleText: "업데이트를 하셔야 이용이 가능합니다",
-            actions: [
-              TextButton(
-                  onPressed: () async {
-                    SystemNavigator.pop();
-                  },
-                  child: Text("是"))
-            ]);
+        Function onTapConfirm = () async {
+          SystemNavigator.pop();
+        };
+        await Tdialogue(Get.context, "업데이트를 하셔야 이용이 가능합니다",
+            "업데이트를 하셔야 이용이 가능합니다", onTapConfirm);
       } else if (current_buildNumber > latest_buildNumber) {
         //이건 오류(build number 잘못 입력됨)
         print("versionCheck failed");
         return;
       } else if (current_buildNumber < latest_buildNumber) {
         //업데이트 권장
-        await Get.defaultDialog(content: Text("업데이트를 권장합니다"));
+        await Textdialogue(Get.context, "업데이트를 권장합니다", "업데이트를 권장합니다");
       } else {
         //버전 잘 맞음 (current_buildNumber == latest_buildNumber)
         print("LATEST VERSION");
