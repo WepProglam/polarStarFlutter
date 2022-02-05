@@ -666,7 +666,7 @@ class SelectStartTime extends StatelessWidget {
         bool flag = false;
 
         await Get.defaultDialog(
-            title: "Select Time",
+            title: "时间选择",
             content: Container(
               height: 200,
               width: Get.mediaQuery.size.width,
@@ -754,7 +754,7 @@ class SelectEndTime extends StatelessWidget {
         DateTime start_time = newClass.value.start_time;
 
         await Get.defaultDialog(
-            title: "Select Time",
+            title: "时间选择",
             content: Container(
               height: 200,
               width: Get.mediaQuery.size.width,

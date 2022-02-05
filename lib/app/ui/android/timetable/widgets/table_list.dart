@@ -355,8 +355,8 @@ void showSetting(
                         Function ontapCancel = () {
                           Get.back();
                         };
-                        await TFdialogue(Get.context, "시간표를 삭제하시겠습니까？",
-                            "시간표를 삭제하시겠습니까？", ontapConfirm, ontapCancel);
+                        await TFdialogue(Get.context, "确定删除该时间表吗？",
+                            "确定删除该时间表吗？", ontapConfirm, ontapCancel);
                       },
                     ),
                     TimeTableSettingItem(

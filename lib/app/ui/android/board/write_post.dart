@@ -128,10 +128,8 @@ class WritePost extends StatelessWidget {
 
                           await TFdialogue(
                               Get.context,
-                              c.putOrPost == "put" ? "게시글 수정" : "게시글 작성",
-                              c.putOrPost == "put"
-                                  ? "게시글을 수정하시겠습니까?"
-                                  : "게시글을 작성하시겠습니까?",
+                              c.putOrPost == "put" ? "修改帖子 " : "发表帖子",
+                              c.putOrPost == "put" ? "确定修改帖子内容吗？" : "确定发表帖子吗？",
                               ontapConfirm,
                               ontapCancel);
                         },

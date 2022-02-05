@@ -508,15 +508,16 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
         Function onTapConfirm = () async {
           SystemNavigator.pop();
         };
-        await Tdialogue(Get.context, "업데이트를 하셔야 이용이 가능합니다",
-            "업데이트를 하셔야 이용이 가능합니다", onTapConfirm);
+        await Tdialogue(
+            Get.context, "软件检测到新版本必须更新后使用", "软件检测到新版本必须更新后使用", onTapConfirm);
       } else if (current_buildNumber > latest_buildNumber) {
         //이건 오류(build number 잘못 입력됨)
         print("versionCheck failed");
         return;
       } else if (current_buildNumber < latest_buildNumber) {
         //업데이트 권장
-        await Textdialogue(Get.context, "업데이트를 권장합니다", "업데이트를 권장합니다");
+        await Textdialogue(
+            Get.context, "目前软件版本过低 建议更新至最新版本", "目前软件版本过低 建议更新至最新版本");
       } else {
         //버전 잘 맞음 (current_buildNumber == latest_buildNumber)
         print("LATEST VERSION");

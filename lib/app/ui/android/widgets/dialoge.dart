@@ -16,14 +16,18 @@ Future<void> TFdialogue(BuildContext context, String title, String content,
     contentPadding: const EdgeInsets.only(top: 20),
     title: "${title}",
     content: Column(children: [
-      Text("${content}",
-          style: const TextStyle(
-              color: const Color(0xff2f2f2f),
-              fontWeight: FontWeight.w400,
-              fontFamily: "NotoSansSC",
-              fontStyle: FontStyle.normal,
-              fontSize: 16.0),
-          textAlign: TextAlign.center),
+      Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20),
+        child: Text("${content}",
+            maxLines: 3,
+            style: const TextStyle(
+                color: const Color(0xff2f2f2f),
+                fontWeight: FontWeight.w400,
+                fontFamily: "NotoSansSC",
+                fontStyle: FontStyle.normal,
+                fontSize: 16.0),
+            textAlign: TextAlign.center),
+      ),
       // 선 122
       Container(
           margin: const EdgeInsets.only(top: 20, right: 20, left: 20),

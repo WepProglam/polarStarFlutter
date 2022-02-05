@@ -127,7 +127,7 @@ class ManagePermission {
       Get.back();
     };
 
-    await TFdialogue(Get.context, "Permission not Granted",
-        "$target 권한 설정을 위해 앱 설정으로 이동합니다.", onTapConfirm, onTapCancel);
+    await TFdialogue(Get.context, "权限未授予", "因$target权限管理将移动至软件设置管理",
+        onTapConfirm, onTapCancel);
   }
 }
