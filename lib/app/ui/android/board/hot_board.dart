@@ -133,6 +133,7 @@ class HotBoard extends StatelessWidget {
                     child: Expanded(
                       child: TabBarView(
                           controller: controller.tabController,
+                          physics: NeverScrollableScrollPhysics(),
                           children: [
                             Container(
                               child: RefreshIndicator(

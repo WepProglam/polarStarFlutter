@@ -497,6 +497,10 @@ class ClassChatController extends GetxController {
               chat.value.PHOTO_META.first.PHOTO_NAME) {
             // chat.update((val) {
             //   val.PRE_IMAGE[0] = element.value.PRE_IMAGE[0];
+            //   val.PHOTO_META[0] = element.value.PHOTO_META[0];
+            // });
+            // chat.update((val) {
+            //   val.PRE_IMAGE[0] = element.value.PRE_IMAGE[0];
             // });
             //print("remove!!");
 

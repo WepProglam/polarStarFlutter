@@ -479,6 +479,7 @@ class TableList extends StatelessWidget {
             return Container();
           }
           return ListView.builder(
+              padding: const EdgeInsets.only(left: 20),
               itemCount: timeTableController
                   .otherTable["${timeTableController.yearSem}"].length,
               scrollDirection: Axis.horizontal,

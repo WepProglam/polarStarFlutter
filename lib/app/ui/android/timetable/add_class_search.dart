@@ -542,12 +542,12 @@ class searchClassSliverAppBar extends StatelessWidget {
       automaticallyImplyLeading: false,
       toolbarHeight: 32 + 10.0 * 2,
       leadingWidth: 0,
-      elevation: 1.0,
+      elevation: 0.0,
       titleSpacing: 0.0,
       flexibleSpace: Obx(() {
         return FlexibleSpaceBar(
             titlePadding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-            title: SingleChildScrollView(
+            background: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [

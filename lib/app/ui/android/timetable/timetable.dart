@@ -130,7 +130,7 @@ class TimeTableBody extends StatelessWidget {
                   return Container();
                 }
                 return Container(
-                  margin: const EdgeInsets.only(left: 25, top: 20),
+                  margin: const EdgeInsets.only(top: 20),
                   height: 42,
                   //시간표 리스트
                   child: Obx(() {

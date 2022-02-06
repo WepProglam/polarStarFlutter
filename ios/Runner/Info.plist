@@ -26,6 +26,12 @@
 	<integer>5</integer>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+
+
+	
+	<key>io.flutter.embedded_views_preview</key>
+	<string>北北上学堂 banner notice web site access</string>
+
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -33,6 +39,7 @@
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
 		<true/>
 	</dict>
+
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -86,6 +93,11 @@
 	
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Used to demonstrate image picker plugin</string>
+
+
+
+
+	
 	
 </dict>
 </plist>
