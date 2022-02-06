@@ -1,16 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/see_photo.dart';
 
 class PhotoLayout extends StatefulWidget {
-  const PhotoLayout({
-    Key key,
-    @required this.model,
-  }) : super(key: key);
+  const PhotoLayout({Key key, @required this.model, this.c}) : super(key: key);
   final model;
-
+  final PostController c;
   @override
   State<PhotoLayout> createState() => _PhotoLayoutState(model: model);
 }
@@ -32,10 +30,7 @@ class _PhotoLayoutState extends State<PhotoLayout> {
   Widget build(BuildContext context) {
     // PhotoController pc = Get.put(PhotoController());
     final width = Get.mediaQuery.size.width - 34 * 2;
-
-    print(width);
-    print(Get.mediaQuery.size.width);
-    print(MediaQuery.of(context).size);
+    print(widget.c == null);
     return Stack(children: [
       Container(
         width: width,
@@ -43,6 +38,9 @@ class _PhotoLayoutState extends State<PhotoLayout> {
         margin: EdgeInsets.only(top: 10),
         child: PageView.builder(
             scrollDirection: Axis.horizontal,
+            physics: widget.c == null
+                ? NeverScrollableScrollPhysics()
+                : AlwaysScrollableScrollPhysics(),
             itemCount: model.PHOTO.length,
             allowImplicitScrolling: true,
             onPageChanged: (value) {
@@ -66,10 +64,14 @@ class _PhotoLayoutState extends State<PhotoLayout> {
                     },
                     imageBuilder: (context, imageProvider) => Ink(
                           child: InkWell(
-                            onTap: () {
-                              Get.to(
-                                  () => SeePhoto(photo: model.PHOTO, index: 0));
-                            },
+                            onTap: widget.c == null
+                                ? null
+                                : () {
+                                    Get.to(
+                                        () => SeePhoto(
+                                            photo: model.PHOTO, index: index),
+                                        transition: Transition.cupertino);
+                                  },
                             child: Container(
                               // margin: EdgeInsets.only(right: 4.2),
                               width: width,

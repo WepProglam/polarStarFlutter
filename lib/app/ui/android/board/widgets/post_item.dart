@@ -133,12 +133,10 @@ class PostBottom extends StatelessWidget {
 }
 
 class PostBody extends StatelessWidget {
-  const PostBody({
-    Key key,
-    @required this.item,
-  }) : super(key: key);
+  const PostBody({Key key, @required this.item, this.c}) : super(key: key);
 
   final Rx<Post> item;
+  final PostController c;
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +181,7 @@ class PostBody extends StatelessWidget {
                 item.value.PHOTO.isNotEmpty)
             ? Container(
                 // padding: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 0),
-                child: PhotoLayout(model: item.value),
+                child: PhotoLayout(model: item.value, c: c),
               )
             : Container(),
       ],
