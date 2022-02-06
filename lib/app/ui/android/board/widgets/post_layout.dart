@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:linkwell/linkwell.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
@@ -146,9 +147,15 @@ class CCWidget extends StatelessWidget {
             // * 대댓 내용
             Padding(
               padding: const EdgeInsets.only(left: 0.0, bottom: 0),
-              child: Text(item.CONTENT,
+              child: LinkWell("${item.CONTENT}",
                   style: const TextStyle(
                       color: const Color(0xff242424),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 12.0),
+                  linkStyle: TextStyle(
+                      color: Get.theme.primaryColor,
                       fontWeight: FontWeight.w400,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
@@ -214,9 +221,15 @@ class CommentWidget extends StatelessWidget {
 
             // * 댓글 내용
             Container(
-              child: Text(item.value.CONTENT,
+              child: LinkWell("${item.value.CONTENT}",
                   style: const TextStyle(
                       color: const Color(0xff242424),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 12.0),
+                  linkStyle: TextStyle(
+                      color: Get.theme.primaryColor,
                       fontWeight: FontWeight.w400,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,

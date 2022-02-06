@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:linkwell/linkwell.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:polarstar_flutter/app/data/model/mail/mailSend_model.dart';
@@ -528,7 +529,13 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
             child: Container(
                 padding:
                     EdgeInsets.only(left: 16, top: 10, right: 24, bottom: 10),
-                child: Text("${model.CONTENT}",
+                child: LinkWell("${model.CONTENT}",
+                    linkStyle: TextStyle(
+                        color: Get.theme.primaryColor,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0),
                     style: const TextStyle(
                         color: const Color(0xff2f2f2f),
                         fontWeight: FontWeight.w400,

@@ -122,7 +122,13 @@ class BottomKeyboard extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 11.0),
                   child: InkWell(
                     onTap: () async {
+                      String test_text = commentWriteController.text;
+                      if (test_text.trim().isEmpty) {
+                        print("빈 값 X");
+                        return;
+                      }
                       print("댓글 작성");
+
                       Map commentData = {
                         'content': commentWriteController.text,
                         'unnamed': c.anonymousCheck.value ? '1' : '0'

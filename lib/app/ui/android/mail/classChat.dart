@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:isolate';
 import 'dart:typed_data';
 import 'dart:ui';
-
+import 'package:linkwell/linkwell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
@@ -1617,8 +1617,14 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
                                 constraints: BoxConstraints(
                                     maxWidth: Get.mediaQuery.size.width - 110),
                                 padding: EdgeInsets.only(
-                                    left: 16, top: 10, right: 24, bottom: 10),
-                                child: Text("${model.value.CONTENT}",
+                                    left: 16, top: 10, right: 16, bottom: 10),
+                                child: LinkWell("${model.value.CONTENT}",
+                                    linkStyle: TextStyle(
+                                        color: Get.theme.primaryColor,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14.0),
                                     style: const TextStyle(
                                         color: const Color(0xff2f2f2f),
                                         fontWeight: FontWeight.w400,

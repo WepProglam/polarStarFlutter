@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart';
+import 'package:linkwell/linkwell.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/controller/mail/mail_controller.dart';
@@ -140,40 +141,69 @@ class PostBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isNotBoard = true;
-    if (Get.currentRoute.contains("board") &&
-        Get.currentRoute.contains("read")) {
-      isNotBoard = false;
-    }
-    print(Get.currentRoute);
+    bool isNotBoard = (c == null);
+    // if (Get.currentRoute.contains("board") &&
+    //     Get.currentRoute.contains("read")) {
+    //   isNotBoard = false;
+    // }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // 제목
         Container(
-          child: Text("${item.value.TITLE}",
-              maxLines: isNotBoard ? 1 : null,
-              overflow: isNotBoard ? TextOverflow.ellipsis : null,
-              style: const TextStyle(
-                  color: const Color(0xff2f2f2f),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: "NotoSansSC",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 12.0),
-              textAlign: TextAlign.left),
+          child: isNotBoard
+              ? Text("${item.value.TITLE}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      color: const Color(0xff2f2f2f),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 12.0),
+                  textAlign: TextAlign.left)
+              : LinkWell("${item.value.TITLE}",
+                  style: const TextStyle(
+                      color: const Color(0xff2f2f2f),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 12.0),
+                  linkStyle: TextStyle(
+                      color: Get.theme.primaryColor,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 12.0),
+                  textAlign: TextAlign.left),
         ),
         // 내용
         Container(
-          child: Text("${item.value.CONTENT}",
-              maxLines: isNotBoard ? 3 : null,
-              overflow: isNotBoard ? TextOverflow.ellipsis : null,
-              style: const TextStyle(
-                  color: const Color(0xff6f6e6e),
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "NotoSansSC",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 12.0),
-              textAlign: TextAlign.left),
+          child: isNotBoard
+              ? Text("${item.value.CONTENT}",
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      color: const Color(0xff6f6e6e),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 12.0),
+                  textAlign: TextAlign.left)
+              : LinkWell("${item.value.CONTENT}",
+                  style: const TextStyle(
+                      color: const Color(0xff6f6e6e),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 12.0),
+                  linkStyle: TextStyle(
+                      color: Get.theme.primaryColor,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 12.0),
+                  textAlign: TextAlign.left),
         ),
         //사진
         (item.value.PHOTO != [] &&

@@ -65,13 +65,18 @@ class Post extends StatelessWidget {
                 ),
                 textAlign: TextAlign.left),
           ),
-          body: Obx(() {
-            if (!c.dataAvailable) {
-              return Center(child: CircularProgressIndicator());
-            } else {
-              return PostLayout();
-            }
-          }),
+          body: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: Obx(() {
+              if (!c.dataAvailable) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                return PostLayout();
+              }
+            }),
+          ),
           bottomSheet: BottomKeyboard(
               BOTTOM_SHEET_HEIGHT: BOTTOM_SHEET_HEIGHT,
               commentWriteController: commentWriteController)),
