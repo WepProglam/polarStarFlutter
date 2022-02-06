@@ -243,7 +243,9 @@ class BoardListItem extends StatelessWidget {
                                         if (!checkFollow(
                                             boardInfo.value.COMMUNITY_ID,
                                             mainController.boardInfo)) {
-                                          print("????");
+                                          boardInfo.update((val) {
+                                            val.isFollowed = true;
+                                          });
                                           await mainController
                                               .setFollowingCommunity(
                                                   boardInfo.value.COMMUNITY_ID,
@@ -255,24 +257,24 @@ class BoardListItem extends StatelessWidget {
                                                   boardInfo.value.isFollowed,
                                                   boardInfo.value.isNew);
                                         } else {
+                                          boardInfo.update((val) {
+                                            val.isFollowed = false;
+                                          });
                                           await mainController
                                               .deleteFollowingCommunity(
                                                   boardInfo.value.COMMUNITY_ID);
                                         }
-                                        boardInfo.update((val) {
-                                          val.isFollowed = !val.isFollowed;
-                                        });
 
                                         mainController.sortBoard();
                                       }
                                     : null,
                                 child: Ink(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 4),
-                                  child: Image.asset(boardInfo.value.isFollowed
-                                      ? "assets/images/bookmark_followed.png"
-                                      : "assets/images/bookmark_none.png"),
-                                ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0, vertical: 4),
+                                    child: Image.asset(boardInfo
+                                            .value.isFollowed
+                                        ? "assets/images/bookmark_followed.png"
+                                        : "assets/images/bookmark_none.png")),
                               ),
                             ],
                           ),

@@ -173,9 +173,9 @@ class BoardPreviewItem_boardTop extends StatelessWidget {
 }
 
 class BoardPreviewItem_top extends StatelessWidget {
-  const BoardPreviewItem_top({
-    Key key,
-  }) : super(key: key);
+  const BoardPreviewItem_top({Key key, this.mainController}) : super(key: key);
+
+  final MainController mainController;
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +196,11 @@ class BoardPreviewItem_top extends StatelessWidget {
       Spacer(),
       InkWell(
         onTap: () {
-          Get.toNamed("board/boardList");
+          mainController.sortBoard();
+
+          Get.toNamed("board/boardList").then((value) {
+            mainController.sortBoard();
+          });
         },
         child: SeeMore(),
       ),

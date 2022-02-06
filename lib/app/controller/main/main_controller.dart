@@ -252,8 +252,6 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
       boardInfo.add(item.obs);
     }
 
-    sortBoard();
-
     // 선택된 보드에 넣기
     selectedBoard.clear();
     for (Rx<BoardInfo> item in boardInfo) {
@@ -272,6 +270,8 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
       //   selectedBoard.add(item);
       // }
     }
+
+    sortBoard();
 
     box.write("boardInfo", boardListInfo);
 
@@ -387,7 +387,6 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
       bool isFollowed,
       bool isNew) async {
     if (box.read("followingCommunity") == null) {
-      // print("null ??? ");
       BoardInfo a = BoardInfo.fromJson({
         "COMMUNITY_ID": COMMUNITY_ID,
         "COMMUNITY_NAME": COMMUNITY_NAME,
@@ -561,6 +560,8 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
         initDataAvailable.value = true;
       });
     }
+
+    sortBoard();
   }
 
   @override
