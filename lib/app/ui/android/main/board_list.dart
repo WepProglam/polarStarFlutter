@@ -205,7 +205,6 @@ class BoardListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: 77,
-        margin: const EdgeInsets.only(top: 10),
         child: Container(
           margin: const EdgeInsets.only(left: 14, right: 12),
           child: Ink(

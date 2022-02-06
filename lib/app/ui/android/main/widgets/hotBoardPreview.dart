@@ -33,37 +33,44 @@ class HotBoardMain extends StatelessWidget {
     int max = mainController.hotBoard.length > 10
         ? 10
         : mainController.hotBoard.length;
-    for (var index = 0; index < max; index++) {
-      hotList.add(Ink(
-        child: InkWell(
-          //                  * * type 0 : 메인 -> 핫
-          //                  * * type 1 : 마이 -> 게시글
-          //                  * * type 2 : 게시판 -> 게시글
-          //                  */
-          onTap: () async {
-            searchText.clear();
-            searchFocusNode.unfocus();
-            await Get.toNamed(
-                "/board/${mainController.hotBoard[index].value.COMMUNITY_ID}/read/${mainController.hotBoard[index].value.BOARD_ID}",
-                arguments: {"type": 0}).then((value) async {
-              await MainUpdateModule.updateMainPage();
-            });
-          },
-          child: PostWidget(
-            c: null,
-            mailWriteController: null,
-            mailController: null,
-            item: mainController.hotBoard[index],
-            index: index,
-            mainController: mainController,
-          ),
-        ),
-      ));
-    }
+    // for (var index = 0; index < max; index++) {
+    //   hotList.add();
+    // }
+    return ListView.builder(
+        itemCount: mainController.hotBoard.length,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+          return Ink(
+            child: InkWell(
+              //                  * * type 0 : 메인 -> 핫
+              //                  * * type 1 : 마이 -> 게시글
+              //                  * * type 2 : 게시판 -> 게시글
+              //                  */
+              onTap: () async {
+                searchText.clear();
+                searchFocusNode.unfocus();
+                await Get.toNamed(
+                    "/board/${mainController.hotBoard[index].value.COMMUNITY_ID}/read/${mainController.hotBoard[index].value.BOARD_ID}",
+                    arguments: {"type": 0}).then((value) async {
+                  await MainUpdateModule.updateMainPage();
+                });
+              },
+              child: PostWidget(
+                c: null,
+                mailWriteController: null,
+                mailController: null,
+                item: mainController.hotBoard[index],
+                index: index,
+                mainController: mainController,
+              ),
+            ),
+          );
+        });
 
-    return Column(
-      children: hotList,
-    );
+    // return Column(
+    //   children: hotList,
+    // );
 
     // Container(
     //   child: ListView.builder(
@@ -419,36 +426,40 @@ class NewBoardMain extends StatelessWidget {
     int max = mainController.hotBoard.length > 10
         ? 10
         : mainController.hotBoard.length;
-    for (var index = 0; index < max; index++) {
-      newList.add(Ink(
-        child: InkWell(
-          //                  * * type 0 : 메인 -> 핫
-          //                  * * type 1 : 마이 -> 게시글
-          //                  * * type 2 : 게시판 -> 게시글
-          //                  */
-          onTap: () async {
-            searchText.clear();
-            searchFocusNode.unfocus();
-            await Get.toNamed(
-                "/board/${mainController.newBoard[index].value.COMMUNITY_ID}/read/${mainController.newBoard[index].value.BOARD_ID}",
-                arguments: {"type": 0}).then((value) async {
-              await MainUpdateModule.updateMainPage();
-            });
-          },
-          child: PostWidget(
-            c: null,
-            mailWriteController: null,
-            mailController: null,
-            item: mainController.newBoard[index],
-            index: index,
-            mainController: mainController,
-          ),
-        ),
-      ));
-    }
 
-    return Column(
-      children: newList,
-    );
+    return ListView.builder(
+        itemCount: mainController.hotBoard.length,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+          return Ink(
+            child: InkWell(
+              //                  * * type 0 : 메인 -> 핫
+              //                  * * type 1 : 마이 -> 게시글
+              //                  * * type 2 : 게시판 -> 게시글
+              //                  */
+              onTap: () async {
+                searchText.clear();
+                searchFocusNode.unfocus();
+                await Get.toNamed(
+                    "/board/${mainController.newBoard[index].value.COMMUNITY_ID}/read/${mainController.newBoard[index].value.BOARD_ID}",
+                    arguments: {"type": 0}).then((value) async {
+                  await MainUpdateModule.updateMainPage();
+                });
+              },
+              child: PostWidget(
+                c: null,
+                mailWriteController: null,
+                mailController: null,
+                item: mainController.newBoard[index],
+                index: index,
+                mainController: mainController,
+              ),
+            ),
+          );
+        });
+    // Column(
+    //   children: newList,
+    // );
   }
 }

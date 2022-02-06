@@ -91,16 +91,18 @@ class HotBoard extends StatelessWidget {
               if (controller.dataAvailablePostPreview.value) {
                 return Column(children: [
                   Container(
-                    height: 48.1,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 20 - 6.0),
+                    height: 20,
+                    margin: const EdgeInsets.only(top: 14, bottom: 5),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
                         child: TabBar(
+                          padding: const EdgeInsets.all(0.0),
                           indicator: UnderlineTabIndicator(
                             borderSide: BorderSide(
-                                color: Get.theme.primaryColor, width: 2.0),
-                            insets: EdgeInsets.fromLTRB(3.0, 0.0, 3.0, 12.0),
+                                color: const Color(0xff4c74f6), width: 2.0),
+                            insets: EdgeInsets.fromLTRB(3.0, 0.0, 3.0, 0.0),
                           ),
                           controller: controller.tabController,
                           indicatorColor: Get.theme.primaryColor,
@@ -117,10 +119,10 @@ class HotBoard extends StatelessWidget {
                               fontSize: 14.0),
                           tabs: <Tab>[
                             Tab(
-                              text: "HOT",
+                              text: "Hot",
                             ),
                             Tab(
-                              text: "NEW",
+                              text: "New",
                             ),
                           ],
                         ),
@@ -144,12 +146,18 @@ class HotBoard extends StatelessWidget {
                                     itemCount:
                                         controller.hotSearchMaxPage.value ==
                                                 controller.hotPage.value
-                                            ? controller.HotBody.length
-                                            : controller.HotBody.length + 1,
+                                            ? controller.HotBody.length + 1
+                                            : controller.HotBody.length + 2,
                                     physics: AlwaysScrollableScrollPhysics(),
                                     cacheExtent: 100,
                                     itemBuilder:
-                                        (BuildContext context, int index) {
+                                        (BuildContext context, int ii) {
+                                      int index = ii - 1;
+                                      if (ii == 0) {
+                                        return Container(
+                                          height: 24 - 5.0,
+                                        );
+                                      }
                                       if (index == controller.HotBody.length) {
                                         return Center(
                                           child: CircularProgressIndicator(
