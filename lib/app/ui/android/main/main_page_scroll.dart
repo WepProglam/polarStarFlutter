@@ -291,10 +291,6 @@ class MainPageScroll extends StatelessWidget {
                                                             }
 
                                                             return Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      top: 10),
                                                               height: 77,
                                                               child: BoardListItem(
                                                                   enableFollowTab:

@@ -205,6 +205,7 @@ class BoardListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: 77,
+        margin: const EdgeInsets.only(top: 10),
         child: Container(
           margin: const EdgeInsets.only(left: 14, right: 12),
           child: Ink(
@@ -218,14 +219,12 @@ class BoardListItem extends StatelessWidget {
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 20),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          flex: 4,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -244,6 +243,7 @@ class BoardListItem extends StatelessWidget {
                                         if (!checkFollow(
                                             boardInfo.value.COMMUNITY_ID,
                                             mainController.boardInfo)) {
+                                          print("????");
                                           await mainController
                                               .setFollowingCommunity(
                                                   boardInfo.value.COMMUNITY_ID,
@@ -268,7 +268,7 @@ class BoardListItem extends StatelessWidget {
                                     : null,
                                 child: Ink(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 2.0),
+                                      horizontal: 8.0, vertical: 4),
                                   child: Image.asset(boardInfo.value.isFollowed
                                       ? "assets/images/bookmark_followed.png"
                                       : "assets/images/bookmark_none.png"),

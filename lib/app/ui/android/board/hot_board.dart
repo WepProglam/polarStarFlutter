@@ -208,12 +208,18 @@ class HotBoard extends StatelessWidget {
                                     itemCount:
                                         controller.newSearchMaxPage.value ==
                                                 controller.newPage.value
-                                            ? controller.NewBody.length
-                                            : controller.NewBody.length + 1,
+                                            ? controller.NewBody.length + 1
+                                            : controller.NewBody.length + 2,
                                     physics: AlwaysScrollableScrollPhysics(),
                                     cacheExtent: 100,
                                     itemBuilder:
-                                        (BuildContext context, int index) {
+                                        (BuildContext context, int ii) {
+                                      int index = ii - 1;
+                                      if (ii == 0) {
+                                        return Container(
+                                          height: 24 - 5.0,
+                                        );
+                                      }
                                       if (index == controller.NewBody.length) {
                                         return Center(
                                           child: CircularProgressIndicator(
