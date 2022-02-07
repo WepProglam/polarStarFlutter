@@ -146,6 +146,7 @@ class PostBody extends StatelessWidget {
     //     Get.currentRoute.contains("read")) {
     //   isNotBoard = false;
     // }
+    print(item.value.PHOTO);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

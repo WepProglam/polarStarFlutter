@@ -113,6 +113,7 @@ class MainPageScroll extends StatelessWidget {
                         expandedHeight: boardListHeight +
                             24 +
                             24 +
+                            24 +
                             40 +
                             14.0 +
                             100 +
@@ -130,15 +131,15 @@ class MainPageScroll extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  height: 301,
+                                  height: 301 + 24.0,
                                   color: Get.theme.primaryColor,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 20),
+                                        margin: const EdgeInsets.only(
+                                            left: 20, right: 20, top: 24),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
