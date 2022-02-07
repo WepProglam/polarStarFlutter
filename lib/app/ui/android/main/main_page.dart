@@ -54,7 +54,8 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // putController<MainController>();
+    putController<InitController>();
+    putController<MainController>();
     MainController mainController = Get.find();
 
     DateTime pre_backpress = DateTime.now().add(const Duration(seconds: -2));

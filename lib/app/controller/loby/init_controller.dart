@@ -107,9 +107,11 @@ class InitController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    isLogined(await checkLogin());
-
-    print(isLogined.value);
+    if (Get.arguments == "fromLogin") {
+      isLogined(true);
+    } else {
+      isLogined(await checkLogin());
+    }
 
     await Future.delayed(Duration(seconds: 1));
 
@@ -121,7 +123,7 @@ class InitController extends GetxController {
     } else {
       opacityControl(true);
       Future.delayed(Duration(seconds: 1))
-          .then((value) => Get.toNamed('/login'));
+          .then((value) => Get.offAndToNamed('/login'));
     }
     // box.remove("alreadyRunned");
   }

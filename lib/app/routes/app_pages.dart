@@ -56,10 +56,10 @@ part './app_routes.dart';
 class AppPages {
   static final pages = [
     GetPage(
-      name: Routes.INITIAL,
-      page: () => InitPage(),
-      binding: InitBinding(),
-    ),
+        name: Routes.INITIAL,
+        page: () => InitPage(),
+        binding: InitBinding(),
+        transition: Transition.fadeIn),
     GetPage(name: Routes.SETTING, page: () => Setting()),
     GetPage(
         name: Routes.LOGIN,

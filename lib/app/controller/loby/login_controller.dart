@@ -10,6 +10,10 @@ import 'package:polarstar_flutter/app/ui/android/functions/crypt.dart';
 import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
 
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/app/data/provider/main/main_provider.dart';
+import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
+
 class LoginController extends GetxController {
   final LoginRepository repository;
   final box = GetStorage();
@@ -124,9 +128,9 @@ class LoginController extends GetxController {
         }
 
         // print(box.read("id"));
-
+        Get.offAndToNamed("/", arguments: "fromLogin");
         // Get.offAndToNamed('/main');
-        Get.offAllNamed(Routes.MAIN_PAGE);
+        // Get.offAllNamed(Routes.MAIN_PAGE);
         break;
       default:
         Get.snackbar("Failed to sign in", "Failed to sign in");
