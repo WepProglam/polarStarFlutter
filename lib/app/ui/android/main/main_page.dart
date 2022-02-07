@@ -54,9 +54,7 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    putController<InitController>();
-    InitController initController = Get.find();
-    putController<MainController>();
+    // putController<MainController>();
     MainController mainController = Get.find();
 
     DateTime pre_backpress = DateTime.now().add(const Duration(seconds: -2));
@@ -78,11 +76,11 @@ class MainPage extends StatelessWidget {
         }
       },
       child: SafeArea(child: Obx(() {
-        int index = initController.mainPageIndex.value;
+        int index = mainController.mainPageIndex.value;
         print(index);
-        if (!mainController.initDataAvailable.value) {
-          return SplashPage();
-        }
+        // if (!mainController.initDataAvailable.value) {
+        //   return SplashPage();
+        // }
         changeStatusBarColor(const Color(mainColor), Brightness.light);
 
         return Scaffold(

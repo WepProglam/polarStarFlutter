@@ -565,6 +565,15 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
   }
 
   @override
+  void onReady() async {
+    InitController initController = Get.find();
+    initController.opacityControl(true);
+    Future.delayed(Duration(milliseconds: 800))
+        .then((value) => Get.toNamed('/main'));
+    super.onReady();
+  }
+
+  @override
   onClose() async {
     Get.delete<ClassChatController>();
     super.onClose();

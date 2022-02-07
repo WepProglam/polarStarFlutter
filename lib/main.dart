@@ -6,10 +6,7 @@ import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/bindings/loby/login_binding.dart';
 import 'package:polarstar_flutter/app/bindings/loby/init_binding.dart';
 import 'package:polarstar_flutter/app/bindings/main/main_binding.dart';
-import 'package:polarstar_flutter/app/controller/loby/login_controller.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
-import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
-import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/session.dart';
 // import 'package:polarstar_flutter/app/translations/app_translations.dart';
@@ -74,14 +71,6 @@ void main() async {
 
   // await Firebase.initializeApp();
 
-  await Get.put(LoginController(
-      repository: LoginRepository(apiClient: LoginApiClient())));
-  LoginController loginController = Get.find();
-
-  bool isLogined = await loginController.checkLogin();
-
-  if (isLogined) {}
-
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterDownloader.initialize();
 
@@ -96,7 +85,7 @@ void main() async {
     // ! Route로 가면 자동으로 binding 됨
     // ! 여기서 binding하면 binding 총 2번 실행됨
     // initialBinding: isLogined ? MainBinding() : LoginBinding(),
-    initialRoute: isLogined ? Routes.MAIN_PAGE : Routes.LOGIN,
+    initialRoute: Routes.INITIAL,
     // theme: appThemeData,
     // defaultTransition: Transition.cupertino,
     getPages: AppPages.pages,

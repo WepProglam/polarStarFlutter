@@ -17,6 +17,13 @@ import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:polarstar_flutter/app/controller/loby/login_controller.dart';
+import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
+import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
+
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/app/data/provider/main/main_provider.dart';
+import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
 
 class InitController extends GetxController {
   final LoginRepository repository;
@@ -24,7 +31,8 @@ class InitController extends GetxController {
 
   InitController({@required this.repository}) : assert(repository != null);
 
-  RxInt mainPageIndex = 0.obs;
+  RxBool isLogined = false.obs;
+  RxBool opacityControl = false.obs;
 
   // Future<String> checkFcmToken() async {
   //   String FcmToken;
@@ -56,10 +64,65 @@ class InitController extends GetxController {
     return;
   }
 
+  Future autoLogin(String id, String pw) async {
+    String user_id = id;
+    String user_pw = pw;
+
+    Map<String, String> data = {
+      'id': user_id,
+      'pw': user_pw,
+    };
+
+    final response = await repository.login(data);
+
+    switch (response["statusCode"]) {
+      case 200:
+        Get.snackbar("登陆成功", "登陆成功");
+
+        break;
+      default:
+        Get.snackbar("登录失败", "登录失败");
+    }
+    return response;
+  }
+
+  Future<bool> checkLogin() async {
+    //print(box.read("id"));
+    if (box.hasData('isAutoLogin') && box.hasData('id') && box.hasData('pw')) {
+      var res = await autoLogin(box.read('id'), box.read('pw'));
+      // print(box.read('id'));
+      //  print("login!!");
+
+      switch (res["statusCode"]) {
+        case 200:
+          return true;
+          break;
+        default:
+          return false;
+      }
+    }
+    return false;
+  }
+
   @override
   void onInit() async {
     super.onInit();
+    isLogined(await checkLogin());
 
+    print(isLogined.value);
+
+    await Future.delayed(Duration(seconds: 1));
+
+    if (isLogined.isTrue) {
+      MainController mainController = Get.put(MainController(
+          repository: MainRepository(apiClient: MainApiClient())));
+      await mainController.onInit();
+      await mainController.onReady();
+    } else {
+      opacityControl(true);
+      Future.delayed(Duration(seconds: 1))
+          .then((value) => Get.toNamed('/login'));
+    }
     // box.remove("alreadyRunned");
   }
 

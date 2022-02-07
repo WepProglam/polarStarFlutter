@@ -105,6 +105,7 @@ class MainPageScroll extends StatelessWidget {
 
                   return [
                     SliverAppBar(
+                        automaticallyImplyLeading: false,
                         elevation: 0.0,
                         pinned: true,
                         floating: true,

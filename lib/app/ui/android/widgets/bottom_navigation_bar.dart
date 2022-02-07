@@ -17,7 +17,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   }) : super(key: key);
 
   // final MainController mainController;
-  final InitController initController = Get.find();
+  final MainController mainController = Get.find();
 
   // final MyPageController myPageController = Get.find();
   // final NotiController notiController = Get.find();
@@ -50,7 +50,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     width: 24,
                     height: 24,
                     margin: const EdgeInsets.symmetric(vertical: 16),
-                    child: initController.mainPageIndex.value == 0
+                    child: mainController.mainPageIndex.value == 0
                         ? Image.asset("assets/images/icn_home_selected.png")
                         : Image.asset("assets/images/icn_home_normal.png")),
                 label: '',
@@ -60,7 +60,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     width: 24,
                     margin: const EdgeInsets.symmetric(vertical: 16),
                     height: 24,
-                    child: initController.mainPageIndex.value == 1
+                    child: mainController.mainPageIndex.value == 1
                         ? Image.asset("assets/images/icn_calendar_selected.png")
                         : Image.asset("assets/images/icn_calendar_normal.png")),
                 label: '',
@@ -70,7 +70,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     width: 24,
                     height: 24,
                     margin: const EdgeInsets.symmetric(vertical: 16),
-                    child: initController.mainPageIndex.value == 2
+                    child: mainController.mainPageIndex.value == 2
                         ? Image.asset("assets/images/icn_check_selected.png")
                         : Image.asset("assets/images/icn_check_normal.png")),
                 label: '',
@@ -80,7 +80,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     width: 24,
                     height: 24,
                     margin: const EdgeInsets.symmetric(vertical: 16),
-                    child: initController.mainPageIndex.value == 3
+                    child: mainController.mainPageIndex.value == 3
                         ? Image.asset("assets/images/icn_alarm_selected.png")
                         : Image.asset("assets/images/icn_alarm_normal.png")),
                 label: '',
@@ -90,17 +90,17 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     width: 24,
                     height: 24,
                     margin: const EdgeInsets.symmetric(vertical: 16),
-                    child: initController.mainPageIndex.value == 4
+                    child: mainController.mainPageIndex.value == 4
                         ? Image.asset("assets/images/icn_profile_selected.png")
                         : Image.asset("assets/images/icn_profile_normal.png")),
                 label: '',
               ),
             ],
             unselectedItemColor: const Color(0xffbbc7d4),
-            currentIndex: initController.mainPageIndex.value,
+            currentIndex: mainController.mainPageIndex.value,
             selectedItemColor: const Color(0xff1a4678),
             onTap: (index) async {
-              initController.mainPageIndex.value = index;
+              mainController.mainPageIndex.value = index;
               // myPageController.profilePostIndex.value = 0;
               // notiController.pageViewIndex.value = 0;
             },

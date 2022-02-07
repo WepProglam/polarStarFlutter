@@ -48,7 +48,7 @@ class ClassItem_TOP extends StatelessWidget {
   ClassItem_TOP({
     Key key,
   }) : super(key: key);
-  final InitController initController = Get.find();
+  final MainController mainController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class ClassItem_TOP extends StatelessWidget {
       InkWell(
         child: SeeMore(),
         onTap: () {
-          initController.mainPageIndex.value = 2;
+          mainController.mainPageIndex.value = 2;
         },
       ),
     ]);
