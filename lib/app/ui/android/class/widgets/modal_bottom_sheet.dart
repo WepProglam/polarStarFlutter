@@ -1243,11 +1243,17 @@ class WriteExamInfo extends StatelessWidget {
                           color: const Color(0xff4570ff)),
                       child: InkWell(
                         onTap: () {
-                          if (classViewController.writeExamInfoYear == null ||
-                              classViewController.exampleList.isEmpty ||
-                              testStrategyController.text.isEmpty) {
+                          // ! 스낵바 필요 (중국어)
+                          if (classViewController.writeExamInfoYear == null) {
                             return;
                           }
+                          if (classViewController.exampleList.isEmpty) {
+                            return;
+                          }
+                          if (testStrategyController.text.isEmpty) {
+                            return;
+                          }
+
                           var str = "";
                           classViewController.exampleList.forEach((element) {
                             str += element;

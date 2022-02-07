@@ -49,7 +49,7 @@ class MainPageScroll extends StatelessWidget {
         searchFocusNode.unfocus();
       },
       child: Scaffold(
-        backgroundColor: Get.theme.primaryColor,
+        // backgroundColor: Get.theme.primaryColor,
         appBar: AppBar(
           elevation: 0,
           toolbarHeight: 56,

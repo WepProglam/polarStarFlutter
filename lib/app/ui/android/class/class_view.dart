@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:linkwell/linkwell.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
@@ -43,8 +44,11 @@ class ClassView extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: () async {
+        print("!!!");
         await MainUpdateModule.updateClassPage();
+        print("@@@");
         await MainUpdateModule.updateClassSearchPage();
+        print("????");
         return true;
       },
       child: SafeArea(
@@ -1128,9 +1132,16 @@ class ClassViewReview extends StatelessWidget {
               // decoration: BoxDecoration(
               //     color: Colors.grey[200],
               //     borderRadius: BorderRadius.circular(10)),
-              child: Text(
+              child: LinkWell(
                 "${classReviewModel.CONTENT}",
                 // overflow: TextOverflow.ellipsis,
+                linkStyle: TextStyle(
+                    // overflow: TextOverflow.ellipsis,
+                    color: Get.theme.primaryColor,
+                    fontWeight: FontWeight.w300,
+                    fontFamily: "NotoSansSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 10.0),
                 style: const TextStyle(
                     // overflow: TextOverflow.ellipsis,
                     color: const Color(0xff2f2f2f),
@@ -1325,9 +1336,16 @@ class ClassExamInfo extends StatelessWidget {
                               textAlign: TextAlign.left),
                         ),
                         classExamModel.TEST_STRATEGY != null
-                            ? Text(
-                                classExamModel.TEST_STRATEGY,
+                            ? LinkWell(
+                                "${classExamModel.TEST_STRATEGY}",
                                 // overflow: TextOverflow.ellipsis,
+                                linkStyle: TextStyle(
+                                    // overflow: TextOverflow.ellipsis,
+                                    color: Get.theme.primaryColor,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "NotoSansSC",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 12.0),
                                 style: const TextStyle(
                                     // overflow: TextOverflow.ellipsis,
                                     color: const Color(0xff6f6e6e),
@@ -1533,143 +1551,3 @@ class MenuTabBar extends SliverPersistentHeaderDelegate {
     return false;
   }
 }
-
-// class MenuTabBar extends SliverPersistentHeaderDelegate {
-//   final height = 76.0;
-//   final ClassViewController classViewController = Get.find();
-
-//   @override
-//   Widget build(
-//       BuildContext context, double shrinkOffset, bool overlapsContent) {
-//     return Container(
-//       margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
-//       width: 320.0,
-//       height: 44.0,
-//       decoration: BoxDecoration(
-//           borderRadius: BorderRadius.all(Radius.circular(8)),
-//           color: const Color(0xffffffff)),
-//       child: TabBar(
-//         controller: classViewController.tabController,
-//         labelColor: const Color(0xffffffff),
-//         unselectedLabelColor: const Color(0xff2f2f2f),
-//         labelStyle: const TextStyle(
-//             fontWeight: FontWeight.w500,
-//             fontFamily: "NotoSansSC",
-//             fontStyle: FontStyle.normal,
-//             fontSize: 14.0),
-//         indicator: BoxDecoration(color: const Color(mainColor)),
-//         tabs: <Tab>[
-//           Tab(
-//             text: "在校生交流区",
-//           ),
-//           Tab(
-//             text: "考试攻略",
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   @override
-//   // TODO: implement maxExtent
-//   double get maxExtent => height;
-
-//   @override
-//   // TODO: implement minExtent
-//   double get minExtent => height;
-
-//   @override
-//   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-//     // TODO: implement shouldRebuild
-//     return false;
-//   }
-// }
-
-//! 안씀 제거예정
-// class IndexButton extends SliverPersistentHeaderDelegate {
-//   final height = 50.0;
-//   final ClassViewController classViewController = Get.find();
-
-//   @override
-//   Widget build(
-//       BuildContext context, double shrinkOffset, bool overlapsContent) {
-//     return SizedBox.expand(
-//       child: Container(
-//         decoration: BoxDecoration(color: Colors.grey[200]),
-//         child: Container(
-//           margin: EdgeInsets.only(top: 10),
-//           // height: 40,
-//           decoration: BoxDecoration(color: Colors.white),
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//             children: [
-//               // commenr, exam info button
-//               GestureDetector(
-//                 onTap: () {
-//                   classViewController.typeIndex(0);
-//                 },
-//                 child: Container(
-//                   width: Get.mediaQuery.size.width / 2,
-//                   child: Center(
-//                     child: Obx(
-//                       () => Text(
-//                         "Comment",
-//                         style: TextStyle(
-//                             fontSize: 18.0,
-//                             color: classViewController.typeIndex.value == 0
-//                                 ? Color(0xff1a4678)
-//                                 : Colors.black,
-//                             fontWeight: classViewController.typeIndex.value == 0
-//                                 ? FontWeight.bold
-//                                 : FontWeight.normal),
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//               GestureDetector(
-//                 onTap: () {
-//                   classViewController.typeIndex(1);
-//                   if (!classViewController.classExamAvailable.value) {
-//                     print("exam data fetch");
-//                     classViewController
-//                         .getExamInfo(int.parse(Get.parameters["CLASS_ID"]));
-//                   }
-//                 },
-//                 child: Container(
-//                   width: Get.mediaQuery.size.width / 2,
-//                   child: Center(
-//                     child: Obx(
-//                       () => Text(
-//                         "Exam Information",
-//                         style: TextStyle(
-//                             fontSize: 18.0,
-//                             color: classViewController.typeIndex.value == 1
-//                                 ? Color(0xff1a4678)
-//                                 : Colors.black,
-//                             fontWeight: classViewController.typeIndex.value == 1
-//                                 ? FontWeight.bold
-//                                 : FontWeight.normal),
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               )
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   @override
-//   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-//     return false;
-//   }
-
-//   @override
-//   double get minExtent => height;
-
-//   @override
-//   double get maxExtent => height;
-// }

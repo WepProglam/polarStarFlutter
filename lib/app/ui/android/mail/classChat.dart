@@ -24,6 +24,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as p;
 
 final box = GetStorage();
 
@@ -88,22 +89,22 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
       String id = data[0];
       DownloadTaskStatus status = data[1];
       int progress = data[2];
-      print(progress);
+      print(data[2]);
       controller.fileFindCurChat(id).update((val) {
         val.FILE_PROGRESS = progress;
 
         // * 완료
-        if (status.toString() == "DownloadTaskStatus(3)" &&
-            progress == 100 &&
-            status.value == 3 &&
-            id != null) {
+        if (status.value == 3) {
+          print("update!!");
           val.FILE_DOWNLOADING = false;
           val.FILE_DOWNLOADED = true;
 
           box.write(val.FILE.first, id);
         }
       });
-      // setState(() {});
+      setState(() {});
+    }, onDone: () {
+      print("done!!!!");
     });
 
     FlutterDownloader.registerCallback(downloadCallback);
@@ -1341,19 +1342,41 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
       }
 
       // final externalDir = await getExternalStorageDirectory();
-      model.update((val) {
-        val.FILE_DOWNLOADING = true;
-      });
-      print(model.value.FILE_META.first.FILE_NAME);
+
+      String file_name = model.value.FILE_META.first.FILE_NAME;
+      // * 파일 이름 중복
+      if (File(p.join(dirloc, file_name)).existsSync()) {
+        int i = 1;
+        int string_length = file_name.length;
+        String a = "aa.aa";
+        a.lastIndexOf(".");
+        int extend_length = file_name.split(".").last.length + 1;
+        int add_number_index = string_length - extend_length - 1;
+        // String dupliacte_file_name = file_name
+        while (File(p.join(
+                dirloc,
+                file_name.substring(0, file_name.lastIndexOf(".")) +
+                    "(${i})." +
+                    file_name.split(".").last))
+            .existsSync()) {
+          i += 1;
+        }
+
+        file_name = file_name.substring(0, file_name.lastIndexOf(".")) +
+            "(${i})." +
+            file_name.split(".").last;
+      }
+
       final String taskID = await FlutterDownloader.enqueue(
           url: url,
           savedDir: dirloc,
-          fileName: model.value.FILE_META.first.FILE_NAME,
+          fileName: file_name,
           showNotification: true,
           openFileFromNotification: true,
           saveInPublicStorage: true);
 
       model.update((val) {
+        val.FILE_DOWNLOADING = true;
         val.FILE_TID = taskID;
       });
 

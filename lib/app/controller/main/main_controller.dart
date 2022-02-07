@@ -635,14 +635,19 @@ class MainUpdateModule {
 
   static Future<void> updateClassPage() async {
     putController<ClassController>();
+    print("!!!!!");
     ClassController cc = Get.find();
     await cc.refreshPage();
+    print("?????");
     return;
   }
 
   static Future<void> updateClassSearchPage() async {
-    ClassSearchController csc = Get.find();
-    await csc.refreshPage();
+    if (Get.isRegistered<ClassSearchController>()) {
+      ClassSearchController csc = Get.find();
+      await csc.refreshPage();
+    }
+
     return;
   }
 
