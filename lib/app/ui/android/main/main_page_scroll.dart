@@ -89,7 +89,7 @@ class MainPageScroll extends StatelessWidget {
             return Obx(() {
               int boardHeight = 77;
               int boardListLength = mainController.followingCommunity.length;
-              double tabbar_height = 20 + 14.0 + 5.0;
+              double tabbar_height = 25 + 14.0 + 14.0;
 
               double boardListHeight =
                   mainController.followingCommunity.length > 0
@@ -439,8 +439,8 @@ class MainPageScroll extends StatelessWidget {
                         bottom: PreferredSize(
                           preferredSize: Size.fromHeight(tabbar_height),
                           child: Container(
-                            margin: const EdgeInsets.only(top: 14, bottom: 5),
-                            height: 20,
+                            margin: const EdgeInsets.only(top: 14, bottom: 14),
+                            height: 25,
                             color: Colors.white,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -511,7 +511,7 @@ class MainPageScroll extends StatelessWidget {
                 },
                 body: Container(
                   color: Colors.white,
-                  padding: const EdgeInsets.only(top: 23 - 5.0),
+                  padding: const EdgeInsets.only(top: 23 - 14.0),
                   child: mainController.hotBoard.length != 0
                       ?
                       //* 핫게
