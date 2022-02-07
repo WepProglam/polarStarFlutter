@@ -16,6 +16,7 @@ import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_mail_dialog.dart';
 import 'package:polarstar_flutter/app/ui/android/board/functions/post_menu_item.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/photoOrVideo.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 import 'package:polarstar_flutter/main.dart';
 
@@ -206,14 +207,18 @@ class PostBody extends StatelessWidget {
                       fontSize: 12.0),
                   textAlign: TextAlign.left),
         ),
-        //사진
         (item.value.PHOTO != [] &&
                 item.value.PHOTO != null &&
                 item.value.PHOTO.isNotEmpty)
-            ? Container(
-                // padding: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 0),
-                child: PhotoLayout(model: item.value, c: c),
-              )
+            // * 영상
+            // * 영상 미리보기 추가하기
+            ? isVideo(item.value.PHOTO.first)
+                ? Container()
+                // * 사진
+                : Container(
+                    // padding: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 0),
+                    child: PhotoLayout(model: item.value, c: c),
+                  )
             : Container(),
       ],
     );

@@ -11,6 +11,7 @@ import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/data/repository/board/write_post_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+import 'package:mime/mime.dart';
 
 class WritePostController extends GetxController {
   final WritePostRepository repository;
@@ -89,8 +90,17 @@ class WritePostController extends GetxController {
 
       photoList.add(http.MultipartFile.fromBytes('photo', photo,
           filename: "${source.title}"));
+      // if (source.type == AssetType.image) {
+      //   Uint8List photo = await source.originBytes;
 
-      print(photo.length);
+      //   photoList.add(http.MultipartFile.fromBytes('photo', photo,
+      //       filename: "${source.title}"));
+      // } else if (source.type == AssetType.video) {
+      //   Uint8List video = await source.originBytes;
+
+      //   photoList.add(http.MultipartFile.fromBytes('video', video,
+      //       filename: "${source.title}"));
+      // }
     }
     int status = await repository.postPostImage(data, photoList, COMMUNITY_ID);
     Get.back();
