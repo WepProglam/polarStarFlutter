@@ -1,3 +1,7 @@
+import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +10,13 @@ import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
 import 'package:polarstar_flutter/main.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:video_player/video_player.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
+import 'package:polarstar_flutter/main.dart';
+import 'package:path/path.dart' as p;
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 
 class SeeMedia extends StatefulWidget {
   SeeMedia({Key key, @required this.media, @required this.index})
@@ -130,21 +141,96 @@ class _SeeMediaState extends State<SeeMedia> {
                               ),
                             ),
                           ),
-                          //! 다운로드 일단 제거
-                          // Container(
-                          //   margin: const EdgeInsets.only(right: 20),
-                          //   child: Ink(
-                          //     child: InkWell(
-                          //       onTap: () {},
-                          //       child: Image.asset(
-                          //         "assets/images/file_after_download.png",
-                          //         height: 24,
-                          //         width: 24,
-                          //         color: Colors.white,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
+                          Container(
+                            margin: const EdgeInsets.only(right: 20),
+                            child: Ink(
+                              child: InkWell(
+                                onTap: () async {
+                                  final status =
+                                      await Permission.storage.request();
+
+                                  if (status.isGranted) {
+                                    String dirloc = "";
+                                    if (Platform.isAndroid) {
+                                      dirloc = "/sdcard/download/";
+                                    } else {
+                                      dirloc =
+                                          (await getApplicationDocumentsDirectory())
+                                              .absolute
+                                              .path;
+                                    }
+
+                                    if (!Directory(dirloc).existsSync()) {
+                                      dirloc =
+                                          (await getApplicationDocumentsDirectory())
+                                              .absolute
+                                              .path;
+                                      if (!Directory(dirloc).existsSync()) {
+                                        Directory(dirloc)
+                                            .create(recursive: true);
+                                      }
+                                    }
+
+                                    String file_name = widget
+                                        .media[widget.index].URL
+                                        .split("/")
+                                        .last;
+                                    // * 파일 이름 중복
+                                    if (File(p.join(dirloc, file_name))
+                                        .existsSync()) {
+                                      int i = 1;
+                                      int string_length = file_name.length;
+                                      String a = "aa.aa";
+                                      a.lastIndexOf(".");
+                                      int extend_length =
+                                          file_name.split(".").last.length + 1;
+                                      int add_number_index =
+                                          string_length - extend_length - 1;
+                                      // String dupliacte_file_name = file_name
+                                      while (File(p.join(
+                                              dirloc,
+                                              file_name.substring(
+                                                      0,
+                                                      file_name
+                                                          .lastIndexOf(".")) +
+                                                  "(${i})." +
+                                                  file_name.split(".").last))
+                                          .existsSync()) {
+                                        i += 1;
+                                      }
+
+                                      file_name = file_name.substring(
+                                              0, file_name.lastIndexOf(".")) +
+                                          "(${i})." +
+                                          file_name.split(".").last;
+                                    }
+
+                                    // print(dirloc);
+                                    // print("==============================");
+
+                                    final String taskID =
+                                        await FlutterDownloader.enqueue(
+                                            url: widget.media[widget.index].URL,
+                                            savedDir: dirloc,
+                                            fileName: file_name,
+                                            showNotification: true,
+                                            openFileFromNotification: true,
+                                            saveInPublicStorage: true);
+
+                                    print("downloaded!!");
+                                  } else {
+                                    print('Permission Denied');
+                                  }
+                                },
+                                child: Image.asset(
+                                  "assets/images/file_after_download.png",
+                                  height: 24,
+                                  width: 24,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       )),
                 ),

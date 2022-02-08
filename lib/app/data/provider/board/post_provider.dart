@@ -48,6 +48,7 @@ class PostApiClient {
           //     VIDEO: null));
 
           post.MEDIA.add(POST_MEDIA(
+              URL: item,
               isVideo: true,
               PHOTO: null,
               VIDEO: VideoPlayerController.network(item)
@@ -56,6 +57,7 @@ class PostApiClient {
                 })));
         } else if (isPhoto(item)) {
           post.MEDIA.add(POST_MEDIA(
+              URL: item,
               isVideo: false,
               PHOTO: Image(
                   image: CachedNetworkImageProvider(item, scale: 1.0),

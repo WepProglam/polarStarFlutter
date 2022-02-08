@@ -89,10 +89,16 @@ class POST_MEDIA {
   VideoPlayerController VIDEO;
   Image PHOTO;
   bool isVideo;
+  String URL;
   Duration VIDEO_POS, VIDEO_TOTAL;
 
   POST_MEDIA(
-      {this.VIDEO, this.PHOTO, this.isVideo, this.VIDEO_POS, this.VIDEO_TOTAL});
+      {this.VIDEO,
+      this.PHOTO,
+      this.isVideo,
+      this.VIDEO_POS,
+      this.VIDEO_TOTAL,
+      this.URL});
 
   // POST_MEDIA.fromJson(Map<String, dynamic> json) {
 
