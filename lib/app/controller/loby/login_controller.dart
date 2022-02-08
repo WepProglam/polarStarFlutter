@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/data/model/login_model.dart';
@@ -133,7 +134,10 @@ class LoginController extends GetxController {
         Get.offAllNamed(Routes.INITIAL, arguments: "fromLogin");
         break;
       default:
-        Get.snackbar("Failed to sign in", "Failed to sign in");
+        Get.snackbar("Failed to sign in", "Failed to sign in",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.white,
+            colorText: Colors.black);
     }
   }
 

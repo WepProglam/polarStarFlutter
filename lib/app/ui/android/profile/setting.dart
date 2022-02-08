@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -6,7 +9,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/profile/mypage_controller.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/crypt.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
+import 'package:polarstar_flutter/session.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+final box = GetStorage();
 
 class Setting extends StatelessWidget {
   final MainController mainController = Get.find();
@@ -176,6 +184,7 @@ class Setting extends StatelessWidget {
                                     fontSize: 14.0),
                                 textAlign: TextAlign.left)))
                   ])),
+
               // Container(
               //     height: 54.6,
               //     width: MediaQuery.of(context).size.width - 40,
@@ -274,7 +283,72 @@ class Setting extends StatelessWidget {
                                     height: 9.5, width: 5.4)))
                       ])),
                 ),
-              )
+              ),
+              InkWell(
+                onTap: () async {
+                  Function ontapConfirm = () async {
+                    var salt = Session.cookies['salt'];
+                    salt = Uri.decodeComponent(salt);
+                    String pw = box.read("pw");
+                    var cryptedPw =
+                        sha512.convert(utf8.encode(pw + salt)).toString();
+
+                    for (int i = 0; i < 1000; i++) {
+                      cryptedPw = sha512
+                          .convert(utf8.encode(cryptedPw + salt))
+                          .toString();
+                    }
+                    await Session()
+                        .postX("/users/withdrawal", {"pw": cryptedPw});
+                    Session.cookies = {};
+                    Session.headers['Cookie'] = '';
+
+                    box.write('isAutoLogin', false);
+                    box.remove('id');
+                    box.remove('pw');
+                    box.remove('token');
+
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/login', (Route<dynamic> route) => false);
+                    Get.offAllNamed('/');
+                  };
+                  Function ontapCancel = () {
+                    Get.back();
+                  };
+
+                  await TFdialogue(context, '确定要删除账号吗？', "确定要删除账号吗？",
+                      ontapConfirm, ontapCancel);
+                },
+                child: Ink(
+                  child: Container(
+                      height: 54.6,
+                      width: MediaQuery.of(context).size.width - 40,
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                                  color: const Color(0xffdedede), width: 1))),
+                      child: Stack(children: [
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                                margin: EdgeInsets.only(left: 0),
+                                child: Text("退出服务",
+                                    style: const TextStyle(
+                                        color: const Color(0xff6f6e6e),
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "Roboto",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14.0),
+                                    textAlign: TextAlign.left))),
+                        Align(
+                            alignment: Alignment.centerRight,
+                            child: Container(
+                                margin: EdgeInsets.only(right: 0),
+                                child: Image.asset("assets/images/938.png",
+                                    height: 9.5, width: 5.4)))
+                      ])),
+                ),
+              ),
             ],
           )),
     );
