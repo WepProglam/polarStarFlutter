@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
@@ -9,6 +10,7 @@ import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/photoOrVideo.dart';
 
 import 'package:polarstar_flutter/session.dart';
+import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class PostApiClient {
@@ -31,20 +33,34 @@ class PostApiClient {
       post.isLiked = mainController.isLiked(post);
       for (var item in post.PHOTO_URL) {
         if (isVideo(item)) {
-          final Uint8List data = await VideoThumbnail.thumbnailData(
-            video: item,
-            imageFormat: ImageFormat.JPEG,
-            quality: 70,
-          );
+          // final Uint8List data = await VideoThumbnail.thumbnailData(
+          //   video: item,
+          //   imageFormat: ImageFormat.JPEG,
+          //   quality: 25,
+          // );
 
-          post.PHOTO.add(Image.memory(
-            data,
-            fit: BoxFit.cover,
-          ));
+          // post.MEDIA.add(POST_MEDIA(
+          //     isVideo: true,
+          //     PHOTO: Image.memory(
+          //       data,
+          //       fit: BoxFit.cover,
+          //     ),
+          //     VIDEO: null));
+
+          post.MEDIA.add(POST_MEDIA(
+              isVideo: true,
+              PHOTO: null,
+              VIDEO: VideoPlayerController.network(item)
+                ..initialize().then((_) {
+                  // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+                })));
         } else if (isPhoto(item)) {
-          post.PHOTO.add(Image(
-              image: CachedNetworkImageProvider(item, scale: 1.0),
-              fit: BoxFit.cover));
+          post.MEDIA.add(POST_MEDIA(
+              isVideo: false,
+              PHOTO: Image(
+                  image: CachedNetworkImageProvider(item, scale: 1.0),
+                  fit: BoxFit.cover),
+              VIDEO: null));
         }
       }
     }

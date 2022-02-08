@@ -133,16 +133,23 @@ class PostPreview extends StatelessWidget {
                 textAlign: TextAlign.left),
 
             // Photo
-            Container(
-                margin: EdgeInsets.only(top: 13.1 - 5.6, bottom: 17.8 - 5.6),
-                child: item.value.PHOTO == null || item.value.PHOTO.length == 0
-                    ? Container()
-                    : Container(
-                        height: 120,
-                        child: PhotoLayout(
-                          model: item.value,
-                        ),
-                      )),
+            Obx(() {
+              print("??");
+              return Container(
+                  margin: EdgeInsets.only(top: 13.1 - 5.6, bottom: 17.8 - 5.6),
+                  child: item.value.PHOTO_URL == null ||
+                          item.value.PHOTO_URL.length == 0
+                      ? Container(
+                          height: 100,
+                          color: Colors.red,
+                        )
+                      : Container(
+                          height: 120,
+                          child: PhotoLayout(
+                            model: item.value,
+                          ),
+                        ));
+            }),
 
             //좋아요, 댓글, 스크랩 수
             Obx(() {

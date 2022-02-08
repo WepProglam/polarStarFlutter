@@ -25,6 +25,7 @@ class WritePostController extends GetxController {
   RxBool anonymousCheck = true.obs;
   Rx<String> imagePath = "".obs;
   RxList<AssetEntity> photoAssets = <AssetEntity>[].obs;
+  RxBool sendingPost = false.obs;
 
   WritePostController(
       {@required this.repository,
@@ -66,22 +67,28 @@ class WritePostController extends GetxController {
 
   //게시글 새로 작성 (사진 X)
   Future<void> postPostNoImage(Map<String, dynamic> data) async {
+    sendingPost.value = true;
     int status = await repository.postPostNoImage(data, "/board/$COMMUNITY_ID");
     Get.back();
 
     responseSwitchCase(status);
+    sendingPost.value = false;
   }
 
   //게시글 수정 (사진 X)
   Future<void> putPostNoImage(Map<String, dynamic> data) async {
+    sendingPost.value = true;
+
     int status = await repository.putPostNoImage(
         data, '/board/$COMMUNITY_ID/bid/$BOARD_ID');
     Get.back();
     responseSwitchCase(status);
+    sendingPost.value = false;
   }
 
   //게시글 작성 (사진 O)
   Future<void> postPostImage(Map<String, dynamic> data) async {
+    sendingPost.value = true;
     // var pic = await http.MultipartFile.fromPath("photo", imagePath.value);
     List<http.MultipartFile> photoList = <http.MultipartFile>[];
 
@@ -106,10 +113,12 @@ class WritePostController extends GetxController {
     Get.back();
 
     responseSwitchCase(status);
+    sendingPost.value = false;
   }
 
   //게시글 수정 (사진 O)
   Future<void> putPostImage(Map<String, dynamic> data) async {
+    sendingPost.value = true;
     // var pic = await http.MultipartFile.fromPath("photo", imagePath.value);
     List<http.MultipartFile> photoList = <http.MultipartFile>[];
 
@@ -125,6 +134,7 @@ class WritePostController extends GetxController {
     Get.back();
 
     responseSwitchCase(status);
+    sendingPost.value = false;
   }
 
   bool get dataAvailable => _dataAvailable.value;

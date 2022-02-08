@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/photoOrVideo.dart';
+import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class Post {
@@ -12,8 +13,11 @@ class Post {
   int UNNAMED;
   int LIKES;
   int SCRAPS;
-  List<Image> PHOTO;
   List<dynamic> PHOTO_URL;
+  List<POST_MEDIA> MEDIA;
+  // List<VideoPlayer> VIDEO;
+  // List<Image> PHOTO;
+
   int UNIQUE_ID;
   int COMMUNITY_ID;
   int COMMENTS;
@@ -62,7 +66,7 @@ class Post {
     this.SCRAPS = nullCheck(json["SCRAPS"]);
     this.PARENT_ID = nullCheck(json["PARENT_ID"]);
     this.PHOTO_URL = nullCheck(json["PHOTO"]);
-    this.PHOTO = [];
+    this.MEDIA = [];
 
     this.IS_UPDATED = nullCheck(json["IS_UPDATED"]);
     this.UNIQUE_ID = nullCheck(json["UNIQUE_ID"]);
@@ -79,4 +83,22 @@ class Post {
   dynamic nullCheck(dynamic a) {
     return a == null ? null : a;
   }
+}
+
+class POST_MEDIA {
+  VideoPlayerController VIDEO;
+  Image PHOTO;
+  bool isVideo;
+  Duration VIDEO_POS, VIDEO_TOTAL;
+
+  POST_MEDIA(
+      {this.VIDEO, this.PHOTO, this.isVideo, this.VIDEO_POS, this.VIDEO_TOTAL});
+
+  // POST_MEDIA.fromJson(Map<String, dynamic> json) {
+
+  //   this.PHOTO = ;
+  //   this.VIDEO = ;
+
+  // }
+
 }

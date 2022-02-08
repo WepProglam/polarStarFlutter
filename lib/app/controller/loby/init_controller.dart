@@ -112,7 +112,9 @@ class InitController extends GetxController {
 
   @override
   void onInit() async {
+    opacityControl(true);
     super.onInit();
+
     if (Get.arguments == "fromLogin") {
       isLogined(true);
     } else {

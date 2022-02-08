@@ -9,6 +9,7 @@ import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/photoOrVideo.dart';
 
 import 'package:polarstar_flutter/session.dart';
+import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class BoardApiClient {
@@ -31,27 +32,55 @@ class BoardApiClient {
     for (Rx<Post> post in listBoard) {
       post.value.isScraped = mainController.isScrapped(post.value);
       post.value.isLiked = mainController.isLiked(post.value);
-      for (var item in post.value.PHOTO_URL) {
+      if (post.value.PHOTO_URL != null && post.value.PHOTO_URL.length > 0) {
+        // for (var item in post.value.PHOTO_URL) {
+        var item = post.value.PHOTO_URL.first;
         if (isVideo(item)) {
-          final Uint8List data = await VideoThumbnail.thumbnailData(
+          Uint8List data = await VideoThumbnail.thumbnailData(
             video: item,
             imageFormat: ImageFormat.JPEG,
-            quality: 70,
+            quality: 25,
           );
-
-          post.value.PHOTO.add(Image.memory(
-            data,
-            fit: BoxFit.cover,
-          ));
-        } else if (isPhoto(item)) {
-          post.value.PHOTO.add(Image(
-              image: CachedNetworkImageProvider(
-                item,
-                scale: 1.0,
+          post.value.MEDIA.add(POST_MEDIA(
+              isVideo: true,
+              PHOTO: Image.memory(
+                data,
+                fit: BoxFit.cover,
               ),
-              fit: BoxFit.cover));
+              VIDEO: null));
+          // VideoThumbnail.thumbnailData(
+          //   video: item,
+          //   imageFormat: ImageFormat.JPEG,
+          //   quality: 25,
+          // ).then((value) => {
+          //       post.update((val) {
+          //         val.MEDIA = [
+          //           POST_MEDIA(
+          //               isVideo: true,
+          //               PHOTO: Image.memory(
+          //                 value,
+          //                 fit: BoxFit.cover,
+          //               ),
+          //               VIDEO: null)
+          //         ];
+          //       })
+          //     });
+        } else if (isPhoto(item)) {
+          post.value.MEDIA.add(POST_MEDIA(
+              isVideo: false,
+              PHOTO: Image(
+                  image: CachedNetworkImageProvider(item, scale: 1.0),
+                  fit: BoxFit.cover),
+              VIDEO: null));
+          // post.value.PHOTO.add(Image(
+          //     image: CachedNetworkImageProvider(
+          //       item,
+          //       scale: 1.0,
+          //     ),
+          //     fit: BoxFit.cover));
         }
       }
+      // }
     }
 
     return {"status": response.statusCode, "listBoard": listBoard};

@@ -23,6 +23,7 @@ class LoginController extends GetxController {
   var isObscured = true.obs;
 
   var loginModel = LoginModel().obs;
+  RxBool isTyping = false.obs;
 
   Future<void> logout() async {
     await box.erase();
@@ -55,7 +56,7 @@ class LoginController extends GetxController {
 
     switch (response["statusCode"]) {
       case 200:
-        Get.snackbar("登陆成功", "登陆成功");
+        // Get.snackbar("登陆成功", "登陆成功");
 
         break;
       default:
@@ -128,7 +129,7 @@ class LoginController extends GetxController {
         }
 
         // print(box.read("id"));
-        Get.offAndToNamed("/", arguments: "fromLogin");
+        Get.offAndToNamed(Routes.INITIAL, arguments: "fromLogin");
         // Get.offAndToNamed('/main');
         // Get.offAllNamed(Routes.MAIN_PAGE);
         break;

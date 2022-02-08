@@ -253,7 +253,7 @@ class HotBoardItem_content extends StatelessWidget {
         Container(
           height: 120,
           margin: const EdgeInsets.only(top: 16 / 2),
-          child: model.PHOTO != null && model.PHOTO.length > 0
+          child: model.MEDIA != null && model.MEDIA.length > 0
               ? PhotoLayout(model: model)
               : Container(),
         ),
