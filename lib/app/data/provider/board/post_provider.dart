@@ -1,10 +1,15 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/photoOrVideo.dart';
 
 import 'package:polarstar_flutter/session.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class PostApiClient {
   MainController mainController = Get.find();
@@ -21,13 +26,30 @@ class PostApiClient {
     List<Post> tempListPost =
         jsonReponse.map((model) => Post.fromJson(model)).toList();
 
-    List<Post> listPost = tempListPost.map((e) {
-      e.isScraped = mainController.isScrapped(e);
-      e.isLiked = mainController.isLiked(e);
-      return e;
-    }).toList();
+    for (Post post in tempListPost) {
+      post.isScraped = mainController.isScrapped(post);
+      post.isLiked = mainController.isLiked(post);
+      for (var item in post.PHOTO_URL) {
+        if (isVideo(item)) {
+          final Uint8List data = await VideoThumbnail.thumbnailData(
+            video: item,
+            imageFormat: ImageFormat.JPEG,
+            quality: 70,
+          );
 
-    return {"statusCode": response.statusCode, "listPost": listPost};
+          post.PHOTO.add(Image.memory(
+            data,
+            fit: BoxFit.cover,
+          ));
+        } else if (isPhoto(item)) {
+          post.PHOTO.add(Image(
+              image: CachedNetworkImageProvider(item, scale: 1.0),
+              fit: BoxFit.cover));
+        }
+      }
+    }
+
+    return {"statusCode": response.statusCode, "listPost": tempListPost};
   }
 
   // Future<int> deletePost(int COMMUNITY_ID, int BOARD_ID) async {

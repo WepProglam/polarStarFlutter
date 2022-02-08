@@ -154,6 +154,7 @@ class MyPageProfile extends StatelessWidget {
       pinned: true,
       floating: true,
       snap: false,
+      automaticallyImplyLeading: false,
       expandedHeight: 56 + 254.0,
       backgroundColor: const Color(mainColor),
       bottom: MenuTabBar(

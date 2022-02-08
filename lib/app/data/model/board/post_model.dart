@@ -1,3 +1,10 @@
+import 'dart:typed_data';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/widgets.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/photoOrVideo.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
+
 class Post {
   int DEPTH;
   String TITLE;
@@ -5,7 +12,8 @@ class Post {
   int UNNAMED;
   int LIKES;
   int SCRAPS;
-  List<dynamic> PHOTO;
+  List<Image> PHOTO;
+  List<dynamic> PHOTO_URL;
   int UNIQUE_ID;
   int COMMUNITY_ID;
   int COMMENTS;
@@ -53,7 +61,9 @@ class Post {
     this.LIKES = nullCheck(json["LIKES"]);
     this.SCRAPS = nullCheck(json["SCRAPS"]);
     this.PARENT_ID = nullCheck(json["PARENT_ID"]);
-    this.PHOTO = nullCheck(json["PHOTO"]);
+    this.PHOTO_URL = nullCheck(json["PHOTO"]);
+    this.PHOTO = [];
+
     this.IS_UPDATED = nullCheck(json["IS_UPDATED"]);
     this.UNIQUE_ID = nullCheck(json["UNIQUE_ID"]);
     this.COMMUNITY_ID = nullCheck(json["COMMUNITY_ID"]);

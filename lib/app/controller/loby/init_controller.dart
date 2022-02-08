@@ -77,10 +77,10 @@ class InitController extends GetxController {
 
     switch (response["statusCode"]) {
       case 200:
-        Get.snackbar("登陆成功", "登陆成功",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.white,
-            colorText: Colors.black);
+        // Get.snackbar("登陆成功", "登陆成功",
+        //     snackPosition: SnackPosition.BOTTOM,
+        //     backgroundColor: Colors.white,
+        //     colorText: Colors.black);
 
         break;
       default:
@@ -128,7 +128,7 @@ class InitController extends GetxController {
           repository: MainRepository(apiClient: MainApiClient())));
       await mainController.onInit();
       await mainController.onReady();
-    } else {}
+    }
 
     DateTime cur = DateTime.now();
 

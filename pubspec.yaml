@@ -85,6 +85,7 @@ dependencies:
   image_size_getter: ^1.0.0
   package_info: ^2.0.2
   flutter_image_compress: ^1.1.0
+  video_thumbnail: ^0.4.3
 
   
 dependency_overrides:

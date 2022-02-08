@@ -1,11 +1,18 @@
 import 'dart:convert';
+import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/photoOrVideo.dart';
 
 import 'package:polarstar_flutter/session.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class BoardApiClient {
+  MainController mainController = Get.find();
   Future<Map<String, dynamic>> getBoard(int COMMUNITY_ID, int page) async {
     var response = await Session().getX("/board/$COMMUNITY_ID/page/$page");
     print("/board/$COMMUNITY_ID/page/$page");
@@ -20,6 +27,32 @@ class BoardApiClient {
 
     List<Rx<Post>> listBoard =
         jsonResponse.map((model) => Post.fromJson(model).obs).toList();
+
+    for (Rx<Post> post in listBoard) {
+      post.value.isScraped = mainController.isScrapped(post.value);
+      post.value.isLiked = mainController.isLiked(post.value);
+      for (var item in post.value.PHOTO_URL) {
+        if (isVideo(item)) {
+          final Uint8List data = await VideoThumbnail.thumbnailData(
+            video: item,
+            imageFormat: ImageFormat.JPEG,
+            quality: 70,
+          );
+
+          post.value.PHOTO.add(Image.memory(
+            data,
+            fit: BoxFit.cover,
+          ));
+        } else if (isPhoto(item)) {
+          post.value.PHOTO.add(Image(
+              image: CachedNetworkImageProvider(
+                item,
+                scale: 1.0,
+              ),
+              fit: BoxFit.cover));
+        }
+      }
+    }
 
     return {"status": response.statusCode, "listBoard": listBoard};
   }

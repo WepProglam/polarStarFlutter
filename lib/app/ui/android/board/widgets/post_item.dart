@@ -19,6 +19,7 @@ import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart'
 import 'package:polarstar_flutter/app/ui/android/functions/photoOrVideo.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/photo_layout.dart';
 import 'package:polarstar_flutter/main.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class PostBottom extends StatelessWidget {
   const PostBottom({
@@ -210,15 +211,10 @@ class PostBody extends StatelessWidget {
         (item.value.PHOTO != [] &&
                 item.value.PHOTO != null &&
                 item.value.PHOTO.isNotEmpty)
-            // * 영상
-            // * 영상 미리보기 추가하기
-            ? isVideo(item.value.PHOTO.first)
-                ? Container()
-                // * 사진
-                : Container(
-                    // padding: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 0),
-                    child: PhotoLayout(model: item.value, c: c),
-                  )
+            ? Container(
+                // padding: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 0),
+                child: PhotoLayout(model: item.value, c: c),
+              )
             : Container(),
       ],
     );

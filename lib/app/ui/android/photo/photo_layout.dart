@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
+import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/ui/android/photo/see_photo.dart';
 
@@ -17,7 +18,7 @@ class _PhotoLayoutState extends State<PhotoLayout> {
   _PhotoLayoutState({
     @required this.model,
   });
-  final model;
+  final Post model;
   int photo_index = 0;
 
   @override
@@ -50,41 +51,41 @@ class _PhotoLayoutState extends State<PhotoLayout> {
               // pc.index.value = value;
             },
             itemBuilder: (BuildContext context, int index) {
-              return Container(
-                child: CachedNetworkImage(
-                    imageUrl: "${model.PHOTO[index]}",
-                    // ! fade in 별로라서 뺌
-                    // placeholder: (context, url) => Container(
-                    //       width: width,
-                    //       height: width,
-                    //       color: Colors.white,
-                    //     ),
-                    errorWidget: (context, url, error) {
-                      return Icon(Icons.error);
-                    },
-                    imageBuilder: (context, imageProvider) => Ink(
-                          child: InkWell(
-                            onTap: widget.c == null
-                                ? null
-                                : () {
-                                    Get.to(
-                                        () => SeePhoto(
-                                            photo: model.PHOTO, index: index),
-                                        transition: Transition.cupertino);
-                                  },
-                            child: Container(
-                              // margin: EdgeInsets.only(right: 4.2),
-                              width: width,
-                              height: width * 0.8,
+              return Container(child: model.PHOTO[index]
+                  // CachedNetworkImage(
+                  //     imageUrl: "${model.PHOTO[index]}",
+                  //     // ! fade in 별로라서 뺌
+                  //     // placeholder: (context, url) => Container(
+                  //     //       width: width,
+                  //     //       height: width,
+                  //     //       color: Colors.white,
+                  //     //     ),
+                  //     errorWidget: (context, url, error) {
+                  //       return Icon(Icons.error);
+                  //     },
+                  //     imageBuilder: (context, imageProvider) => Ink(
+                  //           child: InkWell(
+                  //             onTap: widget.c == null
+                  //                 ? null
+                  //                 : () {
+                  //                     Get.to(
+                  //                         () => SeePhoto(
+                  //                             photo: model.PHOTO, index: index),
+                  //                         transition: Transition.cupertino);
+                  //                   },
+                  //             child: Container(
+                  //               // margin: EdgeInsets.only(right: 4.2),
+                  //               width: width,
+                  //               height: width * 0.8,
 
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                      image: imageProvider, fit: BoxFit.cover)),
-                            ),
-                          ),
-                        )),
-              );
+                  //               decoration: BoxDecoration(
+                  //                   borderRadius: BorderRadius.circular(10),
+                  //                   image: DecorationImage(
+                  //                       image: imageProvider, fit: BoxFit.cover)),
+                  //             ),
+                  //           ),
+                  //         )),
+                  );
             }),
       ),
       Positioned(
