@@ -42,6 +42,7 @@ class BoardApiClient {
             quality: 25,
           );
           post.value.MEDIA.add(POST_MEDIA(
+              URL: item,
               isVideo: true,
               PHOTO: Image.memory(
                 data,
@@ -67,6 +68,7 @@ class BoardApiClient {
           //     });
         } else if (isPhoto(item)) {
           post.value.MEDIA.add(POST_MEDIA(
+              URL: item,
               isVideo: false,
               PHOTO: Image(
                   image: CachedNetworkImageProvider(item, scale: 1.0),

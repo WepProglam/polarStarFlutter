@@ -1341,7 +1341,12 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
         dirloc = (await getApplicationDocumentsDirectory()).absolute.path;
       }
 
-      // final externalDir = await getExternalStorageDirectory();
+      if (!Directory(dirloc).existsSync()) {
+        dirloc = (await getApplicationDocumentsDirectory()).absolute.path;
+        if (!Directory(dirloc).existsSync()) {
+          Directory(dirloc).create(recursive: true);
+        }
+      }
 
       String file_name = model.value.FILE_META.first.FILE_NAME;
       // * 파일 이름 중복
@@ -1366,6 +1371,9 @@ class MAIL_CONTENT_ITEM extends StatelessWidget {
             "(${i})." +
             file_name.split(".").last;
       }
+
+      // print(dirloc);
+      // print("==============================");
 
       final String taskID = await FlutterDownloader.enqueue(
           url: url,
