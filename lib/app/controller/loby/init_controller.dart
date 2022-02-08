@@ -32,7 +32,7 @@ class InitController extends GetxController {
   InitController({@required this.repository}) : assert(repository != null);
 
   RxBool isLogined = false.obs;
-  RxBool opacityControl = false.obs;
+  RxBool opacityControl = true.obs;
 
   // Future<String> checkFcmToken() async {
   //   String FcmToken;
@@ -77,11 +77,17 @@ class InitController extends GetxController {
 
     switch (response["statusCode"]) {
       case 200:
-        Get.snackbar("登陆成功", "登陆成功");
+        Get.snackbar("登陆成功", "登陆成功",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.white,
+            colorText: Colors.black);
 
         break;
       default:
-        Get.snackbar("登录失败", "登录失败");
+        Get.snackbar("登录失败", "登录失败",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.white,
+            colorText: Colors.black);
     }
     return response;
   }
@@ -113,18 +119,30 @@ class InitController extends GetxController {
       isLogined(await checkLogin());
     }
 
-    await Future.delayed(Duration(seconds: 1));
+    opacityControl(false);
+
+    DateTime pass = DateTime.now();
 
     if (isLogined.isTrue) {
       MainController mainController = Get.put(MainController(
           repository: MainRepository(apiClient: MainApiClient())));
       await mainController.onInit();
       await mainController.onReady();
-    } else {
-      opacityControl(true);
-      Future.delayed(Duration(seconds: 1))
-          .then((value) => Get.offAndToNamed('/login'));
+    } else {}
+
+    DateTime cur = DateTime.now();
+
+    if (cur.difference(pass) < Duration(milliseconds: 1500)) {
+      int wait = 1500 - cur.difference(pass).inMilliseconds;
+      await Future.delayed(Duration(milliseconds: wait));
     }
+
+    if (isLogined.isTrue) {
+      Get.toNamed('/main');
+    } else {
+      Get.offAndToNamed('/login');
+    }
+
     // box.remove("alreadyRunned");
   }
 

@@ -423,7 +423,7 @@ class MainPageScroll extends StatelessWidget {
                                 Container(
                                   margin:
                                       const EdgeInsets.only(left: 20, top: 40),
-                                  child: Text("帖子推荐",
+                                  child: Text("新帖推荐",
                                       style: const TextStyle(
                                           color: const Color(0xff2f2f2f),
                                           fontWeight: FontWeight.w500,
