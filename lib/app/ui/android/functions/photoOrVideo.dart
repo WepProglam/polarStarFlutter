@@ -56,8 +56,12 @@ final photo_extension = [
 ];
 
 bool isPhoto(String url) {
+  // * 임시방편
+  if (!isVideo(url)) {
+    return true;
+  }
   String extension = url.split(".").last;
-  if (photo_extension.indexOf(extension) != -1) {
+  if (photo_extension.indexOf(extension.toLowerCase()) != -1) {
     return true;
   }
   return false;
