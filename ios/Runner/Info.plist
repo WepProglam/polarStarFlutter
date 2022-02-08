@@ -38,12 +38,12 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) support for taking pictures and uploading them when chatting</string>
+	<string>北北上学堂 support for taking pictures and uploading them when chatting</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) support for uploading photo and video when chatting and doing community activities</string>
+	<string>北北上学堂 support for uploading photo and video when chatting and doing community activities</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>$(PRODUCT_NAME) remote-notification</string>
+		<string>北北上学堂 remote-notification</string>
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
@@ -69,6 +69,6 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
-	<string>$(PRODUCT_NAME) support for banner notice web site access</string>
+	<string>北北上学堂 support for banner notice web site access</string>
 </dict>
 </plist>
