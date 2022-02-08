@@ -65,7 +65,7 @@ class Post {
     this.LIKES = nullCheck(json["LIKES"]);
     this.SCRAPS = nullCheck(json["SCRAPS"]);
     this.PARENT_ID = nullCheck(json["PARENT_ID"]);
-    this.PHOTO_URL = nullCheck(json["PHOTO"]);
+    this.PHOTO_URL = nullCheck(json["PHOTO"]) == null ? [] : json["PHOTO"];
     this.MEDIA = [];
 
     this.IS_UPDATED = nullCheck(json["IS_UPDATED"]);

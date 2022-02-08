@@ -12,6 +12,7 @@ import 'package:polarstar_flutter/app/data/model/login_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:meta/meta.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
@@ -118,6 +119,7 @@ class InitController extends GetxController {
     opacityControl(true);
     super.onInit();
 
+    print("init controller init");
     if (Get.arguments == "fromLogin") {
       isLogined(true);
     } else {
@@ -131,8 +133,9 @@ class InitController extends GetxController {
     if (isLogined.isTrue) {
       MainController mainController = Get.put(MainController(
           repository: MainRepository(apiClient: MainApiClient())));
-      await mainController.onInit();
-      await mainController.onReady();
+      await mainController.fake_onInit();
+      // await mainController.onInit();
+      // await mainController.onReady();
     }
 
     DateTime cur = DateTime.now();
@@ -143,7 +146,7 @@ class InitController extends GetxController {
     }
 
     if (isLogined.isTrue) {
-      Get.toNamed('/main');
+      Get.toNamed(Routes.MAIN_PAGE);
     } else {
       Get.offAndToNamed('/login');
     }

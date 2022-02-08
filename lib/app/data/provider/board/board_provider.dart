@@ -100,6 +100,62 @@ class BoardApiClient {
     List<Rx<Post>> listBoard =
         jsonResponse.map((model) => Post.fromJson(model).obs).toList();
 
+    for (Rx<Post> post in listBoard) {
+      post.value.isScraped = mainController.isScrapped(post.value);
+      post.value.isLiked = mainController.isLiked(post.value);
+      if (post.value.PHOTO_URL != null && post.value.PHOTO_URL.length > 0) {
+        // for (var item in post.value.PHOTO_URL) {
+        var item = post.value.PHOTO_URL.first;
+        if (isVideo(item)) {
+          Uint8List data = await VideoThumbnail.thumbnailData(
+            video: item,
+            imageFormat: ImageFormat.JPEG,
+            quality: 25,
+          );
+          post.value.MEDIA.add(POST_MEDIA(
+              URL: item,
+              isVideo: true,
+              PHOTO: Image.memory(
+                data,
+                fit: BoxFit.cover,
+              ),
+              VIDEO: null));
+          // VideoThumbnail.thumbnailData(
+          //   video: item,
+          //   imageFormat: ImageFormat.JPEG,
+          //   quality: 25,
+          // ).then((value) => {
+          //       post.update((val) {
+          //         val.MEDIA = [
+          //           POST_MEDIA(
+          //               isVideo: true,
+          //               PHOTO: Image.memory(
+          //                 value,
+          //                 fit: BoxFit.cover,
+          //               ),
+          //               VIDEO: null)
+          //         ];
+          //       })
+          //     });
+        } else if (isPhoto(item)) {
+          post.value.MEDIA.add(POST_MEDIA(
+              URL: item,
+              isVideo: false,
+              PHOTO: Image(
+                  image: CachedNetworkImageProvider(item, scale: 1.0),
+                  fit: BoxFit.cover),
+              VIDEO: null));
+          // post.value.PHOTO.add(Image(
+          //     image: CachedNetworkImageProvider(
+          //       item,
+          //       scale: 1.0,
+          //     ),
+          //     fit: BoxFit.cover));
+        }
+      }
+      // }
+    }
+
     return {"status": response.statusCode, "listBoard": listBoard};
   }
 
@@ -114,6 +170,62 @@ class BoardApiClient {
 
     List<Rx<Post>> listBoard =
         jsonResponse.map((model) => Post.fromJson(model).obs).toList();
+
+    for (Rx<Post> post in listBoard) {
+      post.value.isScraped = mainController.isScrapped(post.value);
+      post.value.isLiked = mainController.isLiked(post.value);
+      if (post.value.PHOTO_URL != null && post.value.PHOTO_URL.length > 0) {
+        // for (var item in post.value.PHOTO_URL) {
+        var item = post.value.PHOTO_URL.first;
+        if (isVideo(item)) {
+          Uint8List data = await VideoThumbnail.thumbnailData(
+            video: item,
+            imageFormat: ImageFormat.JPEG,
+            quality: 25,
+          );
+          post.value.MEDIA.add(POST_MEDIA(
+              URL: item,
+              isVideo: true,
+              PHOTO: Image.memory(
+                data,
+                fit: BoxFit.cover,
+              ),
+              VIDEO: null));
+          // VideoThumbnail.thumbnailData(
+          //   video: item,
+          //   imageFormat: ImageFormat.JPEG,
+          //   quality: 25,
+          // ).then((value) => {
+          //       post.update((val) {
+          //         val.MEDIA = [
+          //           POST_MEDIA(
+          //               isVideo: true,
+          //               PHOTO: Image.memory(
+          //                 value,
+          //                 fit: BoxFit.cover,
+          //               ),
+          //               VIDEO: null)
+          //         ];
+          //       })
+          //     });
+        } else if (isPhoto(item)) {
+          post.value.MEDIA.add(POST_MEDIA(
+              URL: item,
+              isVideo: false,
+              PHOTO: Image(
+                  image: CachedNetworkImageProvider(item, scale: 1.0),
+                  fit: BoxFit.cover),
+              VIDEO: null));
+          // post.value.PHOTO.add(Image(
+          //     image: CachedNetworkImageProvider(
+          //       item,
+          //       scale: 1.0,
+          //     ),
+          //     fit: BoxFit.cover));
+        }
+      }
+      // }
+    }
 
     return {"status": response.statusCode, "listBoard": listBoard};
   }
@@ -131,6 +243,62 @@ class BoardApiClient {
     List<Rx<Post>> listBoard =
         jsonResponse.map((model) => Post.fromJson(model).obs).toList();
 
+    for (Rx<Post> post in listBoard) {
+      post.value.isScraped = mainController.isScrapped(post.value);
+      post.value.isLiked = mainController.isLiked(post.value);
+      if (post.value.PHOTO_URL != null && post.value.PHOTO_URL.length > 0) {
+        // for (var item in post.value.PHOTO_URL) {
+        var item = post.value.PHOTO_URL.first;
+        if (isVideo(item)) {
+          Uint8List data = await VideoThumbnail.thumbnailData(
+            video: item,
+            imageFormat: ImageFormat.JPEG,
+            quality: 25,
+          );
+          post.value.MEDIA.add(POST_MEDIA(
+              URL: item,
+              isVideo: true,
+              PHOTO: Image.memory(
+                data,
+                fit: BoxFit.cover,
+              ),
+              VIDEO: null));
+          // VideoThumbnail.thumbnailData(
+          //   video: item,
+          //   imageFormat: ImageFormat.JPEG,
+          //   quality: 25,
+          // ).then((value) => {
+          //       post.update((val) {
+          //         val.MEDIA = [
+          //           POST_MEDIA(
+          //               isVideo: true,
+          //               PHOTO: Image.memory(
+          //                 value,
+          //                 fit: BoxFit.cover,
+          //               ),
+          //               VIDEO: null)
+          //         ];
+          //       })
+          //     });
+        } else if (isPhoto(item)) {
+          post.value.MEDIA.add(POST_MEDIA(
+              URL: item,
+              isVideo: false,
+              PHOTO: Image(
+                  image: CachedNetworkImageProvider(item, scale: 1.0),
+                  fit: BoxFit.cover),
+              VIDEO: null));
+          // post.value.PHOTO.add(Image(
+          //     image: CachedNetworkImageProvider(
+          //       item,
+          //       scale: 1.0,
+          //     ),
+          //     fit: BoxFit.cover));
+        }
+      }
+      // }
+    }
+
     return {"status": response.statusCode, "listBoard": listBoard};
   }
 
@@ -147,6 +315,62 @@ class BoardApiClient {
 
     List<Rx<Post>> listBoard =
         jsonResponse.map((model) => Post.fromJson(model).obs).toList();
+
+    for (Rx<Post> post in listBoard) {
+      post.value.isScraped = mainController.isScrapped(post.value);
+      post.value.isLiked = mainController.isLiked(post.value);
+      if (post.value.PHOTO_URL != null && post.value.PHOTO_URL.length > 0) {
+        // for (var item in post.value.PHOTO_URL) {
+        var item = post.value.PHOTO_URL.first;
+        if (isVideo(item)) {
+          Uint8List data = await VideoThumbnail.thumbnailData(
+            video: item,
+            imageFormat: ImageFormat.JPEG,
+            quality: 25,
+          );
+          post.value.MEDIA.add(POST_MEDIA(
+              URL: item,
+              isVideo: true,
+              PHOTO: Image.memory(
+                data,
+                fit: BoxFit.cover,
+              ),
+              VIDEO: null));
+          // VideoThumbnail.thumbnailData(
+          //   video: item,
+          //   imageFormat: ImageFormat.JPEG,
+          //   quality: 25,
+          // ).then((value) => {
+          //       post.update((val) {
+          //         val.MEDIA = [
+          //           POST_MEDIA(
+          //               isVideo: true,
+          //               PHOTO: Image.memory(
+          //                 value,
+          //                 fit: BoxFit.cover,
+          //               ),
+          //               VIDEO: null)
+          //         ];
+          //       })
+          //     });
+        } else if (isPhoto(item)) {
+          post.value.MEDIA.add(POST_MEDIA(
+              URL: item,
+              isVideo: false,
+              PHOTO: Image(
+                  image: CachedNetworkImageProvider(item, scale: 1.0),
+                  fit: BoxFit.cover),
+              VIDEO: null));
+          // post.value.PHOTO.add(Image(
+          //     image: CachedNetworkImageProvider(
+          //       item,
+          //       scale: 1.0,
+          //     ),
+          //     fit: BoxFit.cover));
+        }
+      }
+      // }
+    }
 
     return {"status": response.statusCode, "listBoard": listBoard};
   }

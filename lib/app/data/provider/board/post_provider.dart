@@ -31,6 +31,7 @@ class PostApiClient {
     for (Post post in tempListPost) {
       post.isScraped = mainController.isScrapped(post);
       post.isLiked = mainController.isLiked(post);
+      print(post.PHOTO_URL);
       for (var item in post.PHOTO_URL) {
         if (isVideo(item)) {
           // final Uint8List data = await VideoThumbnail.thumbnailData(

@@ -72,6 +72,7 @@ class _SeeMediaState extends State<SeeMedia> {
                   child: PageView.builder(
                       itemCount: widget.media.length,
                       controller: controller,
+                      // pageSnapping: false,
                       allowImplicitScrolling: true,
                       onPageChanged: (value) {
                         setState(() {
@@ -86,34 +87,40 @@ class _SeeMediaState extends State<SeeMedia> {
                                       child: VideoPlayer(
                                           widget.media[index].VIDEO))));
                         }
-                        return FittedBox(
-                          fit: BoxFit.contain,
-                          child: Container(
-                              width: size.width,
-                              child: widget.media[index].PHOTO
+                        return InteractiveViewer(
+                          maxScale: 4,
+                          minScale: 0.5,
 
-                              // CachedNetworkImage(
-                              //     imageUrl: "${widget.media[index]}",
-                              //     fit: BoxFit.fitWidth,
-                              //     fadeInDuration: Duration(milliseconds: 0),
-                              //     progressIndicatorBuilder:
-                              //         (context, url, downloadProgress) => Center(
-                              //               child: CircularProgressIndicator(
-                              //                 value: downloadProgress.progress,
-                              //               ),
-                              //             ),
-                              //     errorWidget: (context, url, error) {
-                              //       return Icon(Icons.error);
-                              //     },
-                              //     imageBuilder: (context, imageProvider) =>
-                              //         Container(
-                              //           decoration: BoxDecoration(
-                              //               borderRadius: BorderRadius.circular(10),
-                              //               image: DecorationImage(
-                              //                   image: imageProvider,
-                              //                   fit: BoxFit.fitWidth)),
-                              //         ))
-                              ),
+                          // constrained: false,
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: Container(
+                                width: size.width,
+                                child: widget.media[index].PHOTO
+
+                                // CachedNetworkImage(
+                                //     imageUrl: "${widget.media[index]}",
+                                //     fit: BoxFit.fitWidth,
+                                //     fadeInDuration: Duration(milliseconds: 0),
+                                //     progressIndicatorBuilder:
+                                //         (context, url, downloadProgress) => Center(
+                                //               child: CircularProgressIndicator(
+                                //                 value: downloadProgress.progress,
+                                //               ),
+                                //             ),
+                                //     errorWidget: (context, url, error) {
+                                //       return Icon(Icons.error);
+                                //     },
+                                //     imageBuilder: (context, imageProvider) =>
+                                //         Container(
+                                //           decoration: BoxDecoration(
+                                //               borderRadius: BorderRadius.circular(10),
+                                //               image: DecorationImage(
+                                //                   image: imageProvider,
+                                //                   fit: BoxFit.fitWidth)),
+                                //         ))
+                                ),
+                          ),
                         );
                       }),
                 ),
@@ -145,96 +152,97 @@ class _SeeMediaState extends State<SeeMedia> {
                               ),
                             ),
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(right: 20),
-                            child: Ink(
-                              child: InkWell(
-                                onTap: () async {
-                                  final status =
-                                      await Permission.storage.request();
+                          // ! 1.0.0 버전에선 보류
+                          // Container(
+                          //   margin: const EdgeInsets.only(right: 20),
+                          //   child: Ink(
+                          //     child: InkWell(
+                          //       onTap: () async {
+                          //         final status =
+                          //             await Permission.storage.request();
 
-                                  if (status.isGranted) {
-                                    String dirloc = "";
-                                    if (Platform.isAndroid) {
-                                      dirloc = "/sdcard/download/";
-                                    } else {
-                                      dirloc =
-                                          (await getApplicationDocumentsDirectory())
-                                              .absolute
-                                              .path;
-                                    }
+                          //         if (status.isGranted) {
+                          //           String dirloc = "";
+                          //           if (Platform.isAndroid) {
+                          //             dirloc = "/sdcard/download/";
+                          //           } else {
+                          //             dirloc =
+                          //                 (await getApplicationDocumentsDirectory())
+                          //                     .absolute
+                          //                     .path;
+                          //           }
 
-                                    if (!Directory(dirloc).existsSync()) {
-                                      dirloc =
-                                          (await getApplicationDocumentsDirectory())
-                                              .absolute
-                                              .path;
-                                      if (!Directory(dirloc).existsSync()) {
-                                        Directory(dirloc)
-                                            .create(recursive: true);
-                                      }
-                                    }
+                          //           if (!Directory(dirloc).existsSync()) {
+                          //             dirloc =
+                          //                 (await getApplicationDocumentsDirectory())
+                          //                     .absolute
+                          //                     .path;
+                          //             if (!Directory(dirloc).existsSync()) {
+                          //               Directory(dirloc)
+                          //                   .create(recursive: true);
+                          //             }
+                          //           }
 
-                                    String file_name = widget
-                                        .media[widget.index].URL
-                                        .split("/")
-                                        .last;
-                                    // * 파일 이름 중복
-                                    if (File(p.join(dirloc, file_name))
-                                        .existsSync()) {
-                                      int i = 1;
-                                      int string_length = file_name.length;
-                                      String a = "aa.aa";
-                                      a.lastIndexOf(".");
-                                      int extend_length =
-                                          file_name.split(".").last.length + 1;
-                                      int add_number_index =
-                                          string_length - extend_length - 1;
-                                      // String dupliacte_file_name = file_name
-                                      while (File(p.join(
-                                              dirloc,
-                                              file_name.substring(
-                                                      0,
-                                                      file_name
-                                                          .lastIndexOf(".")) +
-                                                  "(${i})." +
-                                                  file_name.split(".").last))
-                                          .existsSync()) {
-                                        i += 1;
-                                      }
+                          //           String file_name = widget
+                          //               .media[widget.index].URL
+                          //               .split("/")
+                          //               .last;
+                          //           // * 파일 이름 중복
+                          //           if (File(p.join(dirloc, file_name))
+                          //               .existsSync()) {
+                          //             int i = 1;
+                          //             int string_length = file_name.length;
+                          //             String a = "aa.aa";
+                          //             a.lastIndexOf(".");
+                          //             int extend_length =
+                          //                 file_name.split(".").last.length + 1;
+                          //             int add_number_index =
+                          //                 string_length - extend_length - 1;
+                          //             // String dupliacte_file_name = file_name
+                          //             while (File(p.join(
+                          //                     dirloc,
+                          //                     file_name.substring(
+                          //                             0,
+                          //                             file_name
+                          //                                 .lastIndexOf(".")) +
+                          //                         "(${i})." +
+                          //                         file_name.split(".").last))
+                          //                 .existsSync()) {
+                          //               i += 1;
+                          //             }
 
-                                      file_name = file_name.substring(
-                                              0, file_name.lastIndexOf(".")) +
-                                          "(${i})." +
-                                          file_name.split(".").last;
-                                    }
+                          //             file_name = file_name.substring(
+                          //                     0, file_name.lastIndexOf(".")) +
+                          //                 "(${i})." +
+                          //                 file_name.split(".").last;
+                          //           }
 
-                                    // print(dirloc);
-                                    // print("==============================");
+                          //           // print(dirloc);
+                          //           // print("==============================");
 
-                                    final String taskID =
-                                        await FlutterDownloader.enqueue(
-                                            url: widget.media[widget.index].URL,
-                                            savedDir: dirloc,
-                                            fileName: file_name,
-                                            showNotification: true,
-                                            openFileFromNotification: true,
-                                            saveInPublicStorage: true);
+                          //           final String taskID =
+                          //               await FlutterDownloader.enqueue(
+                          //                   url: widget.media[widget.index].URL,
+                          //                   savedDir: dirloc,
+                          //                   fileName: file_name,
+                          //                   showNotification: true,
+                          //                   openFileFromNotification: true,
+                          //                   saveInPublicStorage: true);
 
-                                    print("downloaded!!");
-                                  } else {
-                                    print('Permission Denied');
-                                  }
-                                },
-                                child: Image.asset(
-                                  "assets/images/file_after_download.png",
-                                  height: 24,
-                                  width: 24,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
+                          //           print("downloaded!!");
+                          //         } else {
+                          //           print('Permission Denied');
+                          //         }
+                          //       },
+                          //       child: Image.asset(
+                          //         "assets/images/file_after_download.png",
+                          //         height: 24,
+                          //         width: 24,
+                          //         color: Colors.white,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       )),
                 ),

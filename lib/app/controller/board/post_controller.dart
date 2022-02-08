@@ -79,8 +79,8 @@ class PostController extends GetxController {
         _dataAvailable.value = true;
         break;
       default:
-        // await Get.defaultDialog(content: Text("帖子已被删除"), title: "无效操作");
-        // Get.back();
+        await Textdialogue(Get.context, "无效操作", "帖子已被删除");
+        Get.back();
         isDeleted.value = true;
     }
     return status;

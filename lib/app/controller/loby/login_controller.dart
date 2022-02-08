@@ -110,7 +110,7 @@ class LoginController extends GetxController {
           await box.remove('pw');
           // print("없어짐");
         }
-        Get.snackbar("登陆成功", "登陆成功");
+        // Get.snackbar("登陆成功", "登陆成功");
 
         if (isAutoLogin.value) {
           await box.write('isAutoLogin', true);
@@ -128,9 +128,9 @@ class LoginController extends GetxController {
           await box.save();
         }
         // print(box.read("id"));
-        Get.offAndToNamed(Routes.INITIAL, arguments: "fromLogin");
+        // Get.offAndToNamed(Routes.INITIAL, arguments: "fromLogin");
         // Get.offAndToNamed('/main');
-        // Get.offAllNamed(Routes.MAIN_PAGE);
+        Get.offAllNamed(Routes.INITIAL, arguments: "fromLogin");
         break;
       default:
         Get.snackbar("Failed to sign in", "Failed to sign in");

@@ -51,7 +51,8 @@ final photo_extension = [
   "pjp",
   "png",
   "svg",
-  "webp"
+  "webp",
+  "octet-stream"
 ];
 
 bool isPhoto(String url) {

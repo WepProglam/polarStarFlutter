@@ -528,9 +528,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
 
   final int SPLASH_LIMIT = 1500;
 
-  @override
-  void onInit() async {
-    // tabController = TabController(vsync: this, length: 2);
+  Future<void> fake_onInit() async {
     await ManagePermission.getPermission();
 
     // DateTime pass = new DateTime.now();
@@ -562,6 +560,43 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     // }
 
     sortBoard();
+  }
+
+  @override
+  void onInit() async {
+    super.onInit();
+
+    // // tabController = TabController(vsync: this, length: 2);
+    // await ManagePermission.getPermission();
+
+    // // DateTime pass = new DateTime.now();
+    // splashTransparent.value = false;
+    // //버전 확인
+    // await versionCheck();
+    // isAlreadyRunned = box.read("alreadyRunned") == null ? false : true;
+    // await getBoardInfo();
+    // await getFollowingCommunity();
+    // putController<TimeTableController>();
+    // putController<ClassController>();
+    // putController<NotiController>();
+    // putController<MyPageController>();
+
+    // // await getCurSemTimetableExist();
+
+    // hotNewTabController = await TabController(vsync: this, length: 2);
+    // // DateTime cur = new DateTime.now();
+    // // print("cur.difference(pass) : ${cur.difference(pass)}");
+    // // Duration diff = cur.difference(pass);
+    // // Duration expected = Duration(milliseconds: SPLASH_LIMIT);
+    // // if (cur.difference(pass) > expected) {
+    // //   initDataAvailable.value = true;
+    // // } else {
+    // //   await Future.delayed(expected - diff, () {
+    // //     initDataAvailable.value = true;
+    // //   });
+    // // }
+
+    // sortBoard();
   }
 
   @override

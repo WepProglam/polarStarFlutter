@@ -147,7 +147,7 @@ class _PhotoLayoutState extends State<PhotoLayout> {
                   // height: width / 13,
                   child: // 1/5
                       Center(
-                    child: Text("${photo_index + 1}/${model.MEDIA.length}",
+                    child: Text("${photo_index + 1}/${model.PHOTO_URL.length}",
                         style: const TextStyle(
                             color: const Color(0xffffffff),
                             fontWeight: FontWeight.w400,

@@ -1,14 +1,20 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
+import 'package:polarstar_flutter/app/ui/android/functions/photoOrVideo.dart';
 
 import 'package:polarstar_flutter/session.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class MainApiClient {
+  // final MainController mainController = Get.find();
   Future<Map<String, dynamic>> getBoardInfo(
       List<String> follwingCommunity) async {
     print(follwingCommunity);
@@ -28,6 +34,39 @@ class MainApiClient {
 
     List<Rx<Post>> listHotBoard =
         hotBoard.map((model) => Post.fromJson(model).obs).toList();
+
+    for (Rx<Post> post in listHotBoard) {
+      // post.value.isScraped = mainController.isScrapped(post.value);
+      // post.value.isLiked = mainController.isLiked(post.value);
+      if (post.value.PHOTO_URL != null && post.value.PHOTO_URL.length > 0) {
+        // for (var item in post.value.PHOTO_URL) {
+        var item = post.value.PHOTO_URL.first;
+        if (isVideo(item)) {
+          Uint8List data = await VideoThumbnail.thumbnailData(
+            video: item,
+            imageFormat: ImageFormat.JPEG,
+            quality: 25,
+          );
+          post.value.MEDIA.add(POST_MEDIA(
+              URL: item,
+              isVideo: true,
+              PHOTO: Image.memory(
+                data,
+                fit: BoxFit.cover,
+              ),
+              VIDEO: null));
+        } else if (isPhoto(item)) {
+          post.value.MEDIA.add(POST_MEDIA(
+              URL: item,
+              isVideo: false,
+              PHOTO: Image(
+                  image: CachedNetworkImageProvider(item, scale: 1.0),
+                  fit: BoxFit.cover),
+              VIDEO: null));
+        }
+      }
+      // }
+    }
 
     List<LikeListModel> listLikeList =
         likeList.map((e) => LikeListModel.fromJson(e)).toList();
@@ -67,6 +106,39 @@ class MainApiClient {
 
     List<Rx<Post>> listBoard =
         jsonResponse.map((model) => Post.fromJson(model).obs).toList();
+
+    for (Rx<Post> post in listBoard) {
+      // post.value.isScraped = mainController.isScrapped(post.value);
+      // post.value.isLiked = mainController.isLiked(post.value);
+      if (post.value.PHOTO_URL != null && post.value.PHOTO_URL.length > 0) {
+        // for (var item in post.value.PHOTO_URL) {
+        var item = post.value.PHOTO_URL.first;
+        if (isVideo(item)) {
+          Uint8List data = await VideoThumbnail.thumbnailData(
+            video: item,
+            imageFormat: ImageFormat.JPEG,
+            quality: 25,
+          );
+          post.value.MEDIA.add(POST_MEDIA(
+              URL: item,
+              isVideo: true,
+              PHOTO: Image.memory(
+                data,
+                fit: BoxFit.cover,
+              ),
+              VIDEO: null));
+        } else if (isPhoto(item)) {
+          post.value.MEDIA.add(POST_MEDIA(
+              URL: item,
+              isVideo: false,
+              PHOTO: Image(
+                  image: CachedNetworkImageProvider(item, scale: 1.0),
+                  fit: BoxFit.cover),
+              VIDEO: null));
+        }
+      }
+      // }
+    }
 
     return {"status": response.statusCode, "listBoard": listBoard};
   }
