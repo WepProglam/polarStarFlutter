@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>北北上学堂</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -11,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>polarstar_flutter</string>
+	<string>北北上学堂</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -26,8 +28,8 @@
 	<integer>5</integer>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-
-
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -35,24 +37,28 @@
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
 		<true/>
 	</dict>
-
-
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) support for taking pictures and uploading them when chatting</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) support for uploading photo and video when chatting and doing community activities</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>$(PRODUCT_NAME) remote-notification</string>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
-	
-	
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-
-
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-
-
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -60,34 +66,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
-
-	<key>UIFileSharingEnabled</key>
-	<true/>
-
-	<key>UIBackgroundModes</key>
-	<array>
-   		<string>fetch</string>
-   		<string>$(PRODUCT_NAME) remote-notification</string>
-	</array>
-
-
 	<key>io.flutter.embedded_views_preview</key>
-	<string>$(PRODUCT_NAME) Support for banner notice web site access</string>
-
-
-	<key>NSCameraUsageDescription</key>	
-	<string>$(PRODUCT_NAME) Support for taking pictures and uploading them when chatting</string>
-
-	
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) Support for uploading photo and video when chatting or doing community activities</string>
-	
-	
+	<string>$(PRODUCT_NAME) support for banner notice web site access</string>
 </dict>
 </plist>

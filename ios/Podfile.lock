@@ -81,8 +81,13 @@ PODS:
     - Flutter
     - FMDB (>= 2.7.5)
   - SwiftyGif (5.4.3)
-  - video_player (0.0.1):
+  - url_launcher_ios (0.0.1):
     - Flutter
+  - video_player_avfoundation (0.0.1):
+    - Flutter
+  - video_thumbnail (0.0.1):
+    - Flutter
+    - libwebp
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
 
@@ -99,7 +104,9 @@ DEPENDENCIES:
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - photo_manager (from `.symlinks/plugins/photo_manager/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
-  - video_player (from `.symlinks/plugins/video_player/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
+  - video_thumbnail (from `.symlinks/plugins/video_thumbnail/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
@@ -138,8 +145,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/photo_manager/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
-  video_player:
-    :path: ".symlinks/plugins/video_player/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
+  video_player_avfoundation:
+    :path: ".symlinks/plugins/video_player_avfoundation/ios"
+  video_thumbnail:
+    :path: ".symlinks/plugins/video_thumbnail/ios"
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
@@ -164,9 +175,11 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: f93010f3f6c031e2f8fb3081ca4ee6966c539815
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
-  video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
+  url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
+  video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
+  video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
   webview_flutter_wkwebview: 005fbd90c888a42c5690919a1527ecc6649e1162
 
-PODFILE CHECKSUM: 6f1b592b43fda7f9d288fd6601629092b2dcf951
+PODFILE CHECKSUM: 5d8e1e53eabe47bdcb1588f430d8a97ce205cbcd
 
 COCOAPODS: 1.11.2
