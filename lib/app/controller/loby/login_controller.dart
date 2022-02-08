@@ -127,7 +127,6 @@ class LoginController extends GetxController {
           await box.write('isAutoLogin', false);
           await box.save();
         }
-
         // print(box.read("id"));
         Get.offAndToNamed(Routes.INITIAL, arguments: "fromLogin");
         // Get.offAndToNamed('/main');

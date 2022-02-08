@@ -533,7 +533,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     // tabController = TabController(vsync: this, length: 2);
     await ManagePermission.getPermission();
 
-    DateTime pass = new DateTime.now();
+    // DateTime pass = new DateTime.now();
     splashTransparent.value = false;
     super.onInit();
     //버전 확인
@@ -549,17 +549,17 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
     // await getCurSemTimetableExist();
 
     hotNewTabController = await TabController(vsync: this, length: 2);
-    DateTime cur = new DateTime.now();
-    print("cur.difference(pass) : ${cur.difference(pass)}");
-    Duration diff = cur.difference(pass);
-    Duration expected = Duration(milliseconds: SPLASH_LIMIT);
-    if (cur.difference(pass) > expected) {
-      initDataAvailable.value = true;
-    } else {
-      await Future.delayed(expected - diff, () {
-        initDataAvailable.value = true;
-      });
-    }
+    // DateTime cur = new DateTime.now();
+    // print("cur.difference(pass) : ${cur.difference(pass)}");
+    // Duration diff = cur.difference(pass);
+    // Duration expected = Duration(milliseconds: SPLASH_LIMIT);
+    // if (cur.difference(pass) > expected) {
+    //   initDataAvailable.value = true;
+    // } else {
+    //   await Future.delayed(expected - diff, () {
+    //     initDataAvailable.value = true;
+    //   });
+    // }
 
     sortBoard();
   }

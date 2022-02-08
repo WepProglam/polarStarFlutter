@@ -75,31 +75,35 @@ class _SeeMediaState extends State<SeeMedia> {
                                       child: VideoPlayer(
                                           widget.media[index].VIDEO))));
                         }
-                        return Container(
-                            width: size.width, child: widget.media[index].PHOTO
+                        return FittedBox(
+                          fit: BoxFit.contain,
+                          child: Container(
+                              width: size.width,
+                              child: widget.media[index].PHOTO
 
-                            // CachedNetworkImage(
-                            //     imageUrl: "${widget.media[index]}",
-                            //     fit: BoxFit.fitWidth,
-                            //     fadeInDuration: Duration(milliseconds: 0),
-                            //     progressIndicatorBuilder:
-                            //         (context, url, downloadProgress) => Center(
-                            //               child: CircularProgressIndicator(
-                            //                 value: downloadProgress.progress,
-                            //               ),
-                            //             ),
-                            //     errorWidget: (context, url, error) {
-                            //       return Icon(Icons.error);
-                            //     },
-                            //     imageBuilder: (context, imageProvider) =>
-                            //         Container(
-                            //           decoration: BoxDecoration(
-                            //               borderRadius: BorderRadius.circular(10),
-                            //               image: DecorationImage(
-                            //                   image: imageProvider,
-                            //                   fit: BoxFit.fitWidth)),
-                            //         ))
-                            );
+                              // CachedNetworkImage(
+                              //     imageUrl: "${widget.media[index]}",
+                              //     fit: BoxFit.fitWidth,
+                              //     fadeInDuration: Duration(milliseconds: 0),
+                              //     progressIndicatorBuilder:
+                              //         (context, url, downloadProgress) => Center(
+                              //               child: CircularProgressIndicator(
+                              //                 value: downloadProgress.progress,
+                              //               ),
+                              //             ),
+                              //     errorWidget: (context, url, error) {
+                              //       return Icon(Icons.error);
+                              //     },
+                              //     imageBuilder: (context, imageProvider) =>
+                              //         Container(
+                              //           decoration: BoxDecoration(
+                              //               borderRadius: BorderRadius.circular(10),
+                              //               image: DecorationImage(
+                              //                   image: imageProvider,
+                              //                   fit: BoxFit.fitWidth)),
+                              //         ))
+                              ),
+                        );
                       }),
                 ),
               ),
@@ -149,7 +153,7 @@ class _SeeMediaState extends State<SeeMedia> {
                       )),
                 ),
               ),
-              appBarShow
+              appBarShow && widget.media[widget.index].isVideo
                   ? AnimatedOpacity(
                       opacity: appBarShow ? 1 : 0,
                       duration: Duration(milliseconds: 100),

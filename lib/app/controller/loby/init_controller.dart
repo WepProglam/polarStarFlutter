@@ -103,6 +103,9 @@ class InitController extends GetxController {
         case 200:
           return true;
           break;
+        case 302:
+          return true;
+          break;
         default:
           return false;
       }
