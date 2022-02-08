@@ -93,7 +93,13 @@ class _PhotoLayoutState extends State<PhotoLayout> {
                                       VideoPlayer(model.MEDIA[index].VIDEO)))))
                   : Ink(
                       child: InkWell(
-                          onTap: () {}, child: model.MEDIA[index].PHOTO));
+                          onTap: () {
+                            Get.to(
+                                () =>
+                                    SeeMedia(media: model.MEDIA, index: index),
+                                transition: Transition.cupertino);
+                          },
+                          child: model.MEDIA[index].PHOTO));
               // }
               // CachedNetworkImage(
               //     imageUrl: "${model.PHOTO[index]}",
