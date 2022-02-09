@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
@@ -146,7 +147,9 @@ class InitController extends GetxController {
     }
 
     if (isLogined.isTrue) {
+      // Get.offNamed(Routes.MAIN_PAGE);
       Get.toNamed(Routes.MAIN_PAGE);
+      // Get.offAndToNamed(Routes.MAIN_PAGE);
     } else {
       Get.offAndToNamed('/login');
     }

@@ -73,6 +73,8 @@ class MainPage extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(snack);
           return false;
         } else {
+          SystemNavigator.pop();
+          // Get.smartManagement
           return true;
         }
       },
