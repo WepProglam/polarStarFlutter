@@ -1,20 +1,20 @@
 String timetableSemChanger(int year, int semester) {
-  String sem = "";
-  switch (semester) {
-    case 1:
-      sem = "1";
-      break;
-    case 2:
-      sem = "1";
-      break;
-    case 3:
-      sem = "2";
-      break;
-    case 4:
-      sem = "2";
-      break;
-    default:
-  }
+  // String sem = "";
+  // switch (semester) {
+  //   case 1:
+  //     sem = "1";
+  //     break;
+  //   case 2:
+  //     sem = "2";
+  //     break;
+  //   case 3:
+  //     sem = "3";
+  //     break;
+  //   case 4:
+  //     sem = "4";
+  //     break;
+  //   default:
+  // }
   return "${year}学年度 第${semester}学期";
 }
 
@@ -42,8 +42,9 @@ int flutterToServerSemChanger(int semester) {
     case 1:
       sem = 1;
       break;
+    // * 3을 2로 변경
     case 2:
-      sem = 3;
+      sem = 2;
       break;
     default:
   }
