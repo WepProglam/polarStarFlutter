@@ -30,6 +30,10 @@
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
+
+	<key>CFBundleIconName</key>
+	<string>AppIcon</string>
+	
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -41,9 +45,13 @@
 	<string>北北上学堂 support for taking pictures and uploading them when chatting</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>北北上学堂 support for uploading photo and video when chatting and doing community activities</string>
+	
+	<key>NSAppleMusicUsageDescription</key>
+	<string>北北上学堂 support for sending music in chatting</string>
+	
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>北北上学堂 remote-notification</string>
+		<string>remote-notification</string>
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
