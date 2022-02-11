@@ -413,7 +413,7 @@ class _CommunityRuleState extends State<CommunityRule> {
                   onTap: () => Get.back(),
                 ),
                 centerTitle: true,
-                title: Text("论坛使用准则",
+                title: Text("论坛使用规则",
                     style: const TextStyle(
                         color: const Color(0xffffffff),
                         fontWeight: FontWeight.w500,
@@ -1027,7 +1027,7 @@ class _CommunityRuleState extends State<CommunityRule> {
                                       ),
                                       Container(
                                         margin: const EdgeInsets.only(left: 5),
-                                        child: Text("同意遵守准则",
+                                        child: Text("同意论坛使用规则",
                                             style: TextStyle(
                                                 color: const Color(0xff2f2f2f),
                                                 fontWeight: FontWeight.w400,
@@ -1045,8 +1045,7 @@ class _CommunityRuleState extends State<CommunityRule> {
                                   if (isChecked) {
                                     Get.toNamed('/signUp');
                                   } else {
-                                    Get.snackbar("커뮤니티 이용 약관에 동의해주세요",
-                                        "커뮤니티 이용 약관에 동의해주세요",
+                                    Get.snackbar("论坛使用规则", "请同意论坛使用规则",
                                         snackPosition: SnackPosition.BOTTOM,
                                         colorText: Colors.black,
                                         backgroundColor: Colors.white);
