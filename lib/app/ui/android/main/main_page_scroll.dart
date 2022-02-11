@@ -57,7 +57,7 @@ class MainPageScroll extends StatelessWidget {
           automaticallyImplyLeading: false,
           shadowColor: Get.theme.primaryColor,
           titleSpacing: 20,
-          centerTitle: true,
+          centerTitle: false,
           title: Text("北北上学堂",
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(

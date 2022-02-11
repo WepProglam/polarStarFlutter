@@ -178,13 +178,15 @@ class Board extends StatelessWidget {
                     child: BannerWidget(isScrollAble: true),
                   ),
                   Container(
-                    height: 24,
+                    height: 10,
                   ),
+
                   // 게시글 프리뷰 리스트
                   Expanded(
                     child: Obx(() {
                       if (controller.dataAvailablePostPreview.value) {
                         return ListView.builder(
+                            padding: const EdgeInsets.only(top: 14),
                             physics: AlwaysScrollableScrollPhysics(),
                             controller: controller.scrollController.value,
                             itemCount: controller.page.value ==
