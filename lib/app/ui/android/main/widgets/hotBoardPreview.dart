@@ -423,12 +423,12 @@ class NewBoardMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Ink> newList = [];
-    int max = mainController.hotBoard.length > 10
+    int max = mainController.newBoard.length > 10
         ? 10
-        : mainController.hotBoard.length;
+        : mainController.newBoard.length;
 
     return ListView.builder(
-        itemCount: mainController.hotBoard.length,
+        itemCount: mainController.newBoard.length,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {

@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/form_validator.dart';
 
 import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
+import 'package:polarstar_flutter/main.dart';
 
 class InitPage extends GetView<InitController> {
   InitPage({Key key}) : super(key: key);
@@ -12,6 +13,8 @@ class InitPage extends GetView<InitController> {
 
   @override
   Widget build(BuildContext context) {
+    changeStatusBarColor(Color(0xff4570ff), Brightness.light);
+
     return Scaffold(
       backgroundColor: const Color(0xff4570ff),
       body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -29,53 +32,58 @@ class InitPage extends GetView<InitController> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 31.2),
-                    child: // 폴라스타, 여러분의 유학 생활 동반자
-                        RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(children: [
-                              TextSpan(
-                                style: const TextStyle(
-                                    color: const Color(0xffffffff),
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "NotoSansKR",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 20.0),
-                                text: "폴라스타,\n",
-                              ),
-                              TextSpan(
-                                  style: const TextStyle(
-                                      color: const Color(0xffffffff),
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "NotoSansKR",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 18.0),
-                                  text: "여러분의 유학 생활 동반자")
-                            ])),
-                  ),
+                      margin: const EdgeInsets.only(top: 31.2),
+                      child: // 폴라스타, 여러분의 유학 생활 동반자
+                          Column(
+                        children: [
+                          Text(
+                            "폴라스타,",
+                            style: const TextStyle(
+                                color: const Color(0xffffffff),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "NotoSansKR",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 20.0),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 4),
+                            child: Text(
+                              "여러분의 유학 생활 동반자",
+                              style: const TextStyle(
+                                  color: const Color(0xffffffff),
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "NotoSansKR",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 18.0),
+                            ),
+                          ),
+                        ],
+                      )),
                   Container(
-                    margin: const EdgeInsets.only(top: 6),
-                    child: // 北北, 你的留韩同窗
-                        RichText(
-                            text: TextSpan(children: [
-                      TextSpan(
-                          style: const TextStyle(
-                              color: const Color(0xffffffff),
-                              fontWeight: FontWeight.w700,
-                              fontFamily: "NotoSansSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 18.0),
-                          text: "北北, "),
-                      TextSpan(
-                          style: const TextStyle(
-                              color: const Color(0xffffffff),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "NotoSansSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 18.0),
-                          text: "你的留韩同窗")
-                    ])),
-                  ),
+                      margin: const EdgeInsets.only(top: 6),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "北北, ",
+                            style: const TextStyle(
+                                color: const Color(0xffffffff),
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 18.0),
+                          ),
+                          Text(
+                            "你的留韩同窗",
+                            style: const TextStyle(
+                                color: const Color(0xffffffff),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 18.0),
+                          )
+                        ],
+                      )),
                 ],
               ),
             )),

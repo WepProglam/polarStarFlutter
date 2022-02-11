@@ -57,6 +57,7 @@ class MainPageScroll extends StatelessWidget {
           automaticallyImplyLeading: false,
           shadowColor: Get.theme.primaryColor,
           titleSpacing: 20,
+          centerTitle: true,
           title: Text("北北上学堂",
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
@@ -67,22 +68,22 @@ class MainPageScroll extends StatelessWidget {
                   fontStyle: FontStyle.normal,
                   fontSize: 16.0),
               textAlign: TextAlign.center),
-          actions: [
-            InkWell(
-              onTap: () async {
-                await mainScrollController.animateTo(0.0,
-                    duration: Duration(milliseconds: 100),
-                    curve: Curves.fastOutSlowIn);
-                searchFocusNode.requestFocus();
-              },
-              child: Ink(
-                width: 65.6,
-                child: Image.asset(
-                  "assets/images/icn_search.png",
-                ),
-              ),
-            ),
-          ],
+          // actions: [
+          //   InkWell(
+          //     onTap: () async {
+          //       await mainScrollController.animateTo(0.0,
+          //           duration: Duration(milliseconds: 100),
+          //           curve: Curves.fastOutSlowIn);
+          //       searchFocusNode.requestFocus();
+          //     },
+          //     child: Ink(
+          //       width: 65.6,
+          //       child: Image.asset(
+          //         "assets/images/icn_search.png",
+          //       ),
+          //     ),
+          //   ),
+          // ],
         ),
         body: Container(
           color: Get.theme.primaryColor,

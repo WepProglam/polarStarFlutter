@@ -23,7 +23,7 @@ class AppBars {
               overflow: TextOverflow.ellipsis,
               color: const Color(0xffffffff),
               fontWeight: FontWeight.w500,
-              fontFamily: "NotoSansTC",
+              fontFamily: "NotoSansSC",
               fontStyle: FontStyle.normal,
               fontSize: 14.0),
           textAlign: TextAlign.left),

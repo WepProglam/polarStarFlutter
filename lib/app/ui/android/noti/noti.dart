@@ -180,7 +180,7 @@ class MailWidget extends StatelessWidget {
                 style: const TextStyle(
                     color: const Color(0xff6f6e6e),
                     fontWeight: FontWeight.w400,
-                    fontFamily: "NotoSansKR",
+                    fontFamily: "NotoSansSC",
                     fontStyle: FontStyle.normal,
                     fontSize: 14.0),
               ),
@@ -376,7 +376,7 @@ class ChatWidget extends StatelessWidget {
                         style: const TextStyle(
                             color: const Color(0xff6f6e6e),
                             fontWeight: FontWeight.w400,
-                            fontFamily: "NotoSansKR",
+                            fontFamily: "NotoSansSC",
                             fontStyle: FontStyle.normal,
                             fontSize: 14.0),
                       ),
@@ -414,7 +414,7 @@ class ChatWidget extends StatelessWidget {
                         style: const TextStyle(
                             color: const Color(0xff6f6e6e),
                             fontWeight: FontWeight.w400,
-                            fontFamily: "NotoSansKR",
+                            fontFamily: "NotoSansSC",
                             fontStyle: FontStyle.normal,
                             fontSize: 14.0),
                       ),
@@ -456,7 +456,7 @@ class NotiWidget extends StatelessWidget {
                 style: const TextStyle(
                     color: const Color(0xff6f6e6e),
                     fontWeight: FontWeight.w400,
-                    fontFamily: "NotoSansKR",
+                    fontFamily: "NotoSansSC",
                     fontStyle: FontStyle.normal,
                     fontSize: 14.0),
               ),
