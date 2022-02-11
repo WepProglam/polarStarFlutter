@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -94,6 +95,7 @@ class WritePostController extends GetxController {
 
     for (AssetEntity source in photoAssets) {
       Uint8List photo = await source.originBytes;
+      photo = await FlutterImageCompress.compressWithList(photo, quality: 70);
 
       photoList.add(http.MultipartFile.fromBytes('photo', photo,
           filename: "${source.title}"));
@@ -124,6 +126,8 @@ class WritePostController extends GetxController {
 
     for (AssetEntity source in photoAssets) {
       Uint8List photo = await source.originBytes;
+
+      photo = await FlutterImageCompress.compressWithList(photo, quality: 70);
 
       photoList.add(http.MultipartFile.fromBytes('photo', photo,
           filename: "${source.title}"));

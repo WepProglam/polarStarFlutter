@@ -54,7 +54,8 @@ class ClassInfoModel {
     this.CLASS_NUMBER = json["CLASS_NUMBER"];
     this.CLASS_NAME = json["CLASS_NAME"];
     this.PROFESSOR = json["PROFESSOR"];
-    this.CREDIT = double.parse("${json["CREDIT"]}");
+    this.CREDIT =
+        json["CREDIT"] == null ? null : double.parse("${json["CREDIT"]}");
     this.CLASS_SECTOR_1 = json["CLASS_SECTOR_1"];
     this.CLASS_SECTOR_2 = json["CLASS_SECTOR_2"];
     this.COLLEGE_NAME = json["COLLEGE_NAME"];

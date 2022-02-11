@@ -735,8 +735,10 @@ class MainUpdateModule {
   static Future<void> updateHotMain(int index) async {
     final BoardController boardController = Get.find();
     if (index == 0) {
+      boardController.hotPage.value = 0;
       await boardController.refreshHotPage();
     } else {
+      boardController.newPage.value = 0;
       await boardController.refreshNewPage();
     }
 
