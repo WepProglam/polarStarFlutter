@@ -67,6 +67,8 @@ class MyBehavior extends ScrollBehavior {
 IO.Socket classChatSocket;
 
 void main() async {
+  changeStatusBarColor(Color(0xff4570ff), Brightness.light);
+
   await GetStorage.init();
 
   // await Firebase.initializeApp();

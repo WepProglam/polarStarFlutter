@@ -75,7 +75,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+	<true/>
+	
 	<key>io.flutter.embedded_views_preview</key>
 	<string>北北上学堂 support for banner notice web site access</string>
 </dict>
