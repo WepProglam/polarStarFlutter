@@ -581,11 +581,14 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                             prevModel.value.PROFILE_PHOTO ==
                                 model.value.PROFILE_PHOTO);
 
-                        bool isContinueDifferent = (prevModel != null &&
-                            prevModel.value.PROFILE_NICKNAME !=
-                                model.value.PROFILE_NICKNAME &&
-                            prevModel.value.PROFILE_PHOTO !=
-                                model.value.PROFILE_PHOTO);
+                        bool isContinueDifferent = prevModel != null &&
+                            ((prevModel.value.PROFILE_NICKNAME !=
+                                        model.value.PROFILE_NICKNAME &&
+                                    prevModel.value.PROFILE_PHOTO !=
+                                        model.value.PROFILE_PHOTO) ||
+                                (prevModel.value.ENTRY_CHAT != null));
+
+                        print("${isContinueDifferent} ${model.value.CONTENT}");
 
                         /**
                                * displayTime: 시간 표시 boolean
@@ -639,7 +642,6 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                         if (model.value.ENTRY_CHAT != null) {
                           isEntryChat = true;
                         }
-
                         return isEntryChat
                             ? Center(
                                 child: Container(

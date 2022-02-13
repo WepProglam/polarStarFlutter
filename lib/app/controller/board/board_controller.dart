@@ -40,15 +40,15 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
 
   Future<void> refreshPage() async {
     page.value = 1;
-    await getBoard().then((value) => postBody.refresh());
+    await getBoard();
   }
 
   Future<void> refreshHotPage() async {
-    await getHotBoard().then((value) => HotBody.refresh());
+    await getHotBoard();
   }
 
   Future<void> refreshNewPage() async {
-    await getNewBoard().then((value) => NewBody.refresh());
+    await getNewBoard();
   }
 
   Future<void> getBoard() async {
@@ -63,15 +63,10 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
     }
     httpStatus.value = status;
 
-    //print("CM : ${COMMUNITY_ID.value} PAGE : ${page.value}");
-
-    //print(listBoard);
-
     switch (status) {
       case 200:
         // * refresh
         if (postBody.length != 0 && page.value == 1) {
-          print("refresh");
           postBody.clear();
         }
 
@@ -109,9 +104,6 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
 
         for (int i = 0; i < listBoard.length; i++) {
           NewBody.add(listBoard[i]);
-          // print("${NewBody[i].value.CONTENT}  |  ${NewBody[i].value.TITLE}");
-          // print(
-          //     "${NewBody[i].value.COMMUNITY_ID}  |  ${NewBody[i].value.UNIQUE_ID}");
         }
         dataAvailablePostPreview.value = true;
         break;

@@ -55,8 +55,8 @@ class WritePostController extends GetxController {
       final PostController postController = Get.find();
       await postController.getPostData();
     } else if (putOrPost == "post") {
-      final BoardController boardController = Get.find();
-      await boardController.getBoard();
+      // final BoardController boardController = Get.find();
+      // await boardController.getBoard();
     } else {
       return;
     }

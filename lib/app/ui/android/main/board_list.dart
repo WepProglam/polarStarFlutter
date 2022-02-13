@@ -39,14 +39,13 @@ class BoardList extends StatelessWidget {
           automaticallyImplyLeading: false,
           titleSpacing: 0,
           title: Container(
-            margin:
-                const EdgeInsets.only(left: 20, top: 12, bottom: 12, right: 20),
+            margin: const EdgeInsets.only(left: 20, top: 12, bottom: 12),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                     width: Get.mediaQuery.size.width - 20 - 62,
-                    margin: const EdgeInsets.only(right: 14),
+                    // margin: const EdgeInsets.only(right: 14),
                     height: 32,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,11 +99,13 @@ class BoardList extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(16)),
                         color: const Color(0xffffffff))),
                 Container(
-                  child: Ink(
-                    child: InkWell(
-                      onTap: () {
-                        Get.back();
-                      },
+                  child: InkWell(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Ink(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 10),
                       child: Text("取消",
                           style: const TextStyle(
                               color: const Color(0xfff5f6ff),

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:polarstar_flutter/app/controller/photo/photo.dart';
+import 'package:polarstar_flutter/app/controller/photo/photo_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_addclass_controller.dart';
 import 'package:polarstar_flutter/app/controller/timetable/timetable_bin_controller.dart';
 import 'package:polarstar_flutter/app/data/provider/timetable/timetable_addclass_provider.dart';

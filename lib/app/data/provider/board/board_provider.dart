@@ -24,8 +24,6 @@ class BoardApiClient {
 
     Iterable jsonResponse = jsonDecode(response.body);
 
-    print(jsonResponse);
-
     List<Rx<Post>> listBoard =
         jsonResponse.map((model) => Post.fromJson(model).obs).toList();
 
@@ -49,31 +47,17 @@ class BoardApiClient {
                 fit: BoxFit.cover,
               ),
               VIDEO: null));
-          // VideoThumbnail.thumbnailData(
-          //   video: item,
-          //   imageFormat: ImageFormat.JPEG,
-          //   quality: 25,
-          // ).then((value) => {
-          //       post.update((val) {
-          //         val.MEDIA = [
-          //           POST_MEDIA(
-          //               isVideo: true,
-          //               PHOTO: Image.memory(
-          //                 value,
-          //                 fit: BoxFit.cover,
-          //               ),
-          //               VIDEO: null)
-          //         ];
-          //       })
-          //     });
         } else if (isPhoto(item)) {
-          post.value.MEDIA.add(POST_MEDIA(
-              URL: item,
-              isVideo: false,
-              PHOTO: Image(
-                  image: CachedNetworkImageProvider(item, scale: 1.0),
-                  fit: BoxFit.cover),
-              VIDEO: null));
+          post.update((val) {
+            val.MEDIA.add(POST_MEDIA(
+                URL: item,
+                isVideo: false,
+                PHOTO: Image(
+                    image: CachedNetworkImageProvider(item, scale: 1.0),
+                    fit: BoxFit.cover),
+                VIDEO: null));
+          });
+          // post.value.MEDIA.add();
           // post.value.PHOTO.add(Image(
           //     image: CachedNetworkImageProvider(
           //       item,

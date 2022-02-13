@@ -341,7 +341,7 @@ class Setting extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: Container(
                                 margin: EdgeInsets.only(left: 0),
-                                child: Text("规则",
+                                child: Text("论坛使用规则",
                                     style: const TextStyle(
                                         color: const Color(0xff6f6e6e),
                                         fontWeight: FontWeight.w500,

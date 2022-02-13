@@ -20,7 +20,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final MainController mainController = Get.find();
 
   // final MyPageController myPageController = Get.find();
-  // final NotiController notiController = Get.find();
+  final NotiController notiController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -76,13 +76,39 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 label: '',
               ),
               BottomNavigationBarItem(
-                icon: Container(
-                    width: 24,
-                    height: 24,
-                    margin: const EdgeInsets.symmetric(vertical: 16),
-                    child: mainController.mainPageIndex.value == 3
-                        ? Image.asset("assets/images/icn_alarm_selected.png")
-                        : Image.asset("assets/images/icn_alarm_normal.png")),
+                icon: Obx(() {
+                  bool isAllReaded = notiController.isUnreadNotiExist();
+                  return Stack(children: [
+                    Container(
+                        width: 24,
+                        height: 24,
+                        margin: const EdgeInsets.symmetric(vertical: 16),
+                        child: mainController.mainPageIndex.value == 3
+                            ? Image.asset(
+                                "assets/images/icn_alarm_selected.png")
+                            : Image.asset(
+                                "assets/images/icn_alarm_normal.png")),
+                    isAllReaded
+                        ? Positioned(
+                            top: 12,
+                            right: 0,
+                            child: Container(
+                              height: 12,
+                              width: 12,
+                            ),
+                          )
+                        : Positioned(
+                            top: 12,
+                            right: 0,
+                            child: Container(
+                              height: 12,
+                              width: 12,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: const Color(0xff91e5dd)),
+                            )),
+                  ]);
+                }),
                 label: '',
               ),
               BottomNavigationBarItem(
