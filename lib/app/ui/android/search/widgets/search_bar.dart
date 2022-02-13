@@ -25,7 +25,7 @@ class SearchBar extends StatelessWidget {
             : controller.searchText.value);
 
     return Container(
-      margin: const EdgeInsets.only(left: 20, top: 12, bottom: 12, right: 20),
+      margin: const EdgeInsets.only(left: 20, top: 12, bottom: 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -34,7 +34,7 @@ class SearchBar extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(16)),
                 color: const Color(0xffffffff)),
             width: Get.mediaQuery.size.width - 20 - 62,
-            margin: const EdgeInsets.only(right: 14),
+            // margin: const EdgeInsets.only(right: 14),
             height: 32,
             child:
                 Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -85,17 +85,18 @@ class SearchBar extends StatelessWidget {
             ]),
           ),
           Container(
-            child: Ink(
-              child: InkWell(
-                onTap: () async {
-                  Get.back();
-                  // String text = searchText.text.trim();
-                  // controller.searchText(text);
-                  // await controller.getSearchBoard(searchTextTemp: text);
-                  // FocusScope.of(context).unfocus();
-                },
+            child: InkWell(
+              onTap: () async {
+                Get.back();
+                // String text = searchText.text.trim();
+                // controller.searchText(text);
+                // await controller.getSearchBoard(searchTextTemp: text);
+                // FocusScope.of(context).unfocus();
+              },
+              child: Ink(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 15.0),
                   child: Text("取消",
                       style: const TextStyle(
                           color: const Color(0xfff5f6ff),

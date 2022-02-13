@@ -123,7 +123,6 @@ class Board extends StatelessWidget {
                       (element) =>
                           element.value.COMMUNITY_ID ==
                           controller.COMMUNITY_ID.value, orElse: () {
-                    print("error!");
                     isExist = false;
                     return mainController.boardInfo.first;
                   }).value;

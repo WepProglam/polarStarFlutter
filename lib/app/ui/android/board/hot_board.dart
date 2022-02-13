@@ -29,63 +29,48 @@ class HotBoard extends StatelessWidget {
             titleSpacing: 0,
             // elevation: 0,
             automaticallyImplyLeading: false,
+            leading: InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Ink(
+                child: Image.asset(
+                  'assets/images/back_icon.png',
+                  // fit: BoxFit.fitWidth,
+                ),
+              ),
+            ),
+            centerTitle: true,
 
-            title: Stack(
-              children: [
-                Center(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 16.5),
-                    child: Obx(() {
-                      return RichText(
-                          text: TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: "成均馆大学",
-                                style: const TextStyle(
-                                    color: const Color(0xffffffff),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                              )
-                            ],
-                            text: communityBoardName(
-                                        controller.COMMUNITY_ID.value) ==
-                                    null
-                                ? ""
-                                : '${communityBoardName(controller.COMMUNITY_ID.value)} / ',
-                            style: const TextStyle(
-                                color: const Color(0xffffffff),
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0),
-                          ),
-                          textAlign: TextAlign.left);
-                    }),
-                  ),
-                ),
-                Positioned(
-                  // left: 20,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 16, horizontal: 20),
-                    child: Ink(
-                      child: InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Image.asset(
-                          'assets/images/back_icon.png',
-                          // fit: BoxFit.fitWidth,
-                          width: 24,
-                          height: 24,
-                        ),
-                      ),
+            title: Container(
+              margin: const EdgeInsets.symmetric(vertical: 16.5),
+              child: Obx(() {
+                return RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: "成均馆大学",
+                          style: const TextStyle(
+                              color: const Color(0xffffffff),
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                        )
+                      ],
+                      text: communityBoardName(controller.COMMUNITY_ID.value) ==
+                              null
+                          ? ""
+                          : '${communityBoardName(controller.COMMUNITY_ID.value)} / ',
+                      style: const TextStyle(
+                          color: const Color(0xffffffff),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "NotoSansSC",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16.0),
                     ),
-                  ),
-                ),
-              ],
+                    textAlign: TextAlign.left);
+              }),
             ),
           ),
           body: Obx(() {

@@ -148,7 +148,7 @@ class PostBody extends StatelessWidget {
     //     Get.currentRoute.contains("read")) {
     //   isNotBoard = false;
     // }
-    print(item.value.MEDIA);
+    // print(item.value.MEDIA.first.PHOTO);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -213,7 +213,11 @@ class PostBody extends StatelessWidget {
                 item.value.MEDIA.isNotEmpty)
             ? Container(
                 // padding: const EdgeInsets.fromLTRB(11.5, 0, 11.5, 0),
-                child: PhotoLayout(model: item.value, c: c),
+                child: Obx(() {
+                  Post model = item.value;
+
+                  return PhotoLayout(model: model, c: c);
+                }),
               )
             : Container(),
       ],

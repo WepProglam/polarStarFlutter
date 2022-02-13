@@ -13,15 +13,12 @@ import 'package:http/http.dart' as http;
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class PhotoController extends GetxController {
-  final AssetEntity photo;
-
-  PhotoController({
-    @required this.photo,
-  });
+  RxInt photo_index = 0.obs;
 
   @override
   void onInit() async {
     super.onInit();
+    photo_index.value = 0;
   }
 
   //페이지 나갈 때 게시판 리스트 업데이트

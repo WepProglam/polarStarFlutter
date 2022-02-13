@@ -750,6 +750,7 @@ class MainUpdateModule {
 
   static Future<void> updateBoard() async {
     final BoardController boardController = Get.find();
+    print("update page!");
     await boardController.refreshPage();
     return;
   }

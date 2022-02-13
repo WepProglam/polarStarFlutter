@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/app/controller/photo/photo_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/data/provider/board/board_provider.dart';
@@ -16,6 +17,7 @@ class PostController extends GetxController {
   final PostRepository repository;
   final box = GetStorage();
   final MainController mainController = Get.find();
+  final PhotoController photoController = Get.find();
 
   PostController(
       {@required this.repository,
@@ -47,6 +49,7 @@ class PostController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    photoController.photo_index.value = 0;
     isCcomment(false);
     makeCommentUrl(COMMUNITY_ID, BOARD_ID);
     await getPostData();
@@ -233,6 +236,9 @@ class PostController extends GetxController {
         }
       }
     }
+    sortedList.first.update((val) {
+      val.COMMENTS = sortedList.length - 1;
+    });
   }
 
   // * public

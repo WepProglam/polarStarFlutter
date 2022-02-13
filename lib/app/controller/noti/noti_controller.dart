@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:meta/meta.dart';
+import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
 import 'package:polarstar_flutter/app/data/model/mail/mailBox_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
@@ -20,6 +21,8 @@ import 'package:polarstar_flutter/session.dart';
 class NotiController extends GetxController with SingleGetTickerProviderMixin {
   final NotiRepository repository;
   final box = GetStorage();
+  final ClassChatController classChatController =
+      Get.put(ClassChatController());
   RxList<Rx<NotiModel>> noties = <Rx<NotiModel>>[].obs;
   // RxInt pageViewIndex = 0.obs;
   // final PageController pageController = PageController(initialPage: 0);
@@ -75,7 +78,10 @@ class NotiController extends GetxController with SingleGetTickerProviderMixin {
     Map<String, dynamic> value = await repository.getMailBox();
 
     if (value["status"] != 200) {
-      Get.snackbar("系统错误", "系统错误");
+      Get.snackbar("系统错误", "系统错误",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.white,
+          colorText: Colors.black);
       return;
     }
     mailBox.value = value["listMailBox"];
@@ -93,6 +99,34 @@ class NotiController extends GetxController with SingleGetTickerProviderMixin {
     }
     await sortMailBox();
     notiMailFetched.value = true;
+  }
+
+  bool isUnreadNotiExist() {
+    for (Rx<NotiModel> item in noties) {
+      if (!item.value.isReaded) {
+        return false;
+      }
+    }
+
+    for (Rx<MailBoxModel> item in mailBox) {
+      if (!item.value.isReaded) {
+        return false;
+      }
+    }
+
+    for (Rx<ChatBoxModel> item in classChatController.majorChatBox) {
+      if (item.value.UNREAD_AMOUNT > 0) {
+        return false;
+      }
+    }
+
+    for (Rx<ChatBoxModel> item in classChatController.classChatBox) {
+      if (item.value.UNREAD_AMOUNT > 0) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   // Future<void> getChatBox() async {
