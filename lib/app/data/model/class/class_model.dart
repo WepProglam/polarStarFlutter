@@ -66,12 +66,16 @@ class ClassRecentReviewModel {
   });
 
   ClassRecentReviewModel.fromJson(Map<String, dynamic> json) {
+    print(json);
     this.CLASS_YEAR = json["CLASS_YEAR"];
     this.CLASS_SEMESTER = json["CLASS_SEMESTER"];
     this.CLASS_ID = json["CLASS_ID"];
     this.RATE = json["RATE"];
-    this.CONTENT =
-        (json["CONTENT"] as String).replaceAll('\\n', '\n').replaceAll('"', '');
+    this.CONTENT = json["CONTENT"] == null
+        ? null
+        : (json["CONTENT"] as String)
+            .replaceAll('\\n', '\n')
+            .replaceAll('"', '');
     this.PROFESSOR = json["PROFESSOR"];
     this.CLASS_NAME = json["CLASS_NAME"];
   }
