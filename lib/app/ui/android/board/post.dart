@@ -17,6 +17,7 @@ class Post extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
       child: Scaffold(
           backgroundColor: Color(0xffffffff),
           appBar: AppBar(

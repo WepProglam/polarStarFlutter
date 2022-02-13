@@ -18,29 +18,30 @@ class SignUpMajor extends StatelessWidget {
   Widget build(BuildContext context) {
     final SignUpController signUpController = Get.find();
     return SafeArea(
+        top: false,
         child: Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-          automaticallyImplyLeading: false,
-          titleSpacing: 0,
-          elevation: 0,
-          leading: InkWell(
-            child: Image.asset("assets/images/icn_back_white.png"),
-            onTap: () => Get.back(),
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+              automaticallyImplyLeading: false,
+              titleSpacing: 0,
+              elevation: 0,
+              leading: InkWell(
+                child: Image.asset("assets/images/icn_back_white.png"),
+                onTap: () => Get.back(),
+              ),
+              centerTitle: true,
+              title: Text("注册会员",
+                  style: const TextStyle(
+                      color: const Color(0xffffffff),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.0),
+                  textAlign: TextAlign.center)),
+          body: MajorInputs(
+            signUpController: signUpController,
           ),
-          centerTitle: true,
-          title: Text("注册会员",
-              style: const TextStyle(
-                  color: const Color(0xffffffff),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: "NotoSansSC",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 16.0),
-              textAlign: TextAlign.center)),
-      body: MajorInputs(
-        signUpController: signUpController,
-      ),
-    ));
+        ));
   }
 }
 
@@ -402,6 +403,7 @@ class _CommunityRuleState extends State<CommunityRule> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+        top: false,
         child: Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(

@@ -23,6 +23,7 @@ class Setting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
       child: Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: SettingAppBars().classBasicAppBar(),
@@ -248,6 +249,7 @@ class Setting extends StatelessWidget {
                       : () {
                           Get.to(Obx(() {
                             return SafeArea(
+                              top: false,
                               child: Scaffold(
                                 // 隐私政策
                                 appBar: AppBar(

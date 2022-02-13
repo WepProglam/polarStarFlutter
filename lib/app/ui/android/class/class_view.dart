@@ -52,6 +52,7 @@ class ClassView extends StatelessWidget {
         return true;
       },
       child: SafeArea(
+        top: false,
         child: Scaffold(
           backgroundColor: const Color(backgroundColor),
           appBar: AppBars().classBasicAppBar(),
@@ -816,7 +817,9 @@ class ClassViewInfo extends StatelessWidget {
                     //     textAlign: TextAlign.left),
                     Spacer(),
                     Text(
-                   classInfoModel.CLASS_SECTOR_2 == null? "":   "${classInfoModel.CLASS_SECTOR_2}",
+                      classInfoModel.CLASS_SECTOR_2 == null
+                          ? ""
+                          : "${classInfoModel.CLASS_SECTOR_2}",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           overflow: TextOverflow.ellipsis,

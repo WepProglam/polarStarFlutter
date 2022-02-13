@@ -19,6 +19,7 @@ class ClassSearch extends StatelessWidget {
     final ClassSearchController controller = Get.find();
     final FocusNode searchFocusNode = FocusNode();
     return SafeArea(
+      top: false,
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 56,

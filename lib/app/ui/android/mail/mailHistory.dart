@@ -16,6 +16,7 @@ class MailHistory extends StatelessWidget {
     final double chatHeight =
         box.read("keyBoardHeight") == null ? 342.0 : box.read("keyBoardHeight");
     return SafeArea(
+      top: false,
       child: Scaffold(
           backgroundColor: const Color(0xffffffff),
           appBar: AppBar(

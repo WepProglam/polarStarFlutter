@@ -24,6 +24,7 @@ class TimetableClassFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return SafeArea(
+      top: false,
       child: Scaffold(
           appBar: AppBar(
             elevation: 0,
@@ -129,6 +130,7 @@ class TimetableClassMajor extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return SafeArea(
+      top: false,
       child: Scaffold(
           appBar: AppBar(
             elevation: 0,
@@ -239,6 +241,7 @@ class TimetableClassSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+        top: false,
         child: Scaffold(
             appBar: AppBar(
               elevation: 0,

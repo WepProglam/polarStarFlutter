@@ -13,6 +13,7 @@ import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/board_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
+import 'package:polarstar_flutter/main.dart';
 
 const mainColor = 0xff4570ff;
 
@@ -21,10 +22,15 @@ class Mypage extends StatelessWidget {
   final MainController mainController = Get.find();
   @override
   Widget build(BuildContext context) {
-    // changeStatusBarColor(Color(0xff1a4678), Brightness.dark);
+    changeStatusBarColor(Get.theme.primaryColor, Brightness.light);
     return SafeArea(
+      top: false,
       child: Scaffold(
           backgroundColor: const Color(0xffffffff),
+          appBar: AppBar(
+            toolbarHeight: 0.0,
+            elevation: 0.0,
+          ),
           body: Obx(
             () {
               if (myPageController.dataAvailableMypage) {

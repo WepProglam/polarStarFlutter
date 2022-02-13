@@ -210,6 +210,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
         return true;
       },
       child: SafeArea(
+        top: false,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
 

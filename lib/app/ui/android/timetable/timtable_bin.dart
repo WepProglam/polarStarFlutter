@@ -17,6 +17,7 @@ class TimeTableBin extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return SafeArea(
+        top: false,
         child: Scaffold(
             backgroundColor: const Color(0xffffffff),
             appBar: AppBar(

@@ -34,6 +34,7 @@ class AppBars {
     const mainColor = 0xff4570ff;
 
     return AppBar(
+      toolbarHeight: 56,
       backgroundColor: const Color(mainColor),
       foregroundColor: Colors.white,
       automaticallyImplyLeading: false,

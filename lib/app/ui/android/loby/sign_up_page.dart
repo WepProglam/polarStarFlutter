@@ -18,6 +18,7 @@ class SignUpPage extends StatelessWidget {
     final SignUpController signUpController = Get.find();
 
     return SafeArea(
+      top: false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xffffffff),

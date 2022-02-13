@@ -78,42 +78,46 @@ class MainPage extends StatelessWidget {
           return true;
         }
       },
-      child: SafeArea(child: Obx(() {
-        int index = mainController.mainPageIndex.value;
-        print(index);
-        // if (!mainController.initDataAvailable.value) {
-        //   return SplashPage();
-        // }
-        changeStatusBarColor(const Color(mainColor), Brightness.light);
+      child: SafeArea(
+        top: false,
+        child: Obx(() {
+          int index = mainController.mainPageIndex.value;
+          print(index);
+          // if (!mainController.initDataAvailable.value) {
+          //   return SplashPage();
+          // }
+          changeStatusBarColor(const Color(mainColor), Brightness.light);
 
-        return Scaffold(
-          body: Builder(builder: (BuildContext context) {
-            print(index);
-            if (index == 0) {
-              putController<MainController>();
-              return MainPageScroll();
-            } else if (index == 1) {
-              putController<TimeTableController>();
-              return Timetable();
-            } else if (index == 2) {
-              putController<ClassController>();
-              return Class();
-            } else if (index == 3) {
-              putController<MainController>();
-              putController<NotiController>();
-              return Noti();
-            } else if (index == 4) {
-              putController<MyPageController>();
-              putController<MainController>();
-              return Mypage();
-            } else {
-              putController<MainController>();
-              return MainPageScroll();
-            }
-          }),
-          bottomNavigationBar: CustomBottomNavigationBar(),
-        );
-      })),
+          return Scaffold(
+            body: Builder(builder: (BuildContext context) {
+              print(index);
+              if (index == 0) {
+                putController<MainController>();
+                return MainPageScroll();
+              } else if (index == 1) {
+                putController<TimeTableController>();
+                return Timetable();
+              } else if (index == 2) {
+                putController<ClassController>();
+                return Class();
+              } else if (index == 3) {
+                putController<MainController>();
+                putController<NotiController>();
+                return Noti();
+              } else if (index == 4) {
+                putController<MyPageController>();
+                putController<MainController>();
+                changeStatusBarColor(Get.theme.primaryColor, Brightness.light);
+                return Mypage();
+              } else {
+                putController<MainController>();
+                return MainPageScroll();
+              }
+            }),
+            bottomNavigationBar: CustomBottomNavigationBar(),
+          );
+        }),
+      ),
     );
   }
 }
