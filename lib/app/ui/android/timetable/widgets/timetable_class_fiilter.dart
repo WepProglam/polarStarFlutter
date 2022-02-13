@@ -72,6 +72,7 @@ class TimetableClassFilter extends StatelessWidget {
           //     CustomBottomNavigationBar(mainController: mainController),
           body: Obx(() {
             return ListView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 12.5),
                 itemCount: controller.college_name_list.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Ink(
@@ -87,11 +88,11 @@ class TimetableClassFilter extends StatelessWidget {
                         Get.toNamed(Routes.TIMETABLE_ADDCLASS_FILTER_MAJOR);
                       },
                       child: Column(children: [
-                        index == 0
-                            ? Container(
-                                height: 24,
-                              )
-                            : Container(),
+                        // index == 0
+                        //     ? Container(
+                        //         height: 12.5,
+                        //       )
+                        //     : Container(),
                         Container(
                           padding: const EdgeInsets.symmetric(vertical: 11.5),
                           child: Text(
@@ -178,6 +179,7 @@ class TimetableClassMajor extends StatelessWidget {
           //     CustomBottomNavigationBar(mainController: mainController),
           body: Obx(() {
             return ListView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 12.5),
                 itemCount: controller.college_major_list.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Ink(
@@ -196,11 +198,11 @@ class TimetableClassMajor extends StatelessWidget {
                       },
                       child: Column(
                         children: [
-                          index == 0
-                              ? Container(
-                                  height: 24,
-                                )
-                              : Container(),
+                          // index == 0
+                          //     ? Container(
+                          //         height: 12.5,
+                          //       )
+                          //     : Container(),
                           Container(
                             padding: const EdgeInsets.symmetric(vertical: 11.5),
                             child: Text(

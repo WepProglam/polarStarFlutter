@@ -86,22 +86,26 @@ class Board extends StatelessWidget {
               ),
             ],
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              await Get.toNamed('/board/${Get.parameters["COMMUNITY_ID"]}')
-                  .then((value) async {
-                await MainUpdateModule.updateBoard();
-              });
-            },
-            child: // Ellipse 6
-                Container(
-                    width: 56,
-                    height: 56,
-                    child: Image.asset("assets/images/icn_pen.png"),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
-                        color: Get.theme.primaryColor)),
-          ),
+          floatingActionButton: controller.COMMUNITY_ID == 14
+              ? Container()
+              : FloatingActionButton(
+                  onPressed: () async {
+                    await Get.toNamed(
+                            '/board/${Get.parameters["COMMUNITY_ID"]}')
+                        .then((value) async {
+                      await MainUpdateModule.updateBoard();
+                    });
+                  },
+                  child: // Ellipse 6
+                      Container(
+                          width: 56,
+                          height: 56,
+                          child: Image.asset("assets/images/icn_pen.png"),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(100)),
+                              color: Get.theme.primaryColor)),
+                ),
           body: RefreshIndicator(
             onRefresh: MainUpdateModule.updateBoard,
             child: Column(

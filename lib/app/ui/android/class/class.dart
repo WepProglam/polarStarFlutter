@@ -431,7 +431,7 @@ class RateStarRow extends StatelessWidget {
     } catch (e) {
       rate_double = 5.0;
     }
-    int rate_int = rate_double.ceil();
+    int rate_int = rate_double.round();
     return Row(children: [
       Container(
         margin: const EdgeInsets.only(left: 2),
