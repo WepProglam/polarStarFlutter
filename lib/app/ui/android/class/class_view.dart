@@ -777,7 +777,7 @@ class ClassViewInfo extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 4.0),
                         child: Text(
                             classInfoModel.AVG_RATE != null
-                                ? "(${classInfoModel.AVG_RATE})"
+                                ? "(${double.parse(classInfoModel.AVG_RATE).toStringAsFixed(1)})"
                                 : "",
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(

@@ -9,6 +9,7 @@ import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 import 'package:polarstar_flutter/app/data/provider/timetable/timetable_addclass_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_addclass_repository.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
+import 'package:polarstar_flutter/app/ui/android/class/functions/rating.dart';
 
 import 'package:polarstar_flutter/app/ui/android/class/widgets/class_preview.dart';
 import 'package:polarstar_flutter/app/ui/android/class/widgets/class_search_bar.dart';
@@ -431,59 +432,7 @@ class RateStarRow extends StatelessWidget {
     } catch (e) {
       rate_double = 5.0;
     }
-    int rate_int = rate_double.round();
-    return Row(children: [
-      Container(
-        margin: const EdgeInsets.only(left: 2),
-        child: Image.asset(
-          (rate_int >= 1)
-              ? "assets/images/star_100.png"
-              : "assets/images/star_0.png",
-          width: 12,
-          height: 12,
-        ),
-      ),
-      Container(
-        margin: const EdgeInsets.only(left: 2),
-        child: Image.asset(
-          (rate_int >= 2)
-              ? "assets/images/star_100.png"
-              : "assets/images/star_0.png",
-          width: 12,
-          height: 12,
-        ),
-      ),
-      Container(
-        margin: const EdgeInsets.only(left: 2),
-        child: Image.asset(
-          (rate_int >= 3)
-              ? "assets/images/star_100.png"
-              : "assets/images/star_0.png",
-          width: 12,
-          height: 12,
-        ),
-      ),
-      Container(
-        margin: const EdgeInsets.only(left: 2),
-        child: Image.asset(
-          (rate_int >= 4)
-              ? "assets/images/star_100.png"
-              : "assets/images/star_0.png",
-          width: 12,
-          height: 12,
-        ),
-      ),
-      Container(
-        margin: const EdgeInsets.only(left: 2),
-        child: Image.asset(
-          (rate_int >= 5)
-              ? "assets/images/star_100.png"
-              : "assets/images/star_0.png",
-          width: 12,
-          height: 12,
-        ),
-      ),
-    ]);
+    return Row(children: rate_star("${rate_double}", 12));
   }
 }
 

@@ -2,14 +2,22 @@ import 'package:flutter/material.dart';
 
 List<Widget> rate_star(String AVG_RATE, double size) {
   List<Widget> retList = [];
+  double rate = double.parse(AVG_RATE);
   for (int i = 0; i < 5; i++) {
+    print(rate - i);
+    String image_path = "assets/images/star_100.png";
+    if (rate - i >= 1) {
+      image_path = "assets/images/star_100.png";
+    } else if ((rate - i) < 1 && (rate - i) >= 0) {
+      image_path = "assets/images/star_${((rate - i) * 10).floor() * 10}.png";
+    } else {
+      image_path = "assets/images/star_0.png";
+    }
     retList.add(Container(
       width: size,
       height: size,
       child: Image.asset(
-        i + 1 <= double.parse(AVG_RATE)
-            ? 'assets/images/star_100.png'
-            : 'assets/images/star_0.png',
+        image_path,
         fit: BoxFit.fitHeight,
       ),
     ));
