@@ -56,6 +56,7 @@ class TimetableAddClassMain extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     print(timeTableController.yearSem);
     return SafeArea(
+      top: false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         bottomSheet: // 사각형 612

@@ -24,6 +24,7 @@ class MainPageSearch extends StatelessWidget {
 
     final Size size = MediaQuery.of(context).size;
     return SafeArea(
+      top: false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(

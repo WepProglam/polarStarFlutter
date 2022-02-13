@@ -15,6 +15,7 @@ class BoardList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
       child: Scaffold(
         backgroundColor: const Color(0xffffffff),
         floatingActionButton: FloatingActionButton(

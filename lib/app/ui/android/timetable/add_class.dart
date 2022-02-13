@@ -65,6 +65,7 @@ class TimetableAddClass extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return SafeArea(
+      top: false,
       child: Scaffold(
           backgroundColor: const Color(0xffffffff),
           appBar: AppBar(

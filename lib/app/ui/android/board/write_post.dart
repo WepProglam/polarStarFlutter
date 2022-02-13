@@ -54,128 +54,125 @@ class WritePost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Scaffold(
-            backgroundColor: const Color(0xffffffff),
-            appBar: AppBar(
-              toolbarHeight: 56,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+          backgroundColor: const Color(0xffffffff),
+          appBar: AppBar(
+            toolbarHeight: 56,
 
-              backgroundColor: Get.theme.primaryColor,
-              titleSpacing: 0,
-              // elevation: 0,
-              automaticallyImplyLeading: false,
+            backgroundColor: Get.theme.primaryColor,
+            titleSpacing: 0,
+            // elevation: 0,
+            automaticallyImplyLeading: false,
 
-              title: Stack(
-                children: [
-                  Center(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 16.5),
-                      child: Text("发布帖子",
-                          style: const TextStyle(
-                              color: const Color(0xffffffff),
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "NotoSansSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          textAlign: TextAlign.center),
-                    ),
+            title: Stack(
+              children: [
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 16.5),
+                    child: Text("发布帖子",
+                        style: const TextStyle(
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.center),
                   ),
-                  Positioned(
-                    // left: 20,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 20),
-                      child: Ink(
-                        child: InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Image.asset(
-                            'assets/images/back_icon.png',
-                            width: 24,
-                            height: 24,
-                          ),
+                ),
+                Positioned(
+                  // left: 20,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 20),
+                    child: Ink(
+                      child: InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Image.asset(
+                          'assets/images/back_icon.png',
+                          width: 24,
+                          height: 24,
                         ),
                       ),
                     ),
                   ),
-                  Positioned(
-                      right: 20,
-                      top: 14,
-                      child: Ink(
-                        child: InkWell(
-                          onTap: () async {
-                            Map<String, dynamic> data = WritePostModel(
-                                    title: title.text,
-                                    description: content.text,
-                                    unnamed:
-                                        (c.anonymousCheck.value) ? '1' : '0')
-                                .toJson();
+                ),
+                Positioned(
+                    right: 20,
+                    top: 14,
+                    child: Ink(
+                      child: InkWell(
+                        onTap: () async {
+                          Map<String, dynamic> data = WritePostModel(
+                                  title: title.text,
+                                  description: content.text,
+                                  unnamed: (c.anonymousCheck.value) ? '1' : '0')
+                              .toJson();
 
-                            Function ontapConfirm = () async {
-                              Get.back();
-                              if (c.putOrPost == "put") {
-                                if (c.photoAssets.length > 0) {
-                                  await c.putPostImage(data);
-                                } else {
-                                  await c.putPostNoImage(data);
-                                }
+                          Function ontapConfirm = () async {
+                            Get.back();
+                            if (c.putOrPost == "put") {
+                              if (c.photoAssets.length > 0) {
+                                await c.putPostImage(data);
                               } else {
-                                //작성
-
-                                if (c.photoAssets.length > 0) {
-                                  print("이미지 포스트");
-                                  await c.postPostImage(data);
-                                } else {
-                                  print("글 포스트");
-                                  await c.postPostNoImage(data);
-                                }
+                                await c.putPostNoImage(data);
                               }
-                              ;
-                            };
+                            } else {
+                              //작성
 
-                            Function ontapCancel = () {
-                              Get.back();
-                            };
+                              if (c.photoAssets.length > 0) {
+                                print("이미지 포스트");
+                                await c.postPostImage(data);
+                              } else {
+                                print("글 포스트");
+                                await c.postPostNoImage(data);
+                              }
+                            }
+                            ;
+                          };
 
-                            await TFdialogue(
-                                Get.context,
-                                c.putOrPost == "put" ? "修改帖子 " : "发表帖子",
-                                c.putOrPost == "put"
-                                    ? "确定修改帖子内容吗？"
-                                    : "确定发表帖子吗？",
-                                ontapConfirm,
-                                ontapCancel);
-                          },
-                          child: Container(
-                              width: 52,
-                              height: 28,
-                              child: Center(
-                                child: Text("发布",
-                                    style: TextStyle(
-                                        color: Get.theme.primaryColor,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: "NotoSansSC",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 14.0),
-                                    textAlign: TextAlign.right),
-                              ),
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(14)),
-                                  border: Border.all(
-                                      color: const Color(0xff8f90f8), width: 1),
-                                  color: const Color(0xffffffff))),
-                        ),
-                      )),
-                ],
-              ),
+                          Function ontapCancel = () {
+                            Get.back();
+                          };
+
+                          await TFdialogue(
+                              Get.context,
+                              c.putOrPost == "put" ? "修改帖子 " : "发表帖子",
+                              c.putOrPost == "put" ? "确定修改帖子内容吗？" : "确定发表帖子吗？",
+                              ontapConfirm,
+                              ontapCancel);
+                        },
+                        child: Container(
+                            width: 52,
+                            height: 28,
+                            child: Center(
+                              child: Text("发布",
+                                  style: TextStyle(
+                                      color: Get.theme.primaryColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "NotoSansSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  textAlign: TextAlign.right),
+                            ),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(14)),
+                                border: Border.all(
+                                    color: const Color(0xff8f90f8), width: 1),
+                                color: const Color(0xffffffff))),
+                      ),
+                    )),
+              ],
             ),
-            body: Obx(() {
+          ),
+          body: SafeArea(
+            child: Obx(() {
               return Stack(children: [
                 SingleChildScrollView(
                   child: Container(
@@ -419,8 +416,8 @@ class WritePost extends StatelessWidget {
                       )
                     : Container()
               ]);
-            })),
-      ),
+            }),
+          )),
     );
   }
 }

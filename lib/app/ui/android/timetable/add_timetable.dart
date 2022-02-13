@@ -32,231 +32,233 @@ class TimeTableAdd extends StatelessWidget {
     print(timeTableController.createSemester.value);
 
     return SafeArea(
+        top: false,
         child: GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            elevation: 0,
-            toolbarHeight: 56,
-            automaticallyImplyLeading: false,
-            leading: InkWell(
-              onTap: () {
-                Get.back();
-              },
-              child: Image.asset(
-                "assets/images/back_icon.png",
-              ),
-            ),
-            titleSpacing: 0,
-            title: Text("新时间表",
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                    color: const Color(0xffffffff),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "NotoSansSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 16.0),
-                textAlign: TextAlign.center),
-            centerTitle: true,
-            actions: [
-              Container(
-                  margin: const EdgeInsets.fromLTRB(0.0, 14.0, 20.0, 14.0),
-                  width: 52,
-                  // height: 28,
-                  child: InkWell(
-                    onTap: () async {
-                      int year =
-                          int.parse(timeTableController.createYear.value);
-                      int sem =
-                          int.parse(timeTableController.createSemester.value);
-
-                      await timeTableController.createTimeTable(
-                          year, sem, timeTableController.createName.value);
-
-                      Get.until(
-                          (route) => Get.currentRoute == Routes.MAIN_PAGE);
-                    },
-                    child: Center(
-                      child: Text("添加",
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              color: Get.theme.primaryColor,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "NotoSansSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.right),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(14)),
-                      border:
-                          Border.all(color: const Color(0xff99bbf9), width: 1),
-                      color: const Color(0xffffffff))),
-            ],
-
-            // Container(
-            //   child: Container(
-            //     child: Stack(children: [
-            //       Row(
-            //         children: [
-            //           Ink(
-            //             child: InkWell(
-            //               onTap: () {
-            //                 Get.back();
-            //               },
-            //               child: Container(
-            //                   padding:
-            //                       const EdgeInsets.symmetric(horizontal: 20),
-            //                   child: Image.asset(
-            //                     "assets/images/back_icon.png",
-            //                     width: 24,
-            //                     height: 24,
-            //                   )),
-            //             ),
-            //           ),
-            //           Spacer(),
-
-            //           // 사각형 4
-            //           Container(
-            //               width: 52,
-            //               height: 28,
-            //               margin: const EdgeInsets.symmetric(horizontal: 20),
-            //               child: Ink(
-            //                 child: InkWell(
-            //                   onTap: () async {
-            //                     int year = int.parse(
-            //                         timeTableController.createYear.value);
-            //                     int sem = flutterToServerSemChanger(int.parse(
-            //                         timeTableController.createSemester.value));
-
-            //                     await timeTableController.createTimeTable(year,
-            //                         sem, timeTableController.createName.value);
-
-            //                     Get.until((route) =>
-            //                         Get.currentRoute == Routes.MAIN_PAGE);
-            //                   },
-            //                   child: Center(
-            //                     child: Text("添加",
-            //                         overflow: TextOverflow.ellipsis,
-            //                         style: TextStyle(
-            //                             color: Get.theme.primaryColor,
-            //                             fontWeight: FontWeight.w500,
-            //                             fontFamily: "NotoSansSC",
-            //                             fontStyle: FontStyle.normal,
-            //                             fontSize: 12.0),
-            //                         textAlign: TextAlign.right),
-            //                   ),
-            //                 ),
-            //               ),
-            //               decoration: BoxDecoration(
-            //                   borderRadius:
-            //                       BorderRadius.all(Radius.circular(14)),
-            //                   border: Border.all(
-            //                       color: const Color(0xff99bbf9), width: 1),
-            //                   color: const Color(0xffffffff))),
-            //         ],
-            //       ),
-            //       Center(
-            //         child: Text("新时间表",
-            //             style: const TextStyle(
-            //                 color: const Color(0xffffffff),
-            //                 fontWeight: FontWeight.w500,
-            //                 fontFamily: "NotoSansSC",
-            //                 fontStyle: FontStyle.normal,
-            //                 fontSize: 16.0),
-            //             textAlign: TextAlign.center),
-            //       )
-            //     ]),
-            //   ),
-          ),
-          backgroundColor: const Color(0xffffffff),
-          body: SingleChildScrollView(
-              child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        child: // 时间表名称
-                            Text("时间表名称",
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    color: const Color(0xff6f6e6e),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                textAlign: TextAlign.left),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 10),
-                        child: TextFormField(
-                          key: _formKey,
-                          onChanged: (value) {
-                            timeTableController.createName.value = value;
-                          },
-                          maxLines: 1,
-                          style: textStyle,
-                          textAlign: TextAlign.left,
-                          decoration: addTimetablenputDecoration("请输入名称"),
-                        ),
-                      ),
-                      // 선 83
-                      Container(
-                          margin: const EdgeInsets.only(top: 7.5),
-                          height: 1,
-                          decoration:
-                              BoxDecoration(color: const Color(0xffeaeaea)))
-                    ],
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              appBar: AppBar(
+                elevation: 0,
+                toolbarHeight: 56,
+                automaticallyImplyLeading: false,
+                leading: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Image.asset(
+                    "assets/images/back_icon.png",
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 23.5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        child: // 教学名
-                            Text("学期",
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    color: const Color(0xff6f6e6e),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                textAlign: TextAlign.left),
+                titleSpacing: 0,
+                title: Text("新时间表",
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        color: const Color(0xffffffff),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 16.0),
+                    textAlign: TextAlign.center),
+                centerTitle: true,
+                actions: [
+                  Container(
+                      margin: const EdgeInsets.fromLTRB(0.0, 14.0, 20.0, 14.0),
+                      width: 52,
+                      // height: 28,
+                      child: InkWell(
+                        onTap: () async {
+                          int year =
+                              int.parse(timeTableController.createYear.value);
+                          int sem = int.parse(
+                              timeTableController.createSemester.value);
+
+                          await timeTableController.createTimeTable(
+                              year, sem, timeTableController.createName.value);
+
+                          Get.until(
+                              (route) => Get.currentRoute == Routes.MAIN_PAGE);
+                        },
+                        child: Center(
+                          child: Text("添加",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  color: Get.theme.primaryColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 12.0),
+                              textAlign: TextAlign.right),
+                        ),
                       ),
-                      Container(
-                          margin: const EdgeInsets.only(top: 10),
-                          child: // Please enter a schedule name
-                              SelectSem(
-                                  formKeyDrop: _formKeyDrop,
-                                  timeTableController: timeTableController)),
-                      // 선 41
-                      Container(
-                          height: 0.5,
-                          margin: const EdgeInsets.only(top: 7.5),
-                          decoration:
-                              BoxDecoration(color: const Color(0xffdedede)))
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ))),
-    ));
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(14)),
+                          border: Border.all(
+                              color: const Color(0xff99bbf9), width: 1),
+                          color: const Color(0xffffffff))),
+                ],
+
+                // Container(
+                //   child: Container(
+                //     child: Stack(children: [
+                //       Row(
+                //         children: [
+                //           Ink(
+                //             child: InkWell(
+                //               onTap: () {
+                //                 Get.back();
+                //               },
+                //               child: Container(
+                //                   padding:
+                //                       const EdgeInsets.symmetric(horizontal: 20),
+                //                   child: Image.asset(
+                //                     "assets/images/back_icon.png",
+                //                     width: 24,
+                //                     height: 24,
+                //                   )),
+                //             ),
+                //           ),
+                //           Spacer(),
+
+                //           // 사각형 4
+                //           Container(
+                //               width: 52,
+                //               height: 28,
+                //               margin: const EdgeInsets.symmetric(horizontal: 20),
+                //               child: Ink(
+                //                 child: InkWell(
+                //                   onTap: () async {
+                //                     int year = int.parse(
+                //                         timeTableController.createYear.value);
+                //                     int sem = flutterToServerSemChanger(int.parse(
+                //                         timeTableController.createSemester.value));
+
+                //                     await timeTableController.createTimeTable(year,
+                //                         sem, timeTableController.createName.value);
+
+                //                     Get.until((route) =>
+                //                         Get.currentRoute == Routes.MAIN_PAGE);
+                //                   },
+                //                   child: Center(
+                //                     child: Text("添加",
+                //                         overflow: TextOverflow.ellipsis,
+                //                         style: TextStyle(
+                //                             color: Get.theme.primaryColor,
+                //                             fontWeight: FontWeight.w500,
+                //                             fontFamily: "NotoSansSC",
+                //                             fontStyle: FontStyle.normal,
+                //                             fontSize: 12.0),
+                //                         textAlign: TextAlign.right),
+                //                   ),
+                //                 ),
+                //               ),
+                //               decoration: BoxDecoration(
+                //                   borderRadius:
+                //                       BorderRadius.all(Radius.circular(14)),
+                //                   border: Border.all(
+                //                       color: const Color(0xff99bbf9), width: 1),
+                //                   color: const Color(0xffffffff))),
+                //         ],
+                //       ),
+                //       Center(
+                //         child: Text("新时间表",
+                //             style: const TextStyle(
+                //                 color: const Color(0xffffffff),
+                //                 fontWeight: FontWeight.w500,
+                //                 fontFamily: "NotoSansSC",
+                //                 fontStyle: FontStyle.normal,
+                //                 fontSize: 16.0),
+                //             textAlign: TextAlign.center),
+                //       )
+                //     ]),
+                //   ),
+              ),
+              backgroundColor: const Color(0xffffffff),
+              body: SingleChildScrollView(
+                  child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: // 时间表名称
+                                Text("时间表名称",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        color: const Color(0xff6f6e6e),
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14.0),
+                                    textAlign: TextAlign.left),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 10),
+                            child: TextFormField(
+                              key: _formKey,
+                              onChanged: (value) {
+                                timeTableController.createName.value = value;
+                              },
+                              maxLines: 1,
+                              style: textStyle,
+                              textAlign: TextAlign.left,
+                              decoration: addTimetablenputDecoration("请输入名称"),
+                            ),
+                          ),
+                          // 선 83
+                          Container(
+                              margin: const EdgeInsets.only(top: 7.5),
+                              height: 1,
+                              decoration:
+                                  BoxDecoration(color: const Color(0xffeaeaea)))
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 23.5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: // 教学名
+                                Text("学期",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        color: const Color(0xff6f6e6e),
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14.0),
+                                    textAlign: TextAlign.left),
+                          ),
+                          Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              child: // Please enter a schedule name
+                                  SelectSem(
+                                      formKeyDrop: _formKeyDrop,
+                                      timeTableController:
+                                          timeTableController)),
+                          // 선 41
+                          Container(
+                              height: 0.5,
+                              margin: const EdgeInsets.only(top: 7.5),
+                              decoration:
+                                  BoxDecoration(color: const Color(0xffdedede)))
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ))),
+        ));
   }
 }
 

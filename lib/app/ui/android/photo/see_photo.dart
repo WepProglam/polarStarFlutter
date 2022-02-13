@@ -53,7 +53,12 @@ class _SeeMediaState extends State<SeeMedia> {
         return true;
       },
       child: SafeArea(
+        top: false,
         child: Scaffold(
+          appBar: AppBar(
+            toolbarHeight: 0.0,
+            elevation: 0.0,
+          ),
           body: Container(
             child: Stack(children: [
               Ink(
@@ -454,8 +459,13 @@ class _SeePhotoDirectState extends State<SeePhotoDirect> {
 
     final Size size = MediaQuery.of(context).size;
     return SafeArea(
+      top: false,
       child: Scaffold(
         backgroundColor: Color(0xffffffff),
+        appBar: AppBar(
+          toolbarHeight: 0.0,
+          elevation: 0.0,
+        ),
         body: Container(
           child: Stack(children: [
             Ink(

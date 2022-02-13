@@ -8,6 +8,7 @@ class FindPw extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
