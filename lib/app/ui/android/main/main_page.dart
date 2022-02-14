@@ -59,64 +59,70 @@ class MainPage extends StatelessWidget {
     MainController mainController = Get.find();
 
     DateTime pre_backpress = DateTime.now().add(const Duration(seconds: -2));
-    return WillPopScope(
-      onWillPop: () async {
-        final timegap = DateTime.now().difference(pre_backpress);
-        final cantExit = timegap >= Duration(seconds: 2);
-        pre_backpress = DateTime.now();
-        if (cantExit) {
-          final snack = SnackBar(
-            content: Text('确认要结束的话 请再按一次返回键'),
-            duration: Duration(seconds: 2),
-            backgroundColor: Colors.black,
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snack);
-          return false;
-        } else {
-          SystemNavigator.pop();
-          // Get.smartManagement
-          return true;
-        }
-      },
-      child: SafeArea(
-        top: false,
-        child: Obx(() {
-          int index = mainController.mainPageIndex.value;
-          print(index);
-          // if (!mainController.initDataAvailable.value) {
-          //   return SplashPage();
-          // }
-          changeStatusBarColor(const Color(mainColor), Brightness.light);
+    return Container(
+      color: Get.theme.primaryColor,
+      child: WillPopScope(
+        onWillPop: () async {
+          final timegap = DateTime.now().difference(pre_backpress);
+          final cantExit = timegap >= Duration(seconds: 2);
+          pre_backpress = DateTime.now();
+          if (cantExit) {
+            final snack = SnackBar(
+              content: Text('确认要结束的话 请再按一次返回键'),
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snack);
+            return false;
+          } else {
+            SystemNavigator.pop();
+            // Get.smartManagement
+            return true;
+          }
+        },
+        child: SafeArea(
+          top: false,
+          // maintainBottomViewPadding: true,
+          // bottom: false,
+          child: Obx(() {
+            int index = mainController.mainPageIndex.value;
+            print(index);
+            // if (!mainController.initDataAvailable.value) {
+            //   return SplashPage();
+            // }
+            changeStatusBarColor(const Color(mainColor), Brightness.light);
 
-          return Scaffold(
-            body: Builder(builder: (BuildContext context) {
-              print(index);
-              if (index == 0) {
-                putController<MainController>();
-                return MainPageScroll();
-              } else if (index == 1) {
-                putController<TimeTableController>();
-                return Timetable();
-              } else if (index == 2) {
-                putController<ClassController>();
-                return Class();
-              } else if (index == 3) {
-                putController<MainController>();
-                putController<NotiController>();
-                return Noti();
-              } else if (index == 4) {
-                putController<MyPageController>();
-                putController<MainController>();
-                changeStatusBarColor(Get.theme.primaryColor, Brightness.light);
-                return Mypage();
-              } else {
-                putController<MainController>();
-                return MainPageScroll();
-              }
-            }),
-            bottomNavigationBar: CustomBottomNavigationBar(),
-          );
-        }),
+            return Scaffold(
+              body: Builder(builder: (BuildContext context) {
+                print(index);
+                if (index == 0) {
+                  putController<MainController>();
+                  return MainPageScroll();
+                } else if (index == 1) {
+                  putController<TimeTableController>();
+                  return Timetable();
+                } else if (index == 2) {
+                  putController<ClassController>();
+                  return Class();
+                } else if (index == 3) {
+                  putController<MainController>();
+                  putController<NotiController>();
+                  return Noti();
+                } else if (index == 4) {
+                  putController<MyPageController>();
+                  putController<MainController>();
+                  changeStatusBarColor(
+                      Get.theme.primaryColor, Brightness.light);
+                  return Mypage();
+                } else {
+                  putController<MainController>();
+                  return MainPageScroll();
+                }
+              }),
+              bottomNavigationBar: CustomBottomNavigationBar(),
+            );
+          }),
+        ),
       ),
     );
   }

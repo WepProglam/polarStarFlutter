@@ -209,1073 +209,1100 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
         controller.tapTextField.value = false;
         return true;
       },
-      child: SafeArea(
-        top: false,
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
+      child: Container(
+        color: const Color(0xffe6f1ff),
+        child: SafeArea(
+          top: false,
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
 
-          endDrawer: Drawer(
-              // Add a ListView to the drawer. This ensures the user can scroll
-              // through the options in the drawer if there isn't enough vertical
-              // space to fit everything.
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 51, left: 20),
-                child: Text("대화상대",
-                    style: const TextStyle(
-                        color: const Color(0xff2f2f2f),
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "NotoSansKR",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14.0),
-                    textAlign: TextAlign.left),
-              ),
-              Container(
-                  margin: const EdgeInsets.only(
-                      top: 9, left: 10, right: 10, bottom: 14),
-                  height: 1,
-                  decoration: BoxDecoration(color: const Color(0xffeaeaea))),
-              Expanded(
-                child: Obx(() {
-                  return ListView.builder(
-                      itemCount: controller.chatProfileList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        ChatPrifileModel prifileModel =
-                            controller.chatProfileList[index];
-                        return Container(
-                          height: 32,
-                          margin: const EdgeInsets.only(left: 20, bottom: 10),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 32,
-                                width: 32,
-                                child: CachedNetworkImage(
-                                    imageUrl: prifileModel.PROFILE_PHOTO),
-                              ),
-                              prifileModel.MY_SELF
-                                  ? Container(
-                                      margin: const EdgeInsets.only(left: 10),
-                                      width: 16,
-                                      height: 16,
-                                      child: Center(
-                                        child: Text("나",
-                                            style: const TextStyle(
-                                                color: const Color(0xffffffff),
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: "NotoSansKR",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 10.0),
-                                            textAlign: TextAlign.center),
-                                      ),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4)),
-                                          color: const Color(0xff91bbff)))
-                                  : Container(
-                                      margin: const EdgeInsets.only(left: 10)),
-                              Container(
-                                margin: const EdgeInsets.only(left: 4),
-                                child: Text("${prifileModel.PROFILE_NICKNAME}",
-                                    style: const TextStyle(
-                                        color: const Color(0xff6f6e6e),
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: "NotoSansSC",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 12.0),
-                                    textAlign: TextAlign.left),
-                              )
-                            ],
-                          ),
-                        );
-                      });
-                }),
-              ),
-              // ! 알림 끄기 기능 구현 후 장착 필요
-              // // 사각형 62
-              // Container(
-              //     height: 75,
-              //     decoration: BoxDecoration(color: const Color(0xffe6f1ff)))
-            ],
-          )),
-          backgroundColor: const Color(0xffffffff),
-          // resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            toolbarHeight: 56,
-
-            backgroundColor: Get.theme.primaryColor,
-            titleSpacing: 0,
-            // elevation: 0,
-            automaticallyImplyLeading: false,
-            // actions: [
-            //   InkWell(
-            //     onTap: () {
-            //       Get.toNamed("/timetable/bin");
-            //     },
-            //     child: Image.asset(
-            //       "assets/images/menu.png",
-            //     ),
-            //   ),
-            // ],
-            leading: InkWell(
-              onTap: () {
-                Get.back();
-              },
-              child: Ink(
-                // padding: const EdgeInsets.symmetric(vertical: 17.0),
-                child: Image.asset(
-                  'assets/images/icn_back_white.png',
-                  color: const Color(0xffffffff),
-                ),
-              ),
-            ),
-            centerTitle: true,
-
-            title: Container(
-                margin: const EdgeInsets.symmetric(vertical: 16.5),
-                child: // 设置
-                    Obx(() {
-                  Rx<ChatBoxModel> box_model = isClass
-                      ? controller.classChatBox[chatIndex]
-                      : controller.majorChatBox[chatIndex];
-                  return Text(
-                      box_model.value.CLASS_PROFESSOR != null
-                          ? "${box_model.value.BOX_NAME}-${box_model.value.CLASS_PROFESSOR}"
-                          : "${box_model.value.BOX_NAME}",
+            endDrawer: Drawer(
+                // Add a ListView to the drawer. This ensures the user can scroll
+                // through the options in the drawer if there isn't enough vertical
+                // space to fit everything.
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 51, left: 20),
+                  child: Text("대화상대",
                       style: const TextStyle(
-                          color: const Color(0xffffffff),
-                          fontWeight: FontWeight.w500,
-                          fontFamily: "NotoSansSC",
+                          color: const Color(0xff2f2f2f),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "NotoSansKR",
                           fontStyle: FontStyle.normal,
-                          fontSize: 16.0),
-                      textAlign: TextAlign.center);
-                })),
-          ),
-          body: Obx(() {
-            print("시발!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            print("chatDownloaed :${controller.chatDownloaed.value}");
-            print(
-                "controller.imagePreCached.value : ${controller.imagePreCached.value}");
-            if (!controller.chatDownloaed.value) {
-              return Container();
-
-              // Column(
-              //   children: [CircularProgressIndicator(), Text("waiting...")],
-              // );
-            }
-            // else if (!controller.imagePreCached.value) {
-            //   return CircularProgressIndicator();
-            // }
-            // WidgetsBinding.instance.addPostFrameCallback((_) {
-            //   // preCacheImage(model);
-            // });
-
-            print(
-                "controller.imagePreCached.value : ${controller.imagePreCached.value}");
-
-            // WidgetsBinding.instance.addPostFrameCallback((_) {
-            //   controller.chatScrollController.jumpTo(
-            //       controller.chatScrollController.position.maxScrollExtent);
-            // });
-            // if (controller.chatScrollController.hasClients) {
-            //   controller.chatScrollController.jumpTo(
-            //       controller.chatScrollController.position.maxScrollExtent);
-            // }
-            // WidgetsBinding.instance.addPostFrameCallback((_) {
-            //   controller.chatScrollController.jumpTo(
-            //       controller.chatScrollController.position.maxScrollExtent);
-            // });
-            Rx<ChatBoxModel> box_model = isClass
-                ? controller.classChatBox[chatIndex]
-                : controller.majorChatBox[chatIndex];
-
-            return GestureDetector(
-              onTap: () {
-                if (controller.tapTextField.value) {
-                  print(
-                      controller.chatScrollController.position.maxScrollExtent);
-                  double target_pos = controller.chatScrollController.offset -
-                              getKeyboardHeight() <
-                          0
-                      ? 0
-                      : controller.chatScrollController.offset -
-                          getKeyboardHeight();
-                  // controller.chatScrollController.jumpTo(target_pos);
-                }
-
-                controller.canChatFileShow.value = false;
-                controller.tapTextField.value = false;
-                controller.chatFocusNode.unfocus();
-              },
-              child: Stack(children: [
-                SingleChildScrollView(
-                  controller: controller.chatScrollController,
-                  reverse: true,
+                          fontSize: 14.0),
+                      textAlign: TextAlign.left),
+                ),
+                Container(
+                    margin: const EdgeInsets.only(
+                        top: 9, left: 10, right: 10, bottom: 14),
+                    height: 1,
+                    decoration: BoxDecoration(color: const Color(0xffeaeaea))),
+                Expanded(
                   child: Obx(() {
-                    WidgetsBinding.instance.addPostFrameCallback((_) async {
-                      if (controller.isFirstEnter.value) {
-                        controller.chatScrollController.jumpTo(0.0);
-                        controller.isFirstEnter.value = false;
-                      } else if (controller.isNewMessage.value) {
-                        controller.chatScrollController.jumpTo(0.0);
-                        controller.isNewMessage.value = false;
-                      } else if (controller.additionalChatLoading.value) {
-                        await Future.delayed(Duration(milliseconds: 100), () {
-                          controller.additionalChatLoading.value = false;
-                        });
-                      }
-                    });
-                    print("re build!!");
-
-                    return ListView.separated(
-                      separatorBuilder: (BuildContext context, int ii) {
-                        int index = ii - 1;
-                        index += 1;
-                        // if (ii == 0) {
-                        //   return Container();
-                        // }
-                        Rx<ChatModel> model;
-
-                        Rx<ChatModel> prevModel;
-                        Rx<ChatModel> nextModel;
-
-                        if (index <= box_model.value.ChatList.length - 1) {
-                          model = box_model.value.ChatList[index];
-                          if (index - 1 < 0) {
-                            prevModel = null;
-                          } else {
-                            prevModel = box_model.value.ChatList[index - 1];
-                          }
-
-                          if (index + 1 >= box_model.value.ChatList.length) {
-                            nextModel = null;
-                          } else {
-                            nextModel = box_model.value.ChatList[index + 1];
-                          }
-                        } else {
-                          int loadingIndex =
-                              index - box_model.value.ChatList.length;
-                          model = box_model.value.LoadingChatList[loadingIndex];
-
-                          if (loadingIndex - 1 < 0) {
-                            prevModel = null;
-                          } else {
-                            prevModel = box_model
-                                .value.LoadingChatList[loadingIndex - 1];
-                          }
-
-                          if (loadingIndex + 1 >=
-                              box_model.value.LoadingChatList.length) {
-                            nextModel = null;
-                          } else {
-                            nextModel = box_model
-                                .value.LoadingChatList[loadingIndex + 1];
-                          }
-                        }
-
-                        bool showLine = ((nextModel != null) &&
-                            (nextModel.value.TIME_CREATED.day !=
-                                model.value.TIME_CREATED.day));
-                        // print(
-                        //     "${index} => ${model.value.TIME_CREATED.toString()}");
-                        return showLine
-                            ? Container(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      // 선 77
-                                      Container(
-                                          height: 1,
-                                          width: Get.mediaQuery.size.width,
-                                          decoration: BoxDecoration(
-                                              color: const Color(0xffeaeaea))),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 14.5),
-                                        color: Colors.white,
-                                        child: Text(
-                                            "${model.value.TIME_CREATED.year}年${model.value.TIME_CREATED.month}月${model.value.TIME_CREATED.day}日",
-                                            style: const TextStyle(
-                                                color: const Color(0xff9b9b9b),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: "NotoSansSC",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 10.0),
-                                            textAlign: TextAlign.center),
-                                      ),
-                                    ]),
-                              )
-                            : Container();
-                      },
-                      shrinkWrap: true,
-                      // reverse: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: box_model.value.ChatList.length +
-                          box_model.value.LoadingChatList.length +
-                          0,
-                      scrollDirection: Axis.vertical,
-                      padding: EdgeInsets.only(
-                          top: 24,
-                          bottom: controller.tapTextField.value ||
-                                  controller.canChatFileShow.value
-                              ? 60 + 6.0 + getKeyboardHeight()
-                              : 60 + 6.0),
-                      itemBuilder: (context, ii) {
-                        int index = ii - 1;
-                        index += 1;
-                        // if (ii == 0) {
-                        //   return controller.isPageEnd.value
-                        //       ? Container()
-                        //       : Center(
-                        //           child: CircularProgressIndicator(),
-                        //         );
-                        // }
-                        Rx<ChatModel> model;
-
-                        Rx<ChatModel> prevModel;
-                        Rx<ChatModel> nextModel;
-
-                        if (index <= box_model.value.ChatList.length - 1) {
-                          model = box_model.value.ChatList[index];
-                          if (index - 1 < 0) {
-                            prevModel = null;
-                          } else {
-                            prevModel = box_model.value.ChatList[index - 1];
-                          }
-
-                          if (index + 1 >= box_model.value.ChatList.length) {
-                            nextModel = null;
-                          } else {
-                            nextModel = box_model.value.ChatList[index + 1];
-                          }
-                        } else {
-                          int loadingIndex =
-                              index - box_model.value.ChatList.length;
-                          model = box_model.value.LoadingChatList[loadingIndex];
-
-                          if (loadingIndex - 1 < 0) {
-                            prevModel = null;
-                          } else {
-                            prevModel = box_model
-                                .value.LoadingChatList[loadingIndex - 1];
-                          }
-
-                          if (loadingIndex + 1 >=
-                              box_model.value.LoadingChatList.length) {
-                            nextModel = null;
-                          } else {
-                            nextModel = box_model
-                                .value.LoadingChatList[loadingIndex + 1];
-                          }
-                        }
-
-                        bool MY_SELF = model.value.MY_SELF;
-
-                        bool isContinueSame = (prevModel != null &&
-                            prevModel.value.PROFILE_NICKNAME ==
-                                model.value.PROFILE_NICKNAME &&
-                            prevModel.value.PROFILE_PHOTO ==
-                                model.value.PROFILE_PHOTO);
-
-                        bool isContinueDifferent = prevModel != null &&
-                            ((prevModel.value.PROFILE_NICKNAME !=
-                                        model.value.PROFILE_NICKNAME &&
-                                    prevModel.value.PROFILE_PHOTO !=
-                                        model.value.PROFILE_PHOTO) ||
-                                (prevModel.value.ENTRY_CHAT != null));
-
-                        print("${isContinueDifferent} ${model.value.CONTENT}");
-
-                        /**
-                               * displayTime: 시간 표시 boolean
-                               * 앞 사람이 다른 사람일때 - isContinueDifferent
-                               * 앞 사람이 같은 사람이고 이 채팅이 해당 시간에 쓴 마지막일때
-                               * 맨 마지막 톡 일때
-                               */
-                        bool isChatSamePersonEnd = (nextModel != null &&
-                                nextModel.value.PROFILE_NICKNAME !=
-                                    model.value.PROFILE_NICKNAME &&
-                                nextModel.value.PROFILE_PHOTO !=
-                                    model.value.PROFILE_PHOTO) ||
-                            nextModel == null;
-
-                        bool lastChatInTime = (nextModel != null &&
-                                (nextModel.value.TIME_CREATED.day !=
-                                        model.value.TIME_CREATED.day ||
-                                    nextModel.value.TIME_CREATED.hour !=
-                                        model.value.TIME_CREATED.hour ||
-                                    nextModel.value.TIME_CREATED.minute !=
-                                        model.value.TIME_CREATED.minute)) ||
-                            nextModel == null;
-
-                        bool firstChatInTime = (prevModel != null &&
-                                (prevModel.value.TIME_CREATED.day !=
-                                        model.value.TIME_CREATED.day ||
-                                    prevModel.value.TIME_CREATED.hour !=
-                                        model.value.TIME_CREATED.hour ||
-                                    prevModel.value.TIME_CREATED.minute !=
-                                        model.value.TIME_CREATED.minute)) ||
-                            prevModel == null;
-
-                        bool displayTime =
-                            isChatSamePersonEnd || lastChatInTime;
-
-                        bool showProfile = prevModel == null ||
-                            isContinueDifferent ||
-                            firstChatInTime;
-
-                        // bool isTimeDifferent = (isContinueSame &&
-                        //         (prevModel.value.TIME_CREATED.day !=
-                        //                 model.value.TIME_CREATED.day ||
-                        //             prevModel.value.TIME_CREATED.hour !=
-                        //                 model.value.TIME_CREATED.hour ||
-                        //             prevModel.value.TIME_CREATED.minute !=
-                        //                 model.value.TIME_CREATED.minute)) ||
-                        //     isContinueDifferent ||
-                        //     prevModel == null;
-
-                        bool isEntryChat = false;
-                        if (model.value.ENTRY_CHAT != null) {
-                          isEntryChat = true;
-                        }
-                        return isEntryChat
-                            ? Center(
-                                child: Container(
-                                  constraints: BoxConstraints(
-                                      maxWidth:
-                                          Get.mediaQuery.size.width - 100),
-                                  margin: const EdgeInsets.only(
-                                      top: 20, bottom: 20),
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(11)),
-                                      border: Border.all(
-                                          color: const Color(0xffefefef),
-                                          width: 1)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 3.5),
-                                    child: Text("${model.value.ENTRY_CHAT}",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            color: const Color(0xff9b9b9b),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: "NotoSansKR",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 10.0),
-                                        textAlign: TextAlign.center),
-                                  ),
+                    return ListView.builder(
+                        itemCount: controller.chatProfileList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          ChatPrifileModel prifileModel =
+                              controller.chatProfileList[index];
+                          return Container(
+                            height: 32,
+                            margin: const EdgeInsets.only(left: 20, bottom: 10),
+                            child: Row(
+                              children: [
+                                Container(
+                                  height: 32,
+                                  width: 32,
+                                  child: CachedNetworkImage(
+                                      imageUrl: prifileModel.PROFILE_PHOTO),
                                 ),
-                              )
-                            : Container(
-                                padding: (prevModel == null
-                                    ? MY_SELF
-                                        ? EdgeInsets.only(right: 20, top: 0)
-                                        : EdgeInsets.only(left: 20, top: 0)
-                                    : MY_SELF
-                                        ? EdgeInsets.only(
-                                            right: 20,
-                                            top: isContinueSame ? 6 : 24)
-                                        : EdgeInsets.only(
-                                            left: 20,
-                                            top: showProfile ? 24 : 6)),
-                                child: Align(
-                                  alignment: (MY_SELF
-                                      ? Alignment.topRight
-                                      : Alignment.topLeft),
-                                  child: (MY_SELF
-                                      ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                              Obx(() {
-                                                print(
-                                                    "model.value.FILE_DOWNLOADED ${model.value.FILE_DOWNLOADED}");
-                                                return MAIL_CONTENT_ITEM(
-                                                  model: model,
-                                                  FILE_DOWNLOADED: model
-                                                      .value.FILE_DOWNLOADED,
-                                                  FILE_DOWNLOADING: model
-                                                      .value.FILE_DOWNLOADING,
-                                                  classChatController:
-                                                      controller,
-                                                  isTimeDifferent: displayTime,
-                                                );
-                                              })
-                                            ])
-                                      : Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                              showProfile
-                                                  ? MAIL_PROFILE_ITEM(
-                                                      model: model.value,
-                                                      FROM_ME: MY_SELF,
-                                                    )
-                                                  : Container(
-                                                      width: 42,
-                                                    ),
-                                              Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    showProfile
-                                                        ? Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    bottom: 4),
-                                                            child: Text(
-                                                                "${model.value.PROFILE_NICKNAME}",
-                                                                style: const TextStyle(
-                                                                    color: const Color(
-                                                                        0xff6f6e6e),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    fontFamily:
-                                                                        "NotoSansSC",
-                                                                    fontStyle:
-                                                                        FontStyle
-                                                                            .normal,
-                                                                    fontSize:
-                                                                        10.0),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left),
-                                                          )
-                                                        : Container(),
-                                                    Obx(() {
-                                                      print(
-                                                          "model.value.FILE_DOWNLOADED ${model.value.FILE_DOWNLOADED}");
-                                                      return MAIL_CONTENT_ITEM(
-                                                          FILE_DOWNLOADED: model
-                                                              .value
-                                                              .FILE_DOWNLOADED,
-                                                          FILE_DOWNLOADING: model
-                                                              .value
-                                                              .FILE_DOWNLOADING,
-                                                          model: model,
-                                                          classChatController:
-                                                              controller,
-                                                          isTimeDifferent:
-                                                              displayTime);
-                                                    }),
-                                                  ]),
-                                            ])),
-                                ));
-                      },
-                    );
+                                prifileModel.MY_SELF
+                                    ? Container(
+                                        margin: const EdgeInsets.only(left: 10),
+                                        width: 16,
+                                        height: 16,
+                                        child: Center(
+                                          child: Text("나",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xffffffff),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "NotoSansKR",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 10.0),
+                                              textAlign: TextAlign.center),
+                                        ),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(4)),
+                                            color: const Color(0xff91bbff)))
+                                    : Container(
+                                        margin:
+                                            const EdgeInsets.only(left: 10)),
+                                Container(
+                                  margin: const EdgeInsets.only(left: 4),
+                                  child: Text(
+                                      "${prifileModel.PROFILE_NICKNAME}",
+                                      style: const TextStyle(
+                                          color: const Color(0xff6f6e6e),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "NotoSansSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 12.0),
+                                      textAlign: TextAlign.left),
+                                )
+                              ],
+                            ),
+                          );
+                        });
                   }),
                 ),
-                controller.additionalChatLoading.value
-                    ? Positioned(
-                        top: 10,
-                        left: (Get.mediaQuery.size.width - 20) / 2.0,
-                        child: Center(
-                          child: Container(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                            ),
-                          ),
-                        ))
-                    : Container(),
-                Positioned(
-                  right: 18,
-                  bottom: controller.tapTextField.value &&
-                          !controller.canChatFileShow.value
-                      ? getKeyboardHeight() + 60 + 18.0
-                      : 60 + 18.0,
-                  child: AnimatedOpacity(
-                    duration: Duration(milliseconds: 200),
-                    opacity: controller.toBottomButton.value ? 1 : 0,
-                    child: Ink(
-                      child: InkWell(
-                        onTap: () {
+                // ! 알림 끄기 기능 구현 후 장착 필요
+                // // 사각형 62
+                // Container(
+                //     height: 75,
+                //     decoration: BoxDecoration(color: const Color(0xffe6f1ff)))
+              ],
+            )),
+            backgroundColor: const Color(0xffffffff),
+            // resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              toolbarHeight: 56,
+
+              backgroundColor: Get.theme.primaryColor,
+              titleSpacing: 0,
+              // elevation: 0,
+              automaticallyImplyLeading: false,
+              // actions: [
+              //   InkWell(
+              //     onTap: () {
+              //       Get.toNamed("/timetable/bin");
+              //     },
+              //     child: Image.asset(
+              //       "assets/images/menu.png",
+              //     ),
+              //   ),
+              // ],
+              leading: InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: Ink(
+                  // padding: const EdgeInsets.symmetric(vertical: 17.0),
+                  child: Image.asset(
+                    'assets/images/icn_back_white.png',
+                    color: const Color(0xffffffff),
+                  ),
+                ),
+              ),
+              centerTitle: true,
+
+              title: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 16.5),
+                  child: // 设置
+                      Obx(() {
+                    Rx<ChatBoxModel> box_model = isClass
+                        ? controller.classChatBox[chatIndex]
+                        : controller.majorChatBox[chatIndex];
+                    return Text(
+                        box_model.value.CLASS_PROFESSOR != null
+                            ? "${box_model.value.BOX_NAME}-${box_model.value.CLASS_PROFESSOR}"
+                            : "${box_model.value.BOX_NAME}",
+                        style: const TextStyle(
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 16.0),
+                        textAlign: TextAlign.center);
+                  })),
+            ),
+            body: Obx(() {
+              print("시발!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+              print("chatDownloaed :${controller.chatDownloaed.value}");
+              print(
+                  "controller.imagePreCached.value : ${controller.imagePreCached.value}");
+              if (!controller.chatDownloaed.value) {
+                return Container();
+
+                // Column(
+                //   children: [CircularProgressIndicator(), Text("waiting...")],
+                // );
+              }
+              // else if (!controller.imagePreCached.value) {
+              //   return CircularProgressIndicator();
+              // }
+              // WidgetsBinding.instance.addPostFrameCallback((_) {
+              //   // preCacheImage(model);
+              // });
+
+              print(
+                  "controller.imagePreCached.value : ${controller.imagePreCached.value}");
+
+              // WidgetsBinding.instance.addPostFrameCallback((_) {
+              //   controller.chatScrollController.jumpTo(
+              //       controller.chatScrollController.position.maxScrollExtent);
+              // });
+              // if (controller.chatScrollController.hasClients) {
+              //   controller.chatScrollController.jumpTo(
+              //       controller.chatScrollController.position.maxScrollExtent);
+              // }
+              // WidgetsBinding.instance.addPostFrameCallback((_) {
+              //   controller.chatScrollController.jumpTo(
+              //       controller.chatScrollController.position.maxScrollExtent);
+              // });
+              Rx<ChatBoxModel> box_model = isClass
+                  ? controller.classChatBox[chatIndex]
+                  : controller.majorChatBox[chatIndex];
+
+              return GestureDetector(
+                onTap: () {
+                  if (controller.tapTextField.value) {
+                    print(controller
+                        .chatScrollController.position.maxScrollExtent);
+                    double target_pos = controller.chatScrollController.offset -
+                                getKeyboardHeight() <
+                            0
+                        ? 0
+                        : controller.chatScrollController.offset -
+                            getKeyboardHeight();
+                    // controller.chatScrollController.jumpTo(target_pos);
+                  }
+
+                  controller.canChatFileShow.value = false;
+                  controller.tapTextField.value = false;
+                  controller.chatFocusNode.unfocus();
+                },
+                child: Stack(children: [
+                  SingleChildScrollView(
+                    controller: controller.chatScrollController,
+                    reverse: true,
+                    child: Obx(() {
+                      WidgetsBinding.instance.addPostFrameCallback((_) async {
+                        if (controller.isFirstEnter.value) {
                           controller.chatScrollController.jumpTo(0.0);
+                          controller.isFirstEnter.value = false;
+                        } else if (controller.isNewMessage.value) {
+                          controller.chatScrollController.jumpTo(0.0);
+                          controller.isNewMessage.value = false;
+                        } else if (controller.additionalChatLoading.value) {
+                          await Future.delayed(Duration(milliseconds: 100), () {
+                            controller.additionalChatLoading.value = false;
+                          });
+                        }
+                      });
+                      print("re build!!");
+
+                      return ListView.separated(
+                        separatorBuilder: (BuildContext context, int ii) {
+                          int index = ii - 1;
+                          index += 1;
+                          // if (ii == 0) {
+                          //   return Container();
+                          // }
+                          Rx<ChatModel> model;
+
+                          Rx<ChatModel> prevModel;
+                          Rx<ChatModel> nextModel;
+
+                          if (index <= box_model.value.ChatList.length - 1) {
+                            model = box_model.value.ChatList[index];
+                            if (index - 1 < 0) {
+                              prevModel = null;
+                            } else {
+                              prevModel = box_model.value.ChatList[index - 1];
+                            }
+
+                            if (index + 1 >= box_model.value.ChatList.length) {
+                              nextModel = null;
+                            } else {
+                              nextModel = box_model.value.ChatList[index + 1];
+                            }
+                          } else {
+                            int loadingIndex =
+                                index - box_model.value.ChatList.length;
+                            model =
+                                box_model.value.LoadingChatList[loadingIndex];
+
+                            if (loadingIndex - 1 < 0) {
+                              prevModel = null;
+                            } else {
+                              prevModel = box_model
+                                  .value.LoadingChatList[loadingIndex - 1];
+                            }
+
+                            if (loadingIndex + 1 >=
+                                box_model.value.LoadingChatList.length) {
+                              nextModel = null;
+                            } else {
+                              nextModel = box_model
+                                  .value.LoadingChatList[loadingIndex + 1];
+                            }
+                          }
+
+                          bool showLine = ((nextModel != null) &&
+                              (nextModel.value.TIME_CREATED.day !=
+                                  model.value.TIME_CREATED.day));
+                          // print(
+                          //     "${index} => ${model.value.TIME_CREATED.toString()}");
+                          return showLine
+                              ? Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        // 선 77
+                                        Container(
+                                            height: 1,
+                                            width: Get.mediaQuery.size.width,
+                                            decoration: BoxDecoration(
+                                                color:
+                                                    const Color(0xffeaeaea))),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 14.5),
+                                          color: Colors.white,
+                                          child: Text(
+                                              "${model.value.TIME_CREATED.year}年${model.value.TIME_CREATED.month}月${model.value.TIME_CREATED.day}日",
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff9b9b9b),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: "NotoSansSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 10.0),
+                                              textAlign: TextAlign.center),
+                                        ),
+                                      ]),
+                                )
+                              : Container();
                         },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Get.theme.primaryColor,
-                          ),
+                        shrinkWrap: true,
+                        // reverse: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: box_model.value.ChatList.length +
+                            box_model.value.LoadingChatList.length +
+                            0,
+                        scrollDirection: Axis.vertical,
+                        padding: EdgeInsets.only(
+                            top: 24,
+                            bottom: controller.tapTextField.value ||
+                                    controller.canChatFileShow.value
+                                ? 60 + 6.0 + getKeyboardHeight()
+                                : 60 + 6.0),
+                        itemBuilder: (context, ii) {
+                          int index = ii - 1;
+                          index += 1;
+                          // if (ii == 0) {
+                          //   return controller.isPageEnd.value
+                          //       ? Container()
+                          //       : Center(
+                          //           child: CircularProgressIndicator(),
+                          //         );
+                          // }
+                          Rx<ChatModel> model;
+
+                          Rx<ChatModel> prevModel;
+                          Rx<ChatModel> nextModel;
+
+                          if (index <= box_model.value.ChatList.length - 1) {
+                            model = box_model.value.ChatList[index];
+                            if (index - 1 < 0) {
+                              prevModel = null;
+                            } else {
+                              prevModel = box_model.value.ChatList[index - 1];
+                            }
+
+                            if (index + 1 >= box_model.value.ChatList.length) {
+                              nextModel = null;
+                            } else {
+                              nextModel = box_model.value.ChatList[index + 1];
+                            }
+                          } else {
+                            int loadingIndex =
+                                index - box_model.value.ChatList.length;
+                            model =
+                                box_model.value.LoadingChatList[loadingIndex];
+
+                            if (loadingIndex - 1 < 0) {
+                              prevModel = null;
+                            } else {
+                              prevModel = box_model
+                                  .value.LoadingChatList[loadingIndex - 1];
+                            }
+
+                            if (loadingIndex + 1 >=
+                                box_model.value.LoadingChatList.length) {
+                              nextModel = null;
+                            } else {
+                              nextModel = box_model
+                                  .value.LoadingChatList[loadingIndex + 1];
+                            }
+                          }
+
+                          bool MY_SELF = model.value.MY_SELF;
+
+                          bool isContinueSame = (prevModel != null &&
+                              prevModel.value.PROFILE_NICKNAME ==
+                                  model.value.PROFILE_NICKNAME &&
+                              prevModel.value.PROFILE_PHOTO ==
+                                  model.value.PROFILE_PHOTO);
+
+                          bool isContinueDifferent = prevModel != null &&
+                              ((prevModel.value.PROFILE_NICKNAME !=
+                                          model.value.PROFILE_NICKNAME &&
+                                      prevModel.value.PROFILE_PHOTO !=
+                                          model.value.PROFILE_PHOTO) ||
+                                  (prevModel.value.ENTRY_CHAT != null));
+
+                          print(
+                              "${isContinueDifferent} ${model.value.CONTENT}");
+
+                          /**
+                                 * displayTime: 시간 표시 boolean
+                                 * 앞 사람이 다른 사람일때 - isContinueDifferent
+                                 * 앞 사람이 같은 사람이고 이 채팅이 해당 시간에 쓴 마지막일때
+                                 * 맨 마지막 톡 일때
+                                 */
+                          bool isChatSamePersonEnd = (nextModel != null &&
+                                  nextModel.value.PROFILE_NICKNAME !=
+                                      model.value.PROFILE_NICKNAME &&
+                                  nextModel.value.PROFILE_PHOTO !=
+                                      model.value.PROFILE_PHOTO) ||
+                              nextModel == null;
+
+                          bool lastChatInTime = (nextModel != null &&
+                                  (nextModel.value.TIME_CREATED.day !=
+                                          model.value.TIME_CREATED.day ||
+                                      nextModel.value.TIME_CREATED.hour !=
+                                          model.value.TIME_CREATED.hour ||
+                                      nextModel.value.TIME_CREATED.minute !=
+                                          model.value.TIME_CREATED.minute)) ||
+                              nextModel == null;
+
+                          bool firstChatInTime = (prevModel != null &&
+                                  (prevModel.value.TIME_CREATED.day !=
+                                          model.value.TIME_CREATED.day ||
+                                      prevModel.value.TIME_CREATED.hour !=
+                                          model.value.TIME_CREATED.hour ||
+                                      prevModel.value.TIME_CREATED.minute !=
+                                          model.value.TIME_CREATED.minute)) ||
+                              prevModel == null;
+
+                          bool displayTime =
+                              isChatSamePersonEnd || lastChatInTime;
+
+                          bool showProfile = prevModel == null ||
+                              isContinueDifferent ||
+                              firstChatInTime;
+
+                          // bool isTimeDifferent = (isContinueSame &&
+                          //         (prevModel.value.TIME_CREATED.day !=
+                          //                 model.value.TIME_CREATED.day ||
+                          //             prevModel.value.TIME_CREATED.hour !=
+                          //                 model.value.TIME_CREATED.hour ||
+                          //             prevModel.value.TIME_CREATED.minute !=
+                          //                 model.value.TIME_CREATED.minute)) ||
+                          //     isContinueDifferent ||
+                          //     prevModel == null;
+
+                          bool isEntryChat = false;
+                          if (model.value.ENTRY_CHAT != null) {
+                            isEntryChat = true;
+                          }
+                          return isEntryChat
+                              ? Center(
+                                  child: Container(
+                                    constraints: BoxConstraints(
+                                        maxWidth:
+                                            Get.mediaQuery.size.width - 100),
+                                    margin: const EdgeInsets.only(
+                                        top: 20, bottom: 20),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(11)),
+                                        border: Border.all(
+                                            color: const Color(0xffefefef),
+                                            width: 1)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 14, vertical: 3.5),
+                                      child: Text("${model.value.ENTRY_CHAT}",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              color: const Color(0xff9b9b9b),
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: "NotoSansKR",
+                                              fontStyle: FontStyle.normal,
+                                              fontSize: 10.0),
+                                          textAlign: TextAlign.center),
+                                    ),
+                                  ),
+                                )
+                              : Container(
+                                  padding: (prevModel == null
+                                      ? MY_SELF
+                                          ? EdgeInsets.only(right: 20, top: 0)
+                                          : EdgeInsets.only(left: 20, top: 0)
+                                      : MY_SELF
+                                          ? EdgeInsets.only(
+                                              right: 20,
+                                              top: isContinueSame ? 6 : 24)
+                                          : EdgeInsets.only(
+                                              left: 20,
+                                              top: showProfile ? 24 : 6)),
+                                  child: Align(
+                                    alignment: (MY_SELF
+                                        ? Alignment.topRight
+                                        : Alignment.topLeft),
+                                    child: (MY_SELF
+                                        ? Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                                Obx(() {
+                                                  print(
+                                                      "model.value.FILE_DOWNLOADED ${model.value.FILE_DOWNLOADED}");
+                                                  return MAIL_CONTENT_ITEM(
+                                                    model: model,
+                                                    FILE_DOWNLOADED: model
+                                                        .value.FILE_DOWNLOADED,
+                                                    FILE_DOWNLOADING: model
+                                                        .value.FILE_DOWNLOADING,
+                                                    classChatController:
+                                                        controller,
+                                                    isTimeDifferent:
+                                                        displayTime,
+                                                  );
+                                                })
+                                              ])
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                                showProfile
+                                                    ? MAIL_PROFILE_ITEM(
+                                                        model: model.value,
+                                                        FROM_ME: MY_SELF,
+                                                      )
+                                                    : Container(
+                                                        width: 42,
+                                                      ),
+                                                Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      showProfile
+                                                          ? Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      bottom:
+                                                                          4),
+                                                              child: Text(
+                                                                  "${model.value.PROFILE_NICKNAME}",
+                                                                  style: const TextStyle(
+                                                                      color: const Color(
+                                                                          0xff6f6e6e),
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      fontFamily:
+                                                                          "NotoSansSC",
+                                                                      fontStyle:
+                                                                          FontStyle
+                                                                              .normal,
+                                                                      fontSize:
+                                                                          10.0),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left),
+                                                            )
+                                                          : Container(),
+                                                      Obx(() {
+                                                        print(
+                                                            "model.value.FILE_DOWNLOADED ${model.value.FILE_DOWNLOADED}");
+                                                        return MAIL_CONTENT_ITEM(
+                                                            FILE_DOWNLOADED: model
+                                                                .value
+                                                                .FILE_DOWNLOADED,
+                                                            FILE_DOWNLOADING: model
+                                                                .value
+                                                                .FILE_DOWNLOADING,
+                                                            model: model,
+                                                            classChatController:
+                                                                controller,
+                                                            isTimeDifferent:
+                                                                displayTime);
+                                                      }),
+                                                    ]),
+                                              ])),
+                                  ));
+                        },
+                      );
+                    }),
+                  ),
+                  controller.additionalChatLoading.value
+                      ? Positioned(
+                          top: 10,
+                          left: (Get.mediaQuery.size.width - 20) / 2.0,
+                          child: Center(
+                            child: Container(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          ))
+                      : Container(),
+                  Positioned(
+                    right: 18,
+                    bottom: controller.tapTextField.value &&
+                            !controller.canChatFileShow.value
+                        ? getKeyboardHeight() + 60 + 18.0
+                        : 60 + 18.0,
+                    child: AnimatedOpacity(
+                      duration: Duration(milliseconds: 200),
+                      opacity: controller.toBottomButton.value ? 1 : 0,
+                      child: Ink(
+                        child: InkWell(
+                          onTap: () {
+                            controller.chatScrollController.jumpTo(0.0);
+                          },
                           child: Container(
-                              child: Image.asset(
-                            "assets/images/chatting_down.png",
-                            width: 36,
-                            height: 36,
-                          )),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Get.theme.primaryColor,
+                            ),
+                            child: Container(
+                                child: Image.asset(
+                              "assets/images/chatting_down.png",
+                              width: 36,
+                              height: 36,
+                            )),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                )
-              ]),
-            );
-          }),
-          //입력창
-          bottomSheet: Obx(() {
-            return Container(
-              decoration: BoxDecoration(color: const Color(0xffe6f1ff)),
-              child: Container(
-                margin: EdgeInsets.only(
-                    bottom: controller.tapTextField.value &&
-                            !controller.canChatFileShow.value
-                        ? getKeyboardHeight()
-                        : 0.0),
-                // height: 60.0,
+                  )
+                ]),
+              );
+            }),
+            //입력창
+            bottomSheet: Obx(() {
+              return Container(
                 decoration: BoxDecoration(color: const Color(0xffe6f1ff)),
-                child: Column(mainAxisSize: MainAxisSize.min, children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 10, bottom: 10),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          // height: 40,
-                          width: Get.mediaQuery.size.width - 20 - 20,
-                          margin: const EdgeInsets.only(left: 20, right: 20),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
-                              border: Border.all(
-                                  color: const Color(0xffeaeaea), width: 1),
-                              color: const Color(0xffffffff)),
-                          child: Row(children: [
-                            Container(
-                              margin: const EdgeInsets.only(left: 24),
-                              // width: Get.mediaQuery.size.width - 150,
-                              width:
-                                  Get.mediaQuery.size.width - 20 - 16 - 70 - 20,
-                              child: TextFormField(
-                                  keyboardType: TextInputType.multiline,
-                                  focusNode: controller.chatFocusNode,
-                                  onTap: () async {
-                                    controller.canChatFileShow.value = false;
+                child: Container(
+                  margin: EdgeInsets.only(
+                      bottom: controller.tapTextField.value &&
+                              !controller.canChatFileShow.value
+                          ? getKeyboardHeight()
+                          : 0.0),
+                  // height: 60.0,
+                  decoration: BoxDecoration(color: const Color(0xffe6f1ff)),
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 10, bottom: 10),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            // height: 40,
+                            width: Get.mediaQuery.size.width - 20 - 20,
+                            margin: const EdgeInsets.only(left: 20, right: 20),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                                border: Border.all(
+                                    color: const Color(0xffeaeaea), width: 1),
+                                color: const Color(0xffffffff)),
+                            child: Row(children: [
+                              Container(
+                                margin: const EdgeInsets.only(left: 24),
+                                // width: Get.mediaQuery.size.width - 150,
+                                width: Get.mediaQuery.size.width -
+                                    20 -
+                                    16 -
+                                    70 -
+                                    20,
+                                child: TextFormField(
+                                    keyboardType: TextInputType.multiline,
+                                    focusNode: controller.chatFocusNode,
+                                    onTap: () async {
+                                      controller.canChatFileShow.value = false;
 
-                                    if (!controller.tapTextField.value) {
-                                      controller.tapTextField.value = true;
-                                      // Future.delayed(Duration(milliseconds: 50),
-                                      //     () {
-                                      //   double max_extent = controller
-                                      //       .chatScrollController
-                                      //       .position
-                                      //       .maxScrollExtent;
-                                      //   double offset_height = controller
-                                      //           .chatScrollController.offset +
-                                      //       getKeyboardHeight();
+                                      if (!controller.tapTextField.value) {
+                                        controller.tapTextField.value = true;
+                                        // Future.delayed(Duration(milliseconds: 50),
+                                        //     () {
+                                        //   double max_extent = controller
+                                        //       .chatScrollController
+                                        //       .position
+                                        //       .maxScrollExtent;
+                                        //   double offset_height = controller
+                                        //           .chatScrollController.offset +
+                                        //       getKeyboardHeight();
 
-                                      //   print(
-                                      //       "off_set : ${offset_height} - max_extent : ${max_extent}");
+                                        //   print(
+                                        //       "off_set : ${offset_height} - max_extent : ${max_extent}");
 
-                                      //   double target_pos =
-                                      //       offset_height > max_extent
-                                      //           ? max_extent
-                                      //           : offset_height;
+                                        //   double target_pos =
+                                        //       offset_height > max_extent
+                                        //           ? max_extent
+                                        //           : offset_height;
 
-                                      //   // controller.chatScrollController
-                                      //   //     .jumpTo(offset_height);
-                                      // });
-                                    }
-                                  },
-                                  onEditingComplete: () async {
-                                    // controller.chatEnterAmouunt.value += 1;
-                                    String textNewLine =
-                                        commentWriteController.value.text +
-                                            "\n";
-                                    commentWriteController.value =
-                                        TextEditingValue(
-                                      text: commentWriteController.text + "\n",
-                                      selection: TextSelection.collapsed(
-                                          offset: textNewLine.length),
-                                    );
-                                  },
-                                  minLines: 1,
-                                  maxLines: 5,
-                                  controller: commentWriteController,
-                                  style: const TextStyle(
-                                      color: const Color(0xff2f2f2f),
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "NotoSansSC",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 14.0),
-                                  onFieldSubmitted: (value) {},
-                                  textInputAction: TextInputAction.done,
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    border: InputBorder.none,
-                                    hintText: "",
-                                    hintStyle: const TextStyle(
-                                        color: const Color(0xff9b9b9b),
+                                        //   // controller.chatScrollController
+                                        //   //     .jumpTo(offset_height);
+                                        // });
+                                      }
+                                    },
+                                    onEditingComplete: () async {
+                                      // controller.chatEnterAmouunt.value += 1;
+                                      String textNewLine =
+                                          commentWriteController.value.text +
+                                              "\n";
+                                      commentWriteController.value =
+                                          TextEditingValue(
+                                        text:
+                                            commentWriteController.text + "\n",
+                                        selection: TextSelection.collapsed(
+                                            offset: textNewLine.length),
+                                      );
+                                    },
+                                    minLines: 1,
+                                    maxLines: 5,
+                                    controller: commentWriteController,
+                                    style: const TextStyle(
+                                        color: const Color(0xff2f2f2f),
                                         fontWeight: FontWeight.w400,
                                         fontFamily: "NotoSansSC",
                                         fontStyle: FontStyle.normal,
                                         fontSize: 14.0),
-                                  )),
-                            ),
-                            InkWell(
-                                child: // 타원 20
-                                    Container(
-                                        margin:
-                                            const EdgeInsets.only(right: 10),
-                                        width: 16,
-                                        height: 20,
-                                        child: Image.asset(
-                                            "assets/images/file_plus.png"),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        )),
-                                onTap: () async {
-                                  if (controller.canChatFileShow.value) {
-                                    controller.chatFocusNode.requestFocus();
-                                  } else {
-                                    controller.chatFocusNode.unfocus();
-                                  }
-
-                                  controller.tapTextField.value =
-                                      !controller.tapTextField.value;
-                                  controller.canChatFileShow.value =
-                                      !controller.canChatFileShow.value;
-
-                                  // if (controller.tapTextField.value) {
-                                  //   // controller.tapTextField.value = false;
-
-                                  //   if (controller.canChatFileShow.value) {
-                                  //     controller.chatFocusNode.requestFocus();
-                                  //   } else {
-                                  //     FocusScope.of(context).unfocus();
-                                  //   }
-                                  // } else {
-                                  //   controller.tapTextField.value = true;
-
-                                  //   if (controller.canChatFileShow.value) {
-                                  //     controller.chatFocusNode.requestFocus();
-                                  //   } else {
-                                  //     FocusScope.of(context).unfocus();
-                                  //     // double target_pos = controller
-                                  //     //         .chatScrollController.offset +
-                                  //     //     getKeyboardHeight();
-
-                                  //     // controller.chatScrollController
-                                  //     //     .jumpTo(target_pos);
-                                  //   }
-                                  // }
-                                }),
-                            InkWell(
-                                child: // 타원 20
-                                    Container(
-                                        margin: const EdgeInsets.only(right: 6),
-                                        width: 28,
-                                        height: 28,
-                                        child: Image.asset(
-                                            "assets/images/chat_input_send.png"),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Get.theme.primaryColor,
-                                        )),
-                                onTap: () async {
-                                  // if (controller.files.length != 0) {
-                                  //   await controller.sendFile();
-                                  // } else if (controller.photos.length != 0) {
-                                  //   await controller.sendPhoto();
-                                  // } else {
-                                  String text = commentWriteController.text;
-                                  String testText = text;
-                                  if (testText.trim().isEmpty) {
-                                    return;
-                                  }
-                                  controller
-                                      .sendMessage(commentWriteController.text);
-
-                                  commentWriteController.clear();
-                                  // }
-                                }),
-                          ]),
-                        ),
-                      ],
-                    ),
-                  ),
-                  controller.canChatFileShow.value
-                      ? Builder(builder: (context) {
-                          double height = getKeyboardHeight();
-                          double containerSize =
-                              (Get.mediaQuery.size.width - 42 * 2 - 24 * 2) /
-                                  3.0;
-                          containerSize = 76.0;
-                          return Container(
-                              height: height,
-                              child: Container(
-                                margin: const EdgeInsets.only(
-                                    top: 34, left: 42, right: 42),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Ink(
-                                            child: InkWell(
-                                              onTap: () async {
-                                                print("camera");
-                                                if (await Permission
-                                                    .camera.isGranted) {
-                                                  final pickedFile =
-                                                      await image_picker
-                                                          .pickImage(
-                                                              source:
-                                                                  ImageSource
-                                                                      .camera);
-                                                  if (pickedFile != null) {
-                                                    // Function ontapConfirm =
-                                                    //     () async {
-                                                    //   await controller
-                                                    //       .sendCameraPhoto(
-                                                    //           pickedFile);
-                                                    //   Get.back();
-                                                    // };
-                                                    // Function ontapCancel = () {
-                                                    //   Get.back();
-                                                    // };
-                                                    await controller
-                                                        .sendCameraPhoto(
-                                                            pickedFile);
-                                                    // TFdialogue(
-                                                    //     context,
-                                                    //     "Photo Upload",
-                                                    //     "Want Upload this Photo?",
-                                                    //     ontapConfirm,
-                                                    //     ontapCancel);
-                                                  }
-                                                } else {
-                                                  // print("??");
-                                                  // await [Permission.camera]
-                                                  //     .request();
-                                                  ManagePermission
-                                                      .permissionDialog(
-                                                          "Camera");
-                                                }
-                                              },
-                                              child: Container(
-                                                  width: containerSize,
-                                                  height: containerSize,
-                                                  child: Center(
-                                                      child: Image.asset(
-                                                    "assets/images/file_send_camera.png",
-                                                  )),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  10)),
-                                                      border: Border.all(
-                                                          color: const Color(
-                                                              0xffeaeaea),
-                                                          width: 1),
-                                                      color: const Color(
-                                                          0xffffffff))),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(top: 6),
-                                            child: Text("Camera",
-                                                style: const TextStyle(
-                                                    color:
-                                                        const Color(0xff9b9b9b),
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: "Roboto",
-                                                    fontStyle: FontStyle.normal,
-                                                    fontSize: 10.0),
-                                                textAlign: TextAlign.center),
-                                          )
-                                        ]),
-                                    Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Ink(
-                                            child: InkWell(
-                                              onTap: () async {
-                                                if (await ManagePermission
-                                                    .checkPermission(
-                                                        "storage")) {
-                                                  print('사진추가');
-
-                                                  List<AssetEntity>
-                                                      temp_photos =
-                                                      await AssetPicker
-                                                          .pickAssets(
-                                                    context,
-                                                    maxAssets: 10,
-                                                    themeColor:
-                                                        Get.theme.primaryColor,
-                                                  );
-
-                                                  if (temp_photos != null) {
-                                                    controller.photos
-                                                        .addAll(temp_photos);
-                                                    await controller
-                                                        .sendPhoto();
-                                                    // Get.defaultDialog(
-                                                    //   title: "Photo Upload",
-                                                    //   middleText:
-                                                    //       "Want Upload these Photos?",
-                                                    //   actions: [
-                                                    //     TextButton(
-                                                    //         onPressed:
-                                                    //             () async {
-                                                    //           controller.photos
-                                                    //               .addAll(
-                                                    //                   temp_photos);
-                                                    //           await controller
-                                                    //               .sendPhoto();
-                                                    //           Get.back();
-                                                    //         },
-                                                    //         child: Text("YES")),
-                                                    //     TextButton(
-                                                    //         onPressed: () {
-                                                    //           controller.photos
-                                                    //               .clear();
-                                                    //           Get.back();
-                                                    //         },
-                                                    //         child: Text("NO")),
-                                                    //   ],
-                                                    // );
-                                                  }
-                                                } else {
-                                                  ManagePermission
-                                                      .permissionDialog(
-                                                          "storage");
-                                                }
-                                              },
-                                              child: Container(
-                                                  width: containerSize,
-                                                  height: containerSize,
-                                                  child: Center(
-                                                    child: Image.asset(
-                                                        "assets/images/file_send_gallery.png"),
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  10)),
-                                                      border: Border.all(
-                                                          color: const Color(
-                                                              0xffeaeaea),
-                                                          width: 1),
-                                                      color: const Color(
-                                                          0xffffffff))),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(top: 6),
-                                            child: Text("Image",
-                                                style: const TextStyle(
-                                                    color:
-                                                        const Color(0xff9b9b9b),
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: "Roboto",
-                                                    fontStyle: FontStyle.normal,
-                                                    fontSize: 10.0),
-                                                textAlign: TextAlign.center),
-                                          )
-                                        ]),
-                                    Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Ink(
-                                            child: InkWell(
-                                              onTap: () async {
-                                                if (await ManagePermission
-                                                    .checkPermission(
-                                                        "storage")) {
-                                                  print("File");
-                                                  FilePickerResult result =
-                                                      await FilePicker.platform
-                                                          .pickFiles(
-                                                              allowMultiple:
-                                                                  true);
-
-                                                  if (result != null) {
-                                                    controller.files = result
-                                                        .paths
-                                                        .map((path) =>
-                                                            File(path))
-                                                        .toList();
-                                                    controller.sendFile();
-                                                  } else {
-                                                    // User canceled the picker
-                                                  }
-                                                } else {
-                                                  ManagePermission
-                                                      .permissionDialog(
-                                                          "Storage");
-                                                }
-                                              },
-                                              child: Container(
-                                                  width: containerSize,
-                                                  height: containerSize,
-                                                  child: Center(
-                                                    child: Image.asset(
-                                                        "assets/images/file_send_etc.png"),
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  10)),
-                                                      border: Border.all(
-                                                          color: const Color(
-                                                              0xffeaeaea),
-                                                          width: 1),
-                                                      color: const Color(
-                                                          0xffffffff))),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(top: 6),
-                                            child: Text("File",
-                                                style: const TextStyle(
-                                                    color:
-                                                        const Color(0xff9b9b9b),
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: "Roboto",
-                                                    fontStyle: FontStyle.normal,
-                                                    fontSize: 10.0),
-                                                textAlign: TextAlign.center),
-                                          )
-                                        ]),
-                                  ],
-                                ),
+                                    onFieldSubmitted: (value) {},
+                                    textInputAction: TextInputAction.done,
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      border: InputBorder.none,
+                                      hintText: "",
+                                      hintStyle: const TextStyle(
+                                          color: const Color(0xff9b9b9b),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "NotoSansSC",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 14.0),
+                                    )),
                               ),
-                              decoration: BoxDecoration(
-                                  color: const Color(0xfff4f9ff)));
-                        })
-                      : Container(
-                          height: 0.0,
-                          decoration:
-                              BoxDecoration(color: const Color(0xfff4f9ff)))
-                ]),
-              ),
-            );
-          }),
+                              InkWell(
+                                  child: // 타원 20
+                                      Container(
+                                          margin:
+                                              const EdgeInsets.only(right: 10),
+                                          width: 16,
+                                          height: 20,
+                                          child: Image.asset(
+                                              "assets/images/file_plus.png"),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                          )),
+                                  onTap: () async {
+                                    if (controller.canChatFileShow.value) {
+                                      controller.chatFocusNode.requestFocus();
+                                    } else {
+                                      controller.chatFocusNode.unfocus();
+                                    }
+
+                                    controller.tapTextField.value =
+                                        !controller.tapTextField.value;
+                                    controller.canChatFileShow.value =
+                                        !controller.canChatFileShow.value;
+
+                                    // if (controller.tapTextField.value) {
+                                    //   // controller.tapTextField.value = false;
+
+                                    //   if (controller.canChatFileShow.value) {
+                                    //     controller.chatFocusNode.requestFocus();
+                                    //   } else {
+                                    //     FocusScope.of(context).unfocus();
+                                    //   }
+                                    // } else {
+                                    //   controller.tapTextField.value = true;
+
+                                    //   if (controller.canChatFileShow.value) {
+                                    //     controller.chatFocusNode.requestFocus();
+                                    //   } else {
+                                    //     FocusScope.of(context).unfocus();
+                                    //     // double target_pos = controller
+                                    //     //         .chatScrollController.offset +
+                                    //     //     getKeyboardHeight();
+
+                                    //     // controller.chatScrollController
+                                    //     //     .jumpTo(target_pos);
+                                    //   }
+                                    // }
+                                  }),
+                              InkWell(
+                                  child: // 타원 20
+                                      Container(
+                                          margin:
+                                              const EdgeInsets.only(right: 6),
+                                          width: 28,
+                                          height: 28,
+                                          child: Image.asset(
+                                              "assets/images/chat_input_send.png"),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Get.theme.primaryColor,
+                                          )),
+                                  onTap: () async {
+                                    // if (controller.files.length != 0) {
+                                    //   await controller.sendFile();
+                                    // } else if (controller.photos.length != 0) {
+                                    //   await controller.sendPhoto();
+                                    // } else {
+                                    String text = commentWriteController.text;
+                                    String testText = text;
+                                    if (testText.trim().isEmpty) {
+                                      return;
+                                    }
+                                    controller.sendMessage(
+                                        commentWriteController.text);
+
+                                    commentWriteController.clear();
+                                    // }
+                                  }),
+                            ]),
+                          ),
+                        ],
+                      ),
+                    ),
+                    controller.canChatFileShow.value
+                        ? Builder(builder: (context) {
+                            double height = getKeyboardHeight();
+                            double containerSize =
+                                (Get.mediaQuery.size.width - 42 * 2 - 24 * 2) /
+                                    3.0;
+                            containerSize = 76.0;
+                            return Container(
+                                height: height,
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                      top: 34, left: 42, right: 42),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Ink(
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  print("camera");
+                                                  if (await Permission
+                                                      .camera.isGranted) {
+                                                    final pickedFile =
+                                                        await image_picker
+                                                            .pickImage(
+                                                                source:
+                                                                    ImageSource
+                                                                        .camera);
+                                                    if (pickedFile != null) {
+                                                      // Function ontapConfirm =
+                                                      //     () async {
+                                                      //   await controller
+                                                      //       .sendCameraPhoto(
+                                                      //           pickedFile);
+                                                      //   Get.back();
+                                                      // };
+                                                      // Function ontapCancel = () {
+                                                      //   Get.back();
+                                                      // };
+                                                      await controller
+                                                          .sendCameraPhoto(
+                                                              pickedFile);
+                                                      // TFdialogue(
+                                                      //     context,
+                                                      //     "Photo Upload",
+                                                      //     "Want Upload this Photo?",
+                                                      //     ontapConfirm,
+                                                      //     ontapCancel);
+                                                    }
+                                                  } else {
+                                                    // print("??");
+                                                    // await [Permission.camera]
+                                                    //     .request();
+                                                    ManagePermission
+                                                        .permissionDialog(
+                                                            "Camera");
+                                                  }
+                                                },
+                                                child: Container(
+                                                    width: containerSize,
+                                                    height: containerSize,
+                                                    child: Center(
+                                                        child: Image.asset(
+                                                      "assets/images/file_send_camera.png",
+                                                    )),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10)),
+                                                        border: Border.all(
+                                                            color: const Color(
+                                                                0xffeaeaea),
+                                                            width: 1),
+                                                        color: const Color(
+                                                            0xffffffff))),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin:
+                                                  const EdgeInsets.only(top: 6),
+                                              child: Text("Camera",
+                                                  style: const TextStyle(
+                                                      color: const Color(
+                                                          0xff9b9b9b),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontFamily: "Roboto",
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontSize: 10.0),
+                                                  textAlign: TextAlign.center),
+                                            )
+                                          ]),
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Ink(
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  if (await ManagePermission
+                                                      .checkPermission(
+                                                          "storage")) {
+                                                    print('사진추가');
+
+                                                    List<AssetEntity>
+                                                        temp_photos =
+                                                        await AssetPicker
+                                                            .pickAssets(
+                                                      context,
+                                                      maxAssets: 10,
+                                                      themeColor: Get
+                                                          .theme.primaryColor,
+                                                    );
+
+                                                    if (temp_photos != null) {
+                                                      controller.photos
+                                                          .addAll(temp_photos);
+                                                      await controller
+                                                          .sendPhoto();
+                                                      // Get.defaultDialog(
+                                                      //   title: "Photo Upload",
+                                                      //   middleText:
+                                                      //       "Want Upload these Photos?",
+                                                      //   actions: [
+                                                      //     TextButton(
+                                                      //         onPressed:
+                                                      //             () async {
+                                                      //           controller.photos
+                                                      //               .addAll(
+                                                      //                   temp_photos);
+                                                      //           await controller
+                                                      //               .sendPhoto();
+                                                      //           Get.back();
+                                                      //         },
+                                                      //         child: Text("YES")),
+                                                      //     TextButton(
+                                                      //         onPressed: () {
+                                                      //           controller.photos
+                                                      //               .clear();
+                                                      //           Get.back();
+                                                      //         },
+                                                      //         child: Text("NO")),
+                                                      //   ],
+                                                      // );
+                                                    }
+                                                  } else {
+                                                    ManagePermission
+                                                        .permissionDialog(
+                                                            "storage");
+                                                  }
+                                                },
+                                                child: Container(
+                                                    width: containerSize,
+                                                    height: containerSize,
+                                                    child: Center(
+                                                      child: Image.asset(
+                                                          "assets/images/file_send_gallery.png"),
+                                                    ),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10)),
+                                                        border: Border.all(
+                                                            color: const Color(
+                                                                0xffeaeaea),
+                                                            width: 1),
+                                                        color: const Color(
+                                                            0xffffffff))),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin:
+                                                  const EdgeInsets.only(top: 6),
+                                              child: Text("Image",
+                                                  style: const TextStyle(
+                                                      color: const Color(
+                                                          0xff9b9b9b),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontFamily: "Roboto",
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontSize: 10.0),
+                                                  textAlign: TextAlign.center),
+                                            )
+                                          ]),
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Ink(
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  if (await ManagePermission
+                                                      .checkPermission(
+                                                          "storage")) {
+                                                    print("File");
+                                                    FilePickerResult result =
+                                                        await FilePicker
+                                                            .platform
+                                                            .pickFiles(
+                                                                allowMultiple:
+                                                                    true);
+
+                                                    if (result != null) {
+                                                      controller.files = result
+                                                          .paths
+                                                          .map((path) =>
+                                                              File(path))
+                                                          .toList();
+                                                      controller.sendFile();
+                                                    } else {
+                                                      // User canceled the picker
+                                                    }
+                                                  } else {
+                                                    ManagePermission
+                                                        .permissionDialog(
+                                                            "Storage");
+                                                  }
+                                                },
+                                                child: Container(
+                                                    width: containerSize,
+                                                    height: containerSize,
+                                                    child: Center(
+                                                      child: Image.asset(
+                                                          "assets/images/file_send_etc.png"),
+                                                    ),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10)),
+                                                        border: Border.all(
+                                                            color: const Color(
+                                                                0xffeaeaea),
+                                                            width: 1),
+                                                        color: const Color(
+                                                            0xffffffff))),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin:
+                                                  const EdgeInsets.only(top: 6),
+                                              child: Text("File",
+                                                  style: const TextStyle(
+                                                      color: const Color(
+                                                          0xff9b9b9b),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontFamily: "Roboto",
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontSize: 10.0),
+                                                  textAlign: TextAlign.center),
+                                            )
+                                          ]),
+                                    ],
+                                  ),
+                                ),
+                                decoration: BoxDecoration(
+                                    color: const Color(0xfff4f9ff)));
+                          })
+                        : Container(
+                            height: 0.0,
+                            decoration:
+                                BoxDecoration(color: const Color(0xfff4f9ff)))
+                  ]),
+                ),
+              );
+            }),
+          ),
         ),
       ),
     );

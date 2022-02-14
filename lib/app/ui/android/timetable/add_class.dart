@@ -64,221 +64,158 @@ class TimetableAddClass extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-          backgroundColor: const Color(0xffffffff),
-          appBar: AppBar(
-            elevation: 0,
-            toolbarHeight: 56,
-            automaticallyImplyLeading: false,
-            leading: InkWell(
-              onTap: () {
-                Get.back();
-              },
-              child: Ink(
-                child: Image.asset(
-                  "assets/images/back_icon.png",
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+            backgroundColor: const Color(0xffffffff),
+            appBar: AppBar(
+              elevation: 0,
+              toolbarHeight: 56,
+              automaticallyImplyLeading: false,
+              leading: InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: Ink(
+                  child: Image.asset(
+                    "assets/images/back_icon.png",
+                  ),
                 ),
               ),
-            ),
-            centerTitle: true,
-            titleSpacing: 0,
-            title: Text(
-              "输入日程",
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                  overflow: TextOverflow.ellipsis,
-                  color: const Color(0xffffffff),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: "NotoSansSC",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 16.0),
-            ),
-            actions: [
-              Container(
-                  width: 52,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  child: Ink(
-                    child: InkWell(
-                      onTap: () {
-                        bool checkClasses =
-                            timeTableAddClassController.checkClassValidate();
-                        TimeTableClassModel postData =
-                            timeTableAddClassController.TOTAL_CLASS.value;
-                        if (postData.PROFESSOR == null ||
-                            postData.PROFESSOR.isEmpty) {
-                          Get.snackbar("请输入教师姓名", "请输入教师姓名",
-                              snackPosition: SnackPosition.BOTTOM);
-                        } else if (postData.CLASS_NAME == null ||
-                            postData.CLASS_NAME.isEmpty) {
-                          Get.snackbar("请输入课程名", "请输入课程名",
-                              snackPosition: SnackPosition.BOTTOM);
-                        } else if (!checkClasses) {
-                          Get.snackbar("重复的时间表", "重复的时间表",
-                              snackPosition: SnackPosition.BOTTOM);
-                        } else {
-                          timeTableAddClassController.addClass(
-                              timeTableController.selectedTimeTableId.value);
-                          Get.back();
-                        }
-                      },
-                      child: Center(
-                        child: Text("添加",
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                color: Get.theme.primaryColor,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 12.0),
-                            textAlign: TextAlign.right),
+              centerTitle: true,
+              titleSpacing: 0,
+              title: Text(
+                "输入日程",
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                    color: const Color(0xffffffff),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "NotoSansSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 16.0),
+              ),
+              actions: [
+                Container(
+                    width: 52,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
+                    child: Ink(
+                      child: InkWell(
+                        onTap: () {
+                          bool checkClasses =
+                              timeTableAddClassController.checkClassValidate();
+                          TimeTableClassModel postData =
+                              timeTableAddClassController.TOTAL_CLASS.value;
+                          if (postData.PROFESSOR == null ||
+                              postData.PROFESSOR.isEmpty) {
+                            Get.snackbar("请输入教师姓名", "请输入教师姓名",
+                                snackPosition: SnackPosition.BOTTOM);
+                          } else if (postData.CLASS_NAME == null ||
+                              postData.CLASS_NAME.isEmpty) {
+                            Get.snackbar("请输入课程名", "请输入课程名",
+                                snackPosition: SnackPosition.BOTTOM);
+                          } else if (!checkClasses) {
+                            Get.snackbar("重复的时间表", "重复的时间表",
+                                snackPosition: SnackPosition.BOTTOM);
+                          } else {
+                            timeTableAddClassController.addClass(
+                                timeTableController.selectedTimeTableId.value);
+                            Get.back();
+                          }
+                        },
+                        child: Center(
+                          child: Text("添加",
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  color: Get.theme.primaryColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 12.0),
+                              textAlign: TextAlign.right),
+                        ),
                       ),
                     ),
-                  ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(14)),
-                      border:
-                          Border.all(color: const Color(0xff99bbf9), width: 1),
-                      color: const Color(0xffffffff))),
-            ],
-          ),
-          resizeToAvoidBottomInset: false,
-          body: SingleChildScrollView(
-            child: Column(children: [
-              Container(
-                color: const Color(0xffffffff),
-                child: Container(
-                  height: 55.0 * 5 + 30,
-                  child: SingleChildScrollView(
-                    // controller: scrollController,
-                    // physics: NeverScrollableScrollPhysics(),
-                    physics: AlwaysScrollableScrollPhysics(),
-                    child: Obx(() {
-                      RxBool isExpandedHor = timeTableController.isExpandedHor;
-                      int dayAmount = isExpandedHor.value ? 7 : 5;
-                      int verAmount = timeTableController.verAmount.value;
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(14)),
+                        border: Border.all(
+                            color: const Color(0xff99bbf9), width: 1),
+                        color: const Color(0xffffffff))),
+              ],
+            ),
+            resizeToAvoidBottomInset: false,
+            body: SingleChildScrollView(
+              child: Column(children: [
+                Container(
+                  color: const Color(0xffffffff),
+                  child: Container(
+                    height: 55.0 * 5 + 30,
+                    child: SingleChildScrollView(
+                      // controller: scrollController,
+                      // physics: NeverScrollableScrollPhysics(),
+                      physics: AlwaysScrollableScrollPhysics(),
+                      child: Obx(() {
+                        RxBool isExpandedHor =
+                            timeTableController.isExpandedHor;
+                        int dayAmount = isExpandedHor.value ? 7 : 5;
+                        int verAmount = timeTableController.verAmount.value;
 
-                      double time_height = timeTableController.timeHeight.value;
-                      double top_height = timeTableController.topHeight.value;
+                        double time_height =
+                            timeTableController.timeHeight.value;
+                        double top_height = timeTableController.topHeight.value;
 
-                      return Container(
-                        height: top_height + time_height * (verAmount - 1),
-                        child: Stack(children: [
-                          TimeTableBin(
-                              time_height: time_height,
-                              top_height: top_height,
-                              timeTableController: timeTableController,
-                              width: size.width,
-                              dayAmount: dayAmount,
-                              verAmount: verAmount),
-                          TimeTableContent(
-                              time_height: time_height,
-                              top_height: top_height,
-                              timeTableController: timeTableController,
-                              width: size.width,
-                              dayAmount: dayAmount,
-                              verAmount: verAmount),
+                        return Container(
+                          height: top_height + time_height * (verAmount - 1),
+                          child: Stack(children: [
+                            TimeTableBin(
+                                time_height: time_height,
+                                top_height: top_height,
+                                timeTableController: timeTableController,
+                                width: size.width,
+                                dayAmount: dayAmount,
+                                verAmount: verAmount),
+                            TimeTableContent(
+                                time_height: time_height,
+                                top_height: top_height,
+                                timeTableController: timeTableController,
+                                width: size.width,
+                                dayAmount: dayAmount,
+                                verAmount: verAmount),
 
-                          //선택한 애들 띄우기
-                          for (Rx<AddClassModel> item
-                              in timeTableAddClassController.CLASS_LIST)
-                            Positioned(
-                              child: TimeTableAddClass(
-                                  new_class: item,
-                                  time_height: time_height,
-                                  top_height: top_height,
-                                  width: size.width,
-                                  timeTableController: timeTableController,
-                                  dayAmount: dayAmount,
-                                  show: true,
-                                  verAmount: verAmount),
-                            )
-                        ]),
-                      );
-                    }),
+                            //선택한 애들 띄우기
+                            for (Rx<AddClassModel> item
+                                in timeTableAddClassController.CLASS_LIST)
+                              Positioned(
+                                child: TimeTableAddClass(
+                                    new_class: item,
+                                    time_height: time_height,
+                                    top_height: top_height,
+                                    width: size.width,
+                                    timeTableController: timeTableController,
+                                    dayAmount: dayAmount,
+                                    show: true,
+                                    verAmount: verAmount),
+                              )
+                          ]),
+                        );
+                      }),
+                    ),
                   ),
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 20, top: 24),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          // 강의명
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Row(children: [
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    child: Image.asset(
-                                        "assets/images/timetable_direct_book.png"),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 6),
-                                    child: // 课名
-                                        Text("新日程",
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                color: const Color(0xff9b9b9b),
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: "NotoSansSC",
-                                                fontStyle: FontStyle.normal,
-                                                fontSize: 14.0),
-                                            textAlign: TextAlign.left),
-                                  )
-                                ]),
-                              ),
-                              Container(
-                                width: size.width - 20 - 20,
-                                margin: const EdgeInsets.only(top: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      child: TextFormField(
-                                        controller: timeTableAddClassController
-                                            .courseNameController,
-                                        onChanged: (value) {
-                                          timeTableAddClassController
-                                              .TOTAL_CLASS
-                                              .update((val) {
-                                            val.CLASS_NAME =
-                                                timeTableAddClassController
-                                                    .courseNameController.text;
-                                          });
-                                        },
-                                        maxLines: 1,
-                                        style: textStyle,
-                                        textAlign: TextAlign.left,
-                                        decoration:
-                                            addTimetablenputDecoration("请输入日程"),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // 선 83
-                              Container(
-                                  margin: const EdgeInsets.only(
-                                      top: 7.5, right: 20),
-                                  height: 1,
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xffeaeaea)))
-                            ],
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 13.5),
-                            child: Column(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 20, top: 24),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            // 강의명
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
@@ -287,20 +224,23 @@ class TimetableAddClass extends StatelessWidget {
                                       width: 20,
                                       height: 20,
                                       child: Image.asset(
-                                          "assets/images/timetable_direct_professr.png"),
+                                          "assets/images/timetable_direct_book.png"),
                                     ),
                                     Container(
                                       margin: const EdgeInsets.only(left: 6),
-                                      child: Text("教授名",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
+                                      child: // 课名
+                                          Text("新日程",
                                               overflow: TextOverflow.ellipsis,
-                                              color: const Color(0xff9b9b9b),
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: "NotoSansSC",
-                                              fontStyle: FontStyle.normal,
-                                              fontSize: 14.0),
-                                          textAlign: TextAlign.left),
+                                              style: const TextStyle(
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  color:
+                                                      const Color(0xff9b9b9b),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "NotoSansSC",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 14.0),
+                                              textAlign: TextAlign.left),
                                     )
                                   ]),
                                 ),
@@ -315,14 +255,14 @@ class TimetableAddClass extends StatelessWidget {
                                         child: TextFormField(
                                           controller:
                                               timeTableAddClassController
-                                                  .professorNameController,
+                                                  .courseNameController,
                                           onChanged: (value) {
                                             timeTableAddClassController
                                                 .TOTAL_CLASS
                                                 .update((val) {
-                                              val.PROFESSOR =
+                                              val.CLASS_NAME =
                                                   timeTableAddClassController
-                                                      .professorNameController
+                                                      .courseNameController
                                                       .text;
                                             });
                                           },
@@ -331,7 +271,7 @@ class TimetableAddClass extends StatelessWidget {
                                           textAlign: TextAlign.left,
                                           decoration:
                                               addTimetablenputDecoration(
-                                                  "请输入教授名"),
+                                                  "请输入日程"),
                                         ),
                                       ),
                                     ],
@@ -346,25 +286,96 @@ class TimetableAddClass extends StatelessWidget {
                                         color: const Color(0xffeaeaea)))
                               ],
                             ),
-                          ),
-
-                          //강의 장소 및 시간
-                          Container(
-                            margin: const EdgeInsets.only(top: 13.5),
-                            child: ClassInfoTPO(
-                              size: size,
-                              timeTableAddClassController:
-                                  timeTableAddClassController,
+                            Container(
+                              margin: const EdgeInsets.only(top: 13.5),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: Row(children: [
+                                      Container(
+                                        width: 20,
+                                        height: 20,
+                                        child: Image.asset(
+                                            "assets/images/timetable_direct_professr.png"),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(left: 6),
+                                        child: Text("教授名",
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                color: const Color(0xff9b9b9b),
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: "NotoSansSC",
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 14.0),
+                                            textAlign: TextAlign.left),
+                                      )
+                                    ]),
+                                  ),
+                                  Container(
+                                    width: size.width - 20 - 20,
+                                    margin: const EdgeInsets.only(top: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          child: TextFormField(
+                                            controller:
+                                                timeTableAddClassController
+                                                    .professorNameController,
+                                            onChanged: (value) {
+                                              timeTableAddClassController
+                                                  .TOTAL_CLASS
+                                                  .update((val) {
+                                                val.PROFESSOR =
+                                                    timeTableAddClassController
+                                                        .professorNameController
+                                                        .text;
+                                              });
+                                            },
+                                            maxLines: 1,
+                                            style: textStyle,
+                                            textAlign: TextAlign.left,
+                                            decoration:
+                                                addTimetablenputDecoration(
+                                                    "请输入教授名"),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  // 선 83
+                                  Container(
+                                      margin: const EdgeInsets.only(
+                                          top: 7.5, right: 20),
+                                      height: 1,
+                                      decoration: BoxDecoration(
+                                          color: const Color(0xffeaeaea)))
+                                ],
+                              ),
                             ),
-                          )
-                        ],
+
+                            //강의 장소 및 시간
+                            Container(
+                              margin: const EdgeInsets.only(top: 13.5),
+                              child: ClassInfoTPO(
+                                size: size,
+                                timeTableAddClassController:
+                                    timeTableAddClassController,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
-              )
-            ]),
-          )),
+                    )
+                  ],
+                )
+              ]),
+            )),
+      ),
     );
   }
 }

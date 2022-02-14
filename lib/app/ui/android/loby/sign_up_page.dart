@@ -17,30 +17,33 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final SignUpController signUpController = Get.find();
 
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: const Color(0xffffffff),
-        appBar: AppBar(
-            automaticallyImplyLeading: false,
-            titleSpacing: 0,
-            elevation: 0,
-            leading: InkWell(
-              child: Image.asset("assets/images/icn_back_white.png"),
-              onTap: () => Get.back(),
-            ),
-            centerTitle: true,
-            title: Text("注册会员",
-                style: const TextStyle(
-                    color: const Color(0xffffffff),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "NotoSansSC",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 16.0),
-                textAlign: TextAlign.center)),
-        body: SignUpInputs(
-          signUpController: signUpController,
+    return Container(
+      color: const Color(0xffffffff),
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: const Color(0xffffffff),
+          appBar: AppBar(
+              automaticallyImplyLeading: false,
+              titleSpacing: 0,
+              elevation: 0,
+              leading: InkWell(
+                child: Image.asset("assets/images/icn_back_white.png"),
+                onTap: () => Get.back(),
+              ),
+              centerTitle: true,
+              title: Text("注册会员",
+                  style: const TextStyle(
+                      color: const Color(0xffffffff),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "NotoSansSC",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.0),
+                  textAlign: TextAlign.center)),
+          body: SignUpInputs(
+            signUpController: signUpController,
+          ),
         ),
       ),
     );

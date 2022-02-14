@@ -15,439 +15,447 @@ class MailHistory extends StatelessWidget {
   Widget build(BuildContext context) {
     final double chatHeight =
         box.read("keyBoardHeight") == null ? 342.0 : box.read("keyBoardHeight");
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-          backgroundColor: const Color(0xffffffff),
-          appBar: AppBar(
-            toolbarHeight: 56,
+    return Container(
+      color: const Color(0xffe6f1ff),
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+            backgroundColor: const Color(0xffffffff),
+            appBar: AppBar(
+              toolbarHeight: 56,
 
-            backgroundColor: Get.theme.primaryColor,
-            titleSpacing: 0,
-            // elevation: 0,
-            automaticallyImplyLeading: false,
+              backgroundColor: Get.theme.primaryColor,
+              titleSpacing: 0,
+              // elevation: 0,
+              automaticallyImplyLeading: false,
 
-            title: Stack(
-              children: [
-                Center(
-                  child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 16.5),
-                      child: // 设置
-                          Obx(() {
-                        return Text(
-                            mailController.opponentProfile.value
-                                        .PROFILE_NICKNAME ==
-                                    null
-                                ? ""
-                                : "${mailController.opponentProfile.value.PROFILE_NICKNAME}",
-                            style: const TextStyle(
-                                color: const Color(0xffffffff),
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0),
-                            textAlign: TextAlign.center);
-                      })),
-                ),
-                Positioned(
-                  // left: 20,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 16, horizontal: 20),
-                    child: Ink(
-                      child: InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Image.asset(
-                          'assets/images/891.png',
-                          color: const Color(0xffffffff),
-                          width: 12,
-                          height: 24,
+              title: Stack(
+                children: [
+                  Center(
+                    child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 16.5),
+                        child: // 设置
+                            Obx(() {
+                          return Text(
+                              mailController.opponentProfile.value
+                                          .PROFILE_NICKNAME ==
+                                      null
+                                  ? ""
+                                  : "${mailController.opponentProfile.value.PROFILE_NICKNAME}",
+                              style: const TextStyle(
+                                  color: const Color(0xffffffff),
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: "NotoSansSC",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 16.0),
+                              textAlign: TextAlign.center);
+                        })),
+                  ),
+                  Positioned(
+                    // left: 20,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 20),
+                      child: Ink(
+                        child: InkWell(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Image.asset(
+                            'assets/images/891.png',
+                            color: const Color(0xffffffff),
+                            width: 12,
+                            height: 24,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          body: RefreshIndicator(
-            onRefresh: mailController.getMail,
-            child: Obx(() {
-              if (mailController.dataAvailableMailSendPage.value) {
-                return GestureDetector(
-                  onTap: () {
-                    mailController.tapTextField.value = false;
-                    mailController.chatFocusNode.unfocus();
-                  },
-                  child: ListView.builder(
-                    controller: mailController.chatScrollController,
-                    itemCount: mailController.mailHistory.length,
-                    scrollDirection: Axis.vertical,
-                    padding: EdgeInsets.only(
-                        top: 24,
-                        bottom: mailController.tapTextField.value
-                            ? 60 + 6.0 + chatHeight
-                            : 60 + 6.0),
-                    itemBuilder: (context, index) {
-                      MailHistoryModel model =
-                          mailController.mailHistory[index];
-
-                      MailHistoryModel prevModel;
-                      MailHistoryModel nextModel;
-                      if (index - 1 < 0) {
-                        prevModel = null;
-                      } else {
-                        prevModel = mailController.mailHistory[index - 1];
-                      }
-
-                      if (index + 1 >= mailController.mailHistory.length) {
-                        nextModel = null;
-                      } else {
-                        nextModel = mailController.mailHistory[index + 1];
-                      }
-
-                      bool MY_SELF = model.FROM_ME == 1 ? true : false;
-
-                      bool isContinueSame = (prevModel != null &&
-                          prevModel.FROM_ME == model.FROM_ME);
-
-                      bool isContinueDifferent = (prevModel != null &&
-                          prevModel.FROM_ME != model.FROM_ME);
-
-                      /**
-                         * displayTime: 시간 표시 boolean
-                         * 앞 사람이 다른 사람일때 - isContinueDifferent
-                         * 앞 사람이 같은 사람이고 이 채팅이 해당 시간에 쓴 마지막일때
-                         * 맨 마지막 톡 일때
-                         */
-                      bool isChatSamePersonEnd = (nextModel != null &&
-                              nextModel.FROM_ME != model.FROM_ME) ||
-                          nextModel == null;
-
-                      bool lastChatInTime = (nextModel != null &&
-                              (nextModel.TIME_CREATED.day !=
-                                      model.TIME_CREATED.day ||
-                                  nextModel.TIME_CREATED.hour !=
-                                      model.TIME_CREATED.hour ||
-                                  nextModel.TIME_CREATED.minute !=
-                                      model.TIME_CREATED.minute)) ||
-                          nextModel == null;
-
-                      bool firstChatInTime = (prevModel != null &&
-                              (prevModel.TIME_CREATED.day !=
-                                      model.TIME_CREATED.day ||
-                                  prevModel.TIME_CREATED.hour !=
-                                      model.TIME_CREATED.hour ||
-                                  prevModel.TIME_CREATED.minute !=
-                                      model.TIME_CREATED.minute)) ||
-                          prevModel == null;
-
-                      bool displayTime = isChatSamePersonEnd || lastChatInTime;
-
-                      bool showProfile = prevModel == null ||
-                          isContinueDifferent ||
-                          firstChatInTime;
-                      return Container(
-                          padding: (prevModel == null
-                              ? MY_SELF
-                                  ? EdgeInsets.only(right: 20, top: 0)
-                                  : EdgeInsets.only(left: 20, top: 0)
-                              : MY_SELF
-                                  ? EdgeInsets.only(
-                                      right: 20, top: isContinueSame ? 6 : 24)
-                                  : EdgeInsets.only(
-                                      left: 20, top: showProfile ? 24 : 6)),
-                          child: Align(
-                            alignment: (MY_SELF
-                                ? Alignment.topRight
-                                : Alignment.topLeft),
-                            child: (MY_SELF
-                                ? Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                        MAIL_CONTENT_ITEM(
-                                          isTimeDifferent: displayTime,
-                                          mailController: mailController,
-                                          model:
-                                              mailController.mailHistory[index],
-                                        )
-                                      ])
-                                : Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                        Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              MAIL_CONTENT_ITEM(
-                                                isTimeDifferent: displayTime,
-                                                mailController: mailController,
-                                                model: mailController
-                                                    .mailHistory[index],
-                                              ),
-                                            ]),
-                                      ])),
-                          ));
-
-                      // Container(
-                      //     padding:
-                      //         (mailController.mailHistory[index].FROM_ME == 0
-                      //             ? EdgeInsets.only(left: 15, bottom: 33.5)
-                      //             : EdgeInsets.only(right: 15, bottom: 26.5)),
-                      //     child: Align(
-                      //       alignment:
-                      //           (mailController.mailHistory[index].FROM_ME == 0
-                      //               ? Alignment.topLeft
-                      //               : Alignment.topRight),
-                      //       child: (mailController.mailHistory[index].FROM_ME ==
-                      //               0
-                      //           ? Row(children: [
-                      //               MAIL_PROFILE_ITEM(
-                      //                   FROM_ME: false,
-                      //                   profile:
-                      //                       mailController.opponentProfile),
-                      //               MAIL_CONTENT_ITEM(
-                      //                 mailController: mailController,
-                      //                 model: mailController.mailHistory[index],
-                      //               )
-                      //             ])
-                      //           : Row(
-                      //               mainAxisAlignment: MainAxisAlignment.end,
-                      //               children: [
-                      //                   MAIL_CONTENT_ITEM(
-                      //                     mailController: mailController,
-                      //                     model:
-                      //                         mailController.mailHistory[index],
-                      //                   ),
-                      //                   MAIL_PROFILE_ITEM(
-                      //                       FROM_ME: true,
-                      //                       profile: mailController.myProfile),
-                      //                 ])),
-                      //     ));
+            body: RefreshIndicator(
+              onRefresh: mailController.getMail,
+              child: Obx(() {
+                if (mailController.dataAvailableMailSendPage.value) {
+                  return GestureDetector(
+                    onTap: () {
+                      mailController.tapTextField.value = false;
+                      mailController.chatFocusNode.unfocus();
                     },
-                  ),
-                );
-              } else {
-                return Container(
-                  color: Colors.white,
-                );
-              }
-            }),
-          ),
-          //입력창
-          bottomSheet: Builder(builder: (context) {
-            final box = GetStorage();
+                    child: ListView.builder(
+                      controller: mailController.chatScrollController,
+                      itemCount: mailController.mailHistory.length,
+                      scrollDirection: Axis.vertical,
+                      padding: EdgeInsets.only(
+                          top: 24,
+                          bottom: mailController.tapTextField.value
+                              ? 60 + 6.0 + chatHeight
+                              : 60 + 6.0),
+                      itemBuilder: (context, index) {
+                        MailHistoryModel model =
+                            mailController.mailHistory[index];
 
-            return Container(
-              height: 60.0,
-              decoration: BoxDecoration(color: const Color(0xffe6f1ff)),
-              child: Column(children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 40,
-                        width: Get.mediaQuery.size.width - 20 - 20,
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            border: Border.all(
-                                color: const Color(0xffeaeaea), width: 1),
-                            color: const Color(0xffffffff)),
-                        child: Row(children: [
-                          Container(
-                            margin: const EdgeInsets.only(left: 24),
-                            // width: Get.mediaQuery.size.width - 150,
-                            width:
-                                Get.mediaQuery.size.width - 20 - 16 - 70 - 20,
-                            child: TextFormField(
-                                keyboardType: TextInputType.multiline,
-                                focusNode: mailController.chatFocusNode,
-                                onTap: () async {
-                                  mailController.tapTextField.value = true;
+                        MailHistoryModel prevModel;
+                        MailHistoryModel nextModel;
+                        if (index - 1 < 0) {
+                          prevModel = null;
+                        } else {
+                          prevModel = mailController.mailHistory[index - 1];
+                        }
 
-                                  if (mailController.chatScrollController
-                                          .position.maxScrollExtent ==
-                                      0) {
-                                    return;
-                                  }
-                                  double target_pos = mailController
-                                          .chatScrollController.offset +
-                                      box.read("keyBoardHeight");
+                        if (index + 1 >= mailController.mailHistory.length) {
+                          nextModel = null;
+                        } else {
+                          nextModel = mailController.mailHistory[index + 1];
+                        }
 
-                                  // Timer(Duration(milliseconds: 100), () {
-                                  //   controller.chatScrollController
-                                  //       .jumpTo(target_pos);
-                                  // });
+                        bool MY_SELF = model.FROM_ME == 1 ? true : false;
 
-                                  // controller.tapTextField.value = true;
-                                  // controller.canChatFileShow.value =
-                                  //     false;
+                        bool isContinueSame = (prevModel != null &&
+                            prevModel.FROM_ME == model.FROM_ME);
 
-                                  // Timer(Duration(milliseconds: 100), () {
-                                  //   controller.chatScrollController
-                                  //       .jumpTo(
-                                  //     controller.chatScrollController
-                                  //             .position.pixels +
-                                  //         box.read("keyBoardHeight"),
-                                  //   );
-                                  //   // controller.chatScrollController.animateTo(
-                                  //   //     controller.chatScrollController.position
-                                  //   //         .maxScrollExtent,
-                                  //   //     duration: Duration(milliseconds: 100),
-                                  //   //     curve: Curves.fastOutSlowIn);
-                                  // });
-                                  // controller.chatScrollController.jumpTo(
-                                  //   controller.chatScrollController
-                                  //       .position.maxScrollExtent,
-                                  // );
-                                },
-                                onEditingComplete: () async {
-                                  // controller
-                                  //     .sendMessage(commentWriteController.text);
-                                  // commentWriteController.clear();
+                        bool isContinueDifferent = (prevModel != null &&
+                            prevModel.FROM_ME != model.FROM_ME);
 
-                                  // double max_hight = controller
-                                  //     .chatScrollController
-                                  //     .value
-                                  //     .position
-                                  //     .maxScrollExtent;
+                        /**
+                           * displayTime: 시간 표시 boolean
+                           * 앞 사람이 다른 사람일때 - isContinueDifferent
+                           * 앞 사람이 같은 사람이고 이 채팅이 해당 시간에 쓴 마지막일때
+                           * 맨 마지막 톡 일때
+                           */
+                        bool isChatSamePersonEnd = (nextModel != null &&
+                                nextModel.FROM_ME != model.FROM_ME) ||
+                            nextModel == null;
 
-                                  // controller.chatScrollController.value
-                                  //     .jumpTo(max_hight);
-                                },
-                                maxLines: 1,
-                                controller: commentWriteController,
-                                style: const TextStyle(
-                                    color: const Color(0xff2f2f2f),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                onFieldSubmitted: (value) {},
-                                textInputAction: TextInputAction.done,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintStyle: const TextStyle(
-                                      color: const Color(0xff9b9b9b),
+                        bool lastChatInTime = (nextModel != null &&
+                                (nextModel.TIME_CREATED.day !=
+                                        model.TIME_CREATED.day ||
+                                    nextModel.TIME_CREATED.hour !=
+                                        model.TIME_CREATED.hour ||
+                                    nextModel.TIME_CREATED.minute !=
+                                        model.TIME_CREATED.minute)) ||
+                            nextModel == null;
+
+                        bool firstChatInTime = (prevModel != null &&
+                                (prevModel.TIME_CREATED.day !=
+                                        model.TIME_CREATED.day ||
+                                    prevModel.TIME_CREATED.hour !=
+                                        model.TIME_CREATED.hour ||
+                                    prevModel.TIME_CREATED.minute !=
+                                        model.TIME_CREATED.minute)) ||
+                            prevModel == null;
+
+                        bool displayTime =
+                            isChatSamePersonEnd || lastChatInTime;
+
+                        bool showProfile = prevModel == null ||
+                            isContinueDifferent ||
+                            firstChatInTime;
+                        return Container(
+                            padding: (prevModel == null
+                                ? MY_SELF
+                                    ? EdgeInsets.only(right: 20, top: 0)
+                                    : EdgeInsets.only(left: 20, top: 0)
+                                : MY_SELF
+                                    ? EdgeInsets.only(
+                                        right: 20, top: isContinueSame ? 6 : 24)
+                                    : EdgeInsets.only(
+                                        left: 20, top: showProfile ? 24 : 6)),
+                            child: Align(
+                              alignment: (MY_SELF
+                                  ? Alignment.topRight
+                                  : Alignment.topLeft),
+                              child: (MY_SELF
+                                  ? Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                          MAIL_CONTENT_ITEM(
+                                            isTimeDifferent: displayTime,
+                                            mailController: mailController,
+                                            model: mailController
+                                                .mailHistory[index],
+                                          )
+                                        ])
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                          Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                MAIL_CONTENT_ITEM(
+                                                  isTimeDifferent: displayTime,
+                                                  mailController:
+                                                      mailController,
+                                                  model: mailController
+                                                      .mailHistory[index],
+                                                ),
+                                              ]),
+                                        ])),
+                            ));
+
+                        // Container(
+                        //     padding:
+                        //         (mailController.mailHistory[index].FROM_ME == 0
+                        //             ? EdgeInsets.only(left: 15, bottom: 33.5)
+                        //             : EdgeInsets.only(right: 15, bottom: 26.5)),
+                        //     child: Align(
+                        //       alignment:
+                        //           (mailController.mailHistory[index].FROM_ME == 0
+                        //               ? Alignment.topLeft
+                        //               : Alignment.topRight),
+                        //       child: (mailController.mailHistory[index].FROM_ME ==
+                        //               0
+                        //           ? Row(children: [
+                        //               MAIL_PROFILE_ITEM(
+                        //                   FROM_ME: false,
+                        //                   profile:
+                        //                       mailController.opponentProfile),
+                        //               MAIL_CONTENT_ITEM(
+                        //                 mailController: mailController,
+                        //                 model: mailController.mailHistory[index],
+                        //               )
+                        //             ])
+                        //           : Row(
+                        //               mainAxisAlignment: MainAxisAlignment.end,
+                        //               children: [
+                        //                   MAIL_CONTENT_ITEM(
+                        //                     mailController: mailController,
+                        //                     model:
+                        //                         mailController.mailHistory[index],
+                        //                   ),
+                        //                   MAIL_PROFILE_ITEM(
+                        //                       FROM_ME: true,
+                        //                       profile: mailController.myProfile),
+                        //                 ])),
+                        //     ));
+                      },
+                    ),
+                  );
+                } else {
+                  return Container(
+                    color: Colors.white,
+                  );
+                }
+              }),
+            ),
+            //입력창
+            bottomSheet: Builder(builder: (context) {
+              final box = GetStorage();
+
+              return Container(
+                height: 60.0,
+                decoration: BoxDecoration(color: const Color(0xffe6f1ff)),
+                child: Column(children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 10),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 40,
+                          width: Get.mediaQuery.size.width - 20 - 20,
+                          margin: const EdgeInsets.only(left: 20, right: 20),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              border: Border.all(
+                                  color: const Color(0xffeaeaea), width: 1),
+                              color: const Color(0xffffffff)),
+                          child: Row(children: [
+                            Container(
+                              margin: const EdgeInsets.only(left: 24),
+                              // width: Get.mediaQuery.size.width - 150,
+                              width:
+                                  Get.mediaQuery.size.width - 20 - 16 - 70 - 20,
+                              child: TextFormField(
+                                  keyboardType: TextInputType.multiline,
+                                  focusNode: mailController.chatFocusNode,
+                                  onTap: () async {
+                                    mailController.tapTextField.value = true;
+
+                                    if (mailController.chatScrollController
+                                            .position.maxScrollExtent ==
+                                        0) {
+                                      return;
+                                    }
+                                    double target_pos = mailController
+                                            .chatScrollController.offset +
+                                        box.read("keyBoardHeight");
+
+                                    // Timer(Duration(milliseconds: 100), () {
+                                    //   controller.chatScrollController
+                                    //       .jumpTo(target_pos);
+                                    // });
+
+                                    // controller.tapTextField.value = true;
+                                    // controller.canChatFileShow.value =
+                                    //     false;
+
+                                    // Timer(Duration(milliseconds: 100), () {
+                                    //   controller.chatScrollController
+                                    //       .jumpTo(
+                                    //     controller.chatScrollController
+                                    //             .position.pixels +
+                                    //         box.read("keyBoardHeight"),
+                                    //   );
+                                    //   // controller.chatScrollController.animateTo(
+                                    //   //     controller.chatScrollController.position
+                                    //   //         .maxScrollExtent,
+                                    //   //     duration: Duration(milliseconds: 100),
+                                    //   //     curve: Curves.fastOutSlowIn);
+                                    // });
+                                    // controller.chatScrollController.jumpTo(
+                                    //   controller.chatScrollController
+                                    //       .position.maxScrollExtent,
+                                    // );
+                                  },
+                                  onEditingComplete: () async {
+                                    // controller
+                                    //     .sendMessage(commentWriteController.text);
+                                    // commentWriteController.clear();
+
+                                    // double max_hight = controller
+                                    //     .chatScrollController
+                                    //     .value
+                                    //     .position
+                                    //     .maxScrollExtent;
+
+                                    // controller.chatScrollController.value
+                                    //     .jumpTo(max_hight);
+                                  },
+                                  maxLines: 1,
+                                  controller: commentWriteController,
+                                  style: const TextStyle(
+                                      color: const Color(0xff2f2f2f),
                                       fontWeight: FontWeight.w400,
                                       fontFamily: "NotoSansSC",
                                       fontStyle: FontStyle.normal,
                                       fontSize: 14.0),
-                                )),
-                          ),
-                          InkWell(
-                              child: // 타원 20
-                                  Container(
-                                      margin: const EdgeInsets.only(
-                                          right: 6, left: 26),
-                                      width: 28,
-                                      height: 28,
-                                      child: Image.asset(
-                                          "assets/images/chat_input_send.png"),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Get.theme.primaryColor,
-                                      )),
-                              onTap: () async {
-                                await mailController.sendMailIn(
-                                    commentWriteController.text,
-                                    mailController.scrollController);
+                                  onFieldSubmitted: (value) {},
+                                  textInputAction: TextInputAction.done,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintStyle: const TextStyle(
+                                        color: const Color(0xff9b9b9b),
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14.0),
+                                  )),
+                            ),
+                            InkWell(
+                                child: // 타원 20
+                                    Container(
+                                        margin: const EdgeInsets.only(
+                                            right: 6, left: 26),
+                                        width: 28,
+                                        height: 28,
+                                        child: Image.asset(
+                                            "assets/images/chat_input_send.png"),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Get.theme.primaryColor,
+                                        )),
+                                onTap: () async {
+                                  await mailController.sendMailIn(
+                                      commentWriteController.text,
+                                      mailController.scrollController);
 
-                                commentWriteController.clear();
-                              }),
-                        ]),
-                      ),
-                    ],
+                                  commentWriteController.clear();
+                                }),
+                          ]),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ]),
-            );
-          })
+                ]),
+              );
+            })
 
-          //  Container(
-          //     height: 107 - 13.0 - 22,
-          //     width: MediaQuery.of(context).size.width,
-          //     decoration: BoxDecoration(color: const Color(0xffffffff)),
-          //     child:
-          //         //키보드
-          //         Column(children: [
-          //       Container(
-          //           margin: EdgeInsets.only(bottom: 42 - 22.0),
-          //           width: MediaQuery.of(context).size.width - 30,
-          //           height: 52,
-          //           decoration: BoxDecoration(
-          //               borderRadius: BorderRadius.all(Radius.circular(52)),
-          //               border: Border.all(
-          //                   color: const Color(0xffd4d4d4), width: 1),
-          //               color: const Color(0x05333333)),
-          //           child: Row(children: [
-          //             Container(
-          //               margin: EdgeInsets.only(
-          //                 left: 18.5,
-          //                 right: 18.5,
-          //               ),
-          //               width: MediaQuery.of(context).size.width -
-          //                   30 -
-          //                   37 -
-          //                   38 -
-          //                   15,
-          //               child: TextFormField(
-          //                   keyboardType: TextInputType.multiline,
-          //                   onEditingComplete: () async {
-          //                     await mailController.sendMailIn(
-          //                         commentWriteController.text,
-          //                         mailController.scrollController);
+            //  Container(
+            //     height: 107 - 13.0 - 22,
+            //     width: MediaQuery.of(context).size.width,
+            //     decoration: BoxDecoration(color: const Color(0xffffffff)),
+            //     child:
+            //         //키보드
+            //         Column(children: [
+            //       Container(
+            //           margin: EdgeInsets.only(bottom: 42 - 22.0),
+            //           width: MediaQuery.of(context).size.width - 30,
+            //           height: 52,
+            //           decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.all(Radius.circular(52)),
+            //               border: Border.all(
+            //                   color: const Color(0xffd4d4d4), width: 1),
+            //               color: const Color(0x05333333)),
+            //           child: Row(children: [
+            //             Container(
+            //               margin: EdgeInsets.only(
+            //                 left: 18.5,
+            //                 right: 18.5,
+            //               ),
+            //               width: MediaQuery.of(context).size.width -
+            //                   30 -
+            //                   37 -
+            //                   38 -
+            //                   15,
+            //               child: TextFormField(
+            //                   keyboardType: TextInputType.multiline,
+            //                   onEditingComplete: () async {
+            //                     await mailController.sendMailIn(
+            //                         commentWriteController.text,
+            //                         mailController.scrollController);
 
-          //                     commentWriteController.clear();
-          //                   },
-          //                   maxLines: null,
-          //                   controller: commentWriteController,
-          //                   style: const TextStyle(
-          //                       color: const Color(0xff333333),
-          //                       fontWeight: FontWeight.w500,
-          //                       fontFamily: "PingFangSC",
-          //                       fontStyle: FontStyle.normal,
-          //                       fontSize: 16.0),
-          //                   onFieldSubmitted: (value) {
-          //                     mailController.sendMailIn(
-          //                         commentWriteController.text,
-          //                         mailController.scrollController);
-          //                   },
-          //                   textInputAction: TextInputAction.done,
-          //                   decoration: InputDecoration(
-          //                     hintText: "Please enter content",
-          //                     border: InputBorder.none,
-          //                   )),
-          //             ),
-          //             InkWell(
-          //                 child: Container(
-          //                   width: 38,
-          //                   height: 38,
-          //                   decoration: BoxDecoration(
-          //                       color: const Color(0xff1a4678),
-          //                       shape: BoxShape.circle,
-          //                       image: DecorationImage(
-          //                           image: AssetImage('assets/images/869.png'),
-          //                           scale: 1.8)),
-          //                 ),
-          //                 onTap: () async {
-          //                   await mailController.sendMailIn(
-          //                       commentWriteController.text,
-          //                       mailController.scrollController);
+            //                     commentWriteController.clear();
+            //                   },
+            //                   maxLines: null,
+            //                   controller: commentWriteController,
+            //                   style: const TextStyle(
+            //                       color: const Color(0xff333333),
+            //                       fontWeight: FontWeight.w500,
+            //                       fontFamily: "PingFangSC",
+            //                       fontStyle: FontStyle.normal,
+            //                       fontSize: 16.0),
+            //                   onFieldSubmitted: (value) {
+            //                     mailController.sendMailIn(
+            //                         commentWriteController.text,
+            //                         mailController.scrollController);
+            //                   },
+            //                   textInputAction: TextInputAction.done,
+            //                   decoration: InputDecoration(
+            //                     hintText: "Please enter content",
+            //                     border: InputBorder.none,
+            //                   )),
+            //             ),
+            //             InkWell(
+            //                 child: Container(
+            //                   width: 38,
+            //                   height: 38,
+            //                   decoration: BoxDecoration(
+            //                       color: const Color(0xff1a4678),
+            //                       shape: BoxShape.circle,
+            //                       image: DecorationImage(
+            //                           image: AssetImage('assets/images/869.png'),
+            //                           scale: 1.8)),
+            //                 ),
+            //                 onTap: () async {
+            //                   await mailController.sendMailIn(
+            //                       commentWriteController.text,
+            //                       mailController.scrollController);
 
-          //                   commentWriteController.clear();
-          //                 }),
-          //           ]))
-          //     ])),
-          ),
+            //                   commentWriteController.clear();
+            //                 }),
+            //           ]))
+            //     ])),
+            ),
+      ),
     );
   }
 }

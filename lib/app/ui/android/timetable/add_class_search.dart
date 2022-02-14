@@ -55,109 +55,113 @@ class TimetableAddClassMain extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     print(timeTableController.yearSem);
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        bottomSheet: // 사각형 612
-            Container(
-          height: Get.mediaQuery.size.height - (55.0 * 5 + 30) - 56 - 37 + 10,
-          decoration: BoxDecoration(
-              border: Border.all(color: const Color(0xff707070), width: 1),
-              color: const Color(0xffffffff)),
-          child: classSearchBottomSheet(scrollController: scrollController),
-        ),
-        appBar: AppBar(
-          elevation: 0,
-          toolbarHeight: 56,
-          automaticallyImplyLeading: false,
-          leading: InkWell(
-            onTap: () {
-              Get.back();
-            },
-            child: Image.asset("assets/images/back_icon.png"),
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          bottomSheet: // 사각형 612
+              Container(
+            height: Get.mediaQuery.size.height - (55.0 * 5 + 30) - 56 - 37 + 10,
+            // decoration: BoxDecoration(
+            //     border: Border.all(color: const Color(0xff707070), width: 1),
+            //     color: const Color(0xffffffff)),
+            child: classSearchBottomSheet(scrollController: scrollController),
           ),
-          centerTitle: true,
-          titleSpacing: 0,
-          actions: [
-            Container(
-                width: 72,
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                child: Ink(
-                  child: InkWell(
-                    onTap: () {
-                      Get.toNamed(Routes.TIMETABLE_ADDCLASS_DIRECT);
-                    },
-                    child: Center(
-                      child: Text("直接输入",
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              color: Get.theme.primaryColor,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "NotoSansSC",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.right),
+          appBar: AppBar(
+            elevation: 0,
+            toolbarHeight: 56,
+            automaticallyImplyLeading: false,
+            leading: InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Image.asset("assets/images/back_icon.png"),
+            ),
+            centerTitle: true,
+            titleSpacing: 0,
+            actions: [
+              Container(
+                  width: 72,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  child: Ink(
+                    child: InkWell(
+                      onTap: () {
+                        Get.toNamed(Routes.TIMETABLE_ADDCLASS_DIRECT);
+                      },
+                      child: Center(
+                        child: Text("直接输入",
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                color: Get.theme.primaryColor,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 12.0),
+                            textAlign: TextAlign.right),
+                      ),
                     ),
                   ),
-                ),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(13)),
-                    border:
-                        Border.all(color: const Color(0xff99bbf9), width: 1),
-                    color: const Color(0xffffffff))),
-          ],
-        ),
-        body: Container(
-          child: Container(
-            height: 55.0 * 5 + 30,
-            child: SingleChildScrollView(
-              controller: scrollController,
-              // physics: NeverScrollableScrollPhysics(),
-              physics: AlwaysScrollableScrollPhysics(),
-              child: Obx(() {
-                RxBool isExpandedHor = timeTableController.isExpandedHor;
-                int dayAmount = isExpandedHor.value ? 7 : 5;
-                int verAmount = timeTableController.verAmount.value;
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(13)),
+                      border:
+                          Border.all(color: const Color(0xff99bbf9), width: 1),
+                      color: const Color(0xffffffff))),
+            ],
+          ),
+          body: Container(
+            child: Container(
+              height: 55.0 * 5 + 30,
+              child: SingleChildScrollView(
+                controller: scrollController,
+                // physics: NeverScrollableScrollPhysics(),
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Obx(() {
+                  RxBool isExpandedHor = timeTableController.isExpandedHor;
+                  int dayAmount = isExpandedHor.value ? 7 : 5;
+                  int verAmount = timeTableController.verAmount.value;
 
-                double time_height = timeTableController.timeHeight.value;
-                double top_height = timeTableController.topHeight.value;
+                  double time_height = timeTableController.timeHeight.value;
+                  double top_height = timeTableController.topHeight.value;
 
-                return Container(
-                  height: top_height + time_height * (verAmount - 1),
-                  child: Stack(children: [
-                    TimeTableBin(
-                        time_height: time_height,
-                        top_height: top_height,
-                        timeTableController: timeTableController,
-                        width: size.width,
-                        dayAmount: dayAmount,
-                        verAmount: verAmount),
-                    TimeTableContent(
-                        time_height: time_height,
-                        top_height: top_height,
-                        timeTableController: timeTableController,
-                        width: size.width,
-                        dayAmount: dayAmount,
-                        verAmount: verAmount),
-                    //선택한 애들 띄우기
-                    for (Rx<AddClassModel> item in controller.NewClass)
-                      Positioned(
-                        child: TimeTableAddClass(
-                            timeTableController: timeTableController,
-                            new_class: item,
-                            top_height: top_height,
-                            time_height: time_height,
-                            width: size.width,
-                            show: controller.selectedIndex == -1 ? false : true,
-                            dayAmount: dayAmount,
-                            verAmount: verAmount),
-                      )
-                  ]),
-                );
-              }),
+                  return Container(
+                    height: top_height + time_height * (verAmount - 1),
+                    child: Stack(children: [
+                      TimeTableBin(
+                          time_height: time_height,
+                          top_height: top_height,
+                          timeTableController: timeTableController,
+                          width: size.width,
+                          dayAmount: dayAmount,
+                          verAmount: verAmount),
+                      TimeTableContent(
+                          time_height: time_height,
+                          top_height: top_height,
+                          timeTableController: timeTableController,
+                          width: size.width,
+                          dayAmount: dayAmount,
+                          verAmount: verAmount),
+                      //선택한 애들 띄우기
+                      for (Rx<AddClassModel> item in controller.NewClass)
+                        Positioned(
+                          child: TimeTableAddClass(
+                              timeTableController: timeTableController,
+                              new_class: item,
+                              top_height: top_height,
+                              time_height: time_height,
+                              width: size.width,
+                              show:
+                                  controller.selectedIndex == -1 ? false : true,
+                              dayAmount: dayAmount,
+                              verAmount: verAmount),
+                        )
+                    ]),
+                  );
+                }),
+              ),
             ),
           ),
         ),

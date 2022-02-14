@@ -16,71 +16,74 @@ class Post extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-          backgroundColor: Color(0xffffffff),
-          appBar: AppBar(
-            toolbarHeight: 56,
+    return Container(
+      color: Get.theme.primaryColor,
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+            backgroundColor: Color(0xffffffff),
+            appBar: AppBar(
+              toolbarHeight: 56,
 
-            backgroundColor: Get.theme.primaryColor,
-            titleSpacing: 0,
-            // elevation: 0,
-            automaticallyImplyLeading: false,
-            leading: InkWell(
-              onTap: () {
-                Get.back();
-              },
-              child: Ink(
-                child: Image.asset(
-                  'assets/images/back_icon.png',
-                  // fit: BoxFit.fitWidth,
-                  width: 24,
-                  height: 24,
+              backgroundColor: Get.theme.primaryColor,
+              titleSpacing: 0,
+              // elevation: 0,
+              automaticallyImplyLeading: false,
+              leading: InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: Ink(
+                  child: Image.asset(
+                    'assets/images/back_icon.png',
+                    // fit: BoxFit.fitWidth,
+                    width: 24,
+                    height: 24,
+                  ),
                 ),
               ),
+              centerTitle: true,
+              title: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "成均馆大学",
+                        style: const TextStyle(
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                      )
+                    ],
+                    text: communityBoardName(c.COMMUNITY_ID) == null
+                        ? ""
+                        : '${communityBoardName(c.COMMUNITY_ID)} / ',
+                    style: const TextStyle(
+                        color: const Color(0xffffffff),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "NotoSansSC",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 16.0),
+                  ),
+                  textAlign: TextAlign.left),
             ),
-            centerTitle: true,
-            title: RichText(
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: "成均馆大学",
-                      style: const TextStyle(
-                          color: const Color(0xffffffff),
-                          fontWeight: FontWeight.w500,
-                          fontFamily: "NotoSansSC",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14.0),
-                    )
-                  ],
-                  text: communityBoardName(c.COMMUNITY_ID) == null
-                      ? ""
-                      : '${communityBoardName(c.COMMUNITY_ID)} / ',
-                  style: const TextStyle(
-                      color: const Color(0xffffffff),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 16.0),
-                ),
-                textAlign: TextAlign.left),
-          ),
-          body: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: Obx(() {
-              if (!c.dataAvailable) {
-                return Center(child: CircularProgressIndicator());
-              } else {
-                return PostLayout();
-              }
-            }),
-          ),
-          bottomSheet: BottomKeyboard(
-              BOTTOM_SHEET_HEIGHT: BOTTOM_SHEET_HEIGHT,
-              commentWriteController: commentWriteController)),
+            body: GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: Obx(() {
+                if (!c.dataAvailable) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  return PostLayout();
+                }
+              }),
+            ),
+            bottomSheet: BottomKeyboard(
+                BOTTOM_SHEET_HEIGHT: BOTTOM_SHEET_HEIGHT,
+                commentWriteController: commentWriteController)),
+      ),
     );
   }
 }

@@ -21,17 +21,20 @@ class Timetable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-          backgroundColor: const Color(0xffffffff),
-          appBar: PreferredSize(
-              preferredSize: Size.fromHeight(56),
-              child: TimeTableAppBar(
-                timeTableController: timeTableController,
-              )),
-          body: TimeTableBody(
-              timeTableController: timeTableController, size: size)),
+    return Container(
+      // color: Colors.white,
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+            backgroundColor: const Color(0xffffffff),
+            appBar: PreferredSize(
+                preferredSize: Size.fromHeight(56),
+                child: TimeTableAppBar(
+                  timeTableController: timeTableController,
+                )),
+            body: TimeTableBody(
+                timeTableController: timeTableController, size: size)),
+      ),
     );
   }
 }

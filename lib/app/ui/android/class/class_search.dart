@@ -18,70 +18,74 @@ class ClassSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     final ClassSearchController controller = Get.find();
     final FocusNode searchFocusNode = FocusNode();
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 56,
-          backgroundColor: Get.theme.primaryColor,
-          titleSpacing: 0,
-          automaticallyImplyLeading: false,
-          leading: InkWell(
-            onTap: () {
-              Get.back();
-            },
-            child: Ink(
-              child: Image.asset(
-                'assets/images/back_icon.png',
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+          appBar: AppBar(
+            toolbarHeight: 56,
+            backgroundColor: Get.theme.primaryColor,
+            titleSpacing: 0,
+            automaticallyImplyLeading: false,
+            leading: InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Ink(
+                child: Image.asset(
+                  'assets/images/back_icon.png',
+                ),
               ),
             ),
+            centerTitle: true,
+            title: Text(
+              "讲义评价",
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                  color: const Color(0xffffffff),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "NotoSansSC",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
+            ),
           ),
-          centerTitle: true,
-          title: Text(
-            "讲义评价",
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-                overflow: TextOverflow.ellipsis,
-                color: const Color(0xffffffff),
-                fontWeight: FontWeight.w500,
-                fontFamily: "NotoSansSC",
-                fontStyle: FontStyle.normal,
-                fontSize: 14.0),
-          ),
-        ),
-        body: RefreshIndicator(
-          onRefresh: controller.refreshPage,
-          child: Container(
-            color: const Color(0xffffffff),
-            child: Obx(() {
-              if (controller.classSearchListAvailable.value) {
-                return Container(
-                  margin: const EdgeInsets.only(
-                      top: 10, left: 20, right: 20, bottom: 10),
-                  child: ListView.builder(
-                      itemCount: controller.classSearchList.length,
-                      controller: controller.scrollController,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Ink(
-                            child: InkWell(
-                                onTap: () async {
-                                  searchFocusNode.unfocus();
-                                  await Get.toNamed(
-                                          '/class/view/${controller.classSearchList[index].CLASS_ID}')
-                                      .then((value) async {
-                                    await MainUpdateModule.updateClassPage();
-                                  });
-                                },
-                                child: ClassItem(
-                                    model: controller.classSearchList[index])));
-                      }),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
+          body: RefreshIndicator(
+            onRefresh: controller.refreshPage,
+            child: Container(
+              color: const Color(0xffffffff),
+              child: Obx(() {
+                if (controller.classSearchListAvailable.value) {
+                  return Container(
+                    margin: const EdgeInsets.only(
+                        top: 10, left: 20, right: 20, bottom: 10),
+                    child: ListView.builder(
+                        itemCount: controller.classSearchList.length,
+                        controller: controller.scrollController,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Ink(
+                              child: InkWell(
+                                  onTap: () async {
+                                    searchFocusNode.unfocus();
+                                    await Get.toNamed(
+                                            '/class/view/${controller.classSearchList[index].CLASS_ID}')
+                                        .then((value) async {
+                                      await MainUpdateModule.updateClassPage();
+                                    });
+                                  },
+                                  child: ClassItem(
+                                      model:
+                                          controller.classSearchList[index])));
+                        }),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }),
+            ),
           ),
         ),
       ),

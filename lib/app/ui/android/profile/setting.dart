@@ -22,409 +22,416 @@ class Setting extends StatelessWidget {
   final MyPageController myPageController = Get.find();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: SettingAppBars().classBasicAppBar(),
-          body: Column(
-            children: [
-              Container(
-                  height: 10,
-                  decoration: BoxDecoration(color: const Color(0xfff6f6f6))),
-              // Container(
-              //     height: 54.6,
-              //     width: MediaQuery.of(context).size.width,
-              //     decoration: BoxDecoration(
-              //         border: Border(
-              //             bottom: BorderSide(
-              //                 color: const Color(0xffdedede), width: 1))),
-              //     child: Stack(children: [
-              //       Align(
-              //           alignment: Alignment.centerLeft,
-              //           child: Container(
-              //               margin: EdgeInsets.only(left: 15),
-              //               child: Text("Dark mode",
-              //                   style: const TextStyle(
-              //                       color: const Color(0xff6f6e6e),
-              //                       fontWeight: FontWeight.w500,
-              //                       fontFamily: "Roboto",
-              //                       fontStyle: FontStyle.normal,
-              //                       fontSize: 14.0),
-              //                   textAlign: TextAlign.left))),
-              //       Align(
-              //           alignment: Alignment.centerRight,
-              //           child: Container(
-              //               width: 38,
-              //               height: 20,
-              //               margin: EdgeInsets.only(right: 18),
-              //               child: Stack(
-              //                 alignment: Alignment.centerLeft,
-              //                 children: [
-              //                   Container(
-              //                       width: 38,
-              //                       height: 20,
-              //                       decoration: BoxDecoration(
-              //                           borderRadius: BorderRadius.all(
-              //                               Radius.circular(10)),
-              //                           color: const Color(0xffd6d4d4))),
-              //                   Container(
-              //                       margin: EdgeInsets.only(left: 2),
-              //                       width: 16,
-              //                       height: 16,
-              //                       decoration: BoxDecoration(
-              //                         color: const Color(0xffffffff),
-              //                         shape: BoxShape.circle,
-              //                       ))
-              //                 ],
-              //               )))
-              //     ])),
-              // Container(
-              //     height: 54.6,
-              //     width: MediaQuery.of(context).size.width,
-              //     decoration: BoxDecoration(
-              //         border: Border(
-              //             bottom: BorderSide(
-              //                 color: const Color(0xffdedede), width: 1))),
-              //     child: Stack(children: [
-              //       Align(
-              //           alignment: Alignment.centerLeft,
-              //           child: Container(
-              //               margin: EdgeInsets.only(left: 15),
-              //               child: Text("Message reminding",
-              //                   style: const TextStyle(
-              //                       color: const Color(0xff6f6e6e),
-              //                       fontWeight: FontWeight.w500,
-              //                       fontFamily: "Roboto",
-              //                       fontStyle: FontStyle.normal,
-              //                       fontSize: 14.0),
-              //                   textAlign: TextAlign.left))),
-              //       Align(
-              //           alignment: Alignment.centerRight,
-              //           child: Container(
-              //               width: 38,
-              //               height: 20,
-              //               margin: EdgeInsets.only(right: 18),
-              //               child: Stack(
-              //                 alignment: Alignment.centerLeft,
-              //                 children: [
-              //                   Container(
-              //                       width: 38,
-              //                       height: 20,
-              //                       decoration: BoxDecoration(
-              //                           borderRadius: BorderRadius.all(
-              //                               Radius.circular(10)),
-              //                           color: const Color(0xff4570ff))),
-              //                   Container(
-              //                       margin: EdgeInsets.only(left: 20),
-              //                       width: 16,
-              //                       height: 16,
-              //                       decoration: BoxDecoration(
-              //                         color: const Color(0xffffffff),
-              //                         shape: BoxShape.circle,
-              //                       ))
-              //                 ],
-              //               )))
-              //     ])),
-              // Container(
-              //     height: 54.6,
-              //     width: MediaQuery.of(context).size.width,
-              //     decoration: BoxDecoration(
-              //         border: Border(
-              //             bottom: BorderSide(
-              //                 color: const Color(0xffdedede), width: 1))),
-              //     child: Stack(children: [
-              //       Align(
-              //           alignment: Alignment.centerLeft,
-              //           child: Container(
-              //               margin: EdgeInsets.only(left: 15),
-              //               child: Text("Password",
-              //                   style: const TextStyle(
-              //                       color: const Color(0xff6f6e6e),
-              //                       fontWeight: FontWeight.w500,
-              //                       fontFamily: "Roboto",
-              //                       fontStyle: FontStyle.normal,
-              //                       fontSize: 14.0),
-              //                   textAlign: TextAlign.left))),
-              //       Align(
-              //           alignment: Alignment.centerRight,
-              //           child: Container(
-              //               margin: EdgeInsets.only(right: 18),
-              //               child: Image.asset("assets/images/938.png",
-              //                   height: 9.5, width: 5.4)))
-              //     ])),
-              Container(
-                  height: 54.6,
-                  width: MediaQuery.of(context).size.width - 40,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              color: const Color(0xffdedede), width: 1))),
-                  child: Stack(children: [
-                    Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                            margin: EdgeInsets.only(left: 0),
-                            child: Text("版本",
-                                style: const TextStyle(
-                                    color: const Color(0xff6f6e6e),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "Roboto",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                textAlign: TextAlign.left))),
-                    Align(
-                        alignment: Alignment.centerRight,
-                        child: Container(
-                            margin: EdgeInsets.only(right: 0),
-                            child: Text("${mainController.current_version}",
-                                style: const TextStyle(
-                                    color: const Color(0xff6f6e6e),
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "Roboto",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                textAlign: TextAlign.left)))
-                  ])),
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: SettingAppBars().classBasicAppBar(),
+            body: Column(
+              children: [
+                Container(
+                    height: 10,
+                    decoration: BoxDecoration(color: const Color(0xfff6f6f6))),
+                // Container(
+                //     height: 54.6,
+                //     width: MediaQuery.of(context).size.width,
+                //     decoration: BoxDecoration(
+                //         border: Border(
+                //             bottom: BorderSide(
+                //                 color: const Color(0xffdedede), width: 1))),
+                //     child: Stack(children: [
+                //       Align(
+                //           alignment: Alignment.centerLeft,
+                //           child: Container(
+                //               margin: EdgeInsets.only(left: 15),
+                //               child: Text("Dark mode",
+                //                   style: const TextStyle(
+                //                       color: const Color(0xff6f6e6e),
+                //                       fontWeight: FontWeight.w500,
+                //                       fontFamily: "Roboto",
+                //                       fontStyle: FontStyle.normal,
+                //                       fontSize: 14.0),
+                //                   textAlign: TextAlign.left))),
+                //       Align(
+                //           alignment: Alignment.centerRight,
+                //           child: Container(
+                //               width: 38,
+                //               height: 20,
+                //               margin: EdgeInsets.only(right: 18),
+                //               child: Stack(
+                //                 alignment: Alignment.centerLeft,
+                //                 children: [
+                //                   Container(
+                //                       width: 38,
+                //                       height: 20,
+                //                       decoration: BoxDecoration(
+                //                           borderRadius: BorderRadius.all(
+                //                               Radius.circular(10)),
+                //                           color: const Color(0xffd6d4d4))),
+                //                   Container(
+                //                       margin: EdgeInsets.only(left: 2),
+                //                       width: 16,
+                //                       height: 16,
+                //                       decoration: BoxDecoration(
+                //                         color: const Color(0xffffffff),
+                //                         shape: BoxShape.circle,
+                //                       ))
+                //                 ],
+                //               )))
+                //     ])),
+                // Container(
+                //     height: 54.6,
+                //     width: MediaQuery.of(context).size.width,
+                //     decoration: BoxDecoration(
+                //         border: Border(
+                //             bottom: BorderSide(
+                //                 color: const Color(0xffdedede), width: 1))),
+                //     child: Stack(children: [
+                //       Align(
+                //           alignment: Alignment.centerLeft,
+                //           child: Container(
+                //               margin: EdgeInsets.only(left: 15),
+                //               child: Text("Message reminding",
+                //                   style: const TextStyle(
+                //                       color: const Color(0xff6f6e6e),
+                //                       fontWeight: FontWeight.w500,
+                //                       fontFamily: "Roboto",
+                //                       fontStyle: FontStyle.normal,
+                //                       fontSize: 14.0),
+                //                   textAlign: TextAlign.left))),
+                //       Align(
+                //           alignment: Alignment.centerRight,
+                //           child: Container(
+                //               width: 38,
+                //               height: 20,
+                //               margin: EdgeInsets.only(right: 18),
+                //               child: Stack(
+                //                 alignment: Alignment.centerLeft,
+                //                 children: [
+                //                   Container(
+                //                       width: 38,
+                //                       height: 20,
+                //                       decoration: BoxDecoration(
+                //                           borderRadius: BorderRadius.all(
+                //                               Radius.circular(10)),
+                //                           color: const Color(0xff4570ff))),
+                //                   Container(
+                //                       margin: EdgeInsets.only(left: 20),
+                //                       width: 16,
+                //                       height: 16,
+                //                       decoration: BoxDecoration(
+                //                         color: const Color(0xffffffff),
+                //                         shape: BoxShape.circle,
+                //                       ))
+                //                 ],
+                //               )))
+                //     ])),
+                // Container(
+                //     height: 54.6,
+                //     width: MediaQuery.of(context).size.width,
+                //     decoration: BoxDecoration(
+                //         border: Border(
+                //             bottom: BorderSide(
+                //                 color: const Color(0xffdedede), width: 1))),
+                //     child: Stack(children: [
+                //       Align(
+                //           alignment: Alignment.centerLeft,
+                //           child: Container(
+                //               margin: EdgeInsets.only(left: 15),
+                //               child: Text("Password",
+                //                   style: const TextStyle(
+                //                       color: const Color(0xff6f6e6e),
+                //                       fontWeight: FontWeight.w500,
+                //                       fontFamily: "Roboto",
+                //                       fontStyle: FontStyle.normal,
+                //                       fontSize: 14.0),
+                //                   textAlign: TextAlign.left))),
+                //       Align(
+                //           alignment: Alignment.centerRight,
+                //           child: Container(
+                //               margin: EdgeInsets.only(right: 18),
+                //               child: Image.asset("assets/images/938.png",
+                //                   height: 9.5, width: 5.4)))
+                //     ])),
+                Container(
+                    height: 54.6,
+                    width: MediaQuery.of(context).size.width - 40,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                color: const Color(0xffdedede), width: 1))),
+                    child: Stack(children: [
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                              margin: EdgeInsets.only(left: 0),
+                              child: Text("版本",
+                                  style: const TextStyle(
+                                      color: const Color(0xff6f6e6e),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "Roboto",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  textAlign: TextAlign.left))),
+                      Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                              margin: EdgeInsets.only(right: 0),
+                              child: Text("${mainController.current_version}",
+                                  style: const TextStyle(
+                                      color: const Color(0xff6f6e6e),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "Roboto",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  textAlign: TextAlign.left)))
+                    ])),
 
-              // Container(
-              //     height: 54.6,
-              //     width: MediaQuery.of(context).size.width - 40,
-              //     decoration: BoxDecoration(
-              //         border: Border(
-              //             bottom: BorderSide(
-              //                 color: const Color(0xffdedede), width: 1))),
-              //     child: Stack(children: [
-              //       Align(
-              //           alignment: Alignment.centerLeft,
-              //           child: Container(
-              //               margin: EdgeInsets.only(left: 0),
-              //               child: Text("공지사항",
-              //                   style: const TextStyle(
-              //                       color: const Color(0xff6f6e6e),
-              //                       fontWeight: FontWeight.w500,
-              //                       fontFamily: "Roboto",
-              //                       fontStyle: FontStyle.normal,
-              //                       fontSize: 14.0),
-              //                   textAlign: TextAlign.left))),
-              //       Align(
-              //           alignment: Alignment.centerRight,
-              //           child: Container(
-              //               margin: EdgeInsets.only(right: 0),
-              //               child: Image.asset("assets/images/938.png",
-              //                   height: 9.5, width: 5.4)))
-              //     ])),
-              // Container(
-              //     height: 54.6,
-              //     width: MediaQuery.of(context).size.width - 40,
-              //     decoration: BoxDecoration(
-              //         border: Border(
-              //             bottom: BorderSide(
-              //                 color: const Color(0xffdedede), width: 1))),
-              //     child: Stack(children: [
-              //       Align(
-              //           alignment: Alignment.centerLeft,
-              //           child: Container(
-              //               margin: EdgeInsets.only(left: 0),
-              //               child: Text("服务协议",
-              //                   style: const TextStyle(
-              //                       color: const Color(0xff6f6e6e),
-              //                       fontWeight: FontWeight.w500,
-              //                       fontFamily: "Roboto",
-              //                       fontStyle: FontStyle.normal,
-              //                       fontSize: 14.0),
-              //                   textAlign: TextAlign.left))),
-              //       Align(
-              //           alignment: Alignment.centerRight,
-              //           child: Container(
-              //               margin: EdgeInsets.only(right: 0),
-              //               child: Image.asset("assets/images/938.png",
-              //                   height: 9.5, width: 5.4)))
-              //     ])),
-              Ink(
-                child: InkWell(
-                  onTap: myPageController.PersonalInfoURL.value == null ||
-                          myPageController.PersonalInfoURL.value.isEmpty
-                      ? null
-                      : () {
-                          Get.to(Obx(() {
-                            return SafeArea(
-                              top: false,
-                              child: Scaffold(
-                                // 隐私政策
-                                appBar: AppBar(
-                                    toolbarHeight: 56,
-                                    backgroundColor: Get.theme.primaryColor,
-                                    titleSpacing: 0,
-                                    elevation: 1,
-                                    automaticallyImplyLeading: false,
-                                    leading: InkWell(
-                                      onTap: () {
-                                        Get.back();
-                                      },
-                                      child: Ink(
-                                        child: Image.asset(
-                                          'assets/images/back_icon.png',
-                                          // fit: BoxFit.fitWidth,
-                                          width: 24,
-                                          height: 24,
+                // Container(
+                //     height: 54.6,
+                //     width: MediaQuery.of(context).size.width - 40,
+                //     decoration: BoxDecoration(
+                //         border: Border(
+                //             bottom: BorderSide(
+                //                 color: const Color(0xffdedede), width: 1))),
+                //     child: Stack(children: [
+                //       Align(
+                //           alignment: Alignment.centerLeft,
+                //           child: Container(
+                //               margin: EdgeInsets.only(left: 0),
+                //               child: Text("공지사항",
+                //                   style: const TextStyle(
+                //                       color: const Color(0xff6f6e6e),
+                //                       fontWeight: FontWeight.w500,
+                //                       fontFamily: "Roboto",
+                //                       fontStyle: FontStyle.normal,
+                //                       fontSize: 14.0),
+                //                   textAlign: TextAlign.left))),
+                //       Align(
+                //           alignment: Alignment.centerRight,
+                //           child: Container(
+                //               margin: EdgeInsets.only(right: 0),
+                //               child: Image.asset("assets/images/938.png",
+                //                   height: 9.5, width: 5.4)))
+                //     ])),
+                // Container(
+                //     height: 54.6,
+                //     width: MediaQuery.of(context).size.width - 40,
+                //     decoration: BoxDecoration(
+                //         border: Border(
+                //             bottom: BorderSide(
+                //                 color: const Color(0xffdedede), width: 1))),
+                //     child: Stack(children: [
+                //       Align(
+                //           alignment: Alignment.centerLeft,
+                //           child: Container(
+                //               margin: EdgeInsets.only(left: 0),
+                //               child: Text("服务协议",
+                //                   style: const TextStyle(
+                //                       color: const Color(0xff6f6e6e),
+                //                       fontWeight: FontWeight.w500,
+                //                       fontFamily: "Roboto",
+                //                       fontStyle: FontStyle.normal,
+                //                       fontSize: 14.0),
+                //                   textAlign: TextAlign.left))),
+                //       Align(
+                //           alignment: Alignment.centerRight,
+                //           child: Container(
+                //               margin: EdgeInsets.only(right: 0),
+                //               child: Image.asset("assets/images/938.png",
+                //                   height: 9.5, width: 5.4)))
+                //     ])),
+                Ink(
+                  child: InkWell(
+                    onTap: myPageController.PersonalInfoURL.value == null ||
+                            myPageController.PersonalInfoURL.value.isEmpty
+                        ? null
+                        : () {
+                            Get.to(Obx(() {
+                              return Container(
+                                color: Colors.white,
+                                child: SafeArea(
+                                  top: false,
+                                  child: Scaffold(
+                                    // 隐私政策
+                                    appBar: AppBar(
+                                        toolbarHeight: 56,
+                                        backgroundColor: Get.theme.primaryColor,
+                                        titleSpacing: 0,
+                                        elevation: 1,
+                                        automaticallyImplyLeading: false,
+                                        leading: InkWell(
+                                          onTap: () {
+                                            Get.back();
+                                          },
+                                          child: Ink(
+                                            child: Image.asset(
+                                              'assets/images/back_icon.png',
+                                              // fit: BoxFit.fitWidth,
+                                              width: 24,
+                                              height: 24,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                        centerTitle: true,
+                                        title: Text("隐私政策",
+                                            style: const TextStyle(
+                                                color: const Color(0xffffffff),
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: "NotoSansSC",
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 16.0))),
+                                    body: WebView(
+                                      initialUrl: myPageController
+                                          .PersonalInfoURL.value,
+                                      javascriptMode:
+                                          JavascriptMode.unrestricted,
                                     ),
-                                    centerTitle: true,
-                                    title: Text("隐私政策",
-                                        style: const TextStyle(
-                                            color: const Color(0xffffffff),
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: "NotoSansSC",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 16.0))),
-                                body: WebView(
-                                  initialUrl:
-                                      myPageController.PersonalInfoURL.value,
-                                  javascriptMode: JavascriptMode.unrestricted,
+                                  ),
                                 ),
-                              ),
-                            );
-                          }), transition: Transition.cupertino);
-                        },
-                  child: Container(
-                      height: 54.6,
-                      width: MediaQuery.of(context).size.width - 40,
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: const Color(0xffdedede), width: 1))),
-                      child: Stack(children: [
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                                margin: EdgeInsets.only(left: 0),
-                                child: Text("隐私政策",
-                                    style: const TextStyle(
-                                        color: const Color(0xff6f6e6e),
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: "Roboto",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 14.0),
-                                    textAlign: TextAlign.left))),
-                        Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                                margin: EdgeInsets.only(right: 0),
-                                child: Image.asset("assets/images/938.png",
-                                    height: 9.5, width: 5.4)))
-                      ])),
+                              );
+                            }), transition: Transition.cupertino);
+                          },
+                    child: Container(
+                        height: 54.6,
+                        width: MediaQuery.of(context).size.width - 40,
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: const Color(0xffdedede), width: 1))),
+                        child: Stack(children: [
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                  margin: EdgeInsets.only(left: 0),
+                                  child: Text("隐私政策",
+                                      style: const TextStyle(
+                                          color: const Color(0xff6f6e6e),
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "Roboto",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 14.0),
+                                      textAlign: TextAlign.left))),
+                          Align(
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                  margin: EdgeInsets.only(right: 0),
+                                  child: Image.asset("assets/images/938.png",
+                                      height: 9.5, width: 5.4)))
+                        ])),
+                  ),
                 ),
-              ),
-              Ink(
-                child: InkWell(
-                  onTap: myPageController.PersonalInfoURL.value == null ||
-                          myPageController.PersonalInfoURL.value.isEmpty
-                      ? null
-                      : () {
-                          Get.to(
-                              CommunityRule(
-                                isSignUp: false,
-                              ),
-                              transition: Transition.cupertino);
-                        },
-                  child: Container(
-                      height: 54.6,
-                      width: MediaQuery.of(context).size.width - 40,
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: const Color(0xffdedede), width: 1))),
-                      child: Stack(children: [
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                                margin: EdgeInsets.only(left: 0),
-                                child: Text("论坛使用规则",
-                                    style: const TextStyle(
-                                        color: const Color(0xff6f6e6e),
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: "Roboto",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 14.0),
-                                    textAlign: TextAlign.left))),
-                        Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                                margin: EdgeInsets.only(right: 0),
-                                child: Image.asset("assets/images/938.png",
-                                    height: 9.5, width: 5.4)))
-                      ])),
+                Ink(
+                  child: InkWell(
+                    onTap: myPageController.PersonalInfoURL.value == null ||
+                            myPageController.PersonalInfoURL.value.isEmpty
+                        ? null
+                        : () {
+                            Get.to(
+                                CommunityRule(
+                                  isSignUp: false,
+                                ),
+                                transition: Transition.cupertino);
+                          },
+                    child: Container(
+                        height: 54.6,
+                        width: MediaQuery.of(context).size.width - 40,
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: const Color(0xffdedede), width: 1))),
+                        child: Stack(children: [
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                  margin: EdgeInsets.only(left: 0),
+                                  child: Text("论坛使用规则",
+                                      style: const TextStyle(
+                                          color: const Color(0xff6f6e6e),
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "Roboto",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 14.0),
+                                      textAlign: TextAlign.left))),
+                          Align(
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                  margin: EdgeInsets.only(right: 0),
+                                  child: Image.asset("assets/images/938.png",
+                                      height: 9.5, width: 5.4)))
+                        ])),
+                  ),
                 ),
-              ),
-              InkWell(
-                onTap: () async {
-                  Function ontapConfirm = () async {
-                    var salt = Session.cookies['salt'];
-                    salt = Uri.decodeComponent(salt);
-                    String pw = box.read("pw");
-                    var cryptedPw =
-                        sha512.convert(utf8.encode(pw + salt)).toString();
+                InkWell(
+                  onTap: () async {
+                    Function ontapConfirm = () async {
+                      var salt = Session.cookies['salt'];
+                      salt = Uri.decodeComponent(salt);
+                      String pw = box.read("pw");
+                      var cryptedPw =
+                          sha512.convert(utf8.encode(pw + salt)).toString();
 
-                    for (int i = 0; i < 1000; i++) {
-                      cryptedPw = sha512
-                          .convert(utf8.encode(cryptedPw + salt))
-                          .toString();
-                    }
-                    await Session()
-                        .postX("/users/withdrawal", {"pw": cryptedPw});
-                    Session.cookies = {};
-                    Session.headers['Cookie'] = '';
+                      for (int i = 0; i < 1000; i++) {
+                        cryptedPw = sha512
+                            .convert(utf8.encode(cryptedPw + salt))
+                            .toString();
+                      }
+                      await Session()
+                          .postX("/users/withdrawal", {"pw": cryptedPw});
+                      Session.cookies = {};
+                      Session.headers['Cookie'] = '';
 
-                    box.write('isAutoLogin', false);
-                    box.remove('id');
-                    box.remove('pw');
-                    box.remove('token');
+                      box.write('isAutoLogin', false);
+                      box.remove('id');
+                      box.remove('pw');
+                      box.remove('token');
 
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/login', (Route<dynamic> route) => false);
-                    Get.offAllNamed('/');
-                  };
-                  Function ontapCancel = () {
-                    Get.back();
-                  };
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/login', (Route<dynamic> route) => false);
+                      Get.offAllNamed('/');
+                    };
+                    Function ontapCancel = () {
+                      Get.back();
+                    };
 
-                  await TFdialogue(context, '确定要删除账号吗？', "确定要删除账号吗？",
-                      ontapConfirm, ontapCancel);
-                },
-                child: Ink(
-                  child: Container(
-                      height: 54.6,
-                      width: MediaQuery.of(context).size.width - 40,
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: const Color(0xffdedede), width: 1))),
-                      child: Stack(children: [
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                                margin: EdgeInsets.only(left: 0),
-                                child: Text("退出服务",
-                                    style: const TextStyle(
-                                        color: const Color(0xff6f6e6e),
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: "Roboto",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 14.0),
-                                    textAlign: TextAlign.left))),
-                        Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                                margin: EdgeInsets.only(right: 0),
-                                child: Image.asset("assets/images/938.png",
-                                    height: 9.5, width: 5.4)))
-                      ])),
+                    await TFdialogue(context, '确定要删除账号吗？', "确定要删除账号吗？",
+                        ontapConfirm, ontapCancel);
+                  },
+                  child: Ink(
+                    child: Container(
+                        height: 54.6,
+                        width: MediaQuery.of(context).size.width - 40,
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: const Color(0xffdedede), width: 1))),
+                        child: Stack(children: [
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                  margin: EdgeInsets.only(left: 0),
+                                  child: Text("退出服务",
+                                      style: const TextStyle(
+                                          color: const Color(0xff6f6e6e),
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "Roboto",
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 14.0),
+                                      textAlign: TextAlign.left))),
+                          Align(
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                  margin: EdgeInsets.only(right: 0),
+                                  child: Image.asset("assets/images/938.png",
+                                      height: 9.5, width: 5.4)))
+                        ])),
+                  ),
                 ),
-              ),
-            ],
-          )),
+              ],
+            )),
+      ),
     );
   }
 }

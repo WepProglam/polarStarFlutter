@@ -13,21 +13,24 @@ class LoginPage extends StatelessWidget {
   final LoginController controller = Get.find();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: WillPopScope(
-        onWillPop: () async {
-          print("??");
-          if (!controller.isTyping.value) {
-            return true;
-          }
-          controller.isTyping.value = false;
-          return false;
-        },
-        child: Scaffold(
-          backgroundColor: const Color(0xff4570ff),
-          resizeToAvoidBottomInset: false,
-          body: LoginInputs(controller: controller),
+    return Container(
+      color: const Color(0xff4570ff),
+      child: SafeArea(
+        top: false,
+        child: WillPopScope(
+          onWillPop: () async {
+            print("??");
+            if (!controller.isTyping.value) {
+              return true;
+            }
+            controller.isTyping.value = false;
+            return false;
+          },
+          child: Scaffold(
+            backgroundColor: const Color(0xff4570ff),
+            resizeToAvoidBottomInset: false,
+            body: LoginInputs(controller: controller),
+          ),
         ),
       ),
     );

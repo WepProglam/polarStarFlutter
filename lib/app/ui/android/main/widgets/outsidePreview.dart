@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 const mainColor = 0xff4570ff;
@@ -22,10 +23,17 @@ class OutsidePreview extends StatelessWidget {
           mainController.bannerList[index].URL == null ||
                   mainController.bannerList[index].URL.trim().isEmpty
               ? print("null link")
-              : Get.to(SafeArea(
-                  child: WebView(
-                    initialUrl: mainController.bannerList[index].URL,
-                    javascriptMode: JavascriptMode.unrestricted,
+              : Get.to(Container(
+                  color: Colors.white,
+                  child: SafeArea(
+                    top: false,
+                    child: Scaffold(
+                      appBar: AppBars().WebViewAppBar(),
+                      body: WebView(
+                        initialUrl: mainController.bannerList[index].URL,
+                        javascriptMode: JavascriptMode.unrestricted,
+                      ),
+                    ),
                   ),
                 ));
         },
