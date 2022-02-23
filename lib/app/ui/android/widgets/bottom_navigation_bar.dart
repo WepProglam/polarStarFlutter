@@ -101,11 +101,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
                             top: 12,
                             right: 0,
                             child: Container(
-                              height: 12,
-                              width: 12,
+                              height: 14,
+                              width: 14,
                               decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: const Color(0xff91e5dd)),
+                                  shape: BoxShape.circle, color: Colors.red
+                                  // const Color(0xff91e5dd)
+                                  ),
                             )),
                   ]);
                 }),

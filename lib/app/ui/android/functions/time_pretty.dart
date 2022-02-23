@@ -9,10 +9,10 @@ String prettyDate(DateTime date) {
   if (date.year != now.year) {
     return "${date.year}-${date.month}-${date.day}";
   } else if (date.month != now.month || date.day != now.day) {
-    return "${addZero(date.month)}월 ${addZero(date.day)}일";
+    return "${addZero(date.month)}月 ${addZero(date.day)}日";
   } else {
     // return timeFormatter(date);
-    return "${addZero(date.hour)}시 ${addZero(date.minute)}분";
+    return "${addZero(date.hour)}时 ${addZero(date.minute)}分";
   }
 }
 

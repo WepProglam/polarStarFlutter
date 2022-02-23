@@ -532,22 +532,22 @@ class CCTopIcons extends StatelessWidget {
                 if (item.MYSELF) {
                   return [
                     PopupMenuItem(
-                      child: Text("댓글 수정"),
+                      child: Text("修改评论"),
                       value: "댓글 수정",
                     ),
                     PopupMenuItem(
-                      child: Text("댓글 삭제"),
+                      child: Text("删除评论"),
                       value: "댓글 삭제",
                     ),
                   ];
                 } else {
                   return [
                     PopupMenuItem(
-                      child: Text("댓글 신고"),
+                      child: Text("举报该评论"),
                       value: "댓글 신고",
                     ),
                     PopupMenuItem(
-                      child: Text("쪽지 보내기"),
+                      child: Text("私信TA"),
                       value: "쪽지 보내기",
                     ),
                   ];
@@ -663,22 +663,22 @@ class CommnetTopIcons extends StatelessWidget {
               if (item.MYSELF) {
                 return [
                   PopupMenuItem(
-                    child: Text("댓글 수정"),
+                    child: Text("修改评论"),
                     value: "댓글 수정",
                   ),
                   PopupMenuItem(
-                    child: Text("댓글 삭제"),
+                    child: Text("删除评论"),
                     value: "댓글 삭제",
                   ),
                 ];
               } else {
                 return [
                   PopupMenuItem(
-                    child: Text("댓글 신고"),
+                    child: Text("举报该评论"),
                     value: "댓글 신고",
                   ),
                   PopupMenuItem(
-                    child: Text("쪽지 보내기"),
+                    child: Text("私信TA"),
                     value: "쪽지 보내기",
                   ),
                 ];
