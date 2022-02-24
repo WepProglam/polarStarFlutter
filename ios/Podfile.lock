@@ -71,6 +71,10 @@ PODS:
   - photo_manager (1.0.0):
     - Flutter
     - FlutterMacOS
+  - Pushy (1.0.32)
+  - pushy_flutter (2.0.4):
+    - Flutter
+    - Pushy (= 1.0.32)
   - SDWebImage (5.12.3):
     - SDWebImage/Core (= 5.12.3)
   - SDWebImage/Core (5.12.3)
@@ -103,6 +107,7 @@ DEPENDENCIES:
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - photo_manager (from `.symlinks/plugins/photo_manager/ios`)
+  - pushy_flutter (from `.symlinks/plugins/pushy_flutter/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
@@ -116,6 +121,7 @@ SPEC REPOS:
     - FMDB
     - libwebp
     - Mantle
+    - Pushy
     - SDWebImage
     - SDWebImageWebPCoder
     - SwiftyGif
@@ -143,6 +149,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler/ios"
   photo_manager:
     :path: ".symlinks/plugins/photo_manager/ios"
+  pushy_flutter:
+    :path: ".symlinks/plugins/pushy_flutter/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   url_launcher_ios:
@@ -171,6 +179,8 @@ SPEC CHECKSUMS:
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   photo_manager: 84fa94fbeb82e607333ea9a13c43b58e0903a463
+  Pushy: d87dddd74cd738d804cd95a1d4bbcd53a352b6e9
+  pushy_flutter: d4ed4b1d5a04fc31304065dac7e04995e4dc10a8
   SDWebImage: 53179a2dba77246efa8a9b85f5c5b21f8f43e38f
   SDWebImageWebPCoder: f93010f3f6c031e2f8fb3081ca4ee6966c539815
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
