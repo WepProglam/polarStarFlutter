@@ -108,6 +108,9 @@ class WritePost extends StatelessWidget {
                     child: Ink(
                       child: InkWell(
                         onTap: () async {
+                          if (title.text.isEmpty || content.text.isEmpty) {
+                            return;
+                          }
                           Map<String, dynamic> data = WritePostModel(
                                   title: title.text,
                                   description: content.text,

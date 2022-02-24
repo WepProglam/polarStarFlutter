@@ -8,6 +8,7 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polarstar_flutter/app/controller/class/class_chat_controller.dart';
+import 'package:polarstar_flutter/app/controller/noti/noti_controller.dart';
 
 import 'package:polarstar_flutter/app/data/model/login_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
@@ -69,13 +70,18 @@ class InitController extends GetxController {
     return;
   }
 
-  Future autoLogin(String id, String pw) async {
+  Future refreshDeviceToken() async {
+    await Session().postX("/login/deviceToken", {"deviceToken": deviceToken});
+  }
+
+  Future autoLogin(String id, String pw, String deviceToken) async {
     String user_id = id;
     String user_pw = pw;
 
     Map<String, String> data = {
       'id': user_id,
       'pw': user_pw,
+      'deviceToken': deviceToken
     };
 
     final response = await repository.login(data);
@@ -97,62 +103,123 @@ class InitController extends GetxController {
     return response;
   }
 
+  // Please place this code in main.dart,
+  // After the import statements, and outside any Widget class (top-level)
+  void backgroundNotificationListener(Map<String, dynamic> data) {
+    // Print notification payload data
+    print('Received notification: $data');
+
+    // Notification title
+    String notificationTitle = data['TITLE'];
+
+    // Attempt to extract the "message" property from the payload: {"message":"Hello World!"}
+    String notificationText = data['CONTENT'];
+
+    String url = data["url"];
+
+    if (Get.isRegistered<NotiController>()) {
+      print("registered");
+      NotiController notiController = Get.find<NotiController>();
+      switch (data["NOTI_TYPE"].toString()) {
+        // * 커뮤니티
+        case "0":
+          notiController.noties.insert(0, NotiModel.fromJson(data).obs);
+          break;
+        // * 개인 공지
+        case "3":
+          notiController.noties.insert(0, NotiModel.fromJson(data).obs);
+          break;
+        // * 전체 공지
+        case "4":
+          notiController.noties.insert(0, NotiModel.fromJson(data).obs);
+          break;
+        // * 핫보드 알림
+        case "8":
+          notiController.noties.insert(0, NotiModel.fromJson(data).obs);
+          break;
+        default:
+          break;
+      }
+    } else {
+      print("not registed");
+    }
+
+    // * 커뮤니티
+    if (data["NOTI_TYPE"].toString() == "0") {
+      List<dynamic> idList = box.read("muteListCommunity");
+      if (idList != null && idList.contains(data["CONTENT_ID"].toString())) {
+        return;
+      }
+    }
+
+    // Android: Displays a system notification
+    // iOS: Displays an alert dialog
+    Pushy.notify(notificationTitle, notificationText, data);
+
+    // Clear iOS app badge number
+    Pushy.clearBadge();
+  }
+
+  String deviceToken;
+
   Future pushyRegister() async {
     try {
       // Register the user for push notifications
-      String deviceToken = await Pushy.register();
+      deviceToken = await Pushy.register();
 
       // Print token to console/logcat
       print('Device token: $deviceToken');
 
       // Display an alert with the device token
-      showDialog(
-          context: Get.context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-                title: Text('Pushy'),
-                content: Text('Pushy device token: $deviceToken'),
-                actions: [
-                  FlatButton(
-                      child: Text('OK'),
-                      onPressed: () {
-                        Navigator.of(context, rootNavigator: true)
-                            .pop('dialog');
-                      })
-                ]);
-          });
+      // showDialog(
+      //     context: Get.context,
+      //     builder: (BuildContext context) {
+      //       return AlertDialog(
+      //           title: Text('Pushy'),
+      //           content: Text('Pushy device token: $deviceToken'),
+      //           actions: [
+      //             FlatButton(
+      //                 child: Text('OK'),
+      //                 onPressed: () {
+      //                   Navigator.of(context, rootNavigator: true)
+      //                       .pop('dialog');
+      //                 })
+      //           ]);
+      //     });
 
       // Optionally send the token to your backend server via an HTTP GET request
       // ...
     } on PlatformException catch (error) {
       // Display an alert with the error message
-      showDialog(
-          context: Get.context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-                title: Text('Error'),
-                content: Text(error.message),
-                actions: [
-                  FlatButton(
-                      child: Text('OK'),
-                      onPressed: () {
-                        Navigator.of(context, rootNavigator: true)
-                            .pop('dialog');
-                      })
-                ]);
-          });
+      // showDialog(
+      //     context: Get.context,
+      //     builder: (BuildContext context) {
+      //       return AlertDialog(
+      //           title: Text('Error'),
+      //           content: Text(error.message),
+      //           actions: [
+      //             FlatButton(
+      //                 child: Text('OK'),
+      //                 onPressed: () {
+      //                   Navigator.of(context, rootNavigator: true)
+      //                       .pop('dialog');
+      //                 })
+      //           ]);
+      //     });
     }
   }
 
   Future<bool> checkLogin() async {
     //print(box.read("id"));
     if (box.hasData('isAutoLogin') && box.hasData('id') && box.hasData('pw')) {
-      var res = await autoLogin(box.read('id'), box.read('pw'));
+      var res = await autoLogin(box.read('id'), box.read('pw'), deviceToken);
       // print(box.read('id'));
       //  print("login!!");
 
       switch (res["statusCode"]) {
         case 200:
+          await refreshDeviceToken();
+
           return true;
           break;
         case 302:
@@ -169,10 +236,15 @@ class InitController extends GetxController {
   void onInit() async {
     opacityControl(true);
     super.onInit();
+    Pushy.listen();
+    await pushyRegister();
+
+    Pushy.setNotificationIcon('ic_launcher');
 
     print("init controller init");
     if (Get.arguments == "fromLogin") {
       isLogined(true);
+      await refreshDeviceToken();
     } else {
       isLogined(await checkLogin());
     }
@@ -199,9 +271,10 @@ class InitController extends GetxController {
     if (isLogined.isTrue) {
       // Get.offNamed(Routes.MAIN_PAGE);
       Get.toNamed(Routes.MAIN_PAGE);
-      Pushy.listen();
-      pushyRegister();
-      // Get.offAndToNamed(Routes.MAIN_PAGE);
+      // Enable in-app notification banners (iOS 10+)
+      Pushy.toggleInAppBanner(true);
+      // Listen for push notifications received
+      Pushy.setNotificationListener(backgroundNotificationListener);
     } else {
       Get.offAndToNamed('/login');
     }

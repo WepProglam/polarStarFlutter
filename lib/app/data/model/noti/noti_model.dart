@@ -29,7 +29,8 @@ class NotiModel {
     this.isReaded = false;
     this.COMMUNITY_ID = null;
     this.BOARD_ID = null;
-    if (this.NOTI_TYPE == 0) {
+    // * 0 : 댓글 대댓글 | 8 : 핫게
+    if (this.NOTI_TYPE == 0 || this.NOTI_TYPE == 8) {
       this.COMMUNITY_ID = int.parse(json["URL"].split("/")[1]);
       this.BOARD_ID = int.parse(json["URL"].split("/")[3]);
     }

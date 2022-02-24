@@ -46,7 +46,7 @@ class MainBinding implements Bindings {
     ClassChatController classChatController = Get.find();
 
     classChatSocket = await IO.io(
-        'http://13.209.5.161:3000',
+        'http://3.39.76.247:3000',
         IO.OptionBuilder()
             .setTransports(['websocket'])
             .disableAutoConnect()

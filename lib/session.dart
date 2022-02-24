@@ -23,8 +23,9 @@ class Session extends GetConnect {
 
   static String user_id;
   static String user_pw;
+// http://3.39.76.247:3000/  http://3.39.76.247:3000
 
-  final String _basicUrl = 'http://13.209.5.161:3000';
+  final String _basicUrl = 'http://10.0.2.2:52324';
 
   Future reLogin() async {
     Session.cookies = {};

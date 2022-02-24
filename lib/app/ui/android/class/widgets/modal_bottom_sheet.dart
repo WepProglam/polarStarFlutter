@@ -583,7 +583,18 @@ class WriteComment extends StatelessWidget {
                                 reviewTextController.text.isEmpty) {
                               return;
                             }
-                            print(Get.currentRoute);
+
+                            if (writeCommentController.commentRate.value == 0 ||
+                                writeCommentController.languageRate.value ==
+                                    0 ||
+                                writeCommentController.attitudeRate.value ==
+                                    0 ||
+                                writeCommentController.examRate.value == 0 ||
+                                writeCommentController.assignmentRate.value ==
+                                    0 ||
+                                writeCommentController.gradeRate.value == 0) {
+                              return;
+                            }
                             Map<String, String> data = {
                               "content": reviewTextController.text,
                               "RATE": writeCommentController.commentRate.value

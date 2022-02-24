@@ -11,6 +11,7 @@ import 'package:polarstar_flutter/app/data/model/mail/mailBox_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/ui/android/class/class_view.dart';
+import 'package:polarstar_flutter/app/ui/android/class/widgets/app_bars.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/board_name.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/time_pretty.dart';
 import 'package:polarstar_flutter/app/ui/android/noti/widgets/mailBox.dart';
@@ -18,7 +19,9 @@ import 'package:polarstar_flutter/app/ui/android/noti/widgets/notiBox.dart';
 import 'package:polarstar_flutter/app/ui/android/noti/widgets/noti_appbar.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/banner_widget.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/bottom_navigation_bar.dart';
+import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 import 'package:string_validator/string_validator.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 final box = GetStorage();
 
@@ -875,18 +878,69 @@ class NotiPreview extends StatelessWidget {
 void checkNoti(NotiController notiController, int index) async {
   String COMMUNITY_ID;
   String BOARD_ID;
-  if (notiController.noties[index].value.NOTI_TYPE == 0) {
-    COMMUNITY_ID = notiController.noties[index].value.URL.split("/")[1];
-    BOARD_ID = notiController.noties[index].value.URL.split("/")[3];
-    await Get.toNamed("/board/${COMMUNITY_ID}/read/${BOARD_ID}")
-        .then((value) async {
-      await MainUpdateModule.updateNotiPage(0);
-    });
-  } else {
-    await Get.toNamed("/board/32/read/20").then((value) async {
-      await MainUpdateModule.updateNotiPage(0);
-    });
+  switch (notiController.noties[index].value.NOTI_TYPE) {
+    case 0:
+      COMMUNITY_ID = notiController.noties[index].value.URL.split("/")[1];
+      BOARD_ID = notiController.noties[index].value.URL.split("/")[3];
+      await Get.toNamed("/board/${COMMUNITY_ID}/read/${BOARD_ID}")
+          .then((value) async {
+        await MainUpdateModule.updateNotiPage(0);
+      });
+      break;
+    case 3:
+      if (notiController.noties[index].value.URL == null ||
+          notiController.noties[index].value.URL.isEmpty) {
+        Textdialogue(Get.context, notiController.noties[index].value.TITLE,
+            notiController.noties[index].value.CONTENT);
+      } else {
+        Get.to(Container(
+          color: Colors.white,
+          child: SafeArea(
+            top: false,
+            child: Scaffold(
+              appBar: AppBars().WebViewAppBar(),
+              body: WebView(
+                initialUrl: notiController.noties[index].value.URL,
+                javascriptMode: JavascriptMode.unrestricted,
+              ),
+            ),
+          ),
+        ));
+      }
+      break;
+    case 4:
+      if (notiController.noties[index].value.URL == null ||
+          notiController.noties[index].value.URL.isEmpty) {
+        Textdialogue(Get.context, notiController.noties[index].value.TITLE,
+            notiController.noties[index].value.CONTENT);
+      } else {
+        Get.to(Container(
+          color: Colors.white,
+          child: SafeArea(
+            top: false,
+            child: Scaffold(
+              appBar: AppBars().WebViewAppBar(),
+              body: WebView(
+                initialUrl: notiController.noties[index].value.URL,
+                javascriptMode: JavascriptMode.unrestricted,
+              ),
+            ),
+          ),
+        ));
+      }
+      break;
+    case 8:
+      COMMUNITY_ID = notiController.noties[index].value.URL.split("/")[1];
+      BOARD_ID = notiController.noties[index].value.URL.split("/")[3];
+      await Get.toNamed("/board/${COMMUNITY_ID}/read/${BOARD_ID}")
+          .then((value) async {
+        await MainUpdateModule.updateNotiPage(0);
+      });
+      break;
+    default:
+      break;
   }
+
   if (!notiController.noties[index].value.isReaded) {
     notiController.noties[index].update((val) {
       val.isReaded = true;

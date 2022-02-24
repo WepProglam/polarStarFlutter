@@ -27,6 +27,7 @@ import 'package:polarstar_flutter/session.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../../main.dart';
+import 'package:http/http.dart' as http;
 
 const mainColor = 0xff4570ff;
 const subColor = 0xff91bbff;
@@ -51,6 +52,14 @@ class MainPageScroll extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Get.theme.primaryColor,
         // backgroundColor: Colors.white,
+        // floatingActionButton: FloatingActionButton(onPressed: () {
+        //   http
+        //       .get(
+        //           Uri.parse(
+        //               "http://10.0.2.2:52324" + "/notification/push-noti"),
+        //           headers: Session.headers)
+        //       .then((value) {});
+        // }),
         appBar: AppBar(
           primary: true,
           elevation: 0.0,

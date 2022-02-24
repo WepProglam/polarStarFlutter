@@ -53,6 +53,44 @@ class PostController extends GetxController {
     isCcomment(false);
     makeCommentUrl(COMMUNITY_ID, BOARD_ID);
     await getPostData();
+    await checkMute();
+  }
+
+  RxBool muteChecked = false.obs;
+
+  Future<void> checkMute() async {
+    List<dynamic> idList = await box.read("muteListCommunity");
+    if (idList == null || idList.isEmpty) {
+      muteChecked.value = false;
+    } else if (idList.contains(BOARD_ID.toString())) {
+      muteChecked.value = true;
+    } else {
+      muteChecked.value = false;
+    }
+  }
+
+  Future<void> updateMute() async {
+    List<dynamic> idList = await box.read("muteListCommunity");
+    print(idList);
+    if (idList == null) {
+      idList = [BOARD_ID.toString()];
+      box.write("muteListCommunity", idList);
+
+      muteChecked.value = true;
+      print("1");
+    } else if (idList.contains(BOARD_ID.toString())) {
+      idList.removeWhere((element) => element == BOARD_ID.toString());
+      box.write("muteListCommunity", idList);
+      muteChecked.value = false;
+      print("2");
+    } else {
+      idList.add(BOARD_ID.toString());
+      box.write("muteListCommunity", idList);
+      muteChecked.value = true;
+      print("3");
+    }
+    idList = await box.read("muteListCommunity");
+    print(idList);
   }
 
   Future<int> refreshPost() async {
