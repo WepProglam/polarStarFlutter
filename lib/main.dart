@@ -1,23 +1,16 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
-import 'package:polarstar_flutter/app/bindings/loby/login_binding.dart';
-import 'package:polarstar_flutter/app/bindings/loby/init_binding.dart';
-import 'package:polarstar_flutter/app/bindings/main/main_binding.dart';
-import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
+import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
-import 'package:polarstar_flutter/session.dart';
 // import 'package:polarstar_flutter/app/translations/app_translations.dart';
 // import 'app/ui/theme/app_theme.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:http/http.dart' as http;
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/services.dart';
-import 'package:wechat_assets_picker/wechat_assets_picker.dart';
-import 'app/controller/loby/init_controller.dart';
-import 'package:permission_handler/permission_handler.dart';
+
+import 'package:flutter/services.dart';
+import 'package:pushy_flutter/pushy_flutter.dart';
 
 class MyBehavior extends ScrollBehavior {
   @override

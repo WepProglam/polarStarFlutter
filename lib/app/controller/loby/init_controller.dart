@@ -27,6 +27,9 @@ import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/provider/main/main_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
 
+import 'package:flutter/services.dart';
+import 'package:pushy_flutter/pushy_flutter.dart';
+
 class InitController extends GetxController {
   final LoginRepository repository;
   final box = GetStorage();
@@ -94,6 +97,53 @@ class InitController extends GetxController {
     return response;
   }
 
+  Future pushyRegister() async {
+    try {
+      // Register the user for push notifications
+      String deviceToken = await Pushy.register();
+
+      // Print token to console/logcat
+      print('Device token: $deviceToken');
+
+      // Display an alert with the device token
+      showDialog(
+          context: Get.context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+                title: Text('Pushy'),
+                content: Text('Pushy device token: $deviceToken'),
+                actions: [
+                  FlatButton(
+                      child: Text('OK'),
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true)
+                            .pop('dialog');
+                      })
+                ]);
+          });
+
+      // Optionally send the token to your backend server via an HTTP GET request
+      // ...
+    } on PlatformException catch (error) {
+      // Display an alert with the error message
+      showDialog(
+          context: Get.context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+                title: Text('Error'),
+                content: Text(error.message),
+                actions: [
+                  FlatButton(
+                      child: Text('OK'),
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true)
+                            .pop('dialog');
+                      })
+                ]);
+          });
+    }
+  }
+
   Future<bool> checkLogin() async {
     //print(box.read("id"));
     if (box.hasData('isAutoLogin') && box.hasData('id') && box.hasData('pw')) {
@@ -149,6 +199,8 @@ class InitController extends GetxController {
     if (isLogined.isTrue) {
       // Get.offNamed(Routes.MAIN_PAGE);
       Get.toNamed(Routes.MAIN_PAGE);
+      Pushy.listen();
+      pushyRegister();
       // Get.offAndToNamed(Routes.MAIN_PAGE);
     } else {
       Get.offAndToNamed('/login');
