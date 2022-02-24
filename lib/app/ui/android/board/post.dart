@@ -42,20 +42,20 @@ class Post extends StatelessWidget {
                   ),
                 ),
               ),
-              actions: [
-                InkWell(
-                  onTap: () async {
-                    await c.updateMute();
-                  },
-                  child: Ink(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Obx(() {
-                        return c.muteChecked.value
-                            ? Icon(Icons.alarm_off)
-                            : Icon(Icons.alarm_on);
-                      })),
-                )
-              ],
+              // actions: [
+              //   InkWell(
+              //     onTap: () async {
+              //       await c.updateMute();
+              //     },
+              //     child: Ink(
+              //         padding: const EdgeInsets.symmetric(horizontal: 20),
+              //         child: Obx(() {
+              //           return c.muteChecked.value
+              //               ? Icon(Icons.alarm_off)
+              //               : Icon(Icons.alarm_on);
+              //         })),
+              //   )
+              // ],
               centerTitle: true,
               title: RichText(
                   text: TextSpan(

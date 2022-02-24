@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
@@ -71,18 +72,22 @@ class InitController extends GetxController {
   }
 
   Future refreshDeviceToken() async {
+    print("device token");
+    print(deviceToken);
     await Session().postX("/login/deviceToken", {"deviceToken": deviceToken});
+    print("sibal");
   }
 
-  Future autoLogin(String id, String pw, String deviceToken) async {
+  Future autoLogin(String id, String pw) async {
     String user_id = id;
     String user_pw = pw;
 
     Map<String, String> data = {
       'id': user_id,
       'pw': user_pw,
-      'deviceToken': deviceToken
     };
+
+    print("auto login");
 
     final response = await repository.login(data);
 
@@ -115,7 +120,7 @@ class InitController extends GetxController {
     // Attempt to extract the "message" property from the payload: {"message":"Hello World!"}
     String notificationText = data['CONTENT'];
 
-    String url = data["url"];
+    String url = data["URL"];
 
     if (Get.isRegistered<NotiController>()) {
       print("registered");
@@ -144,20 +149,25 @@ class InitController extends GetxController {
       print("not registed");
     }
 
-    // // * 커뮤니티
-    // if (data["NOTI_TYPE"].toString() == "0") {
-    //   List<dynamic> idList = box.read("muteListCommunity");
-    //   if (idList != null && idList.contains(data["CONTENT_ID"].toString())) {
-    //     return;
-    //   }
-    // }
+    // * 커뮤니티
+    if (data["NOTI_TYPE"].toString() == "0") {
+      print("???");
+      List<dynamic> idList = box.read("muteListCommunity");
+      print(idList);
+      if (idList != null && idList.contains(data["CONTENT_ID"].toString())) {
+        return;
+      }
+    }
 
     // Android: Displays a system notification
     // iOS: Displays an alert dialog
-    Pushy.notify(notificationTitle, notificationText, data);
+    if (Platform.isIOS) {
+    } else {
+      Pushy.notify(notificationTitle, notificationText, data);
+    }
 
     // Clear iOS app badge number
-    Pushy.clearBadge();
+    // Pushy.clearBadge();
   }
 
   String deviceToken;
@@ -190,6 +200,7 @@ class InitController extends GetxController {
       // Optionally send the token to your backend server via an HTTP GET request
       // ...
     } on PlatformException catch (error) {
+      print(error);
       // Display an alert with the error message
       // showDialog(
       //     context: Get.context,
@@ -210,9 +221,10 @@ class InitController extends GetxController {
   }
 
   Future<bool> checkLogin() async {
-    //print(box.read("id"));
+    //print(box.read("id"));'
+    print("login");
     if (box.hasData('isAutoLogin') && box.hasData('id') && box.hasData('pw')) {
-      var res = await autoLogin(box.read('id'), box.read('pw'), deviceToken);
+      var res = await autoLogin(box.read('id'), box.read('pw'));
       // print(box.read('id'));
       //  print("login!!");
 
@@ -236,18 +248,24 @@ class InitController extends GetxController {
   void onInit() async {
     opacityControl(true);
     super.onInit();
+    print("init");
     Pushy.listen();
+    print("listen");
     await pushyRegister();
+    print("register");
 
     Pushy.setNotificationIcon('ic_launcher');
 
     print("init controller init");
     if (Get.arguments == "fromLogin") {
       isLogined(true);
+      print("refresh device token");
       await refreshDeviceToken();
+      print("refresh device token");
     } else {
       isLogined(await checkLogin());
     }
+    print("??");
 
     opacityControl(false);
 
@@ -271,8 +289,10 @@ class InitController extends GetxController {
     if (isLogined.isTrue) {
       // Get.offNamed(Routes.MAIN_PAGE);
       Get.toNamed(Routes.MAIN_PAGE);
+      print("main page");
       // Enable in-app notification banners (iOS 10+)
-      Pushy.toggleInAppBanner(true);
+      Pushy.toggleInAppBanner(false);
+      print("toggle app bar");
       // Listen for push notifications received
       Pushy.setNotificationListener(backgroundNotificationListener);
     } else {
