@@ -108,6 +108,39 @@ class InitController extends GetxController {
     return response;
   }
 
+  void pushyClickListener() {
+    // Listen for push notification clicked
+    Pushy.setNotificationClickListener((Map<String, dynamic> data) {
+      // Print notification payload data
+      print('Notification clicked: $data');
+
+      switch (data["NOTI_TYPE"].toString()) {
+        // * 커뮤니티
+        case "0":
+          Get.toNamed(
+              "/board/${data["URL"].toString().split("/")[1]}/read/${data["URL"].toString().split("/")[3]}");
+          break;
+        // * 개인 공지
+        case "3":
+          Get.toNamed(Routes.NOTI);
+          print("??");
+          break;
+        // * 전체 공지
+        case "4":
+          Get.toNamed(Routes.NOTI);
+          print("??");
+          break;
+        // * 핫보드 알림
+        case "8":
+          Get.toNamed(
+              "/board/${data["URL"].toString().split("/")[1]}/read/${data["URL"].toString().split("/")[3]}");
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
   // Please place this code in main.dart,
   // After the import statements, and outside any Widget class (top-level)
   void backgroundNotificationListener(Map<String, dynamic> data) {
@@ -167,7 +200,6 @@ class InitController extends GetxController {
     }
 
     // Clear iOS app badge number
-    // Pushy.clearBadge();
   }
 
   String deviceToken;
@@ -295,6 +327,8 @@ class InitController extends GetxController {
       print("toggle app bar");
       // Listen for push notifications received
       Pushy.setNotificationListener(backgroundNotificationListener);
+      pushyClickListener();
+      Pushy.clearBadge();
     } else {
       Get.offAndToNamed('/login');
     }
