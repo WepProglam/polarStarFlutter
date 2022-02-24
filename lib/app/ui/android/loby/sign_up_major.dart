@@ -175,6 +175,7 @@ class MajorInputs extends StatelessWidget {
                             border: InputBorder.none),
                         controller: signUpController.majorController,
                         onChanged: (string) {
+                          signUpController.majorSelected.value = false;
                           if (string.isEmpty) {
                             // if the search field is empty or only contains white-space, we'll display all users
                             signUpController.searchedMajorList.value = [];

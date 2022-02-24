@@ -144,13 +144,13 @@ class InitController extends GetxController {
       print("not registed");
     }
 
-    // * 커뮤니티
-    if (data["NOTI_TYPE"].toString() == "0") {
-      List<dynamic> idList = box.read("muteListCommunity");
-      if (idList != null && idList.contains(data["CONTENT_ID"].toString())) {
-        return;
-      }
-    }
+    // // * 커뮤니티
+    // if (data["NOTI_TYPE"].toString() == "0") {
+    //   List<dynamic> idList = box.read("muteListCommunity");
+    //   if (idList != null && idList.contains(data["CONTENT_ID"].toString())) {
+    //     return;
+    //   }
+    // }
 
     // Android: Displays a system notification
     // iOS: Displays an alert dialog
