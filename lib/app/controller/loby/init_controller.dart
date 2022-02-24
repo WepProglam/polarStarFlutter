@@ -323,7 +323,7 @@ class InitController extends GetxController {
       Get.toNamed(Routes.MAIN_PAGE);
       print("main page");
       // Enable in-app notification banners (iOS 10+)
-      Pushy.toggleInAppBanner(false);
+      Pushy.toggleInAppBanner(true);
       print("toggle app bar");
       // Listen for push notifications received
       Pushy.setNotificationListener(backgroundNotificationListener);
