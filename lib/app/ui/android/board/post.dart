@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
+import 'package:polarstar_flutter/app/controller/pushy_controller.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/bottom_keyboard.dart';
 import 'package:polarstar_flutter/app/ui/android/board/widgets/post_layout.dart';
 import 'package:polarstar_flutter/app/ui/android/functions/board_name.dart';
+import 'package:pushy_flutter/pushy_flutter.dart';
 
 class Post extends StatelessWidget {
   final mailWriteController = TextEditingController();
@@ -42,20 +44,25 @@ class Post extends StatelessWidget {
                   ),
                 ),
               ),
-              // actions: [
-              //   InkWell(
-              //     onTap: () async {
-              //       await c.updateMute();
-              //     },
-              //     child: Ink(
-              //         padding: const EdgeInsets.symmetric(horizontal: 20),
-              //         child: Obx(() {
-              //           return c.muteChecked.value
-              //               ? Icon(Icons.alarm_off)
-              //               : Icon(Icons.alarm_on);
-              //         })),
-              //   )
-              // ],
+              actions: [
+                InkWell(
+                  onTap: () async {
+                    String topic = "board_${c.COMMUNITY_ID}_bid_${c.BOARD_ID}";
+                    if (c.isSubscribed.value) {
+                      await c.pushyUnsubscribe(topic);
+                    } else {
+                      await c.pushySubscribe(topic);
+                    }
+                  },
+                  child: Ink(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Obx(() {
+                        return c.isSubscribed.value
+                            ? Icon(Icons.alarm_on)
+                            : Icon(Icons.alarm_off);
+                      })),
+                )
+              ],
               centerTitle: true,
               title: RichText(
                   text: TextSpan(
@@ -90,7 +97,18 @@ class Post extends StatelessWidget {
                 if (!c.dataAvailable) {
                   return Center(child: CircularProgressIndicator());
                 } else {
-                  return PostLayout();
+                  return Stack(children: [
+                    Opacity(
+                        opacity: c.isPushySubUnsubcribing.value ? 0.3 : 1.0,
+                        child: PostLayout()),
+                    c.isPushySubUnsubcribing.value
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: Get.theme.primaryColor,
+                            ),
+                          )
+                        : Container()
+                  ]);
                 }
               }),
             ),

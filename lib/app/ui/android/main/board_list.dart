@@ -20,21 +20,6 @@ class BoardList extends StatelessWidget {
         top: false,
         child: Scaffold(
           backgroundColor: const Color(0xffffffff),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Get.theme.primaryColor,
-            splashColor: Get.theme.primaryColor,
-            onPressed: () async {
-              await createNewCommunity(mainController);
-            },
-            child: // Ellipse 6
-                Container(
-                    width: 24,
-                    height: 24,
-                    child: Image.asset("assets/images/board_create.png"),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(100)),
-                    )),
-          ),
           appBar: AppBar(
             elevation: 0,
             toolbarHeight: 56,
@@ -141,11 +126,74 @@ class BoardList extends StatelessWidget {
                                   child: Obx(() {
                                     return ListView.builder(
                                         shrinkWrap: true,
-                                        itemCount:
-                                            mainController.selectedBoard.length,
+                                        itemCount: mainController
+                                                .selectedBoard.length +
+                                            1,
                                         physics: NeverScrollableScrollPhysics(),
                                         itemBuilder:
                                             (BuildContext context, int index) {
+                                          if (index ==
+                                              mainController
+                                                  .selectedBoard.length) {
+                                            return // 사각형 67
+                                                // 사각형 65
+                                                Container(
+                                                    margin: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 10),
+                                                    width: 320,
+                                                    height: 77,
+                                                    child: InkWell(
+                                                      onTap: () async {
+                                                        await createNewCommunity(
+                                                            mainController);
+                                                      },
+                                                      child: Ink(
+                                                        child: Center(
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Container(
+                                                                width: 30,
+                                                                height: 30,
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .add_circle_outline,
+                                                                  size: 30,
+                                                                  color: const Color(
+                                                                      0xffd6d4d4),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .all(Radius
+                                                                    .circular(
+                                                                        7)),
+                                                        border: Border.all(
+                                                            color: const Color(
+                                                                0xffeaeaea),
+                                                            width: 1),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              color: const Color(
+                                                                  0x0f000000),
+                                                              offset:
+                                                                  Offset(0, 3),
+                                                              blurRadius: 10,
+                                                              spreadRadius: 0)
+                                                        ],
+                                                        color: const Color(
+                                                            0xffffffff)));
+                                          }
+
                                           Rx<BoardInfo> boardInfo =
                                               mainController
                                                   .selectedBoard[index];

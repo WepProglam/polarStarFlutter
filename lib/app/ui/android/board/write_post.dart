@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:polarstar_flutter/app/controller/board/write_post_controller.dart';
 import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
+import 'package:polarstar_flutter/app/controller/pushy_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/board/write_post_model.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
@@ -120,8 +121,10 @@ class WritePost extends StatelessWidget {
 
                           Function ontapConfirm = () async {
                             Get.back();
-                            Pushy.subscribe(
-                                "board/${c.COMMUNITY_ID}/bid/${c.BOARD_ID}");
+                            // * pushy subscribe
+                            await PuhsyController.pushySubscribe(
+                                "board_${c.COMMUNITY_ID}_bid_${c.BOARD_ID}");
+
                             if (c.putOrPost == "put") {
                               if (c.photoAssets.length > 0) {
                                 await c.putPostImage(data);

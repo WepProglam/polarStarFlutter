@@ -101,19 +101,7 @@ class NotiController extends GetxController with SingleGetTickerProviderMixin {
     notiMailFetched.value = true;
   }
 
-  bool isUnreadNotiExist() {
-    for (Rx<NotiModel> item in noties) {
-      if (!item.value.isReaded) {
-        return false;
-      }
-    }
-
-    for (Rx<MailBoxModel> item in mailBox) {
-      if (!item.value.isReaded) {
-        return false;
-      }
-    }
-
+  bool isUnreadChatExist() {
     for (Rx<ChatBoxModel> item in classChatController.majorChatBox) {
       if (item.value.UNREAD_AMOUNT > 0) {
         return false;
@@ -122,6 +110,24 @@ class NotiController extends GetxController with SingleGetTickerProviderMixin {
 
     for (Rx<ChatBoxModel> item in classChatController.classChatBox) {
       if (item.value.UNREAD_AMOUNT > 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool isUnreadMailExist() {
+    for (Rx<MailBoxModel> item in mailBox) {
+      if (!item.value.isReaded) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool isUnreadNotiExist() {
+    for (Rx<NotiModel> item in noties) {
+      if (!item.value.isReaded) {
         return false;
       }
     }

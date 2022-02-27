@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/controller/board/board_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/controller/photo/photo_controller.dart';
+import 'package:polarstar_flutter/app/controller/pushy_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/data/provider/board/board_provider.dart';
@@ -53,45 +54,65 @@ class PostController extends GetxController {
     isCcomment(false);
     makeCommentUrl(COMMUNITY_ID, BOARD_ID);
     await getPostData();
-    await checkMute();
+    await checkSubscribe("board_${COMMUNITY_ID}_bid_${BOARD_ID}");
   }
 
-  RxBool muteChecked = false.obs;
+  RxBool isSubscribed = false.obs;
 
-  Future<void> checkMute() async {
-    List<dynamic> idList = await box.read("muteListCommunity");
-    if (idList == null || idList.isEmpty) {
-      muteChecked.value = false;
-    } else if (idList.contains(BOARD_ID.toString())) {
-      muteChecked.value = true;
+  Future<void> checkSubscribe(String topic) async {
+    if (await PuhsyController.checkSubscribe(topic)) {
+      isSubscribed.value = true;
     } else {
-      muteChecked.value = false;
+      isSubscribed.value = false;
     }
   }
 
-  Future<void> updateMute() async {
-    List<dynamic> idList = await box.read("muteListCommunity");
-    print(idList);
-    if (idList == null) {
-      idList = [BOARD_ID.toString()];
-      box.write("muteListCommunity", idList);
+  RxBool isPushySubUnsubcribing = false.obs;
 
-      muteChecked.value = true;
-      print("1");
-    } else if (idList.contains(BOARD_ID.toString())) {
-      idList.removeWhere((element) => element == BOARD_ID.toString());
-      box.write("muteListCommunity", idList);
-      muteChecked.value = false;
-      print("2");
-    } else {
-      idList.add(BOARD_ID.toString());
-      box.write("muteListCommunity", idList);
-      muteChecked.value = true;
-      print("3");
-    }
-    idList = await box.read("muteListCommunity");
-    print(idList);
+  Future<void> pushySubscribe(String topic) async {
+    isPushySubUnsubcribing.value = true;
+    print("subs ${topic}");
+    if (await PuhsyController.pushySubscribe(topic) == 200) {
+      print("??");
+      isSubscribed.value = true;
+    } else {}
+    isPushySubUnsubcribing.value = false;
   }
+
+  Future<void> pushyUnsubscribe(String topic) async {
+    isPushySubUnsubcribing.value = true;
+    print("unsubs ${topic}");
+    if (await PuhsyController.pushyUnsubscribe(topic) == 200) {
+      print("!!");
+
+      isSubscribed.value = false;
+    } else {}
+    isPushySubUnsubcribing.value = false;
+  }
+
+  // Future<void> updateMute() async {
+  //   List<dynamic> idList = await box.read("muteListCommunity");
+  //   print(idList);
+  //   if (idList == null) {
+  //     idList = [BOARD_ID.toString()];
+  //     box.write("muteListCommunity", idList);
+
+  //     muteChecked.value = true;
+  //     print("1");
+  //   } else if (idList.contains(BOARD_ID.toString())) {
+  //     idList.removeWhere((element) => element == BOARD_ID.toString());
+  //     box.write("muteListCommunity", idList);
+  //     muteChecked.value = false;
+  //     print("2");
+  //   } else {
+  //     idList.add(BOARD_ID.toString());
+  //     box.write("muteListCommunity", idList);
+  //     muteChecked.value = true;
+  //     print("3");
+  //   }
+  //   idList = await box.read("muteListCommunity");
+  //   print(idList);
+  // }
 
   Future<int> refreshPost() async {
     // _dataAvailable.value = false;
@@ -383,6 +404,7 @@ class PostController extends GetxController {
   // 댓글 수정
   var autoFocusTextForm = false.obs;
   var putUrl = ''.obs;
+  RxBool isSendingComment = false.obs;
 
   updateAutoFocusTextForm(bool b) {
     autoFocusTextForm.value = b;

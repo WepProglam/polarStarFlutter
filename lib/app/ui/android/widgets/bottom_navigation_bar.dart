@@ -77,7 +77,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 icon: Obx(() {
-                  bool isAllReaded = notiController.isUnreadNotiExist();
+                  bool isNotiReaded = notiController.isUnreadNotiExist();
+                  bool isMailReaded = notiController.isUnreadMailExist();
+                  bool isChatReaded = notiController.isUnreadChatExist();
                   return Stack(children: [
                     Container(
                         width: 24,
@@ -88,21 +90,61 @@ class CustomBottomNavigationBar extends StatelessWidget {
                                 "assets/images/icn_alarm_selected.png")
                             : Image.asset(
                                 "assets/images/icn_alarm_normal.png")),
-                    isAllReaded
+                    isNotiReaded
                         ? Positioned(
-                            top: 12,
-                            right: 0,
+                            top: 14,
+                            right: 16,
                             child: Container(
-                              height: 12,
-                              width: 12,
+                              height: 8,
+                              width: 8,
                             ),
                           )
                         : Positioned(
-                            top: 12,
+                            top: 14,
+                            right: 16,
+                            child: Container(
+                              height: 8,
+                              width: 8,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle, color: Colors.red
+                                  // const Color(0xff91e5dd)
+                                  ),
+                            )),
+                    isMailReaded
+                        ? Positioned(
+                            top: 14,
+                            right: 8,
+                            child: Container(
+                              height: 8,
+                              width: 8,
+                            ),
+                          )
+                        : Positioned(
+                            top: 14,
+                            right: 8,
+                            child: Container(
+                              height: 8,
+                              width: 8,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle, color: Colors.red
+                                  // const Color(0xff91e5dd)
+                                  ),
+                            )),
+                    isChatReaded
+                        ? Positioned(
+                            top: 14,
                             right: 0,
                             child: Container(
-                              height: 14,
-                              width: 14,
+                              height: 8,
+                              width: 8,
+                            ),
+                          )
+                        : Positioned(
+                            top: 14,
+                            right: 0,
+                            child: Container(
+                              height: 8,
+                              width: 8,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle, color: Colors.red
                                   // const Color(0xff91e5dd)

@@ -182,24 +182,12 @@ class InitController extends GetxController {
       print("not registed");
     }
 
-    // * 커뮤니티
-    if (data["NOTI_TYPE"].toString() == "0") {
-      print("???");
-      List<dynamic> idList = box.read("muteListCommunity");
-      print(idList);
-      if (idList != null && idList.contains(data["CONTENT_ID"].toString())) {
-        return;
-      }
-    }
-
     // Android: Displays a system notification
     // iOS: Displays an alert dialog
     if (Platform.isIOS) {
     } else {
       Pushy.notify(notificationTitle, notificationText, data);
     }
-
-    // Clear iOS app badge number
   }
 
   String deviceToken;
@@ -288,6 +276,8 @@ class InitController extends GetxController {
 
     Pushy.setNotificationIcon('ic_launcher');
 
+    opacityControl(false);
+
     print("init controller init");
     if (Get.arguments == "fromLogin") {
       isLogined(true);
@@ -298,8 +288,6 @@ class InitController extends GetxController {
       isLogined(await checkLogin());
     }
     print("??");
-
-    opacityControl(false);
 
     DateTime pass = DateTime.now();
 

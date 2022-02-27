@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/controller/board/post_controller.dart';
 import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
+import 'package:polarstar_flutter/app/controller/pushy_controller.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 
 class BottomKeyboard extends StatelessWidget {
@@ -122,6 +123,10 @@ class BottomKeyboard extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 11.0),
                   child: InkWell(
                     onTap: () async {
+                      if (c.isSendingComment.value) {
+                        return;
+                      }
+                      c.isSendingComment.value = true;
                       String test_text = commentWriteController.text;
                       if (test_text.trim().isEmpty) {
                         print("빈 값 X");
@@ -208,6 +213,11 @@ class BottomKeyboard extends StatelessWidget {
                       FocusScope.of(context).unfocus();
 
                       commentWriteController.clear();
+                      // await c.pushySubscribe(
+                      //     "board_${c.COMMUNITY_ID}_bid_${c.BOARD_ID}");
+
+                      c.isSendingComment.value = false;
+
                       await MainUpdateModule.updatePost();
                     },
                     child: Container(

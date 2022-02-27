@@ -472,6 +472,7 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
       //현재 앱 버전
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       current_version = packageInfo.version;
+
       print("current_version: ${current_version}");
       int current_buildNumber = int.tryParse(packageInfo.buildNumber);
 

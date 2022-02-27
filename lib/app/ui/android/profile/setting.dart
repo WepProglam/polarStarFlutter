@@ -14,12 +14,14 @@ import 'package:polarstar_flutter/app/ui/android/loby/sign_up_major.dart';
 import 'package:polarstar_flutter/app/ui/android/widgets/dialoge.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:pushy_flutter/pushy_flutter.dart';
 
 final box = GetStorage();
 
 class Setting extends StatelessWidget {
   final MainController mainController = Get.find();
   final MyPageController myPageController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Container(
