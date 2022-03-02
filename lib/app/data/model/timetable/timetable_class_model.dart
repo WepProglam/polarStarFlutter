@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:polarstar_flutter/app/ui/android/board/functions/time_parse.dart';
+import 'package:polarstar_flutter/app/modules/board/functions/time_parse.dart';
 
 class TimeTableClassModel {
   int CLASS_ID,

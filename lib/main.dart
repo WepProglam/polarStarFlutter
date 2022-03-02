@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
-import 'package:polarstar_flutter/app/controller/loby/init_controller.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 // import 'package:polarstar_flutter/app/translations/app_translations.dart';
 // import 'app/ui/theme/app_theme.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/services.dart';
-
-import 'package:flutter/services.dart';
-import 'package:pushy_flutter/pushy_flutter.dart';
 
 class MyBehavior extends ScrollBehavior {
   @override

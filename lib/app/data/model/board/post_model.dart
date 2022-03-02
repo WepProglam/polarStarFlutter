@@ -2,7 +2,8 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
-import 'package:polarstar_flutter/app/ui/android/functions/photoOrVideo.dart';
+import 'package:polarstar_flutter/app/global_functions/photoOrVideo.dart';
+
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 

@@ -1,55 +1,52 @@
 import 'package:get/get.dart';
-import 'package:polarstar_flutter/app/bindings/class/class_chat_binding.dart';
-
-import 'package:polarstar_flutter/app/bindings/loby/init_binding.dart';
-import 'package:polarstar_flutter/app/bindings/board/board_binding.dart';
-import 'package:polarstar_flutter/app/bindings/board/hot_board_binding.dart';
-import 'package:polarstar_flutter/app/bindings/board/post_binding.dart';
-import 'package:polarstar_flutter/app/bindings/board/search_binding.dart';
-import 'package:polarstar_flutter/app/bindings/board/write_post_binding.dart';
-import 'package:polarstar_flutter/app/bindings/loby/login_binding.dart';
-import 'package:polarstar_flutter/app/bindings/mail/mailBox_binding.dart';
-import 'package:polarstar_flutter/app/bindings/mail/mailHistory_binding.dart';
-import 'package:polarstar_flutter/app/bindings/main/main_binding.dart';
-import 'package:polarstar_flutter/app/bindings/main/main_search_binding.dart';
-import 'package:polarstar_flutter/app/bindings/profile/mypage_binding.dart';
-import 'package:polarstar_flutter/app/bindings/loby/sign_up_binding.dart';
-import 'package:polarstar_flutter/app/bindings/class/class_binding.dart';
-import 'package:polarstar_flutter/app/bindings/class/class_search_binding.dart';
-import 'package:polarstar_flutter/app/bindings/class/class_view_binding.dart';
-import 'package:polarstar_flutter/app/bindings/timetable/timetable_addclass_binding.dart';
-import 'package:polarstar_flutter/app/bindings/timetable/timetable_addclass_search_binding.dart';
-import 'package:polarstar_flutter/app/bindings/timetable/timetable_bin_binding.dart';
-import 'package:polarstar_flutter/app/bindings/timetable/timetable_binding.dart';
-
-import 'package:polarstar_flutter/app/ui/android/board/board.dart';
-import 'package:polarstar_flutter/app/ui/android/board/hot_board.dart';
-import 'package:polarstar_flutter/app/ui/android/board/post.dart';
-import 'package:polarstar_flutter/app/ui/android/board/write_post.dart';
-import 'package:polarstar_flutter/app/ui/android/mail/classChat.dart';
-import 'package:polarstar_flutter/app/ui/android/mail/mailHistory.dart';
-import 'package:polarstar_flutter/app/ui/android/main/main_page.dart';
-import 'package:polarstar_flutter/app/ui/android/loby/login_page.dart';
-import 'package:polarstar_flutter/app/ui/android/loby/init_page.dart';
-import 'package:polarstar_flutter/app/ui/android/loby/find_password.dart';
-import 'package:polarstar_flutter/app/ui/android/main/board_list.dart';
-import 'package:polarstar_flutter/app/ui/android/main/main_page_search.dart';
-import 'package:polarstar_flutter/app/ui/android/noti/noti.dart';
-import 'package:polarstar_flutter/app/ui/android/profile/mypage.dart';
-import 'package:polarstar_flutter/app/ui/android/profile/profile.dart';
-import 'package:polarstar_flutter/app/ui/android/profile/setting.dart';
-import 'package:polarstar_flutter/app/ui/android/search/search_board.dart';
-import 'package:polarstar_flutter/app/ui/android/loby/sign_up_page.dart';
-import 'package:polarstar_flutter/app/ui/android/loby/sign_up_major.dart';
-import 'package:polarstar_flutter/app/ui/android/class/class.dart';
-import 'package:polarstar_flutter/app/ui/android/class/class_search.dart';
-import 'package:polarstar_flutter/app/ui/android/class/class_view.dart';
-import 'package:polarstar_flutter/app/ui/android/timetable/add_class.dart';
-import 'package:polarstar_flutter/app/ui/android/timetable/add_class_search.dart';
-import 'package:polarstar_flutter/app/ui/android/timetable/add_timetable.dart';
-import 'package:polarstar_flutter/app/ui/android/timetable/timetable.dart';
-import 'package:polarstar_flutter/app/ui/android/timetable/widgets/timetable_class_fiilter.dart';
-import 'package:polarstar_flutter/app/ui/android/timetable/timtable_bin.dart';
+import 'package:polarstar_flutter/app/modules/add_class/add_class.dart';
+import 'package:polarstar_flutter/app/modules/add_class/timetable_addclass_binding.dart';
+import 'package:polarstar_flutter/app/modules/add_class/widgets/timetable.dart';
+import 'package:polarstar_flutter/app/modules/add_class/widgets/timetable_class_fiilter.dart';
+import 'package:polarstar_flutter/app/modules/add_class_search/add_class_search.dart';
+import 'package:polarstar_flutter/app/modules/add_class_search/timetable_addclass_search_binding.dart';
+import 'package:polarstar_flutter/app/modules/add_timetable/add_timetable.dart';
+import 'package:polarstar_flutter/app/modules/board/board.dart';
+import 'package:polarstar_flutter/app/modules/board/board_binding.dart';
+import 'package:polarstar_flutter/app/modules/board/search_binding.dart';
+import 'package:polarstar_flutter/app/modules/claa_view/class_view.dart';
+import 'package:polarstar_flutter/app/modules/claa_view/class_view_binding.dart';
+import 'package:polarstar_flutter/app/modules/class/class.dart';
+import 'package:polarstar_flutter/app/modules/class/class_binding.dart';
+import 'package:polarstar_flutter/app/modules/classChat/classChat.dart';
+import 'package:polarstar_flutter/app/modules/classChat/class_chat_binding.dart';
+import 'package:polarstar_flutter/app/modules/class_search/class_search.dart';
+import 'package:polarstar_flutter/app/modules/class_search/class_search_binding.dart';
+import 'package:polarstar_flutter/app/modules/find_password/find_password.dart';
+import 'package:polarstar_flutter/app/modules/hot_board/hot_board.dart';
+import 'package:polarstar_flutter/app/modules/hot_board/hot_board_binding.dart';
+import 'package:polarstar_flutter/app/modules/init_page/init_binding.dart';
+import 'package:polarstar_flutter/app/modules/init_page/init_page.dart';
+import 'package:polarstar_flutter/app/modules/login_page/login_binding.dart';
+import 'package:polarstar_flutter/app/modules/login_page/login_page.dart';
+import 'package:polarstar_flutter/app/modules/mailHistory/mailHistory.dart';
+import 'package:polarstar_flutter/app/modules/mailHistory/mailHistory_binding.dart';
+import 'package:polarstar_flutter/app/modules/main_page/main_binding.dart';
+import 'package:polarstar_flutter/app/modules/main_page/main_page.dart';
+import 'package:polarstar_flutter/app/modules/main_page_search/main_page_search.dart';
+import 'package:polarstar_flutter/app/modules/main_page_search/main_search_binding.dart';
+import 'package:polarstar_flutter/app/modules/mypage/mypage.dart';
+import 'package:polarstar_flutter/app/modules/mypage/mypage_binding.dart';
+import 'package:polarstar_flutter/app/modules/noti/noti.dart';
+import 'package:polarstar_flutter/app/modules/photo_layout/photo_binding.dart';
+import 'package:polarstar_flutter/app/modules/post/post.dart';
+import 'package:polarstar_flutter/app/modules/post/post_binding.dart';
+import 'package:polarstar_flutter/app/modules/profile/profile.dart';
+import 'package:polarstar_flutter/app/modules/search_board/search_board.dart';
+import 'package:polarstar_flutter/app/modules/setting/setting.dart';
+import 'package:polarstar_flutter/app/modules/sign_up_major/sign_up_major.dart';
+import 'package:polarstar_flutter/app/modules/sign_up_page/sign_up_binding.dart';
+import 'package:polarstar_flutter/app/modules/sign_up_page/sign_up_page.dart';
+import 'package:polarstar_flutter/app/modules/timetable/timetable.dart';
+import 'package:polarstar_flutter/app/modules/timetable/timetable_binding.dart';
+import 'package:polarstar_flutter/app/modules/write_post/write_post.dart';
+import 'package:polarstar_flutter/app/modules/write_post/write_post_binding.dart';
+import 'package:polarstar_flutter/app/modules/board_list/board_list.dart';
 
 part './app_routes.dart';
 
@@ -65,6 +62,10 @@ class AppPages {
         name: Routes.LOGIN,
         page: () => LoginPage(),
         binding: LoginBinding(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: Routes.SIGNUPCOMMUNITYRULE,
+        page: () => SigunUpCommunityRule(),
         transition: Transition.cupertino),
     GetPage(
         name: Routes.SIGNUP,

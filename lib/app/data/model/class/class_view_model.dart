@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:polarstar_flutter/app/ui/android/class/class.dart';
-
 class ClassInfoModel {
   int CLASS_ID;
   int MY_CLASS_POINT;

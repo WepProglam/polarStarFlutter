@@ -5,9 +5,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
-import 'package:polarstar_flutter/app/ui/android/functions/photoOrVideo.dart';
+import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
+import 'package:polarstar_flutter/app/global_functions/photoOrVideo.dart';
 
 import 'package:polarstar_flutter/session.dart';
 import 'package:video_player/video_player.dart';

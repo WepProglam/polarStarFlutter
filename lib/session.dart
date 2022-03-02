@@ -2,11 +2,11 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get_storage/get_storage.dart';
+
+import 'app/global_functions/crypt.dart';
 // import 'login.dart';
 // import 'getXController.dart';
 // import 'crypt.dart';
-
-import 'package:polarstar_flutter/app/ui/android/functions/crypt.dart';
 
 class Session extends GetConnect {
   // final notiController = Get.put(NotiController());

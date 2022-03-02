@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/data/provider/sign_up_provider.dart';
-import 'package:polarstar_flutter/app/ui/android/functions/crypt.dart';
+import 'package:polarstar_flutter/app/global_functions/crypt.dart';
 
 class SignUpRepository {
   final SignUpApiClient apiClient;

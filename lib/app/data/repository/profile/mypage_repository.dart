@@ -2,7 +2,6 @@ import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/data/provider/login_provider.dart';
 import 'package:polarstar_flutter/app/data/provider/profile/mypage_provider.dart';
-import 'package:polarstar_flutter/app/ui/android/functions/crypt.dart';
 
 class MyPageRepository {
   final MyPageApiClient apiClient;

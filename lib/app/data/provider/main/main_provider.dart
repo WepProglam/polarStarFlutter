@@ -4,11 +4,10 @@ import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:polarstar_flutter/app/controller/main/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
-import 'package:polarstar_flutter/app/ui/android/functions/photoOrVideo.dart';
+import 'package:polarstar_flutter/app/global_functions/photoOrVideo.dart';
 
 import 'package:polarstar_flutter/session.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
