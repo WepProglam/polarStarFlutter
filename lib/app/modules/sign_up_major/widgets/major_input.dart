@@ -98,7 +98,7 @@ class MajorInputs extends StatelessWidget {
                               null)
                           ? Container(
                               margin: const EdgeInsets.only(top: 18, left: 10),
-                              child: Text("선택해 주세요.",
+                              child: Text("请点击您的专业",
                                   style: const TextStyle(
                                       color: const Color(0xff6ea5ff),
                                       fontWeight: FontWeight.w500,
