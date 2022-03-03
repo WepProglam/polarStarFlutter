@@ -64,6 +64,14 @@ void main() async {
   await FlutterDownloader.initialize();
 
   runApp(GetMaterialApp(
+    builder: (BuildContext context, Widget child) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(
+          textScaleFactor: 1.0,
+        ),
+        child: child,
+      );
+    },
     themeMode: ThemeMode.light, // Change it as you want
     theme: ThemeData(
         primaryColor: const Color(0xff4570ff),
