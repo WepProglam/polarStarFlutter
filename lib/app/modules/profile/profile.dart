@@ -24,6 +24,26 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          toolbarHeight: 56,
+
+          backgroundColor: Get.theme.primaryColor,
+          titleSpacing: 0,
+          // elevation: 0,
+          automaticallyImplyLeading: false,
+          leading: InkWell(
+            onTap: () {
+              Get.back();
+            },
+            child: Ink(
+              child: Image.asset(
+                'assets/images/back_icon.png',
+                // fit: BoxFit.fitWidth,
+              ),
+            ),
+          ),
+        ),
         resizeToAvoidBottomInset: false,
         // extendBodyBehindAppBar: true,
         // appBar: AppBars().profileAppBar(),
@@ -37,10 +57,10 @@ class Profile extends StatelessWidget {
                   if (myPageController.dataAvailableMypage) {
                     return Column(children: [
                       Container(
-                          height: 207,
+                          height: 151,
                           child: Stack(children: [
                             Container(
-                                height: 207,
+                                height: 151,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(20),
@@ -51,7 +71,7 @@ class Profile extends StatelessWidget {
                                 child: Container(
                                     height: 80,
                                     width: 80,
-                                    margin: EdgeInsets.only(top: 72),
+                                    margin: EdgeInsets.only(top: 16),
                                     decoration: BoxDecoration(
                                         color: const Color(0xff4570ff)),
                                     child: InkWell(
@@ -92,7 +112,7 @@ class Profile extends StatelessWidget {
                                   await myPageController.upload();
                                 },
                                 child: Container(
-                                  margin: EdgeInsets.only(top: 132, left: 62),
+                                  margin: EdgeInsets.only(top: 76, left: 62),
                                   width: 20,
                                   height: 20,
                                   decoration: BoxDecoration(
@@ -105,7 +125,7 @@ class Profile extends StatelessWidget {
                               alignment: Alignment.topCenter,
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 137.7, left: 67.1, right: 4),
+                                    top: 81.7, left: 67.1, right: 4),
                                 child: Ink(
                                   decoration:
                                       BoxDecoration(shape: BoxShape.circle),
@@ -126,7 +146,7 @@ class Profile extends StatelessWidget {
                             Align(
                               alignment: Alignment.topCenter,
                               child: Container(
-                                  margin: EdgeInsets.only(top: 164),
+                                  margin: EdgeInsets.only(top: 108),
                                   height: 19,
                                   child: // Userd
                                       Row(
