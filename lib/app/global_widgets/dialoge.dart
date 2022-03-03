@@ -48,7 +48,8 @@ Future<void> TFdialogue(BuildContext context, String title, String content,
                       await ontapCancel();
                     },
                     child: Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.only(
+                          top: 10, bottom: 10, left: 50, right: 50),
                       child: // 한국문화와언어
                           Text("否",
                               style: const TextStyle(
@@ -67,7 +68,8 @@ Future<void> TFdialogue(BuildContext context, String title, String content,
                       await ontapConfirm();
                     },
                     child: Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.only(
+                            top: 10, bottom: 10, left: 50, right: 50),
                         child: Text("是",
                             style: const TextStyle(
                                 color: const Color(0xff4570ff),
@@ -180,7 +182,8 @@ Future<void> inputDialogue(String title,
                           Get.back();
                         },
                         child: Container(
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.only(
+                              top: 10, bottom: 10, left: 50, right: 50),
                           child: // 한국문화와언어
                               Text("否",
                                   style: const TextStyle(
@@ -199,7 +202,8 @@ Future<void> inputDialogue(String title,
                           ontapConfirm();
                         },
                         child: Container(
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.only(
+                                top: 10, bottom: 10, left: 50, right: 50),
                             child: Text("是",
                                 style: const TextStyle(
                                     color: const Color(0xff4570ff),

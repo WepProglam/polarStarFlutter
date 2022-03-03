@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -79,17 +80,36 @@ class MajorInputs extends StatelessWidget {
                           border: InputBorder.none),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 18),
-                    child: Text("选择专业",
-                        style: const TextStyle(
-                            color: const Color(0xff4570ff),
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "NotoSansSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
-                        textAlign: TextAlign.left),
-                  ),
+                  Obx(() {
+                    return Row(children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 18),
+                        child: Text("选择专业",
+                            style: const TextStyle(
+                                color: const Color(0xff4570ff),
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14.0),
+                            textAlign: TextAlign.left),
+                      ),
+                      (signUpController.selectIndexPK(
+                                  signUpController.selectedMajor.value) ==
+                              null)
+                          ? Container(
+                              margin: const EdgeInsets.only(top: 18, left: 10),
+                              child: Text("선택해 주세요.",
+                                  style: const TextStyle(
+                                      color: const Color(0xff6ea5ff),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "NotoSansSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  textAlign: TextAlign.left),
+                            )
+                          : Container(),
+                    ]);
+                  }),
                   Container(
                       margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                       child: TextFormField(
@@ -158,42 +178,45 @@ class MajorInputs extends StatelessWidget {
                                 border: Border.all(
                                     color: const Color(0xffeaeaea), width: 1),
                               ),
-                              child: Obx(() => ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount:
-                                      signUpController.searchedMajorList.length,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: InkWell(
-                                        onTap: () {
-                                          majorFocus.unfocus();
-                                          signUpController.majorSelected.value =
-                                              true;
-                                          signUpController
-                                                  .majorController.text =
+                              child: Obx(() => CupertinoScrollbar(
+                                  isAlwaysShown: true,
+                                  child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: signUpController
+                                          .searchedMajorList.length,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: InkWell(
+                                            onTap: () {
+                                              majorFocus.unfocus();
+                                              signUpController
+                                                  .majorSelected.value = true;
+                                              signUpController
+                                                      .majorController.text =
+                                                  signUpController
+                                                      .searchedMajorList[index]
+                                                      .MAJOR_NAME;
+                                              signUpController.selectedMajor(
+                                                  signUpController
+                                                      .searchedMajorList[index]
+                                                      .MAJOR_ID);
+                                            },
+                                            child: Text(
                                               signUpController
                                                   .searchedMajorList[index]
-                                                  .MAJOR_NAME;
-                                          signUpController.selectedMajor(
-                                              signUpController
-                                                  .searchedMajorList[index]
-                                                  .MAJOR_ID);
-                                        },
-                                        child: Text(
-                                          signUpController
-                                              .searchedMajorList[index]
-                                              .MAJOR_NAME,
-                                          style: const TextStyle(
-                                              color: const Color(0xff2f2f2f),
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: "NotoSansKR",
-                                              fontStyle: FontStyle.normal,
-                                              fontSize: 12.0),
-                                        ),
-                                      ),
-                                    );
-                                  })),
+                                                  .MAJOR_NAME,
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff2f2f2f),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "NotoSansKR",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 12.0),
+                                            ),
+                                          ),
+                                        );
+                                      }))),
                             ),
                           );
                   }),
