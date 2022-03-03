@@ -6,6 +6,7 @@ abstract class Routes {
   static const SIGNUP = '/signUp';
   static const SIGNUPMAJOR = '/signUpMajor';
   static const SIGNUPCOMMUNITYRULE = '/signUpCommunityRule';
+  static const QRCODE = '/qrcode';
 
   static const FINDPW = "/findPw";
   static const MAIN_PAGE = '/main';

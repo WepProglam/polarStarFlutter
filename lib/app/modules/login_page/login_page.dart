@@ -367,6 +367,20 @@ class LoginInputs extends GetView<LoginController> {
                   ),
                 ),
               ),
+              InkWell(
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                    Get.toNamed(Routes.QRCODE);
+                  },
+                  child: Container(
+                      child: Text("密码丢了吗?",
+                          style: const TextStyle(
+                              color: const Color(0xffffffff),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "NotoSansSC",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                          textAlign: TextAlign.center)))
             ],
           );
         }),

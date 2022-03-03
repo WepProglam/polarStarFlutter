@@ -64,6 +64,10 @@ class AppPages {
         binding: LoginBinding(),
         transition: Transition.cupertino),
     GetPage(
+        name: Routes.QRCODE,
+        page: () => QRCODE(),
+        transition: Transition.cupertino),
+    GetPage(
         name: Routes.SIGNUPCOMMUNITYRULE,
         page: () => SigunUpCommunityRule(),
         transition: Transition.cupertino),

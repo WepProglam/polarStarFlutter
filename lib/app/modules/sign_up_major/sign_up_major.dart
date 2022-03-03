@@ -44,6 +44,35 @@ class SignUpMajor extends StatelessWidget {
   }
 }
 
+class QRCODE extends StatefulWidget {
+  @override
+  State<QRCODE> createState() => _QRCODE();
+}
+
+class _QRCODE extends State<QRCODE> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+          top: false,
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            resizeToAvoidBottomInset: false,
+            body: Container(
+                child: Column(
+              children: [Text("asdsad")],
+            )),
+          )),
+    );
+  }
+}
+
 class SigunUpCommunityRule extends StatefulWidget {
   SigunUpCommunityRule({this.isSignUp});
   bool isSignUp;

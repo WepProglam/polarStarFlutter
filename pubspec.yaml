@@ -91,6 +91,7 @@ dependencies:
 
   # push notification
   pushy_flutter: ^2.0.4
+  qr_flutter: ^4.0.0
 
   
 dependency_overrides:
