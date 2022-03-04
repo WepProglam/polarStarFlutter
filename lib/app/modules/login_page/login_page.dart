@@ -37,8 +37,10 @@ class LoginPage extends StatelessWidget {
                       Get.toNamed(Routes.QRCODE);
                     },
                     child: Container(
+                        margin: EdgeInsets.only(top: 10),
                         child: Text("密码丢了吗?",
                             style: const TextStyle(
+                                decoration: TextDecoration.underline,
                                 color: const Color(0xffffffff),
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "NotoSansSC",
