@@ -128,7 +128,6 @@ class MainPageScroll extends StatelessWidget {
                                 198 +
                                 24 +
                                 24 +
-                                24 +
                                 40 +
                                 10.0 +
                                 100 +
@@ -247,6 +246,7 @@ class MainPageScroll extends StatelessWidget {
                                           Container(
                                             height: boardListHeight +
                                                 24 +
+                                                24 +
                                                 14.0 +
                                                 100 +
                                                 12 +
@@ -270,7 +270,11 @@ class MainPageScroll extends StatelessWidget {
                                                 children: [
                                                   // * 정보제공
                                                   Container(
-                                                    height: 100 + 12 + 6.0 + 42,
+                                                    height: 100 +
+                                                        12 +
+                                                        6.0 +
+                                                        42 +
+                                                        24,
                                                     padding:
                                                         const EdgeInsets.only(
                                                             top: 42),

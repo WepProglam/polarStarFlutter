@@ -19,7 +19,7 @@ class BannerWidget extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 100,
+          height: 124,
           margin: const EdgeInsets.only(bottom: 12),
           child: PageView.builder(
             scrollDirection: Axis.horizontal,

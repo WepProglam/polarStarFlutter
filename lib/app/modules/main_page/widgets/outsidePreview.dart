@@ -39,18 +39,20 @@ class OutsidePreview extends StatelessWidget {
         },
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
-          height: 100,
+          height: 124,
           child: Stack(
             children: [
               Container(
                 margin: const EdgeInsets.only(left: 14),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
+                        margin: const EdgeInsets.only(top: 35),
                         constraints: BoxConstraints(
-                            maxWidth: Get.mediaQuery.size.width - 34 * 2 - 100),
+                            maxWidth:
+                                Get.mediaQuery.size.width - 34 * 2 - 133.5),
                         child: Text(mainController.bannerList[index].TITLE,
                             style: const TextStyle(
                                 overflow: TextOverflow.ellipsis,
@@ -61,8 +63,10 @@ class OutsidePreview extends StatelessWidget {
                                 fontSize: 14.0),
                             textAlign: TextAlign.left)),
                     Container(
+                        margin: const EdgeInsets.only(top: 2),
                         constraints: BoxConstraints(
-                            maxWidth: Get.mediaQuery.size.width - 34 * 2 - 100),
+                            maxWidth:
+                                Get.mediaQuery.size.width - 34 * 2 - 133.5),
                         child: Text(mainController.bannerList[index].CONTENT,
                             maxLines: 2,
                             style: const TextStyle(
@@ -76,17 +80,33 @@ class OutsidePreview extends StatelessWidget {
                   ],
                 ),
               ),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Image.asset("assets/images/371.png"),
+              Positioned(
+                right: 9.4,
+                bottom: 0,
+                child: Image.asset(
+                  "assets/images/banner_panda_hello.png",
+                  // width: 133.5,
+                  // height: 109.5,
+                  // height: 121,
+                  // fit: BoxFit.fitHeight,
+                ),
+              )
+              // Align(
+              //     alignment: Alignment.bottomRight,
+              //     child: Padding(
+              //       padding: const EdgeInsets.only(right: 0),
+              //       child: Image.asset(
+              //         "assets/images/banner_panda_hello.png",
+              //         width: 133,
+              //         height: 109,
+              //         fit: BoxFit.fitHeight,
+              //       ),
 
-                    //     Image.asset(
-                    //   "assets/images/panda.png",
-                    //   fit: BoxFit.cover,
-                    // ),
-                  ))
+              //     Image.asset(
+              //   "assets/images/panda.png",
+              //   fit: BoxFit.cover,
+              // ),
+              // ))
             ],
           ),
           // child: Container(
