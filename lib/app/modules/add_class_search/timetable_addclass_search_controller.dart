@@ -8,6 +8,7 @@ import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_addclass_repository.dart';
 
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_repository.dart';
+import 'package:polarstar_flutter/app/global_widgets/dialoge.dart';
 import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
 import 'package:polarstar_flutter/app/modules/timetable/timetable_controller.dart';
 import 'package:polarstar_flutter/session.dart';
@@ -71,8 +72,13 @@ class TimeTableAddClassSearchController extends GetxController {
       await MainUpdateModule.updateNotiPage(
         1,
       );
+      await Tdialogue(context, "", "수업의 채팅방이 추가되었습니다", () => {Get.back()});
+    } else if (response.statusCode == 403) {
+      Get.snackbar("오류", "존재하지 않는 시간표입니다");
     } else if (response.statusCode == 404) {
-      Get.snackbar("404", "1. 다른 학기 수업을 등록하려고 했습니다\n2. 없는 class_id입니다");
+      Get.snackbar("오류", "1. 다른 학기 수업을 등록하려고 했습니다\n2. 존재하지 않는 수업입니다");
+    } else if (response.statusCode == 500) {
+      Get.snackbar("오류", "다른 수업과 시간이 중복되는 수업입니다");
     } else {
       Get.snackbar("系统错误", "系统错误");
     }

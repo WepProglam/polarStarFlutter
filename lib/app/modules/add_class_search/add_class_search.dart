@@ -507,7 +507,66 @@ class classSearchBottomSheet extends StatelessWidget {
                                                       ),
                                                     ),
                                                   ),
-                                                )
+                                                ),
+                                                Ink(
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      Get.toNamed(
+                                                              '/class/view/${controller.CLASS_SEARCH[controller.selectedIndex.value].CLASS_ID}')
+                                                          .then((value) async {
+                                                        await MainUpdateModule
+                                                            .updateClassPage();
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 8),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          13)),
+                                                          border: Border.all(
+                                                              color: Get.theme
+                                                                  .primaryColor,
+                                                              width: 1),
+                                                          color: const Color(
+                                                              0xffffffff)),
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal: 12,
+                                                                vertical: 4.5),
+                                                        child: Center(
+                                                            child: Text("讲义评",
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style: TextStyle(
+                                                                    overflow: TextOverflow
+                                                                        .ellipsis,
+                                                                    color: Get
+                                                                        .theme
+                                                                        .primaryColor,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontFamily:
+                                                                        "NotoSansSC",
+                                                                    fontStyle:
+                                                                        FontStyle
+                                                                            .normal,
+                                                                    fontSize:
+                                                                        12.0),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center)),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           )
