@@ -376,7 +376,10 @@ class CommnetTop extends StatelessWidget {
           children: [
             // * 닉네임
             Container(
-              child: Text("${item.PROFILE_NICKNAME}",
+              child: Text(
+                  item.UNNAMED != 0 && item.UNNAMED_ORDER != null
+                      ? "${item.PROFILE_NICKNAME} ${item.UNNAMED_ORDER}"
+                      : "${item.PROFILE_NICKNAME}",
                   style: const TextStyle(
                       color: const Color(0xff2f2f2f),
                       fontWeight: FontWeight.w500,

@@ -12,6 +12,7 @@ class Post {
   String TITLE;
   String CONTENT;
   int UNNAMED;
+  int UNNAMED_ORDER;
   int LIKES;
   int SCRAPS;
   List<dynamic> PHOTO_URL;
@@ -62,6 +63,7 @@ class Post {
     this.CONTENT = nullCheck(json["CONTENT"]);
     this.UNNAMED = nullCheck(json["UNNAMED"]);
     this.TIME_CREATED = nullCheck(json["TIME_CREATED"]);
+    this.UNNAMED_ORDER = nullCheck(json["UNNAMED_ORDER"]);
     this.TIME_UPDATED = nullCheck(json["TIME_UPDATED"]);
     this.LIKES = nullCheck(json["LIKES"]);
     this.SCRAPS = nullCheck(json["SCRAPS"]);
