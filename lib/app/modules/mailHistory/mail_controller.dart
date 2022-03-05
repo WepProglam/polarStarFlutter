@@ -115,6 +115,36 @@ class MailController extends GetxController {
     }
   }
 
+  void sendClassChatMailOut(int TARGET_PROFILE_ID, String content) async {
+    if (content.trim().isEmpty) {
+      Get.snackbar("请输入文本", "请输入文本");
+      return;
+    }
+
+    Map<String, dynamic> value =
+        await repository.sendClassChatMailOut(TARGET_PROFILE_ID, content);
+
+    switch (value["status"]) {
+      case 200:
+        Get.back();
+        // Get.snackbar("쪽지 전송 완료", "쪽지 전송 완료", snackPosition: SnackPosition.TOP);
+
+        int targetMessageBoxID = value["MAIL_BOX_ID"];
+        MAIL_BOX_ID.value = targetMessageBoxID;
+
+        await getMail();
+        await notiController.sortMailBox();
+
+        break;
+      case 403:
+        Get.snackbar("系统错误", "系统错误", snackPosition: SnackPosition.TOP);
+        break;
+
+      default:
+        Get.snackbar("系统错误", "系统错误", snackPosition: SnackPosition.TOP);
+    }
+  }
+
   Future<void> getMail() async {
     //쪽지 내역 보기
 

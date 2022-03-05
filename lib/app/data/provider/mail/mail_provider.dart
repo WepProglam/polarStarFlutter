@@ -24,6 +24,24 @@ class MailApiClient {
     };
   }
 
+  Future<Map<String, dynamic>> sendClassChatMailOut(
+      int TARGET_PROFILE_ID, String content) async {
+    Map mailData = {
+      "UNIQUE_ID": '0',
+      "PROFILE_UNNAMED": '0',
+      "CONTENT": '${content.trim()}',
+      "COMMUNITY_ID": '0',
+      "TARGET_PROFILE_ID": '${TARGET_PROFILE_ID}'
+    };
+
+    var response = await Session().postX("/message", mailData);
+
+    return {
+      "status": response.statusCode,
+      "MAIL_BOX_ID": jsonDecode(response.body)["MAIL_BOX_ID"]
+    };
+  }
+
   Future<Map<String, dynamic>> sendMailIn(
       int MAIL_BOX_ID, String content) async {
     Map messageData = {

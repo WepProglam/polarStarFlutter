@@ -11,6 +11,11 @@ class MailRepository {
     return await apiClient.sendMailOut(UNIQUE_ID, COMMUNITY_ID, content);
   }
 
+  Future<Map<String, dynamic>> sendClassChatMailOut(
+      int TARGET_PROFILE_ID, String content) async {
+    return await apiClient.sendClassChatMailOut(TARGET_PROFILE_ID, content);
+  }
+
   Future<Map<String, dynamic>> sendMailIn(
       int MAIL_BOX_ID, String content) async {
     return await apiClient.sendMailIn(MAIL_BOX_ID, content);

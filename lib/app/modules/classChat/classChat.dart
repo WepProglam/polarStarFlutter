@@ -9,8 +9,11 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:polarstar_flutter/app/data/provider/mail/mail_provider.dart';
+import 'package:polarstar_flutter/app/data/repository/mail/mail_repository.dart';
 import 'package:polarstar_flutter/app/modules/classChat/class_chat_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:polarstar_flutter/app/modules/classChat/class_mail_dialog.dart';
 import 'package:polarstar_flutter/app/modules/init_page/init_controller.dart';
 
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
@@ -18,6 +21,7 @@ import 'package:polarstar_flutter/app/global_functions/file_name.dart';
 import 'package:polarstar_flutter/app/global_functions/time_pretty.dart';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:polarstar_flutter/app/modules/mailHistory/mail_controller.dart';
 import 'package:polarstar_flutter/app/modules/see_photo/see_photo.dart';
 
 import 'package:polarstar_flutter/app/global_widgets/dialoge.dart';
@@ -183,6 +187,10 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
     int chatIndex = chatMeta["index"];
     bool isClass = chatMeta["isClass"];
     final image_picker = ImagePicker();
+    final TextEditingController mailWriteController =
+        Get.put(TextEditingController());
+    final MailController mailController = Get.put(
+        MailController(repository: MailRepository(apiClient: MailApiClient())));
 
     Rx<ChatBoxModel> model = isClass
         ? controller.classChatBox[chatIndex]
@@ -294,7 +302,45 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                                           fontStyle: FontStyle.normal,
                                           fontSize: 12.0),
                                       textAlign: TextAlign.left),
-                                )
+                                ),
+                                Spacer(),
+                                !prifileModel.MY_SELF
+                                    ? InkWell(
+                                        onTap: () async {
+                                          await sendClassChatMail(
+                                              prifileModel.PROFILE_ID,
+                                              mailWriteController,
+                                              mailController);
+                                        },
+                                        child: Container(
+                                            width: 72,
+                                            height: 26,
+                                            child: Container(
+                                                margin: EdgeInsets.only(top: 3),
+                                                child: Text("发送纸条",
+                                                    style: const TextStyle(
+                                                        color: const Color(
+                                                            0xff4570ff),
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontFamily:
+                                                            "NotoSansSC",
+                                                        fontStyle:
+                                                            FontStyle.normal,
+                                                        fontSize: 12.0),
+                                                    textAlign:
+                                                        TextAlign.center)),
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(13)),
+                                                border: Border.all(
+                                                    color:
+                                                        const Color(0xff99bbf9),
+                                                    width: 1),
+                                                color:
+                                                    const Color(0xffffffff))))
+                                    : Container(),
+                                Container(width: 26),
                               ],
                             ),
                           );

@@ -297,14 +297,20 @@ class FileMetalModel {
 
 class ChatPrifileModel {
   String PROFILE_NICKNAME, PROFILE_PHOTO;
+  int PROFILE_ID;
   bool MY_SELF;
 
-  ChatPrifileModel({this.PROFILE_NICKNAME, this.PROFILE_PHOTO, this.MY_SELF});
+  ChatPrifileModel(
+      {this.PROFILE_NICKNAME,
+      this.PROFILE_PHOTO,
+      this.MY_SELF,
+      this.PROFILE_ID});
 
   ChatPrifileModel.fromJson(Map<String, dynamic> json) {
     this.PROFILE_NICKNAME = json["PROFILE_NICKNAME"];
     this.PROFILE_PHOTO = json["PROFILE_PHOTO"];
     this.MY_SELF = json["MY_SELF"];
+    this.PROFILE_ID = json["PROFILE_ID"];
   }
 }
 
