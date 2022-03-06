@@ -358,7 +358,7 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                           margin: EdgeInsets.only(left: 20),
                           child: InkWell(
                             onTap: () async {
-                              String topic = "message_${controller.roomID}";
+                              String topic = "chat_${controller.currentBoxID}";
                               if (controller.isSubscribed.value) {
                                 await controller.pushyUnsubscribe(topic);
                               } else {
