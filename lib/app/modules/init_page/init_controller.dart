@@ -58,10 +58,14 @@ class InitController extends GetxController {
   }
 
   Future refreshDeviceToken() async {
-    print("device token");
-    print(deviceToken);
-    await Session().postX("/login/deviceToken", {"deviceToken": deviceToken});
-    print("sibal");
+    try {
+      print("device token");
+      print(deviceToken);
+      await Session().postX("/login/deviceToken", {"deviceToken": deviceToken});
+      print("sibal");
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future autoLogin(String id, String pw) async {
@@ -179,6 +183,7 @@ class InitController extends GetxController {
   String deviceToken;
 
   Future pushyRegister() async {
+    print("pushy Register");
     try {
       // Register the user for push notifications
       deviceToken = await Pushy.register();
