@@ -3,7 +3,7 @@ import 'package:polarstar_flutter/app/modules/timetable_bin/timetable_bin_contro
 import 'package:polarstar_flutter/app/data/provider/timetable/timetable_bin_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_bin_repository.dart';
 
-class TimetableBinBinding implements Bindings {
+class TimetableListBinding implements Bindings {
   @override
   void dependencies() {
     // TimeTableBinController timeTableController = TimeTableBinController(

@@ -17,7 +17,7 @@ class OutsidePreview extends StatelessWidget {
   final MainController mainController;
   @override
   Widget build(BuildContext context) {
-    print(mainController.bannerList[index].URL);
+    print(mainController.bannerList[index].IMAGE);
     return InkWell(
         onTap: () {
           mainController.bannerList[index].URL == null ||
@@ -81,15 +81,20 @@ class OutsidePreview extends StatelessWidget {
                 ),
               ),
               Positioned(
-                right: 9.4,
+                right: 12,
                 bottom: 0,
-                child: Image.asset(
-                  "assets/images/banner_panda_hello.png",
-                  // width: 133.5,
-                  // height: 109.5,
-                  // height: 121,
-                  // fit: BoxFit.fitHeight,
-                ),
+                child: mainController.bannerList[index].IMAGE == null
+                    ? Image.asset(
+                        "assets/images/banner_panda_hello.png",
+                        // width: 133.5,
+                        // height: 109.5,
+                        // height: 121,
+                        // fit: BoxFit.fitHeight,
+                      )
+                    : CachedNetworkImage(
+                        height: 115,
+                        fit: BoxFit.fitHeight,
+                        imageUrl: mainController.bannerList[index].IMAGE),
               )
               // Align(
               //     alignment: Alignment.bottomRight,

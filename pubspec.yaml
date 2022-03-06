@@ -88,6 +88,7 @@ dependencies:
   flutter_image_compress: ^1.1.0
   video_thumbnail: ^0.4.3
   video_player: ^2.2.18
+  store_redirect: ^2.0.1
 
   # push notification
   pushy_flutter: ^2.0.4
@@ -128,8 +129,6 @@ flutter:
     - assets/images/568.png
     - assets/images/891.png
     - assets/images/940.png
-    - assets/images/400.png
-    - assets/images/401.png
     # 여기부터 지우면 됨
     # - assets/images/941.png
     # - assets/images/942.png

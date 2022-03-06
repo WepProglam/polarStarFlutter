@@ -44,6 +44,8 @@ import 'package:polarstar_flutter/app/modules/sign_up_page/sign_up_binding.dart'
 import 'package:polarstar_flutter/app/modules/sign_up_page/sign_up_page.dart';
 import 'package:polarstar_flutter/app/modules/timetable/timetable.dart';
 import 'package:polarstar_flutter/app/modules/timetable/timetable_binding.dart';
+import 'package:polarstar_flutter/app/modules/timetable_bin/timetable_bin_binding.dart';
+import 'package:polarstar_flutter/app/modules/timetable_bin/timtable_bin.dart';
 import 'package:polarstar_flutter/app/modules/write_post/write_post.dart';
 import 'package:polarstar_flutter/app/modules/write_post/write_post_binding.dart';
 import 'package:polarstar_flutter/app/modules/board_list/board_list.dart';
@@ -208,9 +210,9 @@ class AppPages {
         page: () => TimetableClassMajor(),
         transition: Transition.cupertino),
     GetPage(
-        name: Routes.TIMETABLE_BIN,
-        page: () => TimeTableBin(),
-        binding: TimetableBinBinding(),
+        name: Routes.TIMETABLELIST,
+        page: () => TimeTableList(),
+        binding: TimetableListBinding(),
         transition: Transition.leftToRight),
     GetPage(
         name: Routes.TIMETABLE_ADDTIMETABLE,

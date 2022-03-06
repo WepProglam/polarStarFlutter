@@ -23,7 +23,7 @@ class TimeTableAppBar extends StatelessWidget {
       automaticallyImplyLeading: false,
       leading: InkWell(
         onTap: () {
-          Get.toNamed("/timetable/bin");
+          Get.toNamed(Routes.TIMETABLELIST);
         },
         child: Image.asset(
           "assets/images/menu.png",

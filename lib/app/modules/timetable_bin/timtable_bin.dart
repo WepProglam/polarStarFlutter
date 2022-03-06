@@ -8,8 +8,8 @@ import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart'
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/global_functions/timetable_semester.dart';
 
-class TimeTableBin extends StatelessWidget {
-  TimeTableBin({Key key}) : super(key: key);
+class TimeTableList extends StatelessWidget {
+  TimeTableList({Key key}) : super(key: key);
 
   final TimeTableController timeTableController = Get.find();
   final TimeTableBinController timeTableBinController = Get.find();

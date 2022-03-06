@@ -70,8 +70,8 @@ class Noti extends StatelessWidget {
                 elevation: 1,
                 automaticallyImplyLeading: false,
                 expandedHeight: isScrollAble
-                    ? 48 + 24.0 * 2 + 100 + 6
-                    : 48 + 24.0 * 2 + 100,
+                    ? 48 + 24.0 * 2 + 100 + 24 + 6
+                    : 48 + 24.0 * 2 + 100 + 24,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
                     color: const Color(0xffffffff),

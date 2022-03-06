@@ -86,6 +86,7 @@ class Board extends StatelessWidget {
                 ),
               ],
             ),
+            // * 유학생 학생회 게시판
             floatingActionButton: controller.COMMUNITY_ID == 14
                 ? Container()
                 : FloatingActionButton(
@@ -177,27 +178,32 @@ class Board extends StatelessWidget {
                         : Container();
                   }),
 
-                  Container(
-                    margin: const EdgeInsets.only(top: 24),
-                    child: BannerWidget(isScrollAble: true),
-                  ),
-                  Container(
-                    height: 10,
-                  ),
-
                   // 게시글 프리뷰 리스트
                   Expanded(
                     child: Obx(() {
                       if (controller.dataAvailablePostPreview.value) {
                         return ListView.builder(
-                            padding: const EdgeInsets.only(top: 14),
                             physics: AlwaysScrollableScrollPhysics(),
                             controller: controller.scrollController.value,
                             itemCount: controller.page.value ==
                                     controller.searchMaxPage.value
-                                ? controller.postBody.length
-                                : controller.postBody.length + 1,
-                            itemBuilder: (BuildContext context, int index) {
+                                ? controller.postBody.length + 1
+                                : controller.postBody.length + 2,
+                            itemBuilder: (BuildContext context, int i) {
+                              if (i == 0) {
+                                return Column(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 24),
+                                      child: BannerWidget(isScrollAble: true),
+                                    ),
+                                    Container(
+                                      height: 24,
+                                    ),
+                                  ],
+                                );
+                              }
+                              int index = i - 1;
                               if (index == controller.postBody.length) {
                                 return Center(
                                   child: CircularProgressIndicator(

@@ -140,6 +140,8 @@ class TimeTableController extends GetxController {
       colorIndex += 1;
     }
 
+    print("limitTempStart ${limitTempStart}");
+
     limitStartTime.value = limitTempStart;
     limitEndTime.value = limitTempEnd;
     setVerAmount();
@@ -446,6 +448,7 @@ class TimeTableController extends GetxController {
   void onInit() async {
     super.onInit();
     await getTableInfo();
+    limitStartTime.value = 9;
 
     if (selectYearSemester.length > 0) {
       await getSemesterTimeTable("${selectYearSemester[0].value.YEAR}",

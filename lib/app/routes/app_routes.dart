@@ -46,6 +46,6 @@ abstract class Routes {
       "/timetable/addClass/filter/major";
   static const TIMETABLE_ADDCLASS_DIRECT = "/timetable/addClass/direct";
 
-  static const TIMETABLE_BIN = "/timetable/bin";
+  static const TIMETABLELIST = "/timetable/bin";
   static const TIMETABLE_ADDTIMETABLE = "/timetable/addTimeTable";
 }
