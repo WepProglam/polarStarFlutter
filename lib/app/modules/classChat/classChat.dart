@@ -349,9 +349,32 @@ class _ClassChatHistoryState extends State<ClassChatHistory> {
                 ),
                 // ! 알림 끄기 기능 구현 후 장착 필요
                 // // 사각형 62
-                // Container(
-                //     height: 75,
-                //     decoration: BoxDecoration(color: const Color(0xffe6f1ff)))
+                Container(
+                    height: 75,
+                    width: 300,
+                    decoration: BoxDecoration(color: const Color(0xffe6f1ff)),
+                    child: Row(children: [
+                      Container(
+                          margin: EdgeInsets.only(left: 20),
+                          child: InkWell(
+                            onTap: () async {
+                              String topic = "message_${controller.roomID}";
+                              if (controller.isSubscribed.value) {
+                                await controller.pushyUnsubscribe(topic);
+                              } else {
+                                await controller.pushySubscribe(topic);
+                              }
+                            },
+                            child: Ink(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Obx(() {
+                                  return controller.isSubscribed.value
+                                      ? Image.asset("assets/images/400.png")
+                                      : Image.asset("assets/images/401.png");
+                                })),
+                          ))
+                    ]))
               ],
             )),
             backgroundColor: const Color(0xffffffff),

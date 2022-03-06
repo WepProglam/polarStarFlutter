@@ -22,12 +22,32 @@ class MailHistory extends StatelessWidget {
         child: Scaffold(
             backgroundColor: const Color(0xffffffff),
             appBar: AppBar(
+              actions: [
+                InkWell(
+                  onTap: () async {
+                    String topic = "message_${mailController.MAIL_BOX_ID}";
+                    if (mailController.isSubscribed.value) {
+                      await mailController.pushyUnsubscribe(topic);
+                    } else {
+                      await mailController.pushySubscribe(topic);
+                    }
+                  },
+                  child: Ink(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Obx(() {
+                        return mailController.isSubscribed.value
+                            ? Icon(Icons.alarm_on)
+                            : Icon(Icons.alarm_off);
+                      })),
+                )
+              ],
               toolbarHeight: 56,
 
               backgroundColor: Get.theme.primaryColor,
               titleSpacing: 0,
               // elevation: 0,
               automaticallyImplyLeading: false,
+              centerTitle: true,
 
               title: Stack(
                 children: [

@@ -128,6 +128,8 @@ flutter:
     - assets/images/568.png
     - assets/images/891.png
     - assets/images/940.png
+    - assets/images/400.png
+    - assets/images/401.png
     # 여기부터 지우면 됨
     # - assets/images/941.png
     # - assets/images/942.png

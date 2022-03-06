@@ -20,6 +20,7 @@ import 'package:image_size_getter/image_size_getter.dart';
 
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
 import 'package:image_size_getter/file_input.dart';
+import 'package:polarstar_flutter/app/global_widgets/pushy_controller.dart';
 import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -76,6 +77,39 @@ class ClassChatController extends GetxController {
     //   }
     //   return 1;
     // });
+  }
+
+  RxBool isSubscribed = false.obs;
+
+  Future<void> checkSubscribe(String topic) async {
+    if (await PuhsyController.checkSubscribe(topic)) {
+      isSubscribed.value = true;
+    } else {
+      isSubscribed.value = false;
+    }
+  }
+
+  RxBool isPushySubUnsubcribing = false.obs;
+
+  Future<void> pushySubscribe(String topic) async {
+    isPushySubUnsubcribing.value = true;
+    print("subs ${topic}");
+    if (await PuhsyController.pushySubscribe(topic) == 200) {
+      print("??");
+      isSubscribed.value = true;
+    } else {}
+    isPushySubUnsubcribing.value = false;
+  }
+
+  Future<void> pushyUnsubscribe(String topic) async {
+    isPushySubUnsubcribing.value = true;
+    print("unsubs ${topic}");
+    if (await PuhsyController.pushyUnsubscribe(topic) == 200) {
+      print("!!");
+
+      isSubscribed.value = false;
+    } else {}
+    isPushySubUnsubcribing.value = false;
   }
 
   Rx<ChatModel> fileFindCurChat(String tid) {
@@ -832,6 +866,8 @@ class ClassChatController extends GetxController {
         //     chatScrollController.position.maxScrollExtent,
         //     duration: Duration(milliseconds: 100),
         //     curve: Curves.ease);
+        await checkSubscribe("chat_${roomID}");
+
         print("offset : ${chatScrollController.offset}");
         print("emitt!!");
       }
