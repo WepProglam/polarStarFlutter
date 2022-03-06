@@ -89,11 +89,15 @@ class NotiController extends GetxController with SingleGetTickerProviderMixin {
 
     for (var item in mailBox) {
       for (SaveMailBoxModel saveMailBox in readMails) {
-        if (item.value.MAIL_BOX_ID == saveMailBox.MAIL_BOX_ID &&
-            item.value.MAIL_ID == saveMailBox.MAIL_ID) {
-          item.update((val) {
-            val.isReaded = true;
-          });
+        if (item.value.MAIL_BOX_ID == saveMailBox.MAIL_BOX_ID) {
+          print("???");
+          print(item.value.MY_SELF);
+          if (item.value.MAIL_ID == saveMailBox.MAIL_ID || item.value.MY_SELF) {
+            item.update((val) {
+              val.isReaded = true;
+            });
+          }
+
           break;
         }
       }

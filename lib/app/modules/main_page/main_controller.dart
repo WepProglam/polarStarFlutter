@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 
 import 'package:meta/meta.dart';
+import 'package:polarstar_flutter/app/data/model/mail/mailBox_model.dart';
 import 'package:polarstar_flutter/app/modules/board/board_controller.dart';
 import 'package:polarstar_flutter/app/modules/post/post_controller.dart';
 import 'package:polarstar_flutter/app/modules/classChat/class_chat_controller.dart';
@@ -780,6 +781,19 @@ class MainUpdateModule {
       await classChatController.getChatBox();
     } else {
       await nc.getMailBox();
+      print(">>");
+      for (Rx<MailBoxModel> item in nc.mailBox) {
+        if (!item.value.isReaded) {
+          item.update((val) {
+            val.isReaded = true;
+          });
+          nc.setReadMails(SaveMailBoxModel.fromJson({
+            "MAIL_BOX_ID": item.value.MAIL_BOX_ID,
+            "MAIL_ID": item.value.MAIL_ID,
+            "LOOKUP_DATE": "${DateTime.now()}"
+          }));
+        }
+      }
     }
     return;
   }

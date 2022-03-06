@@ -1058,6 +1058,7 @@ void checkMail(NotiController notiController, int index) async {
     await MainUpdateModule.updateNotiPage(2);
   });
   if (!notiController.mailBox[index].value.isReaded) {
+    print("!!");
     notiController.mailBox[index].update((val) {
       val.isReaded = true;
     });
