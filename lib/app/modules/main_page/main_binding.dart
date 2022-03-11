@@ -32,6 +32,8 @@ class MainBinding implements Bindings {
     print("MAINBINDING!!!!!!!!!!!@##@%@#%#%#%#%");
     print("MAINBINDING!!!!!!!!!!@##@%@#%#%#%#%");
     print("MAINBINDING!!!!!!!!!@##@%@#%#%#%#%");
+    print("=============================");
+    print(DateTime.now().toString());
     Get.lazyPut<MainController>(() =>
         MainController(repository: MainRepository(apiClient: MainApiClient())));
 
@@ -48,6 +50,8 @@ class MainBinding implements Bindings {
     Get.put(ClassChatController());
 
     ClassChatController classChatController = Get.find();
+    print("=============================");
+    print(DateTime.now().toString());
 
     classChatSocket = await IO.io(
         'http://3.39.76.247:3000',
@@ -56,14 +60,12 @@ class MainBinding implements Bindings {
             .disableAutoConnect()
             .setExtraHeaders(Session.headers)
             .build());
-
     classChatSocket.connect();
     // } else {
     //   print("disconnect!!");
     //   classChatSocket.disconnect();
 
     // }
-
     await classChatController.registerSocket();
     await classChatController.getChatBox();
     // print(" !!!!  ${classChatController.classChatBox}");

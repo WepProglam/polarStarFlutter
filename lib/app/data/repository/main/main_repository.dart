@@ -18,11 +18,6 @@ class MainRepository {
     return json;
   }
 
-  Future<Map<String, String>> versionCheck() async {
-    final json = await apiClient.versionCheck();
-    return json;
-  }
-
   Future<Map<String, dynamic>> createCommunity(
       String COMMUNITY_NAME, String COMMUNITY_DESCRIPTION) async {
     var status =

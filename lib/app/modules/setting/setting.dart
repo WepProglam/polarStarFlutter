@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:polarstar_flutter/app/modules/init_page/init_controller.dart';
+import 'package:polarstar_flutter/app/modules/login_page/login_controller.dart';
 import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
 import 'package:polarstar_flutter/app/modules/mypage/mypage_controller.dart';
 
@@ -22,6 +24,7 @@ final box = GetStorage();
 
 class Setting extends StatelessWidget {
   final MainController mainController = Get.find();
+  final InitController initController = Get.find();
   final MyPageController myPageController = Get.find();
 
   @override
@@ -190,7 +193,7 @@ class Setting extends StatelessWidget {
                                 child: Container(
                                     margin: EdgeInsets.only(right: 0),
                                     child: Text(
-                                        "${mainController.current_version}",
+                                        "${initController.current_version}",
                                         style: const TextStyle(
                                             color: const Color(0xff6f6e6e),
                                             fontWeight: FontWeight.w500,

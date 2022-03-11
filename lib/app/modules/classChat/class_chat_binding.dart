@@ -23,6 +23,7 @@ class ClassChatBinding implements Bindings {
     if (classChatController.findCurBox.value.ChatList.length == 0) {
       classChatController.chatDownloaed(false);
       classChatController.imagePreCached(false);
+
       await classChatController.getChatLog(int.parse(Get.arguments["roomID"]));
     }
   }

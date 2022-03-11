@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:polarstar_flutter/session.dart';
 
 class LoginApiClient {
@@ -18,6 +20,17 @@ class LoginApiClient {
   Future<int> tokenRefresh(data) async {
     var response = await Session().postX("/login/fcmToken", data);
     return response.statusCode;
+  }
+
+  Future<Map<String, String>> versionCheck() async {
+    final response = await Session().getX('/versionCheck');
+    final jsonResponse = jsonDecode(response.body);
+
+    return {
+      "status": response.statusCode.toString(),
+      "min_version": jsonResponse["min_version"],
+      "latest_version": jsonResponse["latest_version"]
+    };
   }
 }
 

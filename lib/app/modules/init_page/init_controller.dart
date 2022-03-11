@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:launch_review/launch_review.dart';
+import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polarstar_flutter/app/modules/noti/noti_controller.dart';
 
@@ -34,6 +36,82 @@ class InitController extends GetxController {
   //   });
   //   return FcmToken;
   // }
+
+  String current_version = "1.0";
+  Future<void> versionCheck() async {
+    try {
+      //현재 앱 버전
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      // var storeVersion = Platform.isAndroid
+      //     ? await _getAndroidStoreVersion(packageInfo)
+      //     : Platform.isIOS
+      //         ? await _getiOSStoreVersion(packageInfo)
+      //         : "";
+      current_version = packageInfo.version;
+
+      print("current_version: ${current_version}");
+      int current_buildNumber = int.tryParse(packageInfo.buildNumber);
+
+      Map<String, String> response = await repository.versionCheck();
+      print(response);
+      final int status = int.parse(response["status"]);
+
+      if (status != 200) {
+        print("versionCheck failed");
+        return;
+      }
+
+      final String latest_version = response["latest_version"];
+      int latest_buildNumber = int.tryParse(latest_version.split("+")[1]);
+
+      // print("latest_version: ${latest_version}");
+
+      final String min_version = response["min_version"];
+      int min_buildNumber = int.tryParse(min_version.split("+")[1]);
+
+      // print("min_version: ${min_version}");
+
+      //version check 실패
+      if (!(current_buildNumber != null &&
+          latest_buildNumber != null &&
+          min_buildNumber != null)) {
+        print("versionCheck failed");
+        return;
+      }
+
+      if (current_buildNumber < min_buildNumber) {
+        //업데이트 해야함(필수)
+        Function onTapConfirm = () async {
+          LaunchReview.launch();
+          LaunchReview.launch(
+              androidAppId: "com.polarstar.polarStar", iOSAppId: "1608688540");
+          if (Platform.isIOS) {
+            exit(0);
+          } else {
+            SystemNavigator.pop();
+          }
+        };
+        await Tdialogue(
+            Get.context, "软件检测到新版本必须更新后使用", "软件检测到新版本必须更新后使用", onTapConfirm);
+      } else if (current_buildNumber > latest_buildNumber) {
+        //이건 오류(build number 잘못 입력됨)
+        print("versionCheck failed");
+
+        SystemNavigator.pop();
+
+        return;
+      } else if (current_buildNumber < latest_buildNumber) {
+        //업데이트 권장
+        await Textdialogue(
+            Get.context, "目前软件版本过低 建议更新至最新版本", "目前软件版本过低 建议更新至最新版本");
+      } else {
+        //버전 잘 맞음 (current_buildNumber == latest_buildNumber)
+        print("LATEST VERSION");
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
 
   bool needRefreshToken(String curFcmToken) {
     String oldFcmToken = box.read("FcmToken");
@@ -259,6 +337,7 @@ class InitController extends GetxController {
   void onInit() async {
     opacityControl(true);
     super.onInit();
+    await versionCheck();
     print("init");
     Pushy.listen();
     print("listen");
@@ -286,6 +365,7 @@ class InitController extends GetxController {
       MainController mainController = Get.put(MainController(
           repository: MainRepository(apiClient: MainApiClient())));
       await mainController.fake_onInit();
+
       // await mainController.onInit();
       // await mainController.onReady();
     }

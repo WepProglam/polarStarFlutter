@@ -14,6 +14,11 @@ class LoginRepository {
     return response;
   }
 
+  Future<Map<String, String>> versionCheck() async {
+    final json = await apiClient.versionCheck();
+    return json;
+  }
+
   Future<int> tokenRefresh(data) async {
     final int rc = await apiClient.tokenRefresh(data);
     return rc;

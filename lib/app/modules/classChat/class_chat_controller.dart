@@ -587,7 +587,6 @@ class ClassChatController extends GetxController {
 
   Future<void> socketting() async {
     classChatSocket.on("viewRecentMessage", (data) async {
-      print("viewRecentMessage");
       Iterable cc = data;
       //print(data);
       tempChatHistory.clear();
@@ -641,6 +640,8 @@ class ClassChatController extends GetxController {
       // }
 
       print("chatDownloaed33 :${chatDownloaed.value}");
+      print("=============================");
+      print(DateTime.now().toString());
       // // * 현재 들어가있을때
       // if (currentBoxID.value == curBoxID) {
       //   box.write("LastChat_${tempChatHistory.last.value.BOX_ID}",
@@ -732,6 +733,9 @@ class ClassChatController extends GetxController {
   }
 
   Future<void> getChatBox() async {
+    print("=-=----------------------------------");
+    print(DateTime.now().toString());
+
     var response = await Session().getX("/chat/chatBox");
     var jsonResponse = jsonDecode(response.body);
     //print(jsonResponse);
@@ -791,6 +795,8 @@ class ClassChatController extends GetxController {
       joinRooms(item.value.BOX_ID);
       // countTotal(item.value.BOX_ID, false);
     }
+    print("=-=----------------------------------");
+    print(DateTime.now().toString());
 
     return;
   }
@@ -809,6 +815,7 @@ class ClassChatController extends GetxController {
 
   Future<void> getChatLog(int BOX_ID) async {
     // chatDownloaed(false);
+
     await classChatSocket.emit("getChatLog", [BOX_ID, searchIndex]);
     searchIndex += 1;
     return;
