@@ -78,19 +78,19 @@ class InitController extends GetxController {
         print("versionCheck failed");
         return;
       }
-
+      Function onTapConfirm = () async {
+        LaunchReview.launch();
+        LaunchReview.launch(
+            androidAppId: "com.polarstar.polarStar", iOSAppId: "1608688540");
+        if (Platform.isIOS) {
+          exit(0);
+        } else {
+          SystemNavigator.pop();
+        }
+      };
       if (current_buildNumber < min_buildNumber) {
         //업데이트 해야함(필수)
-        Function onTapConfirm = () async {
-          LaunchReview.launch();
-          LaunchReview.launch(
-              androidAppId: "com.polarstar.polarStar", iOSAppId: "1608688540");
-          if (Platform.isIOS) {
-            exit(0);
-          } else {
-            SystemNavigator.pop();
-          }
-        };
+
         await Tdialogue(
             Get.context, "软件检测到新版本必须更新后使用", "软件检测到新版本必须更新后使用", onTapConfirm);
       } else if (current_buildNumber > latest_buildNumber) {
@@ -102,8 +102,10 @@ class InitController extends GetxController {
         return;
       } else if (current_buildNumber < latest_buildNumber) {
         //업데이트 권장
-        await Textdialogue(
-            Get.context, "目前软件版本过低 建议更新至最新版本", "目前软件版本过低 建议更新至最新版本");
+        await TFdialogue(Get.context, "通知", "目前软件版本过低 建议更新至最新版本", onTapConfirm,
+            () {
+          Get.back();
+        });
       } else {
         //버전 잘 맞음 (current_buildNumber == latest_buildNumber)
         print("LATEST VERSION");
