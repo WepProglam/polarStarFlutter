@@ -254,10 +254,12 @@ class InitController extends GetxController {
 
     // Android: Displays a system notification
     // iOS: Displays an alert dialog
-    if (Platform.isIOS) {
-    } else {
-      Pushy.notify(notificationTitle, notificationText, data);
-    }
+    // if (Platform.isIOS) {
+    // } else {
+    //   Pushy.notify(notificationTitle, notificationText, data);
+    // }
+
+    Pushy.notify(notificationTitle, notificationText, data);
   }
 
   String deviceToken;
@@ -384,7 +386,7 @@ class InitController extends GetxController {
       Get.toNamed(Routes.MAIN_PAGE);
       print("main page");
       // Enable in-app notification banners (iOS 10+)
-      Pushy.toggleInAppBanner(true);
+      Pushy.toggleInAppBanner(false);
       print("toggle app bar");
       // Listen for push notifications received
       Pushy.setNotificationListener(backgroundNotificationListener);
