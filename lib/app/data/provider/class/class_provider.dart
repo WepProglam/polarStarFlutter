@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:polarstar_flutter/session.dart';
 
 class ClassApiClient {
@@ -65,6 +65,19 @@ class ClassApiClient {
   Future postExam(int CLASS_ID, Map<String, dynamic> data) async {
     final response = await Session().postX("/class/exam/$CLASS_ID", data);
     return response;
+  }
+
+  Future postExamWithPhotoOrFile(int CLASS_ID, List<http.MultipartFile> pic,
+      Map<String, dynamic> data) async {
+    http.MultipartRequest request =
+        await Session().multipartReq("POST", "/class/exam/$CLASS_ID");
+    request.files.addAll(pic);
+    data.forEach((key, value) {
+      request.fields[key] = value;
+    });
+
+    var response = await request.send();
+    return response.statusCode;
   }
 
   Future buyExamInfo(int CLASS_ID, int CLASS_EXAM_ID) async {

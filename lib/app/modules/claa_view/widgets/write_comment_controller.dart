@@ -7,6 +7,7 @@ import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 import 'package:polarstar_flutter/app/modules/claa_view/class_view_controller.dart';
 import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class WriteCommentController extends GetxController {
   final ClassRepository repository;

@@ -97,7 +97,7 @@ class InitController extends GetxController {
         //이건 오류(build number 잘못 입력됨)
         print("versionCheck failed");
 
-        SystemNavigator.pop();
+        //SystemNavigator.pop();
 
         return;
       } else if (current_buildNumber < latest_buildNumber) {

@@ -156,6 +156,10 @@ class ClassReviewModel {
   }
 }
 
+dynamic nullCheck(dynamic a) {
+  return a == null ? null : a;
+}
+
 class ClassExamModel {
   int CLASS_EXAM_ID,
       CLASS_ID,
@@ -168,6 +172,7 @@ class ClassExamModel {
   bool ALREADY_LIKED, ALREADY_ACCUSED;
   String TEST_STRATEGY, TEST_TYPE, TIME_CREATED, MID_FINAL;
   List TEST_EXAMPLE;
+  List<dynamic> PHOTO, FILE, FILE_META;
   bool IS_BUYED;
 
   ClassExamModel(
@@ -181,6 +186,9 @@ class ClassExamModel {
       CLASS_EXAM_YEAR,
       CLASS_EXAM_SEMESTER,
       LIKES,
+      PHOTO,
+      FILE,
+      FILE_META,
       ACCUSE_AMOUNT,
       MID_FINAL,
       IS_BUYED});
@@ -188,6 +196,10 @@ class ClassExamModel {
   ClassExamModel.fromJson(Map<String, dynamic> json) {
     this.CLASS_EXAM_ID = json["CLASS_EXAM_ID"];
     this.CLASS_ID = json["CLASS_ID"];
+    this.PHOTO = nullCheck(json["PHOTO"]) == null ? [] : json["PHOTO"];
+    this.FILE = nullCheck(json["FILE"]) == null ? [] : json["FILE"];
+    this.FILE_META =
+        nullCheck(json["FILE_META"]) == null ? [] : json["FILE_META"];
 
     this.TEST_STRATEGY = json["TEST_STRATEGY"];
     this.TEST_TYPE = json["TEST_TYPE"];

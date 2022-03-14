@@ -130,6 +130,10 @@ flutter:
     # - assets/images/220.png
     - assets/images/568.png
     - assets/images/891.png
+    - assets/images/591.png
+    - assets/images/589.png
+    - assets/images/64.png
+    - assets/images/594.png
     - assets/images/940.png
     # 여기부터 지우면 됨
     # - assets/images/941.png

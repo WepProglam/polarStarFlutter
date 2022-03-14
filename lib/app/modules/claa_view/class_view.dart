@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'dart:ui';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:path/path.dart' as p;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
@@ -6,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:linkwell/linkwell.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
@@ -1332,48 +1337,6 @@ class ClassExamInfo extends StatelessWidget {
                             fontSize: 12.0),
                         textAlign: TextAlign.left),
                   ),
-
-                  //* 시험 전략
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Text("考试攻略 :",
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  color: const Color(0xff2f2f2f),
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: "NotoSansSC",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 12.0),
-                              textAlign: TextAlign.left),
-                        ),
-                        classExamModel.TEST_STRATEGY != null
-                            ? LinkWell(
-                                "${classExamModel.TEST_STRATEGY}",
-                                // overflow: TextOverflow.ellipsis,
-                                linkStyle: TextStyle(
-                                    // overflow: TextOverflow.ellipsis,
-                                    color: Get.theme.primaryColor,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 12.0),
-                                style: const TextStyle(
-                                    // overflow: TextOverflow.ellipsis,
-                                    color: const Color(0xff6f6e6e),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 12.0),
-                              )
-                            : Text('')
-                      ],
-                    ),
-                  ),
                   //* 문제 유형
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
@@ -1409,6 +1372,262 @@ class ClassExamInfo extends StatelessWidget {
                       ],
                     ),
                   ),
+                  //* 시험 전략
+                  Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Column(children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Text("考试攻略 :",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      color: const Color(0xff2f2f2f),
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "NotoSansSC",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12.0),
+                                  textAlign: TextAlign.left),
+                            ),
+                          ],
+                        ),
+                        (classExamModel.FILE.length != 0)
+                            ? Container(
+                                margin: EdgeInsets.only(top: 10),
+                                height: 40,
+                                child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: classExamModel.FILE.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return InkWell(
+                                          onTap: () async {
+                                            // * 이미 다운 받았으면 return
+
+                                            final status = await Permission
+                                                .storage
+                                                .request();
+
+                                            if (status.isGranted) {
+                                              String dirloc = "";
+                                              if (Platform.isAndroid) {
+                                                dirloc = "/sdcard/download/";
+                                              } else {
+                                                dirloc =
+                                                    (await getApplicationDocumentsDirectory())
+                                                        .absolute
+                                                        .path;
+                                              }
+
+                                              if (!Directory(dirloc)
+                                                  .existsSync()) {
+                                                dirloc =
+                                                    (await getApplicationDocumentsDirectory())
+                                                        .absolute
+                                                        .path;
+                                                if (!Directory(dirloc)
+                                                    .existsSync()) {
+                                                  Directory(dirloc)
+                                                      .create(recursive: true);
+                                                }
+                                              }
+
+                                              String file_name = classExamModel
+                                                      .FILE_META[index]
+                                                  ["file_name"];
+                                              // * 파일 이름 중복
+                                              if (File(
+                                                      p.join(dirloc, file_name))
+                                                  .existsSync()) {
+                                                int i = 1;
+                                                int string_length =
+                                                    file_name.length;
+                                                String a = "aa.aa";
+                                                a.lastIndexOf(".");
+                                                int extend_length = file_name
+                                                        .split(".")
+                                                        .last
+                                                        .length +
+                                                    1;
+                                                int add_number_index =
+                                                    string_length -
+                                                        extend_length -
+                                                        1;
+                                                // String dupliacte_file_name = file_name
+                                                while (File(p.join(
+                                                        dirloc,
+                                                        file_name.substring(
+                                                                0,
+                                                                file_name
+                                                                    .lastIndexOf(
+                                                                        ".")) +
+                                                            "(${i})." +
+                                                            file_name
+                                                                .split(".")
+                                                                .last))
+                                                    .existsSync()) {
+                                                  i += 1;
+                                                }
+
+                                                file_name = file_name.substring(
+                                                        0,
+                                                        file_name
+                                                            .lastIndexOf(".")) +
+                                                    "(${i})." +
+                                                    file_name.split(".").last;
+                                              }
+
+                                              print(dirloc);
+                                              print(
+                                                  "==============================");
+
+                                              final String taskID =
+                                                  await FlutterDownloader.enqueue(
+                                                      url: classExamModel
+                                                          .FILE[index],
+                                                      savedDir: dirloc,
+                                                      fileName: file_name,
+                                                      showNotification: true,
+                                                      openFileFromNotification:
+                                                          true,
+                                                      saveInPublicStorage:
+                                                          true);
+
+                                              print("downloaded!!");
+                                            } else {
+                                              print('Permission Denied');
+                                            }
+                                          },
+                                          child: Container(
+                                              margin:
+                                                  EdgeInsets.only(right: 10),
+                                              width: 155,
+                                              height: 40,
+                                              child: Container(
+                                                  child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                    Image.asset(
+                                                        "assets/images/594.png",
+                                                        height: 16,
+                                                        width: 16),
+                                                    Text(
+                                                        classExamModel
+                                                                .FILE_META[index]
+                                                            ["file_name"],
+                                                        style: const TextStyle(
+                                                            color: const Color(
+                                                                0xff9b9b9b),
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontFamily:
+                                                                "NotoSansSC",
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontSize: 10.0),
+                                                        textAlign:
+                                                            TextAlign.center)
+                                                  ])),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(7)),
+                                                  border: Border.all(
+                                                      color: const Color(
+                                                          0xffeaeaea),
+                                                      width: 1),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: const Color(
+                                                            0x0f000000),
+                                                        offset: Offset(0, 3),
+                                                        blurRadius: 10,
+                                                        spreadRadius: 0)
+                                                  ],
+                                                  color: const Color(
+                                                      0xffffffff))));
+                                    }))
+                            : Container(),
+                        (classExamModel.PHOTO.length != 0)
+                            ? Container(
+                                margin: EdgeInsets.only(top: 10),
+                                height: 86,
+                                child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: classExamModel.PHOTO.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Container(
+                                          margin: EdgeInsets.only(right: 10),
+                                          width: 86,
+                                          height: 86,
+                                          child: CachedNetworkImage(
+                                              imageUrl:
+                                                  classExamModel.PHOTO[index],
+                                              imageBuilder: (context, imageProvider) => Container(
+                                                  decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                          image: imageProvider,
+                                                          fit: BoxFit.fill))),
+                                              fadeInDuration:
+                                                  Duration(milliseconds: 0),
+                                              progressIndicatorBuilder:
+                                                  (context, url, downloadProgress) =>
+                                                      Image(
+                                                          image: AssetImage(
+                                                              'assets/images/spinner.gif')),
+                                              errorWidget: (context, url, error) {
+                                                print(error);
+                                                return Icon(Icons.error);
+                                              }),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(7)),
+                                              border: Border.all(
+                                                  color: const Color(0xffeaeaea),
+                                                  width: 1),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color:
+                                                        const Color(0x0f000000),
+                                                    offset: Offset(0, 3),
+                                                    blurRadius: 10,
+                                                    spreadRadius: 0)
+                                              ],
+                                              color: const Color(0xffffffff)));
+                                    }))
+                            : Container(),
+                        Container(
+                            margin: EdgeInsets.only(top: 10),
+                            child: classExamModel.TEST_STRATEGY != null
+                                ? LinkWell(
+                                    "${classExamModel.TEST_STRATEGY}",
+                                    //overflow: TextOverflow.ellipsis,
+                                    linkStyle: TextStyle(
+                                        // overflow: TextOverflow.ellipsis,
+                                        color: Get.theme.primaryColor,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 12.0),
+                                    style: const TextStyle(
+                                        color: const Color(0xff6f6e6e),
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "NotoSansSC",
+                                        fontStyle: FontStyle.normal,
+                                        fontSize: 14.0),
+                                    textAlign: TextAlign.left,
+                                  )
+                                : Text(''))
+                      ])),
+
                   //* 시험 예시
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),

@@ -1,7 +1,12 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
 
@@ -10,11 +15,15 @@ import 'package:polarstar_flutter/app/modules/claa_view/widgets/write_comment_co
 import 'package:polarstar_flutter/app/global_functions/timetable_semester.dart';
 
 import 'package:polarstar_flutter/app/global_widgets/dialoge.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class ClassViewController extends GetxController
     with SingleGetTickerProviderMixin {
   final ClassRepository repository;
   ClassViewController({@required this.repository});
+
+  RxList<AssetEntity> photoAssets = <AssetEntity>[].obs;
+  RxList<File> fileAssets = <File>[].obs;
 
   final box = GetStorage();
 
@@ -375,6 +384,46 @@ class ClassViewController extends GetxController
     final jsonResponse = await repository.postExam(CLASS_ID, data);
 
     switch (jsonResponse["statusCode"]) {
+      case 200:
+        Get.back();
+        await refreshPage();
+        // Get.snackbar("시험정보 작성 완료", "시험정보 작성이 완료되었습니다.",
+        //     duration: Duration(seconds: 2));
+        break;
+      default:
+        Get.snackbar("考试信息撰写失败", "考试信息撰写失败",
+            duration: Duration(seconds: 2),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.white,
+            colorText: Colors.black);
+    }
+  }
+
+  Future postExamWithPhotoOrFile(
+      int CLASS_ID, Map<String, dynamic> data) async {
+    print("Asdasdadsadsads");
+    List<http.MultipartFile> pic = <http.MultipartFile>[];
+
+    for (AssetEntity source in photoAssets) {
+      Uint8List photo = await source.originBytes;
+
+      photo = await FlutterImageCompress.compressWithList(photo, quality: 70);
+
+      pic.add(http.MultipartFile.fromBytes('photo', photo,
+          filename: "${source.title}"));
+    }
+
+    for (File source in fileAssets) {
+      Uint8List file = await source.readAsBytes();
+
+      pic.add(http.MultipartFile.fromBytes('file', file,
+          filename: "${source.path.split('/').last}"));
+    }
+
+    final status =
+        await repository.postExamWithPhotoOrFile(CLASS_ID, pic, data);
+
+    switch (status) {
       case 200:
         Get.back();
         await refreshPage();

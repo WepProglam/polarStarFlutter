@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/data/model/class/class_view_model.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:polarstar_flutter/app/data/provider/class/class_provider.dart';
 
 class ClassRepository {
@@ -170,6 +170,12 @@ class ClassRepository {
     final response = await apiClient.postExam(CLASS_ID, data);
 
     return {"statusCode": response.statusCode};
+  }
+
+  Future<int> postExamWithPhotoOrFile(int CLASS_ID,
+      List<http.MultipartFile> pic, Map<String, dynamic> data) async {
+    int status = await apiClient.postExamWithPhotoOrFile(CLASS_ID, pic, data);
+    return status;
   }
 
   Future<Map<String, dynamic>> buyExamInfo(

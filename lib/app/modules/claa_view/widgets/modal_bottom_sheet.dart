@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,9 +15,11 @@ import 'package:polarstar_flutter/app/data/repository/class/class_repository.dar
 import 'package:polarstar_flutter/app/modules/claa_view/functions/semester.dart';
 
 import 'package:polarstar_flutter/app/global_functions/timetable_semester.dart';
+import 'package:polarstar_flutter/app/modules/init_page/init_controller.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class WriteComment extends StatelessWidget {
-  const WriteComment(
+  WriteComment(
       {Key key,
       @required this.classInfoModel,
       // @required this.classViewController,
@@ -26,12 +31,11 @@ class WriteComment extends StatelessWidget {
   final TextEditingController reviewTextController;
   final int CLASS_ID;
   final ClassInfoModel classInfoModel;
+  final writeCommentController = Get.put(WriteCommentController(
+      repository: ClassRepository(apiClient: ClassApiClient())));
 
   @override
   Widget build(BuildContext context) {
-    final writeCommentController = Get.put(WriteCommentController(
-        repository: ClassRepository(apiClient: ClassApiClient())));
-
     // print(CLASS_ID);
 
     return SingleChildScrollView(
@@ -673,6 +677,40 @@ class WriteExamInfo extends StatelessWidget {
   final GlobalKey<FormState> _exampleFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _tipsFormKey = GlobalKey<FormState>();
 
+  Future<void> getMultipleGallertImage(BuildContext context) async {
+    print("???!!");
+    // c.photoAssets.clear();
+    List<AssetEntity> temp = await AssetPicker.pickAssets(context,
+        requestType: RequestType.image,
+        maxAssets: 10,
+        themeColor: Get.theme.primaryColor);
+
+    // await ImagePicker().pickMultiImage();
+    // await ImagePicker().pickVideo(source: ImageSource.gallery);
+    classViewController.photoAssets.addAll(temp);
+    print(temp);
+    for (AssetEntity item in temp) {
+      print(item.type);
+    }
+  }
+
+  Future<void> getMultipleFile(BuildContext context) async {
+    if (await ManagePermission.checkPermission("storage")) {
+      print("File");
+      FilePickerResult result =
+          await FilePicker.platform.pickFiles(allowMultiple: true);
+
+      if (result != null) {
+        classViewController.fileAssets.value =
+            result.paths.map((path) => File(path)).toList();
+      } else {
+        // User canceled the picker
+      }
+    } else {
+      ManagePermission.permissionDialog("Storage");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -1010,6 +1048,160 @@ class WriteExamInfo extends StatelessWidget {
                           fontSize: 14.0),
                       textAlign: TextAlign.left),
                   Container(
+                      height: 40,
+                      margin: EdgeInsets.only(top: 10),
+                      child: Obx(() {
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: classViewController.fileAssets.length + 1,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                                margin: EdgeInsets.only(right: 10),
+                                width: 155,
+                                height: 40,
+                                child: (index == 0)
+                                    ? InkWell(
+                                        onTap: () {
+                                          getMultipleFile(context);
+                                        },
+                                        child: Container(
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                              Image.asset(
+                                                  "assets/images/591.png",
+                                                  height: 16,
+                                                  width: 16),
+                                              Text("上传文件",
+                                                  style: const TextStyle(
+                                                      color: const Color(
+                                                          0xff9b9b9b),
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontFamily: "NotoSansSC",
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontSize: 10.0),
+                                                  textAlign: TextAlign.center)
+                                            ])))
+                                    : Container(
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                            Image.asset("assets/images/594.png",
+                                                height: 16, width: 16),
+                                            Text(
+                                                classViewController
+                                                    .fileAssets[index - 1].path
+                                                    .split("/")
+                                                    .last,
+                                                style: const TextStyle(
+                                                    color:
+                                                        const Color(0xff9b9b9b),
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: "NotoSansSC",
+                                                    fontStyle: FontStyle.normal,
+                                                    fontSize: 10.0),
+                                                textAlign: TextAlign.center)
+                                          ])),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(7)),
+                                    border: Border.all(
+                                        color: const Color(0xffeaeaea),
+                                        width: 1),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: const Color(0x0f000000),
+                                          offset: Offset(0, 3),
+                                          blurRadius: 10,
+                                          spreadRadius: 0)
+                                    ],
+                                    color: const Color(0xffffffff)));
+                          },
+                        );
+                      })),
+                  Container(
+                      height: 88,
+                      margin: EdgeInsets.only(top: 10),
+                      child: Container(
+                          child: Obx(() {
+                            return ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount:
+                                    classViewController.photoAssets.length + 1,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Container(
+                                      margin: EdgeInsets.only(
+                                          left: 10, top: 10, bottom: 10),
+                                      width: 68,
+                                      height: 68,
+                                      child: (index == 0)
+                                          ? InkWell(
+                                              onTap: () {
+                                                getMultipleGallertImage(
+                                                    context);
+                                              },
+                                              child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Image.asset(
+                                                        "assets/images/64.png",
+                                                        height: 16,
+                                                        width: 16),
+                                                    Text("附有照片",
+                                                        style: const TextStyle(
+                                                            color: const Color(
+                                                                0xff9b9b9b),
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontFamily:
+                                                                "NotoSansSC",
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontSize: 10.0),
+                                                        textAlign:
+                                                            TextAlign.center)
+                                                  ]))
+                                          : Container(
+                                              child: Image.file(File(classViewController
+                                                      .photoAssets[index - 1]
+                                                      .relativePath +
+                                                  "/" +
+                                                  classViewController
+                                                      .photoAssets[index - 1]
+                                                      .title))),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8)),
+                                          border: Border.all(
+                                              color: const Color(0xffeaeaea),
+                                              width: 1)));
+                                });
+                          }),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                              border: Border.all(
+                                  color: const Color(0xffeaeaea), width: 1),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: const Color(0x0f000000),
+                                    offset: Offset(0, 3),
+                                    blurRadius: 10,
+                                    spreadRadius: 0)
+                              ],
+                              color: const Color(0xffffffff)))),
+                  Container(
                     margin: EdgeInsets.only(top: 10.0, bottom: 14.0),
                     // height: 46.0,
                     decoration: BoxDecoration(
@@ -1252,15 +1444,18 @@ class WriteExamInfo extends StatelessWidget {
                           ],
                           color: const Color(0xff4570ff)),
                       child: InkWell(
-                        onTap: () {
+                        onTap: () async {
                           // ! 스낵바 필요 (중국어)
                           if (classViewController.writeExamInfoYear == null) {
+                            print("1");
                             return;
                           }
                           if (classViewController.exampleList.isEmpty) {
+                            print("2");
                             return;
                           }
                           if (testStrategyController.text.isEmpty) {
+                            print("3");
                             return;
                           }
 
@@ -1287,11 +1482,23 @@ class WriteExamInfo extends StatelessWidget {
 
                           print(data["year"] + data["semester"]);
 
-                          classViewController.postExam(
-                              classViewController.classInfo.value.CLASS_ID,
-                              data);
+                          if (classViewController.fileAssets.length == 0 &&
+                              classViewController.photoAssets.length == 0) {
+                            classViewController.postExam(
+                                await classViewController
+                                    .classInfo.value.CLASS_ID,
+                                data);
 
-                          classViewController.exampleList.clear();
+                            classViewController.exampleList.clear();
+                          } else {
+                            await classViewController.postExamWithPhotoOrFile(
+                                classViewController.classInfo.value.CLASS_ID,
+                                data);
+
+                            classViewController.exampleList.clear();
+                            classViewController.fileAssets.clear();
+                            classViewController.photoAssets.clear();
+                          }
                         },
                         child: Center(
                             child: Text("发布",
