@@ -683,7 +683,7 @@ class SignUpInputs extends StatelessWidget {
                           _nicknameKey.currentState.validate() &&
                           signUpController.idOK.value &&
                           signUpController.nicknameOK.value) {
-                        if (signUpController.selectIndexPK(
+                        if (signUpController.selectMajorIndexPK(
                                 signUpController.selectedMajor.value) ==
                             null) {
                           Get.snackbar("注册错误", "专业选择错误",
@@ -692,13 +692,18 @@ class SignUpInputs extends StatelessWidget {
                               colorText: Colors.white);
                           return;
                         }
+                        // print("${signUpController.selectedDoubleMajor.value}");
+                        // print(
+                        //     "${signUpController.selectDoubleMajorIndexPK(signUpController.selectedDoubleMajor.value)}");
                         await signUpController.signUp(
                             signUpController.idController.text,
                             signUpController.pwController.text,
                             signUpController.nicknameController.text,
                             signUpController.studentIDController.text,
-                            signUpController.selectIndexPK(
+                            signUpController.selectMajorIndexPK(
                                 signUpController.selectedMajor.value),
+                            signUpController.selectDoubleMajorIndexPK(
+                                signUpController.selectedDoubleMajor.value),
                             signUpController.admissionYear.value);
                       }
                     },

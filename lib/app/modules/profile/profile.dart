@@ -357,6 +357,120 @@ class Profile extends StatelessWidget {
                                                     textAlign:
                                                         TextAlign.left))),
                                       ])),
+                                  Obx(() {
+                                    return myPageController.myProfile.value
+                                                .DOUBLE_MAJOR_NAME !=
+                                            null
+                                        ? Container(
+                                            height: 54.6,
+                                            width: MediaQuery.of(context).size.width -
+                                                40,
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        color: const Color(
+                                                            0xffdedede),
+                                                        width: 1))),
+                                            child: Stack(children: [
+                                              Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 0),
+                                                      child: Text("双重专业",
+                                                          style: const TextStyle(
+                                                              color: const Color(
+                                                                  0xff6f6e6e),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontFamily:
+                                                                  "NotoSansSC",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: 14.0),
+                                                          textAlign:
+                                                              TextAlign.left))),
+                                              Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Container(
+                                                      margin: EdgeInsets.only(
+                                                          right: 0),
+                                                      child: Text(
+                                                          "${myPageController.myProfile.value.DOUBLE_MAJOR_NAME}",
+                                                          style: const TextStyle(
+                                                              color: const Color(
+                                                                  0xff9b9b9b),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontFamily:
+                                                                  "NotoSansKR",
+                                                              fontStyle:
+                                                                  FontStyle
+                                                                      .normal,
+                                                              fontSize: 14.0),
+                                                          textAlign:
+                                                              TextAlign.left))),
+                                            ]))
+                                        : InkWell(
+                                            onTap: () {
+                                              myPageController
+                                                  .changeDoubleMajor();
+                                            },
+                                            child: Container(
+                                                height: 54.6,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    40,
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            color: const Color(
+                                                                0xffdedede),
+                                                            width: 1))),
+                                                child: Stack(children: [
+                                                  Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 0),
+                                                          child: Text("双重专业",
+                                                              style: const TextStyle(
+                                                                  color: const Color(
+                                                                      0xff6f6e6e),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontFamily:
+                                                                      "NotoSansSC",
+                                                                  fontStyle:
+                                                                      FontStyle
+                                                                          .normal,
+                                                                  fontSize:
+                                                                      14.0),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left))),
+                                                  Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  right: 0),
+                                                          child: Image.asset(
+                                                              "assets/images/654.png",
+                                                              width: 98,
+                                                              height: 28))),
+                                                ])));
+                                  }),
                                   Container(
                                       height: 54.6,
                                       width: MediaQuery.of(context).size.width -

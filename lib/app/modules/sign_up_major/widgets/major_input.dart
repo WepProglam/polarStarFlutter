@@ -17,6 +17,7 @@ class MajorInputs extends StatelessWidget {
     final _formKey = GlobalKey<FormState>();
     final majorScrollController = ScrollController(initialScrollOffset: 0.0);
     final majorFocus = FocusNode();
+    final doubleMajorFocus = FocusNode();
 
     return Form(
       key: _formKey,
@@ -93,7 +94,7 @@ class MajorInputs extends StatelessWidget {
                                 fontSize: 14.0),
                             textAlign: TextAlign.left),
                       ),
-                      (signUpController.selectIndexPK(
+                      (signUpController.selectMajorIndexPK(
                                   signUpController.selectedMajor.value) ==
                               null)
                           ? Container(
@@ -220,6 +221,132 @@ class MajorInputs extends StatelessWidget {
                             ),
                           );
                   }),
+                  Container(
+                    margin: const EdgeInsets.only(top: 18),
+                    child: Text("选择双重专业",
+                        style: const TextStyle(
+                            color: const Color(0xff4570ff),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
+                  ),
+                  Container(
+                      margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                      child: TextFormField(
+                        focusNode: doubleMajorFocus,
+                        // onTap: () async {
+                        //   await Future.delayed(Duration(milliseconds: 100));
+                        //   majorScrollController.animateTo(
+                        //       majorScrollController.position.maxScrollExtent,
+                        //       duration: Duration(milliseconds: 100),
+                        //       curve: Curves.fastOutSlowIn);
+                        //   signUpController.majorSelected.value = false;
+                        // },
+                        style: const TextStyle(
+                            color: const Color(0xff2f2f2f),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "Roboto",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left,
+                        decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.fromLTRB(10.0, 11.0, 10.0, 11.0),
+                            isDense: true,
+                            hintText: "请用韩语输入您的专业",
+                            hintStyle: const TextStyle(
+                                color: const Color(0xffd6d4d4),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "Roboto",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14.0),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: const Color(0xffeaeaea), width: 1)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: const Color(0xffeaeaea), width: 1)),
+                            border: InputBorder.none),
+                        controller: signUpController.doubleMajorController,
+                        onChanged: (string) {
+                          signUpController.doubleMajorSelected.value = false;
+                          if (string.isEmpty) {
+                            // if the search field is empty or only contains white-space, we'll display all users
+                            signUpController.searchedDoubleMajorList.value = [];
+                          } else {
+                            signUpController.searchedDoubleMajorList(
+                                signUpController.majorList
+                                    .where((major) => major.MAJOR_NAME
+                                        .toLowerCase()
+                                        .contains(string.toLowerCase()))
+                                    .toList());
+                            // we use the toLowerCase() method to make it case-insensitive
+                          }
+                        },
+                      )),
+                  Obx(() {
+                    return signUpController.doubleMajorSelected.value
+                        ? Container()
+                        : LimitedBox(
+                            maxHeight: 100.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
+                                border: Border.all(
+                                    color: const Color(0xffeaeaea), width: 1),
+                              ),
+                              child: Obx(() => CupertinoScrollbar(
+                                  isAlwaysShown: true,
+                                  child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: signUpController
+                                          .searchedDoubleMajorList.length,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: InkWell(
+                                            onTap: () {
+                                              doubleMajorFocus.unfocus();
+                                              signUpController
+                                                  .doubleMajorSelected
+                                                  .value = true;
+                                              signUpController
+                                                      .doubleMajorController
+                                                      .text =
+                                                  signUpController
+                                                      .searchedDoubleMajorList[
+                                                          index]
+                                                      .MAJOR_NAME;
+                                              signUpController.selectedDoubleMajor(
+                                                  signUpController
+                                                      .searchedDoubleMajorList[
+                                                          index]
+                                                      .MAJOR_ID);
+                                            },
+                                            child: Text(
+                                              signUpController
+                                                  .searchedDoubleMajorList[
+                                                      index]
+                                                  .MAJOR_NAME,
+                                              style: const TextStyle(
+                                                  color:
+                                                      const Color(0xff2f2f2f),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "NotoSansKR",
+                                                  fontStyle: FontStyle.normal,
+                                                  fontSize: 12.0),
+                                            ),
+                                          ),
+                                        );
+                                      }))),
+                            ),
+                          );
+                  }),
                   Padding(
                     padding: const EdgeInsets.only(top: 12),
                     child: Text("入学年份",
@@ -285,7 +412,7 @@ class MajorInputs extends StatelessWidget {
                   child: InkWell(
                     onTap: () async {
                       if (_formKey.currentState.validate()) {
-                        if (signUpController.selectIndexPK(
+                        if (signUpController.selectMajorIndexPK(
                                 signUpController.selectedMajor.value) ==
                             null) {
                           Get.snackbar(
@@ -311,6 +438,12 @@ class MajorInputs extends StatelessWidget {
                         //         signUpController.selectedMajor.value),
                         //     signUpController.admissionYear.value);
                       }
+                      // print("${signUpController.selectedMajor.value}");
+                      // print(
+                      //     "${signUpController.selectDoubleMajorIndexPK(signUpController.selectedMajor.value)}");
+                      // print("${signUpController.selectedDoubleMajor.value}");
+                      // print(
+                      //     "${signUpController.selectDoubleMajorIndexPK(signUpController.selectedDoubleMajor.value)}");
                     },
                     child: Ink(
                       height: 48.0,

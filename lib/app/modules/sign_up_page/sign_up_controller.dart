@@ -16,6 +16,7 @@ class SignUpController extends GetxController {
   SignUpController({@required this.repository}) : assert(repository != null);
 
   RxBool majorSelected = false.obs;
+  RxBool doubleMajorSelected = false.obs;
 
   final idController = TextEditingController();
   final pwController = TextEditingController();
@@ -24,17 +25,19 @@ class SignUpController extends GetxController {
   final nicknameController = TextEditingController();
   final studentIDController = TextEditingController();
   final majorController = TextEditingController();
+  final doubleMajorController = TextEditingController();
 
   // ! 나중엔 신학기 3월마다 숫자 바꾸는 로직 추가해야할듯
   RxInt admissionYear = 2022.obs;
   Future signUp(String id, String pw, String nickname, String studentID,
-      int MAJOR_ID, int ADMISSION_YEAR) async {
+      int MAJOR_ID, int DOUBLE_MAJOR_ID, int ADMISSION_YEAR) async {
     Map<String, String> data = {
       "id": id,
       "pw": pw,
       "nickname": nickname,
       "studentID": studentID,
       "MAJOR_ID": "${MAJOR_ID}",
+      "DOUBLE_MAJOR_ID": "${DOUBLE_MAJOR_ID}",
       "ADMISSION_YEAR": "${ADMISSION_YEAR}"
     };
 
@@ -107,10 +110,12 @@ class SignUpController extends GetxController {
 
   RxInt selectedCollege = 0.obs;
   RxInt selectedMajor = 0.obs;
+  RxInt selectedDoubleMajor = 0.obs;
 
   RxList<CollegeMajorModel> collegeList = <CollegeMajorModel>[].obs;
   RxList<CollegeMajorModel> majorList = <CollegeMajorModel>[].obs;
   RxList<CollegeMajorModel> searchedMajorList = <CollegeMajorModel>[].obs;
+  RxList<CollegeMajorModel> searchedDoubleMajorList = <CollegeMajorModel>[].obs;
 
   Future<void> getMajorInfo() async {
     var response = await Session().getX("/signup/majorInfo");
@@ -229,7 +234,20 @@ class SignUpController extends GetxController {
     // return temp;
   }
 
-  int selectIndexPK(int INDEX) {
+  int selectMajorIndexPK(int INDEX) {
+    int PK = null;
+    for (CollegeMajorModel item in majorList) {
+      if (item.MAJOR_ID == INDEX) {
+        PK = item.MAJOR_ID;
+      }
+    }
+    return PK;
+  }
+
+  int selectDoubleMajorIndexPK(int INDEX) {
+    if (INDEX == 0) {
+      return 0;
+    }
     int PK = null;
     for (CollegeMajorModel item in majorList) {
       if (item.MAJOR_ID == INDEX) {

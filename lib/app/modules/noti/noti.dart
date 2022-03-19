@@ -619,6 +619,8 @@ class ChatItem extends StatelessWidget {
             //   }
             // }
 
+            print("============================");
+            print("${model.value.BOX_ID}");
             await Get.toNamed(Routes.CLASSCHAT,
                     arguments: {"roomID": "${model.value.BOX_ID}"})
                 .then((value) async {

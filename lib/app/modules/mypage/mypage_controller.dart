@@ -5,6 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:polarstar_flutter/app/data/provider/sign_up_provider.dart';
+import 'package:polarstar_flutter/app/data/repository/sign_up_repository.dart';
+import 'package:polarstar_flutter/app/global_widgets/dialoge.dart';
 import 'package:polarstar_flutter/app/global_widgets/pushy_controller.dart';
 import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
@@ -12,6 +15,7 @@ import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/profile/mypage_model.dart';
 import 'package:polarstar_flutter/app/data/repository/profile/mypage_repository.dart';
 import 'package:polarstar_flutter/app/modules/mypage/mypage.dart';
+import 'package:polarstar_flutter/app/modules/sign_up_page/sign_up_controller.dart';
 
 import 'package:polarstar_flutter/session.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +37,7 @@ class MyPageController extends GetxController
   RxList<Rx<Post>> myBoardWrite = <Rx<Post>>[].obs;
   RxList<Rx<Post>> myBoardLike = <Rx<Post>>[].obs;
   RxList<Rx<Post>> myBoardScrap = <Rx<Post>>[].obs;
+  RxBool doubleMajorChanged = false.obs;
 
   RxBool activatePushNoti = false.obs;
 
@@ -52,6 +57,187 @@ class MyPageController extends GetxController
     } else {
       activatePushNoti.value = true;
     }
+  }
+
+//Tdialog 디자인가져옴
+  Future<void> changeDoubleMajor() async {
+    SignUpController signUpController = Get.put(SignUpController(
+        repository: SignUpRepository(apiClient: SignUpApiClient())));
+    await signUpController.getMajorInfo();
+    final doubleMajorFocus = FocusNode();
+    await Get.defaultDialog(
+      titlePadding: const EdgeInsets.only(top: 20.0),
+      titleStyle: const TextStyle(
+          color: const Color(0xff6f6e6e),
+          fontWeight: FontWeight.w400,
+          fontFamily: "NotoSansSC",
+          fontStyle: FontStyle.normal,
+          fontSize: 12.0),
+      contentPadding: const EdgeInsets.only(top: 20),
+      title: "补修专业",
+      content: Column(children: [
+        Container(
+            margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+            child: TextFormField(
+              focusNode: doubleMajorFocus,
+              // onTap: () async {
+              //   await Future.delayed(Duration(milliseconds: 100));
+              //   majorScrollController.animateTo(
+              //       majorScrollController.position.maxScrollExtent,
+              //       duration: Duration(milliseconds: 100),
+              //       curve: Curves.fastOutSlowIn);
+              //   signUpController.majorSelected.value = false;
+              // },
+              style: const TextStyle(
+                  color: const Color(0xff2f2f2f),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Roboto",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
+              textAlign: TextAlign.left,
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.fromLTRB(10.0, 11.0, 10.0, 11.0),
+                  isDense: true,
+                  hintText: "请用韩语输入您的专业",
+                  hintStyle: const TextStyle(
+                      color: const Color(0xffd6d4d4),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "Roboto",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide:
+                          BorderSide(color: const Color(0xffeaeaea), width: 1)),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide:
+                          BorderSide(color: const Color(0xffeaeaea), width: 1)),
+                  border: InputBorder.none),
+              controller: signUpController.doubleMajorController,
+              onChanged: (string) {
+                signUpController.doubleMajorSelected.value = false;
+                print("${signUpController.majorList}");
+                if (string.isEmpty) {
+                  // if the search field is empty or only contains white-space, we'll display all users
+
+                  signUpController.searchedDoubleMajorList.value = [];
+                } else {
+                  signUpController.searchedDoubleMajorList(signUpController
+                      .majorList
+                      .where((major) => major.MAJOR_NAME
+                          .toLowerCase()
+                          .contains(string.toLowerCase()))
+                      .toList());
+                  // we use the toLowerCase() method to make it case-insensitive
+                }
+              },
+            )),
+        Obx(() {
+          return signUpController.doubleMajorSelected.value
+              ? Container()
+              : LimitedBox(
+                  maxHeight: 100.0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      border:
+                          Border.all(color: const Color(0xffeaeaea), width: 1),
+                    ),
+                    child: Obx(() => CupertinoScrollbar(
+                        isAlwaysShown: true,
+                        child: SizedBox(
+                            height: 100,
+                            width: 300,
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: signUpController
+                                    .searchedDoubleMajorList.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: InkWell(
+                                      onTap: () {
+                                        doubleMajorFocus.unfocus();
+                                        signUpController
+                                            .doubleMajorSelected.value = true;
+                                        signUpController
+                                                .doubleMajorController.text =
+                                            signUpController
+                                                .searchedDoubleMajorList[index]
+                                                .MAJOR_NAME;
+                                        signUpController.selectedDoubleMajor(
+                                            signUpController
+                                                .searchedDoubleMajorList[index]
+                                                .MAJOR_ID);
+                                      },
+                                      child: Text(
+                                        signUpController
+                                            .searchedDoubleMajorList[index]
+                                            .MAJOR_NAME,
+                                        style: const TextStyle(
+                                            color: const Color(0xff2f2f2f),
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: "NotoSansKR",
+                                            fontStyle: FontStyle.normal,
+                                            fontSize: 12.0),
+                                      ),
+                                    ),
+                                  );
+                                })))),
+                  ),
+                );
+        }),
+        // 선 122
+        Container(
+            margin: const EdgeInsets.only(top: 20, right: 20, left: 20),
+            width: 280,
+            height: 1,
+            decoration: BoxDecoration(color: const Color(0xffd6d4d4))),
+        Container(
+          height: 50,
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Ink(
+                  child: InkWell(
+                    onTap: () async {
+                      var response = await Session().getX(
+                          "/info/changeDoubleMajor/${signUpController.selectedDoubleMajor.value}");
+
+                      if (response.statusCode == 200) {
+                        myProfile.value.DOUBLE_MAJOR_NAME = signUpController
+                            .majorList[
+                                signUpController.selectedDoubleMajor.value - 1]
+                            .MAJOR_NAME;
+                        Get.back();
+                        Get.back();
+                        Get.snackbar("我换了双重专业", "我换了双重专业");
+                      } else {
+                        Get.snackbar(
+                            "communication error", "communication error");
+                      }
+                    },
+                    child: Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Text("是",
+                            style: const TextStyle(
+                                color: const Color(0xff4570ff),
+                                fontWeight: FontWeight.w400,
+                                fontFamily: "NotoSansSC",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 16.0),
+                            textAlign: TextAlign.center)),
+                  ),
+                )
+              ],
+            ),
+          ),
+        )
+      ]),
+    );
   }
 
   RxBool isPushySetting = false.obs;
