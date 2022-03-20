@@ -6,8 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:polarstar_flutter/app/modules/write_post/write_post_controller.dart';
 import 'package:polarstar_flutter/app/modules/init_page/init_controller.dart';
 
-import 'package:polarstar_flutter/app/global_widgets/pushy_controller.dart';
-
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/board/write_post_model.dart';
 import 'package:polarstar_flutter/app/global_widgets/dialoge.dart';

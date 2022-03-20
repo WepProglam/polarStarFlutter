@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/data/model/login_model.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
+import 'package:polarstar_flutter/app/modules/init_page/pushy_controller.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/session.dart';
 
@@ -50,6 +51,9 @@ class LoginController extends GetxController {
 
     switch (response["statusCode"]) {
       case 200:
+        await PushyController.refreshDeviceToken();
+        PushyController pushyController = Get.find();
+        pushyController.push_register_total();
         // Get.snackbar("登陆成功", "登陆成功");
 
         break;
@@ -121,6 +125,10 @@ class LoginController extends GetxController {
           await box.write('isAutoLogin', false);
           await box.save();
         }
+
+        await PushyController.refreshDeviceToken();
+        PushyController pushyController = Get.find();
+        pushyController.push_register_total();
         // print(box.read("id"));
         // Get.offAndToNamed(Routes.INITIAL, arguments: "fromLogin");
         // Get.offAndToNamed('/main');

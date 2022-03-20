@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:polarstar_flutter/app/modules/init_page/pushy_controller.dart';
 import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
 import 'package:polarstar_flutter/app/modules/photo_layout/photo_controller.dart';
-import 'package:polarstar_flutter/app/global_widgets/pushy_controller.dart';
 
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/repository/board/post_repository.dart';
@@ -57,7 +57,7 @@ class PostController extends GetxController {
   RxBool isSubscribed = false.obs;
 
   Future<void> checkSubscribe(String topic) async {
-    if (await PuhsyController.checkSubscribe(topic)) {
+    if (await PushyController.checkSubscribe(topic)) {
       isSubscribed.value = true;
     } else {
       isSubscribed.value = false;
@@ -69,7 +69,7 @@ class PostController extends GetxController {
   Future<void> pushySubscribe(String topic) async {
     isPushySubUnsubcribing.value = true;
     print("subs ${topic}");
-    if (await PuhsyController.pushySubscribe(topic) == 200) {
+    if (await PushyController.pushySubscribe(topic) == 200) {
       print("??");
       isSubscribed.value = true;
     } else {}
@@ -79,7 +79,7 @@ class PostController extends GetxController {
   Future<void> pushyUnsubscribe(String topic) async {
     isPushySubUnsubcribing.value = true;
     print("unsubs ${topic}");
-    if (await PuhsyController.pushyUnsubscribe(topic) == 200) {
+    if (await PushyController.pushyUnsubscribe(topic) == 200) {
       print("!!");
 
       isSubscribed.value = false;

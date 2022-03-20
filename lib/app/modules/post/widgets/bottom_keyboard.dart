@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/modules/post/post_controller.dart';
 import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
-import 'package:polarstar_flutter/app/global_widgets/pushy_controller.dart';
 
 import 'package:polarstar_flutter/app/global_widgets/dialoge.dart';
 

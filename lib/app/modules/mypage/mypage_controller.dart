@@ -9,8 +9,8 @@ import 'package:polarstar_flutter/app/data/model/sign_up_model.dart';
 import 'package:polarstar_flutter/app/data/provider/sign_up_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/sign_up_repository.dart';
 import 'package:polarstar_flutter/app/global_widgets/dialoge.dart';
-import 'package:polarstar_flutter/app/global_widgets/pushy_controller.dart';
 import 'package:polarstar_flutter/app/modules/classChat/class_chat_controller.dart';
+import 'package:polarstar_flutter/app/modules/init_page/pushy_controller.dart';
 import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
@@ -264,7 +264,7 @@ class MyPageController extends GetxController
       isPushySetting.value = true;
 
       String keyName = "activatePushNoti";
-      if (await PuhsyController.pushySubscribe("*") == 200) {
+      if (await PushyController.pushySubscribe("*") == 200) {
         isPushySetting.value = false;
         box.write(keyName, true);
 
@@ -286,7 +286,7 @@ class MyPageController extends GetxController
       isPushySetting.value = true;
 
       String keyName = "activatePushNoti";
-      if (await PuhsyController.pushyUnsubscribe("*") == 200) {
+      if (await PushyController.pushyUnsubscribe("*") == 200) {
         isPushySetting.value = false;
         box.write(keyName, false);
 

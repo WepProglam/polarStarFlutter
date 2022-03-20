@@ -23,8 +23,8 @@ class Session extends GetConnect {
 
   static String user_id;
   static String user_pw;
-// http://3.39.76.247:3000   http://10.0.2.2:52324 http://localhost:52324
-
+// http://3.39.76.247:3000    http://localhost:52324  http://10.0.2.2:52324
+  // https://polarstar-beta.com
   final String _basicUrl = 'https://polarstar-beta.com';
 
   Future reLogin() async {

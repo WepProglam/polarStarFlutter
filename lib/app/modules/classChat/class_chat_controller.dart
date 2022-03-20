@@ -3,27 +3,17 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-
-import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
-import 'package:image_size_getter/image_size_getter.dart';
 
-import 'package:polarstar_flutter/app/data/repository/class/class_repository.dart';
-import 'package:image_size_getter/file_input.dart';
-import 'package:polarstar_flutter/app/global_widgets/pushy_controller.dart';
+import 'package:polarstar_flutter/app/modules/init_page/pushy_controller.dart';
 import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:path/path.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
@@ -82,7 +72,7 @@ class ClassChatController extends GetxController {
   RxBool isSubscribed = false.obs;
 
   Future<void> checkSubscribe(String topic) async {
-    if (await PuhsyController.checkSubscribe(topic)) {
+    if (await PushyController.checkSubscribe(topic)) {
       isSubscribed.value = true;
     } else {
       isSubscribed.value = false;
@@ -94,7 +84,7 @@ class ClassChatController extends GetxController {
   Future<void> pushySubscribe(String topic) async {
     isPushySubUnsubcribing.value = true;
     print("subs ${topic}");
-    if (await PuhsyController.pushySubscribe(topic) == 200) {
+    if (await PushyController.pushySubscribe(topic) == 200) {
       print("??");
       isSubscribed.value = true;
     } else {}
@@ -104,7 +94,7 @@ class ClassChatController extends GetxController {
   Future<void> pushyUnsubscribe(String topic) async {
     isPushySubUnsubcribing.value = true;
     print("unsubs ${topic}");
-    if (await PuhsyController.pushyUnsubscribe(topic) == 200) {
+    if (await PushyController.pushyUnsubscribe(topic) == 200) {
       print("!!");
 
       isSubscribed.value = false;

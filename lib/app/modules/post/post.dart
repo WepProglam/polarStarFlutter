@@ -3,11 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/modules/post/post_controller.dart';
-import 'package:polarstar_flutter/app/global_widgets/pushy_controller.dart';
 import 'package:polarstar_flutter/app/modules/post/widgets/bottom_keyboard.dart';
 import 'package:polarstar_flutter/app/modules/board/widgets/post_layout.dart';
 import 'package:polarstar_flutter/app/global_functions/board_name.dart';
-import 'package:pushy_flutter/pushy_flutter.dart';
 
 class Post extends StatelessWidget {
   final mailWriteController = TextEditingController();

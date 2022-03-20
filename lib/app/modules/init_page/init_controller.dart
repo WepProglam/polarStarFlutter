@@ -86,17 +86,6 @@ class InitController extends GetxController {
     return response;
   }
 
-  Future refreshDeviceToken() async {
-    try {
-      print("device token");
-      print(deviceToken);
-      await Session().postX("/login/deviceToken", {"deviceToken": deviceToken});
-      print("sibal");
-    } catch (e) {
-      print(e);
-    }
-  }
-
   Future<bool> checkLogin() async {
     //print(box.read("id"));'
     print("login");
@@ -105,7 +94,9 @@ class InitController extends GetxController {
 
       switch (res["statusCode"]) {
         case 200:
-          await refreshDeviceToken();
+          await PushyController.refreshDeviceToken();
+          PushyController pushyController = Get.find();
+          pushyController.push_register_total();
 
           return true;
           break;
