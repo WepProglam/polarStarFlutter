@@ -612,8 +612,8 @@ void CreateNewTimetable(
     Function ontapCancel = () {
       Get.back();
     };
-    TFdialogue(Get.context, "目前您还未生成该学期的时间表",
-        "确定生成${year}学年度 第${semester}学期的时间表吗？ ", ontapConfirm, ontapCancel);
+    TFdialogue("目前您还未生成该学期的时间表", "确定生成${year}学年度 第${semester}学期的时间表吗？ ",
+        ontapConfirm, ontapCancel);
   } else {
     bool canGo = await tc.canGoClassSearchPage(year, semester);
     if (canGo) {

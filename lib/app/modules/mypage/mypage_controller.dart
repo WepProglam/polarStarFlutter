@@ -5,16 +5,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:polarstar_flutter/app/data/model/sign_up_model.dart';
 import 'package:polarstar_flutter/app/data/provider/sign_up_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/sign_up_repository.dart';
 import 'package:polarstar_flutter/app/global_widgets/dialoge.dart';
 import 'package:polarstar_flutter/app/global_widgets/pushy_controller.dart';
+import 'package:polarstar_flutter/app/modules/classChat/class_chat_controller.dart';
 import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/board_model.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/profile/mypage_model.dart';
 import 'package:polarstar_flutter/app/data/repository/profile/mypage_repository.dart';
 import 'package:polarstar_flutter/app/modules/mypage/mypage.dart';
+import 'package:polarstar_flutter/app/modules/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/modules/sign_up_page/sign_up_controller.dart';
 
 import 'package:polarstar_flutter/session.dart';
@@ -66,7 +69,7 @@ class MyPageController extends GetxController
     await signUpController.getMajorInfo();
     final doubleMajorFocus = FocusNode();
     await Get.defaultDialog(
-      titlePadding: const EdgeInsets.only(top: 20.0),
+      titlePadding: const EdgeInsets.only(top: 16.0),
       titleStyle: const TextStyle(
           color: const Color(0xff6f6e6e),
           fontWeight: FontWeight.w400,
@@ -77,7 +80,10 @@ class MyPageController extends GetxController
       title: "补修专业",
       content: Column(children: [
         Container(
-            margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+            margin: const EdgeInsets.only(bottom: 24.0, left: 20, right: 20),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(22)),
+                color: const Color(0xfff5f5f5)),
             child: TextFormField(
               focusNode: doubleMajorFocus,
               // onTap: () async {
@@ -96,7 +102,7 @@ class MyPageController extends GetxController
                   fontSize: 14.0),
               textAlign: TextAlign.left,
               decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(10.0, 11.0, 10.0, 11.0),
+                  contentPadding: EdgeInsets.fromLTRB(20.0, 11.0, 10.0, 11.0),
                   isDense: true,
                   hintText: "请用韩语输入您的专业",
                   hintStyle: const TextStyle(
@@ -106,11 +112,11 @@ class MyPageController extends GetxController
                       fontStyle: FontStyle.normal,
                       fontSize: 14.0),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(22),
                       borderSide:
                           BorderSide(color: const Color(0xffeaeaea), width: 1)),
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(22),
                       borderSide:
                           BorderSide(color: const Color(0xffeaeaea), width: 1)),
                   border: InputBorder.none),
@@ -190,7 +196,7 @@ class MyPageController extends GetxController
         }),
         // 선 122
         Container(
-            margin: const EdgeInsets.only(top: 20, right: 20, left: 20),
+            margin: const EdgeInsets.only(right: 20, left: 20),
             width: 280,
             height: 1,
             decoration: BoxDecoration(color: const Color(0xffd6d4d4))),
@@ -208,13 +214,24 @@ class MyPageController extends GetxController
                           "/info/changeDoubleMajor/${signUpController.selectedDoubleMajor.value}");
 
                       if (response.statusCode == 200) {
-                        myProfile.value.DOUBLE_MAJOR_NAME = signUpController
-                            .majorList[
-                                signUpController.selectedDoubleMajor.value - 1]
-                            .MAJOR_NAME;
+                        // * 시간표 수업 추가 시 noti page 업데이트(채팅 방)
+
+                        myProfile.update((val) async {
+                          // * Rx Object update 할때는 .update 메서드 사용
+                          // ! MAJOR_ID가 인덱스랑 다름 => 기존 majorList[index - 1]에서 변경
+                          val.DOUBLE_MAJOR_NAME = signUpController.majorList
+                              .firstWhere((CollegeMajorModel item) =>
+                                  item.MAJOR_ID ==
+                                  signUpController.selectedDoubleMajor.value)
+                              .MAJOR_NAME;
+
+                          await MainUpdateModule.updateNotiPage(
+                            1,
+                          );
+                        });
+
                         Get.back();
-                        Get.back();
-                        Get.snackbar("我换了双重专业", "我换了双重专业");
+                        // Get.snackbar("我换了双重专业", "我换了双重专业");
                       } else {
                         Get.snackbar(
                             "communication error", "communication error");

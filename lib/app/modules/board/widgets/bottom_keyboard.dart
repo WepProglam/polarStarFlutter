@@ -150,7 +150,6 @@ class BottomKeyboard extends StatelessWidget {
                         };
                         // await c.putComment(c.putUrl.value, commentData);
                         TFdialogue(
-                            Get.context,
                             "修改帖子回复",
                             "确定修改帖子回复为${commentData['content']}吗？",
                             ontapConfirm,

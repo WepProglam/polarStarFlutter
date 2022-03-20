@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/modules/init_page/pushy_controller.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
-// import 'package:polarstar_flutter/app/translations/app_translations.dart';
-// import 'app/ui/theme/app_theme.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/services.dart';
@@ -16,52 +15,18 @@ class MyBehavior extends ScrollBehavior {
   }
 }
 
-// void checkFcmToken(InitController initController) async {
-//   String tempFcmToken = await initController.checkFcmToken();
-//   if (initController.needRefreshToken(tempFcmToken)) {
-//     await initController.tokenRefresh(tempFcmToken);
-//   }
-//   return;
-// }
-
-// // TODO: 스낵바 모양
-// void onforegroundMessage() {
-//   // if (Platform.isIOS) iOS_Permission();
-//   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-//     Get.snackbar(
-//         "${message.notification.title}", "${message.notification.body}",
-//         snackPosition: SnackPosition.TOP);
-//   });
-// }
-
-// // TODO: 백그라운드에서 알림 스낵바 & 클릭했을때 이동 & 플랫폼 옵션 (app key, api key)
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   // If you're going to use other Firebase services in the background, such as Firestore,
-//   // make sure you call `initializeApp` before using other Firebase services.
-//   await Firebase.initializeApp(options: DefaultFirebaseConfig.platformOptions);
-//   String noti_type = message.data["type"];
-//   String url = message.data["url"];
-
-//   // if (noti_type == "댓글") {
-//   //   String temp = url.split("board/")[1];
-//   //   int community_id = int.parse(temp.split("/read/")[0]);
-//   //   int board_id = int.parse(temp.split("/read/")[1]);
-//   //   Get.toNamed("/board/$community_id/read/$board_id");
-//   // }
-
-//   print("Handling a background message: ${message.messageId}");
-//   print("Handling a background message: ${message.data}");
-// }
-
 IO.Socket classChatSocket;
 
 void main() async {
-  await GetStorage.init();
-
-  // await Firebase.initializeApp();
-
-  WidgetsFlutterBinding.ensureInitialized();
-  await FlutterDownloader.initialize();
+  try {
+    await GetStorage.init();
+    WidgetsFlutterBinding.ensureInitialized();
+    PushyController pushyController = Get.put(PushyController());
+    pushyController.push_register_total();
+    await FlutterDownloader.initialize();
+  } catch (e) {
+    print(e);
+  }
 
   runApp(GetMaterialApp(
     builder: (BuildContext context, Widget child) {
@@ -81,13 +46,10 @@ void main() async {
     debugShowCheckedModeBanner: false,
     // ! Route로 가면 자동으로 binding 됨
     // ! 여기서 binding하면 binding 총 2번 실행됨
-    // initialBinding: isLogined ? MainBinding() : LoginBinding(),
     initialRoute: Routes.INITIAL,
-    // theme: appThemeData,
-    // defaultTransition: Transition.cupertino,
+    defaultTransition: Transition.cupertino,
     getPages: AppPages.pages,
     locale: Locale('pt', 'BR'),
-    // translationsKeys: AppTranslation.translations,
   ));
 }
 

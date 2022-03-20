@@ -354,8 +354,8 @@ void showSetting(
                         Function ontapCancel = () {
                           Get.back();
                         };
-                        await TFdialogue(Get.context, "确定删除该时间表吗？",
-                            "确定删除该时间表吗？", ontapConfirm, ontapCancel);
+                        await TFdialogue("确定删除该时间表吗？", "确定删除该时间表吗？",
+                            ontapConfirm, ontapCancel);
                       },
                     ),
                     TimeTableSettingItem(
@@ -372,8 +372,8 @@ void showSetting(
                           Get.back();
                         };
 
-                        await TFdialogue(Get.context, "您要将其设置成默认时间表吗？",
-                            "您要将其设置成默认时间表吗？", ontapConfirm, ontapCancel);
+                        await TFdialogue("您要将其设置成默认时间表吗？", "您要将其设置成默认时间表吗？",
+                            ontapConfirm, ontapCancel);
                       },
                     ),
                     // TimeTableSettingItem(

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:polarstar_flutter/app/modules/init_page/pushy_controller.dart';
+import 'package:polarstar_flutter/app/modules/board/board_controller.dart';
 import 'package:polarstar_flutter/app/modules/noti/noti_controller.dart';
 
 import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
@@ -17,8 +20,6 @@ import 'package:polarstar_flutter/session.dart';
 import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
 import 'package:polarstar_flutter/app/data/provider/main/main_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/main/main_repository.dart';
-
-import 'package:pushy_flutter/pushy_flutter.dart';
 
 class InitController extends GetxController {
   final LoginRepository repository;
@@ -36,84 +37,6 @@ class InitController extends GetxController {
   //   });
   //   return FcmToken;
   // }
-
-  String current_version = "1.0";
-  Future<void> versionCheck() async {
-    try {
-      //현재 앱 버전
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      // var storeVersion = Platform.isAndroid
-      //     ? await _getAndroidStoreVersion(packageInfo)
-      //     : Platform.isIOS
-      //         ? await _getiOSStoreVersion(packageInfo)
-      //         : "";
-      current_version = packageInfo.version;
-
-      print("current_version: ${current_version}");
-      int current_buildNumber = int.tryParse(packageInfo.buildNumber);
-
-      Map<String, String> response = await repository.versionCheck();
-      print(response);
-      final int status = int.parse(response["status"]);
-
-      if (status != 200) {
-        print("versionCheck failed");
-        return;
-      }
-
-      final String latest_version = response["latest_version"];
-      int latest_buildNumber = int.tryParse(latest_version.split("+")[1]);
-
-      // print("latest_version: ${latest_version}");
-
-      final String min_version = response["min_version"];
-      int min_buildNumber = int.tryParse(min_version.split("+")[1]);
-
-      // print("min_version: ${min_version}");
-
-      //version check 실패
-      if (!(current_buildNumber != null &&
-          latest_buildNumber != null &&
-          min_buildNumber != null)) {
-        print("versionCheck failed");
-        return;
-      }
-      Function onTapConfirm = () async {
-        LaunchReview.launch();
-        LaunchReview.launch(
-            androidAppId: "com.polarstar.polarStar", iOSAppId: "1608688540");
-        if (Platform.isIOS) {
-          exit(0);
-        } else {
-          SystemNavigator.pop();
-        }
-      };
-      if (current_buildNumber < min_buildNumber) {
-        //업데이트 해야함(필수)
-
-        await Tdialogue(
-            Get.context, "软件检测到新版本必须更新后使用", "软件检测到新版本必须更新后使用", onTapConfirm);
-      } else if (current_buildNumber > latest_buildNumber) {
-        //이건 오류(build number 잘못 입력됨)
-        print("versionCheck failed");
-
-        //SystemNavigator.pop();
-
-        return;
-      } else if (current_buildNumber < latest_buildNumber) {
-        //업데이트 권장
-        await TFdialogue(Get.context, "通知", "目前软件版本过低 建议更新至最新版本", onTapConfirm,
-            () {
-          Get.back();
-        });
-      } else {
-        //버전 잘 맞음 (current_buildNumber == latest_buildNumber)
-        print("LATEST VERSION");
-      }
-    } catch (err) {
-      print(err);
-    }
-  }
 
   bool needRefreshToken(String curFcmToken) {
     String oldFcmToken = box.read("FcmToken");
@@ -135,17 +58,6 @@ class InitController extends GetxController {
 
     //print("fcm return : ${response}");
     return;
-  }
-
-  Future refreshDeviceToken() async {
-    try {
-      print("device token");
-      print(deviceToken);
-      await Session().postX("/login/deviceToken", {"deviceToken": deviceToken});
-      print("sibal");
-    } catch (e) {
-      print(e);
-    }
   }
 
   Future autoLogin(String id, String pw) async {
@@ -178,138 +90,14 @@ class InitController extends GetxController {
     return response;
   }
 
-  void pushyClickListener() {
-    // Listen for push notification clicked
-    Pushy.setNotificationClickListener((Map<String, dynamic> data) {
-      // Print notification payload data
-      print('Notification clicked: $data');
-
-      switch (data["NOTI_TYPE"].toString()) {
-        // * 커뮤니티
-        case "0":
-          Get.toNamed(
-              "/board/${data["URL"].toString().split("/")[1]}/read/${data["URL"].toString().split("/")[3]}");
-          break;
-        // * 개인 공지
-        case "3":
-          Get.toNamed(Routes.NOTI);
-          print("??");
-          break;
-        // * 전체 공지
-        case "4":
-          Get.toNamed(Routes.NOTI);
-          print("??");
-          break;
-        // * 핫보드 알림
-        case "8":
-          Get.toNamed(
-              "/board/${data["URL"].toString().split("/")[1]}/read/${data["URL"].toString().split("/")[3]}");
-          break;
-        default:
-          break;
-      }
-    });
-  }
-
-  // Please place this code in main.dart,
-  // After the import statements, and outside any Widget class (top-level)
-  void backgroundNotificationListener(Map<String, dynamic> data) {
-    // Print notification payload data
-    print('Received notification: $data');
-
-    // Notification title
-    String notificationTitle = data['TITLE'];
-
-    // Attempt to extract the "message" property from the payload: {"message":"Hello World!"}
-    String notificationText = data['CONTENT'];
-
-    String url = data["URL"];
-
-    if (Get.isRegistered<NotiController>()) {
-      print("registered");
-      NotiController notiController = Get.find<NotiController>();
-      switch (data["NOTI_TYPE"].toString()) {
-        // * 커뮤니티
-        case "0":
-          notiController.noties.insert(0, NotiModel.fromJson(data).obs);
-          break;
-        // * 개인 공지
-        case "3":
-          notiController.noties.insert(0, NotiModel.fromJson(data).obs);
-          break;
-        // * 전체 공지
-        case "4":
-          notiController.noties.insert(0, NotiModel.fromJson(data).obs);
-          break;
-        // * 핫보드 알림
-        case "8":
-          notiController.noties.insert(0, NotiModel.fromJson(data).obs);
-          break;
-        default:
-          break;
-      }
-    } else {
-      print("not registed");
-    }
-
-    // Android: Displays a system notification
-    // iOS: Displays an alert dialog
-    // if (Platform.isIOS) {
-    // } else {
-    //   Pushy.notify(notificationTitle, notificationText, data);
-    // }
-
-    Pushy.notify(notificationTitle, notificationText, data);
-  }
-
-  String deviceToken;
-
-  Future pushyRegister() async {
-    print("pushy Register");
+  Future refreshDeviceToken() async {
     try {
-      // Register the user for push notifications
-      deviceToken = await Pushy.register();
-
-      // Print token to console/logcat
-      print('Device token: $deviceToken');
-
-      // Display an alert with the device token
-      // showDialog(
-      //     context: Get.context,
-      //     builder: (BuildContext context) {
-      //       return AlertDialog(
-      //           title: Text('Pushy'),
-      //           content: Text('Pushy device token: $deviceToken'),
-      //           actions: [
-      //             FlatButton(
-      //                 child: Text('OK'),
-      //                 onPressed: () {
-      //                   Navigator.of(context, rootNavigator: true)
-      //                       .pop('dialog');
-      //                 })
-      //           ]);
-      //     });
-
-      // Optionally send the token to your backend server via an HTTP GET request
-      // ...
-    } on PlatformException catch (error) {
-      print(error);
-      // Display an alert with the error message
-      // showDialog(
-      //     context: Get.context,
-      //     builder: (BuildContext context) {
-      //       return AlertDialog(
-      //           title: Text('Error'),
-      //           content: Text(error.message),
-      //           actions: [
-      //             FlatButton(
-      //                 child: Text('OK'),
-      //                 onPressed: () {
-      //                   Navigator.of(context, rootNavigator: true)
-      //                       .pop('dialog');
-      //                 })
-      //           ]);
-      //     });
+      print("device token");
+      print(deviceToken);
+      await Session().postX("/login/deviceToken", {"deviceToken": deviceToken});
+      print("sibal");
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -318,8 +106,6 @@ class InitController extends GetxController {
     print("login");
     if (box.hasData('isAutoLogin') && box.hasData('id') && box.hasData('pw')) {
       var res = await autoLogin(box.read('id'), box.read('pw'));
-      // print(box.read('id'));
-      //  print("login!!");
 
       switch (res["statusCode"]) {
         case 200:
@@ -337,26 +123,95 @@ class InitController extends GetxController {
     return false;
   }
 
+  String current_version = "1.0";
+
+  Future<void> versionCheck() async {
+    //현재 앱 버전
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    current_version = packageInfo.version;
+
+    print("current_version: ${current_version}");
+    int current_buildNumber = int.tryParse(packageInfo.buildNumber);
+
+    final response = await Session().getX('/versionCheck');
+    final jsonResponse = await jsonDecode(response.body);
+
+    bool versionCheckSuccess = (response.statusCode == 200);
+
+    if (!versionCheckSuccess) {
+      print("versionCheck Fetch Failed");
+      return;
+    }
+
+    final String latest_version = jsonResponse["latest_version"];
+    int latest_buildNumber = int.tryParse(latest_version.split("+")[1]);
+
+    // print("latest_version: ${latest_version}");
+
+    final String min_version = jsonResponse["min_version"];
+    int min_buildNumber = int.tryParse(min_version.split("+")[1]);
+
+    // print("min_version: ${min_version}");
+
+    //version check 실패
+    if (!(current_buildNumber != null &&
+        latest_buildNumber != null &&
+        min_buildNumber != null)) {
+      print("versionCheck failed");
+      return;
+    }
+    Function onTapConfirm = () async {
+      LaunchReview.launch(
+          androidAppId: "com.polarstar.polarStar", iOSAppId: "1608688540");
+      if (Platform.isIOS) {
+        exit(0);
+      } else {
+        SystemNavigator.pop();
+      }
+    };
+
+    print(current_buildNumber);
+    print(min_buildNumber);
+    print(latest_buildNumber);
+
+    if (current_buildNumber < min_buildNumber) {
+      //업데이트 해야함(필수)
+
+      await Tdialogue(
+          Get.context, "软件检测到新版本必须更新后使用", "软件检测到新版本必须更新后使用", onTapConfirm);
+    } else if (current_buildNumber > latest_buildNumber) {
+      //이건 오류(build number 잘못 입력됨)
+      print("versionCheck failed");
+
+      //SystemNavigator.pop();
+
+      return;
+    } else if (current_buildNumber < latest_buildNumber) {
+      print(("업데이트 권장"));
+      //업데이트 권장
+
+      await TFdialogue("通知", "目前软件版本过低 建议更新至最新版本", onTapConfirm, () {});
+    } else {
+      //버전 잘 맞음 (current_buildNumber == latest_buildNumber)
+      print("LATEST VERSION");
+    }
+    // } catch (err) {
+    //   print(err);
+    // }
+  }
+
   @override
   void onInit() async {
     opacityControl(true);
     super.onInit();
-    await versionCheck();
-    print("init");
-    Pushy.listen();
-    print("listen");
-    await pushyRegister();
-    print("register");
-
-    Pushy.setNotificationIcon('ic_launcher');
-
     opacityControl(false);
+    await versionCheck();
 
     print("init controller init");
     if (Get.arguments == "fromLogin") {
       isLogined(true);
       print("refresh device token");
-      await refreshDeviceToken();
       print("refresh device token");
     } else {
       isLogined(await checkLogin());
@@ -386,12 +241,7 @@ class InitController extends GetxController {
       Get.toNamed(Routes.MAIN_PAGE);
       print("main page");
       // Enable in-app notification banners (iOS 10+)
-      Pushy.toggleInAppBanner(false);
-      print("toggle app bar");
-      // Listen for push notifications received
-      Pushy.setNotificationListener(backgroundNotificationListener);
-      pushyClickListener();
-      Pushy.clearBadge();
+
     } else {
       Get.offAndToNamed('/login');
     }
@@ -463,7 +313,7 @@ class ManagePermission {
       Get.back();
     };
 
-    await TFdialogue(Get.context, "权限未授予", "因$target权限管理将移动至软件设置管理",
-        onTapConfirm, onTapCancel);
+    await TFdialogue(
+        "权限未授予", "因$target权限管理将移动至软件设置管理", onTapConfirm, onTapCancel);
   }
 }

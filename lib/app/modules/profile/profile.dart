@@ -358,6 +358,8 @@ class Profile extends StatelessWidget {
                                                         TextAlign.left))),
                                       ])),
                                   Obx(() {
+                                    print(myPageController
+                                        .myProfile.value.DOUBLE_MAJOR_NAME);
                                     return myPageController.myProfile.value
                                                 .DOUBLE_MAJOR_NAME !=
                                             null
@@ -399,22 +401,24 @@ class Profile extends StatelessWidget {
                                                   child: Container(
                                                       margin: EdgeInsets.only(
                                                           right: 0),
-                                                      child: Text(
-                                                          "${myPageController.myProfile.value.DOUBLE_MAJOR_NAME}",
-                                                          style: const TextStyle(
-                                                              color: const Color(
-                                                                  0xff9b9b9b),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontFamily:
-                                                                  "NotoSansKR",
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .normal,
-                                                              fontSize: 14.0),
-                                                          textAlign:
-                                                              TextAlign.left))),
+                                                      child: Obx(() {
+                                                        return Text(
+                                                            "${myPageController.myProfile.value.DOUBLE_MAJOR_NAME}",
+                                                            style: const TextStyle(
+                                                                color: const Color(
+                                                                    0xff9b9b9b),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                fontFamily:
+                                                                    "NotoSansKR",
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .normal,
+                                                                fontSize: 14.0),
+                                                            textAlign:
+                                                                TextAlign.left);
+                                                      }))),
                                             ]))
                                         : InkWell(
                                             onTap: () {

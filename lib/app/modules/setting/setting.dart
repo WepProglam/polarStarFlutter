@@ -16,6 +16,7 @@ import 'package:polarstar_flutter/app/modules/claa_view/widgets/app_bars.dart';
 import 'package:polarstar_flutter/app/modules/sign_up_major/sign_up_major.dart';
 import 'package:polarstar_flutter/app/global_widgets/dialoge.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
+import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:pushy_flutter/pushy_flutter.dart';
@@ -26,7 +27,6 @@ class Setting extends StatelessWidget {
   final MainController mainController = Get.find();
   final InitController initController = Get.find();
   final MyPageController myPageController = Get.find();
-
   @override
   Widget build(BuildContext context) {
     return Container(

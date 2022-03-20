@@ -131,5 +131,5 @@ void sendClassChatMail(int TARGET_PROFILE_ID,
     Get.back();
     mailWriteController.clear();
   };
-  TFdialogue(Get.context, "发送私信", "确定要给对方发送私信吗?", ontapConfirm, ontapCancel);
+  TFdialogue("发送私信", "确定要给对方发送私信吗?", ontapConfirm, ontapCancel);
 }

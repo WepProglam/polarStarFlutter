@@ -422,6 +422,17 @@ class MajorInputs extends StatelessWidget {
                               colorText: Colors.black);
                           return;
                         }
+
+                        if (signUpController.selectedMajor.value ==
+                            signUpController.selectedDoubleMajor.value) {
+                          Get.snackbar("Duplicate Double Major",
+                              "Duplicate Double Major",
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.white,
+                              colorText: Colors.black);
+                          return;
+                        }
+
                         // Get.to(
                         //     CommunityRule(
                         //       isSignUp: true,

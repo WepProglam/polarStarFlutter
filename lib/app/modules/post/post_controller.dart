@@ -201,7 +201,7 @@ class PostController extends GetxController {
     Function onTapCancel = () {
       Get.back();
     };
-    TFdialogue(Get.context, "删除帖子", "确定要删除帖子吗？", onTapConfirm, onTapCancel);
+    TFdialogue("删除帖子", "确定要删除帖子吗？", onTapConfirm, onTapCancel);
     // Get.defaultDialog(title: "删除帖子", middleText: "确定要删除帖子吗？", actions: [
     //   TextButton(
     //       onPressed: () async {

@@ -22,7 +22,7 @@ Future<void> updatePostFunc(Rx<Post> item) async {
   Function ontapCancel = () {
     Get.back();
   };
-  await TFdialogue(Get.context, "修改帖子", "确定要修改帖子吗？", ontapConfirm, ontapCancel);
+  await TFdialogue("修改帖子", "确定要修改帖子吗？", ontapConfirm, ontapCancel);
 }
 
 Future<void> deletePostFunc(Rx<Post> item, PostController c) async {

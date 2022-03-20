@@ -216,7 +216,7 @@ class MyPageProfile extends StatelessWidget {
                         Function onTapCancel = () async {
                           Get.back();
                         };
-                        await TFdialogue(context, "想要退出账号登陆吗？", "想要退出账号登陆吗？",
+                        await TFdialogue("想要退出账号登陆吗？", "想要退出账号登陆吗？",
                             onTapConfirm, onTapCancel);
 
                         //   // actions: [

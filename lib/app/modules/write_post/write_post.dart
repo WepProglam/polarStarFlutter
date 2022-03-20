@@ -157,7 +157,6 @@ class WritePost extends StatelessWidget {
                           };
 
                           await TFdialogue(
-                              Get.context,
                               c.putOrPost == "put" ? "修改帖子 " : "发表帖子",
                               c.putOrPost == "put" ? "确定修改帖子内容吗？" : "确定发表帖子吗？",
                               ontapConfirm,

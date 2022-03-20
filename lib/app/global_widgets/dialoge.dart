@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/modules/mailHistory/mail_controller.dart';
 
-Future<void> TFdialogue(BuildContext context, String title, String content,
-    Function ontapConfirm, Function ontapCancel) async {
+Future<void> TFdialogue(String title, String content, Function ontapConfirm,
+    Function ontapCancel) async {
   await Get.defaultDialog(
     titlePadding: const EdgeInsets.only(top: 20.0),
     titleStyle: const TextStyle(
