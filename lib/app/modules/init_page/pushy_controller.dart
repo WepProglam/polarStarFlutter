@@ -67,17 +67,17 @@ class PushyController extends GetxController with WidgetsBindingObserver {
       print("not registed");
     }
 
-    if (Platform.isIOS) {
-      Pushy.notify(notificationTitle, notificationText, data);
-    } else {
-      switch (WidgetsBinding.instance.lifecycleState) {
-        case AppLifecycleState.resumed:
-          break;
-        default:
-          Pushy.notify(notificationTitle, notificationText, data);
-          break;
-      }
+    // if (Platform.isIOS) {
+    //   Pushy.notify(notificationTitle, notificationText, data);
+    // } else {
+    switch (WidgetsBinding.instance.lifecycleState) {
+      case AppLifecycleState.resumed:
+        break;
+      default:
+        Pushy.notify(notificationTitle, notificationText, data);
+        break;
     }
+    // }
   }
 
   Future pushyRegister() async {
@@ -100,8 +100,9 @@ class PushyController extends GetxController with WidgetsBindingObserver {
       switch (data["NOTI_TYPE"].toString()) {
         // * 커뮤니티
         case "0":
-          Get.toNamed(
-              "/board/${data["URL"].toString().split("/")[1]}/read/${data["URL"].toString().split("/")[3]}");
+          Get.toNamed(Routes.NOTI);
+          // Get.toNamed(
+          //     "/board/${data["URL"].toString().split("/")[1]}/read/${data["URL"].toString().split("/")[3]}");
           break;
         // * 개인 공지
         case "3":
@@ -115,13 +116,15 @@ class PushyController extends GetxController with WidgetsBindingObserver {
           break;
         // * 핫보드 알림
         case "8":
-          Get.toNamed(
-              "/board/${data["URL"].toString().split("/")[1]}/read/${data["URL"].toString().split("/")[3]}");
+          Get.toNamed(Routes.NOTI);
+          // Get.toNamed(
+          //     "/board/${data["URL"].toString().split("/")[1]}/read/${data["URL"].toString().split("/")[3]}");
           break;
         default:
           break;
       }
     });
+    Pushy.clearBadge();
   }
 
   onClose() {
