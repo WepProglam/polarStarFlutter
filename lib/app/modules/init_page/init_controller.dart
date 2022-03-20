@@ -8,10 +8,6 @@ import 'package:launch_review/launch_review.dart';
 import 'package:package_info/package_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polarstar_flutter/app/modules/init_page/pushy_controller.dart';
-import 'package:polarstar_flutter/app/modules/board/board_controller.dart';
-import 'package:polarstar_flutter/app/modules/noti/noti_controller.dart';
-
-import 'package:polarstar_flutter/app/data/model/noti/noti_model.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/global_widgets/dialoge.dart';

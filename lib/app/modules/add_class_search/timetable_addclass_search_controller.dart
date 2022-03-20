@@ -10,7 +10,9 @@ import 'package:polarstar_flutter/app/data/repository/timetable/timetable_addcla
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_repository.dart';
 import 'package:polarstar_flutter/app/global_widgets/dialoge.dart';
 import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
+import 'package:polarstar_flutter/app/modules/noti/noti_controller.dart';
 import 'package:polarstar_flutter/app/modules/timetable/timetable_controller.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/session.dart';
 
 class TimeTableAddClassSearchController extends GetxController {
@@ -64,15 +66,23 @@ class TimeTableAddClassSearchController extends GetxController {
       timeTableController.selectTable.update((val) {
         val.CLASSES.add(CLASS_SEARCH[selectedIndex.value]);
       });
+      String class_name = CLASS_SEARCH[selectedIndex.value].CLASS_NAME;
+
       selectedIndex.value = -1;
       timeTableController.initShowTimeTable();
       timeTableController.makeShowTimeTable();
+      print(class_name);
 
       // * 시간표 수업 추가 시 noti page 업데이트(채팅 방)
       await MainUpdateModule.updateNotiPage(
         1,
       );
-      await Tdialogue(context, "", "수업의 채팅방이 추가되었습니다", () => {Get.back()});
+      final NotiController notiController = Get.find();
+      notiController.tabController.index = 1;
+      await TFdialogue("수업의 채팅방이 추가되었습니다", "${class_name}", () {
+        Get.back();
+        Get.toNamed(Routes.NOTI);
+      }, () => {Get.back()});
     } else if (response.statusCode == 403) {
       Get.snackbar("오류", "존재하지 않는 시간표입니다");
     } else if (response.statusCode == 404) {

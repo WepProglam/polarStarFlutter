@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 import 'package:polarstar_flutter/app/global_functions/time_pretty.dart';

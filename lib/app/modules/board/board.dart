@@ -55,7 +55,7 @@ class Board extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             fontFamily: "NotoSansSC",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
+                            fontSize: 16.0),
                       )
                     ],
                     text: communityBoardName(controller.COMMUNITY_ID.value) ==

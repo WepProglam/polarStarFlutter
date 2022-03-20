@@ -142,13 +142,13 @@ class CCWidget extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
+                      fontSize: 14.0),
                   linkStyle: TextStyle(
                       color: Get.theme.primaryColor,
                       fontWeight: FontWeight.w400,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
+                      fontSize: 14.0),
                   textAlign: TextAlign.justify),
             ),
 
@@ -216,13 +216,13 @@ class CommentWidget extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
+                      fontSize: 14.0),
                   linkStyle: TextStyle(
                       color: Get.theme.primaryColor,
                       fontWeight: FontWeight.w400,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
+                      fontSize: 14.0),
                   textAlign: TextAlign.justify),
             ),
 

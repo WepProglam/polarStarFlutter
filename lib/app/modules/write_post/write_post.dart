@@ -83,7 +83,7 @@ class WritePost extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             fontFamily: "NotoSansSC",
                             fontStyle: FontStyle.normal,
-                            fontSize: 14.0),
+                            fontSize: 16.0),
                         textAlign: TextAlign.center),
                   ),
                 ),
@@ -209,7 +209,7 @@ class WritePost extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "NotoSansSC",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 12.0),
+                                fontSize: 15.0),
                             decoration: InputDecoration(
                               isDense: true,
                               border: InputBorder.none,
@@ -219,7 +219,7 @@ class WritePost extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                   fontFamily: "NotoSansSC",
                                   fontStyle: FontStyle.normal,
-                                  fontSize: 12.0),
+                                  fontSize: 15.0),
                               hintText: '标题',
                             ),
                           ),
@@ -255,7 +255,7 @@ class WritePost extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "NotoSansSC",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 12.0),
+                                fontSize: 15.0),
                             decoration: InputDecoration(
                               isDense: true,
                               border: InputBorder.none,
@@ -265,7 +265,7 @@ class WritePost extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                   fontFamily: "NotoSansSC",
                                   fontStyle: FontStyle.normal,
-                                  fontSize: 12.0),
+                                  fontSize: 15.0),
                               hintText: '请输入内容',
                             ),
                           ),
@@ -331,7 +331,7 @@ class WritePost extends StatelessWidget {
                                                               fontStyle:
                                                                   FontStyle
                                                                       .normal,
-                                                              fontSize: 10.0),
+                                                              fontSize: 15.0),
                                                           textAlign:
                                                               TextAlign.center)
                                                     ]),
@@ -399,7 +399,7 @@ class WritePost extends StatelessWidget {
                                       fontWeight: FontWeight.w500,
                                       fontFamily: "NotoSansSC",
                                       fontStyle: FontStyle.normal,
-                                      fontSize: 12.0),
+                                      fontSize: 15.0),
                                   textAlign: TextAlign.left),
                               Spacer(),
                               Container(

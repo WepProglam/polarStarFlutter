@@ -153,7 +153,7 @@ class PostBody extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
+                      fontSize: 15.0),
                   textAlign: TextAlign.left)
               : LinkWell("${item.value.TITLE}",
                   style: const TextStyle(
@@ -161,13 +161,13 @@ class PostBody extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
+                      fontSize: 15.0),
                   linkStyle: TextStyle(
                       color: Get.theme.primaryColor,
                       fontWeight: FontWeight.w500,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
+                      fontSize: 15.0),
                   textAlign: TextAlign.left),
         ),
         // 내용
@@ -181,7 +181,7 @@ class PostBody extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
+                      fontSize: 15.0),
                   textAlign: TextAlign.left)
               : LinkWell("${item.value.CONTENT}",
                   style: const TextStyle(
@@ -189,13 +189,13 @@ class PostBody extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
+                      fontSize: 15.0),
                   linkStyle: TextStyle(
                       color: Get.theme.primaryColor,
                       fontWeight: FontWeight.w500,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 12.0),
+                      fontSize: 15.0),
                   textAlign: TextAlign.left),
         ),
         (item.value.MEDIA != [] &&
