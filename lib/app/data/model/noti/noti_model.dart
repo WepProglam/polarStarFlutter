@@ -23,7 +23,7 @@ class NotiModel {
     this.URL = json["URL"];
     this.CONTENT = json["CONTENT"];
     this.TITLE = json["TITLE"];
-    this.TIME_CREATED = DateTime.parse(json["TIME_CREATED"]);
+    this.TIME_CREATED = nullCheck(DateTime.parse(json["TIME_CREATED"]));
     this.NOTI_ID = json["NOTI_ID"];
     this.NOTI_TYPE = json["NOTI_TYPE"];
     this.isReaded = false;

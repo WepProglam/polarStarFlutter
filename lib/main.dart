@@ -15,7 +15,7 @@ class MyBehavior extends ScrollBehavior {
   }
 }
 
-IO.Socket classChatSocket;
+IO.Socket ChatSocket;
 
 void main() async {
   try {

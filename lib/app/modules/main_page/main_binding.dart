@@ -53,17 +53,17 @@ class MainBinding implements Bindings {
     print("=============================");
     print(DateTime.now().toString());
 
-    classChatSocket = await IO.io(
+    ChatSocket = await IO.io(
         'http://3.39.76.247:3000',
         IO.OptionBuilder()
             .setTransports(['websocket'])
             .disableAutoConnect()
             .setExtraHeaders(Session.headers)
             .build());
-    classChatSocket.connect();
+    ChatSocket.connect();
     // } else {
     //   print("disconnect!!");
-    //   classChatSocket.disconnect();
+    //   ChatSocket.disconnect();
 
     // }
     await classChatController.registerSocket();

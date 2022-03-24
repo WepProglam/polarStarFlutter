@@ -147,7 +147,7 @@ class ClassChatController extends GetxController {
         item.update((val) {
           val.UNREAD_AMOUNT = 0;
         });
-        classChatSocket.emit("readChat", [BOX_ID, LAST_READ_CHAT_ID]);
+        ChatSocket.emit("readChat", [BOX_ID, LAST_READ_CHAT_ID]);
         break;
       }
     }
@@ -160,7 +160,7 @@ class ClassChatController extends GetxController {
         item.update((val) {
           val.UNREAD_AMOUNT = 0;
         });
-        classChatSocket.emit("readChat", [BOX_ID, LAST_READ_CHAT_ID]);
+        ChatSocket.emit("readChat", [BOX_ID, LAST_READ_CHAT_ID]);
         break;
       }
     }
@@ -181,8 +181,8 @@ class ClassChatController extends GetxController {
       val.LoadingChatList.add(item.obs);
     });
     isNewMessage.value = true;
-    classChatSocket
-        .emit("sendMessage", {"content": text, "roomId": currentBoxID.value});
+    ChatSocket.emit(
+        "sendMessage", {"content": text, "roomId": currentBoxID.value});
   }
 
   Future<void> sendFile() async {
@@ -216,7 +216,7 @@ class ClassChatController extends GetxController {
       tmp["fileSize"] = files[i].lengthSync();
       //   print(tmp["fileSize"]);
 
-      classChatSocket.emitWithBinary("sendFile", {
+      ChatSocket.emitWithBinary("sendFile", {
         "sendFileObj": [tmp],
         "roomId": currentBoxID.value
       });
@@ -306,7 +306,7 @@ class ClassChatController extends GetxController {
       tmp["fileName"] = basename(photos[i].title);
       tmp["pixel_height"] = height;
       tmp["pixel_width"] = width;
-      classChatSocket.emitWithBinary("sendPhoto", {
+      ChatSocket.emitWithBinary("sendPhoto", {
         "sendFileObj": [tmp],
         "roomId": currentBoxID.value
       });
@@ -369,7 +369,7 @@ class ClassChatController extends GetxController {
     tmp["fileName"] = basename(photo_file.name);
     tmp["pixel_height"] = height;
     tmp["pixel_width"] = width;
-    classChatSocket.emitWithBinary("sendPhoto", {
+    ChatSocket.emitWithBinary("sendPhoto", {
       "sendFileObj": [tmp],
       "roomId": currentBoxID.value
     });
@@ -576,7 +576,7 @@ class ClassChatController extends GetxController {
   }
 
   Future<void> socketting() async {
-    classChatSocket.on("viewRecentMessage", (data) async {
+    ChatSocket.on("viewRecentMessage", (data) async {
       Iterable cc = data;
       //print(data);
       tempChatHistory.clear();
@@ -641,7 +641,7 @@ class ClassChatController extends GetxController {
       // countTotal(curBoxID, isClass);
     });
 
-    classChatSocket.on("newMessage", (data) async {
+    ChatSocket.on("newMessage", (data) async {
       Rx<ChatModel> chat = ChatModel.fromJson(data).obs;
       bool isClass = checkClassOrMajor(chat.value.BOX_ID);
       // findCurBox.update((val) {
@@ -703,13 +703,13 @@ class ClassChatController extends GetxController {
       // countTotal(chat.value.BOX_ID, isClass);
     });
 
-    classChatSocket.on('leaveRoom', (_) {
+    ChatSocket.on('leaveRoom', (_) {
       // print("leaveRoom called : roomID - ${roomID}");
     });
 
-    classChatSocket.on('error', (err) => print(err));
-    classChatSocket.on('event', (data) => print(data));
-    classChatSocket.on('fromServer', (_) => print(_));
+    ChatSocket.on('error', (err) => print(err));
+    ChatSocket.on('event', (data) => print(data));
+    ChatSocket.on('fromServer', (_) => print(_));
 
     // return socket;
   }
@@ -798,7 +798,7 @@ class ClassChatController extends GetxController {
       print("이미 조인함");
       return;
     }
-    classChatSocket.emit("joinRoom", [BOX_ID, "fuckfuck"]);
+    ChatSocket.emit("joinRoom", [BOX_ID, "fuckfuck"]);
     joinedRooms.add(BOX_ID);
     return;
   }
@@ -806,7 +806,7 @@ class ClassChatController extends GetxController {
   Future<void> getChatLog(int BOX_ID) async {
     // chatDownloaed(false);
 
-    await classChatSocket.emit("getChatLog", [BOX_ID, searchIndex]);
+    await ChatSocket.emit("getChatLog", [BOX_ID, searchIndex]);
     searchIndex += 1;
     return;
   }
@@ -909,19 +909,19 @@ class ClassChatController extends GetxController {
   void onClose() async {
     // * 강의별 톡방
     for (Rx<ChatBoxModel> item in classChatBox) {
-      await classChatSocket.emit("leaveRoom", [item.value.BOX_ID]);
+      await ChatSocket.emit("leaveRoom", [item.value.BOX_ID]);
       print("leaveroom ${item.value.BOX_ID} ");
     }
 
     // * 전공별 톡방
     for (Rx<ChatBoxModel> item in majorChatBox) {
-      await classChatSocket.emit("leaveRoom", [item.value.BOX_ID]);
+      await ChatSocket.emit("leaveRoom", [item.value.BOX_ID]);
       print("leaveroom ${item.value.BOX_ID} ");
     }
 
-    classChatSocket.disconnect();
+    ChatSocket.disconnect();
     // print("contoller close : ${roomID.value}");
-    // await classChatSocket.emit("leaveRoom", roomID.value);
+    // await ChatSocket.emit("leaveRoom", roomID.value);
     // chatHistory.clear();
   }
 }

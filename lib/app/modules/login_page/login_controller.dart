@@ -52,8 +52,8 @@ class LoginController extends GetxController {
     switch (response["statusCode"]) {
       case 200:
         await PushyController.refreshDeviceToken();
-        PushyController pushyController = Get.find();
-        pushyController.push_register_total();
+        // PushyController pushyController = Get.find();
+        // pushyController.push_register_total();
         // Get.snackbar("登陆成功", "登陆成功");
 
         break;
@@ -101,7 +101,7 @@ class LoginController extends GetxController {
 
     switch (response["statusCode"]) {
       case 200:
-        // print("chatSokcet : ${classChatSocket.connected}");
+        // print("chatSokcet : ${ChatSocket.connected}");
         // * 이미 박스에 데이터 있을 때
         if (box.hasData('id') || box.hasData('pw')) {
           await box.remove('id');
@@ -127,8 +127,8 @@ class LoginController extends GetxController {
         }
 
         await PushyController.refreshDeviceToken();
-        PushyController pushyController = Get.find();
-        pushyController.push_register_total();
+        // PushyController pushyController = Get.find();
+        // pushyController.push_register_total();
         // print(box.read("id"));
         // Get.offAndToNamed(Routes.INITIAL, arguments: "fromLogin");
         // Get.offAndToNamed('/main');

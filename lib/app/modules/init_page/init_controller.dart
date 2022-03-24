@@ -95,8 +95,8 @@ class InitController extends GetxController {
       switch (res["statusCode"]) {
         case 200:
           await PushyController.refreshDeviceToken();
-          PushyController pushyController = Get.find();
-          pushyController.push_register_total();
+          // PushyController pushyController = Get.find();
+          // pushyController.push_register_total();
 
           return true;
           break;
@@ -113,87 +113,90 @@ class InitController extends GetxController {
   String current_version = "1.0";
 
   Future<void> versionCheck() async {
-    //현재 앱 버전
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    try {
+      //현재 앱 버전
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-    current_version = packageInfo.version;
+      current_version = packageInfo.version;
 
-    print("current_version: ${current_version}");
-    int current_buildNumber = int.tryParse(packageInfo.buildNumber);
+      print("current_version: ${current_version}");
+      int current_buildNumber = int.tryParse(packageInfo.buildNumber);
 
-    final response = await Session().getX('/versionCheck');
-    final jsonResponse = await jsonDecode(response.body);
+      final response = await Session().getX('/versionCheck');
+      final jsonResponse = await jsonDecode(response.body);
 
-    bool versionCheckSuccess = (response.statusCode == 200);
+      bool versionCheckSuccess = (response.statusCode == 200);
 
-    if (!versionCheckSuccess) {
-      print("versionCheck Fetch Failed");
-      return;
-    }
-
-    final String latest_version = jsonResponse["latest_version"];
-    int latest_buildNumber = int.tryParse(latest_version.split("+")[1]);
-
-    // print("latest_version: ${latest_version}");
-
-    final String min_version = jsonResponse["min_version"];
-    int min_buildNumber = int.tryParse(min_version.split("+")[1]);
-
-    // print("min_version: ${min_version}");
-
-    //version check 실패
-    if (!(current_buildNumber != null &&
-        latest_buildNumber != null &&
-        min_buildNumber != null)) {
-      print("versionCheck failed");
-      return;
-    }
-    Function onTapConfirm = () async {
-      LaunchReview.launch(
-          androidAppId: "com.polarstar.polarStar", iOSAppId: "1608688540");
-      if (Platform.isIOS) {
-        exit(0);
-      } else {
-        SystemNavigator.pop();
+      if (!versionCheckSuccess) {
+        print("versionCheck Fetch Failed");
+        return;
       }
-    };
 
-    print(current_buildNumber);
-    print(min_buildNumber);
-    print(latest_buildNumber);
+      final String latest_version = jsonResponse["latest_version"];
+      int latest_buildNumber = int.tryParse(latest_version.split("+")[1]);
 
-    if (current_buildNumber < min_buildNumber) {
-      //업데이트 해야함(필수)
+      // print("latest_version: ${latest_version}");
 
-      await Tdialogue(
-          Get.context, "软件检测到新版本必须更新后使用", "软件检测到新版本必须更新后使用", onTapConfirm);
-    } else if (current_buildNumber > latest_buildNumber) {
-      //이건 오류(build number 잘못 입력됨)
-      print("versionCheck failed");
+      final String min_version = jsonResponse["min_version"];
+      int min_buildNumber = int.tryParse(min_version.split("+")[1]);
 
-      //SystemNavigator.pop();
+      // print("min_version: ${min_version}");
 
-      return;
-    } else if (current_buildNumber < latest_buildNumber) {
-      print(("업데이트 권장"));
-      //업데이트 권장
+      //version check 실패
+      if (!(current_buildNumber != null &&
+          latest_buildNumber != null &&
+          min_buildNumber != null)) {
+        print("versionCheck failed");
+        return;
+      }
+      Function onTapConfirm = () async {
+        LaunchReview.launch(
+            androidAppId: "com.polarstar.polarStar", iOSAppId: "1608688540");
+        if (Platform.isIOS) {
+          exit(0);
+        } else {
+          SystemNavigator.pop();
+        }
+      };
 
-      await TFdialogue("通知", "目前软件版本过低 建议更新至最新版本", onTapConfirm, () {});
-    } else {
-      //버전 잘 맞음 (current_buildNumber == latest_buildNumber)
-      print("LATEST VERSION");
-    }
-    // } catch (err) {
-    //   print(err);
-    // }
+      print(current_buildNumber);
+      print(min_buildNumber);
+      print(latest_buildNumber);
+
+      if (current_buildNumber < min_buildNumber) {
+        //업데이트 해야함(필수)
+
+        await Tdialogue(
+            Get.context, "软件检测到新版本必须更新后使用", "软件检测到新版本必须更新后使用", onTapConfirm);
+      } else if (current_buildNumber > latest_buildNumber) {
+        //이건 오류(build number 잘못 입력됨)
+        print("versionCheck failed");
+
+        //SystemNavigator.pop();
+
+        return;
+      } else if (current_buildNumber < latest_buildNumber) {
+        print(("업데이트 권장"));
+        //업데이트 권장
+
+        await TFdialogue("通知", "目前软件版本过低 建议更新至最新版本", onTapConfirm, () {});
+      } else {
+        //버전 잘 맞음 (current_buildNumber == latest_buildNumber)
+        print("LATEST VERSION");
+      }
+      // } catch (err) {
+      //   print(err);
+      // }
+    } catch (e) {}
   }
 
   @override
   void onInit() async {
     opacityControl(true);
     super.onInit();
-    opacityControl(false);
+    print("try");
     await versionCheck();
+    opacityControl(false);
 
     print("init controller init");
     if (Get.arguments == "fromLogin") {
@@ -232,8 +235,6 @@ class InitController extends GetxController {
     } else {
       Get.offAndToNamed('/login');
     }
-
-    // box.remove("alreadyRunned");
   }
 
   // @override
