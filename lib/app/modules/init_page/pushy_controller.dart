@@ -90,17 +90,15 @@ class PushyController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> push_register_total() async {
+    Pushy.listen();
+    Pushy.setNotificationIcon('ic_launcher');
+
     await pushyRegister();
 
-    Pushy.listen();
-
-    Pushy.setNotificationIcon('ic_launcher');
     Pushy.toggleInAppBanner(false);
-    print("toggle app bar");
-    // Listen for push notifications received
+
     Pushy.setNotificationListener(backgroundNotificationListener);
     pushyClickListener();
-    Pushy.clearBadge();
   }
 
   void backgroundNotificationListener(Map<String, dynamic> data) {
@@ -152,6 +150,7 @@ class PushyController extends GetxController with WidgetsBindingObserver {
         Pushy.notify(notificationTitle, notificationText, data);
         break;
     }
+
     // }
   }
 
