@@ -93,24 +93,23 @@ class WritePostController extends GetxController {
     // var pic = await http.MultipartFile.fromPath("photo", imagePath.value);
     List<http.MultipartFile> photoList = <http.MultipartFile>[];
 
+    int size = 0;
     for (AssetEntity source in photoAssets) {
       Uint8List photo = await source.originBytes;
+
       photo = await FlutterImageCompress.compressWithList(photo, quality: 70);
 
-      photoList.add(http.MultipartFile.fromBytes('photo', photo,
-          filename: "${source.title}"));
-      // if (source.type == AssetType.image) {
-      //   Uint8List photo = await source.originBytes;
+      size += photo.lengthInBytes;
 
-      //   photoList.add(http.MultipartFile.fromBytes('photo', photo,
-      //       filename: "${source.title}"));
-      // } else if (source.type == AssetType.video) {
-      //   Uint8List video = await source.originBytes;
+      http.MultipartFile photo_upload = http.MultipartFile.fromBytes(
+          'photo', photo,
+          filename: "${source.title}");
 
-      //   photoList.add(http.MultipartFile.fromBytes('video', video,
-      //       filename: "${source.title}"));
-      // }
+      photoList.add(photo_upload);
     }
+
+    print("${size}B");
+
     int status = await repository.postPostImage(data, photoList, COMMUNITY_ID);
     Get.back();
 
@@ -124,14 +123,18 @@ class WritePostController extends GetxController {
     // var pic = await http.MultipartFile.fromPath("photo", imagePath.value);
     List<http.MultipartFile> photoList = <http.MultipartFile>[];
 
+    int size = 0;
     for (AssetEntity source in photoAssets) {
       Uint8List photo = await source.originBytes;
 
       photo = await FlutterImageCompress.compressWithList(photo, quality: 70);
 
+      size += photo.elementSizeInBytes;
+
       photoList.add(http.MultipartFile.fromBytes('photo', photo,
           filename: "${source.title}"));
     }
+    print("${size}B");
 
     int status =
         await repository.putPostImage(data, photoList, COMMUNITY_ID, BOARD_ID);
@@ -147,7 +150,6 @@ class WritePostController extends GetxController {
 void responseSwitchCase(int status) {
   switch (status) {
     case 200:
-      // Get.snackbar("시스템 오류", "글쓰기 성공");
       break;
     case 401:
       Get.snackbar("系统错误", "无法识别用户",
@@ -155,14 +157,22 @@ void responseSwitchCase(int status) {
           colorText: Colors.white,
           backgroundColor: Colors.black);
       break;
+    // * 도배 방지
     case 403:
-      Get.snackbar("系统错误", "错误访问",
+      Get.snackbar("系统错误", "不要经常写相同内容的文章",
           snackPosition: SnackPosition.BOTTOM,
           colorText: Colors.white,
           backgroundColor: Colors.black);
       break;
     case 404:
       Get.snackbar("系统错误", "该论坛不存在",
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          backgroundColor: Colors.black);
+      break;
+    // * 용량이 너무 큼
+    case 413:
+      Get.snackbar("系统错误", "容量太大了",
           snackPosition: SnackPosition.BOTTOM,
           colorText: Colors.white,
           backgroundColor: Colors.black);

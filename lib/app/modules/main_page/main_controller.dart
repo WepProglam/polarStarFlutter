@@ -117,6 +117,13 @@ class MainController extends GetxController with SingleGetTickerProviderMixin {
             backgroundColor: Colors.white,
             colorText: Colors.black);
         break;
+      case 400:
+        // * 이미 게시판 존재
+        Get.snackbar("该论坛已经存在了", "该论坛已经存在了",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.white,
+            colorText: Colors.black);
+        break;
       default:
         Get.snackbar("该论坛已经存在了", "该论坛已经存在了",
             snackPosition: SnackPosition.BOTTOM,

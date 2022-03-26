@@ -29,6 +29,7 @@ class WritePostApiClient {
     print(request.files);
 
     var response = await request.send();
+    print(response.statusCode);
     return response.statusCode;
   }
 
