@@ -22,7 +22,7 @@ void main() async {
     await GetStorage.init();
     WidgetsFlutterBinding.ensureInitialized();
     PushyController pushyController = Get.put(PushyController());
-    pushyController.push_register_total();
+    await pushyController.push_register_total();
     await FlutterDownloader.initialize();
   } catch (e) {
     print(e);

@@ -94,6 +94,7 @@ class InitController extends GetxController {
 
       switch (res["statusCode"]) {
         case 200:
+          print("pushy refresh");
           await PushyController.refreshDeviceToken();
           // PushyController pushyController = Get.find();
           // pushyController.push_register_total();

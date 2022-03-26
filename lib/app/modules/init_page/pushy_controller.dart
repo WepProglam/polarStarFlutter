@@ -92,6 +92,7 @@ class PushyController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> push_register_total() async {
+    print("push register total");
     Pushy.listen();
     Pushy.setNotificationIcon('ic_launcher');
 
@@ -156,12 +157,15 @@ class PushyController extends GetxController with WidgetsBindingObserver {
     // }
   }
 
-  Future pushyRegister() async {
+  Future<void> pushyRegister() async {
     print("pushy Register");
     try {
+      print("??????");
       deviceToken = await Pushy.register();
+      print("???????");
       print('Device token: $deviceToken');
-    } on PlatformException catch (error) {
+    } catch (error) {
+      print("error");
       print(error);
     }
   }
