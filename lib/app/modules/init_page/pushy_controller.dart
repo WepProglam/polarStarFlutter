@@ -63,7 +63,9 @@ class PushyController extends GetxController with WidgetsBindingObserver {
           return 200;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
     return 500;
   }
 

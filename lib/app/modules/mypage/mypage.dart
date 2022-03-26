@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/modules/init_page/init_controller.dart';
+import 'package:polarstar_flutter/app/modules/init_page/pushy_controller.dart';
 
 import 'package:polarstar_flutter/app/modules/login_page/login_controller.dart';
 
@@ -205,12 +206,17 @@ class MyPageProfile extends StatelessWidget {
                       onTap: () async {
                         //! 번역 필요
                         Function onTapConfirm = () async {
-                          LoginController loginController = Get.find();
-                          loginController.logout();
-                          InitController initController = Get.find();
-                          initController.dispose();
+                          try {
+                            await PushyController.pushyUnsubscribe("*");
 
-                          await Get.offAllNamed('/login');
+                            LoginController loginController = Get.find();
+                            loginController.logout();
+                            InitController initController = Get.find();
+                            initController.dispose();
+
+                            await Get.offAllNamed('/login');
+                          } catch (e) {}
+
                           // initController.mainPageIndex.value = 0;
                         };
                         Function onTapCancel = () async {
@@ -218,26 +224,6 @@ class MyPageProfile extends StatelessWidget {
                         };
                         await TFdialogue("想要退出账号登陆吗？", "想要退出账号登陆吗？",
                             onTapConfirm, onTapCancel);
-
-                        //   // actions: [
-                        //   //   TextButton(
-                        //   //       onPressed: () async {
-                        //   //         LoginController loginController = Get.find();
-                        //   //         loginController.logout();
-                        //   //         InitController initController = Get.find();
-                        //   //         initController.dispose();
-
-                        //   //         await Get.offAllNamed('/login');
-                        //   //         // initController.mainPageIndex.value = 0;
-                        //   //       },
-                        //   //       child: Text("YES")),
-                        //   //   TextButton(
-                        //   //       onPressed: () {
-                        //   //         Get.back();
-                        //   //       },
-                        //   //       child: Text("NO"))
-                        //   // ],
-                        // );
                       },
                       child: Ink(
                         padding: const EdgeInsets.all(14.0),
