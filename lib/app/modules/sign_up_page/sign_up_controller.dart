@@ -15,6 +15,7 @@ class SignUpController extends GetxController {
 
   SignUpController({@required this.repository}) : assert(repository != null);
 
+  RxBool campusSelected = false.obs;
   RxBool majorSelected = false.obs;
   RxBool doubleMajorSelected = false.obs;
 
@@ -24,6 +25,7 @@ class SignUpController extends GetxController {
   //final emailController = TextEditingController();
   final nicknameController = TextEditingController();
   final studentIDController = TextEditingController();
+  final campusController = TextEditingController();
   final majorController = TextEditingController();
   final doubleMajorController = TextEditingController();
 
@@ -108,18 +110,23 @@ class SignUpController extends GetxController {
     }
   }
 
+  RxInt selectedCampus = 0.obs;
   RxInt selectedCollege = 0.obs;
   RxInt selectedMajor = 0.obs;
   RxInt selectedDoubleMajor = 0.obs;
 
+  RxList<CampusModel> campusList = <CampusModel>[].obs;
   RxList<CollegeMajorModel> collegeList = <CollegeMajorModel>[].obs;
   RxList<CollegeMajorModel> majorList = <CollegeMajorModel>[].obs;
+
+  RxList<CampusModel> searchedCampusList = <CampusModel>[].obs;
   RxList<CollegeMajorModel> searchedMajorList = <CollegeMajorModel>[].obs;
   RxList<CollegeMajorModel> searchedDoubleMajorList = <CollegeMajorModel>[].obs;
 
   Future<void> getMajorInfo() async {
     var response = await Session().getX("/signup/majorInfo");
     var json = jsonDecode(response.body);
+    Iterable tempCampusList = json["campus"];
     Iterable tempCollegeList = json["college"];
     Iterable tempMajorList = json["major"];
 
@@ -158,6 +165,8 @@ class SignUpController extends GetxController {
     //   humanities
     // ];
 
+    campusList.value =
+        tempCampusList.map((e) => CampusModel.fromJson(e)).toList();
     collegeList.value =
         tempCollegeList.map((e) => CollegeMajorModel.fromJson(e)).toList();
     majorList.value =

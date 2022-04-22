@@ -6,6 +6,9 @@ import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/services.dart';
+// import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+
+// import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 
 class MyBehavior extends ScrollBehavior {
   @override
@@ -24,6 +27,7 @@ void main() async {
     PushyController pushyController = Get.put(PushyController());
     await pushyController.push_register_total();
     await FlutterDownloader.initialize();
+    // KakaoSdk.init(nativeAppKey: '46e40379d2bed8feccedacd7a59ab06a');
   } catch (e) {
     print(e);
   }

@@ -5,6 +5,7 @@ abstract class Routes {
   static const LOGIN = '/login';
   static const SIGNUP = '/signUp';
   static const SIGNUPMAJOR = '/signUpMajor';
+  static const SIGNUPCAMPUS = '/signUpCampus';
   static const SIGNUPCOMMUNITYRULE = '/signUpCommunityRule';
   static const QRCODE = '/qrcode';
 

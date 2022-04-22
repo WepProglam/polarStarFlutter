@@ -24,7 +24,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Container(
-        height: 40,
+        height: 57,
         // decoration: BoxDecoration(boxShadow: [
         //   BoxShadow(
         //       color: const Color(0x1c000000),
@@ -45,34 +45,34 @@ class CustomBottomNavigationBar extends StatelessWidget {
             items: [
               BottomNavigationBarItem(
                 icon: Container(
-                    width: 20,
-                    height: 20,
-                    margin: const EdgeInsets.symmetric(vertical: 9),
+                    width: 24,
+                    height: 24,
+                    margin: const EdgeInsets.symmetric(vertical: 16),
                     child: mainController.mainPageIndex.value == 0
                         ? Image.asset("assets/images/icn_home_selected.png")
                         : Image.asset("assets/images/icn_home_normal.png")),
                 label: '',
               ),
-              // BottomNavigationBarItem(
-              //   icon: Container(
-              //       width: 24,
-              //       margin: const EdgeInsets.symmetric(vertical: 16),
-              //       height: 24,
-              //       child: mainController.mainPageIndex.value == 1
-              //           ? Image.asset("assets/images/icn_calendar_selected.png")
-              //           : Image.asset("assets/images/icn_calendar_normal.png")),
-              //   label: '',
-              // ),
-              // BottomNavigationBarItem(
-              //   icon: Container(
-              //       width: 24,
-              //       height: 24,
-              //       margin: const EdgeInsets.symmetric(vertical: 16),
-              //       child: mainController.mainPageIndex.value == 2
-              //           ? Image.asset("assets/images/icn_check_selected.png")
-              //           : Image.asset("assets/images/icn_check_normal.png")),
-              //   label: '',
-              // ),
+              BottomNavigationBarItem(
+                icon: Container(
+                    width: 24,
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    height: 24,
+                    child: mainController.mainPageIndex.value == 1
+                        ? Image.asset("assets/images/icn_calendar_selected.png")
+                        : Image.asset("assets/images/icn_calendar_normal.png")),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon: Container(
+                    width: 24,
+                    height: 24,
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    child: mainController.mainPageIndex.value == 2
+                        ? Image.asset("assets/images/icn_check_selected.png")
+                        : Image.asset("assets/images/icn_check_normal.png")),
+                label: '',
+              ),
               BottomNavigationBarItem(
                 icon: Obx(() {
                   int isNotiUnreadAmount = notiController.isUnreadNotiAmount();
@@ -94,10 +94,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   print(isUnreaded);
                   return Stack(children: [
                     Container(
-                        width: 20,
-                        height: 20,
-                        margin: const EdgeInsets.symmetric(vertical: 9),
-                        child: mainController.mainPageIndex.value == 1
+                        width: 24,
+                        height: 24,
+                        margin: const EdgeInsets.symmetric(vertical: 16),
+                        child: mainController.mainPageIndex.value == 3
                             ? Image.asset(
                                 "assets/images/icn_alarm_selected.png")
                             : Image.asset(
@@ -107,8 +107,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
                             top: 10,
                             right: 0,
                             child: Container(
-                              height: 10,
-                              width: 10,
+                              height: 14,
+                              width: 14,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: const Color(0xff91e5dd)
@@ -129,10 +129,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 icon: Container(
-                    width: 20,
-                    height: 20,
-                    margin: const EdgeInsets.symmetric(vertical: 9),
-                    child: mainController.mainPageIndex.value == 2
+                    width: 24,
+                    height: 24,
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    child: mainController.mainPageIndex.value == 4
                         ? Image.asset("assets/images/icn_profile_selected.png")
                         : Image.asset("assets/images/icn_profile_normal.png")),
                 label: '',

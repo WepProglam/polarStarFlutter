@@ -39,7 +39,10 @@ import 'package:polarstar_flutter/app/modules/post/post_binding.dart';
 import 'package:polarstar_flutter/app/modules/profile/profile.dart';
 import 'package:polarstar_flutter/app/modules/search_board/search_board.dart';
 import 'package:polarstar_flutter/app/modules/setting/setting.dart';
+import 'package:polarstar_flutter/app/modules/sign_up_major/sign_up_campus.dart';
 import 'package:polarstar_flutter/app/modules/sign_up_major/sign_up_major.dart';
+import 'package:polarstar_flutter/app/modules/sign_up_major/community_rule.dart';
+import 'package:polarstar_flutter/app/modules/sign_up_major/widgets/qrcode.dart';
 import 'package:polarstar_flutter/app/modules/sign_up_page/sign_up_binding.dart';
 import 'package:polarstar_flutter/app/modules/sign_up_page/sign_up_page.dart';
 import 'package:polarstar_flutter/app/modules/timetable/timetable.dart';
@@ -81,6 +84,11 @@ class AppPages {
     GetPage(
         name: Routes.SIGNUPMAJOR,
         page: () => SignUpMajor(),
+        binding: SignUpBinding(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: Routes.SIGNUPCAMPUS,
+        page: () => SignUpCampus(),
         binding: SignUpBinding(),
         transition: Transition.cupertino),
     GetPage(

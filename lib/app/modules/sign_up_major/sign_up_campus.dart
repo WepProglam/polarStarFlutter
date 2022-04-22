@@ -17,8 +17,8 @@ import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:path/path.dart' as p;
 
-class SignUpMajor extends StatelessWidget {
-  const SignUpMajor({Key key}) : super(key: key);
+class SignUpCampus extends StatelessWidget {
+  const SignUpCampus({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class SignUpMajor extends StatelessWidget {
                           fontStyle: FontStyle.normal,
                           fontSize: 16.0),
                       textAlign: TextAlign.center)),
-              body: MajorInputs(
+              body: CampusInputs(
                 signUpController: signUpController,
               ))),
     );

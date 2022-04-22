@@ -13,6 +13,17 @@
         android:label="北北上学堂"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
+
+        <!-- 카카오 SDK
+        <activity android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity">
+          <intent-filter android:label="flutter_web_auth">
+              <action android:name="android.intent.action.VIEW" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <category android:name="android.intent.category.BROWSABLE" />
+              <data android:scheme="kakao46e40379d2bed8feccedacd7a59ab06a"   android:host="oauth"/>
+          </intent-filter>
+        </activity> -->
+
         <!-- Pushy Declarations -->
 
         <!-- Internal Notification Receiver -->

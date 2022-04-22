@@ -16,6 +16,18 @@ class SignUpModel {
   }
 }
 
+class CampusModel {
+  String CAMPUS_NAME;
+  int CAMPUS_ID;
+
+  CampusModel({CAMPUS_NAME, CAMPUS_ID});
+
+  CampusModel.fromJson(Map<String, dynamic> json) {
+    this.CAMPUS_NAME = json["CAMPUS_NAME"];
+    this.CAMPUS_ID = json["CAMPUS_ID"];
+  }
+}
+
 class CollegeMajorModel {
   String COLLEGE_NAME, MAJOR_NAME;
   int COLLEGE_ID, MAJOR_ID;

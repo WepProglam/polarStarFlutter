@@ -101,8 +101,7 @@ class MainPage extends StatelessWidget {
             // if (!mainController.initDataAvailable.value) {
             //   return SplashPage();
             // }
-            changeStatusBarColor(Colors.white, Brightness.light);
-            // changeStatusBarColor(Get.theme.primaryColor, Brightness.light);
+            changeStatusBarColor(Get.theme.primaryColor, Brightness.light);
 
             return Scaffold(
               body: Builder(builder: (BuildContext context) {
@@ -112,17 +111,24 @@ class MainPage extends StatelessWidget {
                   putController<BoardController>();
                   return HotBoard();
                 } else if (index == 1) {
+                  putController<TimeTableController>();
+                  return Timetable();
+                } else if (index == 2) {
+                  putController<ClassController>();
+                  return Class();
+                } else if (index == 3) {
                   putController<MainController>();
                   putController<NotiController>();
                   return Noti();
-                } else if (index == 2) {
+                } else if (index == 4) {
                   putController<MyPageController>();
                   putController<MainController>();
                   changeStatusBarColor(
                       Get.theme.primaryColor, Brightness.light);
                   return Mypage();
                 } else {
-                  return HotBoard();
+                  putController<MainController>();
+                  return MainPageScroll();
                 }
               }),
               bottomNavigationBar: CustomBottomNavigationBar(),
