@@ -34,226 +34,37 @@ class Noti extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 56,
+      // appBar: AppBar(
+      //   toolbarHeight: 56,
 
-        backgroundColor: Get.theme.primaryColor,
-        titleSpacing: 0,
-        // elevation: 0,
-        automaticallyImplyLeading: false,
+      //   backgroundColor: Get.theme.primaryColor,
+      //   titleSpacing: 0,
+      //   // elevation: 0,
+      //   automaticallyImplyLeading: false,
 
-        title: Center(
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 16.5),
-            child: Text(
-              "消息",
-              style: const TextStyle(
-                  color: const Color(0xffffffff),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: "NotoSansSC",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14.0),
-            ),
-          ),
-        ),
-      ),
+      //   title: Center(
+      //     child: Container(
+      //       margin: const EdgeInsets.symmetric(vertical: 16.5),
+      //       child: Text(
+      //         "消息",
+      //         style: const TextStyle(
+      //             color: const Color(0xffffffff),
+      //             fontWeight: FontWeight.w500,
+      //             fontFamily: "NotoSansSC",
+      //             fontStyle: FontStyle.normal,
+      //             fontSize: 14.0),
+      //       ),
+      //     ),
+      //   ),
+      // ),
       backgroundColor: const Color(0xffffffff),
-      body: NestedScrollView(
-        floatHeaderSlivers: false,
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          bool isScrollAble = true;
-          return [
-            SliverAppBar(
-                pinned: true,
-                floating: true,
-                snap: false,
-                elevation: 1,
-                automaticallyImplyLeading: false,
-                expandedHeight: isScrollAble
-                    ? 48 + 24.0 * 2 + 100 + 24 + 6
-                    : 48 + 24.0 * 2 + 100 + 24,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Container(
-                    color: const Color(0xffffffff),
-                    child: Column(children: [
-                      Container(
-                        decoration:
-                            BoxDecoration(color: const Color(0xff2f2f2f)),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Obx(() {
-                            int isNotiUnreadAmount =
-                                notiController.isUnreadNotiAmount();
-
-                            int isChatUnreadAmount =
-                                notiController.isUnreadChatAmount();
-
-                            int isMailUnreadAmount =
-                                notiController.isUnreadMailAmount();
-
-                            return TabBar(
-                                labelStyle: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: "NotoSansSC",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
-                                labelColor: const Color(0xff6ea5ff),
-                                unselectedLabelColor: const Color(0xffffffff),
-                                indicator: UnderlineTabIndicator(
-                                  borderSide: BorderSide(
-                                      color: Color(0xDD613896), width: 0.0),
-                                ),
-                                controller: notiController.tabController,
-                                tabs: <Tab>[
-                                  Tab(
-                                    child: Stack(children: [
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 1),
-                                        child: Text("通知"),
-                                      ),
-                                      isNotiUnreadAmount != 0
-                                          ? Positioned(
-                                              right: 0,
-                                              child: Container(
-                                                width: 10,
-                                                height: 10,
-                                                // child: Center(
-                                                //   child: Text(
-                                                //     "${isNotiUnreadAmount}",
-                                                //     style: TextStyle(
-                                                //         color: Colors.black),
-                                                //   ),
-                                                // ),
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: const Color(
-                                                        0xff91e5dd)),
-                                              ))
-                                          : Positioned(
-                                              right: 0,
-                                              child: Container(
-                                                width: 10,
-                                                height: 10,
-                                              ))
-                                    ]),
-                                  ),
-                                  Tab(
-                                    child: Stack(children: [
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 1),
-                                        child: Text("群聊"),
-                                      ),
-                                      isChatUnreadAmount != 0
-                                          ? Positioned(
-                                              right: 0,
-                                              child: Container(
-                                                width: 10,
-                                                height: 10,
-                                                // child: Center(
-                                                //   child: Text(
-                                                //     "${isNotiUnreadAmount}",
-                                                //     style: TextStyle(
-                                                //         color: Colors.black),
-                                                //   ),
-                                                // ),
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: const Color(
-                                                        0xff91e5dd)),
-                                              ))
-                                          : Positioned(
-                                              right: 0,
-                                              child: Container(
-                                                width: 10,
-                                                height: 10,
-                                              ))
-                                    ]),
-                                  ),
-                                  Tab(
-                                    child: Stack(children: [
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 1, horizontal: 10),
-                                        child: Text("私信"),
-                                      ),
-                                      isMailUnreadAmount != 0
-                                          ? Positioned(
-                                              right: 0,
-                                              child: Container(
-                                                width: 10,
-                                                height: 10,
-                                                // child: Center(
-                                                //   child: Text(
-                                                //     "${isNotiUnreadAmount}",
-                                                //     style: TextStyle(
-                                                //         color: Colors.black),
-                                                //   ),
-                                                // ),
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: const Color(
-                                                        0xff91e5dd)),
-                                              ))
-                                          : Positioned(
-                                              right: 0,
-                                              child: Container(
-                                                width: 10,
-                                                height: 10,
-                                              ))
-                                    ]),
-                                  )
-                                ]
-                                // child: NotiMailSelect(notiController: notiController),
-                                );
-                          }),
-                        ),
-                      ),
-                      Container(
-                        height: 24,
-                      ),
-                      // * 정보제공
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        child: BannerWidget(isScrollAble: isScrollAble),
-                      ),
-                    ]),
-                  ),
-                ),
-                bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(0.0),
-                  child: Container(
-                    color: const Color(0xffffffff),
-                  ),
-                )),
-          ];
-        },
-        body: Container(
-          margin: const EdgeInsets.only(top: 12),
-          child: TabBarView(
-            controller: notiController.tabController,
-            children: [
-              RefreshIndicator(
-                onRefresh: () async {
-                  await MainUpdateModule.updateNotiPage(0);
-                },
-                child: NotiWidget(notiController: notiController),
-              ),
-              RefreshIndicator(
-                  onRefresh: () async {
-                    await MainUpdateModule.updateNotiPage(1);
-                  },
-                  child: ChatWidget(
-                      notiController: notiController,
-                      classChatController: classChatController)),
-              RefreshIndicator(
-                  onRefresh: () async {
-                    await MainUpdateModule.updateNotiPage(2);
-                  },
-                  child: MailWidget(notiController: notiController))
-            ],
-          ),
+      body: Container(
+        margin: const EdgeInsets.only(top: 12),
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await MainUpdateModule.updateNotiPage(0);
+          },
+          child: NotiWidget(notiController: notiController),
         ),
       ),
     );
@@ -550,7 +361,7 @@ class NotiWidget extends StatelessWidget {
         shrinkWrap: true,
         itemCount:
             notiController.noties.isEmpty ? 1 : notiController.noties.length,
-        physics: NeverScrollableScrollPhysics(),
+        physics: AlwaysScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           if (notiController.noties.length == 0) {
             return Center(

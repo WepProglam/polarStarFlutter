@@ -28,6 +28,7 @@ class PostBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         // 게시글 좋아요 수 버튼
         TextButton.icon(
@@ -153,7 +154,7 @@ class PostBody extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 15.0),
+                      fontSize: 14.0),
                   textAlign: TextAlign.left)
               : LinkWell("${item.value.TITLE}",
                   style: const TextStyle(
@@ -161,13 +162,13 @@ class PostBody extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 15.0),
+                      fontSize: 14.0),
                   linkStyle: TextStyle(
                       color: Get.theme.primaryColor,
                       fontWeight: FontWeight.w500,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 15.0),
+                      fontSize: 14.0),
                   textAlign: TextAlign.left),
         ),
         // 내용
@@ -181,7 +182,7 @@ class PostBody extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 15.0),
+                      fontSize: 13.0),
                   textAlign: TextAlign.left)
               : LinkWell("${item.value.CONTENT}",
                   style: const TextStyle(
@@ -189,13 +190,13 @@ class PostBody extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 15.0),
+                      fontSize: 13.0),
                   linkStyle: TextStyle(
                       color: Get.theme.primaryColor,
                       fontWeight: FontWeight.w500,
                       fontFamily: "NotoSansSC",
                       fontStyle: FontStyle.normal,
-                      fontSize: 15.0),
+                      fontSize: 13.0),
                   textAlign: TextAlign.left),
         ),
         (item.value.MEDIA != [] &&

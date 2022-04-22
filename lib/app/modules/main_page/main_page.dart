@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:polarstar_flutter/app/data/provider/board/board_provider.dart';
+import 'package:polarstar_flutter/app/data/repository/board/board_repository.dart';
+import 'package:polarstar_flutter/app/modules/board/board.dart';
+import 'package:polarstar_flutter/app/modules/board/board_controller.dart';
 import 'package:polarstar_flutter/app/modules/classChat/class_chat_controller.dart';
 import 'package:polarstar_flutter/app/modules/class/class_controller.dart';
+import 'package:polarstar_flutter/app/modules/hot_board/hot_board.dart';
 import 'package:polarstar_flutter/app/modules/init_page/init_controller.dart';
 
 import 'package:polarstar_flutter/app/modules/mailHistory/mail_controller.dart';
@@ -96,33 +101,28 @@ class MainPage extends StatelessWidget {
             // if (!mainController.initDataAvailable.value) {
             //   return SplashPage();
             // }
-            changeStatusBarColor(Get.theme.primaryColor, Brightness.light);
+            changeStatusBarColor(Colors.white, Brightness.light);
+            // changeStatusBarColor(Get.theme.primaryColor, Brightness.light);
 
             return Scaffold(
               body: Builder(builder: (BuildContext context) {
                 print(index);
                 if (index == 0) {
                   putController<MainController>();
-                  return MainPageScroll();
+                  putController<BoardController>();
+                  return HotBoard();
                 } else if (index == 1) {
-                  putController<TimeTableController>();
-                  return Timetable();
-                } else if (index == 2) {
-                  putController<ClassController>();
-                  return Class();
-                } else if (index == 3) {
                   putController<MainController>();
                   putController<NotiController>();
                   return Noti();
-                } else if (index == 4) {
+                } else if (index == 2) {
                   putController<MyPageController>();
                   putController<MainController>();
                   changeStatusBarColor(
                       Get.theme.primaryColor, Brightness.light);
                   return Mypage();
                 } else {
-                  putController<MainController>();
-                  return MainPageScroll();
+                  return HotBoard();
                 }
               }),
               bottomNavigationBar: CustomBottomNavigationBar(),
@@ -168,5 +168,14 @@ void putController<T>() {
   } else if (T == ClassChatController) {
     Get.put(ClassChatController());
     return;
+  } else if (T == BoardController) {
+    Get.put(BoardController(
+        repository: BoardRepository(apiClient: BoardApiClient()),
+        initCommunityId: -1,
+        initPage: 0));
+
+    final BoardController boardController = Get.find();
+    boardController.getHotBoard();
+    boardController.getNewBoard();
   }
 }

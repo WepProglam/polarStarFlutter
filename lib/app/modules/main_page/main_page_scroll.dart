@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:polarstar_flutter/app/modules/board/board_controller.dart';
 import 'package:polarstar_flutter/app/modules/init_page/init_controller.dart';
 
 import 'package:polarstar_flutter/app/modules/login_page/login_controller.dart';
@@ -36,6 +37,7 @@ class MainPageScroll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+
     return GestureDetector(
       onTap: () {
         searchFocusNode.unfocus();
@@ -504,6 +506,7 @@ class MainPageScroll extends StatelessWidget {
                                         child: InkWell(
                                           onTap: () async {
                                             searchText.clear();
+
                                             searchFocusNode.unfocus();
                                             await Get.toNamed(
                                                     "/board/hot/page/1")

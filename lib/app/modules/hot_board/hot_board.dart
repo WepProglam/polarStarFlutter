@@ -17,61 +17,61 @@ class HotBoard extends StatelessWidget {
     return Container(
       color: const Color(0xffffffff),
       child: SafeArea(
-        top: false,
+        top: true,
         child: Scaffold(
             backgroundColor: const Color(0xffffffff),
-            appBar: AppBar(
-              toolbarHeight: 56,
+            // appBar: AppBar(
+            //   toolbarHeight: 56,
 
-              backgroundColor: Get.theme.primaryColor,
-              titleSpacing: 0,
-              // elevation: 0,
-              automaticallyImplyLeading: false,
-              leading: InkWell(
-                onTap: () {
-                  Get.back();
-                },
-                child: Ink(
-                  child: Image.asset(
-                    'assets/images/back_icon.png',
-                    // fit: BoxFit.fitWidth,
-                  ),
-                ),
-              ),
-              centerTitle: true,
+            //   backgroundColor: Get.theme.primaryColor,
+            //   titleSpacing: 0,
+            //   // elevation: 0,
+            //   automaticallyImplyLeading: false,
+            //   // leading: InkWell(
+            //   //   onTap: () {
+            //   //     Get.back();
+            //   //   },
+            //   //   child: Ink(
+            //   //     child: Image.asset(
+            //   //       'assets/images/back_icon.png',
+            //   //       // fit: BoxFit.fitWidth,
+            //   //     ),
+            //   //   ),
+            //   // ),
+            //   centerTitle: true,
 
-              title: Container(
-                margin: const EdgeInsets.symmetric(vertical: 16.5),
-                child: Obx(() {
-                  return RichText(
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: "成均馆大学",
-                            style: const TextStyle(
-                                color: const Color(0xffffffff),
-                                fontWeight: FontWeight.w500,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 14.0),
-                          )
-                        ],
-                        text: communityBoardName(
-                                    controller.COMMUNITY_ID.value) ==
-                                null
-                            ? ""
-                            : '${communityBoardName(controller.COMMUNITY_ID.value)} / ',
-                        style: const TextStyle(
-                            color: const Color(0xffffffff),
-                            fontWeight: FontWeight.w500,
-                            fontFamily: "NotoSansSC",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
-                      ),
-                      textAlign: TextAlign.left);
-                }),
-              ),
-            ),
+            //   title: Container(
+            //     margin: const EdgeInsets.symmetric(vertical: 16.5),
+            //     child: Obx(() {
+            //       return RichText(
+            //           text: TextSpan(
+            //             children: <TextSpan>[
+            //               TextSpan(
+            //                 text: "成均馆大学",
+            //                 style: const TextStyle(
+            //                     color: const Color(0xffffffff),
+            //                     fontWeight: FontWeight.w500,
+            //                     fontFamily: "NotoSansSC",
+            //                     fontStyle: FontStyle.normal,
+            //                     fontSize: 14.0),
+            //               )
+            //             ],
+            //             text: communityBoardName(
+            //                         controller.COMMUNITY_ID.value) ==
+            //                     null
+            //                 ? ""
+            //                 : '${communityBoardName(controller.COMMUNITY_ID.value)} / ',
+            //             style: const TextStyle(
+            //                 color: const Color(0xffffffff),
+            //                 fontWeight: FontWeight.w500,
+            //                 fontFamily: "NotoSansSC",
+            //                 fontStyle: FontStyle.normal,
+            //                 fontSize: 16.0),
+            //           ),
+            //           textAlign: TextAlign.left);
+            //     }),
+            //   ),
+            // ),
             body: Obx(() {
               if (controller.dataAvailablePostPreview.value) {
                 return Column(children: [
@@ -87,11 +87,12 @@ class HotBoard extends StatelessWidget {
                           indicator: UnderlineTabIndicator(
                             borderSide: BorderSide(
                                 color: const Color(0xff4c74f6), width: 2.0),
-                            insets: EdgeInsets.fromLTRB(3.0, 0.0, 3.0, 0.0),
+                            insets:
+                                EdgeInsets.fromLTRB(100.0, 0.0, 100.0, -2.0),
                           ),
                           controller: controller.tabController,
                           indicatorColor: Get.theme.primaryColor,
-                          isScrollable: true,
+                          isScrollable: false,
                           indicatorPadding: EdgeInsets.zero,
                           labelPadding:
                               const EdgeInsets.symmetric(horizontal: 6),
@@ -104,10 +105,10 @@ class HotBoard extends StatelessWidget {
                               fontSize: 14.0),
                           tabs: <Tab>[
                             Tab(
-                              text: "Hot",
+                              text: "New",
                             ),
                             Tab(
-                              text: "New",
+                              text: "Hot",
                             ),
                           ],
                         ),
@@ -118,69 +119,8 @@ class HotBoard extends StatelessWidget {
                     child: Expanded(
                       child: TabBarView(
                           controller: controller.tabController,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: AlwaysScrollableScrollPhysics(),
                           children: [
-                            Container(
-                              child: RefreshIndicator(
-                                onRefresh: () async {
-                                  await MainUpdateModule.updateHotMain(
-                                      controller.tabController.index);
-                                },
-                                child: ListView.builder(
-                                    controller:
-                                        controller.hotScrollController.value,
-                                    itemCount:
-                                        controller.hotSearchMaxPage.value ==
-                                                controller.hotPage.value
-                                            ? controller.HotBody.length + 1
-                                            : controller.HotBody.length + 2,
-                                    physics: AlwaysScrollableScrollPhysics(),
-                                    cacheExtent: 100,
-                                    itemBuilder:
-                                        (BuildContext context, int ii) {
-                                      int index = ii - 1;
-                                      if (ii == 0) {
-                                        return Container(
-                                          height: 24 - 5.0,
-                                        );
-                                      }
-                                      if (index == controller.HotBody.length) {
-                                        return Center(
-                                          child: CircularProgressIndicator(
-                                            color: Get.theme.primaryColor,
-                                          ),
-                                        );
-                                      }
-                                      Rx<Post> model =
-                                          controller.HotBody[index];
-
-                                      return Ink(
-                                        child: InkWell(
-                                          onTap: () async {
-                                            await Get.toNamed(
-                                                "/board/${model.value.COMMUNITY_ID}/read/${model.value.BOARD_ID}",
-                                                arguments: {
-                                                  "type": 0
-                                                }).then((value) async {
-                                              await MainUpdateModule
-                                                  .updateHotMain(controller
-                                                      .tabController.index);
-                                            });
-                                          },
-                                          child: PostWidget(
-                                            item: model,
-                                            index: index,
-                                            mainController: mainController,
-                                          ),
-                                        ),
-                                      );
-
-                                      // PostPreview(
-                                      //   item: model,
-                                      // );
-                                    }),
-                              ),
-                            ),
                             Container(
                               margin: const EdgeInsets.only(top: 0),
                               child: RefreshIndicator(
@@ -215,6 +155,67 @@ class HotBoard extends StatelessWidget {
                                       }
                                       Rx<Post> model =
                                           controller.NewBody[index];
+                                      return Ink(
+                                        child: InkWell(
+                                          onTap: () async {
+                                            await Get.toNamed(
+                                                "/board/${model.value.COMMUNITY_ID}/read/${model.value.BOARD_ID}",
+                                                arguments: {
+                                                  "type": 0
+                                                }).then((value) async {
+                                              await MainUpdateModule
+                                                  .updateHotMain(controller
+                                                      .tabController.index);
+                                            });
+                                          },
+                                          child: PostWidget(
+                                            item: model,
+                                            index: index,
+                                            mainController: mainController,
+                                          ),
+                                        ),
+                                      );
+
+                                      // PostPreview(
+                                      //   item: model,
+                                      // );
+                                    }),
+                              ),
+                            ),
+                            Container(
+                              child: RefreshIndicator(
+                                onRefresh: () async {
+                                  await MainUpdateModule.updateHotMain(
+                                      controller.tabController.index);
+                                },
+                                child: ListView.builder(
+                                    controller:
+                                        controller.hotScrollController.value,
+                                    itemCount:
+                                        controller.hotSearchMaxPage.value ==
+                                                controller.hotPage.value
+                                            ? controller.HotBody.length + 1
+                                            : controller.HotBody.length + 2,
+                                    physics: AlwaysScrollableScrollPhysics(),
+                                    cacheExtent: 100,
+                                    itemBuilder:
+                                        (BuildContext context, int ii) {
+                                      int index = ii - 1;
+                                      if (ii == 0) {
+                                        return Container(
+                                          height: 24 - 5.0,
+                                        );
+                                      }
+                                      if (index == controller.HotBody.length) {
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            color: Get.theme.primaryColor,
+                                          ),
+                                        );
+                                      }
+                                      Rx<Post> model =
+                                          controller.HotBody[index];
+
                                       return Ink(
                                         child: InkWell(
                                           onTap: () async {

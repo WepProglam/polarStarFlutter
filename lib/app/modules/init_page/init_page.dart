@@ -14,7 +14,8 @@ class InitPage extends GetView<InitController> {
 
   @override
   Widget build(BuildContext context) {
-    changeStatusBarColor(Color(0xff4570ff), Brightness.light);
+    // changeStatusBarColor(Color(0xff4570ff), Brightness.light);
+    changeStatusBarColor(Color(0xffffffff), Brightness.light);
 
     return Container(
       color: const Color(0xff4570ff),

@@ -24,8 +24,9 @@ class Post extends StatelessWidget {
             backgroundColor: Color(0xffffffff),
             appBar: AppBar(
               toolbarHeight: 56,
+              elevation: 0,
 
-              backgroundColor: Get.theme.primaryColor,
+              backgroundColor: Colors.white,
               titleSpacing: 0,
               // elevation: 0,
               automaticallyImplyLeading: false,
@@ -36,6 +37,7 @@ class Post extends StatelessWidget {
                 child: Ink(
                   child: Image.asset(
                     'assets/images/back_icon.png',
+                    color: Colors.black,
                     // fit: BoxFit.fitWidth,
                     width: 24,
                     height: 24,
@@ -56,8 +58,14 @@ class Post extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Obx(() {
                         return c.isSubscribed.value
-                            ? Icon(Icons.alarm_on)
-                            : Icon(Icons.alarm_off);
+                            ? Icon(
+                                Icons.alarm_on,
+                                color: Colors.black,
+                              )
+                            : Icon(
+                                Icons.alarm_off,
+                                color: Colors.black,
+                              );
                       })),
                 )
               ],
