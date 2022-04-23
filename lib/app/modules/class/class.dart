@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:polarstar_flutter/app/modules/class/class_controller.dart';
 import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
@@ -22,6 +23,7 @@ class Class extends StatelessWidget {
   final FocusNode searchFocusNode = FocusNode();
   final ClassController controller = Get.find();
   final searchText = TextEditingController();
+  final box = GetStorage();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -239,6 +241,7 @@ class Class extends StatelessWidget {
                                               child: InkWell(
                                                 onTap: () async {
                                                   searchFocusNode.unfocus();
+
                                                   await Get.toNamed(
                                                           '/class/view/${controller.classList[index].CLASS_ID}')
                                                       .then((value) async {
@@ -309,17 +312,21 @@ class Class extends StatelessWidget {
 }
 
 class ClassRecentReview extends StatelessWidget {
-  const ClassRecentReview({Key key, @required this.model}) : super(key: key);
+  ClassRecentReview({Key key, @required this.model}) : super(key: key);
 
+  final box = GetStorage();
   final ClassRecentReviewModel model;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Get.toNamed('/class/view/${model.CLASS_ID}').then((value) async {
-          await MainUpdateModule.updateClassPage();
-        });
+      onTap: () async {
+        int CAMPUS_ID = await box.read("CAMPUS_ID");
+        if (CAMPUS_ID == model.CAMPUS_ID) {
+          Get.toNamed('/class/view/${model.CLASS_ID}').then((value) async {
+            await MainUpdateModule.updateClassPage();
+          });
+        }
       },
       child: Container(
           height: 123,
@@ -356,16 +363,33 @@ class ClassRecentReview extends StatelessWidget {
               ),
               Container(
                 margin: const EdgeInsets.only(top: 4, left: 20, right: 20),
-                child: Text("教授名：${model.PROFESSOR}",
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                child: Row(children: [
+                  Container(
+                    child: Text("教授名：${model.PROFESSOR}",
                         overflow: TextOverflow.ellipsis,
-                        color: const Color(0xff2f2f2f),
-                        fontWeight: FontWeight.w500,
-                        fontFamily: "NotoSansSC",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 12.0),
-                    textAlign: TextAlign.left),
+                        style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            color: const Color(0xff2f2f2f),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 12.0),
+                        textAlign: TextAlign.left),
+                  ),
+                  Spacer(),
+                  Container(
+                    child: Text("${model.CAMPUS_NAME}",
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            color: const Color(0xff2f2f2f),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 12.0),
+                        textAlign: TextAlign.left),
+                  ),
+                ]),
               ),
               Container(
                 margin: const EdgeInsets.only(left: 20, right: 20),

@@ -14,7 +14,12 @@ class LoginApiClient {
     var response = await Session().postX('/login', data);
     Session.session = Session().updateCookie(response, 'connect.sid');
     print("update session");
-    return {"statusCode": response.statusCode};
+    final jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
+    return {
+      "statusCode": response.statusCode,
+      "CAMPUS_ID": jsonResponse["CAMPUS_ID"]
+    };
   }
 
   Future<int> tokenRefresh(data) async {

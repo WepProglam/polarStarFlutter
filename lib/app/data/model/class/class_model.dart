@@ -51,19 +51,20 @@ class ClassModel {
 }
 
 class ClassRecentReviewModel {
-  int CLASS_YEAR, CLASS_SEMESTER, CLASS_ID;
+  int CLASS_YEAR, CLASS_SEMESTER, CLASS_ID, CAMPUS_ID;
 
-  String CONTENT, PROFESSOR, CLASS_NAME, RATE;
+  String CONTENT, PROFESSOR, CLASS_NAME, RATE, CAMPUS_NAME;
 
-  ClassRecentReviewModel({
-    CLASS_YEAR,
-    CLASS_SEMESTER,
-    CLASS_ID,
-    RATE,
-    CONTENT,
-    PROFESSOR,
-    CLASS_NAME,
-  });
+  ClassRecentReviewModel(
+      {CLASS_YEAR,
+      CLASS_SEMESTER,
+      CLASS_ID,
+      RATE,
+      CONTENT,
+      PROFESSOR,
+      CLASS_NAME,
+      CAMPUS_ID,
+      CAMPUS_NAME});
 
   ClassRecentReviewModel.fromJson(Map<String, dynamic> json) {
     print(json);
@@ -78,6 +79,8 @@ class ClassRecentReviewModel {
             .replaceAll('"', '');
     this.PROFESSOR = json["PROFESSOR"];
     this.CLASS_NAME = json["CLASS_NAME"];
+    this.CAMPUS_ID = json["CAMPUS_ID"];
+    this.CAMPUS_NAME = json["CAMPUS_NAME"];
   }
 }
 

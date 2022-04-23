@@ -31,13 +31,21 @@ class SignUpController extends GetxController {
 
   // ! 나중엔 신학기 3월마다 숫자 바꾸는 로직 추가해야할듯
   RxInt admissionYear = 2022.obs;
-  Future signUp(String id, String pw, String nickname, String studentID,
-      int MAJOR_ID, int DOUBLE_MAJOR_ID, int ADMISSION_YEAR) async {
+  Future signUp(
+      String id,
+      String pw,
+      String nickname,
+      String studentID,
+      int CAMPUS_ID,
+      int MAJOR_ID,
+      int DOUBLE_MAJOR_ID,
+      int ADMISSION_YEAR) async {
     Map<String, String> data = {
       "id": id,
       "pw": pw,
       "nickname": nickname,
       "studentID": studentID,
+      "CAMPUS_ID": "${CAMPUS_ID}",
       "MAJOR_ID": "${MAJOR_ID}",
       "DOUBLE_MAJOR_ID": "${DOUBLE_MAJOR_ID}",
       "ADMISSION_YEAR": "${ADMISSION_YEAR}"
@@ -53,14 +61,14 @@ class SignUpController extends GetxController {
           "会员注册成功",
           "会员注册成功",
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.black.withOpacity(0.0),
+          backgroundColor: Colors.black,
           colorText: Colors.white,
         );
         break;
       default:
         Get.snackbar("注册失败", "注册失败",
             snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.black.withOpacity(0.0),
+            backgroundColor: Colors.black,
             colorText: Colors.white);
     }
   }
@@ -123,62 +131,29 @@ class SignUpController extends GetxController {
   RxList<CollegeMajorModel> searchedMajorList = <CollegeMajorModel>[].obs;
   RxList<CollegeMajorModel> searchedDoubleMajorList = <CollegeMajorModel>[].obs;
 
-  Future<void> getMajorInfo() async {
-    var response = await Session().getX("/signup/majorInfo");
+  Future<void> getCampusInfo() async {
+    var response = await Session().getX("/signup/campusInfo");
     var json = jsonDecode(response.body);
     Iterable tempCampusList = json["campus"];
-    Iterable tempCollegeList = json["college"];
-    Iterable tempMajorList = json["major"];
-
-    // CollegeMajorModel natureScience = CollegeMajorModel.fromJson({
-    //   "NAME": "자연과학계열",
-    //   "CLASS_INDEX_ID": tempMajorList.length + 317,
-    //   "INDEX_COLLEGE_NAME": 2,
-    //   "INDEX_TYPE": 3,
-    //   "INDEX": tempMajorList.length
-    // });
-    // CollegeMajorModel engineering = CollegeMajorModel.fromJson({
-    //   "NAME": "공학계열",
-    //   "CLASS_INDEX_ID": tempMajorList.length + 318,
-    //   "INDEX_COLLEGE_NAME": 3,
-    //   "INDEX_TYPE": 3,
-    //   "INDEX": tempMajorList.length + 1
-    // });
-    // CollegeMajorModel socialScience = CollegeMajorModel.fromJson({
-    //   "NAME": "사회과학계열",
-    //   "CLASS_INDEX_ID": tempMajorList.length + 319,
-    //   "INDEX_COLLEGE_NAME": 4,
-    //   "INDEX_TYPE": 3,
-    //   "INDEX": tempMajorList.length + 2
-    // });
-    // CollegeMajorModel humanities = CollegeMajorModel.fromJson({
-    //   "NAME": "인문과학계열",
-    //   "CLASS_INDEX_ID": tempMajorList.length + 320,
-    //   "INDEX_COLLEGE_NAME": 5,
-    //   "INDEX_TYPE": 3,
-    //   "INDEX": tempMajorList.length + 3
-    // });
-    // List<CollegeMajorModel> defaultMajor = [
-    //   natureScience,
-    //   engineering,
-    //   socialScience,
-    //   humanities
-    // ];
 
     campusList.value =
         tempCampusList.map((e) => CampusModel.fromJson(e)).toList();
+  }
+
+  Future<void> getMajorInfo(int CAMPUS_ID) async {
+    var response =
+        await Session().getX("/signup/majorInfo?CAMPUS_ID=${CAMPUS_ID}");
+    var json = jsonDecode(response.body);
+    Iterable tempCollegeList = json["college"];
+    Iterable tempMajorList = json["major"];
+
     collegeList.value =
         tempCollegeList.map((e) => CollegeMajorModel.fromJson(e)).toList();
     majorList.value =
         tempMajorList.map((e) => CollegeMajorModel.fromJson(e)).toList();
 
-    // print(majorList
-    //     .where((major) => major.NAME == "사회과학대학")
-    //     .toList()
-    //     .first
-    //     .INDEX_TYPE);
-
-    selectedCollege.value = collegeList.first.COLLEGE_ID;
+    selectedCollege.value =
+        collegeList.length > 0 ? collegeList.first.COLLEGE_ID : 0;
   }
 
   Future emailAuthRequest(String email) async {
@@ -218,29 +193,6 @@ class SignUpController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await getMajorInfo();
-
-    //   ever(selectedCollege, (_) {
-    //     for (CollegeMajorModel item in majorList) {
-    //       if (item.INDEX_TYPE == 3 &&
-    //           item.INDEX_COLLEGE_NAME == selectedCollege.value) {
-    //         selectedMajor.value = item.INDEX;
-    //         break;
-    //       }
-    //     }
-    //   });
-    // }
-
-    // List<CollegeMajorModel> get matchMajorList {
-    //   List<CollegeMajorModel> temp = [];
-    //   for (CollegeMajorModel item in majorList) {
-    //     if (item.INDEX_TYPE == 3 &&
-    //         item.INDEX_COLLEGE_NAME == selectedCollege.value) {
-    //       temp.add(item);
-    //     }
-    //   }
-
-    // return temp;
   }
 
   int selectMajorIndexPK(int INDEX) {

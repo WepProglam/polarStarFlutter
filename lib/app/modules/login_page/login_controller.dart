@@ -126,6 +126,12 @@ class LoginController extends GetxController {
           await box.save();
         }
 
+        if (response["CAMPUS_ID"] != null && response["CAMPUS_ID"] >= 1) {
+          box.write("CAMPUS_ID", response["CAMPUS_ID"]);
+        }
+
+        print("CAMPUS_ID : ${box.read("CAMPUS_ID")}");
+
         await PushyController.refreshDeviceToken();
         // PushyController pushyController = Get.find();
         // pushyController.push_register_total();

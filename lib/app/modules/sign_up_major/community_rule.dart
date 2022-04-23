@@ -712,7 +712,7 @@ class _SigunUpCommunityRuleState extends State<SigunUpCommunityRule> {
                                 child: InkWell(
                                   onTap: () async {
                                     if (isChecked) {
-                                      Get.toNamed(Routes.SIGNUPMAJOR);
+                                      Get.toNamed(Routes.SIGNUPCAMPUS);
                                     } else {
                                       Get.snackbar("论坛使用规则", "请同意论坛使用规则",
                                           snackPosition: SnackPosition.BOTTOM,

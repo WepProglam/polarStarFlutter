@@ -11,8 +11,8 @@ class ClassController extends GetxController {
   ClassController({@required this.repository});
 
   final classListAvailable = false.obs;
-  final classList = <ClassModel>[].obs;
-  final reviewList = <ClassRecentReviewModel>[].obs;
+  RxList<ClassModel> classList = <ClassModel>[].obs;
+  RxList<ClassRecentReviewModel> reviewList = <ClassRecentReviewModel>[].obs;
 
   RxBool dataAvailbale = false.obs;
 

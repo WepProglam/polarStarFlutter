@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_model.dart';
 import 'package:polarstar_flutter/app/data/provider/timetable/timetable_addclass_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/timetable/timetable_addclass_repository.dart';
@@ -15,6 +16,7 @@ class TimeTableAppBar extends StatelessWidget {
 
   final TimeTableController timeTableController;
   final courseNameController = TextEditingController();
+  final box = GetStorage();
   @override
   Widget build(BuildContext context) {
     return AppBar(

@@ -1,12 +1,9 @@
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 class MyProfileModel {
-  String LOGIN_ID;
-  String PROFILE_NICKNAME;
-  String PROFILE_MESSAGE;
-  String PROFILE_PHOTO;
-  String MAJOR_NAME;
-  String DOUBLE_MAJOR_NAME;
+  String LOGIN_ID, PROFILE_PHOTO, PROFILE_NICKNAME, PROFILE_MESSAGE;
+  String CAMPUS_NAME, MAJOR_NAME, DOUBLE_MAJOR_NAME;
+  int CAMPUS_ID;
 
   MyProfileModel(
       {this.LOGIN_ID,
@@ -14,7 +11,9 @@ class MyProfileModel {
       this.PROFILE_MESSAGE,
       this.PROFILE_PHOTO,
       this.DOUBLE_MAJOR_NAME,
-      this.MAJOR_NAME});
+      this.MAJOR_NAME,
+      this.CAMPUS_NAME,
+      this.CAMPUS_ID});
 
   MyProfileModel.fromJson(Map<String, dynamic> json) {
     this.LOGIN_ID = json["LOGIN_ID"];
@@ -23,6 +22,8 @@ class MyProfileModel {
     this.MAJOR_NAME = json["MAJOR_NAME"];
     this.DOUBLE_MAJOR_NAME = json["DOUBLE_MAJOR_NAME"];
     this.PROFILE_PHOTO = json["PROFILE_PHOTO"];
+    this.CAMPUS_NAME = json["CAMPUS_NAME"];
+    this.CAMPUS_ID = json["CAMPUS_ID"];
   }
 
   Map<String, dynamic> toJson() {

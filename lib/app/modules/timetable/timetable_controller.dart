@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
 import 'package:polarstar_flutter/app/data/model/timetable/timetable_class_model.dart';
 
@@ -16,7 +17,7 @@ import 'package:polarstar_flutter/session.dart';
 class TimeTableController extends GetxController {
   final TimeTableRepository repository;
   TimeTableController({@required this.repository});
-
+  final box = GetStorage();
   final dataAvailable = false.obs;
   final ScrollController scrollController =
       ScrollController(initialScrollOffset: 0.0);
@@ -177,7 +178,10 @@ class TimeTableController extends GetxController {
     return tempList;
   }
 
-  Future<bool> canGoClassSearchPage(int year, int semester) async {
+  Future<bool> canGoClassSearchPage(
+    int year,
+    int semester,
+  ) async {
     var response = await Session()
         .getX("/timetable/isExist/year/${year}/semester/${semester}");
     if (response.statusCode == 200) {

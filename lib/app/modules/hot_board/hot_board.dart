@@ -105,7 +105,10 @@ class HotBoard extends StatelessWidget {
                               fontSize: 14.0),
                           tabs: <Tab>[
                             Tab(
-                              text: "New",
+                              text: "전체",
+                            ),
+                            Tab(
+                              text: "학교",
                             ),
                             Tab(
                               text: "Hot",
@@ -121,6 +124,73 @@ class HotBoard extends StatelessWidget {
                           controller: controller.tabController,
                           physics: AlwaysScrollableScrollPhysics(),
                           children: [
+                            Container(
+                              margin: const EdgeInsets.only(top: 0),
+                              child: RefreshIndicator(
+                                onRefresh: () async {
+                                  await MainUpdateModule.updateHotMain(
+                                      controller.tabController.index);
+                                },
+                                child: controller.TotalBody.length == 0
+                                    ? Center(
+                                        child: Text("아직 게시글이 없습니다."),
+                                      )
+                                    : ListView.builder(
+                                        controller: controller
+                                            .totalScrollController.value,
+                                        itemCount: controller
+                                                    .totalSearchMaxPage.value ==
+                                                controller.totalPage.value
+                                            ? controller.TotalBody.length + 1
+                                            : controller.TotalBody.length + 2,
+                                        physics:
+                                            AlwaysScrollableScrollPhysics(),
+                                        cacheExtent: 100,
+                                        itemBuilder:
+                                            (BuildContext context, int ii) {
+                                          int index = ii - 1;
+                                          if (ii == 0) {
+                                            return Container(
+                                              height: 24 - 5.0,
+                                            );
+                                          }
+                                          if (index ==
+                                              controller.TotalBody.length) {
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                color: Get.theme.primaryColor,
+                                              ),
+                                            );
+                                          }
+                                          Rx<Post> model =
+                                              controller.TotalBody[index];
+                                          return Ink(
+                                            child: InkWell(
+                                              onTap: () async {
+                                                await Get.toNamed(
+                                                    "/board/${model.value.COMMUNITY_ID}/read/${model.value.BOARD_ID}",
+                                                    arguments: {
+                                                      "type": 0
+                                                    }).then((value) async {
+                                                  await MainUpdateModule
+                                                      .updateHotMain(controller
+                                                          .tabController.index);
+                                                });
+                                              },
+                                              child: PostWidget(
+                                                item: model,
+                                                index: index,
+                                                mainController: mainController,
+                                              ),
+                                            ),
+                                          );
+
+                                          // PostPreview(
+                                          //   item: model,
+                                          // );
+                                        }),
+                              ),
+                            ),
                             Container(
                               margin: const EdgeInsets.only(top: 0),
                               child: RefreshIndicator(

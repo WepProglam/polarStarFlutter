@@ -683,15 +683,16 @@ class SignUpInputs extends StatelessWidget {
                           _nicknameKey.currentState.validate() &&
                           signUpController.idOK.value &&
                           signUpController.nicknameOK.value) {
-                        if (signUpController.selectMajorIndexPK(
-                                signUpController.selectedMajor.value) ==
-                            null) {
-                          Get.snackbar("注册错误", "专业选择错误",
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: Colors.black.withOpacity(0.0),
-                              colorText: Colors.white);
-                          return;
-                        }
+                        // * 전공 선택
+                        // if (signUpController.selectMajorIndexPK(
+                        //         signUpController.selectedMajor.value) ==
+                        //     null) {
+                        //   Get.snackbar("注册错误", "专业选择错误",
+                        //       snackPosition: SnackPosition.BOTTOM,
+                        //       backgroundColor: Colors.black,
+                        //       colorText: Colors.white);
+                        //   return;
+                        // }
                         // print("${signUpController.selectedDoubleMajor.value}");
                         // print(
                         //     "${signUpController.selectDoubleMajorIndexPK(signUpController.selectedDoubleMajor.value)}");
@@ -700,6 +701,7 @@ class SignUpInputs extends StatelessWidget {
                             signUpController.pwController.text,
                             signUpController.nicknameController.text,
                             signUpController.studentIDController.text,
+                            signUpController.selectedCampus.value,
                             signUpController.selectMajorIndexPK(
                                 signUpController.selectedMajor.value),
                             signUpController.selectDoubleMajorIndexPK(

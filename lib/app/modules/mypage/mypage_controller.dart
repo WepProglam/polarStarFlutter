@@ -62,12 +62,16 @@ class MyPageController extends GetxController
     }
   }
 
-//Tdialog 디자인가져옴
-  Future<void> changeDoubleMajor() async {
+  //Tdialog 디자인가져옴
+  Future<void> changeMajor() async {
     SignUpController signUpController = Get.put(SignUpController(
         repository: SignUpRepository(apiClient: SignUpApiClient())));
-    await signUpController.getMajorInfo();
-    final doubleMajorFocus = FocusNode();
+    await signUpController.getMajorInfo(myProfile.value.CAMPUS_ID);
+    if (signUpController.majorList.length == 0) {
+      await Textdialogue(Get.context, "기능 구현 중", "아직 전공 데이터 수집 중입니다.");
+      return;
+    }
+    final majorFocusNode = FocusNode();
     await Get.defaultDialog(
       titlePadding: const EdgeInsets.only(top: 16.0),
       titleStyle: const TextStyle(
@@ -79,68 +83,13 @@ class MyPageController extends GetxController
       contentPadding: const EdgeInsets.only(top: 20),
       title: "补修专业",
       content: Column(children: [
-        Container(
-            margin: const EdgeInsets.only(bottom: 24.0, left: 20, right: 20),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(22)),
-                color: const Color(0xfff5f5f5)),
-            child: TextFormField(
-              focusNode: doubleMajorFocus,
-              // onTap: () async {
-              //   await Future.delayed(Duration(milliseconds: 100));
-              //   majorScrollController.animateTo(
-              //       majorScrollController.position.maxScrollExtent,
-              //       duration: Duration(milliseconds: 100),
-              //       curve: Curves.fastOutSlowIn);
-              //   signUpController.majorSelected.value = false;
-              // },
-              style: const TextStyle(
-                  color: const Color(0xff2f2f2f),
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Roboto",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14.0),
-              textAlign: TextAlign.left,
-              decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(20.0, 11.0, 10.0, 11.0),
-                  isDense: true,
-                  hintText: "请用韩语输入您的专业",
-                  hintStyle: const TextStyle(
-                      color: const Color(0xffd6d4d4),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "Roboto",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(22),
-                      borderSide:
-                          BorderSide(color: const Color(0xffeaeaea), width: 1)),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(22),
-                      borderSide:
-                          BorderSide(color: const Color(0xffeaeaea), width: 1)),
-                  border: InputBorder.none),
-              controller: signUpController.doubleMajorController,
-              onChanged: (string) {
-                signUpController.doubleMajorSelected.value = false;
-                print("${signUpController.majorList}");
-                if (string.isEmpty) {
-                  // if the search field is empty or only contains white-space, we'll display all users
-
-                  signUpController.searchedDoubleMajorList.value = [];
-                } else {
-                  signUpController.searchedDoubleMajorList(signUpController
-                      .majorList
-                      .where((major) => major.MAJOR_NAME
-                          .toLowerCase()
-                          .contains(string.toLowerCase()))
-                      .toList());
-                  // we use the toLowerCase() method to make it case-insensitive
-                }
-              },
-            )),
+        ProfileMajorInput(
+          focusNode: majorFocusNode,
+          signUpController: signUpController,
+          isDouble: false,
+        ),
         Obx(() {
-          return signUpController.doubleMajorSelected.value
+          return signUpController.majorSelected.value
               ? Container()
               : LimitedBox(
                   maxHeight: 100.0,
@@ -150,47 +99,13 @@ class MyPageController extends GetxController
                       border:
                           Border.all(color: const Color(0xffeaeaea), width: 1),
                     ),
-                    child: Obx(() => CupertinoScrollbar(
+                    child: CupertinoScrollbar(
                         isAlwaysShown: true,
-                        child: SizedBox(
-                            height: 100,
-                            width: 300,
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: signUpController
-                                    .searchedDoubleMajorList.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: InkWell(
-                                      onTap: () {
-                                        doubleMajorFocus.unfocus();
-                                        signUpController
-                                            .doubleMajorSelected.value = true;
-                                        signUpController
-                                                .doubleMajorController.text =
-                                            signUpController
-                                                .searchedDoubleMajorList[index]
-                                                .MAJOR_NAME;
-                                        signUpController.selectedDoubleMajor(
-                                            signUpController
-                                                .searchedDoubleMajorList[index]
-                                                .MAJOR_ID);
-                                      },
-                                      child: Text(
-                                        signUpController
-                                            .searchedDoubleMajorList[index]
-                                            .MAJOR_NAME,
-                                        style: const TextStyle(
-                                            color: const Color(0xff2f2f2f),
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: "NotoSansKR",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 12.0),
-                                      ),
-                                    ),
-                                  );
-                                })))),
+                        child: ProfileMajorInputList(
+                          signUpController: signUpController,
+                          foucsNode: majorFocusNode,
+                          isDouble: false,
+                        )),
                   ),
                 );
         }),
@@ -207,48 +122,87 @@ class MyPageController extends GetxController
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Ink(
-                  child: InkWell(
-                    onTap: () async {
-                      var response = await Session().getX(
-                          "/info/changeDoubleMajor/${signUpController.selectedDoubleMajor.value}");
-
-                      if (response.statusCode == 200) {
-                        // * 시간표 수업 추가 시 noti page 업데이트(채팅 방)
-
-                        myProfile.update((val) async {
-                          // * Rx Object update 할때는 .update 메서드 사용
-                          // ! MAJOR_ID가 인덱스랑 다름 => 기존 majorList[index - 1]에서 변경
-                          val.DOUBLE_MAJOR_NAME = signUpController.majorList
-                              .firstWhere((CollegeMajorModel item) =>
-                                  item.MAJOR_ID ==
-                                  signUpController.selectedDoubleMajor.value)
-                              .MAJOR_NAME;
-
-                          await MainUpdateModule.updateNotiPage(
-                            1,
-                          );
-                        });
-
-                        Get.back();
-                        // Get.snackbar("我换了双重专业", "我换了双重专业");
-                      } else {
-                        Get.snackbar(
-                            "communication error", "communication error");
-                      }
-                    },
-                    child: Container(
-                        padding: const EdgeInsets.all(10),
-                        child: Text("是",
-                            style: const TextStyle(
-                                color: const Color(0xff4570ff),
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "NotoSansSC",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0),
-                            textAlign: TextAlign.center)),
-                  ),
+                ProfileMajorSubmit(
+                  signUpController: signUpController,
+                  myProfile: myProfile,
+                  isDouble: false,
                 )
+              ],
+            ),
+          ),
+        )
+      ]),
+    );
+  }
+
+//Tdialog 디자인가져옴
+  Future<void> changeDoubleMajor() async {
+    SignUpController signUpController = Get.put(SignUpController(
+        repository: SignUpRepository(apiClient: SignUpApiClient())));
+    await signUpController.getMajorInfo(myProfile.value.CAMPUS_ID);
+    print(signUpController.majorList.length);
+    signUpController.majorList.removeWhere(
+        (element) => element.MAJOR_NAME == myProfile.value.MAJOR_NAME);
+    if (signUpController.majorList.length == 0) {
+      await Textdialogue(Get.context, "기능 구현 중", "전공 데이터 수집 중입니다.");
+      return;
+    }
+
+    final doubleMajorFocus = FocusNode();
+    await Get.defaultDialog(
+      titlePadding: const EdgeInsets.only(top: 16.0),
+      titleStyle: const TextStyle(
+          color: const Color(0xff6f6e6e),
+          fontWeight: FontWeight.w400,
+          fontFamily: "NotoSansSC",
+          fontStyle: FontStyle.normal,
+          fontSize: 12.0),
+      contentPadding: const EdgeInsets.only(top: 20),
+      title: "补修专业",
+      content: Column(children: [
+        ProfileMajorInput(
+          focusNode: doubleMajorFocus,
+          signUpController: signUpController,
+          isDouble: true,
+        ),
+        Obx(() {
+          return signUpController.doubleMajorSelected.value
+              ? Container()
+              : LimitedBox(
+                  maxHeight: 100.0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      border:
+                          Border.all(color: const Color(0xffeaeaea), width: 1),
+                    ),
+                    child: CupertinoScrollbar(
+                        isAlwaysShown: true,
+                        child: ProfileMajorInputList(
+                          signUpController: signUpController,
+                          foucsNode: doubleMajorFocus,
+                          isDouble: true,
+                        )),
+                  ),
+                );
+        }),
+        // 선 122
+        Container(
+            margin: const EdgeInsets.only(right: 20, left: 20),
+            width: 280,
+            height: 1,
+            decoration: BoxDecoration(color: const Color(0xffd6d4d4))),
+        Container(
+          height: 50,
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ProfileMajorSubmit(
+                    signUpController: signUpController,
+                    myProfile: myProfile,
+                    isDouble: true)
               ],
             ),
           ),
@@ -615,5 +569,227 @@ class MyPageController extends GetxController
       default:
         break;
     }
+  }
+}
+
+class ProfileMajorSubmit extends StatelessWidget {
+  const ProfileMajorSubmit(
+      {Key key,
+      @required this.signUpController,
+      @required this.myProfile,
+      @required this.isDouble})
+      : super(key: key);
+
+  final SignUpController signUpController;
+  final Rx<MyProfileModel> myProfile;
+  final bool isDouble;
+
+  @override
+  Widget build(BuildContext context) {
+    return Ink(
+      child: InkWell(
+        onTap: () async {
+          String url = isDouble
+              ? "/info/changeDoubleMajor/${signUpController.selectedDoubleMajor.value}"
+              : "/info/changeMajor/${signUpController.selectedMajor.value}";
+
+          var response = await Session().getX(url);
+
+          if (response.statusCode == 200) {
+            // * 시간표 수업 추가 시 noti page 업데이트(채팅 방)
+
+            myProfile.update((val) async {
+              // * Rx Object update 할때는 .update 메서드 사용
+              // ! MAJOR_ID가 인덱스랑 다름 => 기존 majorList[index - 1]에서 변경
+              if (isDouble) {
+                val.DOUBLE_MAJOR_NAME = signUpController.majorList
+                    .firstWhere((CollegeMajorModel item) =>
+                        item.MAJOR_ID ==
+                        signUpController.selectedDoubleMajor.value)
+                    .MAJOR_NAME;
+              } else {
+                val.MAJOR_NAME = signUpController.majorList
+                    .firstWhere((CollegeMajorModel item) =>
+                        item.MAJOR_ID == signUpController.selectedMajor.value)
+                    .MAJOR_NAME;
+              }
+
+              await MainUpdateModule.updateNotiPage(
+                1,
+              );
+            });
+
+            Get.back();
+            // Get.snackbar("我换了双重专业", "我换了双重专业");
+          } else {
+            Get.snackbar("communication error", "communication error");
+          }
+        },
+        child: Container(
+            padding: const EdgeInsets.all(10),
+            child: Text("是",
+                style: const TextStyle(
+                    color: const Color(0xff4570ff),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "NotoSansSC",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 16.0),
+                textAlign: TextAlign.center)),
+      ),
+    );
+  }
+}
+
+class ProfileMajorInputList extends StatelessWidget {
+  const ProfileMajorInputList(
+      {Key key,
+      @required this.signUpController,
+      @required this.foucsNode,
+      @required this.isDouble})
+      : super(key: key);
+
+  final SignUpController signUpController;
+  final FocusNode foucsNode;
+  final bool isDouble;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        height: 100,
+        width: 300,
+        child: Obx(() {
+          return ListView.builder(
+              shrinkWrap: true,
+              itemCount: isDouble
+                  ? signUpController.searchedDoubleMajorList.length
+                  : signUpController.searchedMajorList.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    onTap: () {
+                      foucsNode.unfocus();
+                      if (isDouble) {
+                        signUpController.doubleMajorSelected.value = true;
+
+                        signUpController.doubleMajorController.text =
+                            signUpController
+                                .searchedDoubleMajorList[index].MAJOR_NAME;
+
+                        signUpController.selectedDoubleMajor(signUpController
+                            .searchedDoubleMajorList[index].MAJOR_ID);
+                      } else {
+                        signUpController.majorSelected.value = true;
+
+                        signUpController.majorController.text = signUpController
+                            .searchedMajorList[index].MAJOR_NAME;
+
+                        signUpController.selectedMajor(
+                            signUpController.searchedMajorList[index].MAJOR_ID);
+                      }
+                    },
+                    child: Text(
+                      isDouble
+                          ? signUpController
+                              .searchedDoubleMajorList[index].MAJOR_NAME
+                          : signUpController
+                              .searchedMajorList[index].MAJOR_NAME,
+                      style: const TextStyle(
+                          color: const Color(0xff2f2f2f),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "NotoSansKR",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 12.0),
+                    ),
+                  ),
+                );
+              });
+        }));
+  }
+}
+
+class ProfileMajorInput extends StatelessWidget {
+  const ProfileMajorInput(
+      {Key key,
+      @required this.focusNode,
+      @required this.signUpController,
+      @required this.isDouble})
+      : super(key: key);
+
+  final FocusNode focusNode;
+  final SignUpController signUpController;
+  final bool isDouble;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.only(bottom: 24.0, left: 20, right: 20),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(22)),
+            color: const Color(0xfff5f5f5)),
+        child: TextFormField(
+          focusNode: focusNode,
+          style: const TextStyle(
+              color: const Color(0xff2f2f2f),
+              fontWeight: FontWeight.w400,
+              fontFamily: "Roboto",
+              fontStyle: FontStyle.normal,
+              fontSize: 14.0),
+          textAlign: TextAlign.left,
+          decoration: InputDecoration(
+              contentPadding: EdgeInsets.fromLTRB(20.0, 11.0, 10.0, 11.0),
+              isDense: true,
+              hintText: "请用韩语输入您的专业",
+              hintStyle: const TextStyle(
+                  color: const Color(0xffd6d4d4),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Roboto",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(22),
+                  borderSide:
+                      BorderSide(color: const Color(0xffeaeaea), width: 1)),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(22),
+                  borderSide:
+                      BorderSide(color: const Color(0xffeaeaea), width: 1)),
+              border: InputBorder.none),
+          controller: isDouble
+              ? signUpController.doubleMajorController
+              : signUpController.majorController,
+          onChanged: (string) {
+            if (isDouble) {
+              signUpController.doubleMajorSelected.value = false;
+            } else {
+              signUpController.majorSelected.value = false;
+            }
+            print("${signUpController.majorList}");
+            if (string.isEmpty) {
+              // if the search field is empty or only contains white-space, we'll display all users
+
+              if (isDouble) {
+                signUpController.searchedDoubleMajorList.value = [];
+              } else {
+                signUpController.searchedMajorList.value = [];
+              }
+            } else {
+              if (isDouble) {
+                signUpController.searchedDoubleMajorList(signUpController
+                    .majorList
+                    .where((major) => major.MAJOR_NAME
+                        .toLowerCase()
+                        .contains(string.toLowerCase()))
+                    .toList());
+              } else {
+                signUpController.searchedMajorList(signUpController.majorList
+                    .where((major) => major.MAJOR_NAME
+                        .toLowerCase()
+                        .contains(string.toLowerCase()))
+                    .toList());
+              }
+            }
+          },
+        ));
   }
 }

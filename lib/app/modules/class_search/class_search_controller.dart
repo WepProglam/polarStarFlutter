@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'package:polarstar_flutter/app/data/model/class/class_model.dart';
 
@@ -9,6 +10,7 @@ import 'package:polarstar_flutter/app/data/repository/class/class_repository.dar
 class ClassSearchController extends GetxController {
   final ClassRepository repository;
   ClassSearchController({@required this.repository});
+  final box = GetStorage();
 
   final classSearchListAvailable = false.obs;
   RxList<ClassModel> classSearchList = <ClassModel>[].obs;
@@ -25,6 +27,8 @@ class ClassSearchController extends GetxController {
   }
 
   Future getClassSearchList() async {
+    int CAMPUS_ID = await box.read("CAMPUS_ID");
+
     Map<String, dynamic> jsonResponse =
         await repository.getClassSearchList(searchText.value, page.value);
 

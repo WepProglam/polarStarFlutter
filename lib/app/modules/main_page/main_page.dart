@@ -181,6 +181,7 @@ void putController<T>() {
         initPage: 0));
 
     final BoardController boardController = Get.find();
+    boardController.getTotalBoard();
     boardController.getHotBoard();
     boardController.getNewBoard();
   }

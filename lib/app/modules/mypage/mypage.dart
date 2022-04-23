@@ -207,7 +207,7 @@ class MyPageProfile extends StatelessWidget {
                         //! 번역 필요
                         Function onTapConfirm = () async {
                           try {
-                            await PushyController.pushyUnsubscribe("*");
+                            PushyController.pushyUnsubscribe("*");
 
                             LoginController loginController = Get.find();
                             loginController.logout();

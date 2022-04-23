@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/global_functions/form_validator.dart';
 import 'package:polarstar_flutter/app/modules/sign_up_major/sign_up_major.dart';
 import 'package:polarstar_flutter/app/modules/sign_up_page/sign_up_controller.dart';
+import 'package:polarstar_flutter/app/routes/app_pages.dart';
 
 class CampusInputs extends StatelessWidget {
   const CampusInputs({Key key, this.signUpController}) : super(key: key);
@@ -216,49 +217,18 @@ class CampusInputs extends StatelessWidget {
                   child: InkWell(
                     onTap: () async {
                       if (_formKey.currentState.validate()) {
-                        if (signUpController.selectMajorIndexPK(
-                                signUpController.selectedMajor.value) ==
-                            null) {
+                        if (signUpController.selectedCampus.value == 0 ||
+                            signUpController.selectedCampus.value == null) {
                           Get.snackbar(
-                              "Major not selected", "Major not selected.",
+                              "Campus not selected", "Campus not selected.",
                               snackPosition: SnackPosition.BOTTOM,
                               backgroundColor: Colors.white,
                               colorText: Colors.black);
                           return;
                         }
 
-                        if (signUpController.selectedMajor.value ==
-                            signUpController.selectedDoubleMajor.value) {
-                          Get.snackbar("Duplicate Double Major",
-                              "Duplicate Double Major",
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: Colors.white,
-                              colorText: Colors.black);
-                          return;
-                        }
-
-                        // Get.to(
-                        //     CommunityRule(
-                        //       isSignUp: true,
-                        //     ),
-                        //     transition: Transition.cupertino);
-
-                        Get.toNamed('/signUp');
-                        // await signUpController.signUp(
-                        //     idController.text,
-                        //     pwController.text,
-                        //     nicknameController.text,
-                        //     studentIDController.text,
-                        //     signUpController.selectIndexPK(
-                        //         signUpController.selectedMajor.value),
-                        //     signUpController.admissionYear.value);
+                        Get.toNamed(Routes.SIGNUPMAJOR);
                       }
-                      // print("${signUpController.selectedMajor.value}");
-                      // print(
-                      //     "${signUpController.selectDoubleMajorIndexPK(signUpController.selectedMajor.value)}");
-                      // print("${signUpController.selectedDoubleMajor.value}");
-                      // print(
-                      //     "${signUpController.selectDoubleMajorIndexPK(signUpController.selectedDoubleMajor.value)}");
                     },
                     child: Ink(
                       height: 48.0,
