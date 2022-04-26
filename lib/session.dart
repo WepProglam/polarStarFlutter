@@ -25,7 +25,7 @@ class Session extends GetConnect {
   static String user_pw;
 // http://3.39.76.247:3000    http://localhost:52324  http://10.0.2.2:52324
   // https://polarstar-beta.com
-  final String _basicUrl = 'http://10.0.2.2:52324';
+  final String basicUrl = 'https://polarstar-beta.com';
 
   Future reLogin() async {
     Session.cookies = {};
@@ -72,7 +72,7 @@ class Session extends GetConnect {
   }
 
   Future<http.Response> getX(String url) =>
-      http.get(Uri.parse(_basicUrl + url), headers: headers).then((value) {
+      http.get(Uri.parse(basicUrl + url), headers: headers).then((value) {
         switch (value.statusCode) {
           case 401: // login error
             // Get.toNamed("/login");
@@ -89,7 +89,7 @@ class Session extends GetConnect {
 
   Future<http.Response> postX(String url, Map data) => http
           .post(
-        Uri.parse(_basicUrl + url),
+        Uri.parse(basicUrl + url),
         body: data,
         headers: headers,
       )
@@ -106,7 +106,7 @@ class Session extends GetConnect {
       });
 
   Future putX(String url, Map data) => put(
-        _basicUrl + url,
+        basicUrl + url,
         data,
         headers: headers,
       ).then((value) async {
@@ -121,7 +121,7 @@ class Session extends GetConnect {
       });
   Future<http.Response> patchX(String url, Map data) => http
           .patch(
-        Uri.parse(_basicUrl + url),
+        Uri.parse(basicUrl + url),
         body: data,
         headers: headers,
       )
@@ -136,7 +136,7 @@ class Session extends GetConnect {
       });
 
   Future deleteX(String url) =>
-      delete(_basicUrl + url, headers: headers).then((value) {
+      delete(basicUrl + url, headers: headers).then((value) {
         switch (value.statusCode) {
           case 401:
             Get.toNamed("/login");
@@ -154,7 +154,7 @@ class Session extends GetConnect {
 
   http.MultipartRequest multipartReq(String type, String url) {
     http.MultipartRequest request =
-        http.MultipartRequest(type, Uri.parse('$_basicUrl$url'));
+        http.MultipartRequest(type, Uri.parse('$basicUrl$url'));
 
     request.headers['User-Agent'] = headers['User-Agent'];
     request.headers['polar'] = headers['polar'];
@@ -164,7 +164,7 @@ class Session extends GetConnect {
   }
 
   GetSocket socketX(String url) {
-    return socket('$_basicUrl$url');
+    return socket('$basicUrl$url');
   }
 
   String updateCookie(http.Response response, String str) {

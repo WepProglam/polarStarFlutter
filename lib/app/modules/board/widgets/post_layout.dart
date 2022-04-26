@@ -284,7 +284,13 @@ class PostWidget extends StatelessWidget {
             // * 본문 - 제목, 내용, 사진
             Container(
               margin: const EdgeInsets.fromLTRB(14, 12, 14, 0),
-              child: PostBody(item: item, c: c),
+              child: PostBody(
+                item: item,
+                c: c,
+                index: index,
+                mailController: mailController,
+                mailWriteController: mailWriteController,
+              ),
             ),
 
             // // * 좋아요, 댓글, 스크랩 수

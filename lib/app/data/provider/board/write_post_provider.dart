@@ -4,11 +4,13 @@ import 'package:http/http.dart' as http;
 import 'package:polarstar_flutter/session.dart';
 
 class WritePostApiClient {
-  Future<int> postPostNoImage(Map<String, dynamic> data, String url) async {
+  Future<Map> postPostNoImage(Map<String, dynamic> data, String url) async {
     print(data);
 
     var response = await Session().postX(url, data);
-    return response.statusCode;
+    final jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
+    return {"statusCode": response.statusCode, "jsonResponse": jsonResponse};
   }
 
   Future<int> putPostNoImage(Map<String, dynamic> data, String url) async {
@@ -16,7 +18,7 @@ class WritePostApiClient {
     return response.statusCode;
   }
 
-  Future<int> postPostImage(Map<String, dynamic> data,
+  Future<Map> postPostImage(Map<String, dynamic> data,
       List<http.MultipartFile> pic, int COMMUNITY_ID) async {
     http.MultipartRequest request =
         Session().multipartReq('POST', '/board/$COMMUNITY_ID');
@@ -29,8 +31,10 @@ class WritePostApiClient {
     print(request.files);
 
     var response = await request.send();
-    print(response.statusCode);
-    return response.statusCode;
+    final jsonResponse = jsonDecode(await utf8.decodeStream(response.stream));
+
+    print(jsonResponse);
+    return {"statusCode": response.statusCode, "jsonResponse": jsonResponse};
   }
 
   Future<int> putPostImage(Map<String, dynamic> data,

@@ -81,6 +81,7 @@ class PostApiClient {
       int COMMUNITY_ID, int UNIQUE_ID, String tag) async {
     var response =
         await Session().deleteX('/board/$COMMUNITY_ID/$tag/$UNIQUE_ID');
+    print(response.statusCode);
     return response.statusCode;
   }
 

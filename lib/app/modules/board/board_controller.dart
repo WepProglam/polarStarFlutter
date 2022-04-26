@@ -33,12 +33,12 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
   RxList<Rx<Post>> postBody = <Rx<Post>>[].obs;
   RxList<Rx<Post>> HotBody = <Rx<Post>>[].obs;
   RxList<Rx<Post>> NewBody = <Rx<Post>>[].obs;
-  RxList<Rx<Post>> TotalBody = <Rx<Post>>[].obs;
+  // RxList<Rx<Post>> TotalBody = <Rx<Post>>[].obs;
 
   var scrollController = ScrollController().obs;
   var hotScrollController = ScrollController().obs;
   var newScrollController = ScrollController().obs;
-  var totalScrollController = ScrollController().obs;
+  // var totalScrollController = ScrollController().obs;
 
   Future<void> refreshPage() async {
     page.value = 1;
@@ -84,38 +84,38 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
     }
   }
 
-  Future<void> getTotalBoard() async {
-    Map<String, dynamic> response =
-        await repository.getTotalBoard(totalPage.value);
-    final int status = response["status"];
-    final List<Rx<Post>> listBoard = response["listBoard"];
-    if (listBoard.length < MAX_BOARDS_LIMIT) {
-      totalSearchMaxPage.value = totalPage.value;
-    }
+  // Future<void> getTotalBoard() async {
+  //   Map<String, dynamic> response =
+  //       await repository.getTotalBoard(totalPage.value);
+  //   final int status = response["status"];
+  //   final List<Rx<Post>> listBoard = response["listBoard"];
+  //   if (listBoard.length < MAX_BOARDS_LIMIT) {
+  //     totalSearchMaxPage.value = totalPage.value;
+  //   }
 
-    httpStatus.value = status;
-    switch (status) {
-      case 200:
-        if (TotalBody.length == 0) {
-          TotalBody.clear();
-        } else {
-          if (checkDuplicate(TotalBody, listBoard)) {
-            TotalBody.value = listBoard;
-            break;
-          }
-        }
+  //   httpStatus.value = status;
+  //   switch (status) {
+  //     case 200:
+  //       if (TotalBody.length == 0) {
+  //         TotalBody.clear();
+  //       } else {
+  //         if (checkDuplicate(TotalBody, listBoard)) {
+  //           TotalBody.value = listBoard;
+  //           break;
+  //         }
+  //       }
 
-        for (int i = 0; i < listBoard.length; i++) {
-          TotalBody.add(listBoard[i]);
-        }
-        dataAvailablePostPreview.value = true;
-        break;
+  //       for (int i = 0; i < listBoard.length; i++) {
+  //         TotalBody.add(listBoard[i]);
+  //       }
+  //       dataAvailablePostPreview.value = true;
+  //       break;
 
-      default:
-        dataAvailablePostPreview.value = false;
-        break;
-    }
-  }
+  //     default:
+  //       dataAvailablePostPreview.value = false;
+  //       break;
+  //   }
+  // }
 
   Future<void> getNewBoard() async {
     Map<String, dynamic> response = await repository.getNewBoard(newPage.value);
@@ -254,14 +254,14 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
   Rx<int> searchMaxPage = 99999.obs;
   Rx<int> hotSearchMaxPage = 99999.obs;
   Rx<int> newSearchMaxPage = 99999.obs;
-  Rx<int> totalSearchMaxPage = 99999.obs;
+  // Rx<int> totalSearchMaxPage = 99999.obs;
   Rx<int> hotPage = 0.obs;
   Rx<int> newPage = 0.obs;
-  Rx<int> totalPage = 0.obs;
+  // Rx<int> totalPage = 0.obs;
 
   @override
   void onInit() async {
-    tabController = TabController(vsync: this, length: 3);
+    tabController = TabController(vsync: this, length: 2);
 
     super.onInit();
     MAX_BOARDS_LIMIT = await box.read("MAX_BOARDS_LIMIT");
@@ -291,15 +291,15 @@ class BoardController extends GetxController with SingleGetTickerProviderMixin {
       }
     });
 
-    totalScrollController.value.addListener(() async {
-      if ((totalScrollController.value.position.pixels ==
-                  totalScrollController.value.position.maxScrollExtent ||
-              !totalScrollController.value.position.hasPixels) &&
-          (totalPage.value < totalSearchMaxPage.value)) {
-        totalPage.value += 1;
-        await getTotalBoard();
-      }
-    });
+    // totalScrollController.value.addListener(() async {
+    //   if ((totalScrollController.value.position.pixels ==
+    //               totalScrollController.value.position.maxScrollExtent ||
+    //           !totalScrollController.value.position.hasPixels) &&
+    //       (totalPage.value < totalSearchMaxPage.value)) {
+    //     totalPage.value += 1;
+    //     await getTotalBoard();
+    //   }
+    // });
 
     // await getBoard();
 

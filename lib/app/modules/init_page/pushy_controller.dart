@@ -37,7 +37,6 @@ class PushyController extends GetxController with WidgetsBindingObserver {
           } else {
             topicList.add(topic);
           }
-          print("??@!!@");
           await box.write("pushNotiSubscribeList", topicList);
           return 200;
         }

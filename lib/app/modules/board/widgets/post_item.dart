@@ -127,10 +127,20 @@ class PostBottom extends StatelessWidget {
 }
 
 class PostBody extends StatelessWidget {
-  const PostBody({Key key, @required this.item, this.c}) : super(key: key);
+  PostBody(
+      {Key key,
+      @required this.item,
+      @required this.c,
+      @required this.mailWriteController,
+      @required this.mailController,
+      @required this.index})
+      : super(key: key);
 
   final Rx<Post> item;
   final PostController c;
+  final TextEditingController mailWriteController;
+  final MailController mailController;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -144,61 +154,115 @@ class PostBody extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // 제목
-        Container(
-          child: isNotBoard
-              ? Text("${item.value.TITLE}",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      color: const Color(0xff2f2f2f),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                  textAlign: TextAlign.left)
-              : LinkWell("${item.value.TITLE}",
-                  style: const TextStyle(
-                      color: const Color(0xff2f2f2f),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                  linkStyle: TextStyle(
-                      color: Get.theme.primaryColor,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                  textAlign: TextAlign.left),
-        ),
-        // 내용
-        Container(
-          child: isNotBoard
-              ? Text("${item.value.CONTENT}",
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      color: const Color(0xff6f6e6e),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 13.0),
-                  textAlign: TextAlign.left)
-              : LinkWell("${item.value.CONTENT}",
-                  style: const TextStyle(
-                      color: const Color(0xff6f6e6e),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 13.0),
-                  linkStyle: TextStyle(
-                      color: Get.theme.primaryColor,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "NotoSansSC",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 13.0),
-                  textAlign: TextAlign.left),
-        ),
+        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: Get.mediaQuery.size.width - 14 - 14 - 20 - 20 - 24 - 2,
+                child: isNotBoard
+                    ? Text("${item.value.TITLE}",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            color: const Color(0xff2f2f2f),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left)
+                    : LinkWell("${item.value.TITLE}",
+                        style: const TextStyle(
+                            color: const Color(0xff2f2f2f),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        linkStyle: TextStyle(
+                            color: Get.theme.primaryColor,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 14.0),
+                        textAlign: TextAlign.left),
+              ),
+              // 내용
+              Container(
+                width: Get.mediaQuery.size.width - 14 - 14 - 20 - 20 - 24 - 2,
+                child: isNotBoard
+                    ? Text("${item.value.CONTENT}",
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            color: const Color(0xff6f6e6e),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 13.0),
+                        textAlign: TextAlign.left)
+                    : LinkWell("${item.value.CONTENT}",
+                        style: const TextStyle(
+                            color: const Color(0xff6f6e6e),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 13.0),
+                        linkStyle: TextStyle(
+                            color: Get.theme.primaryColor,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: "NotoSansSC",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 13.0),
+                        textAlign: TextAlign.left),
+              ),
+            ],
+          ),
+          Spacer(),
+          PopupMenuButton(
+              child: Container(
+                width: 24,
+                height: 24,
+                child: Image.asset("assets/images/icn_more.png"),
+              ),
+              onSelected: (value) async {
+                if (value == "게시글 수정") {
+                  await updatePostFunc(item);
+                } else if (value == "게시글 삭제") {
+                  await deletePostFunc(item, c);
+                } else if (value == "게시글 신고") {
+                  await arrestPostFunc(c, item, index);
+                } else if (value == "쪽지 보내기") {
+                  await sendMailPostFunc(
+                      c, item, mailWriteController, mailController);
+                }
+              },
+              itemBuilder: (context) {
+                if (item.value.MYSELF) {
+                  return [
+                    PopupMenuItem(
+                      child: Text("修改帖子内容"),
+                      value: "게시글 수정",
+                    ),
+                    PopupMenuItem(
+                      child: Text("删除帖子"),
+                      value: "게시글 삭제",
+                    ),
+                  ];
+                } else {
+                  return [
+                    PopupMenuItem(
+                      child: Text("举报"),
+                      value: "게시글 신고",
+                    ),
+                    PopupMenuItem(
+                      child: Text("私信"),
+                      value: "쪽지 보내기",
+                    ),
+                  ];
+                }
+              })
+        ]),
+
         (item.value.MEDIA != [] &&
                 item.value.MEDIA != null &&
                 item.value.MEDIA.isNotEmpty)

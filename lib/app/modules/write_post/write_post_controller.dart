@@ -8,9 +8,11 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:polarstar_flutter/app/modules/board/board_controller.dart';
+import 'package:polarstar_flutter/app/modules/init_page/pushy_controller.dart';
 import 'package:polarstar_flutter/app/modules/post/post_controller.dart';
 import 'package:polarstar_flutter/app/data/repository/board/write_post_repository.dart';
 import 'package:http/http.dart' as http;
+import 'package:polarstar_flutter/session.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:mime/mime.dart';
 
@@ -69,10 +71,14 @@ class WritePostController extends GetxController {
   //게시글 새로 작성 (사진 X)
   Future<void> postPostNoImage(Map<String, dynamic> data) async {
     sendingPost.value = true;
-    int status = await repository.postPostNoImage(data, "/board/$COMMUNITY_ID");
+    Map response =
+        await repository.postPostNoImage(data, "/board/$COMMUNITY_ID");
     Get.back();
+    String RES_BOARD_ID = "${response["jsonResponse"]["BOARD_ID"]}";
+    String RES_COMMUNITY_ID = "${response["jsonResponse"]["COMMUNITY_ID"]}";
 
-    responseSwitchCase(status);
+    await responseSwitchCase(response["statusCode"],
+        BOARD_ID: RES_BOARD_ID, COMMUNITY_ID: RES_COMMUNITY_ID);
     sendingPost.value = false;
   }
 
@@ -83,9 +89,10 @@ class WritePostController extends GetxController {
     int status = await repository.putPostNoImage(
         data, '/board/$COMMUNITY_ID/bid/$BOARD_ID');
     Get.back();
-    responseSwitchCase(status);
+    await responseSwitchCase(status);
     sendingPost.value = false;
   }
+  // 论疫情下螺蛳粉的滞销
 
   //게시글 작성 (사진 O)
   Future<void> postPostImage(Map<String, dynamic> data) async {
@@ -110,10 +117,16 @@ class WritePostController extends GetxController {
 
     print("${size}B");
 
-    int status = await repository.postPostImage(data, photoList, COMMUNITY_ID);
+    Map response =
+        await repository.postPostImage(data, photoList, COMMUNITY_ID);
     Get.back();
 
-    responseSwitchCase(status);
+    String RES_BOARD_ID = "${response["jsonResponse"]["BOARD_ID"]}";
+    String RES_COMMUNITY_ID = "${response["jsonResponse"]["COMMUNITY_ID"]}";
+
+    await responseSwitchCase(response["statusCode"],
+        BOARD_ID: RES_BOARD_ID, COMMUNITY_ID: RES_COMMUNITY_ID);
+
     sendingPost.value = false;
   }
 
@@ -140,16 +153,24 @@ class WritePostController extends GetxController {
         await repository.putPostImage(data, photoList, COMMUNITY_ID, BOARD_ID);
     Get.back();
 
-    responseSwitchCase(status);
+    await responseSwitchCase(status);
     sendingPost.value = false;
   }
 
   bool get dataAvailable => _dataAvailable.value;
 }
 
-void responseSwitchCase(int status) {
+Future<void> responseSwitchCase(int status,
+    {String BOARD_ID = null, String COMMUNITY_ID = null}) async {
   switch (status) {
     case 200:
+      print(BOARD_ID);
+      print(COMMUNITY_ID);
+      if (BOARD_ID != null && COMMUNITY_ID != null) {
+        String topic = "board_${COMMUNITY_ID}_bid_${BOARD_ID}";
+        print(await PushyController.pushySubscribe(topic));
+        print("pushySubscribe");
+      }
       break;
     case 401:
       Get.snackbar("系统错误", "无法识别用户",

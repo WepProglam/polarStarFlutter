@@ -9,7 +9,7 @@ class WritePostRepository {
   WritePostRepository({@required this.apiClient}) : assert(apiClient != null);
 
   //게시글 새로 작성 (사진 X)
-  Future<int> postPostNoImage(Map<String, dynamic> data, String url) async {
+  Future<Map> postPostNoImage(Map<String, dynamic> data, String url) async {
     return await apiClient.postPostNoImage(data, url);
   }
 
@@ -19,10 +19,9 @@ class WritePostRepository {
   }
 
   //게시글 작성 (사진 O)
-  Future<int> postPostImage(Map<String, dynamic> data,
+  Future<Map> postPostImage(Map<String, dynamic> data,
       List<http.MultipartFile> pic, int COMMUNITY_ID) async {
-    int status = await apiClient.postPostImage(data, pic, COMMUNITY_ID);
-    return status;
+    return await apiClient.postPostImage(data, pic, COMMUNITY_ID);
   }
 
   //게시글 수정 (사진 O)

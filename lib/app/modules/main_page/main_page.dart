@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/data/provider/board/board_provider.dart';
 import 'package:polarstar_flutter/app/data/repository/board/board_repository.dart';
-import 'package:polarstar_flutter/app/modules/board/board.dart';
 import 'package:polarstar_flutter/app/modules/board/board_controller.dart';
 import 'package:polarstar_flutter/app/modules/classChat/class_chat_controller.dart';
 import 'package:polarstar_flutter/app/modules/class/class_controller.dart';
@@ -181,8 +180,8 @@ void putController<T>() {
         initPage: 0));
 
     final BoardController boardController = Get.find();
-    boardController.getTotalBoard();
-    boardController.getHotBoard();
+    // boardController.getTotalBoard();
     boardController.getNewBoard();
+    boardController.getHotBoard();
   }
 }

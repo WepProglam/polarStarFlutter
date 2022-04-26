@@ -72,6 +72,22 @@ class HotBoard extends StatelessWidget {
             //     }),
             //   ),
             // ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                int CAMPUS_ID = await box.read("CAMPUS_ID");
+                await Get.toNamed('/board/${CAMPUS_ID}').then((value) async {
+                  await MainUpdateModule.updateHotMain(0);
+                });
+              },
+              child: // Ellipse 6
+                  Container(
+                      width: 56,
+                      height: 56,
+                      child: Image.asset("assets/images/icn_pen.png"),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                          color: Get.theme.primaryColor)),
+            ),
             body: Obx(() {
               if (controller.dataAvailablePostPreview.value) {
                 return Column(children: [
@@ -104,11 +120,11 @@ class HotBoard extends StatelessWidget {
                               fontStyle: FontStyle.normal,
                               fontSize: 14.0),
                           tabs: <Tab>[
+                            // Tab(
+                            //   text: "전체",
+                            // ),
                             Tab(
-                              text: "전체",
-                            ),
-                            Tab(
-                              text: "학교",
+                              text: "New",
                             ),
                             Tab(
                               text: "Hot",
@@ -124,73 +140,73 @@ class HotBoard extends StatelessWidget {
                           controller: controller.tabController,
                           physics: AlwaysScrollableScrollPhysics(),
                           children: [
-                            Container(
-                              margin: const EdgeInsets.only(top: 0),
-                              child: RefreshIndicator(
-                                onRefresh: () async {
-                                  await MainUpdateModule.updateHotMain(
-                                      controller.tabController.index);
-                                },
-                                child: controller.TotalBody.length == 0
-                                    ? Center(
-                                        child: Text("아직 게시글이 없습니다."),
-                                      )
-                                    : ListView.builder(
-                                        controller: controller
-                                            .totalScrollController.value,
-                                        itemCount: controller
-                                                    .totalSearchMaxPage.value ==
-                                                controller.totalPage.value
-                                            ? controller.TotalBody.length + 1
-                                            : controller.TotalBody.length + 2,
-                                        physics:
-                                            AlwaysScrollableScrollPhysics(),
-                                        cacheExtent: 100,
-                                        itemBuilder:
-                                            (BuildContext context, int ii) {
-                                          int index = ii - 1;
-                                          if (ii == 0) {
-                                            return Container(
-                                              height: 24 - 5.0,
-                                            );
-                                          }
-                                          if (index ==
-                                              controller.TotalBody.length) {
-                                            return Center(
-                                              child: CircularProgressIndicator(
-                                                color: Get.theme.primaryColor,
-                                              ),
-                                            );
-                                          }
-                                          Rx<Post> model =
-                                              controller.TotalBody[index];
-                                          return Ink(
-                                            child: InkWell(
-                                              onTap: () async {
-                                                await Get.toNamed(
-                                                    "/board/${model.value.COMMUNITY_ID}/read/${model.value.BOARD_ID}",
-                                                    arguments: {
-                                                      "type": 0
-                                                    }).then((value) async {
-                                                  await MainUpdateModule
-                                                      .updateHotMain(controller
-                                                          .tabController.index);
-                                                });
-                                              },
-                                              child: PostWidget(
-                                                item: model,
-                                                index: index,
-                                                mainController: mainController,
-                                              ),
-                                            ),
-                                          );
+                            // Container(
+                            //   margin: const EdgeInsets.only(top: 0),
+                            //   child: RefreshIndicator(
+                            //     onRefresh: () async {
+                            //       await MainUpdateModule.updateHotMain(
+                            //           controller.tabController.index);
+                            //     },
+                            //     child: controller.TotalBody.length == 0
+                            //         ? Center(
+                            //             child: Text("아직 게시글이 없습니다."),
+                            //           )
+                            //         : ListView.builder(
+                            //             controller: controller
+                            //                 .totalScrollController.value,
+                            //             itemCount: controller
+                            //                         .totalSearchMaxPage.value ==
+                            //                     controller.totalPage.value
+                            //                 ? controller.TotalBody.length + 1
+                            //                 : controller.TotalBody.length + 2,
+                            //             physics:
+                            //                 AlwaysScrollableScrollPhysics(),
+                            //             cacheExtent: 100,
+                            //             itemBuilder:
+                            //                 (BuildContext context, int ii) {
+                            //               int index = ii - 1;
+                            //               if (ii == 0) {
+                            //                 return Container(
+                            //                   height: 24 - 5.0,
+                            //                 );
+                            //               }
+                            //               if (index ==
+                            //                   controller.TotalBody.length) {
+                            //                 return Center(
+                            //                   child: CircularProgressIndicator(
+                            //                     color: Get.theme.primaryColor,
+                            //                   ),
+                            //                 );
+                            //               }
+                            //               Rx<Post> model =
+                            //                   controller.TotalBody[index];
+                            //               return Ink(
+                            //                 child: InkWell(
+                            //                   onTap: () async {
+                            //                     await Get.toNamed(
+                            //                         "/board/${model.value.COMMUNITY_ID}/read/${model.value.BOARD_ID}",
+                            //                         arguments: {
+                            //                           "type": 0
+                            //                         }).then((value) async {
+                            //                       await MainUpdateModule
+                            //                           .updateHotMain(controller
+                            //                               .tabController.index);
+                            //                     });
+                            //                   },
+                            //                   child: PostWidget(
+                            //                     item: model,
+                            //                     index: index,
+                            //                     mainController: mainController,
+                            //                   ),
+                            //                 ),
+                            //               );
 
-                                          // PostPreview(
-                                          //   item: model,
-                                          // );
-                                        }),
-                              ),
-                            ),
+                            //               // PostPreview(
+                            //               //   item: model,
+                            //               // );
+                            //             }),
+                            //   ),
+                            // ),
                             Container(
                               margin: const EdgeInsets.only(top: 0),
                               child: RefreshIndicator(

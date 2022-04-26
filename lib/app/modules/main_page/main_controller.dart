@@ -742,11 +742,13 @@ class MainUpdateModule {
   static Future<void> updateHotMain(int index) async {
     final BoardController boardController = Get.find();
     if (index == 0) {
-      boardController.hotPage.value = 0;
-      await boardController.refreshHotPage();
-    } else {
       boardController.newPage.value = 0;
       await boardController.refreshNewPage();
+      print("refresh new");
+    } else {
+      boardController.hotPage.value = 0;
+      await boardController.refreshHotPage();
+      print("refresh hot");
     }
 
     updateLikeList();
@@ -757,7 +759,6 @@ class MainUpdateModule {
 
   static Future<void> updateBoard() async {
     final BoardController boardController = Get.find();
-    print("update page!");
     await boardController.refreshPage();
     return;
   }
