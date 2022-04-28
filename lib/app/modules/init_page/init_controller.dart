@@ -167,8 +167,7 @@ class InitController extends GetxController {
       if (current_buildNumber < min_buildNumber) {
         //업데이트 해야함(필수)
 
-        await Tdialogue(
-            Get.context, "软件检测到新版本必须更新后使用", "软件检测到新版本必须更新后使用", onTapConfirm);
+        await Tdialogue("软件检测到新版本必须更新后使用", "软件检测到新版本必须更新后使用", onTapConfirm);
       } else if (current_buildNumber > latest_buildNumber) {
         //이건 오류(build number 잘못 입력됨)
         print("versionCheck failed");

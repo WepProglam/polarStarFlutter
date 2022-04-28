@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/modules/mailHistory/mail_controller.dart';
@@ -247,8 +246,7 @@ Future<void> inputDialogue(String title,
   );
 }
 
-Future<void> Textdialogue(
-    BuildContext context, String title, String content) async {
+Future<void> Textdialogue(String title, String content) async {
   await Get.defaultDialog(
     titlePadding: const EdgeInsets.only(top: 20.0),
     titleStyle: const TextStyle(
@@ -256,7 +254,7 @@ Future<void> Textdialogue(
         fontWeight: FontWeight.w400,
         fontFamily: "NotoSansSC",
         fontStyle: FontStyle.normal,
-        fontSize: 12.0),
+        fontSize: 16.0),
     contentPadding: const EdgeInsets.only(top: 20),
     title: "${title}",
     content: Column(children: [
@@ -266,7 +264,7 @@ Future<void> Textdialogue(
               fontWeight: FontWeight.w400,
               fontFamily: "NotoSansSC",
               fontStyle: FontStyle.normal,
-              fontSize: 16.0),
+              fontSize: 12.0),
           textAlign: TextAlign.center),
       // 선 122
       Container(
@@ -278,8 +276,8 @@ Future<void> Textdialogue(
   );
 }
 
-Future<void> Tdialogue(BuildContext context, String title, String content,
-    Function ontapConfirm) async {
+Future<void> Tdialogue(
+    String title, String content, Function ontapConfirm) async {
   await Get.defaultDialog(
     titlePadding: const EdgeInsets.only(top: 20.0),
     titleStyle: const TextStyle(

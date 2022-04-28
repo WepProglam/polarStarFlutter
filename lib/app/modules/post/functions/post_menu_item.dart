@@ -38,10 +38,11 @@ Future<void> arrestPostFunc(PostController c, Rx<Post> item, int index) async {
   if (ARREST_TYPE == null) {
     return;
   }
-  await c.totalSend(
+  int statusCode = await c.totalSend(
       '/arrest/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}?ARREST_TYPE=$ARREST_TYPE',
       '신고',
       index);
+  arrestReaction(statusCode);
 }
 
 Future<void> sendMailPostFunc(
@@ -77,10 +78,11 @@ Future<void> arrestCommentFunc(PostController c, Post item, int index) async {
   }
 
   if (ARREST_TYPE != null) {
-    await c.totalSend(
+    int statusCode = await c.totalSend(
         '/arrest/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}?ARREST_TYPE=$ARREST_TYPE',
         '신고',
         index);
+    arrestReaction(statusCode);
   }
 }
 
@@ -124,10 +126,24 @@ Future<void> arrestCCFunc(PostController c, Post item, int index) async {
   if (ARREST_TYPE == null) {
     return;
   }
-  await c.totalSend(
+  int statusCode = await c.totalSend(
       '/arrest/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}?ARREST_TYPE=$ARREST_TYPE',
       '신고',
       index);
+  arrestReaction(statusCode);
+}
+
+void arrestReaction(int statusCode) {
+  switch (statusCode) {
+    case 200:
+      Textdialogue("신고 처리 완료", "일정 횟수 이상 누적될 경우,\n해당 유저는 앱 이용에 제한이 가해집니다.");
+
+      break;
+    default:
+      Textdialogue("신고 처리 실패", "해당 유저를 신고할 수 없습니다.");
+
+      break;
+  }
 }
 
 // * 대댓글 쪽지 보내기

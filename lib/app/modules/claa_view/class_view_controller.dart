@@ -92,25 +92,25 @@ class ClassViewController extends GetxController
 
     switch (response["statusCode"]) {
       case 200:
-        Textdialogue(Get.context, "举报成功", "举报成功");
+        Textdialogue("举报成功", "举报成功");
         classReviewList[index].ACCUSE_AMOUNT++;
         classReviewList[index].ALREADY_ACCUSED = true;
         classReviewList.refresh();
         break;
       case 400:
-        Textdialogue(Get.context, "举报失败 - 无法举报本人", "举报失败 - 无法举报本人");
+        Textdialogue("举报失败 - 无法举报本人", "举报失败 - 无法举报本人");
         break;
       case 401:
-        Textdialogue(Get.context, "举报失败 - 请先登录", "举报失败 - 请先登录");
+        Textdialogue("举报失败 - 请先登录", "举报失败 - 请先登录");
         break;
       case 403:
-        Textdialogue(Get.context, "举报失败 - 无法重复举报", "举报失败 - 无法重复举报");
+        Textdialogue("举报失败 - 无法重复举报", "举报失败 - 无法重复举报");
         break;
       case 404:
-        Textdialogue(Get.context, "举报失败 - 该内容已被删除", "举报失败 - 该内容已被删除");
+        Textdialogue("举报失败 - 该内容已被删除", "举报失败 - 该内容已被删除");
         break;
       default:
-        Textdialogue(Get.context, "举报失败 - ${response["statusCode"]}",
+        Textdialogue("举报失败 - ${response["statusCode"]}",
             "举报失败 - ${response["statusCode"]}");
         break;
     }
@@ -132,25 +132,25 @@ class ClassViewController extends GetxController
 
     switch (response["statusCode"]) {
       case 200:
-        Textdialogue(Get.context, "举报成功", "举报成功");
+        Textdialogue("举报成功", "举报成功");
         classExamList[index].ACCUSE_AMOUNT++;
         classExamList[index].ALREADY_ACCUSED = true;
         classExamList.refresh();
         break;
       case 400:
-        Textdialogue(Get.context, "举报失败 - 无法举报本人", "举报失败 - 无法举报本人");
+        Textdialogue("举报失败 - 无法举报本人", "举报失败 - 无法举报本人");
         break;
       case 401:
-        Textdialogue(Get.context, "举报失败 - 请先登录", "举报失败 - 请先登录");
+        Textdialogue("举报失败 - 请先登录", "举报失败 - 请先登录");
         break;
       case 403:
-        Textdialogue(Get.context, "举报失败 - 无法重复举报", "举报失败 - 无法重复举报");
+        Textdialogue("举报失败 - 无法重复举报", "举报失败 - 无法重复举报");
         break;
       case 404:
-        Textdialogue(Get.context, "举报失败 - 该内容已被删除", "举报失败 - 该内容已被删除");
+        Textdialogue("举报失败 - 该内容已被删除", "举报失败 - 该内容已被删除");
         break;
       default:
-        Textdialogue(Get.context, "举报失败 - ${response["statusCode"]}",
+        Textdialogue("举报失败 - ${response["statusCode"]}",
             "举报失败 - ${response["statusCode"]}");
         break;
     }

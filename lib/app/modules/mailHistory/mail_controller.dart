@@ -184,7 +184,7 @@ class MailController extends GetxController {
 
     Map<String, dynamic> value = await repository.getMail(MAIL_BOX_ID.value);
     if (value["status"] != 200) {
-      await Textdialogue(Get.context, "私信已经删除了", "私信已经删除了");
+      await Textdialogue("私信已经删除了", "私信已经删除了");
       await Get.back();
       return;
     }

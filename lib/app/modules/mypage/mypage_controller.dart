@@ -68,7 +68,7 @@ class MyPageController extends GetxController
         repository: SignUpRepository(apiClient: SignUpApiClient())));
     await signUpController.getMajorInfo(myProfile.value.CAMPUS_ID);
     if (signUpController.majorList.length == 0) {
-      await Textdialogue(Get.context, "기능 구현 중", "아직 전공 데이터 수집 중입니다.");
+      await Textdialogue("기능 구현 중", "아직 전공 데이터 수집 중입니다.");
       return;
     }
     final majorFocusNode = FocusNode();
@@ -144,7 +144,7 @@ class MyPageController extends GetxController
     signUpController.majorList.removeWhere(
         (element) => element.MAJOR_NAME == myProfile.value.MAJOR_NAME);
     if (signUpController.majorList.length == 0) {
-      await Textdialogue(Get.context, "기능 구현 중", "전공 데이터 수집 중입니다.");
+      await Textdialogue("기능 구현 중", "전공 데이터 수집 중입니다.");
       return;
     }
 

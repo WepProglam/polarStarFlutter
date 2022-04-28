@@ -992,7 +992,7 @@ void checkNoti(NotiController notiController, int index) async {
     case 3:
       if (notiController.noties[index].value.URL == null ||
           notiController.noties[index].value.URL.isEmpty) {
-        Textdialogue(Get.context, notiController.noties[index].value.TITLE,
+        Textdialogue(notiController.noties[index].value.TITLE,
             notiController.noties[index].value.CONTENT);
       } else {
         Get.to(Container(
@@ -1013,7 +1013,7 @@ void checkNoti(NotiController notiController, int index) async {
     case 4:
       if (notiController.noties[index].value.URL == null ||
           notiController.noties[index].value.URL.isEmpty) {
-        Textdialogue(Get.context, notiController.noties[index].value.TITLE,
+        Textdialogue(notiController.noties[index].value.TITLE,
             notiController.noties[index].value.CONTENT);
       } else {
         Get.to(Container(
