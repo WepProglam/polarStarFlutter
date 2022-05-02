@@ -100,6 +100,9 @@ dependencies:
   url_launcher: ^6.0.20
   launch_review: ^3.0.1
 
+  firebase_analytics: ^9.1.1
+  firebase_core: ^1.15.0
+
   
 dependency_overrides:
   meta: ^1.7.0

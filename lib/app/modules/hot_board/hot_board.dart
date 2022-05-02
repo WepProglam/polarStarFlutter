@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polarstar_flutter/app/modules/board/board_controller.dart';
 import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
-import 'package:polarstar_flutter/app/modules/board/search_controller.dart';
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/modules/board/widgets/post_layout.dart';
 import 'package:polarstar_flutter/app/global_functions/board_name.dart';
@@ -91,20 +90,19 @@ class HotBoard extends StatelessWidget {
             body: Obx(() {
               if (controller.dataAvailablePostPreview.value) {
                 return Column(children: [
-                  Container(
-                    height: 20,
-                    margin: const EdgeInsets.only(top: 14, bottom: 5),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
+                  Stack(children: [
+                    Container(
+                      height: 20,
+                      margin: const EdgeInsets.only(top: 14, bottom: 5),
+                      child: Container(
+                        // padding: const EdgeInsets.only(left: 20.0),
                         child: TabBar(
-                          padding: const EdgeInsets.all(0.0),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 0.0, horizontal: 200.0),
                           indicator: UnderlineTabIndicator(
                             borderSide: BorderSide(
-                                color: const Color(0xff4c74f6), width: 2.0),
-                            insets:
-                                EdgeInsets.fromLTRB(100.0, 0.0, 100.0, -2.0),
+                                color: Get.theme.primaryColor, width: 2.0),
+                            insets: EdgeInsets.fromLTRB(30.0, 0.0, 30.0, -2.0),
                           ),
                           controller: controller.tabController,
                           indicatorColor: Get.theme.primaryColor,
@@ -133,7 +131,16 @@ class HotBoard extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
+                    // Positioned(
+                    //     right: 24,
+                    //     top: 14,
+                    //     bottom: 5,
+                    //     child: Container(
+                    //       color: Colors.red,
+                    //       width: 24,
+                    //       height: 24,
+                    //     )),
+                  ]),
                   Container(
                     child: Expanded(
                       child: TabBarView(

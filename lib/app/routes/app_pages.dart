@@ -54,6 +54,7 @@ import 'package:polarstar_flutter/app/modules/timetable_bin/timtable_bin.dart';
 import 'package:polarstar_flutter/app/modules/write_post/write_post.dart';
 import 'package:polarstar_flutter/app/modules/write_post/write_post_binding.dart';
 import 'package:polarstar_flutter/app/modules/board_list/board_list.dart';
+import 'package:polarstar_flutter/main.dart';
 
 part './app_routes.dart';
 
@@ -61,7 +62,9 @@ class AppPages {
   static final pages = [
     GetPage(
         name: Routes.INITIAL,
-        page: () => InitPage(),
+        page: () => InitPage(
+            // analytics: analytics,
+            ),
         binding: InitBinding(),
         transition: Transition.fadeIn),
     GetPage(name: Routes.SETTING, page: () => Setting()),
@@ -99,7 +102,9 @@ class AppPages {
         transition: Transition.cupertino),
     GetPage(
       name: Routes.MAIN_PAGE,
-      page: () => MainPage(),
+      page: () => MainPage(
+          // analytics: analytics,
+          ),
       bindings: [MainBinding()],
     ),
     GetPage(

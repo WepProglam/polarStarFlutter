@@ -51,6 +51,7 @@ const textColor = 0xff2f2f2f;
 
 class MainPage extends StatelessWidget {
   final box = GetStorage();
+
   // ! 시작할때 모든 컨트롤러 다 불러와야해서 변경 -> 바텀 네비게이션 누를때마다 생성하는걸로
   // final List<Widget> mainPageWidget = [
   //   MainPageScroll(),

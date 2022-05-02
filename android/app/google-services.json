@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "377248301464",
-    "project_id": "polarstarfcm",
-    "storage_bucket": "polarstarfcm.appspot.com"
+    "project_number": "960390195434",
+    "project_id": "polarstar-6abe8",
+    "storage_bucket": "polarstar-6abe8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:377248301464:android:a8016691417c9aa9d46bed",
+        "mobilesdk_app_id": "1:960390195434:android:adfc2f06e3fae465040f93",
         "android_client_info": {
           "package_name": "com.polarstar.polarStar"
         }
       },
       "oauth_client": [
         {
-          "client_id": "377248301464-6nmj90u1v4ikscjt0tibthf7vsn5fli3.apps.googleusercontent.com",
+          "client_id": "960390195434-1fpbg56bg6dv73rdn9bp3tbu3beacv0g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCbtMIIVDC-i3vq_N5aHdCTPlQpOS6Jyp4"
+          "current_key": "AIzaSyD8afR0G5ylfKY3OnHhGh5xgcDYb0O0gfk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "377248301464-6nmj90u1v4ikscjt0tibthf7vsn5fli3.apps.googleusercontent.com",
+              "client_id": "960390195434-1fpbg56bg6dv73rdn9bp3tbu3beacv0g.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

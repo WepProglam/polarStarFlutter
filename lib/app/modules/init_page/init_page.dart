@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -9,20 +10,24 @@ import 'package:polarstar_flutter/app/modules/init_page/init_controller.dart';
 import 'package:polarstar_flutter/main.dart';
 
 class InitPage extends GetView<InitController> {
-  InitPage({Key key}) : super(key: key);
+  //    InitPage({Key key, @required this.analytics})
+  // : observer = FirebaseAnalyticsObserver(analytics: analytics),
+  //   super(key: key);
   final InitController initController = Get.find();
+  // final FirebaseAnalytics analytics;
+  // final FirebaseAnalyticsObserver observer;
 
   @override
   Widget build(BuildContext context) {
     // changeStatusBarColor(Color(0xff4570ff), Brightness.light);
-    changeStatusBarColor(Color(0xffffffff), Brightness.light);
+    changeStatusBarColor(const Color(0xff571DF0), Brightness.light);
 
     return Container(
       color: const Color(0xff4570ff),
       child: SafeArea(
         top: false,
         child: Scaffold(
-          backgroundColor: const Color(0xff4570ff),
+          backgroundColor: Get.theme.primaryColor,
           body:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Obx(() => AnimatedOpacity(
