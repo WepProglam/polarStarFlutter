@@ -15,7 +15,6 @@ import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/data/model/main_model.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/modules/hot_board/widgets/board_mail_dialog.dart';
-import 'package:polarstar_flutter/app/modules/board/functions/post_menu_item.dart';
 import 'package:polarstar_flutter/app/modules/board/widgets/post_item.dart';
 import 'package:polarstar_flutter/app/modules/photo_layout/photo_layout.dart';
 import 'package:polarstar_flutter/main.dart';

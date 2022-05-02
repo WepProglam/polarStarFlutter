@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:polarstar_flutter/app/modules/board/board_controller.dart';
 import 'package:polarstar_flutter/app/modules/post/post_controller.dart';
 import 'package:polarstar_flutter/app/modules/mailHistory/mail_controller.dart';
-import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
-import 'package:polarstar_flutter/app/modules/mypage/mypage_controller.dart';
 
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
-import 'package:polarstar_flutter/app/data/model/main_model.dart';
-import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/modules/hot_board/widgets/board_mail_dialog.dart';
-import 'package:polarstar_flutter/app/modules/board/widgets/post_layout.dart';
-import 'package:polarstar_flutter/app/modules/photo_layout/photo_layout.dart';
 import 'package:polarstar_flutter/app/global_widgets/dialoge.dart';
-import 'package:polarstar_flutter/main.dart';
 
 Future<void> updatePostFunc(Rx<Post> item) async {
   Function ontapConfirm = () async {
@@ -38,10 +28,12 @@ Future<void> arrestPostFunc(PostController c, Rx<Post> item, int index) async {
   if (ARREST_TYPE == null) {
     return;
   }
-  await c.totalSend(
+  int statusCode = await c.totalSend(
       '/arrest/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}?ARREST_TYPE=$ARREST_TYPE',
       '신고',
       index);
+  print("신고 완료");
+  arrestReaction(statusCode);
 }
 
 Future<void> sendMailPostFunc(
@@ -77,10 +69,11 @@ Future<void> arrestCommentFunc(PostController c, Post item, int index) async {
   }
 
   if (ARREST_TYPE != null) {
-    await c.totalSend(
+    int statusCode = await c.totalSend(
         '/arrest/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}?ARREST_TYPE=$ARREST_TYPE',
         '신고',
         index);
+    arrestReaction(statusCode);
   }
 }
 
@@ -124,10 +117,24 @@ Future<void> arrestCCFunc(PostController c, Post item, int index) async {
   if (ARREST_TYPE == null) {
     return;
   }
-  await c.totalSend(
+  int statusCode = await c.totalSend(
       '/arrest/${item.COMMUNITY_ID}/id/${item.UNIQUE_ID}?ARREST_TYPE=$ARREST_TYPE',
       '신고',
       index);
+  arrestReaction(statusCode);
+}
+
+void arrestReaction(int statusCode) {
+  switch (statusCode) {
+    case 200:
+      Textdialogue(Get.context, "차단/신고 처리 완료",
+          "일정 횟수 이상 누적될 경우,\n해당 유저는 앱 이용에 제한이 가해집니다.");
+      break;
+    default:
+      Textdialogue(Get.context, "신고 처리 실패", "해당 유저를 신고할 수 없습니다.");
+
+      break;
+  }
 }
 
 // * 대댓글 쪽지 보내기
