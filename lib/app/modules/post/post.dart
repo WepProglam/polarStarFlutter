@@ -22,6 +22,15 @@ class Post extends StatelessWidget {
         top: false,
         child: Scaffold(
             backgroundColor: Color(0xffffffff),
+            // floatingActionButton: FloatingActionButton(
+            //     onPressed: () async {
+            //       await box.remove("arrestList");
+            //     },
+            //     child: Container(
+            //       width: 50,
+            //       height: 50,
+            //       color: Colors.red,
+            //     )),
             appBar: AppBar(
               toolbarHeight: 56,
 

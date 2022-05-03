@@ -57,6 +57,13 @@ class Post {
       BOARD_ID,
       MYSELF});
 
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['BOARD_ID'] = this.BOARD_ID;
+    data['COMMUNITY_ID'] = this.COMMUNITY_ID;
+    return data;
+  }
+
   Post.fromJson(Map<String, dynamic> json) {
     this.DEPTH = nullCheck(json["DEPTH"]);
     this.TITLE = nullCheck(json["TITLE"]);
