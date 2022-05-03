@@ -1,14 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:polarstar_flutter/app/modules/post/post_controller.dart';
 import 'package:polarstar_flutter/app/modules/mailHistory/mail_controller.dart';
 
 import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 import 'package:polarstar_flutter/app/modules/hot_board/widgets/board_mail_dialog.dart';
-import 'package:polarstar_flutter/app/modules/board/widgets/post_layout.dart';
-import 'package:polarstar_flutter/app/modules/photo_layout/photo_layout.dart';
 import 'package:polarstar_flutter/app/global_widgets/dialoge.dart';
-import 'package:polarstar_flutter/main.dart';
+
+final box = GetStorage();
 
 Future<void> updatePostFunc(Rx<Post> item) async {
   Function ontapConfirm = () async {
@@ -35,7 +37,8 @@ Future<void> arrestPostFunc(PostController c, Rx<Post> item, int index) async {
       '/arrest/${item.value.COMMUNITY_ID}/id/${item.value.BOARD_ID}?ARREST_TYPE=$ARREST_TYPE',
       '신고',
       index);
-  arrestReaction(statusCode);
+  print("신고 완료");
+  arrestReaction(statusCode, item: item.value);
 }
 
 Future<void> sendMailPostFunc(
@@ -126,10 +129,25 @@ Future<void> arrestCCFunc(PostController c, Post item, int index) async {
   arrestReaction(statusCode);
 }
 
-void arrestReaction(int statusCode) {
+void arrestReaction(int statusCode, {Post item}) {
   switch (statusCode) {
     case 200:
-      Textdialogue("신고 처리 완료", "일정 횟수 이상 누적될 경우,\n해당 유저는 앱 이용에 제한이 가해집니다.");
+      Textdialogue("차단/신고 처리 완료", "일정 횟수 이상 누적될 경우,\n해당 유저는 앱 이용에 제한이 가해집니다.");
+      if (item.COMMUNITY_ID != null && item.BOARD_ID != null) {
+        if (box.read("arrestList") == null) {
+          Post arrestPost = Post.fromJson(
+              {"COMMUNITY_ID": item.COMMUNITY_ID, "BOARD_ID": item.BOARD_ID});
+          box.write("arrestList", [arrestPost.toJson()]);
+        } else {
+          List arrestPostList = box.read("arrestList");
+          print(arrestPostList);
+          arrestPostList.add(Post.fromJson({
+            "COMMUNITY_ID": item.COMMUNITY_ID,
+            "BOARD_ID": item.BOARD_ID
+          }).toJson());
+          box.write("arrestList", arrestPostList);
+        }
+      }
 
       break;
     default:

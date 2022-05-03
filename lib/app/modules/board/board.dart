@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:polarstar_flutter/app/data/model/board/post_model.dart';
 
 import 'package:polarstar_flutter/app/modules/board/board_controller.dart';
 import 'package:polarstar_flutter/app/modules/board/widgets/post_layout.dart';
@@ -211,6 +212,26 @@ class Board extends StatelessWidget {
                                   ),
                                 );
                               }
+                              Rx<Post> postPreview = controller.postBody[index];
+                              List arrestPostListJson = box.read("arrestList");
+                              if (arrestPostListJson != null) {
+                                List<Post> arrestPostList = arrestPostListJson
+                                    .map((e) => Post.fromJson(e))
+                                    .toList();
+                                print(arrestPostList[0]);
+                                int arrestedIndex = arrestPostList.indexWhere(
+                                    (element) =>
+                                        element.BOARD_ID ==
+                                            postPreview.value.BOARD_ID &&
+                                        element.COMMUNITY_ID ==
+                                            postPreview.value.COMMUNITY_ID);
+                                bool isArrested = (arrestedIndex != -1);
+                                print(isArrested);
+                                if (isArrested) {
+                                  return Container();
+                                }
+                              }
+
                               return Ink(
                                 child: InkWell(
                                   onTap: () async {
