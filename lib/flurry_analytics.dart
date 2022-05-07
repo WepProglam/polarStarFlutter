@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flurry/flurry.dart';
 
 String _FLURRY_API_KEY_AND = "2Q59HKPFVVYB8X5DWG9Z";
-String _FLURRY_API_KEY_IOS = "2Q59HKPFVVYB8X5DWG9Z";
+String _FLURRY_API_KEY_IOS = "GC2ZGNKNZS7HT3CNFB9V";
 
 Future<void> initFlurryPlatformState(String userId) async {
   await Flurry.initialize(
