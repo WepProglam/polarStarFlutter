@@ -6,9 +6,8 @@ import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_analytics/firebase_analytics.dart';
+// import 'package:flurry/flurry.dart';
 // import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 // import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
@@ -22,7 +21,7 @@ class MyBehavior extends ScrollBehavior {
 }
 
 IO.Socket ChatSocket;
-FirebaseAnalytics analytics;
+// FirebaseAnalytics analytics;
 
 void main() async {
   try {
@@ -31,8 +30,8 @@ void main() async {
     PushyController pushyController = Get.put(PushyController());
     await pushyController.push_register_total();
     await FlutterDownloader.initialize();
-    await Firebase.initializeApp();
-    analytics = FirebaseAnalytics.instance;
+    // await Firebase.initializeApp();
+    // analytics = FirebaseAnalytics.instance;
 
     // KakaoSdk.init(nativeAppKey: '46e40379d2bed8feccedacd7a59ab06a');
   } catch (e) {
@@ -54,12 +53,13 @@ class PolarStar extends StatelessWidget {
           child: child,
         );
       },
-      navigatorObservers: <NavigatorObserver>[
-        FirebaseAnalyticsObserver(analytics: analytics)
-      ],
+      // navigatorObservers: <NavigatorObserver>[
+      //   // FirebaseAnalyticsObserver(analytics: analytics),
+      // ],
       themeMode: ThemeMode.light, // Change it as you want
       theme: ThemeData(
-          primaryColor: const Color(0xff571DF0),
+          // 0xff571DF0
+          primaryColor: const Color(0xff4570ff),
           appBarTheme: AppBarTheme(color: const Color(0xff4570ff)),
           unselectedWidgetColor: Color(0xffeaeaea)),
       scrollBehavior: MyBehavior(),

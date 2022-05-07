@@ -88,6 +88,9 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:multidex:2.0.1'
+    // implementation platform('com.google.firebase:firebase-bom:29.3.1')
+    // implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.flurry.android:analytics:13.2.0@aar'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flurry/flurry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,8 @@ import 'package:polarstar_flutter/app/modules/init_page/pushy_controller.dart';
 import 'package:polarstar_flutter/app/data/repository/login_repository.dart';
 import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:polarstar_flutter/app/global_widgets/dialoge.dart';
+import 'package:polarstar_flutter/flurry_analytics.dart';
+import 'package:polarstar_flutter/main.dart';
 import 'package:polarstar_flutter/session.dart';
 
 import 'package:polarstar_flutter/app/modules/main_page/main_controller.dart';
@@ -228,9 +231,11 @@ class InitController extends GetxController {
     }
 
     if (isLogined.isTrue) {
-      // Get.offNamed(Routes.MAIN_PAGE);
       Get.toNamed(Routes.MAIN_PAGE);
       print("main page");
+      String userId = box.read("id");
+
+      await initFlurryPlatformState(userId);
       // Enable in-app notification banners (iOS 10+)
 
     } else {

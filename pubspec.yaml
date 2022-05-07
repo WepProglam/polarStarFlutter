@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.15+38
+version: 1.0.16+39
 # version: 1.0.0+24
 
 environment:
@@ -100,8 +100,9 @@ dependencies:
   url_launcher: ^6.0.20
   launch_review: ^3.0.1
 
-  firebase_analytics: ^9.1.1
-  firebase_core: ^1.15.0
+  # firebase_analytics: ^9.1.1
+  # firebase_core: ^1.15.0
+  flurry: ^1.0.0
 
   
 dependency_overrides:
@@ -127,14 +128,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    # - assets/images/359.png
     - assets/images/897.png
     - assets/images/898.png
     - assets/images/894.png
-    # - assets/images/892.png
-    # - assets/images/16_12.png
-    # - assets/images/17_2.png
-    # - assets/images/220.png
     - assets/images/568.png
     - assets/images/891.png
     - assets/images/591.png
@@ -143,90 +139,28 @@ flutter:
     - assets/images/594.png
     - assets/images/940.png
     - assets/images/654.png
-    # 여기부터 지우면 됨
-    # - assets/images/941.png
-    # - assets/images/942.png
-    # - assets/images/944.png
     - assets/images/15_4.png
-    # - assets/images/320.png
-    # - assets/images/710.png
-    # - assets/images/713.png
-    # - assets/images/714.png
-    # - assets/images/715.png
-    # - assets/images/380.png
-    # - assets/images/close.png
     - assets/images/spinner.gif
-    # - assets/images/279.png
-    # - assets/images/517.png
-    # - assets/images/931.png
-    # - assets/images/601.png
-    # - assets/images/605.png
-    # - assets/images/934.png
-    # - assets/images/935.png
-    # - assets/images/843.png
-    # - assets/images/606.png
-    # - assets/images/607.png
     - assets/images/938.png
-    # - assets/images/636.png
     - assets/images/982.png
     - assets/images/eye_off_fill.png
-    # - assets/images/dots.png
     - assets/images/978.png
     - assets/images/star.png
     - assets/images/good.png
-    # - assets/images/bad.png
     - assets/images/comment.png
     - assets/images/968.png
     - assets/images/970.png
     - assets/images/627.png
-    # - assets/images/629.png
     - assets/images/848.png
     - assets/images/invalid_name.png
     - assets/images/849.png
     - assets/images/like_red.png
-    # - assets/images/869.png
     - assets/images/scrap_none.png
-    # - assets/images/417.png
-    # - assets/images/512.png
     - assets/images/temp_pencil.png
-    # - assets/images/photo_placeholder.jpg
-    # - assets/images/16_10.png
-    # - assets/images/647.png
-    # - assets/images/500.png
-    # - assets/images/306.png
-    # - assets/images/687.png
-    # - assets/images/689.png
-    # - assets/images/690.png
-    # - assets/images/671.png
-    # - assets/images/homepage_selected.png
-    # - assets/images/mypage_selected.png
-    # - assets/images/information_selected.png
-    # - assets/images/information.png
-    # - assets/images/timetable_selected.png
-    # - assets/images/timetable.png
-    # - assets/images/person.png
-    # - assets/images/timetable_hidden.png
-    # - assets/images/bottom_alarm.png
-    # - assets/images/bottom_alarm_selected.png
-    # - assets/images/timetable_add.png
-    # - assets/images/688.png
-    # - assets/images/675.png
-    # - assets/images/674.png
-    # - assets/images/673.png
     - assets/images/camera.png
-    # - assets/images/edit_3.png
-    # - assets/images/672.png
-    # - assets/images/678.png
-    # - assets/images/681.png
-    # - assets/images/726.png
-    # - assets/images/725.png
-    # - assets/images/733.png
-    # - assets/images/188.png
     - assets/images/415.png
     - assets/images/414.png
     - assets/images/413.png
-    # - assets/images/main_card_temp.png
-    # - assets/images/main_card_expanded.png
     - assets/images/class_1.png
     - assets/images/class_2.png
     - assets/images/class_3.png
@@ -237,9 +171,7 @@ flutter:
     - assets/images/class_8.png
     - assets/images/class_9.png
     - assets/images/class_10.png
-    # - assets/images/logo.png
-    # - assets/images/write_pencil.png
-    # 일단 이까지만
+    # 일단 이까지만 지움
     - assets/images/board_bell.png
     - assets/images/icn_comment_normal.png
     - assets/images/icn_like_normal.png
