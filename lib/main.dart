@@ -6,6 +6,12 @@ import 'package:polarstar_flutter/app/routes/app_pages.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_core/firebase_core.dart';
+// import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+
+// import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 
 class MyBehavior extends ScrollBehavior {
   @override
@@ -16,41 +22,56 @@ class MyBehavior extends ScrollBehavior {
 }
 
 IO.Socket ChatSocket;
+FirebaseAnalytics analytics;
 
 void main() async {
   try {
-    await GetStorage.init();
     WidgetsFlutterBinding.ensureInitialized();
+    await GetStorage.init();
     PushyController pushyController = Get.put(PushyController());
     await pushyController.push_register_total();
     await FlutterDownloader.initialize();
+    await Firebase.initializeApp();
+    analytics = FirebaseAnalytics.instance;
+
+    // KakaoSdk.init(nativeAppKey: '46e40379d2bed8feccedacd7a59ab06a');
   } catch (e) {
     print(e);
   }
 
-  runApp(GetMaterialApp(
-    builder: (BuildContext context, Widget child) {
-      return MediaQuery(
-        data: MediaQuery.of(context).copyWith(
-          textScaleFactor: 1.0,
-        ),
-        child: child,
-      );
-    },
-    themeMode: ThemeMode.light, // Change it as you want
-    theme: ThemeData(
-        primaryColor: const Color(0xff4570ff),
-        appBarTheme: AppBarTheme(color: const Color(0xff4570ff)),
-        unselectedWidgetColor: Color(0xffeaeaea)),
-    scrollBehavior: MyBehavior(),
-    debugShowCheckedModeBanner: false,
-    // ! Route로 가면 자동으로 binding 됨
-    // ! 여기서 binding하면 binding 총 2번 실행됨
-    initialRoute: Routes.INITIAL,
-    defaultTransition: Transition.cupertino,
-    getPages: AppPages.pages,
-    locale: Locale('pt', 'BR'),
-  ));
+  runApp(PolarStar());
+}
+
+class PolarStar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      builder: (BuildContext context, Widget child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaleFactor: 1.0,
+          ),
+          child: child,
+        );
+      },
+      navigatorObservers: <NavigatorObserver>[
+        FirebaseAnalyticsObserver(analytics: analytics)
+      ],
+      themeMode: ThemeMode.light, // Change it as you want
+      theme: ThemeData(
+          primaryColor: const Color(0xff571DF0),
+          appBarTheme: AppBarTheme(color: const Color(0xff4570ff)),
+          unselectedWidgetColor: Color(0xffeaeaea)),
+      scrollBehavior: MyBehavior(),
+      debugShowCheckedModeBanner: false,
+      // ! Route로 가면 자동으로 binding 됨
+      // ! 여기서 binding하면 binding 총 2번 실행됨
+      initialRoute: Routes.INITIAL,
+      defaultTransition: Transition.cupertino,
+      getPages: AppPages.pages,
+      locale: Locale('pt', 'BR'),
+    );
+  }
 }
 
 void changeStatusBarColor(Color color, Brightness brighteness) {
