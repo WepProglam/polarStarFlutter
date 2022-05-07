@@ -1,6 +1,17 @@
 import UIKit
 import Flutter
 import flutter_downloader
+import Flurry_iOS_SDK
+
+func application(application: UIApplication,
+  didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+   let builder = FlurrySessionBuilder.init()
+      builder.build(crashReportingEnabled: true)
+      builder.build(logLevel: .all)
+   Flurry.startSession(apiKey: "GC2ZGNKNZS7HT3CNFB9V", sessionBuilder: builder)
+    // Your code
+    return true
+}
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {

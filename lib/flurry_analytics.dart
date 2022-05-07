@@ -8,13 +8,13 @@ import 'package:get_storage/get_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flurry/flurry.dart';
 
-String _FLURRY_API_KEY_AND = "2Q59HKPFVVYB8X5DWG9Z";
-String _FLURRY_API_KEY_IOS = "GC2ZGNKNZS7HT3CNFB9V";
+String FLURRY_API_KEY_AND = "2Q59HKPFVVYB8X5DWG9Z";
+String FLURRY_API_KEY_IOS = "GC2ZGNKNZS7HT3CNFB9V";
 
 Future<void> initFlurryPlatformState(String userId) async {
   await Flurry.initialize(
-      androidKey: _FLURRY_API_KEY_AND,
-      iosKey: _FLURRY_API_KEY_IOS,
+      androidKey: FLURRY_API_KEY_AND,
+      iosKey: FLURRY_API_KEY_IOS,
       enableLog: true);
   await Flurry.setUserId(userId);
 }
